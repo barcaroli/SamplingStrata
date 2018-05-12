@@ -1,0 +1,8 @@
+export(buildStrataDF,optimizeStrata,tuneParameters,updateStrata,updateFrame,selectSample,selectSampleSystematic,checkInput,bethel,var.bin,evalSolution,suggestionKmeans,plotSamprate,adjustSize,buildFrameDF)
+importFrom("grDevices", "dev.off", "pdf")
+importFrom("graphics", "boxplot", "close.screen", "lines", "plot", "screen", "split.screen", "title")
+importFrom("stats", "aggregate", "kmeans", "runif", "sd")
+importFrom("utils", "read.delim", "write.table")
+importFrom("memoise","memoise")
+importFrom("graphics", "points")
+
