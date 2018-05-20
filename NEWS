@@ -1,6 +1,6 @@
 Changes in Version 1.3
 
-  o A new function 'suggestionKmeans' produces an initial solution using the kmeans algorithm 
+  o A new function 'KmeanSolution' produces an initial solution using the kmeans algorithm 
   by clustering atomic strata considering the values of the means of target variables in them.
   Also, if the parameter 'nstrata' is not indicated, the optimal number of clusters 
   is determined inside each domain, and the overall solution is obtained by concatenating optimal 
