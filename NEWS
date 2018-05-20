@@ -1,0 +1,86 @@
+Changes in Version 1.2
+
+  o The crossover function in the genetic algorithm has been modified by considering
+  the "grouping" version of this algorithm: instead of mixing chromosomes in an 
+  indifferentiate way, groups of them in one parent (representing already aggregated
+  strata) are attributed to the other parent when generating a child, preserving their
+  composition. Moreover, parents are selected with a probability proportional to their
+  fitness (in previous version selection was completely at random). In many cases this
+  can greatly speed the convergence to an optimal solution.
+
+  o A new function 'adjustSize' has been added. It allows to adjust the sample size and 
+  related allocation in strata on the basis of an externally indicated overall sample size. 
+  The adjustment of the sample size is perfomed by increasing or decreasing it proportionally 
+  in each optimized stratum.
+  
+  o A new function 'buildFrameDF' has been added. It allows to create a 'sampling frame' 
+  dataframe by indicating the dataset in which the information on all the units are 
+  contained, the identifier, the X variables, the Y variable and the variable that
+  indicates the domains of interest.
+  
+  o In function 'optimizeStrata' now the 'initialStrata' parameter is a vector, whose
+  length is equal to the number of different domains.
+  
+  o All outputs are written to an .\output subdirectory. 
+  
+Changes in Version 1.1
+
+  o Function 'memoise' from the same package (now required) is applied before 
+  each evaluation in order to save processing time. This may largely increase
+  the efficiency of the algorithm
+  
+  o A 'recode' function is applied on every generated solution in order
+  to recode a genotype of n genes with k<=n  distinct alleles 1, 2, ..., k 
+  in such a way that the distinct alleles of the recoded genotype appear 
+  in the natural order 1, 2, ..., k.  This avoids to consider as distinct two
+  solutions that are equivalent but make use of a different coding
+
+
+
+Changes in Version 1.0-4
+
+  o Bug fix for old releases
+
+Changes in Version 1.0-3
+
+  o Modified the output to the console or to the file of results: instead of all
+  the solutions, only the optimal value for each generation is visualised
+  o Now the visualisation of the trend in the optimal and mean values is optional:
+  the plot can be avoided by setting showPlot = FALSE when calling optimizeStrata.
+  It can be advisable when the number of iterations is very high
+  
+
+Changes in Version 1.0-2
+
+  o Bug fix for old releases.
+
+
+Changes in Version 1.0-1
+
+  o Bug fix for old releases.
+
+  o The object returned by function "optimizeStrata" is no more a dataframe but a list:
+	* the first element of the list is the solution vector (solution$indices)
+	* the second element of the list is the dataframe containing aggregated strata
+	  (solution$aggr_strata)
+
+  o In all the functions that previously produced .csv files and .pdf plots in the working 
+  directory, as a default this is no more the current behaviour. To write these files, it
+  is now necessary to set the "writeFiles" flag to TRUE
+
+
+Changes in Version 1.0
+
+  o Bug fix for old releases.
+
+  o Two new functions:
+    * "evalSolution", to evaluate the found solution in terms of expected target variables 
+	precision and bias obtainable by samples drawn from the otpimized frame;
+    * "tuneParameters", to determine the best combination of values to assign to the parameters 
+	necessary for the execution of the genetic algorithm used for the optimization of the frame 
+	stratification.
+
+  o A demonstration on the use of  the "tuneParameters" function is in the vignette "tuneParameters.pdf" 
+  contained in the \inst\doc folder.
+
+ 
