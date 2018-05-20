@@ -1,6 +1,7 @@
 KmeansSolution <- function(strata,
                              errors,
-                             nstrata = NULL) {
+                             nstrata = NULL,
+                             showPlot = FALSE) {
   nvariables <- ncol(errors) - 2
   stmt1 <- "solution <- kmeans(stratacorr[,"
   stmt2 <- "c("
@@ -23,10 +24,12 @@ KmeansSolution <- function(strata,
       sum(v)
       best <- sum(v)
       times <- round(nrow(stratacorr)*0.5,0)
-  	  plot(1,sum(v),xlim=c(1,times),ylim=c(0,1.5*sum(v)),type="p",
-         ylab="Sample size",xlab="Number of clusters")
-  	  tit <- paste("title('kmeans clustering in domain ",k,"')",sep="")
-  	  eval(parse(text=tit))
+      if (showPlot == TRUE) {
+    	  plot(1,sum(v),xlim=c(1,times),ylim=c(0,1.5*sum(v)),type="p",
+           ylab="Sample size",xlab="Number of clusters")
+    	  tit <- paste("title('kmeans clustering in domain ",k,"')",sep="")
+    	  eval(parse(text=tit))
+      }
       bestsolution <- NULL
       if (is.null(nstrata)) {min = 2; max = times }
       if (!is.null(nstrata)) {min = nstrata; max = nstrata }
@@ -41,7 +44,7 @@ KmeansSolution <- function(strata,
                            dominio=k)
         v <- bethel(aggr, errorscorr, minnumstrat=2)
         # cat("\n",sum(v))
-        points(i,sum(v))
+        if (showPlot == TRUE) points(i,sum(v))
         if (sum(v) <= best) {
           bestsolution <- solution
           best_num_strata <- i
