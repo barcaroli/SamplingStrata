@@ -1,12 +1,12 @@
 evalSolution <- function (frame, outstrata, nsampl = 100, cens = NULL, 
                           writeFiles = FALSE) 
 {
-  if (writeFiles == TRUE) {
-    dire <- getwd()
-    direnew <- paste(dire,"/simulation",sep="")
-    if(!dir.exists(direnew)) dir.create(direnew)
-    setwd(direnew)
-  }
+  # if (writeFiles == TRUE) {
+  #   dire <- getwd()
+  #   direnew <- paste(dire,"/output",sep="")
+  #   if(!dir.exists(direnew)) dir.create(direnew)
+  #   setwd(direnew)
+  # }
   numY <- length(grep("Y", toupper(colnames(frame))))
   numdom <- length(levels(as.factor(frame$DOMAINVALUE)))
   param <- array(0, c(numY, numdom))
@@ -169,8 +169,8 @@ evalSolution <- function (frame, outstrata, nsampl = 100, cens = NULL,
     dev.off()
   # results <- list(coeff_var = cv1, bias = bias1)
   results <- list(coeff_var = cv, rel_bias = bias)
-  if (writeFiles == TRUE) {
-    setwd(dire)
-  }
+  # if (writeFiles == TRUE) {
+  #   setwd(dire)
+  # }
   return(results)
 }

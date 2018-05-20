@@ -20,13 +20,13 @@ buildStrataDF <- function(dataset, model=NULL) {
     nvarX <- length(grep("X", names(dataset)))
     nvarY <- length(grep("Y", names(dataset)))
     if (length(grep("WEIGHT", names(dataset))) == 1) {
-        cat("\nComputations have been done on sampling data\n")
+        cat("\nComputations are being done on sampling data\n")
         stdev <- "stdev1"
     }
     if (length(grep("WEIGHT", names(dataset))) == 0) {
         dataset$WEIGHT <- rep(1, nrow(dataset))
         stdev <- "stdev2"
-        cat("\nComputations have been done on population data\n")
+        cat("\nComputations are being done on population data\n")
     }
     #---------------------------------------------------------
     # Check the validity of the model
@@ -179,5 +179,7 @@ buildStrataDF <- function(dataset, model=NULL) {
     write.table(stratatot, "strata.txt", quote = FALSE, sep = "\t", 
         dec = ".", row.names = FALSE)
     stratatot <- read.delim("strata.txt")
+    cat("\nNumber of strata: ",nrow(stratatot))
+    cat("\n... of which with only one unit: ",sum(stratatot$N==1))
     return(stratatot)
 }

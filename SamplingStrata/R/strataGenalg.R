@@ -5,23 +5,10 @@
 # Author: Giulio Barcaroli
 # Date: 25 September 2015
 # ----------------------------------------------------
-strataGenalg <- function(errors, 
-                         strata, 
-                         cens, 
-                         strcens, 
-                         dominio, 
-                         initialStrata, 
-                         minnumstr, 
-                         iter, 
-                         pops, 
-                         mut_chance, 
-                         elitism_rate, 
-                         addStrataFactor, 
-                         highvalue, 
-                         suggestions, 
-                         realAllocation,
-	                       writeFiles, 
-                         showPlot) {
+strataGenalg <- function(errors, strata, cens, strcens, 
+    dominio, initialStrata, minnumstr, iter, pops, mut_chance, 
+    elitism_rate, addStrataFactor, highvalue, suggestions, realAllocation,
+	writeFiles, showPlot) {
   # if (writeFiles == TRUE) {
   #   dire <- getwd()
   #   direnew <- paste(dire,"/output",sep="")
@@ -94,7 +81,8 @@ strataGenalg <- function(errors,
         v <- NULL
         dimens <- NULL
         censiti <- 0
-        strcor <- aggrStrata(strata, nvar, floor(indices), censiti, dominio)
+        strcor <- aggrStrata(strata, nvar, floor(indices), censiti, 
+            dominio)
         dimsamp <- nrow(strcor)
         if (strcens == TRUE) 
             strcor <- rbind(strcor, cens)
@@ -164,11 +152,11 @@ strataGenalg <- function(errors,
 		eval(parse(text = stmt))
 	}
     plot(rbga.results)
-    title(paste("Domain #", dominio, " - Sample cost", round(rbga.results$best[iter],2)), 
+    title(paste("Domain #", dominio, " - Sample cost", rbga.results$best[iter]), 
         col.main = "red")
     if (writeFiles == TRUE) dev.off()
     plot(rbga.results)
-    title(paste("Domain #", dominio, " - Sample cost", round(rbga.results$best[iter],2)), 
+    title(paste("Domain #", dominio, " - Sample cost", rbga.results$best[iter]), 
         col.main = "red")
     # summary(rbga.results, echo = TRUE)
     # print(paste('Sample size:

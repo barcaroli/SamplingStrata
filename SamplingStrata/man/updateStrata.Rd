@@ -81,7 +81,7 @@ solution <- optimizeStrata (
     strata = swissstrata, 
     cens = NULL,
     strcens = FALSE,
-    initialStrata = as.numeric(table(swissstrata$DOM1)),
+    initialStrata = 3000,
     addStrataFactor = 0.01,    
     minnumstr = 2,
     iter = 60,
@@ -90,9 +90,7 @@ solution <- optimizeStrata (
     elitism_rate = 0.2,
     highvalue = 100000000,
     suggestions = NULL,
-	realAllocation = TRUE,
-	writeFiles = FALSE,
-	showPlot = TRUE)
+	writeFiles = FALSE)
 # updating sampling strata with new strata labels
 newstrata <- updateStrata(swissstrata, solution)
 }
