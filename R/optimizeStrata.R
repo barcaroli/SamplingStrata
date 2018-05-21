@@ -12,7 +12,7 @@ optimizeStrata <- function (errors,
                             mut_chance = NA, 
                             elitism_rate = 0.2, 
                             highvalue = 1e+08, 
-                            suggestions = NULL, 
+                            suggestions = kmeans, 
                             realAllocation = TRUE, 
                             writeFiles = FALSE, 
                             showPlot = TRUE) 
@@ -22,6 +22,9 @@ optimizeStrata <- function (errors,
     direnew <- paste(dire,"/output",sep="")
     if(!dir.exists(direnew)) dir.create(direnew)
     setwd(direnew)
+  }
+  if (suggestions == kmeans) {
+    suggestions <- KmeansSolution(strata,errors,nstrata=NULL,showPlot=FALSE )
   }
   if (is.na(initialStrata)) initialStrata <- as.numeric(table(strata$DOM1))
   nstrata = initialStrata
