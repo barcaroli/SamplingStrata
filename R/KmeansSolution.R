@@ -1,6 +1,6 @@
 KmeansSolution <- function(strata,
                              errors,
-                             nstrata = NULL,
+                             nstrata = NA,
                              showPlot = FALSE) {
   nvariables <- ncol(errors) - 2
   stmt1 <- "solution <- kmeans(stratacorr[,"
@@ -31,8 +31,8 @@ KmeansSolution <- function(strata,
     	  eval(parse(text=tit))
       }
       bestsolution <- NULL
-      if (is.null(nstrata)) {min = 2; max = times }
-      if (!is.null(nstrata)) {min = nstrata; max = nstrata }
+      if (is.na(nstrata)) {min = 2; max = times }
+      if (!is.na(nstrata)) {min = nstrata; max = nstrata }
       for (i in min:max) {
         stmt3 <- paste("],",i,")$cluster",sep="")
         stmt <- paste(stmt1,stmt2,stmt3,sep="")

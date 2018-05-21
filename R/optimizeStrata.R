@@ -24,7 +24,7 @@ optimizeStrata <- function (errors,
     setwd(direnew)
   }
   if (suggestions == TRUE) {
-    suggestions <- KmeansSolution(strata,errors,nstrata=NULL,showPlot=FALSE)
+    suggestions <- KmeansSolution(strata,errors,nstrata=initialStrata,showPlot=FALSE)
   }
   if (is.na(initialStrata)) initialStrata <- as.numeric(table(strata$DOM1))
   nstrata = initialStrata
