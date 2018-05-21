@@ -1,6 +1,7 @@
 KmeansSolution <- function(strata,
                              errors,
                              nstrata = NA,
+                             maxclusters = NA,
                              showPlot = FALSE) {
   nvariables <- ncol(errors) - 2
   stmt1 <- "solution <- kmeans(stratacorr[,"
@@ -23,7 +24,12 @@ KmeansSolution <- function(strata,
       v <- bethel(aggr, errorscorr)
       sum(v)
       best <- sum(v)
-      times <- round(nrow(stratacorr)*0.5,0)
+      if (is.na(maxclusters)) {
+        times <- round(nrow(stratacorr)*0.5,0)
+      }
+      else {
+        times <- min(maxclusters,round(nrow(stratacorr)*0.5,0))
+      }
       if (showPlot == TRUE) {
     	  plot(1,sum(v),xlim=c(1,times),ylim=c(0,1.5*sum(v)),type="p",
            ylab="Sample size",xlab="Number of clusters")

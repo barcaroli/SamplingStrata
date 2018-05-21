@@ -17,7 +17,11 @@ The result is a dataframe with two columns: the first indicates the clusters,
 the second the domains.
 }
 \usage{
-KmeansSolution(strata, errors, nstrata=NA, showPlot=FALSE)
+KmeansSolution(strata, 
+               errors, 
+               nstrata=NA, 
+               maxclusters = NA,
+               showPlot=FALSE)
 }
 \arguments{
   \item{strata}{
@@ -29,6 +33,10 @@ KmeansSolution(strata, errors, nstrata=NA, showPlot=FALSE)
   \item{nstrata}{
   Number of aggregate strata (if NULL, it is optimized by varying the number of cluster
   from 2 to half number of atomic strata). Default is NA.
+}
+  \item{maxclusters}{
+Maximum number of clusters to be considered in the 
+execution of kmeans algorithm.
 }
   \item{showPlot}{
 Allows to visualise on a plot the different sample sizes for each number of aggregate strata. Default is FALSE.
