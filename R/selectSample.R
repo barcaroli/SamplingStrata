@@ -23,7 +23,7 @@ selectSample <- function(frame, outstrata, writeFiles = FALSE,verbatim=TRUE) {
     }
     colnames(frame) <- toupper(colnames(frame))
     colnames(outstrata) <- toupper(colnames(outstrata))
-    outstrata$SOLUZ <- ceiling(outstrata$SOLUZ)  # rounding of allocation numbers
+    outstrata$SOLUZ <- round(outstrata$SOLUZ)  # rounding of allocation numbers
     numdom <- length(levels(as.factor(frame$DOMAINVALUE)))
     samptot <- NULL
     chktot <- NULL
