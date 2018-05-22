@@ -13,7 +13,7 @@ KmeansSolution <- function(strata,
   suggestions <- NULL
   domainvalue <- NULL
   solution <- NULL
-    for (k in (1:length(unique(strata$DOM1)))) {
+    for (k in (unique(strata$DOM1))) {
       stratacorr <- strata[strata$DOM1 == k,]
       errorscorr <- errors[k,]
       aggr <- aggrStrata(strata=stratacorr,
@@ -27,7 +27,7 @@ KmeansSolution <- function(strata,
       if (is.na(maxclusters)) {
         times <- round(nrow(stratacorr)*0.5,0)
       }
-      else {
+      if (!is.na(maxclusters)) {
         times <- min(maxclusters,round(nrow(stratacorr)*0.5,0))
       }
       if (showPlot == TRUE) {
