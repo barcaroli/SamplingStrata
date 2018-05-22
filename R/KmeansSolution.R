@@ -15,7 +15,7 @@ KmeansSolution <- function(strata,
   solution <- NULL
     for (k in (unique(strata$DOM1))) {
       stratacorr <- strata[strata$DOM1 == k,]
-      errorscorr <- errors[k,]
+      errorscorr <- errors[errors$domainvalue == k,]
       aggr <- aggrStrata(strata=stratacorr,
                          nvar=nvariables,
                          censiti=0,
