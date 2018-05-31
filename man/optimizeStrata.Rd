@@ -23,7 +23,7 @@ This function runs a set of other functions to optimise the stratification of a 
 	mut_chance = NA, 
 	elitism_rate = 0.2,
 	highvalue = 1e+08, 
-	suggestions = TRUE,
+	suggestions = NULL,
 	realAllocation = TRUE,
 	writeFiles = FALSE,
 	showPlot = TRUE
@@ -87,7 +87,7 @@ This function runs a set of other functions to optimise the stratification of a 
 }
   \item{suggestions}{
   Optional parameter for genetic algorithm that indicates the kmeans solution has to be introduced in the initial population. 
-  Default is TRUE. If FALSE, no suggestion will be considered.
+  Default is NULL. 
 }
   \item{realAllocation}{
   If FALSE, the allocation is based on INTEGER values; if TRUE, the allocation is based on REAL values.

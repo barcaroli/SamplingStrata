@@ -20,6 +20,7 @@ the second the domains.
 KmeansSolution(strata, 
                errors, 
                nstrata=NA, 
+			   minnumstrat=2,
                maxclusters = NA,
                showPlot=FALSE)
 }
@@ -33,6 +34,9 @@ KmeansSolution(strata,
   \item{nstrata}{
   Number of aggregate strata (if NULL, it is optimized by varying the number of cluster
   from 2 to half number of atomic strata). Default is NA.
+}
+  \item{minnumstrat}{
+  Minimum number of units to be selected in each stratum. Default is 2.
 }
   \item{maxclusters}{
 Maximum number of clusters to be considered in the 
