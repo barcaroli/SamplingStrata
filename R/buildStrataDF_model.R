@@ -42,10 +42,18 @@ buildStrataDF <- function(dataset, model=NULL) {
     #---------------------------------------------------------     
     numdom <- length(levels(as.factor(dataset$DOMAINVALUE)))
     stratatot <- NULL
+    if (numdom > 1) {
+      total <- numdom
+      # create progress bar
+      pb <- txtProgressBar(min = 0, max = total, style = 3)
+    }
     # begin domains cycle
     for (d in (1:numdom)) {
-		dom <- levels(as.factor(dataset$DOMAINVALUE))[d]
-		domain <- dataset[dataset$DOMAINVALUE == dom, ]
+      Sys.sleep(0.1)
+      # update progress bar
+      setTxtProgressBar(pb, d)
+		  dom <- levels(as.factor(dataset$DOMAINVALUE))[d]
+		  domain <- dataset[dataset$DOMAINVALUE == dom, ]
         listX <- NULL
         namesX <- NULL
         for (i in 1:nvarX) {
@@ -164,6 +172,7 @@ buildStrataDF <- function(dataset, model=NULL) {
         }
         stratatot <- rbind(stratatot, strata)
     }  # end domain cycle
+    close(pb)
     colnames(stratatot) <- toupper(colnames(stratatot))
     stratatot$DOM1 <- as.factor(stratatot$DOM1)
     write.table(stratatot, "strata.txt", quote = FALSE, sep = "\t", 
