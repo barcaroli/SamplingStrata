@@ -1,4 +1,4 @@
-adjustSize <- function (size, strata, cens=NULL) 
+adjustSize <- function (size, strata, cens=NULL, minnumstr = 2) 
 {
   if (!is.null(cens)) size <- size - sum(cens$N)
   
@@ -27,7 +27,7 @@ adjustSize <- function (size, strata, cens=NULL)
       diffrel <- diff/size
       for (i in (1:nrow(strata))) {
         strata$SOLUZ[i] <- round(strata$SOLUZ[i] * 1/(1-diffrel))
-        if (strata$N[i] == 2 & strata$SOLUZ[i] < 2) strata$SOLUZ[i] <- 2
+        if (strata$N[i] >= minnumstr & strata$SOLUZ[i] < minnumstr) strata$SOLUZ[i] <- minnumstr
         if (strata$N[i] == 1 & strata$SOLUZ[i] < 1) strata$SOLUZ[i] <- 1
       }
       diff <- round(size - sum(strata$SOLUZ))
