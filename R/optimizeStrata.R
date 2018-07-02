@@ -73,11 +73,15 @@ Set initialStrata with a number of elements equal to the number of domains")
                 cens <- NULL
                 flagcens = FALSE
             }
-            if (!is.null(suggestions)) {
+            if (!is.null(suggestions) & alldomains == TRUE) {
               suggest <- matrix(0,nrow=1,ncol=nrow(stcamp[[i]]))
               suggest[1,] <- suggestdom[[i]]$suggestions
             }
-            else {
+            if (!is.null(suggestions) & alldomains == FALSE) {
+              suggest <- matrix(0,nrow=1,ncol=nrow(stcamp[[i]]))
+              suggest[1,] <- suggestions$suggestions
+            }
+            if (is.null(suggestions)) {
               suggest <- NULL
             }
             if (nrow(stcamp[[i]]) > 0) {
@@ -136,11 +140,15 @@ Set initialStrata with a number of elements equal to the number of domains")
 				censi <- NULL
 			}
 		}
-		if (!is.null(suggestions)) {
+		if (!is.null(suggestions) & alldomains == TRUE ) {
 		  suggest <- matrix(0,nrow=1,ncol=nrow(stcamp[[i]]))
 		  suggest[1,] <- suggestdom[[i]]$suggestions
 		}
-		else {
+		if (!is.null(suggestions) & alldomains == FALSE ) {
+		  suggest <- matrix(0,nrow=1,ncol=nrow(stcamp[[i]]))
+		  suggest[1,] <- suggestions$suggestions
+		}
+		if (is.null(suggestions)) {
 		  suggest <- NULL
 		}		
 		solut <- strataGenalg(errors = erro[[i]], 
