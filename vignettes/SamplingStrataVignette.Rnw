@@ -203,7 +203,7 @@ If in the {\tt frame} dataframe are also present the values of the target Y vari
 it is possible to automatically generate the {\tt strata} dataframe by invoking the {\tt buildStrataDF} function.
 Let us consider again the {\tt swissframe} dataframe that we have in built in previous steps. 
 On this frame we can apply the function {\tt buildStrataDF}:
-<<frame7>>=
+<<frame7,results=hide>>=
 swissstrata <- buildStrataDF(swissframe)
 @
 The function takes as unique argument the name of the frame, and also writes out in the working directory the strata file, 
@@ -386,7 +386,7 @@ solution_dom3 <- optimizeStrata(
 sum(ceiling(solution_dom3$aggr_strata$SOLUZ))
 @
 
-
+thus obtaining a much more conventient solution than the one without the kmeans suggestion, with the same number of iterations.
 
 \section[Adjustment of the final sampling size]{Adjustment of the final sampling size}
 After the optimization step, the final sample size is the result of the allocation of units in final strata. This allocation is such that the precision constraints are expected to be satisfied. 
@@ -498,7 +498,7 @@ run a simulation, based on the selection of a desired number of samples from the
 as the best, has been applied.
 The user can invoke this function also indicating the number of samples to be drawn:
 <<frame25,results=hide>>=
-evalSolution(framenew, solution$aggr_strata, nsampl=50, writeFiles=TRUE) 
+eval <- evalSolution(framenew, solution$aggr_strata, nsampl=50, writeFiles=TRUE) 
 @
 For each drawn sample, the estimates related to the Y's are calculated. 
 Their mean and standard deviation are also computed, in order to produce the CV related to each variable in every domain. These CV's are written to an external csv file:
@@ -554,13 +554,20 @@ In this way, we have included all units belonging to 'take-all' strata in 'frame
 the sample will be selected from 'framesamp', while the units in 'framecens' will be simply added to the sample.
 
 We can obtain census strata and sampling strata by applying 'buildStrataDF' respectively to to 'framecens' and framesamp':
-<<frame28>>=
+<<frame28,results=hide>>=
 # Build strata to be censused and sampled
 cens <- buildStrataDF(framecens)
 sum(cens$N)
 strata <- buildStrataDF(framesamp)
 sum(strata$N)
 @
+and
+<<frame28ae>>=
+sum(cens$N)
+sum(strata$N)
+@
+
+
 Now we have all required inputs to run 'optimizeStrata' in presence of 'take-all' stata:
 <<frame29>>=
 solution <- optimizeStrata(
@@ -676,7 +683,7 @@ model <- as.data.frame(model)
 model
 @
 Now, the optimization step takes into account this model and produces the following result:
-<<frame37>>=
+<<frame37,results=hide>>=
 set.seed(1234)
 strata <- buildStrataDF(frame, model = model)
 solution <- optimizeStrata(
@@ -685,10 +692,11 @@ strata ,
 iter = 50,
 pops = 40
 )
+@
+thus obtaining a solution with a sample size much higher:
+<<frame37a>>=
 sum(ceiling(solution$aggr_strata$SOLUZ))
 @
-thus obtaining a solution with a sample size much higher.
-
 \clearpage
  
 
