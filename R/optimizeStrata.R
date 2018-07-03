@@ -156,7 +156,7 @@ Set initialStrata with a number of elements equal to the number of domains")
 								cens = censi, 
 								strcens = flagcens, 
 								dominio = i, 
-								initialStrata = nstrata, 
+								initialStrata = nstrata[i], 
 								minnumstr, 
 								iter, 
 								pops, 
