@@ -1,5 +1,8 @@
-evalSolution <- function (frame, outstrata, nsampl = 100, cens = NULL, 
-                          writeFiles = FALSE) 
+evalSolution <- function (frame, outstrata, 
+                          nsampl = 100, 
+                          cens = NULL, 
+                          writeFiles = FALSE,
+                          progress = FALSE) 
 {
   # if (writeFiles == TRUE) {
   #   dire <- getwd()
@@ -18,11 +21,11 @@ evalSolution <- function (frame, outstrata, nsampl = 100, cens = NULL,
   estim <- array(0, c(numdom, nsampl, numY))
   differ <- array(0, c(numdom, nsampl, numY))
   # create progress bar
-  pb <- txtProgressBar(min = 0, max = nsampl, style = 3)
+  if (progress == TRUE) pb <- txtProgressBar(min = 0, max = nsampl, style = 3)
   for (j in (1:nsampl)) {
-    Sys.sleep(0.1)
+    if (progress == TRUE) Sys.sleep(0.1)
     # update progress bar
-    setTxtProgressBar(pb, j)
+    if (progress == TRUE) setTxtProgressBar(pb, j)
     samp <- selectSample(frame, outstrata, verbatim = FALSE)
     if (!is.null(cens)) 
       samp <- rbind(cens, samp)
@@ -33,6 +36,7 @@ evalSolution <- function (frame, outstrata, nsampl = 100, cens = NULL,
       eval(parse(text = stmt))
     }
   }
+  if (progress == TRUE) close(pb)
   for (j in (1:nsampl)) {
     for (i in (1:numdom)) {
       for (k in 1:numY) {

@@ -14,12 +14,13 @@ Changes in Version 1.3
   This selection method can be useful if associated to a particular ordering of the selection
   frame, where the ordering variable(s) can be considered as additional stratum variable(s). 
   
-  o It is now possible to handle "anticipated variance" by introducing a model linking a proxy variable
-  whose values are available for all units in the sampling frame, with the target variable whose
-  values are not available. In this implementation only linear model can be chosen. When calling
-  the 'optimizeStrata' function, a dataframe containing three parameters (beta, sigma2 and gamma)
-  are indicated for each couple target / proxy. On the basis of these parameters, means and
-  standard deviations in sampling strata are calculated accordingly to given formulas.
+  o It is now possible to handle "anticipated variance" by introducing a model linking a proxy variable 
+  whose values are available for all units in the sampling frame, with the target variable whose values 
+  are not available. In this implementation only linear model can be chosen. When calling the 'buildStrataDF' 
+  function, a dataframe is given, containing three parameters (beta, sigma2 and gamma) for each couple target / proxy. 
+  On the basis of these parameters, means and   standard deviations in sampling strata are calculated 
+  accordingly to given formulas.
+
 
 Changes in Version 1.2
 

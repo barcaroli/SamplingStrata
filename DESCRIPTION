@@ -4,6 +4,7 @@ Title: Optimal Stratification of Sampling Frames for Multipurpose
         Sampling Surveys
 Version: 1.3
 Date: 2018-20-05
+Authors@R: person("Giulio", "Barcaroli", role = c("aut", "cre"), email = "gbarcaroli@gmail.com")
 Author: Giulio Barcaroli, Marco Ballin, Daniela Pagliuca, Egon Willighagen,
 		Diego Zardetto
 Maintainer: Giulio Barcaroli <gbarcaroli@gmail.com>
@@ -29,3 +30,9 @@ LazyLoad: yes
 Depends: R (>= 2.15.0), memoise
 NeedsCompilation: no
 Packaged: 2018-2-4 14:59:19 UTC; barcarol
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
+URL: https://github.com/barcaroli/SamplingStrata
+BugReports: https://github.com/barcaroli/SamplingStrata/issues
+RoxygenNote: 6.0.1

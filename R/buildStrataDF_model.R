@@ -5,7 +5,7 @@
 # Author: Giulio Barcaroli
 # Date: May 2018
 # ----------------------------------------------------
-buildStrataDF <- function(dataset, model=NULL) {
+buildStrataDF <- function(dataset, model=NULL, progress=FALSE) {
     # stdev1 is for sampling data
     stdev1 <- function(x, w) {
         mx <- sum(x * w)/sum(w)
@@ -43,12 +43,12 @@ buildStrataDF <- function(dataset, model=NULL) {
     numdom <- length(levels(as.factor(dataset$DOMAINVALUE)))
     stratatot <- NULL
     # create progress bar
-    pb <- txtProgressBar(min = 0, max = numdom, style = 3)
+    if (progress == TRUE) pb <- txtProgressBar(min = 0, max = numdom, style = 3)
     # begin domains cycle
     for (d in (1:numdom)) {
-      Sys.sleep(0.1)
+      if (progress == TRUE) Sys.sleep(0.1)
       # update progress bar
-      setTxtProgressBar(pb, d)
+      if (progress == TRUE) setTxtProgressBar(pb, d)
 		  dom <- levels(as.factor(dataset$DOMAINVALUE))[d]
 		  domain <- dataset[dataset$DOMAINVALUE == dom, ]
         listX <- NULL
@@ -169,7 +169,7 @@ buildStrataDF <- function(dataset, model=NULL) {
         }
         stratatot <- rbind(stratatot, strata)
     }  # end domain cycle
-    close(pb)
+    if (progress == TRUE) close(pb)
     colnames(stratatot) <- toupper(colnames(stratatot))
     stratatot$DOM1 <- as.factor(stratatot$DOM1)
     write.table(stratatot, "strata.txt", quote = FALSE, sep = "\t", 

@@ -26,7 +26,8 @@ evalSolution(frame,
 		outstrata,
 		nsampl=100,
 		cens=NULL,
-		writeFiles=FALSE)
+		writeFiles=FALSE,
+		progress=FALSE)
 }
 \arguments{
   \item{frame}{
@@ -44,6 +45,9 @@ The number of sample to be drawn from the frame
   \item{writeFiles}{
 A flag to write in the work directory the outputs of the function
 	}
+	\item{progress}{
+  If set to TRUE, a progress bar is visualised during the execution. Default is FALSE.
+  }
 }
 \value{
 A list containing (i) the CV distribution in the domains and (ii) the bias distribution in the domains

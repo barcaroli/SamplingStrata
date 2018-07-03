@@ -26,7 +26,7 @@ The dataframe "strata" is written to an external file (tab delimited, extension 
 used as an input by optimizeStrata.
 }
 \usage{
-buildStrataDF(dataset,model=NULL)
+buildStrataDF(dataset,model=NULL,progress=FALSE)
 }
 \arguments{
   \item{dataset}{
@@ -43,6 +43,9 @@ buildStrataDF(dataset,model=NULL)
   target variables. Each row contains the indication if the model is linear o loglinear, and the values of the model parameters 
   beta, sig2, gamma (> 1 in case of heteroscedasticity). 
   Default is NULL.
+}
+\item{progress}{
+  If set to TRUE, a progress bar is visualised during the execution. Default is FALSE.
 }
 }
 \value{
