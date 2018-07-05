@@ -2,7 +2,7 @@ title: SamplingStrata
 url: http://barcaroli.github.io/SamplingStrata
 template:
   params:
-    bootswatch: flatly
+    bootswatch: Cosmo
     ganalytics: UA-84499524-2
 
 navbar:
