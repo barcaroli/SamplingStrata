@@ -44,7 +44,7 @@ devtools::install_github("barcaroli/SamplingStrata")
 
 This is a basic example which shows you how to solve a common problem:
 
-```{r example}
+```{r eval=FALSE}
 library(SamplingStrata)
 data(swisserrors)
 data(swissstrata)
