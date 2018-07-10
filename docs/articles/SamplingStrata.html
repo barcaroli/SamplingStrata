@@ -87,6 +87,106 @@
 <a href="#introduction" class="anchor"></a>Introduction</h1>
 <p>Let us suppose we need to design a sample survey, having a complete frame containing information on the target population (identifiers plus auxiliary information). If our sample design is a stratified one, we need to choose how to form strata in the population, in order to get the maximum advantage by the available auxiliary information. In other words, we have to decide in which way to combine the values of the auxiliary variables (from now on, the ‘X’ variables) in order to determine a new variable, called ‘stratum’. To do so, we have to take into consideration the target variables of our sample survey (from now on, the ‘Y’ variables): if, to form strata, we choose the X variables most correlated to the Ys, the efficiency of the samples drawn by the resulting stratified frame may be greatly increased. In order to handle the whole auxiliary information in a homogenous way, we have to reduce continuous data to categorical (by mean of a k-means clustering technique, for example). Then, for every set of candidate auxiliary variables Xs, we have to decide (i) what variables to consider as active variables in strata determination, and (ii) for each active variable, what set of values (in general, what aggregation of atomic values) have to be considered. Every combination of values of each active variable determine a particular stratification of the target population, i.e. a possible solution to the problem of ‘best’ stratification. Here, by best stratification, we mean the stratification that ensures the minimum sample cost, sufficient to satisfy a set of precision constraints, set on the accuracy of the estimates of the survey target variables Ys (constraints expressed as maximum allowable sampling variance on estimates in different domains of interest). When the cost of data collection is uniform over the strata, then the total cost is directly proportional to the overall sample size, and the convenience of a particular stratification can be measured by the associated size of the sample, whose estimates are expected to satisfy given accuracy levels. This minimum size can be determined by applying the Bethel algorithm, with its Chromy variant. In general, the number of possible alternative stratifications for a given population may be very high, depending on the number of variables and on the number of their values, and in these cases it is not possible to enumerate them in order to assess the best one. A very convenient solution to this, is the adoption of the evolutionary approach, consisting in applying a genetic algorithm that may converge towards a near-optimal solution after a finite number of iterations. The methodology is fully described in <span class="citation">M. Ballin and Barcaroli (2013)</span>, and a complete illustration of the package, together with a comparison with the <em>stratification</em> package, is in <span class="citation">Barcaroli (2014)</span>. Also a complete application in a case of network data is reported in <span class="citation">Marco Ballin and Barcaroli (2016)</span>. The implementation of the genetic algorithm is based on a modification of the functions in the <em>genalg</em> package <span class="citation">(see Willighagen 2005)</span>. In particular, the crossover operator ha been modified on the basis of the indications given by <span class="citation">O’Luing, Prestwich, and Tarim (2017)</span>.</p>
 </div>
+<div id="procedural-steps" class="section level1">
+<h1 class="hasAnchor">
+<a href="#procedural-steps" class="anchor"></a>Procedural steps</h1>
+<p>The optimization of the sampling design starts by making the sampling frame available, defining the target estimates of the survey and establishing the precision constraints on them. It is then possible to determine the best stratification and the optimal allocation. Finally, we proceed with the selection of the sample. Formalizing, these are the required steps:</p>
+<ul>
+<li>analysis of the frame data: identification of available auxiliary information;</li>
+<li>manipulation of auxiliary information: in case auxiliary variables are of the continuous type, they must be transformed into a categorical form;</li>
+<li>construction of atomic strata: on the basis of the categorical auxiliary variables available in the sampling frame, a set of strata can be constructed by calculating the Cartesian product of the values of all the auxiliary variables;</li>
+<li>characterization of each atomic stratum with the information related to the target variables: in order to optimise both strata and allocation of sampling units in strata, we need information on the distributions of the target variables (means and standard deviations);</li>
+<li>choice of the precision constraints for each target estimate, possibly differentiated by domain;</li>
+<li>optimization of stratification and determination of required sample size and allocation in order to satisfy precision constraints on target estimates;</li>
+<li>analysis of the resulting optimized strata;</li>
+<li>association of new labels to sampling frame units, each of them indicating the new strata resulting by the optimal aggregation of the atomic strata;</li>
+<li>selection of units from the sampling frame with a  selection scheme;</li>
+<li>evaluation of the found optimal solution in terms of expected precision and bias.</li>
+</ul>
+<p>In the following, we will illustrate each step starting from a real sampling frame, the one that comes with the R package <em>sampling</em> (the dataframe <em>swissmunicipalities</em>).</p>
+<div id="analysis-of-the-frame-data-and-manipulation-of-auxiliary-information" class="section level2">
+<h2 class="hasAnchor">
+<a href="#analysis-of-the-frame-data-and-manipulation-of-auxiliary-information" class="anchor"></a>Analysis of the frame data and manipulation of auxiliary information</h2>
+<p>As a first step, we have to define a frame dataframe containing the following information:</p>
+<ul>
+<li>a unique identifier of the unit (no restriction on the name, may be ‘cod’);</li>
+<li>the (optional) identifier of the stratum to which the unit belongs;</li>
+<li>the values of m auxiliary variables (named from X1 to Xm);</li>
+<li>the (optional) values of p target variables (named from Y1 to Yp);</li>
+<li>the value of the domain of interest for which we want to produce estimates (named ‘domainvalue’).</li>
+</ul>
+<p>By typing the following statements in the R environment:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SamplingStrata)
+<span class="kw">require</span>(memoise)
+<span class="kw">data</span>(swissmunicipalities)</code></pre></div>
+<p>we get the <em>swissmunicipalities</em> dataframe, that contains 2896 observations (each observation refers to a Swiss municipality). Among the others, there are the following variables (data are referred to 2003): * REG: Swiss region. * Nom: municipality name. * Surfacesbois: wood area. * Surfacescult: area under cultivation. * Alp: mountain pasture area. * Airbat: area with buildings. * Airind: industrial area. * Pop020: number of men and women aged between 0 and 19. * Pop2040: number of men and women aged between 20 and 39. * Pop4065: number of men and women aged between 40 and 64. * Pop65P: number of men and women aged between 65 and over. * POPTOT: total population.</p>
+<p>Let us suppose we want to plan a survey whose target estimates are the totals of population by age class in each Swiss region. In this case, our Y variables will be:</p>
+<ul>
+<li>Y1: number of men and women aged between 0 and 19.</li>
+<li>Y2: number of men and women aged between 20 and 39.</li>
+<li>Y3: number of men and women aged between 40 and 64.</li>
+<li>Y4: number of men and women aged between 65 and over.</li>
+</ul>
+<p>As for the auxiliary variables (Xs), we can use all of those characterising the area use (wood, mountain or pasture, cultivated, industrial, with buildings).</p>
+<p>Finally, we want to produce estimates not only for the whole country, but also for each one of the seven different regions.</p>
+<p>Function <em>buildFrameDF</em> permits to organize data in a suitable mode for next processing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  id =<span class="st"> "Nom"</span>
+X =<span class="st"> </span><span class="kw">c</span>(<span class="st">"POPTOT"</span>,<span class="st">"Surfacesbois"</span>,<span class="st">"Surfacescult"</span>,<span class="st">"Alp"</span>,<span class="st">"Airbat"</span>,<span class="st">"Airind"</span>)
+Y =<span class="st"> </span><span class="kw">c</span>(<span class="st">"Pop020"</span>,<span class="st">"Pop2040"</span>,<span class="st">"Pop4065"</span>,<span class="st">"Pop65P"</span>)
+domainvalue =<span class="st"> "REG"</span>
+swissframe &lt;-<span class="st"> </span><span class="kw"><a href="../reference/buildFrameDF.html">buildFrameDF</a></span>(swissmunicipalities,id,X,Y,domainvalue)
+<span class="kw">str</span>(swissframe)</code></pre></div>
+<p>As the X variables are of the continuous type, first we have to reduce them in a categorical (ordinal) form.</p>
+<p>A suitable way to do so, is to apply a k-means clustering method [see hartigan:1979] by using the function <em>var.bin</em>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SamplingStrata)
+swissframe$X1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities$POPTOT, <span class="dt">bins=</span><span class="dv">18</span>)
+swissframe$X2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities$Surfacesbois, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe$X3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities$Surfacescult, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe$X4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities$Alp, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe$X5 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities$Airbat, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe$X6 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities$Airind, <span class="dt">bins=</span><span class="dv">3</span>)</code></pre></div>
+<p>Now, we have six different auxiliary variables of the categorical type, the first with 18 different modalities, the others with 3 modalities.</p>
+<p>We write the dataframe to a tab delimited file:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.table</span> (swissframe, <span class="st">"swissframe.txt"</span>, <span class="dt">row.names=</span><span class="ot">FALSE</span>,<span class="dt">col.names=</span><span class="ot">TRUE</span>, <span class="dt">sep=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, <span class="dt">quote=</span><span class="ot">FALSE</span>)</code></pre></div>
+<p>In any case, this dataframe comes with the package *SamplingStrata}: it can be made available by executing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">library</span>(SamplingStrata)
+<span class="kw">data</span>(swissframe)
+<span class="kw">head</span>(swissframe)</code></pre></div>
+</div>
+<div id="construction-of-atomic-strata-and-association-of-the-information-related-to-target-variables" class="section level2">
+<h2 class="hasAnchor">
+<a href="#construction-of-atomic-strata-and-association-of-the-information-related-to-target-variables" class="anchor"></a>Construction of atomic strata and association of the information related to target variables</h2>
+<p>The <em>strata</em> dataframe reports information regarding each stratum in the population. There is one row for each stratum. The total number of strata is given by the number of different combinations of Xs values in the frame. For each stratum, the following information is required:</p>
+<ul>
+<li>the identifier of the stratum (named ‘stratum’ or ‘strato’), concatenation of the values of the X variables;</li>
+<li>the values of the m auxiliary variables (named from X1 to Xm) corresponding to those in the frame;</li>
+<li>the total number of units in the population (named ‘N’);</li>
+<li>a flag (named ‘cens’) indicating if the stratum is to be censused (=1) or sampled (=0);</li>
+<li>a variable indicating the cost of interviewing per unit in the stratum (named ‘cost’);</li>
+<li>for each target variable y, its mean and standard deviation, named respectively ‘Mi’ and ‘Si’);</li>
+<li>the value of the domain of interest to which the stratum belongs (‘DOM1’).</li>
+</ul>
+<p>For example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(strata)
+<span class="kw">head</span>(strata)</code></pre></div>
+<p>If in the <em>frame</em> dataframe are also present the values of the target Y variables (from a census, or from administrative data), it is possible to automatically generate the <em>strata</em> dataframe by invoking the <em>buildStrataDF} function. Let us consider again the </em>swissframe} dataframe that we have in built in previous steps. On this frame we can apply the function *buildStrataDF}:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  swissstrata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/buildStrataDF.html">buildStrataDF</a></span>(swissframe)</code></pre></div>
+<p>The function takes as unique argument the name of the frame, and also writes out in the working directory the strata file, always named ‘strata.txt’. This is the structure of the created dataframe:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(swissstrata)</code></pre></div>
+<p>It is worth while noting that the total number of different atomic strata is 641, lower than the dimension of the Cartesian product of the Xs (which is 4374): this is due to the fact that not all combinations of the value of the auxiliary variables are present in the sampling frame. Variables ‘cost’ and ‘cens’ are initialised respectively to 1 and 0 for all strata. It is possible to give them different values:</p>
+<ul>
+<li>for variable ‘cost’, it is possible to differentiate the cost of interviewing per unit by assigning real values;</li>
+<li>for variable ‘cens’, it is possible to set it equal to 1 for all strata that are of the ‘take-all’ type (i.e. all units in that strata must be selected).</li>
+</ul>
+<p>The <em>swissstrata</em> dataframe comes together with <em>SamplingStrata</em> package, it can be made available by typing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(swissstrata)</code></pre></div>
+<p>On the contrary, if there is no information in the frame regarding the target variables, it is necessary to build the strata dataframe starting from other sources, for instance a previous round of the same survey, or from other surveys. In this case, we need to read sample data by executing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">samp &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="st">"samplePrev.txt"</span>)</code></pre></div>
+<p>The only difference is that computed mean and variances of the Ys are sampling estimates, whose reliability should be evaluated by carefully considering their sampling variances. In addition to the naming constraints previously introduced, this case requires that a variable named ‘WEIGHT’ is present in the samp dataframe. Then we can execute this function in this way:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">strata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/buildStrataDF.html">buildStrataDF</a></span>(samp)</code></pre></div>
+<p>The result is much the same than in the previous case: the function creates a new dataframe, *strata}, and writes out in the working directory the strata file, named ‘strata.txt’.</p>
+</div>
+</div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
@@ -116,6 +216,12 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
+      <li>
+<a href="#procedural-steps">Procedural steps</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#analysis-of-the-frame-data-and-manipulation-of-auxiliary-information">Analysis of the frame data and manipulation of auxiliary information</a></li>
+      <li><a href="#construction-of-atomic-strata-and-association-of-the-information-related-to-target-variables">Construction of atomic strata and association of the information related to target variables</a></li>
+      </ul>
+</li>
       <li><a href="#references">References</a></li>
       </ul>
 </div>
