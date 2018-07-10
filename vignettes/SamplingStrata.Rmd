@@ -46,6 +46,187 @@ Also a complete application in a case of network data is reported in @ballin:201
 The implementation of the genetic algorithm is based on a modification of the functions in the *genalg* package [see @willighagen:2005].
 In particular, the crossover operator ha been modified on the basis of the indications given by @oluing:2017.
 
+# Procedural steps
+
+The optimization of the sampling design starts by making the sampling frame available, 
+defining the target estimates of the 
+survey and establishing the precision constraints on them. 
+It is then possible to determine the best stratification and the 
+optimal allocation. 
+Finally, we proceed with the selection of the sample.
+Formalizing, these are the required steps:
+  
+*	analysis of the frame data: identification of available auxiliary information;
+*	manipulation of auxiliary information: in case auxiliary variables are of the continuous type, they must be transformed into 
+a categorical form;
+*	construction of atomic strata: on the basis of the categorical auxiliary variables available in the sampling frame, 
+a set of strata can be constructed by calculating the Cartesian product of the values of all the auxiliary variables;
+*	characterization of each atomic stratum with the information related to the target variables: in order to optimise 
+both strata and allocation of sampling units in strata, we need information on the distributions of the target variables 
+(means and standard deviations);
+*	choice of the precision constraints for each target estimate, possibly differentiated by domain;
+*	optimization of stratification and determination of required sample size and allocation in order to satisfy precision 
+constraints on target estimates;
+*	analysis of the resulting optimized strata;
+*	association of new labels to sampling frame units, each of them indicating the new strata resulting by the optimal 
+aggregation of the atomic strata;
+*	selection of units from the sampling frame with a \emph {stratified random sample} selection scheme;
+* evaluation of the found optimal solution in terms of expected precision and bias.
+
+In the following, we will illustrate each step starting from a real sampling frame, the one that comes with the R package *sampling*  (the dataframe *swissmunicipalities*).
+
+## Analysis of the frame data and manipulation of auxiliary information
+
+As a first step, we have to define a frame dataframe containing the following information:
+ 
+*	a unique identifier of the unit (no restriction on the name, may be 'cod');
+*	the (optional) identifier of the stratum to which the unit belongs;
+*	the values of m auxiliary variables (named from X1 to Xm);
+*	the (optional) values of p target variables (named from Y1 to Yp);
+*	the value of the domain of interest for which we want to produce estimates (named 'domainvalue').
+
+By typing the following statements in the R environment:
+
+
+```{r, eval=FALSE, echo=TRUE}
+library(SamplingStrata)
+require(memoise)
+data(swissmunicipalities)
+```
+
+we get the *swissmunicipalities* dataframe, that contains 2896 observations (each observation refers to a Swiss municipality). 
+Among the others, there are the following variables (data are referred to 2003):
+* REG: Swiss region.
+* Nom: municipality name.
+* Surfacesbois: wood area.
+* Surfacescult: area under cultivation.
+* Alp: mountain pasture area.
+* Airbat: area with buildings.
+* Airind: industrial area.
+* Pop020: number of men and women aged between 0 and 19.
+* Pop2040: number of men and women aged between 20 and 39.
+* Pop4065: number of men and women aged between 40 and 64.
+* Pop65P: number of men and women aged between 65 and over.
+* POPTOT: total population.
+
+Let us suppose we want to plan a survey whose target estimates are the totals of population by age class in each Swiss region. 
+In  this case, our Y variables will be:
+
+* Y1: number of men and women aged between 0 and 19.
+* Y2: number of men and women aged between 20 and 39.
+* Y3: number of men and women aged between 40 and 64.
+* Y4: number of men and women aged between 65 and over.
+
+As for the auxiliary variables (Xs), we can use all of those characterising the area use (wood, mountain or pasture, cultivated, industrial, with buildings). 
+
+Finally, we want to produce estimates not only for the whole country, but also for each one of the seven different regions.
+
+Function *buildFrameDF* permits to organize data in a suitable mode for next processing:
+  
+```{r, eval=FALSE, echo=TRUE}
+  id = "Nom"
+X = c("POPTOT","Surfacesbois","Surfacescult","Alp","Airbat","Airind")
+Y = c("Pop020","Pop2040","Pop4065","Pop65P")
+domainvalue = "REG"
+swissframe <- buildFrameDF(swissmunicipalities,id,X,Y,domainvalue)
+str(swissframe)
+```
+  
+As the X variables are of the continuous type, first we have to reduce them in a categorical (ordinal) 
+form. 
+
+A suitable way to do so, is to apply a k-means clustering method [see hartigan:1979] by using the function *var.bin*:
+
+```{r, eval=FALSE, echo=TRUE}
+library(SamplingStrata)
+swissframe$X1 <- var.bin(swissmunicipalities$POPTOT, bins=18)
+swissframe$X2 <- var.bin(swissmunicipalities$Surfacesbois, bins=3)
+swissframe$X3 <- var.bin(swissmunicipalities$Surfacescult, bins=3)
+swissframe$X4 <- var.bin(swissmunicipalities$Alp, bins=3)
+swissframe$X5 <- var.bin(swissmunicipalities$Airbat, bins=3)
+swissframe$X6 <- var.bin(swissmunicipalities$Airind, bins=3)
+```
+Now, we have six different auxiliary variables of the categorical type, the first with 18 different modalities, the others 
+with 3 modalities.
+
+We write the dataframe to a tab delimited file:
+```{r, eval=FALSE, echo=TRUE}
+write.table (swissframe, "swissframe.txt", row.names=FALSE,col.names=TRUE, sep="\t", quote=FALSE)
+```
+In any case, this dataframe comes with the package *SamplingStrata}: it can be made available by executing:
+```{r, eval=FALSE, echo=TRUE}
+  library(SamplingStrata)
+data(swissframe)
+head(swissframe)
+```
+  
+## Construction of atomic strata and association of the information related to target variables
+
+The *strata* dataframe reports information regarding each stratum in the population. There is one row for each stratum. 
+The total number of strata is given by the number of different combinations of Xs values in the frame. 
+For each stratum, the following information is required:
+
+*	the identifier of the stratum (named 'stratum' or 'strato'), concatenation of the values of the X variables;
+*	the values of the m auxiliary variables (named from X1 to Xm) corresponding to those in the frame;
+*	the total number of units in the population (named 'N');
+*	a flag (named 'cens') indicating if the stratum is to be censused (=1) or sampled (=0);
+*	a variable indicating the cost of interviewing per unit in the stratum (named 'cost');
+*	for each target variable y, its mean and standard deviation, named respectively 'Mi' and 'Si');
+*	the value of the domain of interest to which the stratum belongs ('DOM1').
+
+For example:
+```{r, eval=FALSE, echo=TRUE}
+data(strata)
+head(strata)
+```
+If in the *frame* dataframe are also present the values of the target Y variables (from a census, or from administrative data), 
+it is possible to automatically generate the *strata* dataframe by invoking the *buildStrataDF} function.
+Let us consider again the *swissframe} dataframe that we have in built in previous steps. 
+On this frame we can apply the function *buildStrataDF}:
+
+```{r, eval=FALSE, echo=TRUE}
+  swissstrata <- buildStrataDF(swissframe)
+```
+
+The function takes as unique argument the name of the frame, and also writes out in the working directory the strata file, 
+always named 'strata.txt'.
+This is the structure of the created dataframe:
+
+```{r, eval=FALSE, echo=TRUE}
+head(swissstrata)
+```
+It is worth while noting that the total number of different atomic strata is 641, lower than the dimension of the Cartesian  product of the Xs (which is 4374): this is due to the fact that not all combinations of the value of the auxiliary variables are present in the sampling frame.
+Variables 'cost' and 'cens' are initialised respectively to 1 and 0 for all strata. It is possible to give them different values:
+
+*	for variable 'cost', it is possible to differentiate the cost of interviewing per unit by assigning real values;
+*	for variable 'cens', it is possible to set it equal to 1 for all strata that are of the 'take-all' type (i.e. all units in that strata must be selected).
+
+The *swissstrata* dataframe comes together with *SamplingStrata* package, it can be made available by typing:
+```{r, eval=FALSE, echo=TRUE}
+data(swissstrata)
+```
+
+On the contrary, if there is no information in the frame regarding the target variables, it is necessary to build the strata 
+dataframe starting from other sources, for instance a previous round of the same survey, or from other surveys.
+In this case, we need to read sample data by executing:
+```{r, eval=FALSE, echo=TRUE}
+samp <- read.delim("samplePrev.txt")
+```
+
+The only difference is that computed mean and variances of the Ys are sampling estimates, whose reliability should be evaluated 
+by carefully considering their sampling variances. In addition to the naming constraints previously introduced, this case requires 
+that a variable named 'WEIGHT' is present in the samp dataframe.
+Then we can execute this function in this way:
+
+```{r, eval=FALSE, echo=TRUE}
+strata <- buildStrataDF(samp)
+```
+
+The result is much the same than in the previous case: the function creates a new dataframe, *strata}, and writes out in the working 
+directory the strata file, named 'strata.txt'.
+
+
+
 # References
 
 
