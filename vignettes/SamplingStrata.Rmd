@@ -1,8 +1,9 @@
 ---
-title: "SamplingStrata "
+title: "Optimization of sampling strata with the SamplingStrata package"
 author: "Giulio Barcaroli"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+bibliography: SamplingStrata.bib
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
@@ -15,4 +16,36 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+
+# Introduction
+
+Let us suppose we need to design a sample survey, having a complete frame containing information on the target population 
+(identifiers plus auxiliary information). If our sample design is a stratified one, we need to choose how to form strata in 
+the population, in order to get the maximum advantage by the available auxiliary information. In other words, we have to decide 
+in which way to combine the values of the auxiliary variables (from now on, the 'X' variables) in order to determine a new variable, 
+called 'stratum'. To do so, we have to take into consideration the target variables of our sample survey (from now on, the 'Y' 
+variables): if, to form strata, we choose the X variables most correlated to the Ys, the efficiency of the samples drawn by the 
+resulting stratified frame may be greatly increased. In order to handle the whole auxiliary information in a homogenous way, we have 
+to reduce continuous data to categorical (by mean of a k-means clustering technique, for example). Then, for every set of candidate 
+auxiliary variables Xs, we have to decide (i) what variables to consider as active variables in strata determination, and (ii) 
+for each active variable, what set of values (in general, what aggregation of atomic values) have to be considered. 
+Every combination of values of each active variable determine a particular stratification of the target population, i.e. 
+a possible solution to the problem of 'best' stratification. Here, by best stratification, we mean the stratification that ensures 
+the minimum sample cost, sufficient to satisfy a set of precision constraints, set on the accuracy of the estimates of the survey target 
+variables Ys (constraints expressed as maximum allowable sampling variance on estimates in different domains of interest).
+When the cost of data collection is uniform over the strata, then the total cost is directly proportional to the overall sample size,
+and the convenience of a particular stratification can be measured by the associated size of the sample, whose estimates 
+are expected to satisfy given accuracy levels. This minimum size can be determined by applying the Bethel algorithm, with its Chromy 
+variant. In general, the number of possible alternative stratifications for a given population may be very high, depending on 
+the number of variables and on the number of their values, and in these cases it is not possible to enumerate them in order to assess 
+the best one. A very convenient solution to this, is the adoption of the evolutionary approach, consisting in applying a 
+genetic algorithm that may converge towards a near-optimal solution after a finite number of iterations. 
+The methodology is fully described in @ballin:2013, and a complete illustration of the package, together with 
+a comparison with the *stratification* package, is in @barcarol:2013.
+Also a complete application in a case of network data is reported in @ballin:2016.
+The implementation of the genetic algorithm is based on a modification of the functions in the *genalg* package [see @willighagen:2005].
+In particular, the crossover operator ha been modified on the basis of the indications given by @oluing:2017.
+
+# References
+
 
