@@ -4,12 +4,12 @@ evalSolution <- function (frame, outstrata,
                           writeFiles = FALSE,
                           progress = FALSE) 
 {
-  # if (writeFiles == TRUE) {
-  #   dire <- getwd()
-  #   direnew <- paste(dire,"/output",sep="")
-  #   if(!dir.exists(direnew)) dir.create(direnew)
-  #   setwd(direnew)
-  # }
+  if (writeFiles == TRUE) {
+    dire <- getwd()
+    direnew <- paste(dire,"/simulation",sep="")
+    if(!dir.exists(direnew)) dir.create(direnew)
+    setwd(direnew)
+  }
   numY <- length(grep("Y", toupper(colnames(frame))))
   numdom <- length(levels(as.factor(frame$DOMAINVALUE)))
   param <- array(0, c(numY, numdom))
@@ -143,20 +143,23 @@ evalSolution <- function (frame, outstrata,
 ############################################  
   if (numdom > 1) {
     if (writeFiles == TRUE) 
-      pdf("cv.pdf", width = 7, height = 5)
+    # pdf("cv.pdf", width = 7, height = 5)
+    png("cv.png")
     boxplot(val ~ cv, data = cv1, col = "orange", main = "Distribution of CV's in the domains", 
             xlab = "Variables Y", ylab = "Value of CV")
     if (writeFiles == TRUE) 
       dev.off()
     if (writeFiles == TRUE) 
-      pdf("rel_bias.pdf", width = 7, height = 5)
+      # pdf("rel_bias.pdf", width = 7, height = 5)
+      png("rel_bias.png")
     boxplot(bias[,-ncol(bias)], col = "orange", main = "Distribution of relative bias in the domains", 
             xlab = "Variables Y", ylab = "Relative bias")
     if (writeFiles == TRUE) 
       dev.off()
   }
   if (writeFiles == TRUE) 
-    pdf("differences.pdf", width = 14, height = 10)
+  # pdf("differences.pdf", width = 14, height = 10)
+  png("differences.png")
   k <- ceiling(numY/4)
   for (j in 1:k) {
     split.screen(c(2, 2))
@@ -178,8 +181,8 @@ evalSolution <- function (frame, outstrata,
     dev.off()
   # results <- list(coeff_var = cv1, bias = bias1)
   results <- list(coeff_var = cv, rel_bias = bias)
-  # if (writeFiles == TRUE) {
-  #   setwd(dire)
-  # }
+  if (writeFiles == TRUE) {
+    setwd(dire)
+  }
   return(results)
 }

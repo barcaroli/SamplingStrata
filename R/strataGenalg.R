@@ -147,8 +147,8 @@ strataGenalg <- function(errors, strata, cens, strcens,
     # Results
     # --------------------------------------------------------------------------
 	if (writeFiles == TRUE) {
-#		stmt <- paste("png('plotdom", dominio, ".png',height=5, width=7, units='in', res=144)", sep = "")
-		stmt <- paste("pdf('plotdom", dominio, ".pdf',height=5, width=7)", sep = "")
+	  stmt <- paste("png('plotdom", dominio, ".png',height=5, width=7, units='in', res=144)", sep = "")
+		# stmt <- paste("pdf('plotdom", dominio, ".pdf',height=5, width=7)", sep = "")
 		eval(parse(text = stmt))
 	}
     plot(rbga.results)
