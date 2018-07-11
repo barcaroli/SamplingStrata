@@ -327,7 +327,7 @@ knitr::include_graphics("plotdom3.png")
 ```
 
 
-<!-- ![Figure 1](plotdom3.png) -->
+<!-- ![Figure 1](https://github.com/barcaroli/SamplingStrata/blob/master/docs/articles/plotdom3.png) -->
 
 This graph illustrates the convergence of the solution to the final one starting from the initial one (i.e. the one related to the atomic strata). Along the x-axis are reported the executed iterations, from 1 to the maximum, while on the y-axis are reported the size of the sample required to satisfy precision constraints. The upper (red) line represent the average sample size for each iteration, while the lower (black) line represents the best solution found until the i-th iteration.
 
