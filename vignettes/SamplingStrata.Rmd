@@ -322,7 +322,12 @@ pre-determined value for each domain, for instance equal in each domain, as c(5,
 The execution of *optimizeStrata* produces the solution of 7 different optimization problems, one for each domain.
 We have reported in Figure 1 the convergence plot regarding the third domain.
 
-![Figure 1](plotdom3.png)
+```{r,  echo=FALSE, fig.cap="Figure 1", out.width = '100%'}
+knitr::include_graphics("plotdom3.png")
+```
+
+
+<!-- ![Figure 1](https://github.com/barcaroli/SamplingStrata/tree/master/docs/articles//plotdom3.png) -->
 
 This graph illustrates the convergence of the solution to the final one starting from the initial one (i.e. the one related to the atomic strata). Along the x-axis are reported the executed iterations, from 1 to the maximum, while on the y-axis are reported the size of the sample required to satisfy precision constraints. The upper (red) line represent the average sample size for each iteration, while the lower (black) line represents the best solution found until the i-th iteration.
 
@@ -515,10 +520,14 @@ expected_cv <- read.csv("simulation//expected_cv.csv")
 expected_cv
 ```
 
-These values are on average compliant with the precision constraints set 
-(see Figure 2).
+These values are on average compliant with the precision constraints set (see Figure 2).
 
-![Figure 2](cv.png)
+```{r,  echo=FALSE, fig.cap="Figure 2", out.width = '100%'}
+knitr::include_graphics("cv.png")
+```
+
+
+<!-- ![Figure 2](https://github.com/barcaroli/SamplingStrata/tree/master/docs/articles//cv.png) -->
 
 # Handling 'take-all' strata in the optimization step
 
