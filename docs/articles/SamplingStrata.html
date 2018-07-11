@@ -247,8 +247,11 @@ cv</code></pre></div>
 <p>Note that by so doing the <em>initialStrata</em> parameter is set equal to the number of atomic strata in each domain . Another possibility is to set a pre-determined value for each domain, for instance equal in each domain, as c(5,5,5,5,5,5,5,5).</p>
 <p>The execution of <em>optimizeStrata</em> produces the solution of 7 different optimization problems, one for each domain. We have reported in Figure 1 the convergence plot regarding the third domain.</p>
 <div class="figure">
-<img src="../../../../00%20Sampling/SamplingStrata%201.3/SamplingStrataGithub/vignettes/plotdom3.png" alt="Figure 1"><p class="caption">Figure 1</p>
+<img src="../../../../00%20Sampling/SamplingStrata%201.3/SamplingStrataGithub/vignettes/plotdom3.png" alt="Figure 1" width="100%"><p class="caption">
+Figure 1
+</p>
 </div>
+<!-- ![Figure 1](https://github.com/barcaroli/SamplingStrata/tree/master/docs/articles//plotdom3.png) -->
 <p>This graph illustrates the convergence of the solution to the final one starting from the initial one (i.e. the one related to the atomic strata). Along the x-axis are reported the executed iterations, from 1 to the maximum, while on the y-axis are reported the size of the sample required to satisfy precision constraints. The upper (red) line represent the average sample size for each iteration, while the lower (black) line represents the best solution found until the i-th iteration.</p>
 <p>The results of the execution are contained in the list ‘solution’, composed by two elements:</p>
 <ol style="list-style-type: decimal">
@@ -372,8 +375,11 @@ sample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sele
 expected_cv</code></pre></div>
 <p>These values are on average compliant with the precision constraints set (see Figure 2).</p>
 <div class="figure">
-<img src="../../../../00%20Sampling/SamplingStrata%201.3/SamplingStrataGithub/vignettes/cv.png" alt="Figure 2"><p class="caption">Figure 2</p>
+<img src="../../../../00%20Sampling/SamplingStrata%201.3/SamplingStrataGithub/vignettes/cv.png" alt="Figure 2" width="100%"><p class="caption">
+Figure 2
+</p>
 </div>
+<!-- ![Figure 2](https://github.com/barcaroli/SamplingStrata/tree/master/docs/articles//cv.png) -->
 </div>
 <div id="handling-take-all-strata-in-the-optimization-step" class="section level1">
 <h1 class="hasAnchor">

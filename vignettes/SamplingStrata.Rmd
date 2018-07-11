@@ -327,7 +327,7 @@ knitr::include_graphics("plotdom3.png")
 ```
 
 
-<!-- ![Figure 1](https://github.com/barcaroli/SamplingStrata/tree/master/docs/articles//plotdom3.png) -->
+<!-- ![Figure 1](plotdom3.png) -->
 
 This graph illustrates the convergence of the solution to the final one starting from the initial one (i.e. the one related to the atomic strata). Along the x-axis are reported the executed iterations, from 1 to the maximum, while on the y-axis are reported the size of the sample required to satisfy precision constraints. The upper (red) line represent the average sample size for each iteration, while the lower (black) line represents the best solution found until the i-th iteration.
 
@@ -522,12 +522,12 @@ expected_cv
 
 These values are on average compliant with the precision constraints set (see Figure 2).
 
-```{r,  echo=FALSE, fig.cap="Figure 2", out.width = '100%'}
+```{r,  echo=FALSE, fig.cap="Figure 2", out.width = '80%'}
 knitr::include_graphics("cv.png")
 ```
 
 
-<!-- ![Figure 2](https://github.com/barcaroli/SamplingStrata/tree/master/docs/articles//cv.png) -->
+<!-- ![Figure 2](cv.png) -->
 
 # Handling 'take-all' strata in the optimization step
 
