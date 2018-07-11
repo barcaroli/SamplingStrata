@@ -73,7 +73,7 @@
       <h1>Optimization of sampling strata with the SamplingStrata package</h1>
                         <h4 class="author">Giulio Barcaroli</h4>
             
-            <h4 class="date">2018-07-10</h4>
+            <h4 class="date">2018-07-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/SamplingStrata.Rmd"><code>vignettes/SamplingStrata.Rmd</code></a></small>
       <div class="hidden name"><code>SamplingStrata.Rmd</code></div>
@@ -244,9 +244,11 @@ cv</code></pre></div>
     <span class="dt">strata =</span> swissstrata,
     <span class="dt">writeFiles =</span> <span class="ot">TRUE</span>)
 <span class="kw">sum</span>(<span class="kw">ceiling</span>(solution$aggr_strata$SOLUZ))</code></pre></div>
-<p>Note that by so doing the *initialStrata} parameter is set equal to the number of atomic strata in each domain . Another possibility is to set a pre-determined value for each domain, for instance equal in each domain, as c(5,5,5,5,5,5,5,5).</p>
-<p>The execution of <em>optimizeStrata</em> produces the solution of 7 different optimization problems, one for each domain. <!-- We have reported in Figure 1 the convergence plot regarding the third domain.  --></p>
-<!-- ![Figure 1](plotdom3.pdf) -->
+<p>Note that by so doing the <em>initialStrata</em> parameter is set equal to the number of atomic strata in each domain . Another possibility is to set a pre-determined value for each domain, for instance equal in each domain, as c(5,5,5,5,5,5,5,5).</p>
+<p>The execution of <em>optimizeStrata</em> produces the solution of 7 different optimization problems, one for each domain. We have reported in Figure 1 the convergence plot regarding the third domain.</p>
+<div class="figure">
+<img src="../../../../00%20Sampling/SamplingStrata%201.3/SamplingStrataGithub/vignettes/plotdom3.png" alt="Figure 1"><p class="caption">Figure 1</p>
+</div>
 <p>This graph illustrates the convergence of the solution to the final one starting from the initial one (i.e. the one related to the atomic strata). Along the x-axis are reported the executed iterations, from 1 to the maximum, while on the y-axis are reported the size of the sample required to satisfy precision constraints. The upper (red) line represent the average sample size for each iteration, while the lower (black) line represents the best solution found until the i-th iteration.</p>
 <p>The results of the execution are contained in the list ‘solution’, composed by two elements:</p>
 <ol style="list-style-type: decimal">
@@ -368,8 +370,10 @@ sample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sele
 <p>For each drawn sample, the estimates related to the Y’s are calculated. Their mean and standard deviation are also computed, in order to produce the CV related to each variable in every domain. These CV’s are written to an external csv file:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">expected_cv &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"simulation//expected_cv.csv"</span>)
 expected_cv</code></pre></div>
-<p>These values are on average compliant with the precision constraints set <!-- (see Figure 2). --></p>
-<!-- ![Figure 2](cv.pdf) -->
+<p>These values are on average compliant with the precision constraints set (see Figure 2).</p>
+<div class="figure">
+<img src="../../../../00%20Sampling/SamplingStrata%201.3/SamplingStrataGithub/vignettes/cv.png" alt="Figure 2"><p class="caption">Figure 2</p>
+</div>
 </div>
 <div id="handling-take-all-strata-in-the-optimization-step" class="section level1">
 <h1 class="hasAnchor">
