@@ -1,5 +1,5 @@
 \name{errors}
-\Rdversion{1.1}
+\Rdversion{1.3}
 \alias{errors}
 \docType{data}
 \title{

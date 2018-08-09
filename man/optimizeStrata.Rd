@@ -1,5 +1,5 @@
 \name{optimizeStrata}
-\Rdversion{1.1}
+\Rdversion{1.3}
 \alias{optimizeStrata}
 \title{
 Best stratification of a sampling frame for multipurpose surveys
@@ -31,8 +31,8 @@ This function runs a set of other functions to optimise the stratification of a 
 }
 \arguments{
   \item{errors}{
-  This is the (mandatory) dataframe containing the precision levels expressed in terms of Coefficients of Variation
-  that estimates on target variables Y's of the survey must comply.
+  This is the (mandatory) dataframe containing the precision levels expressed in terms of maximum expected value of the Coefficients of Variation
+  related to target variables of the survey.
 }
   \item{strata}{
   This is the (mandatory) dataframe containing the information related to "atomic" strata, i.e. the strata obtained by 
@@ -40,8 +40,7 @@ This function runs a set of other functions to optimise the stratification of a 
   (values of X's) and variability of Y's (for each Y, mean and standard error in strata).
 }
   \item{cens}{
-  This the (optional) dataframe containing the takeall strata, those strata whose units must be selected in 
-  whatever sample. It has same structure than "strata" dataframe.
+  This the (optional) dataframe containing the takeall strata, those strata whose units must be selected in whatever sample. It has same structure than "strata" dataframe.
 }
   \item{strcens}{
   Flag (TRUE/FALSE) to indicate if takeall strata do exist or not. Default is FALSE.
@@ -55,7 +54,7 @@ This function runs a set of other functions to optimise the stratification of a 
   (1 <--> number of domains). If 'alldomains' is set to TRUE, it is ignored.
 }
   \item{initialStrata}{
-  This is the initial limit on the number of strata for each solution. Default is NA, and in this case it is set equal to the
+  This is the initial limit on the number of strata in the different domains for each solution. Default is NA, and in this case it is set equal to the
   number of atomic strata in each domain.
 }
   \item{addStrataFactor}{
@@ -83,11 +82,10 @@ This function runs a set of other functions to optimise the stratification of a 
 	to another. Default is 0.2 (20%).
 }
   \item{highvalue}{
-  Parameter for genetic algorithm. Not to be changed
+  Parameter for genetic algorithm. In should not be changed
 }
   \item{suggestions}{
-  Optional parameter for genetic algorithm that indicates the kmeans solution has to be introduced in the initial population. 
-  Default is NULL. 
+  Optional parameter for genetic algorithm that indicates a suggested solution to be introduced in the initial population. The most convenient is the one found by the function "KmeanSolution". Default is NULL. 
 }
   \item{realAllocation}{
   If FALSE, the allocation is based on INTEGER values; if TRUE, the allocation is based on REAL values.
@@ -113,37 +111,6 @@ Giulio Barcaroli
 }
 
 \examples{
-#
-# This is a toy example, and can be run
-#
-\donttest{
-library(SamplingStrata)
-data(errors)
-data(strata)
-# optimisation of sampling strata
-solution <- optimizeStrata ( 
-    errors = errors, 
-    strata = strata, 
-    cens = NULL,
-    strcens = FALSE,
-    initialStrata = NA,
-    addStrataFactor = 0.0,    
-    minnumstr = 2,
-    iter = 30,
-    pops = 20,
-    mut_chance = NA,
-    elitism_rate = 0.2,
-    highvalue = 100000000,
-    suggestions = NULL,
-	realAllocation = TRUE,
-	writeFiles = FALSE,
-	showPlot = TRUE)
-sum(ceiling(solution$aggr_strata$SOLUZ))
-head(solution$aggr_strata)
-}
-#
-# The following example is realistic, but is time consuming
-#
 \dontrun{
 library(SamplingStrata)
 data(swissframe)

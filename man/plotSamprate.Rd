@@ -1,5 +1,5 @@
 \name{plotSamprate}
-\Rdversion{1.1}
+\Rdversion{1.3}
 \alias{plotSamprate}
 \title{
 Plotting sampling rates in the different strata for each domain in the solution.
@@ -33,18 +33,7 @@ data(swissstrata)
 solution <- optimizeStrata ( 
     errors = swisserrors, 
     strata = swissstrata, 
-    cens = NULL,
-    strcens = FALSE,
-    initialStrata = 3000,
-    addStrataFactor = 0.01,    
-    minnumstr = 2,
-    iter = 60,
-    pops = 20,
-    mut_chance = 0.05,
-    elitism_rate = 0.2,
-    highvalue = 100000000,
-    suggestions = NULL,
-	writeFiles = FALSE)
+)
 # plot of the sampling rates in strata of domain 1
 plotSamprate(solution, 1)
 }

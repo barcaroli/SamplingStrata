@@ -1,5 +1,5 @@
 \name{checkInput}
-\Rdversion{1.1}
+\Rdversion{1.3}
 \alias{checkInput}
 \title{
 Checks the inputs to the package: dataframes "errors", "strata" and "sampling frame"

@@ -1,11 +1,11 @@
 \name{bethel}
-\Rdversion{1.1}
+\Rdversion{1.3}
 \alias{bethel}
 \title{
 Multivariate optimal allocation
 }
 \description{
-Multivariate optimal allocation for different domains of interest in stratified sample design 
+Multivariate optimal allocation for different domains of interest in stratified sample design under a given stratification of the sampling frame
 }
 \usage{
 bethel  (

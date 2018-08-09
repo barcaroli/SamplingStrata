@@ -1,11 +1,11 @@
 \name{selectSampleSystematic}
-\Rdversion{1.2-1}
+\Rdversion{1.3}
 \alias{selectSampleSystematic}
 \title{
 Selection of a stratified sample from the frame with systematic method 
 }
 \description{
-Once optimal stratification has been obtained (in the dataframe 'outstrata'), 
+Once optimal stratification has been obtained, 
 and a new frame has been 
 built by assigning to the units of the old one the new stratum labels (by means of 
 "updateFrame" function), it is possible to select a stratified sample from the frame 
@@ -43,9 +43,7 @@ selectSampleSystematic(frame, outstrata, sortvariable = NULL, writeFiles = FALSE
   Name of stratum variable must be 'strato'.
 }
   \item{sortvariable}{
-  This is the name of teh variable to used as ordering variable inside each stratum
-  before proceeding to the systematic selection. It must be previously added to 
-  the selection frame. Default is NULL.
+  This is the name of the variable to be used as ordering variable inside each stratum before proceeding to the systematic selection. It must be previously added to the selection frame. Default is NULL.
 }
   \item{writeFiles}{
   Indicates if at the end of the processing the resulting strata will be outputted in a delimited file.
@@ -72,28 +70,12 @@ Giulio Barcaroli with contribution from Diego Zardetto
 #
 \dontrun{
 library(SamplingStrata)
-data(swissframe)
 data(swisserrors)
 data(swissstrata)
 # optimisation of sampling strata
 solution <- optimizeStrata ( 
     errors = swisserrors, 
-    strata = swissstrata, 
-    cens = NULL,
-    strcens = FALSE,
-    initialStrata = NA,
-    addStrataFactor = 0.0,    
-    minnumstr = 2,
-    iter = 60,
-    pops = 20,
-    mut_chance = NA,
-    elitism_rate = 0.2,
-    highvalue = 100000000,
-    suggestions = NULL,
-	realAllocation = TRUE,
-	writeFiles = FALSE,
-	showPlot = TRUE,
-	model = NULL)
+    strata = swissstrata)
 # updating sampling strata with new strata labels
 newstrata <- updateStrata(swissstrata, solution)
 # updating sampling frame with new strata labels

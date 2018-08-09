@@ -1,5 +1,5 @@
 \name{buildStrataDF}
-\Rdversion{1.1}
+\Rdversion{1.3}
 \alias{buildStrataDF}
 \title{
 Builds the "strata" dataframe containing information on target variables Y's
@@ -23,14 +23,14 @@ for each unit, whose value is always '1'.
 Missing values for each Y variable will not be taken into account in the computation of means and standard 
 deviations (in any case, NA's can be present in the dataset).
 The dataframe "strata" is written to an external file (tab delimited, extension "txt"), and will be
-used as an input by optimizeStrata.
+used as an input by the function "optimizeStrata".
 }
 \usage{
 buildStrataDF(dataset,model=NULL,progress=FALSE)
 }
 \arguments{
   \item{dataset}{
-  This is the name of the dataframe containing the sampling data, or frame data. 
+  This is the name of the dataframe containing the sample data, or the frame data. 
   It is strictly required that auxiliary information is organised in variables named 
   as X1, X2, ... , Xm (there should be at least one of them) and the target variables 
   are denoted by Y1, Y2, ... , Yn.

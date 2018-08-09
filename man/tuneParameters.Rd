@@ -1,5 +1,5 @@
 \name{tuneParameters}
-\Rdversion{1.1}
+\Rdversion{1.3}
 \alias{tuneParameters}
 \title{
 Execution and compared evaluation of optimization runs
@@ -37,7 +37,8 @@ tuneParameters (
 		iter, 
 		pops, 
 		mut_chance, 
-		elitism_rate
+		elitism_rate,
+		writeFiles
 		)
 }
 \arguments{
@@ -113,10 +114,15 @@ tuneParameters (
   This parameter has to be given in a vectorial format, whose length is given by the number of different optimisations
   ( = value of parameter 'noptim')
 }
-
-
+  \item{writeFiles}{
+  Indicates if the various dataframes and plots produced during the execution have to be written in the working
+  directory.
+  Default is FALSE.
 }
-
+}
+\value{
+A dataframe containing for each iteration the number of strata, the cost of the solution and the values of the expected CV's
+}
 
 \author{
 Giulio Barcaroli
@@ -138,7 +144,7 @@ strata <- swissstrata[swissstrata$DOM1 == 1,]
 errors <- swisserrors[swisserrors$domainvalue == 1,]
 #------------------------------------------------------------
 # parameters setting
-noptim <- 8 # Number of runs
+noptim <- 10 # Number of runs
 nsampl <- 100 # Number of samples to be drawn after each optimization
 initialStrata <- ceiling(c(1:noptim)*0.1*(nrow(strata))) # Number of initial strata
 addStrataFactor <- rep(0.01,noptim) # Rate for increasing initial strata
@@ -148,7 +154,7 @@ pops <- rep(20,noptim) # Number of solutions for each iteration
 mut_chance <- rep(0.004,noptim) # Mutation chance
 elitism_rate <- rep(0.2,noptim) # Elitism rate
 #------------------------------------------------------------
-tuneParameters (
+results <- tuneParameters (
   noptim,
   nsampl,
   frame,
@@ -166,6 +172,7 @@ tuneParameters (
   mut_chance, 
   elitism_rate
   )
+results
 }
 }
 \keyword{ survey }

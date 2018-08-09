@@ -1,5 +1,5 @@
 \name{updateStrata}
-\Rdversion{1.1}
+\Rdversion{1.3}
 \alias{updateStrata}
 \title{
 Assigns new labels to atomic strata on the basis of the optimized aggregated strata 
@@ -42,29 +42,14 @@ Giulio Barcaroli
 
 
 \examples{
-#
-# This is a toy example, and can be run
-#
-\donttest{
+\dontrun{
 library(SamplingStrata)
 data(errors)
 data(strata)
 # optimisation of sampling strata
 solution <- optimizeStrata ( 
     errors = errors, 
-    strata = strata, 
-    cens = NULL,
-    strcens = FALSE,
-    initialStrata = 3000,
-    addStrataFactor = 0.01,    
-    minnumstr = 2,
-    iter = 30,
-    pops = 20,
-    mut_chance = 0.05,
-    elitism_rate = 0.2,
-    highvalue = 100000000,
-    suggestions = NULL,
-	writeFiles = FALSE)
+    strata = strata)
 # updating sampling strata with new strata labels
 newstrata <- updateStrata(strata, solution)
 }

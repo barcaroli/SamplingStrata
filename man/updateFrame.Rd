@@ -1,5 +1,5 @@
 \name{updateFrame}
-\Rdversion{1.1}
+\Rdversion{1.3}
 \alias{updateFrame}
 \title{
 Updates the initial frame on the basis of the optimized stratification 
@@ -52,19 +52,7 @@ data(swissstrata)
 # optimisation of sampling strata
 solution <- optimizeStrata ( 
     errors = swisserrors, 
-    strata = swissstrata, 
-    cens = NULL,
-    strcens = FALSE,
-    initialStrata = 3000,
-    addStrataFactor = 0.01,    
-    minnumstr = 2,
-    iter = 60,
-    pops = 20,
-    mut_chance = 0.05,
-    elitism_rate = 0.2,
-    highvalue = 100000000,
-    suggestions = NULL,
-	writeFiles = FALSE)
+    strata = swissstrata)
 # updating sampling strata with new strata labels
 newstrata <- updateStrata(swissstrata, solution, writeFiles = TRUE)
 # updating sampling frame with new strata labels

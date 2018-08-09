@@ -1,5 +1,5 @@
 \name{var.bin}
-\Rdversion{1.1}
+\Rdversion{1.3}
 \alias{var.bin}
 \title{
 Allows to transform a continuous variable into a categorical ordinal one

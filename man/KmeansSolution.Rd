@@ -7,12 +7,12 @@ Initial solution obtained by applying kmeans clustering of atomic strata
 \description{
 In order to speed the convergence towards the optimal solution, an initial one can be 
 given as "suggestion" to "optimizeStrata" function.
-The function "KmeansSolution" produces this initial solution using the kemans 
+The function "KmeansSolution" produces this initial solution using the k-means 
 algorithm by clustering atomic 
-strata considering the values of the means of target variables in them.
+strata on the basis of the values of the means of target variables in them.
 Also, if the parameter "nstrata" is not indicated, the optimal number of clusters 
 is determined inside each domain, and the overall solution is obtained by concatenating optimal 
-cluster obtained in domains.
+clusters obtained in domains.
 The result is a dataframe with two columns: the first indicates the clusters, 
 the second the domains.
 }
@@ -20,7 +20,7 @@ the second the domains.
 KmeansSolution(strata, 
                errors, 
                nstrata=NA, 
-			   minnumstrat=2,
+			         minnumstrat=2,
                maxclusters = NA,
                showPlot=FALSE)
 }
@@ -40,7 +40,8 @@ KmeansSolution(strata,
 }
   \item{maxclusters}{
 Maximum number of clusters to be considered in the 
-execution of kmeans algorithm.
+execution of kmeans algorithm. If not indicated it will be set equal to the
+number of atomic strata divided by 2.
 }
   \item{showPlot}{
 Allows to visualise on a plot the different sample sizes for each number of aggregate strata. Default is FALSE.
@@ -57,9 +58,6 @@ Giulio Barcaroli
 
  
 \examples{
-#
-# The following example is realistic, but is time consuming
-#
 \dontrun{
 library(SamplingStrata)
 data(swisserrors)
@@ -74,20 +72,8 @@ solutionKmean <- KmeansSolution(strata=swissstrata,
 solution <- optimizeStrata ( 
   errors = swisserrors, 
   strata = swissstrata, 
-  cens = NULL,
-  strcens = FALSE,
-  initialStrata = as.numeric(table(swissstrata$DOM1)),
-  addStrataFactor = 0.0,    
-  minnumstr = 2,
-  iter = 50,
-  pops = 20,
-  mut_chance = NA,
-  elitism_rate = 0.2,
-  highvalue = 100000000,
-  suggestions = solutionKmean,
-  realAllocation = TRUE,
-  writeFiles = FALSE,
-  showPlot = TRUE)
+  suggestions = solutionKmean
+)
 }
 }
 \keyword{ survey }

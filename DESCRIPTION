@@ -3,7 +3,7 @@ Type: Package
 Title: Optimal Stratification of Sampling Frames for Multipurpose
         Sampling Surveys
 Version: 1.3
-Date: 2018-20-05
+Date: 2018-10-08
 Authors@R: c(person(given="Giulio", family="Barcaroli", role = c("aut", "cre"), email = "gbarcaroli@gmail.com"), 
    person(given = "Marco", family = "Ballin", role = c("aut")), 
    person(given = "Daniela", family = "Pagliuca", role = c("aut")),

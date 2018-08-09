@@ -1,5 +1,5 @@
 \name{adjustSize}
-\Rdversion{1.2}
+\Rdversion{1.3}
 \alias{adjustSize}
 \title{
 Adjustment of the sample size in case it is externally given
@@ -7,7 +7,7 @@ Adjustment of the sample size in case it is externally given
 \description{
 The optimisation step finds the best stratification that minimises the sample size under given precision constraints.
 In some cases, the goal is not the minimisation of the sample size, as this value is given externally. Nonetheless, it is
-still possible to perform the optimisation of the stratification, and after that proceed to an adjustment of the sample size
+still possible to perform the optimisation of the stratification, and then to proceed to an adjustment of the sample size
 by increasing or decreasing it proportionally in each resulting stratum.
 }
 \usage{
@@ -43,21 +43,7 @@ data(swissstrata)
 solution <- optimizeStrata (
 	errors = swisserrors,
 	strata = swissstrata,
-	cens = NULL,
-	strcens = FALSE,
-	alldomains = TRUE,
-	dom = dominio,
-	initialStrata = nrow(swissstrata)/3,
-	addStrataFactor = 0.01,
-	minnumstr = 2,
-	iter = 50,
-	pops = 20,
-	mut_chance = 0.05,
-	elitism_rate = 0.2,
-	highvalue = 100000000,
-	suggestions = NULL,
-	realAllocation = TRUE,
-	writeFiles = FALSE)
+)
 # 
 sum(solution$aggr_strata$SOLUZ)
 # Adjustment of total sample size (decreasing)
