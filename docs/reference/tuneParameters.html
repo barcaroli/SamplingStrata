@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/Cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -30,8 +30,6 @@
 
 
 
-  <link href="../extra.css" rel="stylesheet">
-  
 <meta property="og:title" content="Execution and compared evaluation of optimization runs — tuneParameters" />
 
 <meta property="og:description" content="This function allows to execute a number of optimization runs,
@@ -61,12 +59,22 @@ As the optimal solution is stored for each run, after the evaluation it is possi
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84499524-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-84499524-2');
+</script>
+
   </head>
 
   <body>
     <div class="container template-reference-topic">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -84,26 +92,71 @@ As the optimal solution is stored for each run, after the evaluation it is possi
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fa fa-home"></span>
      
   </a>
-</li>
-<li>
-  <a href="../articles/SamplingStrata.html">Get started</a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/barcaroli/SamplingStrata">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fas fa fas fa-book"></span>
+     
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/installation.html">Installation</a>
+    </li>
+    <li>
+      <a href="../articles/interactive_execution.html">Interactive Execution - the SamplingStrata GUI</a>
+    </li>
+    <li>
+      <a href="../articles/noninteractive_execution.html">Non-Interactive Execution from within R</a>
+    </li>
+    <li>
+      <a href="../articles/standalone_execution.html">Standalone Execution and Scheduled Processing</a>
+    </li>
+    <li>
+      <a href="../articles/output.html">Outputs Format and Naming Conventions</a>
+    </li>
+    <li>
+      <a href="../articles/analyze.html">Accessing and Analyzing Processed Data from R</a>
+    </li>
+    <li>
+      <a href="../articles/Products_list.html">Supported MODIS Products</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="../articles/faq.html">
+    <span class="fa fa-question-circle-o"></span>
+     
+    faq
+  </a>
+</li>
+<li>
+  <a href="../news/index.html">
+    <span class="fa fa-newspaper-o"></span>
+     
+    news
+  </a>
+</li>
+<li>
+  <a href="../reference/index.html">
+    <span class="fa fa-file-code-o"></span>
+     
+    functions
+  </a>
+</li>
+<li>
+  <a href="https://github.com/lbusett/SamplingStrata/">
     <span class="fa fa-github fa-lg"></span>
      
+    github
   </a>
 </li>
       </ul>
@@ -158,7 +211,8 @@ As the optimal solution is stored for each run, after the evaluation it is possi
                 <span class='no'>iter</span>,
                 <span class='no'>pops</span>,
                 <span class='no'>mut_chance</span>,
-                <span class='no'>elitism_rate</span>
+                <span class='no'>elitism_rate</span>,
+                <span class='no'>writeFiles</span>
                 )</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -252,7 +306,17 @@ As the optimal solution is stored for each run, after the evaluation it is possi
   This parameter has to be given in a vectorial format, whose length is given by the number of different optimisations
   ( = value of parameter 'noptim')</p></td>
     </tr>
+    <tr>
+      <th>writeFiles</th>
+      <td><p>Indicates if the various dataframes and plots produced during the execution have to be written in the working
+  directory.
+  Default is FALSE.</p></td>
+    </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A dataframe containing for each iteration the number of strata, the cost of the solution and the values of the expected CV's</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -271,7 +335,7 @@ As the optimal solution is stored for each run, after the evaluation it is possi
 <span class='no'>errors</span> <span class='kw'>&lt;-</span> <span class='no'>swisserrors</span>[<span class='no'>swisserrors</span>$<span class='no'>domainvalue</span> <span class='kw'>==</span> <span class='fl'>1</span>,]
 <span class='co'>#------------------------------------------------------------</span>
 <span class='co'># parameters setting</span>
-<span class='no'>noptim</span> <span class='kw'>&lt;-</span> <span class='fl'>8</span> <span class='co'># Number of runs</span>
+<span class='no'>noptim</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span> <span class='co'># Number of runs</span>
 <span class='no'>nsampl</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span> <span class='co'># Number of samples to be drawn after each optimization</span>
 <span class='no'>initialStrata</span> <span class='kw'>&lt;-</span> <span class='fu'>ceiling</span>(<span class='fu'>c</span>(<span class='fl'>1</span>:<span class='no'>noptim</span>)*<span class='fl'>0.1</span>*(<span class='fu'>nrow</span>(<span class='no'>strata</span>))) <span class='co'># Number of initial strata</span>
 <span class='no'>addStrataFactor</span> <span class='kw'>&lt;-</span> <span class='fu'>rep</span>(<span class='fl'>0.01</span>,<span class='no'>noptim</span>) <span class='co'># Rate for increasing initial strata</span>
@@ -281,7 +345,7 @@ As the optimal solution is stored for each run, after the evaluation it is possi
 <span class='no'>mut_chance</span> <span class='kw'>&lt;-</span> <span class='fu'>rep</span>(<span class='fl'>0.004</span>,<span class='no'>noptim</span>) <span class='co'># Mutation chance</span>
 <span class='no'>elitism_rate</span> <span class='kw'>&lt;-</span> <span class='fu'>rep</span>(<span class='fl'>0.2</span>,<span class='no'>noptim</span>) <span class='co'># Elitism rate</span>
 <span class='co'>#------------------------------------------------------------</span>
-<span class='fu'>tuneParameters</span> (
+<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>tuneParameters</span> (
   <span class='no'>noptim</span>,
   <span class='no'>nsampl</span>,
   <span class='no'>frame</span>,
@@ -299,13 +363,16 @@ As the optimal solution is stored for each run, after the evaluation it is possi
   <span class='no'>mut_chance</span>,
   <span class='no'>elitism_rate</span>
   )
+<span class='no'>results</span>
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
+      
+      <li><a href="#value">Value</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

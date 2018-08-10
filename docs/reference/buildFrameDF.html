@@ -6,14 +6,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Builds the "frame" dataframe from a dataset containing information on
+<title>Builds the "sampling frame" dataframe from a dataset containing information on
 all the units in the population of reference — buildFrameDF • SamplingStrata</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/Cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -31,18 +31,16 @@ all the units in the population of reference — buildFrameDF • SamplingStrata
 
 
 
-  <link href="../extra.css" rel="stylesheet">
-  
-<meta property="og:title" content="Builds the "frame" dataframe from a dataset containing information on
+<meta property="og:title" content="Builds the "sampling frame" dataframe from a dataset containing information on
 all the units in the population of reference — buildFrameDF" />
 
 <meta property="og:description" content="This function allows to build the information regarding the sampling frame of the population of reference.
 Mandatory variables are:
-- the name of the dataset containing the sampling frame of the population of reference
-- an identifier (Id)
-- a set of auxiliary variables X
-- a set of target variables Y
-- the indicator of the domain to which the unit belongs" />
+(i) the name of the dataset containing the sampling frame of the population of reference
+(ii) an identifier (Id)
+(iii) a set of auxiliary variables X
+(iv) a set of target variables Y
+(v) the indicator of the domain to which the unit belongs" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -56,12 +54,22 @@ Mandatory variables are:
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84499524-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-84499524-2');
+</script>
+
   </head>
 
   <body>
     <div class="container template-reference-topic">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -79,26 +87,71 @@ Mandatory variables are:
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fa fa-home"></span>
      
   </a>
-</li>
-<li>
-  <a href="../articles/SamplingStrata.html">Get started</a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/barcaroli/SamplingStrata">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fas fa fas fa-book"></span>
+     
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/installation.html">Installation</a>
+    </li>
+    <li>
+      <a href="../articles/interactive_execution.html">Interactive Execution - the SamplingStrata GUI</a>
+    </li>
+    <li>
+      <a href="../articles/noninteractive_execution.html">Non-Interactive Execution from within R</a>
+    </li>
+    <li>
+      <a href="../articles/standalone_execution.html">Standalone Execution and Scheduled Processing</a>
+    </li>
+    <li>
+      <a href="../articles/output.html">Outputs Format and Naming Conventions</a>
+    </li>
+    <li>
+      <a href="../articles/analyze.html">Accessing and Analyzing Processed Data from R</a>
+    </li>
+    <li>
+      <a href="../articles/Products_list.html">Supported MODIS Products</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="../articles/faq.html">
+    <span class="fa fa-question-circle-o"></span>
+     
+    faq
+  </a>
+</li>
+<li>
+  <a href="../news/index.html">
+    <span class="fa fa-newspaper-o"></span>
+     
+    news
+  </a>
+</li>
+<li>
+  <a href="../reference/index.html">
+    <span class="fa fa-file-code-o"></span>
+     
+    functions
+  </a>
+</li>
+<li>
+  <a href="https://github.com/lbusett/SamplingStrata/">
     <span class="fa fa-github fa-lg"></span>
      
+    github
   </a>
 </li>
       </ul>
@@ -113,7 +166,7 @@ Mandatory variables are:
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Builds the "frame" dataframe from a dataset containing information on
+    <h1>Builds the "sampling frame" dataframe from a dataset containing information on
 all the units in the population of reference</h1>
     
     <div class="hidden name"><code>buildFrameDF.Rd</code></div>
@@ -123,11 +176,11 @@ all the units in the population of reference</h1>
     
     <p>This function allows to build the information regarding the sampling frame of the population of reference.
 Mandatory variables are:
-- the name of the dataset containing the sampling frame of the population of reference
-- an identifier (Id)
-- a set of auxiliary variables X
-- a set of target variables Y
-- the indicator of the domain to which the unit belongs</p>
+(i) the name of the dataset containing the sampling frame of the population of reference
+(ii) an identifier (Id)
+(iii) a set of auxiliary variables X
+(iv) a set of target variables Y
+(v) the indicator of the domain to which the unit belongs</p>
     
     </div>
 
@@ -168,19 +221,15 @@ Mandatory variables are:
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>swissmunicipalities</span>)
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>data</span>(<span class='no'>swissmunicipalities</span>)
 <span class='no'>id</span> <span class='kw'>=</span> <span class='st'>"Nom"</span>
 <span class='no'>X</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Surfacesbois"</span>,<span class='st'>"Surfacescult"</span>)
 <span class='no'>Y</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Pop020"</span>,<span class='st'>"Pop2040"</span>)
 <span class='no'>domainvalue</span> <span class='kw'>=</span> <span class='st'>"REG"</span>
 <span class='no'>frame</span> <span class='kw'>&lt;-</span> <span class='fu'>buildFrameDF</span>(<span class='no'>swissmunicipalities</span>,<span class='no'>id</span>,<span class='no'>X</span>,<span class='no'>Y</span>,<span class='no'>domainvalue</span>)
-<span class='fu'>head</span>(<span class='no'>frame</span>)</div><div class='output co'>#&gt;           id   X1   X2    Y1     Y2 domainvalue
-#&gt; 1     Zurich 2326  967 57324 131422           4
-#&gt; 2     Geneve   67   31 32429  60074           1
-#&gt; 3      Basel   97   93 28161  50349           3
-#&gt; 4       Bern 1726 1041 19399  44263           2
-#&gt; 5   Lausanne 1635  714 24291  44202           1
-#&gt; 6 Winterthur 2807 1827 18942  28958           4</div></pre>
+<span class='fu'>head</span>(<span class='no'>frame</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -6,16 +6,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Allows to evaluate the solution produced by the function 'optimizeStrata' by
-selecting a number of samples from the frame with the optimal stratification, and
-calculating average CV's on the target variables Y's together with differences
-between estimates and the values of the parameters in the population. — evalSolution • SamplingStrata</title>
+<title>Evaluation of the solution produced by the function 'optimizeStrata' by
+selecting a number of samples from the frame with the optimal stratification, and calculating average CV's on the target variables Y's. — evalSolution • SamplingStrata</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/Cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -33,18 +31,10 @@ between estimates and the values of the parameters in the population. — evalSo
 
 
 
-  <link href="../extra.css" rel="stylesheet">
-  
-<meta property="og:title" content="Allows to evaluate the solution produced by the function 'optimizeStrata' by
-selecting a number of samples from the frame with the optimal stratification, and
-calculating average CV's on the target variables Y's together with differences
-between estimates and the values of the parameters in the population. — evalSolution" />
+<meta property="og:title" content="Evaluation of the solution produced by the function 'optimizeStrata' by
+selecting a number of samples from the frame with the optimal stratification, and calculating average CV's on the target variables Y's. — evalSolution" />
 
-<meta property="og:description" content="The user can indicate the number of samples that must be selected by the frame to which 
-the optimal stratification has been applied. The allocation is the one reported in the
-dataframe 'outstrata'. First, the true values of the parameters are calculated from the
-frame. Then, for each sample the sampling estimates are calculated, together with the 
-differences between them and the true values of the parameters.
+<meta property="og:description" content="The user can indicate the number of samples that must be selected by the optmized frame. First, the true values of the parameters are calculated from the frame. Then, for each sample the sampling estimates are calculated, together with the differences between them and the true values of the parameters.
 At the end, an estimate of the CV is produced for each target variable, in order to compare them
 with the precision constraints set at the beginning of the optimization process.
 If the flag 'writeFiles' is set to TRUE, boxplots of distribution of the CV's in the different 
@@ -64,12 +54,22 @@ in the population ('differences.pdf')." />
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84499524-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-84499524-2');
+</script>
+
   </head>
 
   <body>
     <div class="container template-reference-topic">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -87,26 +87,71 @@ in the population ('differences.pdf')." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fa fa-home"></span>
      
   </a>
-</li>
-<li>
-  <a href="../articles/SamplingStrata.html">Get started</a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/barcaroli/SamplingStrata">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fas fa fas fa-book"></span>
+     
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/installation.html">Installation</a>
+    </li>
+    <li>
+      <a href="../articles/interactive_execution.html">Interactive Execution - the SamplingStrata GUI</a>
+    </li>
+    <li>
+      <a href="../articles/noninteractive_execution.html">Non-Interactive Execution from within R</a>
+    </li>
+    <li>
+      <a href="../articles/standalone_execution.html">Standalone Execution and Scheduled Processing</a>
+    </li>
+    <li>
+      <a href="../articles/output.html">Outputs Format and Naming Conventions</a>
+    </li>
+    <li>
+      <a href="../articles/analyze.html">Accessing and Analyzing Processed Data from R</a>
+    </li>
+    <li>
+      <a href="../articles/Products_list.html">Supported MODIS Products</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="../articles/faq.html">
+    <span class="fa fa-question-circle-o"></span>
+     
+    faq
+  </a>
+</li>
+<li>
+  <a href="../news/index.html">
+    <span class="fa fa-newspaper-o"></span>
+     
+    news
+  </a>
+</li>
+<li>
+  <a href="../reference/index.html">
+    <span class="fa fa-file-code-o"></span>
+     
+    functions
+  </a>
+</li>
+<li>
+  <a href="https://github.com/lbusett/SamplingStrata/">
     <span class="fa fa-github fa-lg"></span>
      
+    github
   </a>
 </li>
       </ul>
@@ -121,21 +166,15 @@ in the population ('differences.pdf')." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Allows to evaluate the solution produced by the function 'optimizeStrata' by
-selecting a number of samples from the frame with the optimal stratification, and
-calculating average CV's on the target variables Y's together with differences
-between estimates and the values of the parameters in the population.</h1>
+    <h1>Evaluation of the solution produced by the function 'optimizeStrata' by
+selecting a number of samples from the frame with the optimal stratification, and calculating average CV's on the target variables Y's.</h1>
     
     <div class="hidden name"><code>evalSolution.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The user can indicate the number of samples that must be selected by the frame to which 
-the optimal stratification has been applied. The allocation is the one reported in the
-dataframe 'outstrata'. First, the true values of the parameters are calculated from the
-frame. Then, for each sample the sampling estimates are calculated, together with the 
-differences between them and the true values of the parameters.
+    <p>The user can indicate the number of samples that must be selected by the optmized frame. First, the true values of the parameters are calculated from the frame. Then, for each sample the sampling estimates are calculated, together with the differences between them and the true values of the parameters.
 At the end, an estimate of the CV is produced for each target variable, in order to compare them
 with the precision constraints set at the beginning of the optimization process.
 If the flag 'writeFiles' is set to TRUE, boxplots of distribution of the CV's in the different 
@@ -157,19 +196,19 @@ in the population ('differences.pdf').</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>frame</th>
-      <td><p>The frame to which the optimal stratification has been applied ('framenew')</p></td>
+      <td><p>The frame to which the optimal stratification has been applied.</p></td>
     </tr>
     <tr>
       <th>outstrata</th>
-      <td><p>The new (aggregated) strata generated by the function 'optimizeStrata'</p></td>
+      <td><p>The new (aggregated) strata generated by the function 'optimizeStrata'.</p></td>
     </tr>
     <tr>
       <th>nsampl</th>
-      <td><p>The number of sample to be drawn from the frame</p></td>
+      <td><p>The number of samples to be drawn from the frame.</p></td>
     </tr>
     <tr>
       <th>cens</th>
-      <td><p>A dataframe containing units to be censused</p></td>
+      <td><p>A dataframe containing units to be selected in any cases.</p></td>
     </tr>
     <tr>
       <th>writeFiles</th>
@@ -194,23 +233,8 @@ in the population ('differences.pdf').</p>
 <span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> (
         <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>swisserrors</span>,
         <span class='kw'>strata</span> <span class='kw'>=</span> <span class='no'>swissstrata</span>,
-        <span class='kw'>cens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-        <span class='kw'>strcens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-        <span class='kw'>alldomains</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-        <span class='kw'>dom</span> <span class='kw'>=</span> <span class='no'>dominio</span>,
-        <span class='kw'>initialStrata</span> <span class='kw'>=</span> <span class='fu'>nrow</span>(<span class='no'>swissstrata</span>)/<span class='fl'>3</span>,
-        <span class='kw'>addStrataFactor</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-        <span class='kw'>minnumstr</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-        <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-        <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-        <span class='kw'>mut_chance</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-        <span class='kw'>elitism_rate</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
-        <span class='kw'>highvalue</span> <span class='kw'>=</span> <span class='fl'>100000000</span>,
-        <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-        <span class='kw'>realAllocation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-        <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+)
 <span class='co'># update sampling strata with new strata labels</span>
-<span class='co'>#swissstrata &lt;- swissstrata[swissstrata$DOM1 == dominio,]</span>
 <span class='no'>newstrata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='updateStrata.html'>updateStrata</a></span>(<span class='no'>swissstrata</span>, <span class='no'>solution</span>, <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='co'># update sampling frame with new strata labels</span>
 <span class='fu'>data</span>(<span class='no'>swissframe</span>)
@@ -218,30 +242,8 @@ in the population ('differences.pdf').</p>
 <span class='no'>samp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='selectSample.html'>selectSample</a></span>(<span class='no'>framenew</span>,<span class='no'>solution</span>$<span class='no'>aggr_strata</span>,<span class='kw'>writeFiles</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='co'># evaluate the current solution</span>
 <span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>evalSolution</span>(<span class='no'>framenew</span>, <span class='no'>solution</span>$<span class='no'>aggr_strata</span>, <span class='fl'>10</span>, <span class='kw'>cens</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
-<span class='no'>diff</span> <span class='kw'>&lt;-</span> <span class='fu'>read.csv</span>(<span class='st'>"differences.csv"</span>)
-<span class='no'>numY</span> <span class='kw'>&lt;-</span> <span class='fu'>sum</span>(<span class='fu'>grepl</span>(<span class='st'>"diff"</span>, <span class='fu'>colnames</span>(<span class='no'>diff</span>)))
-<span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ceiling</span>(<span class='no'>numY</span>/<span class='fl'>4</span>)
-<span class='fu'>close.screen</span>(<span class='kw'>all.screens</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='kw'>for</span> (<span class='no'>j</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='no'>k</span>) {
-  <span class='fu'>split.screen</span>(<span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>2</span>))
-  <span class='no'>m</span> <span class='kw'>=</span> <span class='fl'>0</span>
-  <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> (<span class='fl'>1</span> + <span class='fl'>4</span> * (<span class='no'>j</span> - <span class='fl'>1</span>)):(<span class='fl'>4</span> * <span class='no'>j</span>)) {
-    <span class='kw'>if</span> (<span class='no'>i</span> <span class='kw'>&lt;=</span> <span class='no'>numY</span>) {
-      <span class='no'>m</span> <span class='kw'>=</span> <span class='no'>m</span>+<span class='fl'>1</span>
-      <span class='no'>stmt</span> <span class='kw'>&lt;-</span> <span class='fu'>paste</span>(<span class='st'>"screen("</span>, <span class='no'>m</span>, <span class='st'>")"</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>""</span>)
-      <span class='fu'>eval</span>(<span class='fu'>parse</span>(<span class='kw'>text</span> <span class='kw'>=</span> <span class='no'>stmt</span>))
-      <span class='no'>stmt</span> <span class='kw'>&lt;-</span> <span class='fu'>paste</span>(<span class='st'>"boxplot(diff"</span>,<span class='no'>i</span>,<span class='st'>"~dom,
-                    data=diff,ylab='Differences',
-                    xlab='Domain',col = 'orange')"</span>,<span class='kw'>sep</span><span class='kw'>=</span><span class='st'>""</span>)
-      <span class='fu'>eval</span>(<span class='fu'>parse</span>(<span class='kw'>text</span> <span class='kw'>=</span> <span class='no'>stmt</span>))
-      <span class='no'>stmt</span> <span class='kw'>&lt;-</span> <span class='fu'>paste</span>(<span class='st'>"mtext(expression(Y"</span>, <span class='no'>i</span> , <span class='st'>"), side=3, adj=0, cex=1.0, line=1)"</span>,
-                    <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>""</span>)
-      <span class='fu'>eval</span>(<span class='fu'>parse</span>(<span class='kw'>text</span> <span class='kw'>=</span> <span class='no'>stmt</span>))
-    }
-  }
-  <span class='fu'>close.screen</span>(<span class='kw'>all.screens</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-}
+<span class='no'>results</span>$<span class='no'>coeff_var</span>
+<span class='no'>results</span>$<span class='no'>rel_bias</span>
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

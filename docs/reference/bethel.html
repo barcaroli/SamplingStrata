@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/Cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -30,11 +30,9 @@
 
 
 
-  <link href="../extra.css" rel="stylesheet">
-  
 <meta property="og:title" content="Multivariate optimal allocation — bethel" />
 
-<meta property="og:description" content="Multivariate optimal allocation for different domains of interest in stratified sample design" />
+<meta property="og:description" content="Multivariate optimal allocation for different domains of interest in stratified sample design under a given stratification of the sampling frame" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -48,12 +46,22 @@
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84499524-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-84499524-2');
+</script>
+
   </head>
 
   <body>
     <div class="container template-reference-topic">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -71,26 +79,71 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fa fa-home"></span>
      
   </a>
-</li>
-<li>
-  <a href="../articles/SamplingStrata.html">Get started</a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/barcaroli/SamplingStrata">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fas fa fas fa-book"></span>
+     
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/installation.html">Installation</a>
+    </li>
+    <li>
+      <a href="../articles/interactive_execution.html">Interactive Execution - the SamplingStrata GUI</a>
+    </li>
+    <li>
+      <a href="../articles/noninteractive_execution.html">Non-Interactive Execution from within R</a>
+    </li>
+    <li>
+      <a href="../articles/standalone_execution.html">Standalone Execution and Scheduled Processing</a>
+    </li>
+    <li>
+      <a href="../articles/output.html">Outputs Format and Naming Conventions</a>
+    </li>
+    <li>
+      <a href="../articles/analyze.html">Accessing and Analyzing Processed Data from R</a>
+    </li>
+    <li>
+      <a href="../articles/Products_list.html">Supported MODIS Products</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="../articles/faq.html">
+    <span class="fa fa-question-circle-o"></span>
+     
+    faq
+  </a>
+</li>
+<li>
+  <a href="../news/index.html">
+    <span class="fa fa-newspaper-o"></span>
+     
+    news
+  </a>
+</li>
+<li>
+  <a href="../reference/index.html">
+    <span class="fa fa-file-code-o"></span>
+     
+    functions
+  </a>
+</li>
+<li>
+  <a href="https://github.com/lbusett/SamplingStrata/">
     <span class="fa fa-github fa-lg"></span>
      
+    github
   </a>
 </li>
       </ul>
@@ -112,7 +165,7 @@
 
     <div class="ref-description">
     
-    <p>Multivariate optimal allocation for different domains of interest in stratified sample design</p>
+    <p>Multivariate optimal allocation for different domains of interest in stratified sample design under a given stratification of the sampling frame</p>
     
     </div>
 
@@ -176,26 +229,15 @@ if it it is lower than "epsilon", then the procedure stops</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>SamplingStrata</span>)
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>library</span>(<span class='no'>SamplingStrata</span>)
 <span class='fu'>data</span>(<span class='no'>strata</span>)
 <span class='fu'>data</span>(<span class='no'>errors</span>)
 <span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fu'>bethel</span>(<span class='no'>strata</span>, <span class='no'>errors</span>, <span class='kw'>printa</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'>sum</span>(<span class='no'>n</span>)</div><div class='output co'>#&gt; [1] 168</div><div class='input'><span class='fu'>attributes</span>(<span class='no'>n</span>)$<span class='no'>confr</span></div><div class='output co'>#&gt;       STRATUM POPULATION BETHEL PROPORTIONAL EQUAL
-#&gt;  [1,] "STR1"  "2246"     "15"   "13"         "14" 
-#&gt;  [2,] "STR2"  "2972"     "17"   "17"         "14" 
-#&gt;  [3,] "STR3"  "1905"     "11"   "11"         "14" 
-#&gt;  [4,] "STR4"  "3125"     "18"   "18"         "14" 
-#&gt;  [5,] "STR5"  "1733"     "11"   "10"         "14" 
-#&gt;  [6,] "STR6"  "1060"     "4"    "6"          "14" 
-#&gt;  [7,] "STR7"  "2928"     "11"   "16"         "14" 
-#&gt;  [8,] "STR8"  "2498"     "13"   "14"         "14" 
-#&gt;  [9,] "STR9"  "3715"     "16"   "21"         "14" 
-#&gt; [10,] "STR10" "3128"     "17"   "18"         "14" 
-#&gt; [11,] "STR11" "3868"     "25"   "22"         "14" 
-#&gt; [12,] "STR12" "1641"     "10"   "9"          "14" 
-#&gt; [13,] "TOTAL" "30819"    "168"  "175"        "168"</div><div class='input'><span class='fu'>attributes</span>(<span class='no'>n</span>)$<span class='no'>outcv</span></div><div class='output co'>#&gt;      TYPE   DOMAIN/VAR. PLANNED CV  ACTUAL CV SENSITIVITY 10%
-#&gt; [1,] "DOM1" "tot/V1"    "0.04"      "0.0392"  "33"           
-#&gt; [2,] "DOM1" "tot/V2"    "0.06"      "0.0332"  "1"            </div></pre>
+<span class='fu'>sum</span>(<span class='no'>n</span>)
+<span class='fu'>attributes</span>(<span class='no'>n</span>)$<span class='no'>confr</span>
+<span class='fu'>attributes</span>(<span class='no'>n</span>)$<span class='no'>outcv</span>
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

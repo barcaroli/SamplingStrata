@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/Cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -30,8 +30,6 @@
 
 
 
-  <link href="../extra.css" rel="stylesheet">
-  
 <meta property="og:title" content="Best stratification of a sampling frame for multipurpose surveys — optimizeStrata" />
 
 <meta property="og:description" content="This function runs a set of other functions to optimise the stratification of a sampling frame" />
@@ -48,12 +46,22 @@
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84499524-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-84499524-2');
+</script>
+
   </head>
 
   <body>
     <div class="container template-reference-topic">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -71,26 +79,71 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fa fa-home"></span>
      
   </a>
-</li>
-<li>
-  <a href="../articles/SamplingStrata.html">Get started</a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/barcaroli/SamplingStrata">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fas fa fas fa-book"></span>
+     
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/installation.html">Installation</a>
+    </li>
+    <li>
+      <a href="../articles/interactive_execution.html">Interactive Execution - the SamplingStrata GUI</a>
+    </li>
+    <li>
+      <a href="../articles/noninteractive_execution.html">Non-Interactive Execution from within R</a>
+    </li>
+    <li>
+      <a href="../articles/standalone_execution.html">Standalone Execution and Scheduled Processing</a>
+    </li>
+    <li>
+      <a href="../articles/output.html">Outputs Format and Naming Conventions</a>
+    </li>
+    <li>
+      <a href="../articles/analyze.html">Accessing and Analyzing Processed Data from R</a>
+    </li>
+    <li>
+      <a href="../articles/Products_list.html">Supported MODIS Products</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="../articles/faq.html">
+    <span class="fa fa-question-circle-o"></span>
+     
+    faq
+  </a>
+</li>
+<li>
+  <a href="../news/index.html">
+    <span class="fa fa-newspaper-o"></span>
+     
+    news
+  </a>
+</li>
+<li>
+  <a href="../reference/index.html">
+    <span class="fa fa-file-code-o"></span>
+     
+    functions
+  </a>
+</li>
+<li>
+  <a href="https://github.com/lbusett/SamplingStrata/">
     <span class="fa fa-github fa-lg"></span>
      
+    github
   </a>
 </li>
       </ul>
@@ -142,8 +195,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>errors</th>
-      <td><p>This is the (mandatory) dataframe containing the precision levels expressed in terms of Coefficients of Variation
-  that estimates on target variables Y's of the survey must comply.</p></td>
+      <td><p>This is the (mandatory) dataframe containing the precision levels expressed in terms of maximum expected value of the Coefficients of Variation
+  related to target variables of the survey.</p></td>
     </tr>
     <tr>
       <th>strata</th>
@@ -153,8 +206,7 @@
     </tr>
     <tr>
       <th>cens</th>
-      <td><p>This the (optional) dataframe containing the takeall strata, those strata whose units must be selected in 
-  whatever sample. It has same structure than "strata" dataframe.</p></td>
+      <td><p>This the (optional) dataframe containing the takeall strata, those strata whose units must be selected in whatever sample. It has same structure than "strata" dataframe.</p></td>
     </tr>
     <tr>
       <th>strcens</th>
@@ -172,7 +224,7 @@
     </tr>
     <tr>
       <th>initialStrata</th>
-      <td><p>This is the initial limit on the number of strata for each solution. Default is NA, and in this case it is set equal to the
+      <td><p>This is the initial limit on the number of strata in the different domains for each solution. Default is NA, and in this case it is set equal to the
   number of atomic strata in each domain.</p></td>
     </tr>
     <tr>
@@ -207,12 +259,11 @@
     </tr>
     <tr>
       <th>highvalue</th>
-      <td><p>Parameter for genetic algorithm. Not to be changed</p></td>
+      <td><p>Parameter for genetic algorithm. In should not be changed</p></td>
     </tr>
     <tr>
       <th>suggestions</th>
-      <td><p>Optional parameter for genetic algorithm that indicates the kmeans solution has to be introduced in the initial population. 
-  Default is NULL.</p></td>
+      <td><p>Optional parameter for genetic algorithm that indicates a suggested solution to be introduced in the initial population. The most convenient is the one found by the function "KmeanSolution". Default is NULL.</p></td>
     </tr>
     <tr>
       <th>realAllocation</th>
@@ -238,64 +289,7 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>#
-# This is a toy example, and can be run
-#
-</div><div class='input'><span class='fu'>library</span>(<span class='no'>SamplingStrata</span>)
-<span class='fu'>data</span>(<span class='no'>errors</span>)
-<span class='fu'>data</span>(<span class='no'>strata</span>)
-<span class='co'># optimisation of sampling strata</span>
-<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'>optimizeStrata</span> (
-    <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>errors</span>,
-    <span class='kw'>strata</span> <span class='kw'>=</span> <span class='no'>strata</span>,
-    <span class='kw'>cens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-    <span class='kw'>strcens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-    <span class='kw'>initialStrata</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-    <span class='kw'>addStrataFactor</span> <span class='kw'>=</span> <span class='fl'>0.0</span>,
-    <span class='kw'>minnumstr</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-    <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>30</span>,
-    <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-    <span class='kw'>mut_chance</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-    <span class='kw'>elitism_rate</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
-    <span class='kw'>highvalue</span> <span class='kw'>=</span> <span class='fl'>100000000</span>,
-    <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-        <span class='kw'>realAllocation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-        <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-        <span class='kw'>showPlot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
-#&gt;  *** Domain :  1   1
-#&gt;  Number of strata :  12
-#&gt; ---------------------------------------------
-#&gt; Optimal stratification with Genetic Algorithm
-#&gt; ---------------------------------------------
-#&gt;  *** Parameters ***
-#&gt; ---------------------------
-#&gt; Domain:  1
-#&gt; Maximum number of strata:  12
-#&gt; Minimum number of units per stratum:  2
-#&gt; Take-all strata (TRUE/FALSE):  FALSE
-#&gt; number of sampling strata :  12
-#&gt; Number of target variables:  2
-#&gt; Number of domains:  1
-#&gt; Number of GA iterations:  30
-#&gt; Dimension of GA population:  20
-#&gt; Mutation chance in GA generation:  NA
-#&gt; Elitism rate in GA generation:  0.2
-#&gt; Chance to add strata to maximum:  0
-#&gt; Allocation with real numbers instead of integers:  TRUE</div><div class='img'><img src='optimizeStrata-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-4.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-5.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-6.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-8.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-9.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-10.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-11.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-12.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-13.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-14.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-15.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-16.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-17.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-18.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-19.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-20.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-21.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-22.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-23.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-24.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-25.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-26.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-27.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-28.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-29.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-30.png' alt='' width='700' height='433' /></div><div class='img'><img src='optimizeStrata-31.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
-#&gt;  *** Sample cost:  161.8991
-#&gt;  *** Number of strata:  7
-#&gt;  *** Sample size :  162
-#&gt;  *** Number of strata :  7
-#&gt; ---------------------------</div><div class='input'><span class='fu'>sum</span>(<span class='fu'>ceiling</span>(<span class='no'>solution</span>$<span class='no'>aggr_strata</span>$<span class='no'>SOLUZ</span>))</div><div class='output co'>#&gt; [1] 165</div><div class='input'><span class='fu'>head</span>(<span class='no'>solution</span>$<span class='no'>aggr_strata</span>)</div><div class='output co'>#&gt;   STRATO       M1       M2       S1       S2    N DOM1 COST CENS    SOLUZ
-#&gt; 1      1 154.6408 501.8157 86.43062 235.7758 4744    1    1    0 27.57887
-#&gt; 2      2 178.7464 542.2347 78.96410 205.7525 6100    1    1    0 32.39841
-#&gt; 3      3 186.1680 544.3102 81.89640 248.7376 6671    1    1    0 36.74684
-#&gt; 4      4 109.9850 418.2234 88.17743 179.1054 1733    1    1    0 10.27828
-#&gt; 5      5 115.8929 422.3461 60.42800 189.0382 4775    1    1    0 19.40778
-#&gt; 6      6 150.4128 550.2302 55.69154 177.3197 2928    1    1    0 10.96793</div><div class='input'>#
-# The following example is realistic, but is time consuming
-#
-</div><span class='co'># NOT RUN {</span>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'>library</span>(<span class='no'>SamplingStrata</span>)
 <span class='fu'>data</span>(<span class='no'>swissframe</span>)
 <span class='fu'>data</span>(<span class='no'>swisserrors</span>)

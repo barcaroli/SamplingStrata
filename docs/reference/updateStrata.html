@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/Cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -30,8 +30,6 @@
 
 
 
-  <link href="../extra.css" rel="stylesheet">
-  
 <meta property="og:title" content="Assigns new labels to atomic strata on the basis of the optimized aggregated strata — updateStrata" />
 
 <meta property="og:description" content="Once optimal stratification has been obtained ('outstrata'), then we need to attribute 
@@ -55,12 +53,22 @@ containing the indication of the relations bewteen atomic and aggregated strata.
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84499524-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-84499524-2');
+</script>
+
   </head>
 
   <body>
     <div class="container template-reference-topic">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -78,26 +86,71 @@ containing the indication of the relations bewteen atomic and aggregated strata.
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fa fa-home"></span>
      
   </a>
-</li>
-<li>
-  <a href="../articles/SamplingStrata.html">Get started</a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/barcaroli/SamplingStrata">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fas fa fas fa-book"></span>
+     
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/installation.html">Installation</a>
+    </li>
+    <li>
+      <a href="../articles/interactive_execution.html">Interactive Execution - the SamplingStrata GUI</a>
+    </li>
+    <li>
+      <a href="../articles/noninteractive_execution.html">Non-Interactive Execution from within R</a>
+    </li>
+    <li>
+      <a href="../articles/standalone_execution.html">Standalone Execution and Scheduled Processing</a>
+    </li>
+    <li>
+      <a href="../articles/output.html">Outputs Format and Naming Conventions</a>
+    </li>
+    <li>
+      <a href="../articles/analyze.html">Accessing and Analyzing Processed Data from R</a>
+    </li>
+    <li>
+      <a href="../articles/Products_list.html">Supported MODIS Products</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="../articles/faq.html">
+    <span class="fa fa-question-circle-o"></span>
+     
+    faq
+  </a>
+</li>
+<li>
+  <a href="../news/index.html">
+    <span class="fa fa-newspaper-o"></span>
+     
+    news
+  </a>
+</li>
+<li>
+  <a href="../reference/index.html">
+    <span class="fa fa-file-code-o"></span>
+     
+    functions
+  </a>
+</li>
+<li>
+  <a href="https://github.com/lbusett/SamplingStrata/">
     <span class="fa fa-github fa-lg"></span>
      
+    github
   </a>
 </li>
       </ul>
@@ -158,57 +211,7 @@ containing the indication of the relations bewteen atomic and aggregated strata.
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>#
-# This is a toy example, and can be run
-#
-</div><div class='input'><span class='fu'>library</span>(<span class='no'>SamplingStrata</span>)
-<span class='fu'>data</span>(<span class='no'>errors</span>)
-<span class='fu'>data</span>(<span class='no'>strata</span>)
-<span class='co'># optimisation of sampling strata</span>
-<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> (
-    <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>errors</span>,
-    <span class='kw'>strata</span> <span class='kw'>=</span> <span class='no'>strata</span>,
-    <span class='kw'>cens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-    <span class='kw'>strcens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-    <span class='kw'>initialStrata</span> <span class='kw'>=</span> <span class='fl'>3000</span>,
-    <span class='kw'>addStrataFactor</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-    <span class='kw'>minnumstr</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-    <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>30</span>,
-    <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-    <span class='kw'>mut_chance</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-    <span class='kw'>elitism_rate</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
-    <span class='kw'>highvalue</span> <span class='kw'>=</span> <span class='fl'>100000000</span>,
-    <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-        <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; 
-#&gt;  *** Domain :  1   1
-#&gt;  Number of strata :  12
-#&gt; ---------------------------------------------
-#&gt; Optimal stratification with Genetic Algorithm
-#&gt; ---------------------------------------------
-#&gt;  *** Parameters ***
-#&gt; ---------------------------
-#&gt; Domain:  1
-#&gt; Maximum number of strata:  3000
-#&gt; Minimum number of units per stratum:  2
-#&gt; Take-all strata (TRUE/FALSE):  FALSE
-#&gt; number of sampling strata :  12
-#&gt; Number of target variables:  2
-#&gt; Number of domains:  1
-#&gt; Number of GA iterations:  30
-#&gt; Dimension of GA population:  20
-#&gt; Mutation chance in GA generation:  0.05
-#&gt; Elitism rate in GA generation:  0.2
-#&gt; Chance to add strata to maximum:  0.01
-#&gt; Allocation with real numbers instead of integers:  TRUE</div><div class='img'><img src='updateStrata-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-4.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-5.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-6.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-8.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-9.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-10.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-11.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-12.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-13.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-14.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-15.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-16.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-17.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-18.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-19.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-20.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-21.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-22.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-23.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-24.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-25.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-26.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-27.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-28.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-29.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-30.png' alt='' width='700' height='433' /></div><div class='img'><img src='updateStrata-31.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
-#&gt;  *** Sample cost:  161.0201
-#&gt;  *** Number of strata:  12
-#&gt;  *** Sample size :  160
-#&gt;  *** Number of strata :  12
-#&gt; ---------------------------</div><div class='input'><span class='co'># updating sampling strata with new strata labels</span>
-<span class='no'>newstrata</span> <span class='kw'>&lt;-</span> <span class='fu'>updateStrata</span>(<span class='no'>strata</span>, <span class='no'>solution</span>)</div><div class='input'>#
-# The following example is realistic, but is time consuming
-#
-</div><span class='co'># NOT RUN {</span>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'>library</span>(<span class='no'>SamplingStrata</span>)
 <span class='fu'>data</span>(<span class='no'>swisserrors</span>)
 <span class='fu'>data</span>(<span class='no'>swissstrata</span>)
@@ -216,20 +219,9 @@ containing the indication of the relations bewteen atomic and aggregated strata.
 <span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> (
     <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>swisserrors</span>,
     <span class='kw'>strata</span> <span class='kw'>=</span> <span class='no'>swissstrata</span>,
-    <span class='kw'>cens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-    <span class='kw'>strcens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-    <span class='kw'>initialStrata</span> <span class='kw'>=</span> <span class='fl'>3000</span>,
-    <span class='kw'>addStrataFactor</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-    <span class='kw'>minnumstr</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-    <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>60</span>,
-    <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-    <span class='kw'>mut_chance</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-    <span class='kw'>elitism_rate</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
-    <span class='kw'>highvalue</span> <span class='kw'>=</span> <span class='fl'>100000000</span>,
-    <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-        <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+)
 <span class='co'># updating sampling strata with new strata labels</span>
-<span class='no'>newstrata</span> <span class='kw'>&lt;-</span> <span class='fu'>updateStrata</span>(<span class='no'>swissstrata</span>, <span class='no'>solution</span>)
+<span class='no'>newstrata</span> <span class='kw'>&lt;-</span> <span class='fu'>updateStrata</span>(<span class='no'>swissstrata</span>, <span class='no'>solution</span>, <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
