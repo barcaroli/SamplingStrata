@@ -32,6 +32,7 @@ Giulio Barcaroli
 
 
 \examples{
+\dontrun{
 library(SamplingStrata)
 data(swisserrors)
 data(swissstrata)
@@ -39,6 +40,7 @@ data(swissframe)
 checkInput(swisserrors,swissstrata,swissframe)
 checkInput(strata=swissstrata,sampframe=swissframe)
 checkInput(strata=swissstrata)
+}
 }
 \keyword{ survey }
 

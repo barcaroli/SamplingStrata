@@ -1,5 +1,5 @@
 \name{buildFrameDF}
-\Rdversion{1.2}
+\Rdversion{1.3}
 \alias{buildFrameDF}
 \title{
 Builds the "sampling frame" dataframe from a dataset containing information on
@@ -46,6 +46,7 @@ Giulio Barcaroli
 }
 
 \examples{
+\dontrun{
 data(swissmunicipalities)
 id = "Nom"
 X = c("Surfacesbois","Surfacescult")
@@ -54,5 +55,7 @@ domainvalue = "REG"
 frame <- buildFrameDF(swissmunicipalities,id,X,Y,domainvalue)
 head(frame)
 }
+}
 \keyword{ survey }
+
 

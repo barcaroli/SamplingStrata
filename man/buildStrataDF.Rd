@@ -56,12 +56,12 @@ Giulio Barcaroli
 }
 
 \examples{
+\dontrun{
 # Plain example without model
 data(swissframe)
 strata <- buildStrataDF(dataset=swissframe,model=NULL)
 head(strata)
 
-\dontrun{
 # More complex example with models
 library(SamplingStrata)
 data(swissmunicipalities)

@@ -60,6 +60,7 @@ Daniela Pagliuca with contributions from Teresa Buglielli and Giulio Barcaroli
 }
 
 \examples{
+\dontrun{
 library(SamplingStrata)
 data(strata)
 data(errors)
@@ -67,6 +68,7 @@ n <- bethel(strata, errors, printa=TRUE)
 sum(n)
 attributes(n)$confr
 attributes(n)$outcv
+}
 }
 \keyword{ survey }
 

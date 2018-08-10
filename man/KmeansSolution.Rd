@@ -1,5 +1,5 @@
 \name{KmeansSolution}
-\Rdversion{1.1}
+\Rdversion{1.3}
 \alias{KmeansSolution}
 \title{
 Initial solution obtained by applying kmeans clustering of atomic strata
