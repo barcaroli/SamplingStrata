@@ -11,7 +11,7 @@ tuneParameters <- function (noptim, nsampl, frame, errors = errors, strata = str
 {
   if (writeFiles == TRUE) {
     dire <- getwd()
-    direnew <- paste(dire,"/output",sep="")
+    direnew <- paste(dire,"/simulation",sep="")
     if(!dir.exists(direnew)) dir.create(direnew)
     setwd(direnew)
   }
@@ -88,7 +88,7 @@ tuneParameters <- function (noptim, nsampl, frame, errors = errors, strata = str
             dom = dom, initialStrata = initialStrata[i], addStrataFactor = addStrataFactor[i], 
             minnumstr = minnumstr[i], iter = iter[i], pops = pops[i], 
             mut_chance = mut_chance[i], elitism_rate = elitism_rate[i], 
-            realAllocation = TRUE, highvalue = 1e+08, suggestions = NULL, writeFiles=TRUE)
+            realAllocation = TRUE, highvalue = 1e+08, suggestions = NULL, writeFiles=FALSE)
         file.remove("outstrata.txt")
         eval(parse(text = stmt))
         stmt <- paste("file.remove('strata_dom", dom, "_iter", 
@@ -141,10 +141,12 @@ tuneParameters <- function (noptim, nsampl, frame, errors = errors, strata = str
                 sep = "")
             eval(parse(text = stmt))
         }
-        sink("Iteration.txt", append = TRUE)
-        cat("\nIteration :", i, "\n")
-        simula[i, ]
-        sink()
+        if (writeFiles == TRUE) {
+          sink("Iteration.txt", append = TRUE)
+          cat("\nIteration :", i, "\n")
+          simula[i, ]
+          sink()
+        }
     }
     ind <- which(simula$cost == min(simula$cost))
     cat("--------------------")

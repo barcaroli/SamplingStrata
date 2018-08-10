@@ -68,6 +68,8 @@ framenew <- updateFrame(frame=swissframe,newstrata=newstrata,writeFile=TRUE)
 samp <- selectSample(framenew,solution$aggr_strata,writeFiles=TRUE)
 # evaluate the current solution
 results <- evalSolution(framenew, solution$aggr_strata, 10, cens=NULL, writeFiles = TRUE)
+results$coeff_var
+results$rel_bias
 }
 }
 \keyword{ survey }

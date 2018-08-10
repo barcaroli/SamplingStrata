@@ -34,8 +34,8 @@ solution <- optimizeStrata (
     errors = swisserrors, 
     strata = swissstrata, 
 )
-# plot of the sampling rates in strata of domain 1
-plotSamprate(solution, 1)
+# plot of the sampling rates in strata 
+for (i in (1:length(unique(swissstrata$DOM1)))) plotSamprate(solution, i)
 }
 }
 \keyword{ survey }
