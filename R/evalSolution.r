@@ -156,29 +156,30 @@ evalSolution <- function (frame, outstrata,
             xlab = "Variables Y", ylab = "Relative bias")
     if (writeFiles == TRUE) 
       dev.off()
+    
   }
-  if (writeFiles == TRUE) 
-  # pdf("differences.pdf", width = 14, height = 10)
-  png("differences.png")
-  k <- ceiling(numY/4)
-  for (j in 1:k) {
-    split.screen(c(2, 2))
-    for (i in 1:4) {
-      if (i + 4 * (j - 1) <= numY) {
-        stmt <- paste("screen(", i, ")", sep = "")
-        eval(parse(text = stmt))
-        stmt <- paste("boxplot(diff", i, "~dom,data=diff,ylab='Differences',xlab='Domain',col = 'orange')", 
-                      sep = "")
-        eval(parse(text = stmt))
-        stmt <- paste("mtext(expression(Y", i, "), side=3, adj=0, cex=1.0, line=1)", 
-                      sep = "")
-        eval(parse(text = stmt))
-      }
-    }
-    close.screen(all.screens = TRUE)
-  }
-  if (writeFiles == TRUE) 
-    dev.off()
+  # if (writeFiles == TRUE) 
+  # # pdf("differences.pdf", width = 14, height = 10)
+  # png("differences.png")
+  # k <- ceiling(numY/4)
+  # for (j in 1:k) {
+  #   split.screen(c(2, 2))
+  #   for (i in 1:4) {
+  #     if (i + 4 * (j - 1) <= numY) {
+  #       stmt <- paste("screen(", i, ")", sep = "")
+  #       eval(parse(text = stmt))
+  #       stmt <- paste("boxplot(diff", i, "~dom,data=diff,ylab='Differences',xlab='Domain',col = 'orange')", 
+  #                     sep = "")
+  #       eval(parse(text = stmt))
+  #       stmt <- paste("mtext(expression(Y", i, "), side=3, adj=0, cex=1.0, line=1)", 
+  #                     sep = "")
+  #       eval(parse(text = stmt))
+  #     }
+  #   }
+  #   close.screen(all.screens = TRUE)
+  # }
+  # if (writeFiles == TRUE) 
+  #   dev.off()
   # results <- list(coeff_var = cv1, bias = bias1)
   results <- list(coeff_var = cv, rel_bias = bias)
   if (writeFiles == TRUE) {
