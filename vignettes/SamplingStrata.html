@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Giulio Barcaroli" />
+
+<<<<<<< HEAD
+<meta name="date" content="2018-07-10" />
+=======
+<meta name="date" content="2018-07-11" />
+>>>>>>> 8e2660c99bb16f57debbcdb1336ad8798845558c
+
+<title>Optimization of sampling strata with the SamplingStrata package</title>
+
+
+
+<<<<<<< HEAD
+=======
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+>>>>>>> 8e2660c99bb16f57debbcdb1336ad8798845558c
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Optimization of sampling strata with the SamplingStrata package</h1>
+<h4 class="author"><em>Giulio Barcaroli</em></h4>
+<<<<<<< HEAD
+<h4 class="date"><em>2018-07-10</em></h4>
+=======
+<h4 class="date"><em>2018-07-11</em></h4>
+>>>>>>> 8e2660c99bb16f57debbcdb1336ad8798845558c
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<<<<<<< HEAD
+<p>Let us suppose we need to design a sample survey, having a complete frame containing information on the target population (identifiers plus auxiliary information). If our sample design is a stratified one, we need to choose how to form strata in the population, in order to get the maximum advantage by the available auxiliary information. In other words, we have to decide in which way to combine the values of the auxiliary variables (from now on, the ‘X’ variables) in order to determine a new variable, called ‘stratum’. To do so, we have to take into consideration the target variables of our sample survey (from now on, the ‘Y’ variables): if, to form strata, we choose the X variables most correlated to the Ys, the efficiency of the samples drawn by the resulting stratified frame may be greatly increased. In order to handle the whole auxiliary information in a homogenous way, we have to reduce continuous data to categorical (by mean of a k-means clustering technique, for example). Then, for every set of candidate auxiliary variables Xs, we have to decide (i) what variables to consider as active variables in strata determination, and (ii) for each active variable, what set of values (in general, what aggregation of atomic values) have to be considered. Every combination of values of each active variable determine a particular stratification of the target population, i.e. a possible solution to the problem of ‘best’ stratification. Here, by best stratification, we mean the stratification that ensures the minimum sample cost, sufficient to satisfy a set of precision constraints, set on the accuracy of the estimates of the survey target variables Ys (constraints expressed as maximum allowable sampling variance on estimates in different domains of interest). When the cost of data collection is uniform over the strata, then the total cost is directly proportional to the overall sample size, and the convenience of a particular stratification can be measured by the associated size of the sample, whose estimates are expected to satisfy given accuracy levels. This minimum size can be determined by applying the Bethel algorithm, with its Chromy variant. In general, the number of possible alternative stratifications for a given population may be very high, depending on the number of variables and on the number of their values, and in these cases it is not possible to enumerate them in order to assess the best one. A very convenient solution to this, is the adoption of the evolutionary approach, consisting in applying a genetic algorithm that may converge towards a near-optimal solution after a finite number of iterations. The methodology is fully described in <span class="citation">M. Ballin and Barcaroli (2013)</span>, and a complete illustration of the package, together with a comparison with the <em>stratification</em> package, is in <span class="citation">Barcaroli (2014)</span>. Also a complete application in a case of network data is reported in <span class="citation">Marco Ballin and Barcaroli (2016)</span>. The implementation of the genetic algorithm is based on a modification of the functions in the <em>genalg</em> package <span class="citation">(see Willighagen 2005)</span>. In particular, the crossover operator ha been modified on the basis of the indications given by <span class="citation">O’Luing, Prestwich, and Tarim (2017)</span>.</p>
+=======
+<p>Let us suppose we need to design a sample survey, having a complete frame containing information on the target population (identifiers plus auxiliary information). If our sample design is a stratified one, we need to choose how to form strata in the population, in order to get the maximum advantage by the available auxiliary information. In other words, we have to decide in which way to combine the values of the auxiliary variables (from now on, the ‘X’ variables) in order to determine a new variable, called ‘stratum’. To do so, we have to take into consideration the target variables of our sample survey (from now on, the ‘Y’ variables): if, to form strata, we choose the X variables most correlated to the Y’s, the efficiency of the samples drawn by the resulting stratified frame may be greatly increased. In order to handle the whole auxiliary information in a homogenous way, we have to reduce continuous data to categorical (by mean of a k-means clustering technique, for example). Then, for every set of candidate auxiliary variables X’s, we have to decide (i) what variables to consider as active variables in strata determination, and (ii) for each active variable, what set of values (in general, what aggregation of atomic values) have to be considered. Every combination of values of each active variable determine a particular stratification of the target population, i.e. a possible solution to the problem of ‘best’ stratification. Here, by best stratification, we mean the stratification that ensures the minimum sample cost, sufficient to satisfy a set of precision constraints, set on the accuracy of the estimates of the survey target variables Y’s (constraints expressed as maximum allowable sampling variance on estimates in different domains of interest). When the cost of data collection is uniform over the strata, then the total cost is directly proportional to the overall sample size, and the convenience of a particular stratification can be measured by the associated size of the sample, whose estimates are expected to satisfy given accuracy levels. This minimum size can be determined by applying the Bethel algorithm, with its Chromy variant. In general, the number of possible alternative stratifications for a given population may be very high, depending on the number of variables and on the number of their values, and in these cases it is not possible to enumerate them in order to assess the best one. A very convenient solution to this, is the adoption of the evolutionary approach, consisting in applying a genetic algorithm that may converge towards a near-optimal solution after a finite number of iterations. The methodology is fully described in <span class="citation">M. Ballin and Barcaroli (2013)</span>, and a complete illustration of the package, together with a comparison with the <em>stratification</em> package, is in <span class="citation">Barcaroli (2014)</span>. Also a complete application in a case of network data is reported in <span class="citation">Marco Ballin and Barcaroli (2016)</span>. The implementation of the genetic algorithm is based on a modification of the functions in the <em>genalg</em> package <span class="citation">(see Willighagen 2005)</span>. In particular, the crossover operator ha been modified on the basis of the indications given by <span class="citation">O’Luing, Prestwich, and Tarim (2017)</span>.</p>
+</div>
+<div id="procedural-steps" class="section level1">
+<h1>Procedural steps</h1>
+<p>The optimization of the sampling design starts by making the sampling frame available, defining the target estimates of the survey and establishing the precision constraints on them. It is then possible to determine the best stratification and the optimal allocation. Finally, we proceed with the selection of the sample. Formalizing, these are the required steps:</p>
+<ul>
+<li>analysis of the frame data: identification of available auxiliary information;</li>
+<li>manipulation of auxiliary information: in case auxiliary variables are of the continuous type, they must be transformed into a categorical form;</li>
+<li>construction of atomic strata: on the basis of the categorical auxiliary variables available in the sampling frame, a set of strata can be constructed by calculating the Cartesian product of the values of all the auxiliary variables;</li>
+<li>characterization of each atomic stratum with the information related to the target variables: in order to optimise both strata and allocation of sampling units in strata, we need information on the distributions of the target variables (means and standard deviations);</li>
+<li>choice of the precision constraints for each target estimate, possibly differentiated by domain;</li>
+<li>optimization of stratification and determination of required sample size and allocation in order to satisfy precision constraints on target estimates;</li>
+<li>analysis of the resulting optimized strata;</li>
+<li>association of new labels to sampling frame units, each of them indicating the new strata resulting by the optimal aggregation of the atomic strata;</li>
+<li>selection of units from the sampling frame with a  selection scheme;</li>
+<li>evaluation of the found optimal solution in terms of expected precision and bias.</li>
+</ul>
+<p>In the following, we will illustrate each step starting from a real sampling frame, the one that comes with the R package <em>sampling</em> (the dataframe <em>swissmunicipalities</em>).</p>
+<div id="analysis-of-the-frame-data-and-manipulation-of-auxiliary-information" class="section level2">
+<h2>Analysis of the frame data and manipulation of auxiliary information</h2>
+<p>As a first step, we have to define a frame dataframe containing the following information:</p>
+<ul>
+<li>a unique identifier of the unit (no restriction on the name, may be ‘cod’);</li>
+<li>the (optional) identifier of the stratum to which the unit belongs;</li>
+<li>the values of m auxiliary variables (named from X1 to Xm);</li>
+<li>the (optional) values of p target variables (named from Y1 to Yp);</li>
+<li>the value of the domain of interest for which we want to produce estimates (named ‘domainvalue’).</li>
+</ul>
+<p>By typing the following statements in the R environment:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SamplingStrata)
+<span class="kw">require</span>(memoise)
+<span class="kw">data</span>(swissmunicipalities)</code></pre></div>
+<p>we get the <em>swissmunicipalities</em> dataframe, that contains 2896 observations (each observation refers to a Swiss municipality). Among the others, there are the following variables (data are referred to 2003): * REG: Swiss region. * Nom: municipality name. * Surfacesbois: wood area. * Surfacescult: area under cultivation. * Alp: mountain pasture area. * Airbat: area with buildings. * Airind: industrial area. * Pop020: number of men and women aged between 0 and 19. * Pop2040: number of men and women aged between 20 and 39. * Pop4065: number of men and women aged between 40 and 64. * Pop65P: number of men and women aged between 65 and over. * POPTOT: total population.</p>
+<p>Let us suppose we want to plan a survey whose target estimates are the totals of population by age class in each Swiss region. In this case, our Y variables will be:</p>
+<ul>
+<li>Y1: number of men and women aged between 0 and 19.</li>
+<li>Y2: number of men and women aged between 20 and 39.</li>
+<li>Y3: number of men and women aged between 40 and 64.</li>
+<li>Y4: number of men and women aged between 65 and over.</li>
+</ul>
+<p>As for the auxiliary variables (X’s), we can use all of those characterising the area use (wood, mountain or pasture, cultivated, industrial, with buildings).</p>
+<p>Finally, we want to produce estimates not only for the whole country, but also for each one of the seven different regions.</p>
+<p>Function <em>buildFrameDF</em> permits to organize data in a suitable mode for next processing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  id =<span class="st"> &quot;Nom&quot;</span>
+X =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;POPTOT&quot;</span>,<span class="st">&quot;Surfacesbois&quot;</span>,<span class="st">&quot;Surfacescult&quot;</span>,<span class="st">&quot;Alp&quot;</span>,<span class="st">&quot;Airbat&quot;</span>,<span class="st">&quot;Airind&quot;</span>)
+Y =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Pop020&quot;</span>,<span class="st">&quot;Pop2040&quot;</span>,<span class="st">&quot;Pop4065&quot;</span>,<span class="st">&quot;Pop65P&quot;</span>)
+domainvalue =<span class="st"> &quot;REG&quot;</span>
+swissframe &lt;-<span class="st"> </span><span class="kw">buildFrameDF</span>(swissmunicipalities,id,X,Y,domainvalue)
+<span class="kw">str</span>(swissframe)</code></pre></div>
+<p>As the X variables are of the continuous type, first we have to reduce them in a categorical (ordinal) form.</p>
+<p>A suitable way to do so, is to apply a k-means clustering method <span class="citation">(see Hartigan and Wong 1979)</span> by using the function <em>var.bin</em>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SamplingStrata)
+swissframe$X1 &lt;-<span class="st"> </span><span class="kw">var.bin</span>(swissmunicipalities$POPTOT, <span class="dt">bins=</span><span class="dv">18</span>)
+swissframe$X2 &lt;-<span class="st"> </span><span class="kw">var.bin</span>(swissmunicipalities$Surfacesbois, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe$X3 &lt;-<span class="st"> </span><span class="kw">var.bin</span>(swissmunicipalities$Surfacescult, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe$X4 &lt;-<span class="st"> </span><span class="kw">var.bin</span>(swissmunicipalities$Alp, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe$X5 &lt;-<span class="st"> </span><span class="kw">var.bin</span>(swissmunicipalities$Airbat, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe$X6 &lt;-<span class="st"> </span><span class="kw">var.bin</span>(swissmunicipalities$Airind, <span class="dt">bins=</span><span class="dv">3</span>)</code></pre></div>
+<p>Now, we have six different auxiliary variables of the categorical type, the first with 18 different modalities, the others with 3 modalities.</p>
+<p>We write the dataframe to a tab delimited file:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.table</span> (swissframe, <span class="st">&quot;swissframe.txt&quot;</span>, <span class="dt">row.names=</span><span class="ot">FALSE</span>,<span class="dt">col.names=</span><span class="ot">TRUE</span>, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">quote=</span><span class="ot">FALSE</span>)</code></pre></div>
+<p>In any case, this dataframe comes with the package *SamplingStrata}: it can be made available by executing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">library</span>(SamplingStrata)
+<span class="kw">data</span>(swissframe)
+<span class="kw">head</span>(swissframe)</code></pre></div>
+</div>
+<div id="construction-of-atomic-strata-and-association-of-the-information-related-to-target-variables" class="section level2">
+<h2>Construction of atomic strata and association of the information related to target variables</h2>
+<p>The <em>strata</em> dataframe reports information regarding each stratum in the population. There is one row for each stratum. The total number of strata is given by the number of different combinations of X’s values in the frame. For each stratum, the following information is required:</p>
+<ul>
+<li>the identifier of the stratum (named ‘stratum’ or ‘strato’), concatenation of the values of the X variables;</li>
+<li>the values of the m auxiliary variables (named from X1 to Xm) corresponding to those in the frame;</li>
+<li>the total number of units in the population (named ‘N’);</li>
+<li>a flag (named ‘cens’) indicating if the stratum is to be censused (=1) or sampled (=0);</li>
+<li>a variable indicating the cost of interviewing per unit in the stratum (named ‘cost’);</li>
+<li>for each target variable y, its mean and standard deviation, named respectively ‘Mi’ and ‘Si’);</li>
+<li>the value of the domain of interest to which the stratum belongs (‘DOM1’).</li>
+</ul>
+<p>For example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(strata)
+<span class="kw">head</span>(strata)</code></pre></div>
+<p>If in the <em>frame</em> dataframe are also present the values of the target Y variables (from a census, or from administrative data), it is possible to automatically generate the <em>strata</em> dataframe by invoking the <em>buildStrataDF} function. Let us consider again the </em>swissframe} dataframe that we have in built in previous steps. On this frame we can apply the function *buildStrataDF}:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  swissstrata &lt;-<span class="st"> </span><span class="kw">buildStrataDF</span>(swissframe)</code></pre></div>
+<p>The function takes as unique argument the name of the frame, and also writes out in the working directory the strata file, always named ‘strata.txt’. This is the structure of the created dataframe:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(swissstrata)</code></pre></div>
+<p>It is worth while noting that the total number of different atomic strata is 641, lower than the dimension of the Cartesian product of the X’s (which is 4374): this is due to the fact that not all combinations of the value of the auxiliary variables are present in the sampling frame. Variables ‘cost’ and ‘cens’ are initialised respectively to 1 and 0 for all strata. It is possible to give them different values:</p>
+<ul>
+<li>for variable ‘cost’, it is possible to differentiate the cost of interviewing per unit by assigning real values;</li>
+<li>for variable ‘cens’, it is possible to set it equal to 1 for all strata that are of the ‘take-all’ type (i.e. all units in that strata must be selected).</li>
+</ul>
+<p>The <em>swissstrata</em> dataframe comes together with <em>SamplingStrata</em> package, it can be made available by typing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(swissstrata)</code></pre></div>
+<p>On the contrary, if there is no information in the frame regarding the target variables, it is necessary to build the strata dataframe starting from other sources, for instance a previous round of the same survey, or from other surveys. In this case, we need to read sample data by executing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">samp &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="st">&quot;samplePrev.txt&quot;</span>)</code></pre></div>
+<p>The only difference is that computed mean and variances of the Y’s are sampling estimates, whose reliability should be evaluated by carefully considering their sampling variances. In addition to the naming constraints previously introduced, this case requires that a variable named ‘WEIGHT’ is present in the samp dataframe. Then we can execute this function in this way:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">strata &lt;-<span class="st"> </span><span class="kw">buildStrataDF</span>(samp)</code></pre></div>
+<p>The result is much the same than in the previous case: the function creates a new dataframe, *strata}, and writes out in the working directory the strata file, named ‘strata.txt’.</p>
+</div>
+<div id="choice-of-the-precision-constraints-for-each-target-estimate" class="section level2">
+<h2>Choice of the precision constraints for each target estimate</h2>
+<p>The <em>errors</em> dataframe contains the accuracy constraints that are set on target estimates. This means to define a maximum coefficient of variation for each variable and for each domain value. Each row of this frame is related to accuracy constraints in a particular subdomain of interest, identified by the DOM1 value. In the case of the Swiss municipalities, we have chosen to define the following constraints:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(swisserrors)
+swisserrors</code></pre></div>
+<p>This example reports accuracy constraints on variables Y1, Y2, Y3 and Y4 that are the same for all the 7 different subdomains (Swiss regions) of domain level DOM1. Of course we can differentiate the precision constraints region by region. It is important to underline that the values of ‘domainvalue’ are the same than those in the <em>frame</em> dataframe, and correspond to the values of variable ‘DOM1’ in the strata dataframe. Once having defined dataframes containing frame data, strata information and precision constraints, it is worth while to check their internal and reciprocal coherence. It is possible to do that by using the function <em>checkInput</em>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">checkInput</span>(swisserrors,swissstrata,swissframe)</code></pre></div>
+<p>For instance, this function controls that the number of auxiliary variables is the same in the <em>frame</em> and in the <em>strata</em> dataframes; that the number of target variables indicated in the <em>frame</em> dataframe is the same than the number of means and standard deviations in the <em>strata</em> dataframe, and the same than the number of coefficient of variations indicated in the <em>errors</em> dataframe.</p>
+<p>If we try to determine the total size of the sample required to satisfy these precision constraints, considering the current stratification of the frame (the 641 atomic strata), we can do it by simply using the function <em>bethel</em>. This function requires a slightly different specification of the constraints dataframe:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cv &lt;-<span class="st"> </span>swisserrors[<span class="dv">1</span>,]
+cv</code></pre></div>
+<p>because the <em>bethel</em> function does not permit to differentiate precision constraints by subdomain. In any case, the result of the application of the Bethel algorithm [see bethel:1989] is:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">bethel</span>(swissstrata,cv))</code></pre></div>
+<p>That is, the required amount of units to be selected, with no optimization of sampling strata. In general, after the optimization, this number is sensibly reduced.</p>
+</div>
+<div id="optimization-of-frame-stratification" class="section level2">
+<h2>Optimization of frame stratification</h2>
+<p>Once the strata and the constraints dataframes have been prepared, it is possible to apply the function that optimises the stratification of the frame, that is <em>optimizeStrata</em>. This function operates on all subdomains, identifying the best solution for each one of them. The fundamental parameters to be passed to optimizeStrata are:</p>
+<ul>
+<li><em>errors</em>: the (mandatory) dataframe containing the precision levels expressed in terms of maximum allowable coefficients of variation that regard the estimates on target variables of the survey</li>
+<li><em>strata</em>: the (mandatory) dataframe containing the information related to ‘atomic’ strata, i.e. the strata obtained by the Cartesian product of all auxiliary variables X’s. Information concerns the identifiability of strata (values of X’s) and variability of Y’s (for each Y, mean and standard deviation in strata)</li>
+<li><em>cens</em>: the (optional) dataframe containing the ‘take-all’ strata, those strata whose units must be selected in whatever sample. It has same structure than *strata} dataframe</li>
+<li><em>strcens</em>: flag (TRUE/FALSE) to indicate if ‘take-all’ strata do exist or not. Default is FALSE</li>
+<li><em>initialStrata</em>: This is the initial limit on the number of strata for each solution. Default is NA, and in this case it is set equal to the number of atomic strata in each domain. If the parameter <em>addStrataFactor</em> is equal to zero, then <em>initialStrata</em> is equivalent to the maximum number of strata to be obtained in the final solution.</li>
+<li><em>addStrataFactor</em>: this parameter indicates the probability that at each mutation the number of strata may increase with respect to the current value. Default is 0.0</li>
+<li><em>minnumstr</em>: indicates the minimum number of units that must be allocated in each stratum. Default is 2</li>
+<li><em>iter</em>: indicates the maximum number of iterations (= generations) of the genetic algorithm. Default is 20</li>
+<li><em>pops</em> The dimension of each generations in terms of individuals. Default is 50.</li>
+<li><em>mut_chance</em> (mutation chance): for each new individual, the probability to change each single chromosome, i.e. one bit of the solution vector. High values of this parameter allow a deeper exploration of the solution space, but a slower convergence, while low values permit a faster convergence, but the final solution can be distant from the optimal one. Default is NA, in correspondence of which it is computed as 1/(vars+1) where vars is the length of elements in the solution.</li>
+<li><em>elitism_rate</em>: this parameter indicates the rate of better solutions that must be preserved from one generation to another. Default is 0.2.</li>
+<li><em>highvalue</em>: parameter for genetic algorithm. Its default value should not be changed</li>
+<li><em>suggestions</em>: optional parameter for genetic algorithm that indicates one possible solution (maybe from previous runs) that will be introduced in the initial population. Default is NULL.</li>
+<li><em>realAllocation</em> : if FALSE, the allocation is based on INTEGER values; if TRUE, the allocation is based on REAL values. Default is FALSE.</li>
+<li><em>writeFiles</em> : iIndicates if the various dataframes and plots produced during the execution have to be written in the working directory. Default is FALSE.</li>
+</ul>
+<p>In the case of the Swiss municipalities, we can use almost all of deault values for parameters with the exception of the errors and strata dataframes, and for the option ‘writeFiles’:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">solution &lt;-<span class="st"> </span><span class="kw">optimizeStrata</span>(
+    <span class="dt">errors =</span> swisserrors, 
+    <span class="dt">strata =</span> swissstrata,
+    <span class="dt">writeFiles =</span> <span class="ot">TRUE</span>)
+<span class="kw">sum</span>(<span class="kw">ceiling</span>(solution$aggr_strata$SOLUZ))</code></pre></div>
+<p>Note that by so doing the <em>initialStrata</em> parameter is set equal to the number of atomic strata in each domain . Another possibility is to set a pre-determined value for each domain, for instance equal in each domain, as c(5,5,5,5,5,5,5,5).</p>
+<p>The execution of <em>optimizeStrata</em> produces the solution of 7 different optimization problems, one for each domain. We have reported in Figure 1 the convergence plot regarding the third domain.</p>
+<div class="figure">
+<img src="data:image/png;base64,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" alt="Figure 1" />
+<p class="caption">Figure 1</p>
+</div>
+<p>This graph illustrates the convergence of the solution to the final one starting from the initial one (i.e. the one related to the atomic strata). Along the x-axis are reported the executed iterations, from 1 to the maximum, while on the y-axis are reported the size of the sample required to satisfy precision constraints. The upper (red) line represent the average sample size for each iteration, while the lower (black) line represents the best solution found until the i-th iteration.</p>
+<p>The results of the execution are contained in the list ‘solution’, composed by two elements:</p>
+<ol style="list-style-type: decimal">
+<li><em>solution$indices</em>: the vector of the indices that indicates to what aggregated stratum each atomic stratum belongs;</li>
+<li><em>solution$aggr_strata</em>}*: the dataframe containing information on the optimal aggregated strata.</li>
+</ol>
+</div>
+</div>
+<div id="initial-solution-with-kmeans-clustering-of-atomic-strata" class="section level1">
+<h1>Initial solution with kmeans clustering of atomic strata</h1>
+<p>In order to speed up the convergence towards the optimal solution, an initial one can be given as a “suggestion” to’optimizeStrata’ function. The function <em>KmeansSolution</em> produces this initial solution by clustering atomic strata considering the values of the means of all the target variables Y.</p>
+<p>Also, the optimal number of clusters is determined inside each domain. If the default value for nstrata is used, then the number of aggregate strata is optimized by varying the number of cluster from 2 to number of atomic strata in each domain, divided by 2. Otherwise, it is possible to indicate a fixed number of aggregate strata to be obtained.</p>
+<p>Other parameters are:</p>
+<ul>
+<li><em>minnumstrat</em>: the minimum number of units to allocated in each stratum(default is 2);</li>
+<li><em>maxcluster</em>: the maximum number of clusters to be considered in the execution of kmeans algorithm;</li>
+<li><em>showPlot</em>: if TRUE, allows to visualise the optimization.</li>
+</ul>
+<p>For any given number of clusters, the correspondent aggregation of atomic strata is considered as input to the function ‘bethel’. The number of clusters for which the value of the sample size necessary to fulfil precision constraints is the minimum one, is retained as the optimal one.</p>
+<p>The overall solution is obtained by concatenating optimal clusters obtained in domains. The result is a dataframe with two columns: the first indicates the clusters, the second the domains:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">solutionKmeans &lt;-<span class="st"> </span><span class="kw">KmeansSolution</span>(swissstrata,
+                                   swisserrors,
+                                   <span class="dt">nstrata=</span><span class="ot">NA</span>,
+                                   <span class="dt">minnumstrat=</span><span class="dv">2</span>,
+                                   <span class="dt">maxclusters=</span><span class="ot">NA</span>,
+                                   <span class="dt">showPlot=</span><span class="ot">FALSE</span>)
+<span class="kw">head</span>(solutionKmeans)</code></pre></div>
+<p>This solution can be given as argument to the parameter <em>suggestion</em> in the <em>optimizeStrata</em> function.</p>
+<p>Suppose we want to optimize the stratification of domain 3 by making use of the initial solution given by the kmeans algorithm in that domain:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">solution_dom3 &lt;-<span class="st"> </span><span class="kw">optimizeStrata</span>(
+    <span class="dt">errors =</span> swisserrors,
+    <span class="dt">strata =</span> swissstrata,
+    <span class="dt">alldomains =</span> <span class="ot">FALSE</span>,
+    <span class="dt">dom =</span> <span class="dv">3</span>,
+    <span class="dt">suggestions =</span> solutionKmeans[solutionKmeans$domainvalue ==<span class="st"> </span><span class="dv">3</span>,])
+<span class="kw">sum</span>(<span class="kw">ceiling</span>(solution_dom3$aggr_strata$SOLUZ))</code></pre></div>
+<p>thus obtaining a much more conventient solution than the one without the kmeans suggestion, with the same number of iterations.</p>
+</div>
+<div id="adjustment-of-the-final-sampling-size" class="section level1">
+<h1>Adjustment of the final sampling size</h1>
+<p>After the optimization step, the final sample size is the result of the allocation of units in final strata. This allocation is such that the precision constraints are expected to be satisfied. Actually, three possible situations may occur:</p>
+<ul>
+<li>the resulting sample size is acceptable;</li>
+<li>the resulting sample size is to high, it is not affordable with respect to the available budget;</li>
+<li>the resulting sample size is too low, the available budget permits to increase the number of units.</li>
+</ul>
+<p>In the first case, no action is required. In the second case, it is necessary to reduce the number of units, by equally applying the same reduction rate in each stratum. In the third case, we could either to set more tight precision constraints, or proceed to increase the sample size by applying the same increase rate in each stratum. This increase/reduction process is iterative, as by applying the same rate we could find that in some strata there are not enough units to increase or to reduce. The function <em>adjustSize</em> permits to obtain the desired final sample size. Let us suppose that the obtained sample size is not affordable. We can reduce it by executing the following code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">adjustedStrata &lt;-<span class="st"> </span><span class="kw">adjustSize</span>(<span class="dt">size=</span><span class="dv">200</span>,<span class="dt">strata=</span>solution$aggr_strata,<span class="dt">cens=</span><span class="ot">NULL</span>)
+<span class="kw">sum</span>(adjustedStrata$SOLUZ)</code></pre></div>
+<p>Instead, if we want to increase the size because the budget allows to do this, then this is the code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">adjustedStrata &lt;-<span class="st"> </span><span class="kw">adjustSize</span>(<span class="dt">size=</span><span class="dv">400</span>,<span class="dt">strata=</span>solution$aggr_strata,<span class="dt">cens=</span><span class="ot">NULL</span>)
+<span class="kw">sum</span>(adjustedStrata$SOLUZ)</code></pre></div>
+<p>The difference between the desired sample size and the actual adjusted size depends on the number of strata in the optimized solution. Consider that the adjustment is performed in each stratum by taking into account the relative difference between the current sample size and the desired one: this produces an allocation that is expressed by a real number, that must be rounded. The higher the number of strata, the higher the impact of the rounding in all strata on the final adjusted sample size.</p>
+</div>
+<div id="analysis-of-results" class="section level1">
+<h1>Analysis of results</h1>
+<p>We want to analyse what kind of aggregation of the atomic strata the genetic algorithm did produce. To do so, we apply the function <em>updateStrata</em>, that assigns the labels of the new strata to the initial one in the dataframe <em>strata</em>, and produces:</p>
+<ul>
+<li>a new file named <em>newstrata.txt</em> containing all the information in the strata dataframe, plus the labels of the new strata;</li>
+<li>a table, contained in the dataset <em>strata_aggregation.txt</em>, showing in which way the auxiliary variables X’s determine the new strata.</li>
+</ul>
+<p>The function is invoked in this way:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">newstrata &lt;-<span class="st"> </span><span class="kw">updateStrata</span>(swissstrata, solution, <span class="dt">writeFiles =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>Now, the atomic strata are associated to the aggregate strata defined in the optimal solution, by means of the variable <em>LABEL</em>. If we want to analyse in detail the new structure of the stratification, we can look at the <em>strata_aggregation.txt</em> file:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">strata_aggregation &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="st">&quot;strata_aggregation.txt&quot;</span>)
+<span class="kw">head</span>(strata_aggregation)</code></pre></div>
+<p>In this structure, for each aggregate stratum the values of the X’s variables in each contributing atomic stratum are reported. It is then possible to understand the meaning of each aggregate stratum produced by the optimization.</p>
+</div>
+<div id="updating-the-frame-and-selecting-the-sample" class="section level1">
+<h1>Updating the frame and selecting the sample</h1>
+<p>Once the optimal stratification has been obtained, to be operational we need to accomplish the following two steps:</p>
+<ul>
+<li>to update the frame units with new stratum labels (combination of the new values of the auxiliary variables X’s);</li>
+<li>to select the sample from the frame.</li>
+</ul>
+<p>As for the first, we execute the following command:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">framenew &lt;-<span class="st"> </span><span class="kw">updateFrame</span>(swissframe, newstrata, <span class="dt">writeFiles=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p>The function <em>updateFrame</em> receives as arguments the indication of the dataframe in which the frame information is memorised, and of the dataframe produced by the execution of the <em>updateStrata</em> function. The execution of this function produces a dataframe <em>framenew</em>, and also a file (named <em>framenew.txt</em>) with the labels of the new strata produced by the optimisation step. The allocation of units is contained in the <em>SOLUZ</em> column of the dataset <em>outstrata.txt</em>. At this point it is possible to select the sample from the new version of the frame:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sample &lt;-<span class="st"> </span><span class="kw">selectSample</span>(framenew, solution$aggr_strata, <span class="dt">writeFiles=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p>that produces two .csv files:</p>
+<ul>
+<li><em>sample.csv</em> containing the units of the frame that have been selected, together with the weight that has been calculated for each one of them;</li>
+<li><em>sample.chk.csv</em> containing information on the selection: for each stratum, the number of units in the population, the planned sample, the number of selected units, the sum of their weights that must equalise the number of units in the population.</li>
+</ul>
+<p>The <em>selectSample</em> operates by drawing a simple random sampling in each stratum.</p>
+<p>A variant of this function is <em>selectSampleSystematic</em>. The only difference is in the method used for selecting units in each strata, that is by executing the following steps:</p>
+<ol style="list-style-type: decimal">
+<li>a selection interval is determined by considering the inverse of the sampling rate in the stratum;</li>
+<li>a starting point is determined by selecting a value in this interval;</li>
+<li>the selection proceeds by selecting as first unit the one corresponding the above value, and then selecting all the units individuated by adding the selection interval.</li>
+</ol>
+<p>This selection method can be useful if associated to a particular ordering of the selection frame, where the ordering variable(s) can be considered as additional stratum variable(s). For instance, we could decide that it could be important to consider the overall population in municipalities when selecting units. Here is the code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># adding POPTOT to framenew</span>
+<span class="kw">data</span>(<span class="st">&quot;swissmunicipalities&quot;</span>)
+framenew &lt;-<span class="st"> </span><span class="kw">merge</span>(framenew,swissmunicipalities[,<span class="kw">c</span>(<span class="st">&quot;REG&quot;</span>,<span class="st">&quot;Nom&quot;</span>,<span class="st">&quot;POPTOT&quot;</span>)],
+                  <span class="dt">by.x=</span><span class="kw">c</span>(<span class="st">&quot;REG&quot;</span>,<span class="st">&quot;ID&quot;</span>),<span class="dt">by.y=</span><span class="kw">c</span>(<span class="st">&quot;REG&quot;</span>,<span class="st">&quot;Nom&quot;</span>))
+<span class="co"># selection of sample with systematic method</span>
+sample &lt;-<span class="st"> </span><span class="kw">selectSampleSystematic</span>(<span class="dt">frame=</span>framenew,
+                                 <span class="dt">outstrata=</span>solution$aggr_strata,
+                                 <span class="dt">sortvariable =</span> <span class="kw">c</span>(<span class="st">&quot;POPTOT&quot;</span>))
+<span class="kw">head</span>(sample)</code></pre></div>
+</div>
+<div id="evaluation-of-the-found-solution" class="section level1">
+<h1>Evaluation of the found solution</h1>
+<p>In order to be confident about the quality of the found solution, the function <em>evalSolution</em> allows to run a simulation, based on the selection of a desired number of samples from the frame to which the stratification, identified as the best, has been applied. The user can invoke this function also indicating the number of samples to be drawn:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval &lt;-<span class="st"> </span><span class="kw">evalSolution</span>(framenew, solution$aggr_strata, <span class="dt">nsampl=</span><span class="dv">50</span>, <span class="dt">writeFiles=</span><span class="ot">TRUE</span>) </code></pre></div>
+<p>For each drawn sample, the estimates related to the Y’s are calculated. Their mean and standard deviation are also computed, in order to produce the CV related to each variable in every domain. These CV’s are written to an external csv file:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">expected_cv &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;simulation//expected_cv.csv&quot;</span>)
+expected_cv</code></pre></div>
+<p>These values are on average compliant with the precision constraints set (see Figure 2).</p>
+<div class="figure">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeAAAAHgCAMAAABKCk6nAAAAkFBMVEUAAAAAADoAAGYAOmYAOpAAZpAAZrY6AAA6ADo6AGY6OmY6OpA6ZrY6kJA6kNtmAABmADpmAGZmOgBmZjpmZmZmtrZmtv+QOgCQOjqQOmaQkDqQtpCQ27aQ29uQ2/+2ZgC2Zjq2kDq2tma225C2/7a2///bkDrb/7bb/9vb////pQD/tmb/25D//7b//9v///+AY4nlAAAP/UlEQVR4nO2di3rbxhFGQdeVkjil7DSRnKYh27pCopIU3v/tisWNoASCu8AOdubHf760trGcxXAP9wKQALKCQJOlToDIQsHgUDA4FAwOBYNDweBQMDgUDA4Fg0PB4FAwOBQMDgWDQ8HgUDA4FAwOBYNDweBQMDgUDA4Fg0PB4FAwOBQMDgWDo0Pw6SFzPLq/fXg+b98/di/48Pz61C/qXnAZMczxPtvsznvaFq9PbmfFIfv47+yx/8qB2sp9DO26C/j4Mrpvn/wEUSW4bPkL9heNP9DKly+4Tve6Q72fuyIv/+e2b/NbVbjYOYITo0Wwa8BD9uG5+lvZ4TLXY52K16fN37PNP+se/J8sK5uzau6yYf+sXlDH5vXHo35NZyNvu2sV54rdi/KyOx/vqzo+PDvB9f66TPqVtEl8+HZfb8nrkaZoC3+pBDe7P2R/fcpcne4l7sNUjhuXNfZ2tQyaBLvO4v5W9+fGX23nj4dGuDM1IHjfdMzmNXd1tc3Ws+Djvfvj9cn1ybLtj/d3xWGza/b30mbSr+T1nES1Zd8babqEut03A0SWZd27eLmosb+rZVAlOK8F1xqKdnR07dq00rb8y2bXCn6pXlBHVF3FFZWvOTQt2G3thujDeRLIy782w3O3v6K3o7aSNolt9bLqpe2AXY0Ceea2NjtyY1DZRx+rnTa1XdTY39UyaBRcfczdhrptXVudF1nltveCD1V3y11R1dR1K3ZbhwRXI0Atqttf0e6oV8k5Cbel6aK1vkP90XNbmx0dqk7a1FDV2wpu4vu7WgZVgpshupqosqbjhQpui4ohwechuqxo89t9o7vdX9Hb0RvBzRYvwW4ScbN8O1T3a+ztahk0Ce4WWY5946UvuBuiy+15NjxE99y8H6LLDtQssqo1UL+hm5fcEHwxxA4N0WfBeTWqvxXc29UyaBHcHibVuurPvlu73F0IvljT1H95u8i6bMluafT2MKnaZ/Oybn/FsOBqFd2NGedV0tAi6yz40C22ejX2d7UMqgS3JzpcMzit5Z/lRNkbouvDpOrlvzQDXrXA7h8m9dy0W3t9pjnRUVQb2wm53V8xJLhOotuy762CneG/XR4mnQW7V26bVcXlEL3kCK1EMBGDgsGhYHAoGBwKBoeCwaFgcCgYHAoGh4LBoWBwKBgcCgaHgsGhYHAoGBwKBoeCwaFgcCgYHAoGh4LBoWBw5gjOiAYEBc+IJbGgYHAoGBwKBoeCwaFgcCgYHAoGh4LBoWBwKBgcClZHjFPMvdpmFYvFkgtmNCUFW4CCwaFgcCiYXIOCwaFgcCjYApyDwaFgcCgYHAoGh4LJNSgYHAoGh4ItwDkYHAoGh4LBoWBwKJhcg4LBoWBwKNgCnIPBoWBwUgquH3k79MxbCo5GQsH189CL4tB79LVvLPEloeDTl+eLP0NiyQKwB4Mzew5uHr/OOVgpXEVbgIdJ4CQVvK+G6MdJscSPlIL3pdr8sdjfTYglnqQ+TDp+euFhkiQpT3R83ZXHSHc8TNJKlMOkjy+HzW5CLJGHq2hwKNgCur5NCr5XF7kFv00CJ/VhUsFvk2RhDwYn5RzMb5N0w1U0OBQMTizBXGRJwu+DwaFgcHSdyfKPJZ7wOBgcnski12APBodnssDhKtoCPEwCh4LBoWBwKBgcCibXoGBwKHgiUZ8BKwgFR0Pw/Rqfg610hhtQ8CKh6aDgRULTQcGLhEJCweQaOgWTaFBwNHS+XwqOBhdZi4Smg4IXCU0HBS8Smg4KXiQUEgom19ApmESDgqOh8/1ScDS4yFokNB0UvEhoOih4kdB0UPAioZBQMLmGTsEkGnMFuyv763uCh8eCofP9RhBcP7bhx/BYMDAXWaXd46eX2PfoMPnZABX8sPn91/rBK8tlpRNMwe42LNldcYh7jw4Kjla1zlW0ScGCUDC5xmzBx/vsLudtlCbjdeXdjMvz5gp2Tz7L72Ivskwy7f1m/4uEkGB3eJRveSvDAlWwTA82+dnAFOzm4G30OZiC9QgWiaVgCkZBvWCRZxdSsBrBvF/0TLQL5h3fOzDnYPbgDkzBMnd8N/nZABUsEkvBFKwPbMH8yc5ErAiOG0vB4IJXhHrBfHZhC+YczOPgDkzBMmeyTH42MAXL9GAKViOYZ7I6QAWLxJoUPA0KBmedglcEBZuBczA4FLxIaDooeJHQdFDwIqHpoOBFQq1BwbPQ/1jEdQoWRFtWFBwZuaw4B6uAgiMkPTtW8LNBwe+KTw+b3aTUpwTNDk2HWcHNrbDCUw8PiRCajomCldyE5TD0lb5nbDgmBU9Di2A3Ugcq1ilY22dHi+BgvfqaskZbVlrm4GC9+pqyhqvod8UJVtGCUHCEpGfHmpyDDQve37l+/BiaeuDr44Smw67gvPpR++lhG5h62MsjhabDrODT53oKHrhb4c3YiZgUPA0Ngq9ffnQzdiIm5+BpKBA8cvnRzdhFkT5nIJN0esHF8Ts3Rh/vA1dZywsWbqtbu1eZtNcqurrATP+ZLAoOz0rgOFhuHKXg8KwkBIu9IQoOz4qCZ7/fW1HCSQccJg0TfBMWWMHTUCH4v9cVh9/CgYIXTdpniN43q5qhdXT4TVgoeNGk/Q6T2IM9MDsHjxN8ExYKXjRpP8GvT9ngQ759YqXeEQV7Je35kx33TWEe51w0BS+adMAcPDwTBz+ckoIXTXpuDw5/tJ1JwXbPr86dg8MfTmlTsPqa9Tyc0mRbmUx6zIJncTHh4ZQm28pk0mMWPIunxJpsK5NJj1nwLJ4Sa7KtTCY9ZsGzuJjwcEqTbWUyaR+D51X0xz8+D13AspJz0SaTHrNwWVweB5er5MFfVar6Nkn/0apSwaW9UvDgmSxVPZiCrxm8Sr8HD5+L1vRtEgVfM3gVfptkOOkxC57FU2JNtpXJpMcseBafUbHIilTz+gRfn2dvx4q9Iwq+VfWYhaHiPM71wSbbymTSYxaGiq9+4a9mFR2p5rUKPgwN0aqOgyPVvD7BzRw8dPmoqjNZkWpen+AR2IOV1MzfRauoWqXgRiEPk1TXzDNZKqqm4DlviIL9LbwpzmMO0eq/8lmf4NPn3eGu+nVsCBS8ZM1zv/Cv/xt/sV/VFLxU0mMWLotfv+7K/47fcxWtt+Z5c3Dp9pBl/LJBcc1cRauomoLnvCEK9rfQL458S3+TbWUy6TELl8VRH4xlsq1MJj1m4V1xvAdjmWwrk0mPWRgojvVgLJNtZTLpMQvviuM9GMtkW5lMeszCZXHUB2OZbCuTSY9Z6BdzFW006TELnsVTYk22lcmkxyx4Fk+JNdlWJpMes+BZPCXWZFuZTHrMgmfxlFiTbWUy6TELnsVTYk22lcmkxyx4Fk+JNdlWJpMes+BZPCXWZFuZTHrMgmfxlFiTbWUy6TELnsVTYk22lcmkxyx4Fk+JNdlWJpMes+BZPCXWZFuZTHrMgmfxlFiTbWUy6TELnsVTYk22lcmkxyx4Fk+JNdlWJpMes+BZXF/Z764vHbhLGgUvWbOg4OqSluOPvrEm28pk0mMWPIvb+5QquUeH/sueDAp+2Pz+67OOh3J4MS1svYKbH00P3WKJgn2S1i84NDax4InvRSxpCg58QzKsV/Dp4epFpRTsk7R6wV/+MXgHvOuxnINFapY80bEf/lk8BfskbUFwda+0944p2CdpG4JDYilYpGauosezuhUlljQFB74hGVYsWNGzCwVZr2BN94sWZL2CNd3x3QvOwWHNYa4HU3Bgcyi647sXFByhOUZjKVikZgoez+pWlFjSVgSbWWRNg4L9YylYpGYKnoX+n/MteCbrRqzNOXi1gtdyHLxawTyTNTNp7YLX0oPFktYumGeyZiatXnBwrM1VtFjSFBz4hmSgYP9YChapmYLHs7oVJZY0BQe+oYlZ3YoSS5qCA9/QxKxuRYklTcGBb2hiVreixJKOdo6MgkezuhWVNukZrE7wxPdiMek681nFU2JNtpXJYccnlIJVJE3Bs7O6FWUxaZ9QCcGyq8aJWd2KouC4sXJQcKyaBbOag0nBM6BgvygKjhqrbnSn4LixFPxm9zMyF6uZgik4BSbnYAr2h4Jj1UzBFCyyW5GquYqOG0vB0Vid4GlQcNxYCn6z+xmZi9VMwRScApNzMAX7Q8GxaqZgChbZrUjViX+GMgMKBme24OCbsPiwNguCzBUcfgsHH0wK1jnszBUcfhMWHyg4WtU6e7AgcllhCg6/CUtiKDhWzRSsomqdgnW2lUlmL7KCH07pAwVHY/4qOvThlD6szYIgMQ6Twh5O6YNJwTqHnTjHwSEPp/SBgqNVHetEx5TYJHAVHatmClZRNQUbqDmp4OCHU0bIag46P3Zy6DwXHc2Czi/hl4TfJoED3oOXROe8ovPbJAqOVvXqVtFyUDA42ILjLrJMgi04buzaPhuCUDA4/F00ODwOjgbmHBzjTBbI+URMweZ+Fy0HpmBzv4uWA1SwTKxFKJgkgILBoWBwKDganIPBoWBwKBgcCgaHgkkCKBgcCgaHgqPBORgcCgaHgsGhYHAomCSAgsGhYHAoOBqcg8GhYHAoGBwKhkLuehuvmv2vC5pVLBZLYkHB4FAwOBQMDgWDQ8HgUDA4FAwOBYNDweBQMDgUDI6kYKIBOcEz0PnNW7KabSadaLcm28pk0ol2a7KtTCadaLcm28pk0ol2a7KtTCadaLcm28pk0ol2a7KtTCZNNEDB4FAwOBQMDgWDQ8HgUDA4FAwOBYNDweCkEXz8/v1TmOJUfJ9ljyI1HwYfHRWJ9uljAiQRfJBqq9PnXXH8bidQs/tI5ncCFVfkQp/KIo3g/eY3oR58cAr2Uo0lN+788BOUYMGmKupeLINUD379+jvYEC0p+PVpK1Px8X4j9MnJt2hzsKDg04OQ30JsbDh+eqFg74rvxVqqkJrd8+rXzVKfSyzBcn7d45PlZnf2YE/qziDVz6TmYEDBZDEoGBwKBoeCwaFgcCgYHAoGh4LBoWBwKBgcCgaHgsGhYHAoGBwKBoeCwaFgcCgYHAoGh4LBARdc/5rt+OnlvKn3g7/6Z7ADvwB8faqugRG7FmlBwAUX+bb9vwGuCq6uYJO8vmY50AW7zvv6dddcV3r84acP30pvzVWm+5+rjeWG00N1weP5GtGy9+7lrpFYEHTBldxPL9V1pd8/ux/Gl380/yr2H1/cRve3rbu07PSlu0b09Pm3/rhuF3TBbnhuRuhSn3PZjLxOphui94+N8XJD/9IFwUt2FwVe8PHTn1+dtr0bfTvB1b+Kf+1awQ9ZdeFCOXS3ly9gzMArEPz667dyrD09VGNzI7j5l+vB5TLbbfjS2XQXITko2Ar5z9taV7kybgQ3/3IrqfMcXJp1cinYGvU9O/Is+8tPj+0QXf/LraI3u3YV7cbm/flOKxRMTEDB4FAwOBQMDgWDQ8HgUDA4FAwOBYNDweBQMDgUDA4Fg0PB4FAwOBQMDgWDQ8Hg/B/hbZYHS167qAAAAABJRU5ErkJggg==" alt="Figure 2" />
+<p class="caption">Figure 2</p>
+</div>
+</div>
+<div id="handling-take-all-strata-in-the-optimization-step" class="section level1">
+<h1>Handling ‘take-all’ strata in the optimization step</h1>
+<p>As input to the optimization step, together with proper sampling strata, it is also possible to provide <em>take-all</em> strata. These strata will not be subject to optimisation as the proper strata, but they will contribute to the determination of the best stratification, as their presence in a given domain will permit to satisfy precision constraint with a lower number of units belonging to sampling strata.</p>
+<p>In order to correctly execute the optimizaton and further steps, it is necessary to perform a pre-processing of the overall input. The first step to be executed consists in the bi-partition of units to be censused and of units to be sampled, in order to build two different frames:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(swisserrors)
+<span class="kw">data</span>(swissstrata)
+<span class="kw">data</span>(swissframe)
+<span class="co">#----Selection of units to be censused from the frame</span>
+framecens &lt;-<span class="st"> </span>swissframe[ (swissframe$domainvalue ==<span class="st"> </span><span class="dv">1</span> |
+<span class="st">                          </span>swissframe$domainvalue ==<span class="st"> </span><span class="dv">4</span>) &amp;<span class="st"> </span>
+<span class="st">                         </span>(swissframe$X2 ==<span class="st"> </span><span class="dv">1</span> &amp;
+<span class="st">                          </span>swissframe$X3 ==<span class="st"> </span><span class="dv">1</span> &amp;
+<span class="st">                          </span>swissframe$X4 ==<span class="st"> </span><span class="dv">1</span> &amp;
+<span class="st">                          </span>swissframe$X5 ==<span class="st"> </span><span class="dv">1</span> &amp;
+<span class="st">                          </span>swissframe$X6 ==<span class="st"> </span><span class="dv">1</span>)  , ]
+<span class="co">#----Selection of units to be sampled from the frame</span>
+<span class="co"># (complement to the previous)</span>
+framesamp &lt;-<span class="st"> </span>swissframe[!((swissframe$domainvalue ==<span class="st"> </span><span class="dv">1</span> |
+<span class="st">                           </span>swissframe$domainvalue ==<span class="st"> </span><span class="dv">4</span>) &amp;<span class="st"> </span>
+<span class="st">                          </span>(swissframe$X2 ==<span class="st"> </span><span class="dv">1</span> &amp;
+<span class="st">                           </span>swissframe$X3 ==<span class="st"> </span><span class="dv">1</span> &amp;
+<span class="st">                           </span>swissframe$X4 ==<span class="st"> </span><span class="dv">1</span> &amp;
+<span class="st">                           </span>swissframe$X5 ==<span class="st"> </span><span class="dv">1</span> &amp;
+<span class="st">                           </span>swissframe$X6 ==<span class="st"> </span><span class="dv">1</span>)) , ]</code></pre></div>
+<p>In this way, we have included all units belonging to ‘take-all’ strata in ‘framecens’, and the remaining in ‘framesamp’. At the end of the process, the sample will be selected from ‘framesamp’, while the units in ‘framecens’ will be simply added to the sample.</p>
+<p>We can obtain census strata and sampling strata by applying <em>buildStrataDF</em> respectively to to <em>framecens</em> and <em>framesamp</em>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Build strata to be censused and sampled</span>
+cens &lt;-<span class="st"> </span><span class="kw">buildStrataDF</span>(framecens)
+<span class="kw">sum</span>(cens$N)
+strata &lt;-<span class="st"> </span><span class="kw">buildStrataDF</span>(framesamp)
+<span class="kw">sum</span>(strata$N)</code></pre></div>
+<p>and</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(cens$N)
+<span class="kw">sum</span>(strata$N)</code></pre></div>
+<p>Now we have all required inputs to run ‘optimizeStrata’ in presence of ‘take-all’ stata:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">solution &lt;-<span class="st"> </span><span class="kw">optimizeStrata</span>(
+    <span class="dt">errors =</span> swisserrors, 
+    <span class="dt">strata =</span> strata, 
+    <span class="dt">cens =</span> cens, 
+    <span class="dt">strcens =</span> <span class="ot">TRUE</span> 
+)</code></pre></div>
+<p>Once the optimized solution has been produced, the next steps are executed by considering only the sampling part of the frame:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">newstrata &lt;-<span class="st"> </span><span class="kw">updateStrata</span>(strata, solution)
+<span class="co"># updating sampling frame with new strata labels</span>
+framenew &lt;-<span class="st"> </span><span class="kw">updateFrame</span>(<span class="dt">frame=</span>framesamp,<span class="dt">newstrata=</span>newstrata)
+<span class="co"># selection of sample from sampling strata</span>
+sample &lt;-<span class="st"> </span><span class="kw">selectSample</span>(<span class="dt">frame=</span>framenew,<span class="dt">outstrata=</span>solution$aggr_strata)</code></pre></div>
+<p>Finally, the units in the ‘take-all’ strata can be added to sampled ones. First, the census frame needs to be made homogeneous to the sample frame in order to permit the ‘rbind’ step:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># addition of necessary variables to </span>
+<span class="kw">colnames</span>(framesamp) &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">colnames</span>(framesamp))
+<span class="kw">colnames</span>(framecens) &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">colnames</span>(framecens))
+framecens$WEIGHTS &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">nrow</span>(framecens))
+framecens$FPC &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">nrow</span>(framecens))
+framecens$LABEL &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;999999&quot;</span>,<span class="kw">nrow</span>(framecens))
+framecens$STRATUM &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;999999&quot;</span>,<span class="kw">nrow</span>(framecens))
+framecens$STRATO &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;999999&quot;</span>,<span class="kw">nrow</span>(framecens))</code></pre></div>
+<p>The overall set of units to be surveyed is obtainable in this way:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">survey &lt;-<span class="st"> </span><span class="kw">rbind</span>(sample,framecens)</code></pre></div>
+<p>and this is the proportion of sampling and censused units:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">survey$cens &lt;-<span class="st"> </span><span class="kw">ifelse</span>(survey$LABEL ==<span class="st"> &quot;999999&quot;</span>,<span class="dv">1</span>,<span class="dv">0</span>)
+<span class="kw">table</span>(survey$cens)</code></pre></div>
+</div>
+<div id="handling-anticipated-variance" class="section level1">
+<h1>Handling Anticipated Variance</h1>
+<p>In the previous sections it has been assumed that, when optimizing the stratification of a sampling frame, values of the target variables Y’s are available for the generality of the units in the frame, or at least for a sample of them bay means of which it is possible to estimate means and standard deviation of Y’s in atomic strata. Of course, this assumption is seldom expected to hold. The situation in which some proxy variables are available in the frame is much more likely to happen. In these situations, instead of directly indicating the real target variables, proxy ones are named as Y’s. By so doing, there is no guarantee that the final stratification and allocation can ensure the compliance to the set of precision constraints.<br />
+In order to take into account this problem, and to limit the risk of overestimating the expected precision leveles of the optimized solution, it is possible to carry out the optimization by considering, instead of the expected coefficients of variation related to proxy variables, the anticipated coefficients of variation (ACV) that depend on the model that is possile to fit on couples of real target variables and proxy ones. In the current implementation, only linear models linking continuous variables can be considered. The definition and the use of these models is the same that has been implemented in <span class="citation">Baillargeon and Rivest (2014)</span>. In particular, the reference here is to the heteroscedastic linear model:</p>
+<p><span class="math inline">\(Y=betaX + epsilon\)</span></p>
+<p>where</p>
+<p><span class="math inline">\(epsilon = \sim N(0,sig2 X^{gamma})\)</span></p>
+<p>In case gamma = 0, then the model is homoscedastic.</p>
+<p>In order to make evident the importance of the above, consider the following example.</p>
+<p>Let the <em>iris</em> dataset be the sampling frame. Suppose that the target variable is Petal.Lenght, but in the frame we only have Petal.Width. So we declare this latter variable as the Y.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(iris)
+iris$id &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>:<span class="kw">nrow</span>(iris))
+iris$dom &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">nrow</span>(iris))
+iris$X1 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(iris$Species ==<span class="st"> &quot;setosa&quot;</span>,<span class="dv">1</span>,iris$Species)
+iris$X1 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(iris$Species ==<span class="st"> &quot;versicolor&quot;</span>,<span class="dv">2</span>,iris$Species)
+iris$X1 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(iris$Species ==<span class="st"> &quot;virginica&quot;</span>,<span class="dv">3</span>,iris$Species)
+nbins =<span class="st"> </span><span class="dv">6</span>
+<span class="kw">set.seed</span>(<span class="dv">1234</span>)
+iris$X2 &lt;-<span class="st"> </span><span class="kw">var.bin</span>(iris$Sepal.Width,nbins)
+iris$X3 &lt;-<span class="st"> </span><span class="kw">var.bin</span>(iris$Sepal.Length,nbins)
+frame &lt;-<span class="st"> </span><span class="kw">buildFrameDF</span>(iris,
+<span class="dt">id=</span><span class="st">&quot;id&quot;</span>,
+<span class="dt">X=</span><span class="kw">c</span>(<span class="st">&quot;X1&quot;</span>,<span class="st">&quot;X2&quot;</span>,<span class="st">&quot;X3&quot;</span>),
+<span class="dt">Y=</span><span class="kw">c</span>(<span class="st">&quot;Petal.Width&quot;</span>),
+<span class="dt">domainvalue =</span> <span class="st">&quot;dom&quot;</span>)
+strata &lt;-<span class="st"> </span><span class="kw">buildStrataDF</span>(frame, <span class="dt">model =</span> <span class="ot">NULL</span>)
+errors &lt;-<span class="st"> </span><span class="ot">NULL</span>
+errors$DOM &lt;-<span class="st"> &quot;DOM1&quot;</span>
+errors$cv1 &lt;-<span class="st"> </span><span class="fl">0.05</span>
+errors$domainvalue &lt;-<span class="st"> </span><span class="dv">1</span>
+errors &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(errors)</code></pre></div>
+<p>We can optimize the stratification with regard to Petal.Width:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1234</span>)
+solution &lt;-<span class="st"> </span><span class="kw">optimizeStrata</span>(
+errors , 
+strata , 
+<span class="dt">iter =</span> <span class="dv">50</span>,
+<span class="dt">pops =</span> <span class="dv">40</span>
+)
+<span class="kw">sum</span>(<span class="kw">ceiling</span>(solution$aggr_strata$SOLUZ))</code></pre></div>
+<p>and we obtain a solution with a sample size equal to 11. In order to take into account the fact that Petal.Width is a proxy of Petal.Length and not the real target variable, we define the following parameters for the linear model linking the two variables:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="ot">NULL</span>
+model$beta.lin[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">mean</span>(iris$Petal.Length/iris$Petal.Width)
+model$sig2.lin[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">var</span>(iris$Petal.Length/iris$Petal.Width)
+model$gamma[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">1</span>
+model$type &lt;-<span class="st"> &quot;linear&quot;</span>
+model &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(model)
+model</code></pre></div>
+<p>Now, the optimization step takes into account this model and produces the following result:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1234</span>)
+strata &lt;-<span class="st"> </span><span class="kw">buildStrataDF</span>(frame, <span class="dt">model =</span> model)
+solution &lt;-<span class="st"> </span><span class="kw">optimizeStrata</span>(
+errors , 
+strata , 
+<span class="dt">iter =</span> <span class="dv">50</span>,
+<span class="dt">pops =</span> <span class="dv">40</span>
+)</code></pre></div>
+<p>thus obtaining a solution with a sample size much higher:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">ceiling</span>(solution$aggr_strata$SOLUZ))</code></pre></div>
+>>>>>>> 8e2660c99bb16f57debbcdb1336ad8798845558c
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<<<<<<< HEAD
+=======
+<div id="ref-baillargeon:2014">
+<p>Baillargeon, Sophie, and Louis-Paul Rivest. 2014. <em>Stratification: Univariate Stratification of Survey Populations</em>. <a href="https://CRAN.R-project.org/package=stratification" class="uri">https://CRAN.R-project.org/package=stratification</a>.</p>
+</div>
+>>>>>>> 8e2660c99bb16f57debbcdb1336ad8798845558c
+<div id="ref-ballin:2013">
+<p>Ballin, M., and G. Barcaroli. 2013. “Joint Determination of Optimal Stratification and Sample Allocation Using Genetic Algorithm.” <em>Survey Methodology</em> 39: 369–93.</p>
+</div>
+<div id="ref-ballin:2016">
+<p>Ballin, Marco, and Giulio Barcaroli. 2016. “Optimization of Stratified Sampling with the R Package SamplingStrata: Applications to Network Data.” <em>Computational Network Analysis with R: Applications in Biology, Medicine and Chemistry</em>. John Wiley &amp; Sons.</p>
+</div>
+<div id="ref-barcarol:2013">
+<p>Barcaroli, G. 2014. “SamplingStrata: An R Package for the Optimization of Stratified Sampling.” <em>Journal of Statistical Software</em> 61 (4): 1–24. <a href="http://www.jstatsoft.org/v61/i04/" class="uri">http://www.jstatsoft.org/v61/i04/</a>.</p>
+</div>
+<<<<<<< HEAD
+=======
+<div id="ref-hartigan:1979">
+<p>Hartigan, J. A., and M. A. Wong. 1979. “A K-Means Clustering Algorithm.” <em>Applied Statistics</em> 28: 100–108.</p>
+</div>
+>>>>>>> 8e2660c99bb16f57debbcdb1336ad8798845558c
+<div id="ref-oluing:2017">
+<p>O’Luing, M., S. Prestwich, and S. Armagan Tarim. 2017. “Constructing Strata to Solve Sample Allocation Problems by Grouping Genetic Algorithm.” <em>ArXiv:1709.03076</em>.</p>
+</div>
+<div id="ref-willighagen:2005">
+<p>Willighagen, E. 2005. <em>Genalg: R Based Genetic Algorithm</em>. <a href="http://CRAN.R-project.org/package=genalg" class="uri">http://CRAN.R-project.org/package=genalg</a>.</p>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
