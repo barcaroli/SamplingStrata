@@ -40,7 +40,7 @@ The number of samples to be drawn from the frame.
 A flag to write in the work directory the outputs of the function
 	}
 	\item{progress}{
-  If set to TRUE, a progress bar is visualised during the execution. Default is FALSE.
+  If set to TRUE, a progress bar is visualised during the execution. Default is TRUE.
   }
 }
 \value{

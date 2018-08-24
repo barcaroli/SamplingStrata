@@ -2,7 +2,7 @@ evalSolution <- function (frame, outstrata,
                           nsampl = 100, 
                           cens = NULL, 
                           writeFiles = FALSE,
-                          progress = FALSE) 
+                          progress = TRUE) 
 {
   if (writeFiles == TRUE) {
     dire <- getwd()
