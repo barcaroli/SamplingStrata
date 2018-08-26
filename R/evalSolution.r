@@ -1,7 +1,7 @@
 evalSolution <- function (frame, outstrata, 
                           nsampl = 100, 
                           cens = NULL, 
-                          writeFiles = FALSE,
+                          writeFiles = TRUE,
                           progress = TRUE) 
 {
   if (writeFiles == TRUE) {

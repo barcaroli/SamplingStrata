@@ -44,7 +44,7 @@ execution of kmeans algorithm. If not indicated it will be set equal to the
 number of atomic strata divided by 2.
 }
   \item{showPlot}{
-Allows to visualise on a plot the different sample sizes for each number of aggregate strata. Default is FALSE.
+Allows to visualise on a plot the different sample sizes for each number of aggregate strata. Default is TRUE.
 }
 }
 

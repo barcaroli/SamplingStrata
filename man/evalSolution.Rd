@@ -37,7 +37,7 @@ The number of samples to be drawn from the frame.
 	A dataframe containing units to be selected in any cases.
 	}
   \item{writeFiles}{
-A flag to write in the work directory the outputs of the function
+A flag to write in the work directory the outputs of the function. Default is TRUE.
 	}
 	\item{progress}{
   If set to TRUE, a progress bar is visualised during the execution. Default is TRUE.

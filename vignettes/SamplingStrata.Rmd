@@ -526,7 +526,8 @@ The user can invoke this function also indicating the number of samples to be dr
 eval <- evalSolution(framenew, 
                      solution$aggr_strata, 
                      nsampl=50, 
-                     writeFiles=TRUE) 
+                     writeFiles=TRUE,
+                     progress=FALSE) 
 ```
 
 For each drawn sample, the estimates related to the Y's are calculated. 

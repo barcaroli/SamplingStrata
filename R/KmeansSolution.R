@@ -3,7 +3,7 @@ KmeansSolution <- function(strata,
                              nstrata = NA,
                              minnumstrat =2,
                              maxclusters = NA,
-                             showPlot = FALSE) {
+                             showPlot = TRUE) {
   nvariables <- ncol(errors) - 2
   stmt1 <- "solution <- kmeans(stratacorr[,"
   stmt2 <- "c("
