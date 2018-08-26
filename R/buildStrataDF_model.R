@@ -5,7 +5,9 @@
 # Author: Giulio Barcaroli
 # Date: May 2018
 # ----------------------------------------------------
-buildStrataDF <- function(dataset, model=NULL, progress=FALSE) {
+buildStrataDF <- function(dataset, 
+                          model=NULL, 
+                          progress=FALSE) {
     # stdev1 is for sampling data
     stdev1 <- function(x, w) {
         mx <- sum(x * w)/sum(w)
@@ -175,6 +177,7 @@ buildStrataDF <- function(dataset, model=NULL, progress=FALSE) {
     write.table(stratatot, "strata.txt", quote = FALSE, sep = "\t", 
                 dec = ".", row.names = FALSE)
     stratatot <- read.delim("strata.txt")
+    file.remove("strata.txt")
     options("scipen"=100)
     for (i in (1:nvarY)) {
       for (j in (1:nrow(stratatot))) {
