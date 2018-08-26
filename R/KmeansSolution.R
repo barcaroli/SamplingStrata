@@ -13,7 +13,10 @@ KmeansSolution <- function(strata,
   }
   suggestions <- NULL
   domainvalue <- NULL
+  ndom <- length(unique(strata$DOM1))
   solution <- NULL
+  best <- rep(0,ndom)
+  best_num_strata <- rep(0,ndom)
     for (k in (unique(strata$DOM1))) {
       stratacorr <- strata[strata$DOM1 == k,]
       errorscorr <- errors[errors$domainvalue == k,]
@@ -24,7 +27,7 @@ KmeansSolution <- function(strata,
                          dominio=k)
       v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
       sum(v)
-      best <- sum(v)
+      best[k] <- sum(v)
       if (is.na(maxclusters)) {
         times <- round(nrow(stratacorr)*0.5,0)
       }
@@ -52,18 +55,23 @@ KmeansSolution <- function(strata,
         v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
         # cat("\n",sum(v))
         if (showPlot == TRUE) points(i,sum(v))
-        if (sum(v) <= best) {
+        if (sum(v) <= best[k]) {
           bestsolution <- solution
-          best_num_strata <- i
-          best <- sum(v)
+          best_num_strata[k] <- i
+          best[k] <- sum(v)
         }
       }
       suggestions <- c(suggestions,bestsolution)
       domainvalue <- c(domainvalue,rep(k,nrow(stratacorr)))
   }
   solutionKmean <- as.data.frame(cbind(suggestions,domainvalue))
-  cat("\n Kmeans solution")
-  cat("\n Number of strata: ",best_num_strata)
-  cat("\n Sample size     : ",best)
+  cat("\n-----------------")
+  cat("\n Kmeans solution ")
+  cat("\n-----------------")
+  for (i in c(1:ndom)) {
+    cat("\n *** Domain: ",i," ***")
+    cat("\n Number of strata: ",best_num_strata[i])
+    cat("\n Sample size     : ",best[i])
+  }
   solutionKmean
 }
