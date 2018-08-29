@@ -31,6 +31,8 @@ selecting a number of samples from the frame with the optimal stratification, an
 
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 <meta property="og:title" content="Evaluation of the solution produced by the function 'optimizeStrata' by
 selecting a number of samples from the frame with the optimal stratification, and calculating average CV's on the target variables Y's. — evalSolution" />
 
@@ -133,8 +135,8 @@ in the population ('differences.pdf').</p>
                 <span class='no'>outstrata</span>,
                 <span class='kw'>nsampl</span><span class='kw'>=</span><span class='fl'>100</span>,
                 <span class='kw'>cens</span><span class='kw'>=</span><span class='kw'>NULL</span>,
-                <span class='kw'>writeFiles</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
-                <span class='kw'>progress</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</pre>
+                <span class='kw'>writeFiles</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
+                <span class='kw'>progress</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,11 +159,11 @@ in the population ('differences.pdf').</p>
     </tr>
     <tr>
       <th>writeFiles</th>
-      <td><p>A flag to write in the work directory the outputs of the function</p></td>
+      <td><p>A flag to write in the work directory the outputs of the function. Default is TRUE.</p></td>
     </tr>
     <tr>
       <th>progress</th>
-      <td><p>If set to TRUE, a progress bar is visualised during the execution. Default is FALSE.</p></td>
+      <td><p>If set to TRUE, a progress bar is visualised during the execution. Default is TRUE.</p></td>
     </tr>
     </table>
     

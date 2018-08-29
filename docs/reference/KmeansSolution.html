@@ -30,6 +30,8 @@
 
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 <meta property="og:title" content="Initial solution obtained by applying kmeans clustering of atomic strata — KmeansSolution" />
 
 <meta property="og:description" content="In order to speed the convergence towards the optimal solution, an initial one can be 
@@ -135,9 +137,9 @@ the second the domains.</p>
     <pre class="usage"><span class='fu'>KmeansSolution</span>(<span class='no'>strata</span>,
                <span class='no'>errors</span>,
                <span class='kw'>nstrata</span><span class='kw'>=</span><span class='fl'>NA</span>,
-                           <span class='kw'>minnumstrat</span><span class='kw'>=</span><span class='fl'>2</span>,
+                                 <span class='kw'>minnumstrat</span><span class='kw'>=</span><span class='fl'>2</span>,
                <span class='kw'>maxclusters</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-               <span class='kw'>showPlot</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</pre>
+               <span class='kw'>showPlot</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,7 +169,7 @@ number of atomic strata divided by 2.</p></td>
     </tr>
     <tr>
       <th>showPlot</th>
-      <td><p>Allows to visualise on a plot the different sample sizes for each number of aggregate strata. Default is FALSE.</p></td>
+      <td><p>Allows to visualise on a plot the different sample sizes for each number of aggregate strata. Default is TRUE.</p></td>
     </tr>
     </table>
     
