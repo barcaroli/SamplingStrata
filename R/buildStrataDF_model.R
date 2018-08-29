@@ -7,7 +7,7 @@
 # ----------------------------------------------------
 buildStrataDF <- function(dataset, 
                           model=NULL, 
-                          progress=FALSE) {
+                          progress=TRUE) {
     # stdev1 is for sampling data
     stdev1 <- function(x, w) {
         mx <- sum(x * w)/sum(w)
@@ -174,10 +174,10 @@ buildStrataDF <- function(dataset,
     if (progress == TRUE) close(pb)
     colnames(stratatot) <- toupper(colnames(stratatot))
     stratatot$DOM1 <- as.factor(stratatot$DOM1)
-    write.table(stratatot, "strata.txt", quote = FALSE, sep = "\t", 
+    write.table(stratatot, "strata.txt", quote = FALSE, sep = "\t",
                 dec = ".", row.names = FALSE)
     stratatot <- read.delim("strata.txt")
-    file.remove("strata.txt")
+    unlink("strata.txt")
     options("scipen"=100)
     for (i in (1:nvarY)) {
       for (j in (1:nrow(stratatot))) {
@@ -185,9 +185,10 @@ buildStrataDF <- function(dataset,
         eval(parse(text=stmt))
       }
     }
-    write.table(stratatot, "strata.txt", quote = FALSE, sep = "\t", 
-        dec = ".", row.names = FALSE)
-    stratatot <- read.delim("strata.txt")
+    # if (writeFiles == TRUE )
+    # write.table(stratatot, "strata.txt", quote = FALSE, sep = "\t", 
+    #     dec = ".", row.names = FALSE)
+    # stratatot <- read.delim("strata.txt")
     cat("\nNumber of strata: ",nrow(stratatot))
     cat("\n... of which with only one unit: ",sum(stratatot$N==1))
     return(stratatot)

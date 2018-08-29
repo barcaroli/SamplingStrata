@@ -20,8 +20,8 @@ evalSolution(frame,
 		outstrata,
 		nsampl=100,
 		cens=NULL,
-		writeFiles=FALSE,
-		progress=FALSE)
+		writeFiles=TRUE,
+		progress=TRUE)
 }
 \arguments{
   \item{frame}{

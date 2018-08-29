@@ -197,7 +197,7 @@ Let us consider again the *swissframe* dataframe that we have in built in previo
 On this frame we can apply the function *buildStrataDF*:
 
 ```{r, eval=TRUE, echo=TRUE}
-  swissstrata <- buildStrataDF(swissframe)
+  swissstrata <- buildStrataDF(swissframe, progress = FALSE)
 ```
 
 The function takes as unique argument the name of the frame, and also writes out in the working directory the strata file, 
@@ -585,9 +585,9 @@ We can obtain census strata and sampling strata by applying *buildStrataDF* resp
 
 ```{r, eval=TRUE, echo=TRUE}
 # Build strata to be censused and sampled
-cens <- buildStrataDF(framecens)
+cens <- buildStrataDF(framecens,progress = FALSE)
 sum(cens$N)
-strata <- buildStrataDF(framesamp)
+strata <- buildStrataDF(framesamp,progress = FALSE)
 sum(strata$N)
 ```
 and
@@ -691,7 +691,7 @@ id="id",
 X=c("X1","X2","X3"),
 Y=c("Petal.Width"),
 domainvalue = "dom")
-strata <- buildStrataDF(frame, model = NULL)
+strata <- buildStrataDF(frame, model = NULL, progress = FALSE)
 errors <- NULL
 errors$DOM <- "DOM1"
 errors$cv1 <- 0.05
@@ -730,7 +730,7 @@ Now, the optimization step takes into account this model and produces the follow
 
 ```{r, eval=TRUE, echo=TRUE, warning=FALSE, }
 set.seed(1234)
-strata <- buildStrataDF(frame, model = model)
+strata <- buildStrataDF(frame, model = model, progress = FALSE)
 solution <- optimizeStrata(
 errors , 
 strata , 

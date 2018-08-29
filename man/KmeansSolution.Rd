@@ -20,9 +20,9 @@ the second the domains.
 KmeansSolution(strata, 
                errors, 
                nstrata=NA, 
-			   minnumstrat=2,
+			         minnumstrat=2,
                maxclusters = NA,
-               showPlot=FALSE)
+               showPlot=TRUE)
 }
 \arguments{
   \item{strata}{

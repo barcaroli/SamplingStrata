@@ -26,7 +26,7 @@ The dataframe "strata" is written to an external file (tab delimited, extension 
 used as an input by the function "optimizeStrata".
 }
 \usage{
-buildStrataDF(dataset,model=NULL,progress=FALSE)
+buildStrataDF(dataset,model=NULL,progress=TRUE)
 }
 \arguments{
   \item{dataset}{
@@ -45,7 +45,7 @@ buildStrataDF(dataset,model=NULL,progress=FALSE)
   Default is NULL.
 }
 \item{progress}{
-  If set to TRUE, a progress bar is visualised during the execution. Default is FALSE.
+  If set to TRUE, a progress bar is visualised during the execution. Default is TRUE.
 }
 }
 \value{
