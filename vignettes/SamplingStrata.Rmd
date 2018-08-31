@@ -690,11 +690,11 @@ In the current implementation, only linear models linking continuous variables c
 The definition and the use of these models is the same that has been implemented in the package *stratification* [see @baillargeon:2014]. 
 In particular, the reference here is to the heteroscedastic linear model: 
 
-$Y=betaX + epsilon$ 
+$$Y=betaX + epsilon$$ 
 
 where
 
-$epsilon = \sim N(0,sig2 X^{gamma})$
+$$epsilon = \sim N(0,sig2 X^{gamma})$$
 
 In case gamma = 0, then the model is homoscedastic.
 
