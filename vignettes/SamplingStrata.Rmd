@@ -288,7 +288,6 @@ In any case, the result of the application of the Bethel algorithm [see bethel:1
 
 ```{r, eval=TRUE,echo=TRUE}
 allocation <- bethel(swissstrata,cv)
-allocation
 sum(allocation)
 ```
 
@@ -453,7 +452,6 @@ The function is invoked in this way:
 newstrata <- updateStrata(swissstrata, 
                           solution, 
                           writeFiles = TRUE)
-head(newstrata)
 ```
 
 Now, the atomic strata are associated to the aggregate strata defined in the optimal solution, by means of the variable *LABEL*. If we want to analyse in detail the new structure of the stratification, we can look at the *strata_aggregation.txt* 
@@ -524,7 +522,7 @@ framenew <- merge(framenew,swissmunicipalities[,c("REG","Nom","POPTOT")],
 sample <- selectSampleSystematic(frame=framenew,
                                  outstrata=solution$aggr_strata,
                                  sortvariable = c("POPTOT"))
-head(sample)
+head(sample,3)
 ```
 
 # Evaluation of the found solution
@@ -555,8 +553,8 @@ Whenever the precision constraints are not strictly observed, then it is possibl
 
 
 ```{r, eval=TRUE, echo=TRUE}
-sum(solution_with_kmeans$aggr_strata$SOLUZ)
-outstrata <- solution_with_kmeans$aggr_strata
+sum(solution$aggr_strata$SOLUZ)
+outstrata <- solution$aggr_strata
 outstrata$SOLUZ <- ceiling(outstrata$SOLUZ)
 sum(outstrata$SOLUZ)
 eval_ceiling <- evalSolution(framenew, 
