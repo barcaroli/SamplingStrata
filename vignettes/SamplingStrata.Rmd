@@ -440,7 +440,7 @@ This function has two purposes:
 1. instrumental to the processing of the sampling frame (attribution of the labels of the optimized strata to the population units);
 2. analysis of the aggregation of the atomic strata obtained in the optimized solution.
 
-The function **updateStrata** assigns the labels of the new strata to the initial one in the dataframe *strata*, and produces:
+The function *updateStrata* assigns the labels of the new strata to the initial one in the dataframe *strata*, and produces:
 
 * a new dataframe named *newstrata* containing all the information in the *strata* dataframe, plus the labels of the new optimized strata;
 * a table, contained in the dataset *strata_aggregation.txt*, showing in which way each optimized stratum aggregates the auxiliary variables X's.
@@ -535,7 +535,7 @@ The user can invoke this function also indicating the number of samples to be dr
 ```{r, eval=TRUE, echo=TRUE}
 eval <- evalSolution(framenew, 
                      solution$aggr_strata, 
-                     nsampl=100, 
+                     nsampl=1000, 
                      writeFiles=TRUE,
                      progress=FALSE) 
 ```
@@ -559,7 +559,7 @@ outstrata$SOLUZ <- ceiling(outstrata$SOLUZ)
 sum(outstrata$SOLUZ)
 eval_ceiling <- evalSolution(framenew, 
                      outstrata, 
-                     nsampl=100,
+                     nsampl=1000,
                      writeFiles = TRUE,
                      progress = FALSE)
 eval_ceiling$coeff_var
