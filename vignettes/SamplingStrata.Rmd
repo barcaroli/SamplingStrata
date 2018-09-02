@@ -682,98 +682,119 @@ is possible to estimate means and standard deviation of Y's in atomic strata.
 Of course, this assumption is seldom expected to hold.
 The situation in which some proxy variables are available in the frame is much more likely to happen. In these situations, instead
 of directly indicating the real target variables, proxy ones are named as Y's.
-By so doing, there is no guarantee that the final stratification and allocation can ensure the compliance to the set of precision
-constraints.  
+By so doing, there is no guarantee that the final stratification and allocation can ensure the compliance to the set of precision constraints.  
 In order to take into account this problem, and to limit the risk of overestimating the expected precision levels of the optimized solution, it is possible to carry out the optimization by 
 considering, instead of the expected coefficients of variation related to proxy variables, the anticipated coefficients of variation (ACV) that depend on the model that is possile to fit on couples of real target variables and proxy ones.
-In the current implementation, only linear models linking continuous variables can be considered. 
+In the current implementation, only models linking continuous variables can be considered. 
 The definition and the use of these models is the same that has been implemented in the package *stratification* [see @baillargeon:2014]. 
 In particular, the reference here is to the heteroscedastic linear model: 
 
-$$Y=betaX + epsilon$$ 
+$Y=betaX + epsilon$ 
 
 where
 
-$$epsilon = \sim N(0,sig2 X^{gamma})$$
+$epsilon = \sim N(0,sig2 X^{gamma})$
 
 In case gamma = 0, then the model is homoscedastic.
 
 In order to make evident the importance of the above, consider the following example.
 
-Let the *iris* dataset be the sampling frame. Suppose that the target variable is Petal.Lenght, 
-but in the frame we only have Petal.Width. So we declare this latter variable as the Y.
+Let the *iris* dataset be the sampling frame. Suppose that the target variable is *Petal.Width*, 
+but in the frame we only have *Sepal.Width*. So we declare this latter variable as the Y.
 
 ```{r, eval=TRUE, echo=TRUE}
+library(SamplingStrata)
 data(iris)
 iris$id <- c(1:nrow(iris))
 iris$dom <- rep(1,nrow(iris))
-iris$X1 <- ifelse(iris$Species == "setosa",1,iris$Species)
-iris$X1 <- ifelse(iris$Species == "versicolor",2,iris$Species)
-iris$X1 <- ifelse(iris$Species == "virginica",3,iris$Species)
-nbins = 6
-set.seed(1234)
-iris$X2 <- var.bin(iris$Sepal.Width,nbins)
-iris$X3 <- var.bin(iris$Sepal.Length,nbins)
 frame <- buildFrameDF(iris,
-id="id",
-X=c("X1","X2","X3"),
-Y=c("Petal.Width"),
-domainvalue = "dom")
-strata <- buildStrataDF(frame, model = NULL, progress = FALSE)
-errors <- NULL
-errors$DOM <- "DOM1"
-errors$cv1 <- 0.05
-errors$domainvalue <- 1
-errors <- as.data.frame(errors)
+                      id="id",
+                      X=c("id"),
+                      Y=c("Sepal.Width"),
+                      domainvalue = "dom")
+strata1 <- buildStrataDF(frame, model = NULL, progress = FALSE)
 ```
 
-We can optimize the stratification with regard to Petal.Width:
+We set a precision constraint equal to 5% and optimize the stratification with regard to *Sepal.Width*:
 
 ```{r, eval=TRUE, echo=FALSE, warning=FALSE, }
+cv <- as.data.frame(list(DOM=rep("DOM1",1),
+                         CV1=rep(0.05,1),
+                         domainvalue=c(1:1)))
+cv
+
 set.seed(1234)
-solution <- optimizeStrata(
-errors , 
-strata , 
-iter = 50,
-pops = 40,
-showPlot = FALSE
+solution1 <- optimizeStrata(
+  cv , 
+  strata1 , 
+  iter = 50,
+  pops = 20,
+  suggestions = KmeansSolution(strata1,cv,maxclusters = 10),
+  showPlot = FALSE
 )
-sum(ceiling(solution$aggr_strata$SOLUZ))
+sum(ceiling(solution1$aggr_strata$SOLUZ))
 ```
 
-and we obtain a solution with a sample size equal to 11.
-Now, in order to take into account the fact that Petal.Width is a proxy of Petal.Length and not the real target variable, we define the following parameters for the linear model linking the two variables:
+In order to evaluate the expected CV on Petal.Width, we use *evalSolution*:
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, }
+newstrata <- updateStrata(strata1,solution1)
+framenew1 <- updateFrame(frame,newstrata)
+framenew1 <- framenew1[order(framenew1$ID),]
+framenew1$Y1 <- iris$Sepal.Width
+framenew1$Y2 <- iris$Petal.Width
+results1 <- evalSolution(framenew1, solution1$aggr_strata, 100, progress = FALSE)
+results1$coeff_var
+```
+While the CV of *Sepal.Width* is compliant with the precision constraint of 5%, the one of *Petal.Width* is far beyond.
+
+In order to cope with this problem, we model the relation between the two variables:
 
 ```{r, eval=TRUE, echo=TRUE, warning=FALSE}
+modlin <- lm(iris$Petal.Length ~ iris$Sepal.Width)
+summary(modlin)
+```
+
+and use the model parameters in the construction of the **strata** dataframe:
+
+```{r, eval=TRUE, echo=TRUE, warning=FALSE, }
 model <- NULL
-model$beta.lin[1] <- mean(iris$Petal.Length/iris$Petal.Width)
-model$sig2.lin[1] <- var(iris$Petal.Length/iris$Petal.Width)
+model$beta[1] <- modlin$coefficients[2]
+model$sig2[1] <- summary(modlin)$sigma
 model$gamma[1] <- 1
 model$type <- "linear"
 model <- as.data.frame(model)
 model
 ```
-
-Now, the optimization step takes into account this model and produces the following result:
-
 ```{r, eval=TRUE, echo=TRUE, warning=FALSE, }
-set.seed(1234)
-strata <- buildStrataDF(frame, model = model, progress = FALSE)
-solution <- optimizeStrata(
-errors , 
-strata , 
-iter = 50,
-pops = 40,
-showPlot = FALSE
-)
+strata2 <- buildStrataDF(frame, model = model, progress = FALSE)
 ```
 
 thus obtaining a solution with a sample size much higher:
 
 ```{r, eval=TRUE, echo=TRUE}
-sum(ceiling(solution$aggr_strata$SOLUZ))
+solution2 <- optimizeStrata(
+  cv , 
+  strata2 , 
+  iter = 50,
+  pops = 20,
+  suggestions = kmean <- KmeansSolution(strata2,cv,maxclusters = 10),
+  showPlot = FALSE
+)
+sum(ceiling(solution2$aggr_strata$SOLUZ))
+```
+If we now evaluate the expected CV's:
+```{r, eval=TRUE, echo=TRUE}
+newstrata <- updateStrata(strata2,solution2)
+framenew2 <- updateFrame(frame,newstrata)
+framenew2 <- framenew2[order(framenew2$ID),]
+framenew2$Y1 <- iris$Sepal.Width
+framenew2$Y2 <- iris$Petal.Width
+results2 <- evalSolution(framenew2, solution2$aggr_strata, 500, progress = FALSE)
+results2$coeff_var
 ```
 
+we see that the expected CV of *Petal.Width* has been largely improved. The possibility to fully reach the objective of compliance to the precision constraint depends on the fitting of the model, that in our case is quite low (adjusted R-squared:  0.178).
 
 # References
 
