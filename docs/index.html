@@ -102,7 +102,7 @@
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install SamplingStrata from github with:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"barcaroli/SamplingStrata"</span>)</code></pre></div>
+devtools::<span class="kw">install_github</span>(<span class="st">"barcaroli/SamplingStrata"</span>)</code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
@@ -124,14 +124,14 @@ newstrata &lt;-<span class="st"> </span><span class="kw"><a href="reference/upda
 framenew &lt;-<span class="st"> </span><span class="kw"><a href="reference/updateFrame.html">updateFrame</a></span>(<span class="dt">frame=</span>swissframe,
                         <span class="dt">newstrata=</span>newstrata,
                         <span class="dt">writeFile=</span><span class="ot">FALSE</span>)
-samp &lt;-<span class="st"> </span><span class="kw"><a href="reference/selectSample.html">selectSample</a></span>(framenew,solution<span class="op">$</span>aggr_strata,<span class="dt">writeFiles=</span><span class="ot">TRUE</span>)
+samp &lt;-<span class="st"> </span><span class="kw"><a href="reference/selectSample.html">selectSample</a></span>(framenew,solution$aggr_strata,<span class="dt">writeFiles=</span><span class="ot">TRUE</span>)
 <span class="co"># evaluate the current solution</span>
 eval &lt;-<span class="st"> </span><span class="kw"><a href="reference/evalSolution.html">evalSolution</a></span>(<span class="dt">frame =</span> framenew, 
-                     <span class="dt">outstrata =</span>solution<span class="op">$</span>aggr_strata, 
+                     <span class="dt">outstrata =</span>solution$aggr_strata, 
                      <span class="dt">nsampl =</span> <span class="dv">100</span>, 
                      <span class="dt">cens =</span> <span class="ot">NULL</span>, 
                      <span class="dt">writeFiles =</span> <span class="ot">FALSE</span>)
-eval<span class="op">$</span>coeff_var
+eval$coeff_var
 swisserrors</code></pre></div>
 </div>
 </div>
