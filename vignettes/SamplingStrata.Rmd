@@ -687,114 +687,269 @@ In order to take into account this problem, and to limit the risk of overestimat
 considering, instead of the expected coefficients of variation related to proxy variables, the anticipated coefficients of variation (ACV) that depend on the model that is possile to fit on couples of real target variables and proxy ones.
 In the current implementation, only models linking continuous variables can be considered. 
 The definition and the use of these models is the same that has been implemented in the package *stratification* [see @baillargeon:2014]. 
-In particular, the reference here is to the heteroscedastic linear model: 
+In particular, the reference here is to two different models, the linear model with heteroscedasticity: 
 
-$Y=betaX + epsilon$ 
+$$Y=beta\times X + epsilon$$
+
+where 
+
+$$epsilon \sim N(0,sig2 X^{gamma})$$
+
+(in case gamma = 0, then the model is homoscedastic)
+
+and the loglinear model: 
+
+$$Y= \exp (beta \times log(X) + epsilon)$$
 
 where
 
-$epsilon = \sim N(0,sig2 X^{gamma})$
+$$epsilon \sim N(0,sig2)$$
 
-In case gamma = 0, then the model is homoscedastic.
+In order to make evident the importance of the above, consider the following example, based on the dataset *nations* available in the package.
 
-In order to make evident the importance of the above, consider the following example.
 
-Let the *iris* dataset be the sampling frame. Suppose that the target variable is *Petal.Width*, 
-but in the frame we only have *Sepal.Width*. So we declare this latter variable as the Y.
-
-```{r, eval=TRUE, echo=TRUE}
-library(SamplingStrata)
-data(iris)
-iris$id <- c(1:nrow(iris))
-iris$dom <- rep(1,nrow(iris))
-frame <- buildFrameDF(iris,
-                      id="id",
-                      X=c("id"),
-                      Y=c("Sepal.Width"),
-                      domainvalue = "dom")
-strata1 <- buildStrataDF(frame, model = NULL, progress = FALSE)
+```{r, eval = T}
+data(nations)
+head(nations)
 ```
 
-We set a precision constraint equal to 5% and optimize the stratification with regard to *Sepal.Width*:
+Let us assume that in the sampling frame only variable **GDP** (Gross Domestic Product) is available for all countries, while **contraception rates** and **infant mortality rates** are available only on a subset of countries (about one third).
 
-```{r, eval=TRUE, echo=FALSE, warning=FALSE, }
-cv <- as.data.frame(list(DOM=rep("DOM1",1),
-                         CV1=rep(0.05,1),
-                         domainvalue=c(1:1)))
-cv
-
+```{r, eval = T}
 set.seed(1234)
-solution1 <- optimizeStrata(
-  cv , 
-  strata1 , 
-  iter = 50,
-  pops = 20,
-  suggestions = KmeansSolution(strata1,cv,maxclusters = 10),
-  showPlot = FALSE
-)
-sum(ceiling(solution1$aggr_strata$SOLUZ))
+nations_sample <- nations[sample(c(1:207),70),]
 ```
 
-In order to evaluate the expected CV on Petal.Width, we use *evalSolution*:
+In this subset we can fit models between GDP and the two variables that we assume are the target of our survey.
 
-```{r, eval=TRUE, echo=FALSE, warning=FALSE, }
+One model for **infant mortality** and **GDP**:
+
+```{r, eval = T}
+mod_logGDP_INFMORT <- lm(log(nations_sample$infant.mortality) ~ log(nations_sample$GDP))
+summary(mod_logGDP_INFMORT)
+```
+
+and one model for **contraception** and **GDP**:
+
+```{r, eval = T}
+mod_logGDP_CONTRA <- lm(log(nations_sample$contraception) ~ log(nations_sample$GDP))
+summary(mod_logGDP_CONTRA)
+```
+
+We define the *sampling frame* in this way:
+
+
+```{r, eval = T}
+nations$progr <- c(1:nrow(nations))
+nations$dom <- 1
+frame <- buildFrameDF(nations,
+                      id="Country",
+                      X="progr",
+                      Y=c("GDP","GDP"),
+                      domainvalue = "dom")
+```
+
+that is, we replicate twice the variable **GDP** because it will be used once for **infant mortality** and once for **contraception**. 
+
+We set 10% and 5% precision constraints on these two variables:
+
+```{r, eval = T}
+cv <- as.data.frame(list(DOM=rep("DOM1",1),
+                         CV1=rep(0.10,1),
+                         CV2=rep(0.05,1),
+                         domainvalue=c(1:1)
+                    ))
+cv
+```
+
+We build the strata without any assumption on the variability of the two target variables, and proceed in the optimization:
+
+```{r, eval = T}
+strata1 <- buildStrataDF(frame, progress = FALSE)
+solution1 <- optimizeStrata(cv,
+                           strata1,
+                           iter = 50,
+                           suggestions = KmeansSolution(strata1,cv),
+                           writeFiles = TRUE,
+                           showPlot = FALSE)
+sum(solution1$aggr_strata$SOLUZ)
+```
+
+Then, we evaluate the expected CV's on the three variables:
+
+```{r, eval = T}
 newstrata <- updateStrata(strata1,solution1)
 framenew1 <- updateFrame(frame,newstrata)
 framenew1 <- framenew1[order(framenew1$ID),]
-framenew1$Y1 <- iris$Sepal.Width
-framenew1$Y2 <- iris$Petal.Width
-results1 <- evalSolution(framenew1, solution1$aggr_strata, 100, progress = FALSE)
+framenew1$Y2 <- nations$infant.mortality
+framenew1$Y3 <- nations$contraception
+results1 <- evalSolution(framenew1, solution1$aggr_strata, 50, progress = FALSE)
 results1$coeff_var
 ```
-While the CV of *Sepal.Width* is compliant with the precision constraint of 5%, the one of *Petal.Width* is far beyond.
 
-In order to cope with this problem, we model the relation between the two variables:
+Clearly, the CV's on **infant mortality** and **contraception** are not compliant with the corresponding precision constraints.
 
-```{r, eval=TRUE, echo=TRUE, warning=FALSE}
-modlin <- lm(iris$Petal.Length ~ iris$Sepal.Width)
-summary(modlin)
-```
+We now proceed in building the **strata** dataframe using the models:
 
-and use the model parameters in the construction of the **strata** dataframe:
-
-```{r, eval=TRUE, echo=TRUE, warning=FALSE, }
+```{r, eval = T}
 model <- NULL
-model$beta[1] <- modlin$coefficients[2]
-model$sig2[1] <- summary(modlin)$sigma
-model$gamma[1] <- 1
-model$type <- "linear"
+model$beta[1] <- mod_logGDP_INFMORT$coefficients[2]
+model$sig2[1] <- summary(mod_logGDP_INFMORT)$sigma
+model$type[1] <- "loglinear"
+model$gamma[1] <- 0
+model$beta[2] <- mod_logGDP_CONTRA$coefficients[2]
+model$sig2[2] <- summary(mod_logGDP_CONTRA)$sigma
+model$type[2] <- "loglinear"
+model$gamma[2] <- 0
 model <- as.data.frame(model)
 model
 ```
-```{r, eval=TRUE, echo=TRUE, warning=FALSE, }
+
+```{r, eval = T}
 strata2 <- buildStrataDF(frame, model = model, progress = FALSE)
+head(strata2)
 ```
 
-thus obtaining a solution with a sample size much higher:
+We proceed with the optimization
 
-```{r, eval=TRUE, echo=TRUE}
-solution2 <- optimizeStrata(
-  cv , 
-  strata2 , 
-  iter = 50,
-  pops = 20,
-  suggestions = kmean <- KmeansSolution(strata2,cv,maxclusters = 10),
-  showPlot = FALSE
-)
-sum(ceiling(solution2$aggr_strata$SOLUZ))
+```{r, eval = T}
+strata2 <- buildStrataDF(frame, model = model, progress = FALSE)
+solution2 <-
+  optimizeStrata(
+    errors = cv , 
+    strata = strata2, 
+    iter = 20, 
+    pops = 20, 
+    suggestions = KmeansSolution(strata2,cv),
+    showPlot = FALSE,
+    writeFiles = TRUE)
 ```
-If we now evaluate the expected CV's:
-```{r, eval=TRUE, echo=TRUE}
+
+This time the sample size is much higher.
+
+What about the expected CV's?
+
+
+```{r, eval = T}
 newstrata <- updateStrata(strata2,solution2)
 framenew2 <- updateFrame(frame,newstrata)
 framenew2 <- framenew2[order(framenew2$ID),]
-framenew2$Y1 <- iris$Sepal.Width
-framenew2$Y2 <- iris$Petal.Width
-results2 <- evalSolution(framenew2, solution2$aggr_strata, 500, progress = FALSE)
+framenew2$Y2 <- nations$infant.mortality
+framenew2$Y3 <- nations$contraception
+results2 <- evalSolution(framenew2, solution2$aggr_strata, 50, progress = FALSE)
 results2$coeff_var
 ```
 
-we see that the expected CV of *Petal.Width* has been largely improved. The possibility to fully reach the objective of compliance to the precision constraint depends on the fitting of the model, that in our case is quite low (adjusted R-squared:  0.178).
+This time the expected CV's of all variables are more than compliant with the precision constraints.
+We can decrease the sample size and increase the expected CV's by using the function *adjustSize*:
+
+```{r, eval = T}
+adjustedStrata <- adjustSize(size=45,solution2$aggr_strata)
+results2 <- evalSolution(framenew2, adjustedStrata, 200, progress=FALSE)
+results2$coeff_var
+```
+and obtain compliance to precision constraints with a lower sample size.
+
+
+
+
+
+
+# Appendix - Methodological approach
+
+In a stratified sampling design with one or more stages, a sample is selected from a frame containing the units of the population of interest, stratified according to the values of one or more auxiliary variables (X) available for all units in the population.
+
+For a given stratification, the overall size of the sample and the allocation in the different strata can be determined on the basis of constraints placed on the expected accuracy of the various estimates regarding the survey variables (Y).
+
+If the target survey variables are more than one the optimization problem is said to be **multivariate**; otherwise it is **univariate**.
+
+For a given stratification, in the univariate case the optimization of the allocation is in general based on the **Neyman allocation**. In the univariate case it is possible to make use of the **Bethel algorithm**.
+
+The criteria according to which stratification is defined are crucial for the efficiency of the sample.
+
+With the same precision constraints, the overall size of the sample required to satisfy them may be significantly affected by the particular stratification chosen for the population of interest.
+
+Given G survey variables, their sampling variance is:
+
+$$Var(\hat{Y_{g}})=\sum_{h=1}^{H}N_{h}^{2} (1- \frac{ 
+  n_{h}}
+  {N_{h}}) \frac{ 
+  S_{h,g}^{2}}
+  {n_{h}} \;\;\;  g=1,...,G$$ 
+
+If we introduce the following cost function:
+
+$$C(n_{1},...,n_{H})=C_{0}+\sum_{h=1}^{H}C_{h}n_{h} $$
+
+the optimization problem can be formalized in this way:
+
+$$min= C_{0}+\sum_{h=1}^{H}C_{h}n_{h}\\ $$
+under the constraints
+$$ 
+\begin{cases} 
+CV(\hat{Y_{1}}) < U_{1}\\ 
+CV(\hat{Y_{2}}) < U_{2}\\
+...\\
+CV(\hat{Y_{G}}) < U_{G}\\
+\end{cases}
+$$
+where
+$$ CV(\hat{Y_{g}}) = \frac{\sqrt{Var(\hat{Y_{g}})} } {mean(\hat{Y_{g}})}$$
+
+Given a population frame with m auxiliary variables 
+$X_{1},..., X_{M}$ 
+we define as **atomic stratification** 
+the one that can be obtained considering the cartesian product of the definition domains of the m variables.
+$$L=\{(l_{1}),(l_{2}),...,(l_{k})\}$$
+Starting from the atomic stratification, it is possible to generate all the different stratifications that belong to the universe of stratifications. For example:
+
+$$
+\begin{align*}
+&P_{1}=\{(l_{1},l_{2},l_{3})\} & P_{2}=\{(l_{1}),(l_{2},l_{3})\} \\
+&P_{2}=\{(l_{2}),(l_{1},l_{3})\} & P_{4}=\{(l_{31}),(l_{1},l_{2})\} \\
+&P_{5}=\{(l_{1}),(l_{2}),(l_{k})\}
+\end{align*}
+$$
+
+The number of feasible stratifications  is exponential with respect to the number of initial atomic strata:
+
+$$
+\begin{align*}
+& B_{4}=15 & B_{10}=115975 &
+& B_{100}\approx 4.76 \times 10^{115} 
+\end{align*}
+$$
+
+In concrete cases, it is therefore impossible to examine all the different possible alternative stratifications. 
+The **Genetic Algorithm** allows to explore the universe of stratification in a very efficient way in order to find the optimal (or close to optimal) solution.
+
+In planning a strafied sampling for a given survey, proceed as follows:
+
+* given the survey variables $Y_{1},Y_{2},...,Y_{p}$, set **precision constraints** on their estimates in the different domains, expressed in terms of CVs (coefficients of variation);
+
+* in the available sampling frame build the **atomic stratification**, obtained as cartesian product of the domains of the auxiliary variables $X_{1},...,X_{M}$;
+
+* in each atomic stratum report the distributional characteristics of the survey variables by calculating their **means** and **standard deviations** calculate the values of the population (directly or by using proxy variables);
+
+* on the basis of these inputs, the Genetic Algorithm determines the **best solution** in terms of both frame **stratification**, **sample size** and **allocation** in optimized strata.
+
+The application of the genetic algorithm is based on the following steps:
+
+* a given stratification is considered as an _individual_ in a population (= _generation_) subject to _evolution_;
+
+* each individual is characterized by a _genome_ represented by a vector of dimension equal to the number of atomic strata: the position of each element in the vector identifies an atomic stratum;
+
+* each element in the vector is assigned a random value between 1 and K (maximum acceptable number of  strata): the vector therefore indicates the way in which the individual atomic strata are aggregated together;
+
+* for each individual (stratification) its _fitness_ is calculated by solving the corresponding problem of optimal allocation by means of Bethel's algorithm;
+
+* in passing from one generation to the next, _individuals with higher fitness are favored_;
+
+* at the end of the process of evolution, **_the individual with the overall best fitness represents the optimal solution_**.
+
+
+
+
 
 # References
 
