@@ -74,7 +74,7 @@
       <h1>Optimization of sampling strata with the SamplingStrata package</h1>
                         <h4 class="author">Giulio Barcaroli</h4>
             
-            <h4 class="date">2018-09-07</h4>
+            <h4 class="date">2018-09-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/SamplingStrata.Rmd"><code>vignettes/SamplingStrata.Rmd</code></a></small>
       <div class="hidden name"><code>SamplingStrata.Rmd</code></div>
@@ -145,7 +145,7 @@
 <p>As for the auxiliary variables (X’s), we can use all of those characterising the area use (wood, mountain or pasture, cultivated, industrial, with buildings).</p>
 <p>Finally, we want to produce estimates not only for the whole country, but also for each one of the seven different regions.</p>
 <p>Function <em>buildFrameDF</em> permits to organize data in a suitable mode for next processing:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swissmunicipalities$id &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>:<span class="kw">nrow</span>(swissmunicipalities))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swissmunicipalities<span class="op">$</span>id &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(swissmunicipalities))
 swissframe &lt;-<span class="st"> </span><span class="kw"><a href="../reference/buildFrameDF.html">buildFrameDF</a></span>(<span class="dt">df =</span> swissmunicipalities,
                            <span class="dt">id =</span> <span class="st">"id"</span>,
                            <span class="dt">X =</span> <span class="kw">c</span>(<span class="st">"POPTOT"</span>,
@@ -176,12 +176,12 @@ swissframe &lt;-<span class="st"> </span><span class="kw"><a href="../reference/
 <p>As the X variables are of the continuous type, first we have to reduce them in a categorical (ordinal) form.</p>
 <p>A suitable way to do so, is to apply a k-means clustering method <span class="citation">(see Hartigan and Wong 1979)</span> by using the function <em>var.bin</em>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SamplingStrata)
-swissframe$X1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities$POPTOT, <span class="dt">bins=</span><span class="dv">18</span>)
-swissframe$X2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities$Surfacesbois, <span class="dt">bins=</span><span class="dv">3</span>)
-swissframe$X3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities$Surfacescult, <span class="dt">bins=</span><span class="dv">3</span>)
-swissframe$X4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities$Alp, <span class="dt">bins=</span><span class="dv">3</span>)
-swissframe$X5 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities$Airbat, <span class="dt">bins=</span><span class="dv">3</span>)
-swissframe$X6 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities$Airind, <span class="dt">bins=</span><span class="dv">3</span>)</code></pre></div>
+swissframe<span class="op">$</span>X1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities<span class="op">$</span>POPTOT, <span class="dt">bins=</span><span class="dv">18</span>)
+swissframe<span class="op">$</span>X2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities<span class="op">$</span>Surfacesbois, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe<span class="op">$</span>X3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities<span class="op">$</span>Surfacescult, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe<span class="op">$</span>X4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities<span class="op">$</span>Alp, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe<span class="op">$</span>X5 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities<span class="op">$</span>Airbat, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe<span class="op">$</span>X6 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/var.bin.html">var.bin</a></span>(swissmunicipalities<span class="op">$</span>Airind, <span class="dt">bins=</span><span class="dv">3</span>)</code></pre></div>
 <p>Now, we have six different auxiliary variables of the categorical type, the first with 18 different modalities, the others with 3 modalities.</p>
 <p>In any case, this dataframe comes with the package <em>SamplingStrata</em>: it can be made available by executing:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SamplingStrata)
@@ -202,7 +202,7 @@ swissframe$X6 &lt;-<span class="st"> </span><span class="kw"><a href="../referen
 <span class="co">#&gt; 5           1</span>
 <span class="co">#&gt; 6           4</span></code></pre></div>
 <p>We could also not indicate substantive X variables, if we want that each unit in the sampling frame be considered as an atomic stratum, and let to the optimization step to aggregate them on the basis of the values of the Y variable. In any case, as we have to indicate at least one X variable, we can use to this purpose the unique identifier in the frame:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swissmunicipalities$id &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>:<span class="kw">nrow</span>(swissframe))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swissmunicipalities<span class="op">$</span>id &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(swissframe))
 newframe &lt;-<span class="st"> </span><span class="kw"><a href="../reference/buildFrameDF.html">buildFrameDF</a></span>(<span class="dt">df =</span> swissmunicipalities,
                          <span class="dt">id =</span> <span class="st">"id"</span>,
                          <span class="dt">X =</span> <span class="st">"id"</span>,
@@ -370,8 +370,8 @@ cv
 <span class="co">#&gt;   Elitism               = 4</span>
 <span class="co">#&gt;   Mutation Chance       = 0.00833333333333333</span></code></pre></div>
 <p><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-1.png" width="700"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-2.png" width="700"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-3.png" width="700"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-4.png" width="700"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-5.png" width="700"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-6.png" width="700"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-7.png" width="700"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">ceiling</span>(solution$aggr_strata$SOLUZ))
-<span class="co">#&gt; [1] 227</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">ceiling</span>(solution<span class="op">$</span>aggr_strata<span class="op">$</span>SOLUZ))
+<span class="co">#&gt; [1] 235</span></code></pre></div>
 <p>Note that by so doing the <em>initialStrata</em> parameter is set equal to the number of atomic strata in each domain . Another possibility is to set a pre-determined value for each domain, for instance equal in each domain, as c(5,5,5,5,5,5,5,5).</p>
 <!-- The execution of *optimizeStrata* produces the solution of 7 different optimization problems, one for each domain. -->
 <!-- We have reported in Figure 1 the convergence plot regarding the third domain. -->
@@ -416,14 +416,14 @@ cv
 <span class="co">#&gt;  Kmeans solution </span>
 <span class="co">#&gt; -----------------</span>
 <span class="co">#&gt;  *** Domain:  1  ***</span>
-<span class="co">#&gt;  Number of strata:  8</span>
+<span class="co">#&gt;  Number of strata:  9</span>
 <span class="co">#&gt;  Sample size     :  18</span>
 <span class="co">#&gt;  *** Domain:  2  ***</span>
-<span class="co">#&gt;  Number of strata:  9</span>
-<span class="co">#&gt;  Sample size     :  17</span>
+<span class="co">#&gt;  Number of strata:  8</span>
+<span class="co">#&gt;  Sample size     :  18</span>
 <span class="co">#&gt;  *** Domain:  3  ***</span>
-<span class="co">#&gt;  Number of strata:  7</span>
-<span class="co">#&gt;  Sample size     :  13</span>
+<span class="co">#&gt;  Number of strata:  8</span>
+<span class="co">#&gt;  Sample size     :  15</span>
 <span class="co">#&gt;  *** Domain:  4  ***</span>
 <span class="co">#&gt;  Number of strata:  6</span>
 <span class="co">#&gt;  Sample size     :  10</span>
@@ -434,16 +434,16 @@ cv
 <span class="co">#&gt;  Number of strata:  7</span>
 <span class="co">#&gt;  Sample size     :  13</span>
 <span class="co">#&gt;  *** Domain:  7  ***</span>
-<span class="co">#&gt;  Number of strata:  9</span>
-<span class="co">#&gt;  Sample size     :  17</span>
+<span class="co">#&gt;  Number of strata:  7</span>
+<span class="co">#&gt;  Sample size     :  14</span>
 <span class="kw">head</span>(solutionKmeans)
 <span class="co">#&gt;   suggestions domainvalue</span>
-<span class="co">#&gt; 1           4           1</span>
-<span class="co">#&gt; 2           4           1</span>
-<span class="co">#&gt; 3           4           1</span>
-<span class="co">#&gt; 4           4           1</span>
-<span class="co">#&gt; 5           4           1</span>
-<span class="co">#&gt; 6           4           1</span></code></pre></div>
+<span class="co">#&gt; 1           5           1</span>
+<span class="co">#&gt; 2           5           1</span>
+<span class="co">#&gt; 3           5           1</span>
+<span class="co">#&gt; 4           5           1</span>
+<span class="co">#&gt; 5           5           1</span>
+<span class="co">#&gt; 6           5           1</span></code></pre></div>
 <p>This solution can be given as argument to the parameter <em>suggestion</em> in the <em>optimizeStrata</em> function.</p>
 <p>Suppose we want to optimize the stratification of domain 3 by making use of the initial solution given by the kmeans algorithm in that domain:</p>
 <pre><code>#&gt; 
@@ -465,13 +465,13 @@ cv
 #&gt; Elitism rate in GA generation:  0.2
 #&gt; Chance to add strata to maximum:  0
 #&gt; Allocation with real numbers instead of integers:  TRUE
-#&gt; Suggestion:  6 5 5 5 5 2 5 5 5 5 5 5 3 3 3 3 3 3 3 3 7 6 6 6 6 6 6 6 6 1 1 1 1 1 1 1 1 1 4 4 4 4 4 4 4 4 4 2 2 2 2 2 2 2 2 2 2 2 2 2 2</code></pre>
+#&gt; Suggestion:  7 4 4 6 6 4 6 6 6 6 6 6 5 5 5 5 5 5 5 5 8 7 7 7 7 7 7 7 7 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 2 3 2 2 2 2 2 2 2 2 2 4 4 4 4 4</code></pre>
 <p><img src="SamplingStrata_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 <pre><code>#&gt; 
-#&gt;  *** Sample cost:  12.11173
-#&gt;  *** Number of strata:  6
-#&gt;  *** Sample size :  12
-#&gt;  *** Number of strata :  6
+#&gt;  *** Sample cost:  13
+#&gt;  *** Number of strata:  7
+#&gt;  *** Sample size :  13
+#&gt;  *** Number of strata :  7
 #&gt; ---------------------------
 #&gt; [1] 13</code></pre>
 <p>thus obtaining a much more conventient solution than the one without the kmeans suggestion, with the same number of iterations.</p>
@@ -486,22 +486,28 @@ cv
 <li>the resulting sample size is too low, the available budget permits to increase the number of units.</li>
 </ul>
 <p>In the first case, no action is required. In the second case, it is necessary to reduce the number of units, by equally applying the same reduction rate in each stratum. In the third case, we could either to set more tight precision constraints, or proceed to increase the sample size by applying the same increase rate in each stratum. This increase/reduction process is iterative, as by applying the same rate we could find that in some strata there are not enough units to increase or to reduce. The function <em>adjustSize</em> permits to obtain the desired final sample size. Let us suppose that the obtained sample size is not affordable. We can reduce it by executing the following code:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">adjustedStrata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/adjustSize.html">adjustSize</a></span>(<span class="dt">size=</span><span class="dv">200</span>,<span class="dt">strata=</span>solution$aggr_strata,<span class="dt">cens=</span><span class="ot">NULL</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">adjustedStrata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/adjustSize.html">adjustSize</a></span>(<span class="dt">size=</span><span class="dv">200</span>,<span class="dt">strata=</span>solution<span class="op">$</span>aggr_strata,<span class="dt">cens=</span><span class="ot">NULL</span>)
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  202</span>
-<span class="co">#&gt;  202</span>
-<span class="co">#&gt;  Final adjusted size:  202</span>
-<span class="kw">sum</span>(adjustedStrata$SOLUZ)
-<span class="co">#&gt; [1] 202</span></code></pre></div>
+<span class="co">#&gt;  204</span>
+<span class="co">#&gt;  204</span>
+<span class="co">#&gt;  Final adjusted size:  204</span>
+<span class="kw">sum</span>(adjustedStrata<span class="op">$</span>SOLUZ)
+<span class="co">#&gt; [1] 204</span></code></pre></div>
 <p>Instead, if we want to increase the size because the budget allows to do this, then this is the code:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">adjustedStrata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/adjustSize.html">adjustSize</a></span>(<span class="dt">size=</span><span class="dv">400</span>,<span class="dt">strata=</span>solution$aggr_strata,<span class="dt">cens=</span><span class="ot">NULL</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">adjustedStrata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/adjustSize.html">adjustSize</a></span>(<span class="dt">size=</span><span class="dv">400</span>,<span class="dt">strata=</span>solution<span class="op">$</span>aggr_strata,<span class="dt">cens=</span><span class="ot">NULL</span>)
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  373</span>
-<span class="co">#&gt;  385</span>
-<span class="co">#&gt;  385</span>
-<span class="co">#&gt;  Final adjusted size:  385</span>
-<span class="kw">sum</span>(adjustedStrata$SOLUZ)
-<span class="co">#&gt; [1] 385</span></code></pre></div>
+<span class="co">#&gt;  376</span>
+<span class="co">#&gt;  383</span>
+<span class="co">#&gt;  387</span>
+<span class="co">#&gt;  388</span>
+<span class="co">#&gt;  389</span>
+<span class="co">#&gt;  390</span>
+<span class="co">#&gt;  391</span>
+<span class="co">#&gt;  392</span>
+<span class="co">#&gt;  392</span>
+<span class="co">#&gt;  Final adjusted size:  392</span>
+<span class="kw">sum</span>(adjustedStrata<span class="op">$</span>SOLUZ)
+<span class="co">#&gt; [1] 392</span></code></pre></div>
 <p>The difference between the desired sample size and the actual adjusted size depends on the number of strata in the optimized solution. Consider that the adjustment is performed in each stratum by taking into account the relative difference between the current sample size and the desired one: this produces an allocation that is expressed by a real number, that must be rounded. The higher the number of strata, the higher the impact of the rounding in all strata on the final adjusted sample size.</p>
 </div>
 <div id="analysis-of-results" class="section level1">
@@ -526,11 +532,11 @@ cv
 <span class="kw">head</span>(strata_aggregation)
 <span class="co">#&gt;   DOM1 AGGR_STRATUM X1 X2 X3 X4 X5 X6</span>
 <span class="co">#&gt; 1    1            1  1  1  1  1  1  1</span>
-<span class="co">#&gt; 2    1            1  1  2  2  1  1  1</span>
-<span class="co">#&gt; 3    1            1  2  2  2  2  1  1</span>
-<span class="co">#&gt; 4    1            1  3  1  1  2  1  1</span>
-<span class="co">#&gt; 5    1            1  4  1  1  1  1  1</span>
-<span class="co">#&gt; 6    1            1  5  1  2  1  1  1</span></code></pre></div>
+<span class="co">#&gt; 2    1            1  1  1  1  2  1  1</span>
+<span class="co">#&gt; 3    1            1  1  2  1  1  1  1</span>
+<span class="co">#&gt; 4    1            2  1  1  1  1  1  2</span>
+<span class="co">#&gt; 5    1            3  1  1  2  1  1  1</span>
+<span class="co">#&gt; 6    1            3  1  2  1  2  1  1</span></code></pre></div>
 <p>In this structure, for each aggregate stratum the values of the X’s variables in each contributing atomic stratum are reported. It is then possible to understand the meaning of each aggregate stratum produced by the optimization.</p>
 </div>
 <div id="updating-the-frame-and-selecting-the-sample" class="section level1">
@@ -544,13 +550,13 @@ cv
 <p>As for the first, we execute the following command:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">framenew &lt;-<span class="st"> </span><span class="kw"><a href="../reference/updateFrame.html">updateFrame</a></span>(swissframe, newstrata, <span class="dt">writeFiles=</span><span class="ot">TRUE</span>)</code></pre></div>
 <p>The function <em>updateFrame</em> receives as arguments the indication of the dataframe in which the frame information is memorised, and of the dataframe produced by the execution of the <em>updateStrata</em> function. The execution of this function produces a dataframe <em>framenew</em>, and also a file (named <em>framenew.txt</em>) with the labels of the new strata produced by the optimisation step. The allocation of units is contained in the <em>SOLUZ</em> column of the dataset <em>outstrata.txt</em>. At this point it is possible to select the sample from the new version of the frame:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selectSample.html">selectSample</a></span>(framenew, solution$aggr_strata, <span class="dt">writeFiles=</span><span class="ot">TRUE</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selectSample.html">selectSample</a></span>(framenew, solution<span class="op">$</span>aggr_strata, <span class="dt">writeFiles=</span><span class="ot">TRUE</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; *** Sample has been drawn successfully ***</span>
-<span class="co">#&gt;  203  units have been selected from  76  strata</span>
+<span class="co">#&gt;  211  units have been selected from  79  strata</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ==&gt; There have been  12  take-all strata </span>
-<span class="co">#&gt; from which have been selected  32 units</span></code></pre></div>
+<span class="co">#&gt; from which have been selected  26 units</span></code></pre></div>
 <p>that produces two .csv files:</p>
 <ul>
 <li>
@@ -572,43 +578,43 @@ framenew &lt;-<span class="st"> </span><span class="kw">merge</span>(framenew,sw
                   <span class="dt">by.x=</span><span class="kw">c</span>(<span class="st">"REG"</span>,<span class="st">"ID"</span>),<span class="dt">by.y=</span><span class="kw">c</span>(<span class="st">"REG"</span>,<span class="st">"Nom"</span>))
 <span class="co"># selection of sample with systematic method</span>
 sample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selectSampleSystematic.html">selectSampleSystematic</a></span>(<span class="dt">frame=</span>framenew,
-                                 <span class="dt">outstrata=</span>solution$aggr_strata,
+                                 <span class="dt">outstrata=</span>solution<span class="op">$</span>aggr_strata,
                                  <span class="dt">sortvariable =</span> <span class="kw">c</span>(<span class="st">"POPTOT"</span>))
 <span class="co">#&gt; </span>
 <span class="co">#&gt; *** Sample has been drawn successfully ***</span>
-<span class="co">#&gt;  203  units have been selected from  76  strata</span>
+<span class="co">#&gt;  211  units have been selected from  79  strata</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ==&gt; There have been  12  take-all strata </span>
-<span class="co">#&gt; from which have been selected  32 units</span>
+<span class="co">#&gt; from which have been selected  26 units</span>
 <span class="kw">head</span>(sample,<span class="dv">3</span>)
-<span class="co">#&gt;   DOMAINVALUE STRATO REG        ID     STRATUM PROGR X1 X2 X3 X4 X5 X6 Y1</span>
-<span class="co">#&gt; 1           1      1   1     Agiez 1*1*1*1*1*1  2443  1  1  1  1  1  1 53</span>
-<span class="co">#&gt; 2           1      1   1 Donneloye 1*1*1*1*1*1  2226  1  1  1  1  1  1 90</span>
-<span class="co">#&gt; 3           1      1   1     Filet 1*1*1*1*1*1  2614  1  1  1  1  1  1 37</span>
-<span class="co">#&gt;   Y2 Y3 Y4 LABEL POPTOT WEIGHTS        FPC</span>
-<span class="co">#&gt; 1 52 78 41     1    224    41.8 0.02392344</span>
-<span class="co">#&gt; 2 87 99 44     1    320    41.8 0.02392344</span>
-<span class="co">#&gt; 3 47 51 17     1    152    41.8 0.02392344</span></code></pre></div>
+<span class="co">#&gt;   DOMAINVALUE STRATO REG        ID     STRATUM PROGR X1 X2 X3 X4 X5 X6  Y1</span>
+<span class="co">#&gt; 1           1      1   1  Essertes 1*1*1*1*1*1  2350  1  1  1  1  1  1  60</span>
+<span class="co">#&gt; 2           1      1   1  Mex (VS) 1*1*1*1*1*1  2729  1  1  1  1  1  1  37</span>
+<span class="co">#&gt; 3           1     10   1 Bovernier 2*2*1*1*1*1  1577  2  2  1  1  1  1 215</span>
+<span class="co">#&gt;    Y2  Y3  Y4 LABEL POPTOT WEIGHTS        FPC</span>
+<span class="co">#&gt; 1  89  85  25     1    259    97.5 0.01025641</span>
+<span class="co">#&gt; 2  21  35  13     1    106    97.5 0.01025641</span>
+<span class="co">#&gt; 3 183 222 113    10    733    32.5 0.03076923</span></code></pre></div>
 </div>
 <div id="evaluation-of-the-found-solution" class="section level1">
 <h1 class="hasAnchor">
 <a href="#evaluation-of-the-found-solution" class="anchor"></a>Evaluation of the found solution</h1>
 <p>In order to be confident about the quality of the found solution, the function <em>evalSolution</em> allows to run a simulation, based on the selection of a desired number of samples from the frame to which the stratification, identified as the best, has been applied. The user can invoke this function also indicating the number of samples to be drawn:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval &lt;-<span class="st"> </span><span class="kw"><a href="../reference/evalSolution.html">evalSolution</a></span>(framenew, 
-                     solution$aggr_strata, 
+                     solution<span class="op">$</span>aggr_strata, 
                      <span class="dt">nsampl=</span><span class="dv">1000</span>, 
                      <span class="dt">writeFiles=</span><span class="ot">TRUE</span>,
                      <span class="dt">progress=</span><span class="ot">FALSE</span>) </code></pre></div>
 <p>For each drawn sample, the estimates related to the Y’s are calculated. Their mean and standard deviation are also computed, in order to produce the CV related to each variable in every domain. These CV’s can be inspected and compared to the constraints:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval$coeff_var
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval<span class="op">$</span>coeff_var
 <span class="co">#&gt;          CV1        CV2        CV3        CV4  dom</span>
-<span class="co">#&gt; 1 0.08051939 0.07706497 0.07923521 0.08680353 DOM1</span>
-<span class="co">#&gt; 2 0.08125813 0.08584265 0.08110891 0.08358555 DOM2</span>
-<span class="co">#&gt; 3 0.07926573 0.07863527 0.07981251 0.09466728 DOM3</span>
-<span class="co">#&gt; 4 0.07118230 0.07007204 0.07460477 0.07986600 DOM4</span>
-<span class="co">#&gt; 5 0.07580175 0.07663663 0.07683250 0.07907317 DOM5</span>
-<span class="co">#&gt; 6 0.08567922 0.08305020 0.08480053 0.08434682 DOM6</span>
-<span class="co">#&gt; 7 0.08137815 0.08551499 0.08107348 0.09630419 DOM7</span>
+<span class="co">#&gt; 1 0.08021690 0.07803723 0.07679784 0.08247787 DOM1</span>
+<span class="co">#&gt; 2 0.07801261 0.07892812 0.07670416 0.08429898 DOM2</span>
+<span class="co">#&gt; 3 0.08115403 0.07984472 0.08228176 0.09369119 DOM3</span>
+<span class="co">#&gt; 4 0.08043885 0.08136149 0.08323677 0.08643176 DOM4</span>
+<span class="co">#&gt; 5 0.07961695 0.07848910 0.07902153 0.07759979 DOM5</span>
+<span class="co">#&gt; 6 0.07602585 0.07333457 0.07639625 0.07452974 DOM6</span>
+<span class="co">#&gt; 7 0.07561533 0.07943073 0.07763856 0.09168454 DOM7</span>
 swisserrors
 <span class="co">#&gt;    DOM  CV1  CV2  CV3  CV4 domainvalue</span>
 <span class="co">#&gt; 1 DOM1 0.08 0.12 0.08 0.12           1</span>
@@ -619,26 +625,26 @@ swisserrors
 <span class="co">#&gt; 6 DOM1 0.08 0.12 0.08 0.12           6</span>
 <span class="co">#&gt; 7 DOM1 0.08 0.12 0.08 0.12           7</span></code></pre></div>
 <p>Whenever the precision constraints are not strictly observed, then it is possible to carry out the rounding to the upper integer (<em>ceiling</em>) the allocation vector. Accordingly to the Bethel algorithm, this ensure compliance to the precision constraints.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(solution$aggr_strata$SOLUZ)
-<span class="co">#&gt; [1] 205.8546</span>
-outstrata &lt;-<span class="st"> </span>solution$aggr_strata
-outstrata$SOLUZ &lt;-<span class="st"> </span><span class="kw">ceiling</span>(outstrata$SOLUZ)
-<span class="kw">sum</span>(outstrata$SOLUZ)
-<span class="co">#&gt; [1] 227</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(solution<span class="op">$</span>aggr_strata<span class="op">$</span>SOLUZ)
+<span class="co">#&gt; [1] 211.6753</span>
+outstrata &lt;-<span class="st"> </span>solution<span class="op">$</span>aggr_strata
+outstrata<span class="op">$</span>SOLUZ &lt;-<span class="st"> </span><span class="kw">ceiling</span>(outstrata<span class="op">$</span>SOLUZ)
+<span class="kw">sum</span>(outstrata<span class="op">$</span>SOLUZ)
+<span class="co">#&gt; [1] 235</span>
 eval_ceiling &lt;-<span class="st"> </span><span class="kw"><a href="../reference/evalSolution.html">evalSolution</a></span>(framenew, 
                      outstrata, 
                      <span class="dt">nsampl=</span><span class="dv">1000</span>,
                      <span class="dt">writeFiles =</span> <span class="ot">TRUE</span>,
                      <span class="dt">progress =</span> <span class="ot">FALSE</span>)
-eval_ceiling$coeff_var
+eval_ceiling<span class="op">$</span>coeff_var
 <span class="co">#&gt;          CV1        CV2        CV3        CV4  dom</span>
-<span class="co">#&gt; 1 0.07206848 0.06850705 0.07106487 0.07686101 DOM1</span>
-<span class="co">#&gt; 2 0.07300671 0.07681425 0.07375554 0.07670090 DOM2</span>
-<span class="co">#&gt; 3 0.07512016 0.07308426 0.07395138 0.08427989 DOM3</span>
-<span class="co">#&gt; 4 0.07196489 0.07053283 0.07452054 0.08016721 DOM4</span>
-<span class="co">#&gt; 5 0.07305773 0.07301082 0.07325179 0.07478622 DOM5</span>
-<span class="co">#&gt; 6 0.07094686 0.06813374 0.06965939 0.06855626 DOM6</span>
-<span class="co">#&gt; 7 0.07703978 0.08083939 0.07701509 0.09062585 DOM7</span>
+<span class="co">#&gt; 1 0.07828637 0.07685313 0.07605434 0.08068485 DOM1</span>
+<span class="co">#&gt; 2 0.07360002 0.07512527 0.07167343 0.07882439 DOM2</span>
+<span class="co">#&gt; 3 0.07261073 0.07149478 0.07198874 0.07888504 DOM3</span>
+<span class="co">#&gt; 4 0.07215329 0.07486237 0.07343075 0.07711065 DOM4</span>
+<span class="co">#&gt; 5 0.07484603 0.07346784 0.07417131 0.07430979 DOM5</span>
+<span class="co">#&gt; 6 0.07345880 0.07166225 0.07504277 0.07390867 DOM6</span>
+<span class="co">#&gt; 7 0.07484638 0.07949325 0.07728020 0.08985975 DOM7</span>
 swisserrors
 <span class="co">#&gt;    DOM  CV1  CV2  CV3  CV4 domainvalue</span>
 <span class="co">#&gt; 1 DOM1 0.08 0.12 0.08 0.12           1</span>
@@ -663,22 +669,22 @@ swisserrors
 <span class="kw">data</span>(swissstrata)
 <span class="kw">data</span>(swissframe)
 <span class="co">#----Selection of units to be censused from the frame</span>
-framecens &lt;-<span class="st"> </span>swissframe[ (swissframe$domainvalue ==<span class="st"> </span><span class="dv">1</span> |
-<span class="st">                          </span>swissframe$domainvalue ==<span class="st"> </span><span class="dv">4</span>) &amp;<span class="st"> </span>
-<span class="st">                         </span>(swissframe$X2 ==<span class="st"> </span><span class="dv">1</span> &amp;
-<span class="st">                          </span>swissframe$X3 ==<span class="st"> </span><span class="dv">1</span> &amp;
-<span class="st">                          </span>swissframe$X4 ==<span class="st"> </span><span class="dv">1</span> &amp;
-<span class="st">                          </span>swissframe$X5 ==<span class="st"> </span><span class="dv">1</span> &amp;
-<span class="st">                          </span>swissframe$X6 ==<span class="st"> </span><span class="dv">1</span>)  , ]
+framecens &lt;-<span class="st"> </span>swissframe[ (swissframe<span class="op">$</span>domainvalue <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">|</span>
+<span class="st">                          </span>swissframe<span class="op">$</span>domainvalue <span class="op">==</span><span class="st"> </span><span class="dv">4</span>) <span class="op">&amp;</span><span class="st"> </span>
+<span class="st">                         </span>(swissframe<span class="op">$</span>X2 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                          </span>swissframe<span class="op">$</span>X3 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                          </span>swissframe<span class="op">$</span>X4 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                          </span>swissframe<span class="op">$</span>X5 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                          </span>swissframe<span class="op">$</span>X6 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)  , ]
 <span class="co">#----Selection of units to be sampled from the frame</span>
 <span class="co"># (complement to the previous)</span>
-framesamp &lt;-<span class="st"> </span>swissframe[!((swissframe$domainvalue ==<span class="st"> </span><span class="dv">1</span> |
-<span class="st">                           </span>swissframe$domainvalue ==<span class="st"> </span><span class="dv">4</span>) &amp;<span class="st"> </span>
-<span class="st">                          </span>(swissframe$X2 ==<span class="st"> </span><span class="dv">1</span> &amp;
-<span class="st">                           </span>swissframe$X3 ==<span class="st"> </span><span class="dv">1</span> &amp;
-<span class="st">                           </span>swissframe$X4 ==<span class="st"> </span><span class="dv">1</span> &amp;
-<span class="st">                           </span>swissframe$X5 ==<span class="st"> </span><span class="dv">1</span> &amp;
-<span class="st">                           </span>swissframe$X6 ==<span class="st"> </span><span class="dv">1</span>)) , ]</code></pre></div>
+framesamp &lt;-<span class="st"> </span>swissframe[<span class="op">!</span>((swissframe<span class="op">$</span>domainvalue <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">|</span>
+<span class="st">                           </span>swissframe<span class="op">$</span>domainvalue <span class="op">==</span><span class="st"> </span><span class="dv">4</span>) <span class="op">&amp;</span><span class="st"> </span>
+<span class="st">                          </span>(swissframe<span class="op">$</span>X2 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                           </span>swissframe<span class="op">$</span>X3 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                           </span>swissframe<span class="op">$</span>X4 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                           </span>swissframe<span class="op">$</span>X5 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                           </span>swissframe<span class="op">$</span>X6 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)) , ]</code></pre></div>
 <p>In this way, we have included all units belonging to ‘take-all’ strata in ‘framecens’, and the remaining in ‘framesamp’. At the end of the process, the sample will be selected from ‘framesamp’, while the units in ‘framecens’ will be simply added to the sample.</p>
 <p>We can obtain census strata and sampling strata by applying <em>buildStrataDF</em> respectively to to <em>framecens</em> and <em>framesamp</em>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Build strata to be censused and sampled</span>
@@ -688,7 +694,7 @@ cens &lt;-<span class="st"> </span><span class="kw"><a href="../reference/buildS
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of strata:  18</span>
 <span class="co">#&gt; ... of which with only one unit:  2</span>
-<span class="kw">sum</span>(cens$N)
+<span class="kw">sum</span>(cens<span class="op">$</span>N)
 <span class="co">#&gt; [1] 405</span>
 strata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/buildStrataDF.html">buildStrataDF</a></span>(framesamp,<span class="dt">progress =</span> <span class="ot">FALSE</span>)
 <span class="co">#&gt; </span>
@@ -696,12 +702,12 @@ strata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/buil
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of strata:  623</span>
 <span class="co">#&gt; ... of which with only one unit:  387</span>
-<span class="kw">sum</span>(strata$N)
+<span class="kw">sum</span>(strata<span class="op">$</span>N)
 <span class="co">#&gt; [1] 2491</span></code></pre></div>
 <p>and</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(cens$N)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(cens<span class="op">$</span>N)
 <span class="co">#&gt; [1] 405</span>
-<span class="kw">sum</span>(strata$N)
+<span class="kw">sum</span>(strata<span class="op">$</span>N)
 <span class="co">#&gt; [1] 2491</span></code></pre></div>
 <p>Now we have all required inputs to run ‘optimizeStrata’ in presence of the ‘take-all’ strata:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">solution &lt;-<span class="st"> </span><span class="kw"><a href="../reference/optimizeStrata.html">optimizeStrata</a></span>(
@@ -726,30 +732,30 @@ strata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/buil
 <span class="co"># updating sampling frame with new strata labels</span>
 framenew &lt;-<span class="st"> </span><span class="kw"><a href="../reference/updateFrame.html">updateFrame</a></span>(<span class="dt">frame=</span>framesamp,<span class="dt">newstrata=</span>newstrata)
 <span class="co"># selection of sample from sampling strata</span>
-sample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selectSample.html">selectSample</a></span>(<span class="dt">frame=</span>framenew,<span class="dt">outstrata=</span>solution$aggr_strata)
+sample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selectSample.html">selectSample</a></span>(<span class="dt">frame=</span>framenew,<span class="dt">outstrata=</span>solution<span class="op">$</span>aggr_strata)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; *** Sample has been drawn successfully ***</span>
-<span class="co">#&gt;  191  units have been selected from  65  strata</span>
+<span class="co">#&gt;  224  units have been selected from  73  strata</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ==&gt; There have been  10  take-all strata </span>
-<span class="co">#&gt; from which have been selected  32 units</span></code></pre></div>
+<span class="co">#&gt; ==&gt; There have been  8  take-all strata </span>
+<span class="co">#&gt; from which have been selected  24 units</span></code></pre></div>
 <p>Finally, the units in the ‘take-all’ strata can be added to sampled ones. First, the census frame needs to be made homogeneous to the sample frame in order to permit the ‘rbind’ step:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># addition of necessary variables to </span>
 <span class="kw">colnames</span>(framesamp) &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">colnames</span>(framesamp))
 <span class="kw">colnames</span>(framecens) &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">colnames</span>(framecens))
-framecens$WEIGHTS &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">nrow</span>(framecens))
-framecens$FPC &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">nrow</span>(framecens))
-framecens$LABEL &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">"999999"</span>,<span class="kw">nrow</span>(framecens))
-framecens$STRATUM &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">"999999"</span>,<span class="kw">nrow</span>(framecens))
-framecens$STRATO &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">"999999"</span>,<span class="kw">nrow</span>(framecens))</code></pre></div>
+framecens<span class="op">$</span>WEIGHTS &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">nrow</span>(framecens))
+framecens<span class="op">$</span>FPC &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">nrow</span>(framecens))
+framecens<span class="op">$</span>LABEL &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">"999999"</span>,<span class="kw">nrow</span>(framecens))
+framecens<span class="op">$</span>STRATUM &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">"999999"</span>,<span class="kw">nrow</span>(framecens))
+framecens<span class="op">$</span>STRATO &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">"999999"</span>,<span class="kw">nrow</span>(framecens))</code></pre></div>
 <p>The overall set of units to be surveyed is obtainable in this way:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">survey &lt;-<span class="st"> </span><span class="kw">rbind</span>(sample,framecens)</code></pre></div>
 <p>and this is the proportion of sampling and censused units:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">survey$cens &lt;-<span class="st"> </span><span class="kw">ifelse</span>(survey$LABEL ==<span class="st"> "999999"</span>,<span class="dv">1</span>,<span class="dv">0</span>)
-<span class="kw">table</span>(survey$cens)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">survey<span class="op">$</span>cens &lt;-<span class="st"> </span><span class="kw">ifelse</span>(survey<span class="op">$</span>LABEL <span class="op">==</span><span class="st"> "999999"</span>,<span class="dv">1</span>,<span class="dv">0</span>)
+<span class="kw">table</span>(survey<span class="op">$</span>cens)
 <span class="co">#&gt; </span>
 <span class="co">#&gt;   0   1 </span>
-<span class="co">#&gt; 191 405</span></code></pre></div>
+<span class="co">#&gt; 224 405</span></code></pre></div>
 </div>
 <div id="handling-anticipated-variance" class="section level1">
 <h1 class="hasAnchor">
@@ -783,10 +789,10 @@ In order to take into account this problem, and to limit the risk of overestimat
 <span class="co">#&gt; 6         4</span></code></pre></div>
 <p>Let us assume that in the sampling frame only variable <strong>GDP</strong> (Gross Domestic Product) is available for all countries, while <strong>contraception rates</strong> and <strong>infant mortality rates</strong> are available only on a subset of countries (about one third).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1234</span>)
-nations_sample &lt;-<span class="st"> </span>nations[<span class="kw">sample</span>(<span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">207</span>),<span class="dv">70</span>),]</code></pre></div>
+nations_sample &lt;-<span class="st"> </span>nations[<span class="kw">sample</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">207</span>),<span class="dv">70</span>),]</code></pre></div>
 <p>In this subset we can fit models between GDP and the two variables that we assume are the target of our survey.</p>
 <p>One model for <strong>infant mortality</strong> and <strong>GDP</strong>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod_logGDP_INFMORT &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(nations_sample$infant.mortality) ~<span class="st"> </span><span class="kw">log</span>(nations_sample$GDP))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod_logGDP_INFMORT &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(nations_sample<span class="op">$</span>infant.mortality) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(nations_sample<span class="op">$</span>GDP))
 <span class="kw">summary</span>(mod_logGDP_INFMORT)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
@@ -810,7 +816,7 @@ nations_sample &lt;-<span class="st"> </span>nations[<span class="kw">sample</sp
 <span class="co">#&gt; Multiple R-squared:  0.6236, Adjusted R-squared:  0.6181 </span>
 <span class="co">#&gt; F-statistic: 112.7 on 1 and 68 DF,  p-value: 0.0000000000000004523</span></code></pre></div>
 <p>and one model for <strong>contraception</strong> and <strong>GDP</strong>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod_logGDP_CONTRA &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(nations_sample$contraception) ~<span class="st"> </span><span class="kw">log</span>(nations_sample$GDP))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod_logGDP_CONTRA &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(nations_sample<span class="op">$</span>contraception) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(nations_sample<span class="op">$</span>GDP))
 <span class="kw">summary</span>(mod_logGDP_CONTRA)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
@@ -831,8 +837,8 @@ nations_sample &lt;-<span class="st"> </span>nations[<span class="kw">sample</sp
 <span class="co">#&gt; Multiple R-squared:  0.5263, Adjusted R-squared:  0.5193 </span>
 <span class="co">#&gt; F-statistic: 75.55 on 1 and 68 DF,  p-value: 0.000000000001217</span></code></pre></div>
 <p>We define the <em>sampling frame</em> in this way:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nations$progr &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>:<span class="kw">nrow</span>(nations))
-nations$dom &lt;-<span class="st"> </span><span class="dv">1</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nations<span class="op">$</span>progr &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(nations))
+nations<span class="op">$</span>dom &lt;-<span class="st"> </span><span class="dv">1</span>
 frame &lt;-<span class="st"> </span><span class="kw"><a href="../reference/buildFrameDF.html">buildFrameDF</a></span>(nations,
                       <span class="dt">id=</span><span class="st">"Country"</span>,
                       <span class="dt">X=</span><span class="st">"progr"</span>,
@@ -843,7 +849,7 @@ frame &lt;-<span class="st"> </span><span class="kw"><a href="../reference/build
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cv &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">list</span>(<span class="dt">DOM=</span><span class="kw">rep</span>(<span class="st">"DOM1"</span>,<span class="dv">1</span>),
                          <span class="dt">CV1=</span><span class="kw">rep</span>(<span class="fl">0.10</span>,<span class="dv">1</span>),
                          <span class="dt">CV2=</span><span class="kw">rep</span>(<span class="fl">0.05</span>,<span class="dv">1</span>),
-                         <span class="dt">domainvalue=</span><span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">1</span>)
+                         <span class="dt">domainvalue=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">1</span>)
                     ))
 cv
 <span class="co">#&gt;    DOM CV1  CV2 domainvalue</span>
@@ -880,29 +886,29 @@ solution1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/o
 <span class="co">#&gt; Suggestions</span>
 <span class="co">#&gt;   1 = (5, 3, 3, 6, 6, 7, 5, 6, 7, 4, 2, 7, 2, 2, 2, 7, 6, 6, 5, 7, 6, 1, 7, 6, 1, 6, 5, 5, 7, 6, 2, 6, 7, 6, 1, 5, 7, 6, 2, 1, 3, 3, 6, 6, 6, 1, 2, 2, 4, 6, 4, 5, 7, 7, 5, 7, 6, 5, 1, 1, 1, 1, 7, 5, 6, 4, 5, 4, 7, 3, 6, 4, 6, 4, 6, 2, 5, 1, 7, 6, 6, 5, 1, 6, 5, 6, 7, 7, 2, 2, 2, 5, 6, 6, 5, 6, 7, 5, 7, 5, 5, 6, 3, 6, 6, 3, 3, 2, 4, 6, 7, 6, 6, 5, 6, 5, 5, 6, 7, 6, 6, 6, 6, 6, 5, 5, 3, 7, 6, 6, 7, 6, 6, 3, 7, 6, 6, 4, 6, 7, 6, 5, 7, 4, 5, 5, 7, 1, 5, 6, 2, 6, 3, 5, 7, 3, 7, 7, 7, 6, 6, 5, 6, 6, 5, 3, 2, 3, 3, 4, 6, 7, 6, 2, 4, 6, 1, 5, 1, 3, 7, 6, 6, 6, 6, 4, 6, 3, 5, 2, 6, 7, 7, 1, 3, 3, 6, 3, 6, 7, 2, 7, 7, 6, 6, 6, 1)</span></code></pre></div>
 <p><img src="SamplingStrata_files/figure-html/unnamed-chunk-43-1.png" width="700"><img src="SamplingStrata_files/figure-html/unnamed-chunk-43-2.png" width="700"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(solution1$aggr_strata$SOLUZ)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(solution1<span class="op">$</span>aggr_strata<span class="op">$</span>SOLUZ)
 <span class="co">#&gt; [1] 16.62586</span></code></pre></div>
 <p>Then, we evaluate the expected CV’s on the three variables:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">newstrata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/updateStrata.html">updateStrata</a></span>(strata1,solution1)
 framenew1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/updateFrame.html">updateFrame</a></span>(frame,newstrata)
-framenew1 &lt;-<span class="st"> </span>framenew1[<span class="kw">order</span>(framenew1$ID),]
-framenew1$Y2 &lt;-<span class="st"> </span>nations$infant.mortality
-framenew1$Y3 &lt;-<span class="st"> </span>nations$contraception
-results1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/evalSolution.html">evalSolution</a></span>(framenew1, solution1$aggr_strata, <span class="dv">50</span>, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
-results1$coeff_var
+framenew1 &lt;-<span class="st"> </span>framenew1[<span class="kw">order</span>(framenew1<span class="op">$</span>ID),]
+framenew1<span class="op">$</span>Y2 &lt;-<span class="st"> </span>nations<span class="op">$</span>infant.mortality
+framenew1<span class="op">$</span>Y3 &lt;-<span class="st"> </span>nations<span class="op">$</span>contraception
+results1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/evalSolution.html">evalSolution</a></span>(framenew1, solution1<span class="op">$</span>aggr_strata, <span class="dv">50</span>, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
+results1<span class="op">$</span>coeff_var
 <span class="co">#&gt;          CV1       CV2       CV3  dom</span>
 <span class="co">#&gt; 1 0.05332022 0.2326833 0.1431669 DOM1</span></code></pre></div>
 <p>Clearly, the CV’s on <strong>infant mortality</strong> and <strong>contraception</strong> are not compliant with the corresponding precision constraints.</p>
 <p>We now proceed in building the <strong>strata</strong> dataframe using the models:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="ot">NULL</span>
-model$beta[<span class="dv">1</span>] &lt;-<span class="st"> </span>mod_logGDP_INFMORT$coefficients[<span class="dv">2</span>]
-model$sig2[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">summary</span>(mod_logGDP_INFMORT)$sigma
-model$type[<span class="dv">1</span>] &lt;-<span class="st"> "loglinear"</span>
-model$gamma[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">0</span>
-model$beta[<span class="dv">2</span>] &lt;-<span class="st"> </span>mod_logGDP_CONTRA$coefficients[<span class="dv">2</span>]
-model$sig2[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">summary</span>(mod_logGDP_CONTRA)$sigma
-model$type[<span class="dv">2</span>] &lt;-<span class="st"> "loglinear"</span>
-model$gamma[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">0</span>
+model<span class="op">$</span>beta[<span class="dv">1</span>] &lt;-<span class="st"> </span>mod_logGDP_INFMORT<span class="op">$</span>coefficients[<span class="dv">2</span>]
+model<span class="op">$</span>sig2[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">summary</span>(mod_logGDP_INFMORT)<span class="op">$</span>sigma
+model<span class="op">$</span>type[<span class="dv">1</span>] &lt;-<span class="st"> "loglinear"</span>
+model<span class="op">$</span>gamma[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">0</span>
+model<span class="op">$</span>beta[<span class="dv">2</span>] &lt;-<span class="st"> </span>mod_logGDP_CONTRA<span class="op">$</span>coefficients[<span class="dv">2</span>]
+model<span class="op">$</span>sig2[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">summary</span>(mod_logGDP_CONTRA)<span class="op">$</span>sigma
+model<span class="op">$</span>type[<span class="dv">2</span>] &lt;-<span class="st"> "loglinear"</span>
+model<span class="op">$</span>gamma[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">0</span>
 model &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(model)
 model
 <span class="co">#&gt;         beta      sig2      type gamma</span>
@@ -961,24 +967,14 @@ solution2 &lt;-
 <p>What about the expected CV’s?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">newstrata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/updateStrata.html">updateStrata</a></span>(strata2,solution2)
 framenew2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/updateFrame.html">updateFrame</a></span>(frame,newstrata)
-framenew2 &lt;-<span class="st"> </span>framenew2[<span class="kw">order</span>(framenew2$ID),]
-framenew2$Y2 &lt;-<span class="st"> </span>nations$infant.mortality
-framenew2$Y3 &lt;-<span class="st"> </span>nations$contraception
-results2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/evalSolution.html">evalSolution</a></span>(framenew2, solution2$aggr_strata, <span class="dv">50</span>, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
-results2$coeff_var
+framenew2 &lt;-<span class="st"> </span>framenew2[<span class="kw">order</span>(framenew2<span class="op">$</span>ID),]
+framenew2<span class="op">$</span>Y2 &lt;-<span class="st"> </span>nations<span class="op">$</span>infant.mortality
+framenew2<span class="op">$</span>Y3 &lt;-<span class="st"> </span>nations<span class="op">$</span>contraception
+results2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/evalSolution.html">evalSolution</a></span>(framenew2, solution2<span class="op">$</span>aggr_strata, <span class="dv">50</span>, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
+results2<span class="op">$</span>coeff_var
 <span class="co">#&gt;           CV1        CV2        CV3  dom</span>
 <span class="co">#&gt; 1 0.005532387 0.05344947 0.02991657 DOM1</span></code></pre></div>
-<p>This time the expected CV’s of all variables are more than compliant with the precision constraints. We can decrease the sample size and increase the expected CV’s by using the function <em>adjustSize</em>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">adjustedStrata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/adjustSize.html">adjustSize</a></span>(<span class="dt">size=</span><span class="dv">45</span>,solution2$aggr_strata)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  47</span>
-<span class="co">#&gt;  47</span>
-<span class="co">#&gt;  Final adjusted size:  47</span>
-results2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/evalSolution.html">evalSolution</a></span>(framenew2, adjustedStrata, <span class="dv">200</span>, <span class="dt">progress=</span><span class="ot">FALSE</span>)
-results2$coeff_var
-<span class="co">#&gt;          CV1       CV2        CV3  dom</span>
-<span class="co">#&gt; 1 0.02812533 0.1014345 0.04823251 DOM1</span></code></pre></div>
-<p>and obtain compliance to precision constraints with a lower sample size.</p>
+<p>This time the expected CV’s of all variables are more than compliant with the precision constraints.</p>
 </div>
 <div id="appendix---methodological-approach" class="section level1">
 <h1 class="hasAnchor">
@@ -1059,7 +1055,7 @@ CV(\hat{Y_{G}}) &lt; U_{G}\\
 <p>Hartigan, J. A., and M. A. Wong. 1979. “A K-Means Clustering Algorithm.” <em>Applied Statistics</em> 28: 100–108.</p>
 </div>
 <div id="ref-oluing:2017">
-<p>O’Luing, M., S. Prestwich, and S. Armagan Tarim. 2017. “Constructing Strata to Solve Sample Allocation Problems by Grouping Genetic Algorithm.” <em>ArXiv:1709.03076</em>.</p>
+<p>O’Luing, M., S. Prestwich, and S. Armagan Tarim. 2017. “Constructing Strata to Solve Sample Allocation Problems by Grouping Genetic Algorithm.” <em>arXiv:1709.03076</em>.</p>
 </div>
 <div id="ref-willighagen:2005">
 <p>Willighagen, E. 2005. <em>Genalg: R Based Genetic Algorithm</em>. <a href="http://CRAN.R-project.org/package=genalg" class="uri">http://CRAN.R-project.org/package=genalg</a>.</p>
