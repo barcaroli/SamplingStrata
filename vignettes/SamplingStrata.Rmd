@@ -841,14 +841,6 @@ results2$coeff_var
 ```
 
 This time the expected CV's of all variables are more than compliant with the precision constraints.
-We can decrease the sample size and increase the expected CV's by using the function *adjustSize*:
-
-```{r, eval = T}
-adjustedStrata <- adjustSize(size=45,solution2$aggr_strata)
-results2 <- evalSolution(framenew2, adjustedStrata, 200, progress=FALSE)
-results2$coeff_var
-```
-and obtain compliance to precision constraints with a lower sample size.
 
 
 
