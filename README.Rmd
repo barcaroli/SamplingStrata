@@ -75,10 +75,10 @@ swisserrors
 
 # Development version
 
-At the moment the development version implements a parallel version of the `optimizeStrata` function. The function is optimised of the number of domains as genetic algorithm is independently run across all domains. **DO NOTE**, the parallel functionality does not allow using the `showPlot`. You will however find a `Rplot.pdf` being produced by the internal `rgba` function. For the current version, this cannot be avoided. In future versions this will be fixed and made optional. 
+At the moment the development version implements a parallel version of the `optimizeStrata` function. The function is optimised over the number of domains. **DO NOTE**, the parallel functionality does not allow using the `showPlot`. You will however find a `Rplot.pdf` being produced by the internal `rgba` function. For the current version, this cannot be avoided. In future versions this will be fixed and made optional. 
 
 The install the development version you can use: 
-```{r}
+```{r, eval = FALSE}
 devtools::install_github("barcaroli/SamplingStrata", ref = "implement_parallel")
 ```
 
