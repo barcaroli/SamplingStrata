@@ -26,7 +26,9 @@ This function runs a set of other functions to optimise the stratification of a 
 	suggestions = NULL,
 	realAllocation = TRUE,
 	writeFiles = FALSE,
-	showPlot = TRUE
+	showPlot = TRUE, 
+	parallel = TRUE,
+	cores
 	)
 }
 \arguments{
@@ -97,8 +99,16 @@ This function runs a set of other functions to optimise the stratification of a 
   Default is FALSE.
 }
   \item{showPlot}{
-  Indicates if the plot showing the trend in the value of the objective function has to be shown or not.
+  Indicates if the plot showing the trend in the value of the objective function has to be shown or not. In parallel = TRUE, this defaults to FALSE
   Default is TRUE.
+}
+  \item{parallel}{
+  Should the analysis be run in parallel.
+  Default is TRUE.
+}
+  \item{cores}{
+  If the analysis is run in parallel, how many cores should be used.
+  If not specified n-1 of total available cores are used OR if number of domains < (n-1) cores, then number of cores equal to number of domains are used.
 }
 }
 

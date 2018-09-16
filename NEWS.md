@@ -1,5 +1,9 @@
 # SamplingStrata 1.3
 
+Changes in Version 1.4
+
+  o It is now possible to implement 'optimizeStrat' in parallel using the 'parallel' parameter. At this moment in time, the 'showPlot' parameter will be ignored when running in parallel.
+
 Changes in Version 1.3
 
   o A new function 'KmeansSolution' produces an initial solution using the kmeans algorithm by clustering atomic strata considering the values of the means of target variables in them. Also, if the parameter 'nstrata' is not indicated, the optimal number of clusters is determined inside each domain, and the overall solution is obtained by concatenating optimal clusters obtained in domains. By indicating this solution as a suggestion to the optimization step, this may greatly speed the convergence to the optimal solution.
