@@ -155,9 +155,9 @@ strataGenalg <- function(errors, strata, cens, strcens,
     title(paste("Domain #", dominio, " - Sample cost", round(rbga.results$best[iter],2)), 
         col.main = "red")
     if (writeFiles == TRUE) dev.off()
-    plot(rbga.results)
-    title(paste("Domain #", dominio, " - Sample cost", round(rbga.results$best[iter],2)), 
-        col.main = "red")
+    # plot(rbga.results)
+    # title(paste("Domain #", dominio, " - Sample cost", round(rbga.results$best[iter],2)), 
+    #     col.main = "red")
     # summary(rbga.results, echo = TRUE)
     # print(paste('Sample size:
     # ',round(rbga.results$best[iter]))) cat(' *** Sample size:
