@@ -55,7 +55,7 @@ optimizeStrata <-
           }
         }
         library(doSNOW)
-        if (is.na(cores)) {
+        if (missing(cores)) {
           cores <- parallel::detectCores() - 1
           if (ndom < cores) 
             cores <- ndom
@@ -140,7 +140,7 @@ optimizeStrata <-
           max <- max(rbga.object$best, rbga.object$mean)
           min <- min(rbga.object$best, rbga.object$mean)
           if (writeFiles == TRUE) {
-            stmt <- paste("png('plotdom", dom, ".png',height=5, width=7, units='in', res=144)", sep = "")
+            stmt <- paste("png('plotdom", i, ".png',height=5, width=7, units='in', res=144)", sep = "")
             eval(parse(text = stmt))
           }  
           plot(rbga.object$best, type = "l", 
