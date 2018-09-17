@@ -146,15 +146,15 @@ strataGenalg <- function(errors, strata, cens, strcens,
     # --------------------------------------------------------------------------
     # Results
     # --------------------------------------------------------------------------
-	if (writeFiles == TRUE) {
-	  stmt <- paste("png('plotdom", dominio, ".png',height=5, width=7, units='in', res=144)", sep = "")
-		# stmt <- paste("pdf('plotdom", dominio, ".pdf',height=5, width=7)", sep = "")
-		eval(parse(text = stmt))
-	}
-    plot(rbga.results)
-    title(paste("Domain #", dominio, " - Sample cost", round(rbga.results$best[iter],2)), 
-        col.main = "red")
-    if (writeFiles == TRUE) dev.off()
+# 	if (writeFiles == TRUE) {
+# 	  stmt <- paste("png('plotdom", dominio, ".png',height=5, width=7, units='in', res=144)", sep = "")
+# 		# stmt <- paste("pdf('plotdom", dominio, ".pdf',height=5, width=7)", sep = "")
+# 		eval(parse(text = stmt))
+# 	}
+#     plot(rbga.results)
+#     title(paste("Domain #", dominio, " - Sample cost", round(rbga.results$best[iter],2)), 
+#         col.main = "red")
+#     if (writeFiles == TRUE) dev.off()
     # plot(rbga.results)
     # title(paste("Domain #", dominio, " - Sample cost", round(rbga.results$best[iter],2)), 
     #     col.main = "red")
