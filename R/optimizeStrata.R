@@ -142,7 +142,7 @@ optimizeStrata <- function (errors, strata, cens = NULL, strcens = FALSE, alldom
       close(pb)
       vettsol <- do.call(c, lapply(par_ga_sol, `[[`, 1))
       outstrata <- do.call(rbind, lapply(par_ga_sol, `[[`, 2))
-      
+       
       for (i in (1:ndom)) {
         plot(par_ga_sol[[3]][i])
         title(paste("Domain #", i, " - Sample cost", round(par_ga_sol[[3]][i]$best[iter],2)),
