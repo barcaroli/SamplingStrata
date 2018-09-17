@@ -138,7 +138,7 @@ optimizeStrata <- function (errors, strata, cens = NULL, strcens = FALSE, alldom
                                 rbga.results <- solut[[3]]
                                 list(vettsol = vettsol, outstrata = outstrata, rbga.results = rbga.results)
                               }
-                              
+                               
                             }
       close(pb)
       vettsol <- do.call(c, lapply(par_ga_sol, `[[`, 1))
