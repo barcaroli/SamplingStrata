@@ -135,7 +135,8 @@ optimizeStrata <- function (errors, strata, cens = NULL, strcens = FALSE, alldom
                                   colnames(outstrata) <- toupper(colnames(outstrata))
                                 colnames(solut[[2]]) <- toupper(colnames(solut[[2]]))
                                 outstrata <- solut[[2]]
-                                list(vettsol = vettsol, outstrata = outstrata)
+                                rbga.results <- solut[[3]]
+                                list(vettsol = vettsol, outstrata = outstrata, rbga.results = rbga.results)
                               }
                               
                             }
