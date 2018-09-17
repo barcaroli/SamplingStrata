@@ -61,6 +61,9 @@ optimizeStrata <- function (errors, strata, cens = NULL, strcens = FALSE, alldom
         if(ndom < cores)
           cores <- ndom
       }
+      if(cores == 1) 
+        stop("Only one core available: no parallel processing possible")
+
       cat("\n *** Starting parallel implementation for : ", ndom, " domains using ", cores," cores\n")
       
       cl <- makeSOCKcluster(cores)
