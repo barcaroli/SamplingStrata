@@ -196,6 +196,7 @@ strataGenalg <- function(errors, strata, cens, strcens,
 	}
 	solution[[1]] <- v
 	solution[[2]] <- risulta
+	solution[[3]] <- rbga.results
 	# if (writeFiles == TRUE) {
 	#   setwd(dire)
 	# }
