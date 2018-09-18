@@ -268,6 +268,8 @@ optimizeStrata <-
         stmt <- paste("png('plotdom1.png',height=5, width=7, units='in', res=144)", sep = "")
         eval(parse(text = stmt))
       }  
+      max <- max(rbga.object$best, rbga.object$mean)
+      min <- min(rbga.object$best, rbga.object$mean)
       plot(rbga.object$best, type = "l", 
            main = "", ylim = c(min,max), 
            xlab = "Iteration (Generation)", 
