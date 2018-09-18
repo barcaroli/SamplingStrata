@@ -8,6 +8,8 @@ optimizeStrata <-
     if (writeFiles == TRUE) {
       dire <- getwd()
       direnew <- paste(dire, "/output", sep = "")
+      if (dir.exists(direnew)) 
+        unlink(direnew)
       if (!dir.exists(direnew)) 
         dir.create(direnew)
       setwd(direnew)
@@ -265,7 +267,7 @@ optimizeStrata <-
       outstrata <- solut[[2]]
       rbga.object <- solut[[3]]
       if (writeFiles == TRUE) {
-        stmt <- paste("png('plotdom1.png',height=5, width=7, units='in', res=144)", sep = "")
+        stmt <- paste("png('plotdom",dom,".png',height=5, width=7, units='in', res=144)", sep = "")
         eval(parse(text = stmt))
       }  
       max <- max(rbga.object$best, rbga.object$mean)
@@ -275,7 +277,7 @@ optimizeStrata <-
            xlab = "Iteration (Generation)", 
            ylab = "Best (black lower line) and mean (red upper line) evaluation value")
       lines(rbga.object$mean, col = "red")
-      title(paste("Domain # 1 - Sample cost", 
+      title(paste("Domain # ",dom," - Sample cost", 
                   round(min(rbga.object$best), 2)), 
             col.main = "red")
       if (writeFiles == TRUE) dev.off()
