@@ -14,6 +14,13 @@ optimizeStrata <-
         dir.create(direnew)
       setwd(direnew)
     }
+    
+    if(parallel == FALSE & cores > 1){
+      cat("Sequential estimation as parallel = FALSE, defaulting number of cores = 1")
+      cores <- cores
+      Sys.sleep(0.314)
+    }
+      
     if (is.na(initialStrata)) 
       initialStrata <- as.numeric(table(strata$DOM1))
     nstrata = initialStrata
@@ -63,7 +70,7 @@ optimizeStrata <-
             cores <- ndom
         }
         if (cores == 1) 
-          stop("Only one core available: no parallel processing possible")
+          stop("Only one core available: no parallel processing possible. Please change parameter parallel = FALSE")
         cat("\n *** Starting parallel implementation for : ", 
             ndom, " domains using ", cores, " cores\n")
         cl <- makeSOCKcluster(cores)
