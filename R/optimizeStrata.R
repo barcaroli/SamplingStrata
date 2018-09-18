@@ -9,7 +9,7 @@ optimizeStrata <-
       dire <- getwd()
       direnew <- paste(dire, "/output", sep = "")
       if (dir.exists(direnew)) 
-        unlink(direnew)
+        unlink(direnew,recursive=TRUE)
       if (!dir.exists(direnew)) 
         dir.create(direnew)
       setwd(direnew)
