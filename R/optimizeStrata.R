@@ -210,6 +210,22 @@ optimizeStrata <-
               colnames(outstrata) <- toupper(colnames(outstrata))
             colnames(solut[[2]]) <- toupper(colnames(solut[[2]]))
             outstrata <- rbind(outstrata, solut[[2]])
+            rbga.object <- solut[[3]]
+            max <- max(rbga.object$best, rbga.object$mean)
+            min <- min(rbga.object$best, rbga.object$mean)
+            if (writeFiles == TRUE) {
+              stmt <- paste("png('plotdom", i, ".png',height=5, width=7, units='in', res=144)", sep = "")
+              eval(parse(text = stmt))
+            }  
+            plot(rbga.object$best, type = "l", 
+                 main = "", ylim = c(min,max), 
+                 xlab = "Iteration (Generation)", 
+                 ylab = "Best (black lower line) and mean (red upper line) evaluation value")
+            lines(rbga.object$mean, col = "red")
+            title(paste("Domain #", i, " - Sample cost", 
+                        round(min(rbga.object$best), 2)), 
+                  col.main = "red")
+            if (writeFiles == TRUE) dev.off()
           }
         }
       }
@@ -247,6 +263,20 @@ optimizeStrata <-
                             realAllocation, writeFiles, showPlot)
       vettsol <- solut[[1]]
       outstrata <- solut[[2]]
+      rbga.object <- solut[[3]]
+      if (writeFiles == TRUE) {
+        stmt <- paste("png('plotdom1.png',height=5, width=7, units='in', res=144)", sep = "")
+        eval(parse(text = stmt))
+      }  
+      plot(rbga.object$best, type = "l", 
+           main = "", ylim = c(min,max), 
+           xlab = "Iteration (Generation)", 
+           ylab = "Best (black lower line) and mean (red upper line) evaluation value")
+      lines(rbga.object$mean, col = "red")
+      title(paste("Domain # 1 - Sample cost", 
+                  round(min(rbga.object$best), 2)), 
+            col.main = "red")
+      if (writeFiles == TRUE) dev.off()
     }
     colnames(outstrata) <- toupper(colnames(outstrata))
     dimens <- sum(round(outstrata$SOLUZ))
