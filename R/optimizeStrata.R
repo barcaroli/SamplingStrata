@@ -17,7 +17,7 @@ optimizeStrata <-
     
     if(parallel == FALSE & missing(cores)){
       cat("Sequential estimation as parallel = FALSE, defaulting number of cores = 1")
-      cores <- cores
+      cores <- 1
       Sys.sleep(0.314)
     }
       
