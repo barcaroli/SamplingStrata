@@ -15,7 +15,7 @@ optimizeStrata <-
       setwd(direnew)
     }
     
-    if(parallel == FALSE & cores > 1){
+    if(parallel == FALSE & missing(cores)){
       cat("Sequential estimation as parallel = FALSE, defaulting number of cores = 1")
       cores <- cores
       Sys.sleep(0.314)
