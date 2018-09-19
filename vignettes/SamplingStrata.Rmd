@@ -302,26 +302,29 @@ for each one of them.
 The fundamental parameters to be passed to optimizeStrata are:
 
 *	*errors*: the (mandatory) dataframe containing the precision levels expressed in terms of maximum allowable 
-coefficients of variation that regard the estimates on target variables of the survey
+coefficients of variation that regard the estimates on target variables of the survey;
 *	*strata*: the (mandatory) dataframe containing the information related to 'atomic' strata, i.e. the strata obtained by the 
 Cartesian product of all auxiliary variables X's. Information concerns the identifiability of strata (values of X's) and variability 
-of Y's (for each Y, mean and standard deviation in strata) 
+of Y's (for each Y, mean and standard deviation in strata); 
 *	*cens*: the (optional) dataframe containing the 'take-all' strata, those strata whose units must be selected in whatever sample. 
-It has same structure than *strata} dataframe 
-*	*strcens*: flag (TRUE/FALSE) to indicate if 'take-all' strata do exist or not. Default is FALSE 
-*	*initialStrata*: the initial limit on the number of strata for each solution. Default is NA, and in this case it is set equal to the number of atomic strata in each domain. If the parameter *addStrataFactor* is equal to zero, then *initialStrata* is equivalent to the maximum number of strata to be obtained in the final solution. 
+It has same structure than *strata} dataframe; 
+*	*strcens*: flag (TRUE/FALSE) to indicate if 'take-all' strata do exist or not. Default is FALSE; 
+*	*initialStrata*: the initial limit on the number of strata for each solution. Default is NA, and in this case it is set equal to the number of atomic strata in each domain. If the parameter *addStrataFactor* is equal to zero, then *initialStrata* is equivalent to the maximum number of strata to be obtained in the final solution; 
 *	*addStrataFactor*: indicates the probability that at each mutation the number of strata may increase with respect 
-to the current value. Default is 0.0 
-*	*minnumstr*: indicates the minimum number of units that must be allocated in each stratum. Default is 2 
+to the current value. Default is 0.0;
+*	*minnumstr*: indicates the minimum number of units that must be allocated in each stratum. Default is 2;
 * *iter*: indicates the maximum number of iterations (= generations) of the genetic algorithm. Default is 50
-* *pops*: dimension of each generations in terms of number 0f individuals to be generated. Default is 20
+* *pops*: dimension of each generations in terms of number 0f individuals to be generated. Default is 20;
 *	*mut_chance* (mutation chance): for each new individual, the probability to change each single chromosome, i.e. one bit of the 
 solution vector. High values of this parameter allow a deeper exploration of the solution space, but a slower convergence, while low 
-values permit a faster convergence, but the final solution can be distant from the optimal one. Default is NA, in correspondence of which it is computed as 1/(vars+1) where vars is the length of elements in the solution
-*	*elitism_rate*: indicates the rate of better solutions that must be preserved from one generation to another. Default is 0.2 
-*	*suggestions*: indicates one possible solution (from kmeans clustering or from previous runs) that will be introduced in the initial population. Default is NULL
-*   *realAllocation* : if FALSE, the allocation is based on INTEGER values; if TRUE, the allocation is based on REAL values. Default is FALSE.
-*	*writeFiles* : iIndicates if the various dataframes and plots produced during the execution have to be written in the working directory. Default is FALSE.
+values permit a faster convergence, but the final solution can be distant from the optimal one. Default is NA, in correspondence of which it is computed as 1/(vars+1) where vars is the length of elements in the solution;
+*	*elitism_rate*: indicates the rate of better solutions that must be preserved from one generation to another. Default is 0.2;
+*	*suggestions*: indicates one possible solution (from kmeans clustering or from previous runs) that will be introduced in the initial population. Default is NULL;
+*   *realAllocation* : if FALSE, the allocation is based on INTEGER values; if TRUE, the allocation is based on REAL values. Default is TRUE;
+*	*writeFiles* : indicates if the various dataframes and plots produced during the execution have to be written in the working directory /output. Default is FALSE;
+* *showPlot* : indicates if the plot showing the trend in the value of the objective function has to be shown or not. In parallel = TRUE, this defaults to FALSE, otherwise default is TRUE.
+*	*parallel* :  Should the analysis be run in parallel. Default is TRUE
+*	*cores* : if the analysis is run in parallel, how many cores should be used. If not specified n-1 of total available cores are used OR if number of domains < (n-1) cores, then number of cores equal to number of domains are used
 
 In the case of the Swiss municipalities, we can use almost all of default values for parameters with the exception of the errors and strata dataframes, and for the option 'writeFiles':
 
@@ -329,25 +332,25 @@ In the case of the Swiss municipalities, we can use almost all of default values
 solution <- optimizeStrata(
 	errors = swisserrors, 
 	strata = swissstrata,
+	parallel = FALSE,
 	writeFiles = TRUE,
 	showPlot = FALSE)
+```
+```{r, eval=TRUE, echo=TRUE, warning=FALSE, }
 sum(ceiling(solution$aggr_strata$SOLUZ))
 ```
 
 Note that by so doing the *initialStrata* parameter is set equal to the number of atomic strata in each domain . Another possibility is to set a
 pre-determined value for each domain, for instance equal in each domain, as c(5,5,5,5,5,5,5,5).
 
-<!-- The execution of *optimizeStrata* produces the solution of 7 different optimization problems, one for each domain. -->
-<!-- We have reported in Figure 1 the convergence plot regarding the third domain. -->
+The execution of *optimizeStrata* produces the solution of 7 different optimization problems, one for each domain.
+We have reported the convergence plot regarding the third domain:
 
-<!-- ```{r,  echo=FALSE, fig.cap="Figure 1", out.width = '100%'} -->
-<!-- knitr::include_graphics("plotdom3.png") -->
-<!-- ``` -->
+```{r,  echo=FALSE, fig.cap="Figure 1", out.width = '100%'}
+knitr::include_graphics("output/plotdom3.png")
+```
 
-
-<!-- <!-- ![Figure 1](https://github.com/barcaroli/SamplingStrata/blob/master/docs/articles/plotdom3.png) --> 
-
-<!-- This graph illustrates the convergence of the solution to the final one starting from the initial one (i.e. the one related to the atomic strata). Along the x-axis are reported the executed iterations, from 1 to the maximum, while on the y-axis are reported the size of the sample required to satisfy precision constraints. The upper (red) line represent the average sample size for each iteration, while the lower (black) line represents the best solution found until the i-th iteration. -->
+This graph illustrates the convergence of the solution to the final one starting from the initial one (i.e. the one related to the atomic strata). Along the x-axis are reported the executed iterations, from 1 to the maximum, while on the y-axis are reported the size of the sample required to satisfy precision constraints. The upper (red) line represent the average sample size for each iteration, while the lower (black) line represents the best solution found until the i-th iteration.
 
 The results of the execution are contained in the list 'solution', composed by two elements:
 
@@ -389,13 +392,14 @@ This solution can be given as argument to the parameter *suggestion* in the *opt
 
 Suppose we want to optimize the stratification of domain 3 by making use of the initial solution given by the kmeans algorithm in that domain:
 
-```{r, eval=TRUE, echo=FALSE, warning=FALSE, }
+```{r, eval=TRUE, echo=TRUE, warning=FALSE, }
 solution_dom3 <- optimizeStrata(
 	errors = swisserrors,
 	strata = swissstrata,
 	alldomains = FALSE,
 	dom = 3,
 	suggestions = solutionKmeans[solutionKmeans$domainvalue == 3,],
+	parallel = FALSE,
 	showPlot = FALSE)
 sum(ceiling(solution_dom3$aggr_strata$SOLUZ))
 ```
@@ -535,7 +539,7 @@ The user can invoke this function also indicating the number of samples to be dr
 ```{r, eval=TRUE, echo=TRUE}
 eval <- evalSolution(framenew, 
                      solution$aggr_strata, 
-                     nsampl=1000, 
+                     nsampl=200, 
                      writeFiles=TRUE,
                      progress=FALSE) 
 ```
@@ -559,7 +563,7 @@ outstrata$SOLUZ <- ceiling(outstrata$SOLUZ)
 sum(outstrata$SOLUZ)
 eval_ceiling <- evalSolution(framenew, 
                      outstrata, 
-                     nsampl=1000,
+                     nsampl=200,
                      writeFiles = TRUE,
                      progress = FALSE)
 eval_ceiling$coeff_var
@@ -567,14 +571,12 @@ swisserrors
 ```
 
 
-<!-- These values are on average compliant with the precision constraints set. (see Figure 2). -->
+These values are on average compliant with the precision constraints set. 
 
-<!-- ```{r,  echo=FALSE, out.width = '80%'} -->
-<!-- knitr::include_graphics("cv.png") -->
-<!-- ``` -->
+```{r,  echo=FALSE, out.width = '80%'}
+knitr::include_graphics("simulation/cv.png")
+```
 
-
-<!-- ![Figure 2](cv.png) -->
 
 # Handling 'take-all' strata in the optimization step
 
@@ -633,6 +635,7 @@ solution <- optimizeStrata(
 	strata = strata, 
 	cens = cens, 
 	strcens = TRUE,
+	parallel = FALSE,
 	writeFiles = TRUE,
 	showPlot = FALSE
 )
@@ -769,6 +772,8 @@ strata1 <- buildStrataDF(frame, progress = FALSE)
 solution1 <- optimizeStrata(cv,
                            strata1,
                            iter = 50,
+                           pops = 20,
+                           parallel = FALSE,
                            suggestions = KmeansSolution(strata1,cv),
                            writeFiles = TRUE,
                            showPlot = FALSE)
@@ -818,8 +823,9 @@ solution2 <-
   optimizeStrata(
     errors = cv , 
     strata = strata2, 
-    iter = 20, 
+    iter = 50, 
     pops = 20, 
+    parallel = FALSE,
     suggestions = KmeansSolution(strata2,cv),
     showPlot = FALSE,
     writeFiles = TRUE)
