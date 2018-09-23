@@ -16,7 +16,7 @@ optimizeStrata <-
     }
     
     if(parallel == FALSE & !missing(cores)){
-      cat("Sequential estimation as parallel = FALSE, defaulting number of cores = 1")
+      cat("Sequential optimization as parallel = FALSE, defaulting number of cores = 1")
       cores <- 1
       Sys.sleep(0.314)
     }
@@ -50,7 +50,7 @@ optimizeStrata <-
       if (parallel) {
         chk_snow <- require(doSNOW)
         if (!chk_snow) {
-          message("To implement evalSolution() in parallel, library(doSNOW) and library(parallel) is needed")
+          message("To perform optimization in parallel, library(doSNOW) and library(parallel) is needed")
           snow_ans <- readline("Do you want to install package 'doSNOW' now? (y/n)")
           if (snow_ans %in% c("y", "Y")) {
             if (require(parallel)) {
@@ -71,7 +71,7 @@ optimizeStrata <-
         }
         if (cores == 1) 
           stop("Only one core available: no parallel processing possible. Please change parameter parallel = FALSE")
-        cat("\n *** Starting parallel implementation for : ", 
+        cat("\n *** Starting parallel optimization for ", 
             ndom, " domains using ", cores, " cores\n")
         cl <- makeSOCKcluster(cores)
         registerDoSNOW(cl)
