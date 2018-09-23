@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Giulio Barcaroli" />
+
+<meta name="date" content="2018-09-23" />
+
+<title>Optimization of sampling strata with the SamplingStrata package</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Optimization of sampling strata with the SamplingStrata package</h1>
+<h4 class="author"><em>Giulio Barcaroli</em></h4>
+<h4 class="date"><em>2018-09-23</em></h4>
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Let us suppose we need to design a sample survey, having a complete frame containing information on the target population (identifiers plus auxiliary information). If our sample design is a stratified one, we need to choose how to form strata in the population, in order to get the maximum advantage by the available auxiliary information. In other words, we have to decide in which way to combine the values of the auxiliary variables (from now on, the ‘X’ variables) in order to determine a new variable, called ‘stratum’. To do so, we have to take into consideration the target variables of our sample survey (from now on, the ‘Y’ variables): if, to form strata, we choose the X variables most correlated to the Y’s, the efficiency of the samples drawn by the resulting stratified frame may be greatly increased. In order to handle the whole auxiliary information in a homogenous way, we have to reduce continuous data to categorical (by mean of a k-means clustering technique, for example). Then, for every set of candidate auxiliary variables X’s, we have to decide (i) what variables to consider as active variables in strata determination, and (ii) for each active variable, what set of values (in general, what aggregation of atomic values) have to be considered. Every combination of values of each active variable determine a particular stratification of the target population, i.e. a possible solution to the problem of ‘best’ stratification. Here, by best stratification, we mean the stratification that ensures the minimum sample cost, sufficient to satisfy a set of precision constraints, set on the accuracy of the estimates of the survey target variables Y’s (constraints expressed as maximum allowable sampling variance on estimates in different domains of interest). When the cost of data collection is uniform over the strata, then the total cost is directly proportional to the overall sample size, and the convenience of a particular stratification can be measured by the associated size of the sample, whose estimates are expected to satisfy given accuracy levels. This minimum size can be determined by applying the Bethel algorithm, with its Chromy variant. In general, the number of possible alternative stratifications for a given population may be very high, depending on the number of variables and on the number of their values, and in these cases it is not possible to enumerate them in order to assess the best one. A very convenient solution to this, is the adoption of the evolutionary approach, consisting in applying a genetic algorithm that may converge towards a near-optimal solution after a finite number of iterations. The methodology is fully described in <span class="citation">M. Ballin and Barcaroli (2013)</span>, and a complete illustration of the package, together with a comparison with the <em>stratification</em> package, is in <span class="citation">Barcaroli (2014)</span>. Also a complete application in a case of network data is reported in <span class="citation">Marco Ballin and Barcaroli (2016)</span>. The implementation of the genetic algorithm is based on a modification of the functions in the <em>genalg</em> package <span class="citation">(see Willighagen 2005)</span>. In particular, the crossover operator ha been modified on the basis of the indications given by <span class="citation">O’Luing, Prestwich, and Tarim (2017)</span>.</p>
+</div>
+<div id="procedural-steps" class="section level1">
+<h1>Procedural steps</h1>
+<p>The optimization of the sampling design starts by making the sampling frame available, defining the target estimates of the survey and establishing the precision constraints on them. It is then possible to determine the best stratification and the optimal allocation. Finally, we proceed with the selection of the sample. Formalizing, these are the required steps:</p>
+<ul>
+<li>analysis of the frame data: identification of available auxiliary information;</li>
+<li>manipulation of auxiliary information: in case auxiliary variables are of the continuous type, they must be transformed into a categorical form;</li>
+<li>construction of atomic strata: on the basis of the categorical auxiliary variables available in the sampling frame, a set of strata can be constructed by calculating the Cartesian product of the values of all the auxiliary variables;</li>
+<li>characterization of each atomic stratum with the information related to the target variables: in order to optimise both strata and allocation of sampling units in strata, we need information on the distributions of the target variables (means and standard deviations) inside the different strata;</li>
+<li>choice of the precision constraints for each target estimate, possibly differentiated by domain;</li>
+<li>optimization of stratification and determination of required sample size and allocation in order to satisfy precision constraints on target estimates;</li>
+<li>analysis of the resulting optimized strata;</li>
+<li>association of new labels to sampling frame units, each of them indicating the new strata resulting by the optimal aggregation of the atomic strata;</li>
+<li>selection of units from the sampling frame with a  selection scheme;</li>
+<li>evaluation of the found optimal solution in terms of expected precision and bias.</li>
+</ul>
+<p>In the following, we will illustrate each step starting from a real sampling frame, the one that comes with the R package <em>sampling</em> (the dataframe <em>swissmunicipalities</em>).</p>
+<div id="analysis-of-the-frame-data-and-manipulation-of-auxiliary-information" class="section level2">
+<h2>Analysis of the frame data and manipulation of auxiliary information</h2>
+<p>As a first step, we have to define a frame dataframe containing the following information:</p>
+<ul>
+<li>a unique identifier of the unit (no restriction on the name, may be ‘cod’);</li>
+<li>the values of m auxiliary variables (named from X1 to Xm);</li>
+<li>the (optional) values of p target variables (named from Y1 to Yp);</li>
+<li>the value of the domain of interest for which we want to produce estimates (named ‘domainvalue’).</li>
+</ul>
+<p>By typing the following statements in the R environment:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SamplingStrata)
+<span class="co">#&gt; Loading required package: memoise</span>
+<span class="kw">require</span>(memoise)
+<span class="kw">data</span>(swissmunicipalities)</code></pre></div>
+<p>we get the <em>swissmunicipalities</em> dataframe, that contains 2896 observations (each observation refers to a Swiss municipality). Among the others, there are the following variables (data are referred to 2003):</p>
+<ul>
+<li>REG: Swiss region</li>
+<li>Nom: municipality name</li>
+<li>Surfacesbois: wood area</li>
+<li>Surfacescult: area under cultivation</li>
+<li>Alp: mountain pasture area</li>
+<li>Airbat: area with buildings</li>
+<li>Airind: industrial area</li>
+<li>Pop020: number of men and women aged between 0 and 19</li>
+<li>Pop2040: number of men and women aged between 20 and 39</li>
+<li>Pop4065: number of men and women aged between 40 and 64</li>
+<li>Pop65P: number of men and women aged between 65 and over</li>
+<li>POPTOT: total population</li>
+</ul>
+<p>Let us suppose we want to plan a survey whose target estimates are the totals of population by age class in each Swiss region. In this case, our Y variables will be:</p>
+<ul>
+<li>Y1: number of men and women aged between 0 and 19</li>
+<li>Y2: number of men and women aged between 20 and 39</li>
+<li>Y3: number of men and women aged between 40 and 64</li>
+<li>Y4: number of men and women aged between 65 and over</li>
+</ul>
+<p>As for the auxiliary variables (X’s), we can use all of those characterising the area use (wood, mountain or pasture, cultivated, industrial, with buildings).</p>
+<p>Finally, we want to produce estimates not only for the whole country, but also for each one of the seven different regions.</p>
+<p>Function <em>buildFrameDF</em> permits to organize data in a suitable mode for next processing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swissmunicipalities<span class="op">$</span>id &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(swissmunicipalities))
+swissframe &lt;-<span class="st"> </span><span class="kw">buildFrameDF</span>(<span class="dt">df =</span> swissmunicipalities,
+                           <span class="dt">id =</span> <span class="st">&quot;id&quot;</span>,
+                           <span class="dt">X =</span> <span class="kw">c</span>(<span class="st">&quot;POPTOT&quot;</span>,
+                                 <span class="st">&quot;Surfacesbois&quot;</span>,
+                                 <span class="st">&quot;Surfacescult&quot;</span>,
+                                 <span class="st">&quot;Alp&quot;</span>,
+                                 <span class="st">&quot;Airbat&quot;</span>,
+                                 <span class="st">&quot;Airind&quot;</span>),
+                           <span class="dt">Y =</span> <span class="kw">c</span>(<span class="st">&quot;Pop020&quot;</span>,
+                                 <span class="st">&quot;Pop2040&quot;</span>,
+                                 <span class="st">&quot;Pop4065&quot;</span>,
+                                 <span class="st">&quot;Pop65P&quot;</span>),
+                           <span class="dt">domainvalue =</span> <span class="st">&quot;REG&quot;</span>)
+<span class="kw">str</span>(swissframe)
+<span class="co">#&gt; 'data.frame':    2896 obs. of  12 variables:</span>
+<span class="co">#&gt;  $ id         : int  1 2 3 4 5 6 7 8 9 10 ...</span>
+<span class="co">#&gt;  $ X1         : int  363273 177964 166558 128634 124914 90483 72626 59496 48655 40377 ...</span>
+<span class="co">#&gt;  $ X2         : int  2326 67 97 1726 1635 2807 1139 408 976 425 ...</span>
+<span class="co">#&gt;  $ X3         : int  967 31 93 1041 714 1827 1222 183 196 694 ...</span>
+<span class="co">#&gt;  $ X4         : int  0 0 0 0 0 0 0 0 18 0 ...</span>
+<span class="co">#&gt;  $ X5         : int  2884 773 1023 1070 856 972 812 524 463 523 ...</span>
+<span class="co">#&gt;  $ X6         : int  260 60 213 212 64 238 134 27 108 137 ...</span>
+<span class="co">#&gt;  $ Y1         : int  57324 32429 28161 19399 24291 18942 14337 9533 9127 8128 ...</span>
+<span class="co">#&gt;  $ Y2         : int  131422 60074 50349 44263 44202 28958 24309 18843 14825 11265 ...</span>
+<span class="co">#&gt;  $ Y3         : int  108178 57063 53734 39397 35421 27696 21334 18177 15140 13301 ...</span>
+<span class="co">#&gt;  $ Y4         : int  66349 28398 34314 25575 21000 14887 12646 12943 9563 7683 ...</span>
+<span class="co">#&gt;  $ domainvalue: int  4 1 3 2 1 4 5 6 2 2 ...</span></code></pre></div>
+<p>As the X variables are of the continuous type, first we have to reduce them in a categorical (ordinal) form.</p>
+<p>A suitable way to do so, is to apply a k-means clustering method <span class="citation">(see Hartigan and Wong 1979)</span> by using the function <em>var.bin</em>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SamplingStrata)
+swissframe<span class="op">$</span>X1 &lt;-<span class="st"> </span><span class="kw">var.bin</span>(swissmunicipalities<span class="op">$</span>POPTOT, <span class="dt">bins=</span><span class="dv">18</span>)
+<span class="co">#&gt; Warning: Quick-TRANSfer stage steps exceeded maximum (= 144800)</span>
+swissframe<span class="op">$</span>X2 &lt;-<span class="st"> </span><span class="kw">var.bin</span>(swissmunicipalities<span class="op">$</span>Surfacesbois, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe<span class="op">$</span>X3 &lt;-<span class="st"> </span><span class="kw">var.bin</span>(swissmunicipalities<span class="op">$</span>Surfacescult, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe<span class="op">$</span>X4 &lt;-<span class="st"> </span><span class="kw">var.bin</span>(swissmunicipalities<span class="op">$</span>Alp, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe<span class="op">$</span>X5 &lt;-<span class="st"> </span><span class="kw">var.bin</span>(swissmunicipalities<span class="op">$</span>Airbat, <span class="dt">bins=</span><span class="dv">3</span>)
+swissframe<span class="op">$</span>X6 &lt;-<span class="st"> </span><span class="kw">var.bin</span>(swissmunicipalities<span class="op">$</span>Airind, <span class="dt">bins=</span><span class="dv">3</span>)</code></pre></div>
+<p>Now, we have six different auxiliary variables of the categorical type, the first with 18 different modalities, the others with 3 modalities.</p>
+<p>In any case, this dataframe comes with the package <em>SamplingStrata</em>: it can be made available by executing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SamplingStrata)
+<span class="kw">data</span>(swissframe)
+<span class="kw">head</span>(swissframe)
+<span class="co">#&gt;   progr REG X1 X2 X3 X4 X5 X6         id    Y1     Y2     Y3    Y4</span>
+<span class="co">#&gt; 1     1   4 18  3  2  1  3  3     Zurich 57324 131422 108178 66349</span>
+<span class="co">#&gt; 2     2   1 17  1  1  1  3  2     Geneve 32429  60074  57063 28398</span>
+<span class="co">#&gt; 3     3   3 17  1  1  1  3  3      Basel 28161  50349  53734 34314</span>
+<span class="co">#&gt; 4     4   2 17  2  3  1  3  3       Bern 19399  44263  39397 25575</span>
+<span class="co">#&gt; 5     5   1 17  2  2  1  3  2   Lausanne 24291  44202  35421 21000</span>
+<span class="co">#&gt; 6     6   4 16  3  3  1  3  3 Winterthur 18942  28958  27696 14887</span>
+<span class="co">#&gt;   domainvalue</span>
+<span class="co">#&gt; 1           4</span>
+<span class="co">#&gt; 2           1</span>
+<span class="co">#&gt; 3           3</span>
+<span class="co">#&gt; 4           2</span>
+<span class="co">#&gt; 5           1</span>
+<span class="co">#&gt; 6           4</span></code></pre></div>
+<p>We could also not indicate substantive X variables, if we want that each unit in the sampling frame be considered as an atomic stratum, and let to the optimization step to aggregate them on the basis of the values of the Y variable. In any case, as we have to indicate at least one X variable, we can use to this purpose the unique identifier in the frame:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swissmunicipalities<span class="op">$</span>id &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(swissframe))
+newframe &lt;-<span class="st"> </span><span class="kw">buildFrameDF</span>(<span class="dt">df =</span> swissmunicipalities,
+                         <span class="dt">id =</span> <span class="st">&quot;id&quot;</span>,
+                         <span class="dt">X =</span> <span class="st">&quot;id&quot;</span>,
+                         <span class="dt">Y =</span> <span class="kw">c</span>(<span class="st">&quot;Pop020&quot;</span>,
+                               <span class="st">&quot;Pop2040&quot;</span>,
+                               <span class="st">&quot;Pop4065&quot;</span>,
+                               <span class="st">&quot;Pop65P&quot;</span>),
+                         <span class="dt">domainvalue =</span> <span class="st">&quot;REG&quot;</span>)
+<span class="kw">str</span>(newframe)
+<span class="co">#&gt; 'data.frame':    2896 obs. of  7 variables:</span>
+<span class="co">#&gt;  $ id         : int  1 2 3 4 5 6 7 8 9 10 ...</span>
+<span class="co">#&gt;  $ X1         : int  1 2 3 4 5 6 7 8 9 10 ...</span>
+<span class="co">#&gt;  $ Y1         : int  57324 32429 28161 19399 24291 18942 14337 9533 9127 8128 ...</span>
+<span class="co">#&gt;  $ Y2         : int  131422 60074 50349 44263 44202 28958 24309 18843 14825 11265 ...</span>
+<span class="co">#&gt;  $ Y3         : int  108178 57063 53734 39397 35421 27696 21334 18177 15140 13301 ...</span>
+<span class="co">#&gt;  $ Y4         : int  66349 28398 34314 25575 21000 14887 12646 12943 9563 7683 ...</span>
+<span class="co">#&gt;  $ domainvalue: int  4 1 3 2 1 4 5 6 2 2 ...</span></code></pre></div>
+</div>
+<div id="construction-of-atomic-strata-and-association-of-the-information-related-to-target-variables" class="section level2">
+<h2>Construction of atomic strata and association of the information related to target variables</h2>
+<p>The <em>strata</em> dataframe reports information regarding each atomic stratum in the population. There is one row for each stratum. The total number of strata is given by the number of different combinations of X’s values in the frame. For each stratum, the following information is required:</p>
+<ul>
+<li>the identifier of the stratum (named ‘stratum’ or ‘strato’), concatenation of the values of the X variables;</li>
+<li>the values of the m auxiliary variables (named from X1 to Xm) corresponding to those in the frame;</li>
+<li>the total number of units in the population (named ‘N’);</li>
+<li>a flag (named ‘cens’) indicating if the stratum is to be censused (=1) or sampled (=0);</li>
+<li>a variable indicating the cost of interviewing per unit in the stratum (named ‘cost’);</li>
+<li>for each target variable y, its mean and standard deviation, named respectively ‘Mi’ and ‘Si’);</li>
+<li>the value of the domain of interest to which the stratum belongs (‘DOM1’).</li>
+</ul>
+<p>For example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(strata)
+<span class="kw">head</span>(strata)
+<span class="co">#&gt;   stratum    N  X1  X2  X3       M1       M2       S1       S2 cens cost</span>
+<span class="co">#&gt; 1       1 2246 x11 x21 x31 148.1598 443.0137 95.41435 202.4569    0    1</span>
+<span class="co">#&gt; 2       2 2972 x11 x21 x32 184.2041 513.8995 81.26956 214.9999    0    1</span>
+<span class="co">#&gt; 3       3 1905 x11 x22 x31 193.8927 488.8046 79.66667 261.1876    0    1</span>
+<span class="co">#&gt; 4       4 3125 x11 x22 x32 181.3437 597.1925 82.77032 226.5086    0    1</span>
+<span class="co">#&gt; 5       5 1733 x12 x21 x31 109.9850 418.2234 88.20289 179.1571    0    1</span>
+<span class="co">#&gt; 6       6 1060 x12 x21 x32 114.7943 489.8292 52.71574 166.0292    0    1</span>
+<span class="co">#&gt;   DOM1</span>
+<span class="co">#&gt; 1  tot</span>
+<span class="co">#&gt; 2  tot</span>
+<span class="co">#&gt; 3  tot</span>
+<span class="co">#&gt; 4  tot</span>
+<span class="co">#&gt; 5  tot</span>
+<span class="co">#&gt; 6  tot</span></code></pre></div>
+<p>If in the <em>frame</em> dataframe are also present the values of the target Y variables (from a census, or from administrative data), it is possible to automatically generate the <em>strata</em> dataframe by invoking the <em>buildStrataDF</em> function. Let us consider again the <em>swissframe</em> dataset that we have built in previous steps. To this dataset we can apply the function <em>buildStrataDF</em>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  swissstrata &lt;-<span class="st"> </span><span class="kw">buildStrataDF</span>(swissframe, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Computations are being done on population data</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Number of strata:  641</span>
+<span class="co">#&gt; ... of which with only one unit:  389</span></code></pre></div>
+<p>This is the structure of the created dataframe:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(swissstrata)
+<span class="co">#&gt;        STRATO   N       M1        M2        M3       M4       S1       S2</span>
+<span class="co">#&gt; 1 1*1*1*1*1*1 184 48.31522  49.40217  61.44022 28.40761 26.81536 28.49831</span>
+<span class="co">#&gt; 2 1*1*1*1*1*2   1 98.00000 106.00000 116.00000 43.00000  0.00000  0.00000</span>
+<span class="co">#&gt; 3 1*1*1*2*1*1   2 57.00000  64.00000  70.00000 50.00000  4.00000  0.00000</span>
+<span class="co">#&gt; 4 1*1*2*1*1*1  11 77.72727  81.18182  92.36364 47.00000 15.24998 18.69768</span>
+<span class="co">#&gt; 5 1*2*1*1*1*1   9 58.22222  61.55556  66.77778 36.22222 25.46360 20.27100</span>
+<span class="co">#&gt; 6 1*2*1*2*1*1   8 61.00000  68.00000  84.62500 58.37500 24.56624 19.48076</span>
+<span class="co">#&gt;         S3       S4 COST CENS DOM1 X1 X2 X3 X4 X5 X6</span>
+<span class="co">#&gt; 1 32.63062 14.63922    1    0    1  1  1  1  1  1  1</span>
+<span class="co">#&gt; 2  0.00000  0.00000    1    0    1  1  1  1  1  1  2</span>
+<span class="co">#&gt; 3  1.00000 15.00000    1    0    1  1  1  1  2  1  1</span>
+<span class="co">#&gt; 4 17.03084 11.12736    1    0    1  1  1  2  1  1  1</span>
+<span class="co">#&gt; 5 24.89881 15.49751    1    0    1  1  2  1  1  1  1</span>
+<span class="co">#&gt; 6 26.35307 26.55625    1    0    1  1  2  1  2  1  1</span></code></pre></div>
+<p>It is worth while noting that the total number of different atomic strata is 641, lower than the dimension of the Cartesian product of the X’s (which is 4374): this is due to the fact that not all combinations of the value of the auxiliary variables are present in the sampling frame. Variables ‘cost’ and ‘cens’ are initialised respectively to 1 and 0 for all strata. It is possible to give them different values:</p>
+<ul>
+<li>for variable ‘cost’, it is possible to differentiate the cost of interviewing per unit by assigning real values;</li>
+<li>for variable ‘cens’, it is possible to set it equal to 1 for all strata that are of the ‘take-all’ type (i.e. all units in that strata must be selected).</li>
+</ul>
+<p>The <em>swissstrata</em> dataframe comes together with <em>SamplingStrata</em> package, it can be made available by typing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(swissstrata)</code></pre></div>
+<p>On the contrary, if there is no information in the frame regarding the target variables, it is necessary to build the strata dataframe starting from other sources, for instance a previous round of the same survey, or from other surveys. In this case, we need to read sample data by executing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">samp &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="st">&quot;samplePrev.txt&quot;</span>)</code></pre></div>
+<p>The only difference is that computed mean and variances of the Y’s are sampling estimates, whose reliability should be evaluated by carefully considering their sampling variances. In addition to the naming constraints previously introduced, this case requires that a variable named ‘WEIGHT’ is present in the samp dataframe. Then we can execute this function in this way:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">strata &lt;-<span class="st"> </span><span class="kw">buildStrataDF</span>(samp)</code></pre></div>
+<p>The result is much the same than in the previous case: the function creates a new dataframe, <em>strata</em>, and writes out in the working directory the strata file, named ‘strata.txt’.</p>
+</div>
+<div id="choice-of-the-precision-constraints-for-each-target-estimate" class="section level2">
+<h2>Choice of the precision constraints for each target estimate</h2>
+<p>The <em>errors</em> dataframe contains the accuracy constraints that are set on target estimates. This means to define a maximum coefficient of variation for each variable and for each domain value. Each row of this frame is related to accuracy constraints in a particular subdomain of interest, identified by the <em>domainvalue</em> value. In the case of the Swiss municipalities, we have chosen to define the following constraints:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(swisserrors)
+swisserrors
+<span class="co">#&gt;    DOM  CV1  CV2  CV3  CV4 domainvalue</span>
+<span class="co">#&gt; 1 DOM1 0.08 0.12 0.08 0.12           1</span>
+<span class="co">#&gt; 2 DOM1 0.08 0.12 0.08 0.12           2</span>
+<span class="co">#&gt; 3 DOM1 0.08 0.12 0.08 0.12           3</span>
+<span class="co">#&gt; 4 DOM1 0.08 0.12 0.08 0.12           4</span>
+<span class="co">#&gt; 5 DOM1 0.08 0.12 0.08 0.12           5</span>
+<span class="co">#&gt; 6 DOM1 0.08 0.12 0.08 0.12           6</span>
+<span class="co">#&gt; 7 DOM1 0.08 0.12 0.08 0.12           7</span></code></pre></div>
+<p>This example reports accuracy constraints on variables Y1, Y2, Y3 and Y4 that are the same for all the 7 different subdomains (Swiss regions) of domain level DOM1. Of course we can differentiate the precision constraints region by region. It is important to underline that the values of ‘domainvalue’ are the same than those in the <em>frame</em> dataframe, and correspond to the values of variable ‘DOM1’ in the strata dataframe. Once having defined dataframes containing frame data, strata information and precision constraints, it is worth while to check their internal and reciprocal coherence. It is possible to do that by using the function <em>checkInput</em>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">checkInput</span>(<span class="dt">errors =</span> <span class="kw">checkInput</span>(<span class="dt">errors =</span> swisserrors, 
+                               <span class="dt">strata =</span> swissstrata, 
+                               <span class="dt">sampframe =</span> swissframe))
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Input data have been checked and are compliant with requirements</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; No input data indicated</span></code></pre></div>
+<p>For instance, this function controls that the number of auxiliary variables is the same in the <em>frame</em> and in the <em>strata</em> dataframes; that the number of target variables indicated in the <em>frame</em> dataframe is the same than the number of means and standard deviations in the <em>strata</em> dataframe, and the same than the number of coefficient of variations indicated in the <em>errors</em> dataframe.</p>
+<p>If we try to determine the total size of the sample required to satisfy these precision constraints, considering the current stratification of the frame (the 641 atomic strata), we can do it by simply using the function <em>bethel</em>. This function requires a slightly different specification of the constraints dataframe:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cv &lt;-<span class="st"> </span>swisserrors[<span class="dv">1</span>,]
+cv
+<span class="co">#&gt;    DOM  CV1  CV2  CV3  CV4 domainvalue</span>
+<span class="co">#&gt; 1 DOM1 0.08 0.12 0.08 0.12           1</span></code></pre></div>
+<p>because the <em>bethel</em> function does not permit to differentiate precision constraints by subdomain. In any case, the result of the application of the Bethel algorithm [see bethel:1989] is:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">allocation &lt;-<span class="st"> </span><span class="kw">bethel</span>(swissstrata,cv)
+<span class="kw">sum</span>(allocation)
+<span class="co">#&gt; [1] 893</span></code></pre></div>
+<p>That is, the required amount of units to be selected, with no optimization of sampling strata. In general, after the optimization, this number is sensibly reduced.</p>
+</div>
+<div id="optimization-of-frame-stratification" class="section level2">
+<h2>Optimization of frame stratification</h2>
+<p>Once the strata and the constraints dataframes have been prepared, it is possible to apply the function that optimises the stratification of the frame, that is <em>optimizeStrata</em>. This function operates on all subdomains, identifying the best solution for each one of them. The fundamental parameters to be passed to optimizeStrata are:</p>
+<ul>
+<li><em>errors</em>: the (mandatory) dataframe containing the precision levels expressed in terms of maximum allowable coefficients of variation that regard the estimates on target variables of the survey;</li>
+<li><em>strata</em>: the (mandatory) dataframe containing the information related to ‘atomic’ strata, i.e. the strata obtained by the Cartesian product of all auxiliary variables X’s. Information concerns the identifiability of strata (values of X’s) and variability of Y’s (for each Y, mean and standard deviation in strata);</li>
+<li><em>cens</em>: the (optional) dataframe containing the ‘take-all’ strata, those strata whose units must be selected in whatever sample. It has same structure than *strata} dataframe;</li>
+<li><em>strcens</em>: flag (TRUE/FALSE) to indicate if ‘take-all’ strata do exist or not. Default is FALSE;</li>
+<li><em>initialStrata</em>: the initial limit on the number of strata for each solution. Default is NA, and in this case it is set equal to the number of atomic strata in each domain. If the parameter <em>addStrataFactor</em> is equal to zero, then <em>initialStrata</em> is equivalent to the maximum number of strata to be obtained in the final solution;</li>
+<li><em>addStrataFactor</em>: indicates the probability that at each mutation the number of strata may increase with respect to the current value. Default is 0.0;</li>
+<li><em>minnumstr</em>: indicates the minimum number of units that must be allocated in each stratum. Default is 2;</li>
+<li><em>iter</em>: indicates the maximum number of iterations (= generations) of the genetic algorithm. Default is 50</li>
+<li><em>pops</em>: dimension of each generations in terms of number 0f individuals to be generated. Default is 20;</li>
+<li><em>mut_chance</em> (mutation chance): for each new individual, the probability to change each single chromosome, i.e. one bit of the solution vector. High values of this parameter allow a deeper exploration of the solution space, but a slower convergence, while low values permit a faster convergence, but the final solution can be distant from the optimal one. Default is NA, in correspondence of which it is computed as 1/(vars+1) where vars is the length of elements in the solution;</li>
+<li><em>elitism_rate</em>: indicates the rate of better solutions that must be preserved from one generation to another. Default is 0.2;</li>
+<li><em>suggestions</em>: indicates one possible solution (from kmeans clustering or from previous runs) that will be introduced in the initial population. Default is NULL;</li>
+<li><em>realAllocation</em> : if FALSE, the allocation is based on INTEGER values; if TRUE, the allocation is based on REAL values. Default is TRUE;</li>
+<li><em>writeFiles</em> : indicates if the various dataframes and plots produced during the execution have to be written in the working directory /output. Default is FALSE;</li>
+<li><em>showPlot</em> : indicates if the plot showing the trend in the value of the objective function has to be shown or not. In parallel = TRUE, this defaults to FALSE, otherwise default is TRUE.</li>
+<li><em>parallel</em> : Should the analysis be run in parallel. Default is TRUE</li>
+<li><em>cores</em> : if the analysis is run in parallel, how many cores should be used. If not specified n-1 of total available cores are used OR if number of domains &lt; (n-1) cores, then number of cores equal to number of domains are used</li>
+</ul>
+<p>In the case of the Swiss municipalities, we can use almost all of default values for parameters with the exception of the errors and strata dataframes, and for the option ‘writeFiles’:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">solution &lt;-<span class="st"> </span><span class="kw">optimizeStrata</span>(
+    <span class="dt">errors =</span> swisserrors, 
+    <span class="dt">strata =</span> swissstrata,
+    <span class="dt">parallel =</span> <span class="ot">TRUE</span>,
+    <span class="dt">writeFiles =</span> <span class="ot">FALSE</span>,
+    <span class="dt">showPlot =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; Loading required package: doSNOW</span>
+<span class="co">#&gt; Loading required package: foreach</span>
+<span class="co">#&gt; Loading required package: iterators</span>
+<span class="co">#&gt; Loading required package: snow</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  *** Starting parallel implementation for :  7  domains using  3  cores</span>
+<span class="co">#&gt; </span>
+  <span class="op">|</span><span class="st">                                                                       </span>
+<span class="st">  </span><span class="er">|</span><span class="st">                                                                 </span><span class="er">|</span><span class="st">   </span><span class="dv">0</span>%
+  <span class="op">|</span><span class="st">                                                                       </span>
+<span class="st">  </span><span class="er">|===========</span><span class="st">                                                      </span><span class="er">|</span><span class="st">  </span><span class="dv">17</span>%
+  <span class="op">|</span><span class="st">                                                                       </span>
+<span class="st">  </span><span class="er">|======================</span><span class="st">                                           </span><span class="er">|</span><span class="st">  </span><span class="dv">33</span>%
+  <span class="op">|</span><span class="st">                                                                       </span>
+<span class="st">  </span><span class="er">|================================</span><span class="st">                                 </span><span class="er">|</span><span class="st">  </span><span class="dv">50</span>%
+  <span class="op">|</span><span class="st">                                                                       </span>
+<span class="st">  </span><span class="er">|===========================================</span><span class="st">                      </span><span class="er">|</span><span class="st">  </span><span class="dv">67</span>%
+  <span class="op">|</span><span class="st">                                                                       </span>
+<span class="st">  </span><span class="er">|======================================================</span><span class="st">           </span><span class="er">|</span><span class="st">  </span><span class="dv">83</span>%
+  <span class="op">|</span><span class="st">                                                                       </span>
+<span class="st">  </span><span class="er">|=================================================================|</span><span class="st"> </span><span class="dv">100</span>%</code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --><img src="data:image/png;base64,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" /><!-- --><img src="data:image/png;base64,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" /><!-- --><img src="data:image/png;base64,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" /><!-- --><img src="data:image/png;base64,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" /><!-- --><img src="data:image/png;base64,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" /><!-- --><img src="data:image/png;base64,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" /><!-- --></p>
+<pre><code>#&gt; 
+#&gt;  *** Sample size :  204
+#&gt;  *** Number of strata :  75
+#&gt; ---------------------------</code></pre>
+<p>Note that by so doing the <em>initialStrata</em> parameter is set equal to the number of atomic strata in each domain . Another possibility is to set a pre-determined value for each domain, for instance equal in each domain, as c(5,5,5,5,5,5,5,5).</p>
+<p>The execution of <em>optimizeStrata</em> produces the solution of 7 different optimization problems, one for each domain.</p>
+<p>The graphs illustrate the convergence of the solution to the final one starting from the initial one (i.e. the one related to the atomic strata). Along the x-axis are reported the executed iterations, from 1 to the maximum, while on the y-axis are reported the size of the sample required to satisfy precision constraints. The upper (red) line represent the average sample size for each iteration, while the lower (black) line represents the best solution found until the i-th iteration.</p>
+<p>The results of the execution are contained in the list ‘solution’, composed by two elements:</p>
+<ol style="list-style-type: decimal">
+<li><em>solution$indices</em>: the vector of the indices that indicates to what aggregated stratum each atomic stratum belongs;</li>
+<li><em>solution$aggr_strata</em>: the dataframe containing information on the optimal aggregated strata.</li>
+</ol>
+</div>
+</div>
+<div id="initial-solution-with-kmeans-clustering-of-atomic-strata" class="section level1">
+<h1>Initial solution with kmeans clustering of atomic strata</h1>
+<p>In order to speed up the convergence towards the optimal solution, an initial one can be given as a “suggestion” to ‘optimizeStrata’ function. The function <em>KmeansSolution</em> produces this initial solution by clustering atomic strata considering the values of the means of all the target variables Y.</p>
+<p>Also, the optimal number of clusters is determined inside each domain. If the default value for nstrata is used, then the number of aggregate strata is optimized by varying the number of cluster from 2 to number of atomic strata in each domain, divided by 2. Otherwise, it is possible to indicate a fixed number of aggregate strata to be obtained.</p>
+<p>Other parameters are:</p>
+<ul>
+<li><em>minnumstrat</em>: the minimum number of units to be allocated in each stratum(default is 2);</li>
+<li><em>maxcluster</em>: the maximum number of clusters to be considered in the execution of kmeans algorithm;</li>
+<li><em>showPlot</em>: if TRUE, allows to visualise the optimization.</li>
+</ul>
+<p>For any given number of clusters, the correspondent aggregation of atomic strata is considered as input to the function ‘bethel’. The number of clusters for which the value of the sample size necessary to fulfil precision constraints is the minimum one, is retained as the optimal one.</p>
+<p>The overall solution is obtained by concatenating optimal clusters obtained in domains. The result is a dataframe with two columns: the first indicates the clusters, the second the domains:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">solutionKmeans &lt;-<span class="st"> </span><span class="kw">KmeansSolution</span>(swissstrata,
+                                   swisserrors,
+                                   <span class="dt">nstrata=</span><span class="ot">NA</span>,
+                                   <span class="dt">minnumstrat=</span><span class="dv">2</span>,
+                                   <span class="dt">maxclusters=</span><span class="ot">NA</span>,
+                                   <span class="dt">showPlot=</span><span class="ot">FALSE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; -----------------</span>
+<span class="co">#&gt;  Kmeans solution </span>
+<span class="co">#&gt; -----------------</span>
+<span class="co">#&gt;  *** Domain:  1  ***</span>
+<span class="co">#&gt;  Number of strata:  9</span>
+<span class="co">#&gt;  Sample size     :  18</span>
+<span class="co">#&gt;  *** Domain:  2  ***</span>
+<span class="co">#&gt;  Number of strata:  9</span>
+<span class="co">#&gt;  Sample size     :  17</span>
+<span class="co">#&gt;  *** Domain:  3  ***</span>
+<span class="co">#&gt;  Number of strata:  7</span>
+<span class="co">#&gt;  Sample size     :  13</span>
+<span class="co">#&gt;  *** Domain:  4  ***</span>
+<span class="co">#&gt;  Number of strata:  6</span>
+<span class="co">#&gt;  Sample size     :  10</span>
+<span class="co">#&gt;  *** Domain:  5  ***</span>
+<span class="co">#&gt;  Number of strata:  7</span>
+<span class="co">#&gt;  Sample size     :  13</span>
+<span class="co">#&gt;  *** Domain:  6  ***</span>
+<span class="co">#&gt;  Number of strata:  7</span>
+<span class="co">#&gt;  Sample size     :  13</span>
+<span class="co">#&gt;  *** Domain:  7  ***</span>
+<span class="co">#&gt;  Number of strata:  8</span>
+<span class="co">#&gt;  Sample size     :  16</span>
+<span class="kw">head</span>(solutionKmeans)
+<span class="co">#&gt;   suggestions domainvalue</span>
+<span class="co">#&gt; 1           3           1</span>
+<span class="co">#&gt; 2           3           1</span>
+<span class="co">#&gt; 3           3           1</span>
+<span class="co">#&gt; 4           3           1</span>
+<span class="co">#&gt; 5           3           1</span>
+<span class="co">#&gt; 6           3           1</span></code></pre></div>
+<p>This solution can be given as argument to the parameter <em>suggestion</em> in the <em>optimizeStrata</em> function.</p>
+<p>Suppose we want to optimize the stratification of domain 3 by making use of the initial solution given by the kmeans algorithm in that domain:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">solution_dom3 &lt;-<span class="st"> </span><span class="kw">optimizeStrata</span>(
+    <span class="dt">errors =</span> swisserrors,
+    <span class="dt">strata =</span> swissstrata,
+    <span class="dt">alldomains =</span> <span class="ot">FALSE</span>,
+    <span class="dt">dom =</span> <span class="dv">3</span>,
+    <span class="dt">suggestions =</span> solutionKmeans[solutionKmeans<span class="op">$</span>domainvalue <span class="op">==</span><span class="st"> </span><span class="dv">3</span>,],
+    <span class="dt">parallel =</span> <span class="ot">FALSE</span>,
+    <span class="dt">showPlot =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ---------------------------------------------</span>
+<span class="co">#&gt; Optimal stratification with Genetic Algorithm</span>
+<span class="co">#&gt; ---------------------------------------------</span>
+<span class="co">#&gt;  *** Parameters ***</span>
+<span class="co">#&gt; ---------------------------</span>
+<span class="co">#&gt; Domain:  3</span>
+<span class="co">#&gt; Maximum number of strata:  61</span>
+<span class="co">#&gt; Minimum number of units per stratum:  2</span>
+<span class="co">#&gt; Take-all strata (TRUE/FALSE):  FALSE</span>
+<span class="co">#&gt; number of sampling strata :  61</span>
+<span class="co">#&gt; Number of target variables:  4</span>
+<span class="co">#&gt; Number of domains:  1</span>
+<span class="co">#&gt; Number of GA iterations:  50</span>
+<span class="co">#&gt; Dimension of GA population:  20</span>
+<span class="co">#&gt; Mutation chance in GA generation:  NA</span>
+<span class="co">#&gt; Elitism rate in GA generation:  0.2</span>
+<span class="co">#&gt; Chance to add strata to maximum:  0</span>
+<span class="co">#&gt; Allocation with real numbers instead of integers:  TRUE</span>
+<span class="co">#&gt; Suggestion:  6 5 5 5 5 1 5 5 5 5 5 5 4 4 4 4 4 4 4 4 7 6 6 6 6 6 6 6 6 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
+<span class="co">#&gt;  *** Sample cost:  12.09278</span>
+<span class="co">#&gt;  *** Number of strata:  6</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<pre><code>#&gt; 
+#&gt;  *** Sample size :  12
+#&gt;  *** Number of strata :  6
+#&gt; ---------------------------
+sum(ceiling(solution_dom3$aggr_strata$SOLUZ))
+#&gt; [1] 13</code></pre>
+<p>thus obtaining a much more conventient solution than the one without the kmeans suggestion, with the same number of iterations.</p>
+</div>
+<div id="adjustment-of-the-final-sampling-size" class="section level1">
+<h1>Adjustment of the final sampling size</h1>
+<p>After the optimization step, the final sample size is the result of the allocation of units in final strata. This allocation is such that the precision constraints are expected to be satisfied. Actually, three possible situations may occur:</p>
+<ul>
+<li>the resulting sample size is acceptable;</li>
+<li>the resulting sample size is to high, it is not affordable with respect to the available budget;</li>
+<li>the resulting sample size is too low, the available budget permits to increase the number of units.</li>
+</ul>
+<p>In the first case, no action is required. In the second case, it is necessary to reduce the number of units, by equally applying the same reduction rate in each stratum. In the third case, we could either to set more tight precision constraints, or proceed to increase the sample size by applying the same increase rate in each stratum. This increase/reduction process is iterative, as by applying the same rate we could find that in some strata there are not enough units to increase or to reduce. The function <em>adjustSize</em> permits to obtain the desired final sample size. Let us suppose that the obtained sample size is not affordable. We can reduce it by executing the following code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">adjustedStrata &lt;-<span class="st"> </span><span class="kw">adjustSize</span>(<span class="dt">size=</span><span class="dv">200</span>,<span class="dt">strata=</span>solution<span class="op">$</span>aggr_strata,<span class="dt">cens=</span><span class="ot">NULL</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  196</span>
+<span class="co">#&gt;  196</span>
+<span class="co">#&gt;  Final adjusted size:  196</span>
+<span class="kw">sum</span>(adjustedStrata<span class="op">$</span>SOLUZ)
+<span class="co">#&gt; [1] 196</span></code></pre></div>
+<p>Instead, if we want to increase the size because the budget allows to do this, then this is the code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">adjustedStrata &lt;-<span class="st"> </span><span class="kw">adjustSize</span>(<span class="dt">size=</span><span class="dv">400</span>,<span class="dt">strata=</span>solution<span class="op">$</span>aggr_strata,<span class="dt">cens=</span><span class="ot">NULL</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  381</span>
+<span class="co">#&gt;  385</span>
+<span class="co">#&gt;  385</span>
+<span class="co">#&gt;  Final adjusted size:  385</span>
+<span class="kw">sum</span>(adjustedStrata<span class="op">$</span>SOLUZ)
+<span class="co">#&gt; [1] 385</span></code></pre></div>
+<p>The difference between the desired sample size and the actual adjusted size depends on the number of strata in the optimized solution. Consider that the adjustment is performed in each stratum by taking into account the relative difference between the current sample size and the desired one: this produces an allocation that is expressed by a real number, that must be rounded. The higher the number of strata, the higher the impact of the rounding in all strata on the final adjusted sample size.</p>
+</div>
+<div id="analysis-of-results" class="section level1">
+<h1>Analysis of results</h1>
+<p>This function has two purposes:</p>
+<ol style="list-style-type: decimal">
+<li>instrumental to the processing of the sampling frame (attribution of the labels of the optimized strata to the population units);</li>
+<li>analysis of the aggregation of the atomic strata obtained in the optimized solution.</li>
+</ol>
+<p>The function <em>updateStrata</em> assigns the labels of the new strata to the initial one in the dataframe <em>strata</em>, and produces:</p>
+<ul>
+<li>a new dataframe named <em>newstrata</em> containing all the information in the <em>strata</em> dataframe, plus the labels of the new optimized strata;</li>
+<li>a table, contained in the dataset <em>strata_aggregation.txt</em>, showing in which way each optimized stratum aggregates the auxiliary variables X’s.</li>
+</ul>
+<p>The function is invoked in this way:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">newstrata &lt;-<span class="st"> </span><span class="kw">updateStrata</span>(swissstrata, 
+                          solution, 
+                          <span class="dt">writeFiles =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>Now, the atomic strata are associated to the aggregate strata defined in the optimal solution, by means of the variable <em>LABEL</em>. If we want to analyse in detail the new structure of the stratification, we can look at the <em>strata_aggregation.txt</em> file:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">strata_aggregation &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="st">&quot;strata_aggregation.txt&quot;</span>)
+<span class="kw">head</span>(strata_aggregation)
+<span class="co">#&gt;   DOM1 AGGR_STRATUM X1 X2 X3 X4 X5 X6</span>
+<span class="co">#&gt; 1    1            1  1  1  1  1  1  1</span>
+<span class="co">#&gt; 2    1            1  1  2  1  3  1  1</span>
+<span class="co">#&gt; 3    1            1  2  2  1  2  1  1</span>
+<span class="co">#&gt; 4    1            1  4  3  2  2  2  1</span>
+<span class="co">#&gt; 5    1            2  1  1  1  1  1  2</span>
+<span class="co">#&gt; 6    1            2  4  1  1  1  1  2</span></code></pre></div>
+<p>In this structure, for each aggregate stratum the values of the X’s variables in each contributing atomic stratum are reported. It is then possible to understand the meaning of each aggregate stratum produced by the optimization.</p>
+</div>
+<div id="updating-the-frame-and-selecting-the-sample" class="section level1">
+<h1>Updating the frame and selecting the sample</h1>
+<p>Once the optimal stratification has been obtained, to be operational we need to accomplish the following two steps:</p>
+<ul>
+<li>to update the frame units with new stratum labels (combination of the new values of the auxiliary variables X’s);</li>
+<li>to select the sample from the frame.</li>
+</ul>
+<p>As for the first, we execute the following command:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">framenew &lt;-<span class="st"> </span><span class="kw">updateFrame</span>(swissframe, newstrata, <span class="dt">writeFiles=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p>The function <em>updateFrame</em> receives as arguments the indication of the dataframe in which the frame information is memorised, and of the dataframe produced by the execution of the <em>updateStrata</em> function. The execution of this function produces a dataframe <em>framenew</em>, and also a file (named <em>framenew.txt</em>) with the labels of the new strata produced by the optimisation step. The allocation of units is contained in the <em>SOLUZ</em> column of the dataset <em>outstrata.txt</em>. At this point it is possible to select the sample from the new version of the frame:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sample &lt;-<span class="st"> </span><span class="kw">selectSample</span>(framenew, solution<span class="op">$</span>aggr_strata, <span class="dt">writeFiles=</span><span class="ot">TRUE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; *** Sample has been drawn successfully ***</span>
+<span class="co">#&gt;  204  units have been selected from  75  strata</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ==&gt; There have been  10  take-all strata </span>
+<span class="co">#&gt; from which have been selected  21 units</span></code></pre></div>
+<p>that produces two .csv files:</p>
+<ul>
+<li><em>sample.csv</em> containing the units of the frame that have been selected, together with the weight that has been calculated for each one of them;</li>
+<li><em>sample.chk.csv</em> containing information on the selection: for each stratum, the number of units in the population, the planned sample, the number of selected units, the sum of their weights that must equalise the number of units in the population.</li>
+</ul>
+<p>The <em>selectSample</em> operates by drawing a simple random sampling in each stratum.</p>
+<p>A variant of this function is <em>selectSampleSystematic</em>. The only difference is in the method used for selecting units in each strata, that is by executing the following steps:</p>
+<ol style="list-style-type: decimal">
+<li>a selection interval is determined by considering the inverse of the sampling rate in the stratum;</li>
+<li>a starting point is determined by selecting a value in this interval;</li>
+<li>the selection proceeds by selecting as first unit the one corresponding to the above value, and then selecting all the units individuated by adding the selection interval.</li>
+</ol>
+<p>This selection method can be useful if associated to a particular ordering of the selection frame, where the ordering variable(s) can be considered as additional stratum variable(s). For instance, we could decide that it could be important to consider the overall population in municipalities when selecting units. Here is the code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># adding POPTOT to framenew</span>
+<span class="kw">data</span>(<span class="st">&quot;swissmunicipalities&quot;</span>)
+framenew &lt;-<span class="st"> </span><span class="kw">merge</span>(framenew,swissmunicipalities[,<span class="kw">c</span>(<span class="st">&quot;REG&quot;</span>,<span class="st">&quot;Nom&quot;</span>,<span class="st">&quot;POPTOT&quot;</span>)],
+                  <span class="dt">by.x=</span><span class="kw">c</span>(<span class="st">&quot;REG&quot;</span>,<span class="st">&quot;ID&quot;</span>),<span class="dt">by.y=</span><span class="kw">c</span>(<span class="st">&quot;REG&quot;</span>,<span class="st">&quot;Nom&quot;</span>))
+<span class="co"># selection of sample with systematic method</span>
+sample &lt;-<span class="st"> </span><span class="kw">selectSampleSystematic</span>(<span class="dt">frame=</span>framenew,
+                                 <span class="dt">outstrata=</span>solution<span class="op">$</span>aggr_strata,
+                                 <span class="dt">sortvariable =</span> <span class="kw">c</span>(<span class="st">&quot;POPTOT&quot;</span>))
+<span class="co">#&gt; </span>
+<span class="co">#&gt; *** Sample has been drawn successfully ***</span>
+<span class="co">#&gt;  204  units have been selected from  75  strata</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ==&gt; There have been  10  take-all strata </span>
+<span class="co">#&gt; from which have been selected  21 units</span>
+<span class="kw">head</span>(sample,<span class="dv">3</span>)
+<span class="co">#&gt;   DOMAINVALUE STRATO REG       ID     STRATUM PROGR X1 X2 X3 X4 X5 X6   Y1</span>
+<span class="co">#&gt; 1           1      1   1  Hohtenn 1*1*1*1*1*1  2494  1  1  1  1  1  1   31</span>
+<span class="co">#&gt; 2           1      1   1   Mauraz 1*1*1*1*1*1  2858  1  1  1  1  1  1   10</span>
+<span class="co">#&gt; 3           1     10   1 Crissier 9*1*1*1*1*2   209  9  1  1  1  1  2 1689</span>
+<span class="co">#&gt;     Y2   Y3  Y4 LABEL POPTOT WEIGHTS        FPC</span>
+<span class="co">#&gt; 1   49   77  43     1    200      96 0.01041667</span>
+<span class="co">#&gt; 2   15   13  10     1     48      96 0.01041667</span>
+<span class="co">#&gt; 3 2282 2005 601    10   6577       3 0.33333333</span></code></pre></div>
+</div>
+<div id="evaluation-of-the-found-solution" class="section level1">
+<h1>Evaluation of the found solution</h1>
+<p>In order to be confident about the quality of the found solution, the function <em>evalSolution</em> allows to run a simulation, based on the selection of a desired number of samples from the frame to which the stratification, identified as the best, has been applied. The user can invoke this function also indicating the number of samples to be drawn:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval &lt;-<span class="st"> </span><span class="kw">evalSolution</span>(framenew, 
+                     solution<span class="op">$</span>aggr_strata, 
+                     <span class="dt">nsampl=</span><span class="dv">200</span>, 
+                     <span class="dt">writeFiles=</span><span class="ot">TRUE</span>,
+                     <span class="dt">progress=</span><span class="ot">FALSE</span>) </code></pre></div>
+<p>For each drawn sample, the estimates related to the Y’s are calculated. Their mean and standard deviation are also computed, in order to produce the CV related to each variable in every domain. These CV’s can be inspected and compared to the constraints:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval<span class="op">$</span>coeff_var
+<span class="co">#&gt;          CV1        CV2        CV3        CV4  dom</span>
+<span class="co">#&gt; 1 0.08252077 0.07848489 0.08224983 0.08542036 DOM1</span>
+<span class="co">#&gt; 2 0.07763594 0.08235873 0.08231295 0.08865030 DOM2</span>
+<span class="co">#&gt; 3 0.08310207 0.08270364 0.08135294 0.09089710 DOM3</span>
+<span class="co">#&gt; 4 0.08250518 0.07235703 0.07445420 0.07537951 DOM4</span>
+<span class="co">#&gt; 5 0.08021056 0.08101812 0.07906475 0.08508820 DOM5</span>
+<span class="co">#&gt; 6 0.07819177 0.07769134 0.07797152 0.07515486 DOM6</span>
+<span class="co">#&gt; 7 0.07459998 0.07442495 0.07029024 0.08140605 DOM7</span>
+swisserrors
+<span class="co">#&gt;    DOM  CV1  CV2  CV3  CV4 domainvalue</span>
+<span class="co">#&gt; 1 DOM1 0.08 0.12 0.08 0.12           1</span>
+<span class="co">#&gt; 2 DOM1 0.08 0.12 0.08 0.12           2</span>
+<span class="co">#&gt; 3 DOM1 0.08 0.12 0.08 0.12           3</span>
+<span class="co">#&gt; 4 DOM1 0.08 0.12 0.08 0.12           4</span>
+<span class="co">#&gt; 5 DOM1 0.08 0.12 0.08 0.12           5</span>
+<span class="co">#&gt; 6 DOM1 0.08 0.12 0.08 0.12           6</span>
+<span class="co">#&gt; 7 DOM1 0.08 0.12 0.08 0.12           7</span></code></pre></div>
+<p>Whenever the precision constraints are not strictly observed, then it is possible to carry out the rounding to the upper integer (<em>ceiling</em>) the allocation vector. Accordingly to the Bethel algorithm, this ensure compliance to the precision constraints.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(solution<span class="op">$</span>aggr_strata<span class="op">$</span>SOLUZ)
+<span class="co">#&gt; [1] 204.6332</span>
+outstrata &lt;-<span class="st"> </span>solution<span class="op">$</span>aggr_strata
+outstrata<span class="op">$</span>SOLUZ &lt;-<span class="st"> </span><span class="kw">ceiling</span>(outstrata<span class="op">$</span>SOLUZ)
+<span class="kw">sum</span>(outstrata<span class="op">$</span>SOLUZ)
+<span class="co">#&gt; [1] 227</span>
+eval_ceiling &lt;-<span class="st"> </span><span class="kw">evalSolution</span>(framenew, 
+                     outstrata, 
+                     <span class="dt">nsampl=</span><span class="dv">200</span>,
+                     <span class="dt">writeFiles =</span> <span class="ot">TRUE</span>,
+                     <span class="dt">progress =</span> <span class="ot">FALSE</span>)
+eval_ceiling<span class="op">$</span>coeff_var
+<span class="co">#&gt;          CV1        CV2        CV3        CV4  dom</span>
+<span class="co">#&gt; 1 0.07223747 0.06722837 0.06986446 0.07014591 DOM1</span>
+<span class="co">#&gt; 2 0.06990494 0.07211983 0.07195669 0.07544995 DOM2</span>
+<span class="co">#&gt; 3 0.07353455 0.07183492 0.07314392 0.08452559 DOM3</span>
+<span class="co">#&gt; 4 0.07810855 0.07328365 0.07593483 0.07356640 DOM4</span>
+<span class="co">#&gt; 5 0.07453190 0.07408962 0.07311500 0.07803688 DOM5</span>
+<span class="co">#&gt; 6 0.07918886 0.07872356 0.08085952 0.07761806 DOM6</span>
+<span class="co">#&gt; 7 0.07500579 0.07383355 0.06879448 0.08029286 DOM7</span>
+swisserrors
+<span class="co">#&gt;    DOM  CV1  CV2  CV3  CV4 domainvalue</span>
+<span class="co">#&gt; 1 DOM1 0.08 0.12 0.08 0.12           1</span>
+<span class="co">#&gt; 2 DOM1 0.08 0.12 0.08 0.12           2</span>
+<span class="co">#&gt; 3 DOM1 0.08 0.12 0.08 0.12           3</span>
+<span class="co">#&gt; 4 DOM1 0.08 0.12 0.08 0.12           4</span>
+<span class="co">#&gt; 5 DOM1 0.08 0.12 0.08 0.12           5</span>
+<span class="co">#&gt; 6 DOM1 0.08 0.12 0.08 0.12           6</span>
+<span class="co">#&gt; 7 DOM1 0.08 0.12 0.08 0.12           7</span></code></pre></div>
+<p>These values are on average compliant with the precision constraints set.</p>
+<p><img src="data:image/png;base64,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" width="80%" /></p>
+</div>
+<div id="handling-take-all-strata-in-the-optimization-step" class="section level1">
+<h1>Handling ‘take-all’ strata in the optimization step</h1>
+<p>As input to the optimization step, together with proper sampling strata, it is also possible to provide <em>take-all</em> strata. These strata will not be subject to optimisation as the proper strata, but they will contribute to the determination of the best stratification, as their presence in a given domain will permit to satisfy precision constraint with a lower number of units belonging to proper sampling strata.</p>
+<p>In order to correctly execute the optimization and further steps, it is necessary to perform a pre-processing of the overall input. The first step to be executed consists in the bi-partition of units to be censused and of units to be sampled, in order to build two different frames:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(swisserrors)
+<span class="kw">data</span>(swissstrata)
+<span class="kw">data</span>(swissframe)
+<span class="co">#----Selection of units to be censused from the frame</span>
+framecens &lt;-<span class="st"> </span>swissframe[ (swissframe<span class="op">$</span>domainvalue <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">|</span>
+<span class="st">                          </span>swissframe<span class="op">$</span>domainvalue <span class="op">==</span><span class="st"> </span><span class="dv">4</span>) <span class="op">&amp;</span><span class="st"> </span>
+<span class="st">                         </span>(swissframe<span class="op">$</span>X2 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                          </span>swissframe<span class="op">$</span>X3 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                          </span>swissframe<span class="op">$</span>X4 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                          </span>swissframe<span class="op">$</span>X5 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                          </span>swissframe<span class="op">$</span>X6 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)  , ]
+<span class="co">#----Selection of units to be sampled from the frame</span>
+<span class="co"># (complement to the previous)</span>
+framesamp &lt;-<span class="st"> </span>swissframe[<span class="op">!</span>((swissframe<span class="op">$</span>domainvalue <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">|</span>
+<span class="st">                           </span>swissframe<span class="op">$</span>domainvalue <span class="op">==</span><span class="st"> </span><span class="dv">4</span>) <span class="op">&amp;</span><span class="st"> </span>
+<span class="st">                          </span>(swissframe<span class="op">$</span>X2 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                           </span>swissframe<span class="op">$</span>X3 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                           </span>swissframe<span class="op">$</span>X4 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                           </span>swissframe<span class="op">$</span>X5 <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span>
+<span class="st">                           </span>swissframe<span class="op">$</span>X6 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)) , ]</code></pre></div>
+<p>In this way, we have included all units belonging to ‘take-all’ strata in ‘framecens’, and the remaining in ‘framesamp’. At the end of the process, the sample will be selected from ‘framesamp’, while the units in ‘framecens’ will be simply added to the sample.</p>
+<p>We can obtain census strata and sampling strata by applying <em>buildStrataDF</em> respectively to to <em>framecens</em> and <em>framesamp</em>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Build strata to be censused and sampled</span>
+cens &lt;-<span class="st"> </span><span class="kw">buildStrataDF</span>(framecens,<span class="dt">progress =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Computations are being done on population data</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Number of strata:  18</span>
+<span class="co">#&gt; ... of which with only one unit:  2</span>
+<span class="kw">sum</span>(cens<span class="op">$</span>N)
+<span class="co">#&gt; [1] 405</span>
+strata &lt;-<span class="st"> </span><span class="kw">buildStrataDF</span>(framesamp,<span class="dt">progress =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Computations are being done on population data</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Number of strata:  623</span>
+<span class="co">#&gt; ... of which with only one unit:  387</span>
+<span class="kw">sum</span>(strata<span class="op">$</span>N)
+<span class="co">#&gt; [1] 2491</span></code></pre></div>
+<p>and</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(cens<span class="op">$</span>N)
+<span class="co">#&gt; [1] 405</span>
+<span class="kw">sum</span>(strata<span class="op">$</span>N)
+<span class="co">#&gt; [1] 2491</span></code></pre></div>
+<p>Now we have all required inputs to run ‘optimizeStrata’ in presence of the ‘take-all’ strata:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">solution &lt;-<span class="st"> </span><span class="kw">optimizeStrata</span>(
+    <span class="dt">errors =</span> swisserrors, 
+    <span class="dt">strata =</span> strata, 
+    <span class="dt">cens =</span> cens, 
+    <span class="dt">strcens =</span> <span class="ot">TRUE</span>,
+    <span class="dt">parallel =</span> <span class="ot">FALSE</span>,
+    <span class="dt">writeFiles =</span> <span class="ot">TRUE</span>,
+    <span class="dt">showPlot =</span> <span class="ot">FALSE</span>
+)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  *** Domain :  1   1</span>
+<span class="co">#&gt;  Number of strata :  110</span>
+<span class="co">#&gt; GA Settings</span>
+<span class="co">#&gt;   Population size       = 20</span>
+<span class="co">#&gt;   Number of Generations = 50</span>
+<span class="co">#&gt;   Elitism               = 4</span>
+<span class="co">#&gt;   Mutation Chance       = 0.00900900900900901</span></code></pre></div>
+<p>Once the optimized solution has been produced, the next steps are executed by considering only the sampling part of the frame:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">newstrata &lt;-<span class="st"> </span><span class="kw">updateStrata</span>(strata, solution)
+<span class="co"># updating sampling frame with new strata labels</span>
+framenew &lt;-<span class="st"> </span><span class="kw">updateFrame</span>(<span class="dt">frame=</span>framesamp,<span class="dt">newstrata=</span>newstrata)
+<span class="co"># selection of sample from sampling strata</span>
+sample &lt;-<span class="st"> </span><span class="kw">selectSample</span>(<span class="dt">frame=</span>framenew,<span class="dt">outstrata=</span>solution<span class="op">$</span>aggr_strata)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; *** Sample has been drawn successfully ***</span>
+<span class="co">#&gt;  205  units have been selected from  72  strata</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ==&gt; There have been  12  take-all strata </span>
+<span class="co">#&gt; from which have been selected  37 units</span></code></pre></div>
+<p>Finally, the units in the ‘take-all’ strata can be added to sampled ones. First, the census frame needs to be made homogeneous to the sample frame in order to permit the ‘rbind’ step:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># addition of necessary variables to </span>
+<span class="kw">colnames</span>(framesamp) &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">colnames</span>(framesamp))
+<span class="kw">colnames</span>(framecens) &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">colnames</span>(framecens))
+framecens<span class="op">$</span>WEIGHTS &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">nrow</span>(framecens))
+framecens<span class="op">$</span>FPC &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">nrow</span>(framecens))
+framecens<span class="op">$</span>LABEL &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;999999&quot;</span>,<span class="kw">nrow</span>(framecens))
+framecens<span class="op">$</span>STRATUM &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;999999&quot;</span>,<span class="kw">nrow</span>(framecens))
+framecens<span class="op">$</span>STRATO &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;999999&quot;</span>,<span class="kw">nrow</span>(framecens))</code></pre></div>
+<p>The overall set of units to be surveyed is obtainable in this way:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">survey &lt;-<span class="st"> </span><span class="kw">rbind</span>(sample,framecens)</code></pre></div>
+<p>and this is the proportion of sampling and censused units:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">survey<span class="op">$</span>cens &lt;-<span class="st"> </span><span class="kw">ifelse</span>(survey<span class="op">$</span>LABEL <span class="op">==</span><span class="st"> &quot;999999&quot;</span>,<span class="dv">1</span>,<span class="dv">0</span>)
+<span class="kw">table</span>(survey<span class="op">$</span>cens)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   0   1 </span>
+<span class="co">#&gt; 205 405</span></code></pre></div>
+</div>
+<div id="handling-anticipated-variance" class="section level1">
+<h1>Handling Anticipated Variance</h1>
+<p>In the previous sections it has been assumed that, when optimizing the stratification of a sampling frame, values of the target variables Y’s are available for the generality of the units in the frame, or at least for a sample of them by means of which it is possible to estimate means and standard deviation of Y’s in atomic strata. Of course, this assumption is seldom expected to hold. The situation in which some proxy variables are available in the frame is much more likely to happen. In these situations, instead of directly indicating the real target variables, proxy ones are named as Y’s. By so doing, there is no guarantee that the final stratification and allocation can ensure the compliance to the set of precision constraints.<br />
+In order to take into account this problem, and to limit the risk of overestimating the expected precision levels of the optimized solution, it is possible to carry out the optimization by considering, instead of the expected coefficients of variation related to proxy variables, the anticipated coefficients of variation (ACV) that depend on the model that is possile to fit on couples of real target variables and proxy ones. In the current implementation, only models linking continuous variables can be considered. The definition and the use of these models is the same that has been implemented in the package <em>stratification</em> <span class="citation">(see Baillargeon and Rivest 2014)</span>. In particular, the reference here is to two different models, the linear model with heteroscedasticity:</p>
+<p><span class="math display">\[Y=beta\times X + epsilon\]</span></p>
+<p>where</p>
+<p><span class="math display">\[epsilon \sim N(0,sig2 X^{gamma})\]</span></p>
+<p>(in case gamma = 0, then the model is homoscedastic)</p>
+<p>and the loglinear model:</p>
+<p><span class="math display">\[Y= \exp (beta \times log(X) + epsilon)\]</span></p>
+<p>where</p>
+<p><span class="math display">\[epsilon \sim N(0,sig2)\]</span></p>
+<p>In order to make evident the importance of the above, consider the following example, based on the dataset <em>nations</em> available in the package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(nations)
+<span class="kw">head</span>(nations)
+<span class="co">#&gt;          Country  TFR contraception infant.mortality   GDP  region</span>
+<span class="co">#&gt; 1    Afghanistan 6.90            63              154  2848    Asia</span>
+<span class="co">#&gt; 2        Albania 2.60            47               32   863  Europe</span>
+<span class="co">#&gt; 3        Algeria 3.81            52               44  1531  Africa</span>
+<span class="co">#&gt; 4 American-Samoa 1.35            71               11  2433 Oceania</span>
+<span class="co">#&gt; 5        Andorra 1.61            71                7 19121  Europe</span>
+<span class="co">#&gt; 6         Angola 6.69            19              124   355  Africa</span>
+<span class="co">#&gt;   Continent</span>
+<span class="co">#&gt; 1         2</span>
+<span class="co">#&gt; 2         1</span>
+<span class="co">#&gt; 3         4</span>
+<span class="co">#&gt; 4         5</span>
+<span class="co">#&gt; 5         1</span>
+<span class="co">#&gt; 6         4</span></code></pre></div>
+<p>Let us assume that in the sampling frame only variable <strong>GDP</strong> (Gross Domestic Product) is available for all countries, while <strong>contraception rates</strong> and <strong>infant mortality rates</strong> are available only on a subset of countries (about one third).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1234</span>)
+nations_sample &lt;-<span class="st"> </span>nations[<span class="kw">sample</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">207</span>),<span class="dv">70</span>),]</code></pre></div>
+<p>In this subset we can fit models between GDP and the two variables that we assume are the target of our survey.</p>
+<p>One model for <strong>infant mortality</strong> and <strong>GDP</strong>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod_logGDP_INFMORT &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(nations_sample<span class="op">$</span>infant.mortality) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(nations_sample<span class="op">$</span>GDP))
+<span class="kw">summary</span>(mod_logGDP_INFMORT)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; lm(formula = log(nations_sample$infant.mortality) ~ log(nations_sample$GDP))</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residuals:</span>
+<span class="co">#&gt;     Min      1Q  Median      3Q     Max </span>
+<span class="co">#&gt; -1.1292 -0.3765 -0.1455  0.3316  2.6345 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt;                         Estimate Std. Error t value             Pr(&gt;|t|)</span>
+<span class="co">#&gt; (Intercept)              6.86295    0.33620   20.41 &lt; 0.0000000000000002</span>
+<span class="co">#&gt; log(nations_sample$GDP) -0.46580    0.04389  -10.61 0.000000000000000452</span>
+<span class="co">#&gt;                            </span>
+<span class="co">#&gt; (Intercept)             ***</span>
+<span class="co">#&gt; log(nations_sample$GDP) ***</span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residual standard error: 0.6158 on 68 degrees of freedom</span>
+<span class="co">#&gt; Multiple R-squared:  0.6236, Adjusted R-squared:  0.6181 </span>
+<span class="co">#&gt; F-statistic: 112.7 on 1 and 68 DF,  p-value: 0.0000000000000004523</span></code></pre></div>
+<p>and one model for <strong>contraception</strong> and <strong>GDP</strong>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod_logGDP_CONTRA &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(nations_sample<span class="op">$</span>contraception) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(nations_sample<span class="op">$</span>GDP))
+<span class="kw">summary</span>(mod_logGDP_CONTRA)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; lm(formula = log(nations_sample$contraception) ~ log(nations_sample$GDP))</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residuals:</span>
+<span class="co">#&gt;      Min       1Q   Median       3Q      Max </span>
+<span class="co">#&gt; -1.96139 -0.27360 -0.01435  0.45058  1.25143 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt;                         Estimate Std. Error t value         Pr(&gt;|t|)    </span>
+<span class="co">#&gt; (Intercept)              0.98318    0.30538   3.220          0.00197 ** </span>
+<span class="co">#&gt; log(nations_sample$GDP)  0.34649    0.03986   8.692 0.00000000000122 ***</span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residual standard error: 0.5593 on 68 degrees of freedom</span>
+<span class="co">#&gt; Multiple R-squared:  0.5263, Adjusted R-squared:  0.5193 </span>
+<span class="co">#&gt; F-statistic: 75.55 on 1 and 68 DF,  p-value: 0.000000000001217</span></code></pre></div>
+<p>We define the <em>sampling frame</em> in this way:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nations<span class="op">$</span>progr &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(nations))
+nations<span class="op">$</span>dom &lt;-<span class="st"> </span><span class="dv">1</span>
+frame &lt;-<span class="st"> </span><span class="kw">buildFrameDF</span>(nations,
+                      <span class="dt">id=</span><span class="st">&quot;Country&quot;</span>,
+                      <span class="dt">X=</span><span class="st">&quot;progr&quot;</span>,
+                      <span class="dt">Y=</span><span class="kw">c</span>(<span class="st">&quot;GDP&quot;</span>,<span class="st">&quot;GDP&quot;</span>),
+                      <span class="dt">domainvalue =</span> <span class="st">&quot;dom&quot;</span>)</code></pre></div>
+<p>that is, we replicate twice the variable <strong>GDP</strong> because it will be used once for <strong>infant mortality</strong> and once for <strong>contraception</strong>.</p>
+<p>We set 10% and 5% precision constraints on these two variables:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cv &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">list</span>(<span class="dt">DOM=</span><span class="kw">rep</span>(<span class="st">&quot;DOM1&quot;</span>,<span class="dv">1</span>),
+                         <span class="dt">CV1=</span><span class="kw">rep</span>(<span class="fl">0.10</span>,<span class="dv">1</span>),
+                         <span class="dt">CV2=</span><span class="kw">rep</span>(<span class="fl">0.05</span>,<span class="dv">1</span>),
+                         <span class="dt">domainvalue=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">1</span>)
+                    ))
+cv
+<span class="co">#&gt;    DOM CV1  CV2 domainvalue</span>
+<span class="co">#&gt; 1 DOM1 0.1 0.05           1</span></code></pre></div>
+<p>We build the strata without any assumption on the variability of the two target variables, and proceed in the optimization:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">strata1 &lt;-<span class="st"> </span><span class="kw">buildStrataDF</span>(frame, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Computations are being done on population data</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Number of strata:  207</span>
+<span class="co">#&gt; ... of which with only one unit:  207</span>
+solution1 &lt;-<span class="st"> </span><span class="kw">optimizeStrata</span>(cv,
+                           strata1,
+                           <span class="dt">iter =</span> <span class="dv">50</span>,
+                           <span class="dt">pops =</span> <span class="dv">20</span>,
+                           <span class="dt">parallel =</span> <span class="ot">FALSE</span>,
+                           <span class="dt">suggestions =</span> <span class="kw">KmeansSolution</span>(strata1,cv),
+                           <span class="dt">writeFiles =</span> <span class="ot">TRUE</span>,
+                           <span class="dt">showPlot =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; -----------------</span>
+<span class="co">#&gt;  Kmeans solution </span>
+<span class="co">#&gt; -----------------</span>
+<span class="co">#&gt;  *** Domain:  1  ***</span>
+<span class="co">#&gt;  Number of strata:  7</span>
+<span class="co">#&gt;  Sample size     :  17</span>
+<span class="co">#&gt;  *** Domain :  1   1</span>
+<span class="co">#&gt;  Number of strata :  207</span>
+<span class="co">#&gt; GA Settings</span>
+<span class="co">#&gt;   Population size       = 20</span>
+<span class="co">#&gt;   Number of Generations = 50</span>
+<span class="co">#&gt;   Elitism               = 4</span>
+<span class="co">#&gt;   Mutation Chance       = 0.00480769230769231</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Suggestions</span>
+<span class="co">#&gt;   1 = (5, 3, 3, 6, 6, 7, 5, 6, 7, 4, 2, 7, 2, 2, 2, 7, 6, 6, 5, 7, 6, 1, 7, 6, 1, 6, 5, 5, 7, 6, 2, 6, 7, 6, 1, 5, 7, 6, 2, 1, 3, 3, 6, 6, 6, 1, 2, 2, 4, 6, 4, 5, 7, 7, 5, 7, 6, 5, 1, 1, 1, 1, 7, 5, 6, 4, 5, 4, 7, 3, 6, 4, 6, 4, 6, 2, 5, 1, 7, 6, 6, 5, 1, 6, 5, 6, 7, 7, 2, 2, 2, 5, 6, 6, 5, 6, 7, 5, 7, 5, 5, 6, 3, 6, 6, 3, 3, 2, 4, 6, 7, 6, 6, 5, 6, 5, 5, 6, 7, 6, 6, 6, 6, 6, 5, 5, 3, 7, 6, 6, 7, 6, 6, 3, 7, 6, 6, 4, 6, 7, 6, 5, 7, 4, 5, 5, 7, 1, 5, 6, 2, 6, 3, 5, 7, 3, 7, 7, 7, 6, 6, 5, 6, 6, 5, 3, 2, 3, 3, 4, 6, 7, 6, 2, 4, 6, 1, 5, 1, 3, 7, 6, 6, 6, 6, 4, 6, 3, 5, 2, 6, 7, 7, 1, 3, 3, 6, 3, 6, 7, 2, 7, 7, 6, 6, 6, 1)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(solution1<span class="op">$</span>aggr_strata<span class="op">$</span>SOLUZ)
+<span class="co">#&gt; [1] 16.62586</span></code></pre></div>
+<p>Then, we evaluate the expected CV’s on the three variables:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">newstrata &lt;-<span class="st"> </span><span class="kw">updateStrata</span>(strata1,solution1)
+framenew1 &lt;-<span class="st"> </span><span class="kw">updateFrame</span>(frame,newstrata)
+framenew1 &lt;-<span class="st"> </span>framenew1[<span class="kw">order</span>(framenew1<span class="op">$</span>ID),]
+framenew1<span class="op">$</span>Y2 &lt;-<span class="st"> </span>nations<span class="op">$</span>infant.mortality
+framenew1<span class="op">$</span>Y3 &lt;-<span class="st"> </span>nations<span class="op">$</span>contraception
+results1 &lt;-<span class="st"> </span><span class="kw">evalSolution</span>(framenew1, solution1<span class="op">$</span>aggr_strata, <span class="dv">50</span>, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
+results1<span class="op">$</span>coeff_var
+<span class="co">#&gt;          CV1       CV2       CV3  dom</span>
+<span class="co">#&gt; 1 0.05332022 0.2326833 0.1431669 DOM1</span></code></pre></div>
+<p>Clearly, the CV’s on <strong>infant mortality</strong> and <strong>contraception</strong> are not compliant with the corresponding precision constraints.</p>
+<p>We now proceed in building the <strong>strata</strong> dataframe using the models:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="ot">NULL</span>
+model<span class="op">$</span>beta[<span class="dv">1</span>] &lt;-<span class="st"> </span>mod_logGDP_INFMORT<span class="op">$</span>coefficients[<span class="dv">2</span>]
+model<span class="op">$</span>sig2[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">summary</span>(mod_logGDP_INFMORT)<span class="op">$</span>sigma
+model<span class="op">$</span>type[<span class="dv">1</span>] &lt;-<span class="st"> &quot;loglinear&quot;</span>
+model<span class="op">$</span>gamma[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">0</span>
+model<span class="op">$</span>beta[<span class="dv">2</span>] &lt;-<span class="st"> </span>mod_logGDP_CONTRA<span class="op">$</span>coefficients[<span class="dv">2</span>]
+model<span class="op">$</span>sig2[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">summary</span>(mod_logGDP_CONTRA)<span class="op">$</span>sigma
+model<span class="op">$</span>type[<span class="dv">2</span>] &lt;-<span class="st"> &quot;loglinear&quot;</span>
+model<span class="op">$</span>gamma[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">0</span>
+model &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(model)
+model
+<span class="co">#&gt;         beta      sig2      type gamma</span>
+<span class="co">#&gt; 1 -0.4658038 0.6157600 loglinear     0</span>
+<span class="co">#&gt; 2  0.3464857 0.5593031 loglinear     0</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">strata2 &lt;-<span class="st"> </span><span class="kw">buildStrataDF</span>(frame, <span class="dt">model =</span> model, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Computations are being done on population data</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Number of strata:  207</span>
+<span class="co">#&gt; ... of which with only one unit:  207</span>
+<span class="kw">head</span>(strata2)
+<span class="co">#&gt;   STRATO N          M1        M2          S1        S2 COST CENS DOM1  X1</span>
+<span class="co">#&gt; 1      1 1 0.024595860 15.737965 0.022690436 13.624506    1    0    1   1</span>
+<span class="co">#&gt; 2     10 1 0.009910578 30.945032 0.009142812 26.789408    1    0    1  10</span>
+<span class="co">#&gt; 3    100 1 0.011086660 28.468488 0.010227784 24.645441    1    0    1 100</span>
+<span class="co">#&gt; 4    101 1 0.067027720  7.465936 0.061835128  6.463332    1    0    1 101</span>
+<span class="co">#&gt; 5    102 1 0.064539738  7.678981 0.059539888  6.647767    1    0    1 102</span>
+<span class="co">#&gt; 6    103 1 0.030744575 13.331076 0.028362814 11.540840    1    0    1 103</span></code></pre></div>
+<p>We proceed with the optimization</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">strata2 &lt;-<span class="st"> </span><span class="kw">buildStrataDF</span>(frame, <span class="dt">model =</span> model, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Computations are being done on population data</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Number of strata:  207</span>
+<span class="co">#&gt; ... of which with only one unit:  207</span>
+solution2 &lt;-
+<span class="st">  </span><span class="kw">optimizeStrata</span>(
+    <span class="dt">errors =</span> cv , 
+    <span class="dt">strata =</span> strata2, 
+    <span class="dt">iter =</span> <span class="dv">50</span>, 
+    <span class="dt">pops =</span> <span class="dv">20</span>, 
+    <span class="dt">parallel =</span> <span class="ot">FALSE</span>,
+    <span class="dt">suggestions =</span> <span class="kw">KmeansSolution</span>(strata2,cv),
+    <span class="dt">showPlot =</span> <span class="ot">FALSE</span>,
+    <span class="dt">writeFiles =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; -----------------</span>
+<span class="co">#&gt;  Kmeans solution </span>
+<span class="co">#&gt; -----------------</span>
+<span class="co">#&gt;  *** Domain:  1  ***</span>
+<span class="co">#&gt;  Number of strata:  12</span>
+<span class="co">#&gt;  Sample size     :  113</span>
+<span class="co">#&gt;  *** Domain :  1   1</span>
+<span class="co">#&gt;  Number of strata :  207</span>
+<span class="co">#&gt; GA Settings</span>
+<span class="co">#&gt;   Population size       = 20</span>
+<span class="co">#&gt;   Number of Generations = 50</span>
+<span class="co">#&gt;   Elitism               = 4</span>
+<span class="co">#&gt;   Mutation Chance       = 0.00480769230769231</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Suggestions</span>
+<span class="co">#&gt;   1 = (12, 3, 3, 4, 4, 1, 12, 4, 9, 6, 8, 1, 8, 8, 8, 1, 7, 11, 6, 9, 7, 5, 1, 4, 5, 4, 12, 12, 1, 4, 8, 4, 9, 2, 5, 12, 1, 7, 8, 5, 3, 3, 4, 7, 10, 5, 8, 8, 6, 4, 6, 12, 9, 1, 12, 9, 7, 12, 5, 5, 3, 5, 1, 12, 7, 6, 12, 6, 9, 3, 2, 6, 10, 6, 7, 8, 12, 5, 9, 10, 11, 12, 3, 10, 12, 2, 9, 1, 8, 8, 8, 12, 11, 11, 12, 4, 1, 6, 1, 12, 12, 4, 3, 4, 10, 3, 3, 8, 6, 4, 9, 9, 4, 12, 7, 12, 12, 10, 1, 4, 10, 11, 9, 7, 12, 6, 3, 1, 11, 7, 1, 11, 10, 3, 9, 4, 7, 6, 10, 12, 4, 12, 9, 6, 12, 6, 1, 5, 6, 11, 8, 9, 3, 12, 1, 3, 1, 9, 1, 4, 11, 12, 11, 4, 12, 8, 8, 8, 3, 6, 4, 1, 4, 8, 6, 4, 5, 12, 5, 3, 1, 4, 11, 10, 4, 5, 10, 3, 6, 8, 4, 9, 1, 5, 3, 3, 4, 3, 10, 1, 8, 9, 9, 4, 10, 7, 5)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>This time the sample size is much higher.</p>
+<p>What about the expected CV’s?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">newstrata &lt;-<span class="st"> </span><span class="kw">updateStrata</span>(strata2,solution2)
+framenew2 &lt;-<span class="st"> </span><span class="kw">updateFrame</span>(frame,newstrata)
+framenew2 &lt;-<span class="st"> </span>framenew2[<span class="kw">order</span>(framenew2<span class="op">$</span>ID),]
+framenew2<span class="op">$</span>Y2 &lt;-<span class="st"> </span>nations<span class="op">$</span>infant.mortality
+framenew2<span class="op">$</span>Y3 &lt;-<span class="st"> </span>nations<span class="op">$</span>contraception
+results2 &lt;-<span class="st"> </span><span class="kw">evalSolution</span>(framenew2, solution2<span class="op">$</span>aggr_strata, <span class="dv">50</span>, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
+results2<span class="op">$</span>coeff_var
+<span class="co">#&gt;          CV1        CV2        CV3  dom</span>
+<span class="co">#&gt; 1 0.00566401 0.05020429 0.02625483 DOM1</span></code></pre></div>
+<p>This time the expected CV’s of all variables are more than compliant with the precision constraints.</p>
+</div>
+<div id="appendix---methodological-approach" class="section level1">
+<h1>Appendix - Methodological approach</h1>
+<p>In a stratified sampling design with one or more stages, a sample is selected from a frame containing the units of the population of interest, stratified according to the values of one or more auxiliary variables (X) available for all units in the population.</p>
+<p>For a given stratification, the overall size of the sample and the allocation in the different strata can be determined on the basis of constraints placed on the expected accuracy of the various estimates regarding the survey variables (Y).</p>
+<p>If the target survey variables are more than one the optimization problem is said to be <strong>multivariate</strong>; otherwise it is <strong>univariate</strong>.</p>
+<p>For a given stratification, in the univariate case the optimization of the allocation is in general based on the <strong>Neyman allocation</strong>. In the univariate case it is possible to make use of the <strong>Bethel algorithm</strong>.</p>
+<p>The criteria according to which stratification is defined are crucial for the efficiency of the sample.</p>
+<p>With the same precision constraints, the overall size of the sample required to satisfy them may be significantly affected by the particular stratification chosen for the population of interest.</p>
+<p>Given G survey variables, their sampling variance is:</p>
+<p><span class="math display">\[Var(\hat{Y_{g}})=\sum_{h=1}^{H}N_{h}^{2} (1- \frac{ 
+  n_{h}}
+  {N_{h}}) \frac{ 
+  S_{h,g}^{2}}
+  {n_{h}} \;\;\;  g=1,...,G\]</span></p>
+<p>If we introduce the following cost function:</p>
+<p><span class="math display">\[C(n_{1},...,n_{H})=C_{0}+\sum_{h=1}^{H}C_{h}n_{h} \]</span></p>
+<p>the optimization problem can be formalized in this way:</p>
+<p><span class="math display">\[min= C_{0}+\sum_{h=1}^{H}C_{h}n_{h}\\ \]</span> under the constraints <span class="math display">\[ 
+\begin{cases} 
+CV(\hat{Y_{1}}) &lt; U_{1}\\ 
+CV(\hat{Y_{2}}) &lt; U_{2}\\
+...\\
+CV(\hat{Y_{G}}) &lt; U_{G}\\
+\end{cases}
+\]</span> where <span class="math display">\[ CV(\hat{Y_{g}}) = \frac{\sqrt{Var(\hat{Y_{g}})} } {mean(\hat{Y_{g}})}\]</span></p>
+<p>Given a population frame with m auxiliary variables <span class="math inline">\(X_{1},..., X_{M}\)</span> we define as <strong>atomic stratification</strong> the one that can be obtained considering the cartesian product of the definition domains of the m variables. <span class="math display">\[L=\{(l_{1}),(l_{2}),...,(l_{k})\}\]</span> Starting from the atomic stratification, it is possible to generate all the different stratifications that belong to the universe of stratifications. For example:</p>
+<p><span class="math display">\[
+\begin{align*}
+&amp;P_{1}=\{(l_{1},l_{2},l_{3})\} &amp; P_{2}=\{(l_{1}),(l_{2},l_{3})\} \\
+&amp;P_{2}=\{(l_{2}),(l_{1},l_{3})\} &amp; P_{4}=\{(l_{31}),(l_{1},l_{2})\} \\
+&amp;P_{5}=\{(l_{1}),(l_{2}),(l_{k})\}
+\end{align*}
+\]</span></p>
+<p>The number of feasible stratifications is exponential with respect to the number of initial atomic strata:</p>
+<p><span class="math display">\[
+\begin{align*}
+&amp; B_{4}=15 &amp; B_{10}=115975 &amp;
+&amp; B_{100}\approx 4.76 \times 10^{115} 
+\end{align*}
+\]</span></p>
+<p>In concrete cases, it is therefore impossible to examine all the different possible alternative stratifications. The <strong>Genetic Algorithm</strong> allows to explore the universe of stratification in a very efficient way in order to find the optimal (or close to optimal) solution.</p>
+<p>In planning a strafied sampling for a given survey, proceed as follows:</p>
+<ul>
+<li><p>given the survey variables <span class="math inline">\(Y_{1},Y_{2},...,Y_{p}\)</span>, set <strong>precision constraints</strong> on their estimates in the different domains, expressed in terms of CVs (coefficients of variation);</p></li>
+<li><p>in the available sampling frame build the <strong>atomic stratification</strong>, obtained as cartesian product of the domains of the auxiliary variables <span class="math inline">\(X_{1},...,X_{M}\)</span>;</p></li>
+<li><p>in each atomic stratum report the distributional characteristics of the survey variables by calculating their <strong>means</strong> and <strong>standard deviations</strong> calculate the values of the population (directly or by using proxy variables);</p></li>
+<li><p>on the basis of these inputs, the Genetic Algorithm determines the <strong>best solution</strong> in terms of both frame <strong>stratification</strong>, <strong>sample size</strong> and <strong>allocation</strong> in optimized strata.</p></li>
+</ul>
+<p>The application of the genetic algorithm is based on the following steps:</p>
+<ul>
+<li><p>a given stratification is considered as an <em>individual</em> in a population (= <em>generation</em>) subject to <em>evolution</em>;</p></li>
+<li><p>each individual is characterized by a <em>genome</em> represented by a vector of dimension equal to the number of atomic strata: the position of each element in the vector identifies an atomic stratum;</p></li>
+<li><p>each element in the vector is assigned a random value between 1 and K (maximum acceptable number of strata): the vector therefore indicates the way in which the individual atomic strata are aggregated together;</p></li>
+<li><p>for each individual (stratification) its <em>fitness</em> is calculated by solving the corresponding problem of optimal allocation by means of Bethel’s algorithm;</p></li>
+<li><p>in passing from one generation to the next, <em>individuals with higher fitness are favored</em>;</p></li>
+<li><p>at the end of the process of evolution, <strong><em>the individual with the overall best fitness represents the optimal solution</em></strong>.</p></li>
+</ul>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<div id="ref-baillargeon:2014">
+<p>Baillargeon, Sophie, and Louis-Paul Rivest. 2014. <em>Stratification: Univariate Stratification of Survey Populations</em>. <a href="https://CRAN.R-project.org/package=stratification" class="uri">https://CRAN.R-project.org/package=stratification</a>.</p>
+</div>
+<div id="ref-ballin:2013">
+<p>Ballin, M., and G. Barcaroli. 2013. “Joint Determination of Optimal Stratification and Sample Allocation Using Genetic Algorithm.” <em>Survey Methodology</em> 39: 369–93.</p>
+</div>
+<div id="ref-ballin:2016">
+<p>Ballin, Marco, and Giulio Barcaroli. 2016. “Optimization of Stratified Sampling with the R Package SamplingStrata: Applications to Network Data.” <em>Computational Network Analysis with R: Applications in Biology, Medicine and Chemistry</em>. John Wiley &amp; Sons.</p>
+</div>
+<div id="ref-barcarol:2013">
+<p>Barcaroli, G. 2014. “SamplingStrata: An R Package for the Optimization of Stratified Sampling.” <em>Journal of Statistical Software</em> 61 (4): 1–24. <a href="http://www.jstatsoft.org/v61/i04/" class="uri">http://www.jstatsoft.org/v61/i04/</a>.</p>
+</div>
+<div id="ref-hartigan:1979">
+<p>Hartigan, J. A., and M. A. Wong. 1979. “A K-Means Clustering Algorithm.” <em>Applied Statistics</em> 28: 100–108.</p>
+</div>
+<div id="ref-oluing:2017">
+<p>O’Luing, M., S. Prestwich, and S. Armagan Tarim. 2017. “Constructing Strata to Solve Sample Allocation Problems by Grouping Genetic Algorithm.” <em>arXiv:1709.03076</em>.</p>
+</div>
+<div id="ref-willighagen:2005">
+<p>Willighagen, E. 2005. <em>Genalg: R Based Genetic Algorithm</em>. <a href="http://CRAN.R-project.org/package=genalg" class="uri">http://CRAN.R-project.org/package=genalg</a>.</p>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

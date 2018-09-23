@@ -81,9 +81,6 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
-</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -134,7 +131,9 @@
         <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
         <span class='kw'>realAllocation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
         <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-        <span class='kw'>showPlot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+        <span class='kw'>showPlot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+        <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+        <span class='no'>cores</span>
         )</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -225,8 +224,18 @@
     </tr>
     <tr>
       <th>showPlot</th>
-      <td><p>Indicates if the plot showing the trend in the value of the objective function has to be shown or not.
+      <td><p>Indicates if the plot showing the trend in the value of the objective function has to be shown or not. In parallel = TRUE, this defaults to FALSE
   Default is TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>parallel</th>
+      <td><p>Should the analysis be run in parallel.
+  Default is TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>cores</th>
+      <td><p>If the analysis is run in parallel, how many cores should be used.
+  If not specified n-1 of total available cores are used OR if number of domains &lt; (n-1) cores, then number of cores equal to number of domains are used.</p></td>
     </tr>
     </table>
     
@@ -282,7 +291,7 @@ Giulio Barcaroli
 
       <footer>
       <div class="copyright">
-  <p>Developed by Giulio Barcaroli, Marco Ballin, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
+  <p>Developed by Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
 </div>
 
 <div class="pkgdown">

@@ -11,7 +11,7 @@ Take-all strata (TRUE/FALSE):  FALSE
 number of sampling strata :  207
 Number of target variables:  2
 Number of domains:  1
-Number of GA iterations:  20
+Number of GA iterations:  50
 Dimension of GA population:  20
 Mutation chance in GA generation:  NA
 Elitism rate in GA generation:  0.2
