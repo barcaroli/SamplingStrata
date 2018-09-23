@@ -10,7 +10,7 @@ Authors@R: c(person(given="Giulio", family="Barcaroli", role = c("aut", "cre"), 
    person(given = "Daniela", family = "Pagliuca", role = c("aut")),
    person(given = "Egon", family = "Willighagen", role = c("aut")),   
    person(given = "Diego", family = "Zardetto", role = c("aut"))) 
-Author: Giulio Barcaroli, Marco Ballin, Daniela Pagliuca, Egon Willighagen,
+Author: Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen,
 		Diego Zardetto
 Maintainer: Giulio Barcaroli <gbarcaroli@gmail.com>
 Description: In the field of stratified sampling design, this package
