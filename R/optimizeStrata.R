@@ -58,12 +58,12 @@ optimizeStrata <-
             }
             else {
               install.packages("parallel")
-              library(parallel)
+              # library(parallel)
             }
             install.packages("doSNOW")
           }
         }
-        library(doSNOW)
+        # library(doSNOW)
         if (missing(cores)) {
           cores <- parallel::detectCores() - 1
           if (ndom < cores) 
@@ -73,10 +73,10 @@ optimizeStrata <-
           stop("Only one core available: no parallel processing possible. Please change parameter parallel = FALSE")
         cat("\n *** Starting parallel optimization for ", 
             ndom, " domains using ", cores, " cores\n")
-        cl <- makeSOCKcluster(cores)
-        registerDoSNOW(cl)
-        on.exit(stopCluster(cl))
-        clusterExport(cl = cl, ls(), envir = environment())
+        cl <- parallel::makePSOCKcluster(cores)
+        doSNOW::registerDoSNOW(cl)
+        on.exit(parallel::stopCluster(cl))
+        parallel::clusterExport(cl = cl, ls(), envir = environment())
         pb <- txtProgressBar(min = 1, max = ndom, style = 3)
         progress <- function(n) setTxtProgressBar(pb, n)
         opts <- list(progress = progress)
