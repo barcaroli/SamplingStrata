@@ -7,4 +7,6 @@ importFrom("utils", "setTxtProgressBar", "txtProgressBar")
 importFrom("memoise","memoise")
 importFrom("grDevices","png")
 importFrom("utils", "install.packages")
+importFrom("doSNOW","registerDoSNOW")
+importFrom("parallel","detectCores","makePSOCKcluster","stopCluster","clusterExport")
 
