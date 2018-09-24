@@ -29,7 +29,11 @@ One more .csv file is produced ("sampling check"), containing coeherence checks 
 
 }
 \usage{
-selectSampleSystematic(frame, outstrata, sortvariable = NULL, writeFiles = FALSE,verbatim=TRUE)
+selectSampleSystematic(frame, 
+                      outstrata, 
+                      sortvariable = NULL, 
+                      writeFiles = FALSE,
+                      verbatim=TRUE)
 }
 \arguments{
   \item{frame}{
