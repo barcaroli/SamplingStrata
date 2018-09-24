@@ -20,7 +20,7 @@ stratum variable(s).
 The result of the execution of "selectSampleSystematic" function is a dataframe containing selected
 units, with the probabilities of inclusion.
 It is possible to output this dataframe in a .csv file.
-One more .csv file is produced ("sampling check"), containing coeherence checks between 
+One more .csv file is produced ("sampling_check"), containing coeherence checks between 
 (a) population in frame strata
 (b) population in optimised strata
 (c) planned units to be selected in optimised strata

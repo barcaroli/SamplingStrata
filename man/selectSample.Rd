@@ -13,7 +13,7 @@ with the simple random sampling without replacement (srswor) method.
 The result of the execution of "selectSample" function is a dataframe containing the selected
 units, with their weights (inverse of the probabilities of inclusion).
 It is possible to output this dataframe in a .csv file.
-One more .csv file is produced ("sampling check"), containing coeherence checks between 
+One more .csv file is produced ("sampling_check"), containing coeherence checks between 
 (a) population in frame strata
 (b) population in optimised strata
 (c) planned units to be selected in optimised strata

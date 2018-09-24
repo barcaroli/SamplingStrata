@@ -102,7 +102,7 @@ selectSampleSystematic <- function(frame,
         write.table(samptot, "sample.csv", sep = ",", row.names = FALSE, 
             col.names = TRUE, quote = FALSE)
     if (writeFiles == TRUE) 
-        write.table(chktot, "sampling check.csv", sep = ",", 
+        write.table(chktot, "sampling_check.csv", sep = ",", 
             row.names = FALSE, col.names = TRUE, quote = FALSE)
     outstrata$FPC <- outstrata$SOLUZ/outstrata$N
 	fpc <- outstrata[, c("DOM1","STRATO","FPC")]
