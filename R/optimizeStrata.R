@@ -48,33 +48,36 @@ optimizeStrata <-
       vettsol <- NULL
       outstrata <- NULL
       if (parallel) {
-        chk_snow <- require(doSNOW)
-        if (!chk_snow) {
-          message("To perform optimization in parallel, library(doSNOW) and library(parallel) is needed")
-          snow_ans <- readline("Do you want to install package 'doSNOW' now? (y/n)")
-          if (snow_ans %in% c("y", "Y")) {
-            if (require(parallel)) {
-              message("library(parallel) already installed. Only installing 'doSNOW'")
-            }
-            else {
-              install.packages("parallel")
-              # library(parallel)
-            }
-            install.packages("doSNOW")
-          }
-        }
+        # requireNamespace(foreach)
+        # globalVariables('foreach')
+        # chk_snow <- require(doSNOW)
+        # if (!chk_snow) {
+        #   message("To perform optimization in parallel, library(doSNOW) and library(parallel) is needed")
+        #   snow_ans <- readline("Do you want to install package 'doSNOW' now? (y/n)")
+        #   if (snow_ans %in% c("y", "Y")) {
+        #     if (require(parallel)) {
+        #       message("library(parallel) already installed. Only installing 'doSNOW'")
+        #     }
+        #     else {
+        #       install.packages("parallel")
+        #       library(parallel)
+        #     }
+        #     install.packages("doSNOW")
+        #   }
+        # }
         # library(doSNOW)
         if (missing(cores)) {
           cores <- parallel::detectCores() - 1
           if (ndom < cores) 
             cores <- ndom
         }
-        if (cores == 1) 
-          stop("Only one core available: no parallel processing possible. Please change parameter parallel = FALSE")
+        if (cores < 2) 
+          stop("\nOnly one core available: no parallel processing possible. 
+               \nPlease change parameter parallel = FALSE and run again")
         cat("\n *** Starting parallel optimization for ", 
             ndom, " domains using ", cores, " cores\n")
         cl <- parallel::makePSOCKcluster(cores)
-        doSNOW::registerDoSNOW(cl)
+        doParallel::registerDoParallel(cl)
         on.exit(parallel::stopCluster(cl))
         parallel::clusterExport(cl = cl, ls(), envir = environment())
         pb <- txtProgressBar(min = 1, max = ndom, style = 3)
