@@ -12,7 +12,7 @@ optimizeStrata <-
         unlink(direnew,recursive=TRUE)
       if (!dir.exists(direnew)) 
         dir.create(direnew)
-      setwd(direnew)
+      #setwd(direnew)
     }
     
     if(parallel == FALSE & !missing(cores)){
@@ -62,7 +62,6 @@ optimizeStrata <-
         doParallel::registerDoParallel(cl)
         on.exit(parallel::stopCluster(cl))
         parallel::clusterExport(cl = cl, ls(), envir = environment())
-        parallel::clusterEvalQ(cl= cl, library(SamplingStrata))
         
         showPlot <- FALSE
         
@@ -135,7 +134,7 @@ optimizeStrata <-
           max <- max(rbga.object$best, rbga.object$mean)
           min <- min(rbga.object$best, rbga.object$mean)
           if (writeFiles == TRUE) {
-            stmt <- paste("png('plotdom", i, ".png',height=5, width=7, units='in', res=144)", sep = "")
+            stmt <- paste("png(filename = file.path(direnew, 'plotdom", i, ".png'),height=5, width=7, units='in', res=144)", sep = "")
             eval(parse(text = stmt))
           }  
           plot(rbga.object$best, type = "l", 
@@ -209,7 +208,7 @@ optimizeStrata <-
             max <- max(rbga.object$best, rbga.object$mean)
             min <- min(rbga.object$best, rbga.object$mean)
             if (writeFiles == TRUE) {
-              stmt <- paste("png('plotdom", i, ".png',height=5, width=7, units='in', res=144)", sep = "")
+              stmt <- paste("png(filename = file.path(direnew, 'plotdom", i, ".png'),height=5, width=7, units='in', res=144)", sep = "")
               eval(parse(text = stmt))
             }  
             plot(rbga.object$best, type = "l", 
@@ -260,7 +259,7 @@ optimizeStrata <-
       outstrata <- solut[[2]]
       rbga.object <- solut[[3]]
       if (writeFiles == TRUE) {
-        stmt <- paste("png('plotdom",dom,".png',height=5, width=7, units='in', res=144)", sep = "")
+        stmt <- paste("png(filename = file.path(direnew, 'plotdom",dom,".png'),height=5, width=7, units='in', res=144)", sep = "")
         eval(parse(text = stmt))
       }  
       max <- max(rbga.object$best, rbga.object$mean)
@@ -281,9 +280,9 @@ optimizeStrata <-
     cat("\n *** Number of strata : ", nrow(outstrata))
     cat("\n---------------------------")
     if (writeFiles == TRUE) {
-      write.table(outstrata, file = "outstrata.txt", sep = "\t", 
+      write.table(outstrata, file = file.path(direnew, "outstrata.txt"), sep = "\t", 
                   row.names = FALSE, col.names = TRUE, quote = FALSE)
-      cat("\n...written output to outstrata.txt")
+      cat("\n...written output to ", direnew,"/outstrata.txt\n")
     }
     solution <- list(indices = vettsol, aggr_strata = outstrata)
     if (writeFiles == TRUE) {
