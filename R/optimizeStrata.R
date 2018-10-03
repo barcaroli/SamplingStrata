@@ -48,24 +48,6 @@ optimizeStrata <-
       vettsol <- NULL
       outstrata <- NULL
       if (parallel) {
-        # requireNamespace(foreach)
-        # globalVariables('foreach')
-        # chk_snow <- require(doSNOW)
-        # if (!chk_snow) {
-        #   message("To perform optimization in parallel, library(doSNOW) and library(parallel) is needed")
-        #   snow_ans <- readline("Do you want to install package 'doSNOW' now? (y/n)")
-        #   if (snow_ans %in% c("y", "Y")) {
-        #     if (require(parallel)) {
-        #       message("library(parallel) already installed. Only installing 'doSNOW'")
-        #     }
-        #     else {
-        #       install.packages("parallel")
-        #       library(parallel)
-        #     }
-        #     install.packages("doSNOW")
-        #   }
-        # }
-        # library(doSNOW)
         if (missing(cores)) {
           cores <- parallel::detectCores() - 1
           if (ndom < cores) 
@@ -80,12 +62,12 @@ optimizeStrata <-
         doParallel::registerDoParallel(cl)
         on.exit(parallel::stopCluster(cl))
         parallel::clusterExport(cl = cl, ls(), envir = environment())
-        pb <- txtProgressBar(min = 1, max = ndom, style = 3)
-        progress <- function(n) setTxtProgressBar(pb, n)
-        opts <- list(progress = progress)
+        parallel::clusterEvalQ(cl= cl, library(SamplingStrata))
+        
         showPlot <- FALSE
-        par_ga_sol <- foreach(i = 1:ndom, .packages = c("SamplingStrata"), 
-                              .options.snow = opts) %dopar% {
+        
+        par_ga_sol = pblapply(
+          cl = cl, X = 1:ndom, FUN = function(i)  {         
                                 erro[[i]] <- erro[[i]][, -ncol(errors)]
                                 cens <- NULL
                                 flagcens <- strcens
@@ -143,7 +125,8 @@ optimizeStrata <-
                                        rbga.results = rbga.results)
                                 }
                               }
-        close(pb)
+        )
+        
         vettsol <- do.call(c, lapply(par_ga_sol, `[[`, 1))
         outstrata <- do.call(rbind, lapply(par_ga_sol, `[[`, 2))
         
