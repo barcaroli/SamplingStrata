@@ -12,7 +12,7 @@ optimizeStrata <-
         unlink(direnew,recursive=TRUE)
       if (!dir.exists(direnew)) 
         dir.create(direnew)
-      setwd(direnew)
+      #setwd(direnew)
     }
     
     if(parallel == FALSE & !missing(cores)){
@@ -48,24 +48,6 @@ optimizeStrata <-
       vettsol <- NULL
       outstrata <- NULL
       if (parallel) {
-        # requireNamespace(foreach)
-        # globalVariables('foreach')
-        # chk_snow <- require(doSNOW)
-        # if (!chk_snow) {
-        #   message("To perform optimization in parallel, library(doSNOW) and library(parallel) is needed")
-        #   snow_ans <- readline("Do you want to install package 'doSNOW' now? (y/n)")
-        #   if (snow_ans %in% c("y", "Y")) {
-        #     if (require(parallel)) {
-        #       message("library(parallel) already installed. Only installing 'doSNOW'")
-        #     }
-        #     else {
-        #       install.packages("parallel")
-        #       library(parallel)
-        #     }
-        #     install.packages("doSNOW")
-        #   }
-        # }
-        # library(doSNOW)
         if (missing(cores)) {
           cores <- parallel::detectCores() - 1
           if (ndom < cores) 
@@ -80,12 +62,11 @@ optimizeStrata <-
         doParallel::registerDoParallel(cl)
         on.exit(parallel::stopCluster(cl))
         parallel::clusterExport(cl = cl, ls(), envir = environment())
-        pb <- txtProgressBar(min = 1, max = ndom, style = 3)
-        progress <- function(n) setTxtProgressBar(pb, n)
-        opts <- list(progress = progress)
+        
         showPlot <- FALSE
-        par_ga_sol <- foreach(i = 1:ndom, .packages = c("SamplingStrata"), 
-                              .options.snow = opts) %dopar% {
+        
+        par_ga_sol = pblapply(
+          cl = cl, X = 1:ndom, FUN = function(i)  {         
                                 erro[[i]] <- erro[[i]][, -ncol(errors)]
                                 cens <- NULL
                                 flagcens <- strcens
@@ -143,7 +124,8 @@ optimizeStrata <-
                                        rbga.results = rbga.results)
                                 }
                               }
-        close(pb)
+        )
+        
         vettsol <- do.call(c, lapply(par_ga_sol, `[[`, 1))
         outstrata <- do.call(rbind, lapply(par_ga_sol, `[[`, 2))
         
@@ -152,7 +134,7 @@ optimizeStrata <-
           max <- max(rbga.object$best, rbga.object$mean)
           min <- min(rbga.object$best, rbga.object$mean)
           if (writeFiles == TRUE) {
-            stmt <- paste("png('plotdom", i, ".png',height=5, width=7, units='in', res=144)", sep = "")
+            stmt <- paste("png(filename = file.path(direnew, 'plotdom", i, ".png'),height=5, width=7, units='in', res=144)", sep = "")
             eval(parse(text = stmt))
           }  
           plot(rbga.object$best, type = "l", 
@@ -226,7 +208,7 @@ optimizeStrata <-
             max <- max(rbga.object$best, rbga.object$mean)
             min <- min(rbga.object$best, rbga.object$mean)
             if (writeFiles == TRUE) {
-              stmt <- paste("png('plotdom", i, ".png',height=5, width=7, units='in', res=144)", sep = "")
+              stmt <- paste("png(filename = file.path(direnew, 'plotdom", i, ".png'),height=5, width=7, units='in', res=144)", sep = "")
               eval(parse(text = stmt))
             }  
             plot(rbga.object$best, type = "l", 
@@ -277,7 +259,7 @@ optimizeStrata <-
       outstrata <- solut[[2]]
       rbga.object <- solut[[3]]
       if (writeFiles == TRUE) {
-        stmt <- paste("png('plotdom",dom,".png',height=5, width=7, units='in', res=144)", sep = "")
+        stmt <- paste("png(filename = file.path(direnew, 'plotdom",dom,".png'),height=5, width=7, units='in', res=144)", sep = "")
         eval(parse(text = stmt))
       }  
       max <- max(rbga.object$best, rbga.object$mean)
@@ -298,9 +280,9 @@ optimizeStrata <-
     cat("\n *** Number of strata : ", nrow(outstrata))
     cat("\n---------------------------")
     if (writeFiles == TRUE) {
-      write.table(outstrata, file = "outstrata.txt", sep = "\t", 
+      write.table(outstrata, file = file.path(direnew, "outstrata.txt"), sep = "\t", 
                   row.names = FALSE, col.names = TRUE, quote = FALSE)
-      cat("\n...written output to outstrata.txt")
+      cat("\n...written output to ", direnew,"/outstrata.txt\n")
     }
     solution <- list(indices = vettsol, aggr_strata = outstrata)
     if (writeFiles == TRUE) {
