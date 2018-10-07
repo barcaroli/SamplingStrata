@@ -469,7 +469,7 @@ Once the optimal stratification has been obtained, to be operational we need to 
  
 As for the first, we execute the following command:
 ```{r, eval=TRUE, echo=TRUE}
-framenew <- updateFrame(swissframe, newstrata, writeFiles=TRUE)
+framenew <- updateFrame(swissframe, newstrata, writeFiles=FALSE)
 ``` 
 
 The function *updateFrame* receives as arguments the indication of the dataframe in which the frame information is memorised, 
@@ -480,7 +480,7 @@ The allocation of units is contained in the *SOLUZ* column of the dataset *outst
 sample from the new version of the frame:
 
 ```{r, eval=TRUE, echo=TRUE}
-sample <- selectSample(framenew, solution$aggr_strata, writeFiles=TRUE)
+sample <- selectSample(framenew, solution$aggr_strata, writeFiles=FALSE)
 ```  
 
 that produces two .csv files:
@@ -531,7 +531,7 @@ The user can invoke this function also indicating the number of samples to be dr
 eval <- evalSolution(framenew, 
                      solution$aggr_strata, 
                      nsampl=200, 
-                     writeFiles=TRUE,
+                     writeFiles=FALSE,
                      progress=FALSE) 
 ```
 
@@ -766,7 +766,7 @@ solution1 <- optimizeStrata(cv,
                            pops = 20,
                            parallel = FALSE,
                            suggestions = KmeansSolution(strata1,cv),
-                           writeFiles = TRUE,
+                           writeFiles = FALSE,
                            showPlot = FALSE)
 sum(solution1$aggr_strata$SOLUZ)
 ```
@@ -819,7 +819,7 @@ solution2 <-
     parallel = FALSE,
     suggestions = KmeansSolution(strata2,cv),
     showPlot = FALSE,
-    writeFiles = TRUE)
+    writeFiles = FALSE)
 ```
 
 This time the sample size is much higher.
