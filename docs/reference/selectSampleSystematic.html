@@ -47,7 +47,7 @@ stratum variable(s).
 The result of the execution of &quot;selectSampleSystematic&quot; function is a dataframe containing selected
 units, with the probabilities of inclusion.
 It is possible to output this dataframe in a .csv file.
-One more .csv file is produced (&quot;sampling check&quot;), containing coeherence checks between 
+One more .csv file is produced (&quot;sampling_check&quot;), containing coeherence checks between 
 (a) population in frame strata
 (b) population in optimised strata
 (c) planned units to be selected in optimised strata
@@ -140,7 +140,7 @@ stratum variable(s).</p>
 <p>The result of the execution of "selectSampleSystematic" function is a dataframe containing selected
 units, with the probabilities of inclusion.
 It is possible to output this dataframe in a .csv file.
-One more .csv file is produced ("sampling check"), containing coeherence checks between 
+One more .csv file is produced ("sampling_check"), containing coeherence checks between 
 (a) population in frame strata
 (b) population in optimised strata
 (c) planned units to be selected in optimised strata
@@ -149,7 +149,11 @@ One more .csv file is produced ("sampling check"), containing coeherence checks 
     
     </div>
 
-    <pre class="usage"><span class='fu'>selectSampleSystematic</span>(<span class='no'>frame</span>, <span class='no'>outstrata</span>, <span class='kw'>sortvariable</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,<span class='kw'>verbatim</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>selectSampleSystematic</span>(<span class='no'>frame</span>,
+                      <span class='no'>outstrata</span>,
+                      <span class='kw'>sortvariable</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+                      <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+                      <span class='kw'>verbatim</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
