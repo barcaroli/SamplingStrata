@@ -10,8 +10,8 @@ strataGenalg <- function(errors, strata, cens, strcens,
     elitism_rate, addStrataFactor, highvalue, suggestions, realAllocation,
 	writeFiles, showPlot) {
   # if (writeFiles == TRUE) {
-  #   dire <- getwd()
-  #   direnew <- paste(dire,"/output",sep="")
+    dire <- getwd()
+    direnew <- paste(dire,"/output",sep="")
   #   if(!dir.exists(direnew)) dir.create(direnew)
   #   setwd(direnew)
   # }
@@ -33,7 +33,7 @@ strataGenalg <- function(errors, strata, cens, strcens,
 	solution <- list(v,outstrata)
     # --------------------------------------------------------------------------  
 	if (writeFiles == TRUE) {
-		fileres <- paste("results", dominio, ".txt", sep = "")
+		fileres <- file.path(direnew, paste0("results", dominio, ".txt"))
 		sink(file = fileres)
 	}	
     cat("\n---------------------------------------------")
@@ -169,8 +169,8 @@ strataGenalg <- function(errors, strata, cens, strcens,
         min(rbga.results$evaluations), ])
     if (class(v) == "matrix") v <- as.vector(v[1, ])
 	if (writeFiles == TRUE) {
-		stmt <- paste("write.table(v,'solution", dominio, 
-					".txt',row.names=FALSE,col.names=FALSE,sep='\t',quote=FALSE)", 
+		stmt <- paste("write.table(v, file.path(direnew, 'solution", dominio, 
+					".txt'),row.names=FALSE,col.names=FALSE,sep='\t',quote=FALSE)", 
 					sep = "")
 		eval(parse(text = stmt))
 	}
@@ -188,11 +188,11 @@ strataGenalg <- function(errors, strata, cens, strcens,
 		cat("\n *** Sample cost: ", sum(soluz))
 		cat(paste("\n *** Number of strata: ", nrow(strcor)))
 		colnames(risulta) <- toupper(colnames(risulta))
-		fileout <- paste("outstrata", dominio, ".txt", sep = "")
+		fileout <- file.path(direnew, paste0("outstrata", dominio, ".txt"))
 		write.table(risulta, file = fileout, sep = "\t", row.names = FALSE, 
 			col.names = TRUE, quote = FALSE)
 		cat("\n...written output to", fileout)
-    	sink()
+    sink()
 	}
 	solution[[1]] <- v
 	solution[[2]] <- risulta

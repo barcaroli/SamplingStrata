@@ -26,7 +26,7 @@ Description: In the field of stratified sampling design, this package
         version of the functions in the 'genalg' package.  
 License: GPL (>= 2)
 LazyLoad: yes
-Depends: R (>= 2.15.0), memoise, doParallel, parallel, foreach
+Depends: R (>= 2.15.0), memoise, doParallel, parallel, pbapply
 NeedsCompilation: no
 Packaged: 2018-2-4 14:59:19 UTC; barcarol
 Suggests: knitr,
