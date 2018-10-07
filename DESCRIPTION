@@ -4,6 +4,12 @@ Title: Optimal Stratification of Sampling Frames for Multipurpose
         Sampling Surveys
 Version: 1.3
 Date: 2018-09-24
+Authors@R: c(person(given="Giulio", family="Barcaroli", role = c("aut", "cre"), email = "gbarcaroli@gmail.com"), 
+   person(given = "Marco", family = "Ballin", role = c("aut")), 
+   person(given = "Hanjo", family = "Odendaal", role = c("aut")),
+   person(given = "Daniela", family = "Pagliuca", role = c("aut")),
+   person(given = "Egon", family = "Willighagen", role = c("aut")),   
+   person(given = "Diego", family = "Zardetto", role = c("aut"))) 
 Author: Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen,
 		Diego Zardetto
 Maintainer: Giulio Barcaroli <gbarcaroli@gmail.com>
