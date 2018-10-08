@@ -18,8 +18,8 @@ Mutation chance in GA generation:  NA
 Elitism rate in GA generation:  0.2
 Chance to add strata to maximum:  0
 Allocation with real numbers instead of integers:  TRUE
- *** Sample cost:  33.52066
- *** Number of strata:  13
- *** Sample cost:  33.52066
- *** Number of strata:  13
-...written output to outstrata1.txt
+ *** Sample cost:  40.09051
+ *** Number of strata:  9
+ *** Sample cost:  40.09051
+ *** Number of strata:  9
+...written output to C:/Users/UTENTE/Documents/00 Sampling/SamplingStrata 1.3/SamplingStrataGithub/vignettes/output/outstrata1.txt
