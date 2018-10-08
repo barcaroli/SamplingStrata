@@ -414,14 +414,14 @@ The function *adjustSize* permits to obtain the desired final sample size.
 Let us suppose that the obtained sample size is not affordable. We can reduce it by executing the following code:
 
 ```{r, eval=TRUE, echo=TRUE}
-adjustedStrata <- adjustSize(size=200,strata=solution$aggr_strata,cens=NULL)
+adjustedStrata <- adjustSize(size=150,strata=solution$aggr_strata,cens=NULL)
 sum(adjustedStrata$SOLUZ)
 ```
 
 Instead, if we want to increase the size because the budget allows to do this, then this is the code:
 
 ```{r, eval=TRUE, echo=TRUE}
-adjustedStrata <- adjustSize(size=400,strata=solution$aggr_strata,cens=NULL)
+adjustedStrata <- adjustSize(size=250,strata=solution$aggr_strata,cens=NULL)
 sum(adjustedStrata$SOLUZ)
 ```
 
@@ -707,7 +707,7 @@ data(nations)
 head(nations)
 ```
 
-Let us assume that in the sampling frame only variable **GDP** (Gross Domestic Product) is available for all countries, while **contraception rates** and **infant mortality rates** are available only on a subset of countries (about one third).
+Let us assume that in the sampling frame only variable *GDP* (Gross Domestic Product) is available for all countries, while *contraception rates* and *infant mortality rates* are available only on a subset of countries (about one third).
 
 ```{r, eval = T}
 set.seed(1234)
@@ -716,14 +716,14 @@ nations_sample <- nations[sample(c(1:207),70),]
 
 In this subset we can fit models between GDP and the two variables that we assume are the target of our survey.
 
-One model for **infant mortality** and **GDP**:
+One model for *infant mortality* and *GDP*:
 
 ```{r, eval = T}
 mod_logGDP_INFMORT <- lm(log(nations_sample$infant.mortality) ~ log(nations_sample$GDP))
 summary(mod_logGDP_INFMORT)
 ```
 
-and one model for **contraception** and **GDP**:
+and one model for *contraception* and *GDP*:
 
 ```{r, eval = T}
 mod_logGDP_CONTRA <- lm(log(nations_sample$contraception) ~ log(nations_sample$GDP))
@@ -743,7 +743,7 @@ frame <- buildFrameDF(nations,
                       domainvalue = "dom")
 ```
 
-that is, we replicate twice the variable **GDP** because it will be used once for **infant mortality** and once for **contraception**. 
+that is, we replicate twice the variable *GDP* because it will be used once for *infant mortality* and once for *contraception*. 
 
 We set 10% and 5% precision constraints on these two variables:
 
@@ -783,9 +783,9 @@ results1 <- evalSolution(framenew1, solution1$aggr_strata, 50, progress = FALSE)
 results1$coeff_var
 ```
 
-Clearly, the CV's on **infant mortality** and **contraception** are not compliant with the corresponding precision constraints.
+Clearly, the CV's on *infant mortality* and *contraception* are not compliant with the corresponding precision constraints.
 
-We now proceed in building the **strata** dataframe using the models:
+We now proceed in building the *strata* dataframe using the models:
 
 ```{r, eval = T}
 model <- NULL
@@ -850,9 +850,9 @@ In a stratified sampling design with one or more stages, a sample is selected fr
 
 For a given stratification, the overall size of the sample and the allocation in the different strata can be determined on the basis of constraints placed on the expected accuracy of the various estimates regarding the survey variables (Y).
 
-If the target survey variables are more than one the optimization problem is said to be **multivariate**; otherwise it is **univariate**.
+If the target survey variables are more than one the optimization problem is said to be *multivariate*; otherwise it is *univariate*.
 
-For a given stratification, in the univariate case the optimization of the allocation is in general based on the **Neyman allocation**. In the univariate case it is possible to make use of the **Bethel algorithm**.
+For a given stratification, in the univariate case the optimization of the allocation is in general based on the *Neyman allocation*. In the univariate case it is possible to make use of the *Bethel algorithm*.
 
 The criteria according to which stratification is defined are crucial for the efficiency of the sample.
 
@@ -887,7 +887,7 @@ $$ CV(\hat{Y_{g}}) = \frac{\sqrt{Var(\hat{Y_{g}})} } {mean(\hat{Y_{g}})}$$
 
 Given a population frame with m auxiliary variables 
 $X_{1},..., X_{M}$ 
-we define as **atomic stratification** 
+we define as *atomic stratification* 
 the one that can be obtained considering the cartesian product of the definition domains of the m variables.
 $$L=\{(l_{1}),(l_{2}),...,(l_{k})\}$$
 Starting from the atomic stratification, it is possible to generate all the different stratifications that belong to the universe of stratifications. For example:
@@ -910,17 +910,17 @@ $$
 $$
 
 In concrete cases, it is therefore impossible to examine all the different possible alternative stratifications. 
-The **Genetic Algorithm** allows to explore the universe of stratification in a very efficient way in order to find the optimal (or close to optimal) solution.
+The *Genetic Algorithm* allows to explore the universe of stratification in a very efficient way in order to find the optimal (or close to optimal) solution.
 
 In planning a strafied sampling for a given survey, proceed as follows:
 
-* given the survey variables $Y_{1},Y_{2},...,Y_{p}$, set **precision constraints** on their estimates in the different domains, expressed in terms of CVs (coefficients of variation);
+* given the survey variables $Y_{1},Y_{2},...,Y_{p}$, set *precision constraints* on their estimates in the different domains, expressed in terms of CVs (coefficients of variation);
 
-* in the available sampling frame build the **atomic stratification**, obtained as cartesian product of the domains of the auxiliary variables $X_{1},...,X_{M}$;
+* in the available sampling frame build the *atomic stratification*, obtained as cartesian product of the domains of the auxiliary variables $X_{1},...,X_{M}$;
 
-* in each atomic stratum report the distributional characteristics of the survey variables by calculating their **means** and **standard deviations** calculate the values of the population (directly or by using proxy variables);
+* in each atomic stratum report the distributional characteristics of the survey variables by calculating their *means* and *standard deviations* calculate the values of the population (directly or by using proxy variables);
 
-* on the basis of these inputs, the Genetic Algorithm determines the **best solution** in terms of both frame **stratification**, **sample size** and **allocation** in optimized strata.
+* on the basis of these inputs, the Genetic Algorithm determines the *best solution* in terms of both frame *stratification*, *sample size* and *allocation* in optimized strata.
 
 The application of the genetic algorithm is based on the following steps:
 
@@ -934,7 +934,9 @@ The application of the genetic algorithm is based on the following steps:
 
 * in passing from one generation to the next, _individuals with higher fitness are favored_;
 
-* at the end of the process of evolution, **_the individual with the overall best fitness represents the optimal solution_**.
+* at the end of the process of evolution, the individual with the overall best fitness represents the optimal solution.
+
+
 
 
 
