@@ -582,7 +582,8 @@ data(swisserrors)
 data(swissstrata)
 data(swissframe)
 #----Selection of units to be censused from the frame
-ind_framecens <- which(swissframe$X2 > 2 | 
+ind_framecens <- which(swissframe$X1 > 12 |
+                       swissframe$X2 > 2 | 
                        swissframe$X3 > 2 |
                        swissframe$X4 > 2 |
                        swissframe$X5 > 2 | 
