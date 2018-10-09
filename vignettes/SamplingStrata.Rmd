@@ -332,7 +332,7 @@ In the case of the Swiss municipalities, we can use almost all of default values
 solution <- optimizeStrata(
 	errors = swisserrors, 
 	strata = swissstrata,
-	parallel = TRUE,
+	parallel = FALSE,
 	writeFiles = FALSE,
 	showPlot = FALSE)
 ```
@@ -574,35 +574,31 @@ knitr::include_graphics("simulation/cv.png")
 As input to the optimization step, together with proper sampling strata, it is also possible to provide *take-all* strata. These strata will not be subject to optimisation as the proper strata, but they will contribute to the determination of the best stratification, as their presence in a given domain will permit to satisfy precision constraint with a lower number of units belonging to proper sampling strata.
 
 In order to correctly execute the optimization and further steps, it is necessary to perform a pre-processing of the overall input.
-The first step to be executed consists in the bi-partition of units to be censused and of units to be sampled, in order to build two different frames:
+The first step to be executed consists in the bi-partition of units to be censused and of units to be sampled, in order to build two different frames.
+As an example, we take the units with the highest values of the auxiliary variables as the ones to be selected in any case:
 
 ```{r, eval=TRUE, echo=TRUE}
 data(swisserrors)
 data(swissstrata)
 data(swissframe)
 #----Selection of units to be censused from the frame
-framecens <- swissframe[ (swissframe$domainvalue == 1 |
-                          swissframe$domainvalue == 4) & 
-                         (swissframe$X2 == 1 &
-                          swissframe$X3 == 1 &
-                          swissframe$X4 == 1 &
-                          swissframe$X5 == 1 &
-                          swissframe$X6 == 1)  , ]
+ind_framecens <- which(swissframe$X2 > 2 | 
+                       swissframe$X3 > 2 |
+                       swissframe$X4 > 2 |
+                       swissframe$X5 > 2 | 
+                       swissframe$X6 > 2 )
+framecens <- swissframe[ind_framecens,]
+nrow(framecens)
 #----Selection of units to be sampled from the frame
 # (complement to the previous)
-framesamp <- swissframe[!((swissframe$domainvalue == 1 |
-                           swissframe$domainvalue == 4) & 
-                          (swissframe$X2 == 1 &
-                           swissframe$X3 == 1 &
-                           swissframe$X4 == 1 &
-                           swissframe$X5 == 1 &
-                           swissframe$X6 == 1)) , ]
+framesamp <- swissframe[-ind_framecens,]
+nrow(framesamp)
 ``` 
 
-In this way, we have included all units belonging to 'take-all' strata in 'framecens', and the remaining in 'framesamp'. At the end of the process, 
-the sample will be selected from 'framesamp', while the units in 'framecens' will be simply added to the sample.
+In this way, we have included all units to be surely selected in 'framecens', and the remaining in 'framesamp'. At the end of the process, 
+the sample will be selected only from 'framesamp', while the units in 'framecens' will be simply added to the sample.
 
-We can obtain census strata and sampling strata by applying *buildStrataDF* respectively to to *framecens* and *framesamp*:
+We can obtain census strata and sampling strata by applying *buildStrataDF* respectively to *framecens* and *framesamp*:
 
 ```{r, eval=TRUE, echo=TRUE}
 # Build strata to be censused and sampled
@@ -617,7 +613,6 @@ sum(cens$N)
 sum(strata$N)
 ```
 
-
 Now we have all required inputs to run 'optimizeStrata' in presence of the 'take-all' strata:
 
 ```{r, eval=TRUE, echo=TRUE, warning=FALSE, }
@@ -626,7 +621,7 @@ solution <- optimizeStrata(
 	strata = strata, 
 	cens = cens, 
 	strcens = TRUE,
-	parallel = TRUE,
+	parallel = FALSE,
 	writeFiles = TRUE,
 	showPlot = FALSE
 )
