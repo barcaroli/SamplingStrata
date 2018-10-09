@@ -181,13 +181,19 @@ strataGenalg <- function(errors, strata, cens, strcens,
  #   if (strcens == TRUE) strcor <- rbind(strcor, cens)
 #-----------------------------------------------------    
 # Here the change to take into account the censused strata
-    stratatot <- rbind(strcor,cens)
-    allstrata <- bethel(stratatot,errors,minnumstr,printa=T,
-                        realAllocation = realAllocation)
-    soluz <- as.numeric(attributes(allstrata)$confr[1:nrow(strcor),3])  
-#-----------------------------------------------------    
-    # soluz <- bethel(strcor, errors, minnumstr, printa = FALSE, 
-    #     realAllocation = realAllocation)
+    if (strcens = TRUE) {
+      stratatot <- rbind(strcor,cens)
+      allstrata <- bethel(stratatot,errors,minnumstr,printa=FALSE,
+                          realAllocation = realAllocation)
+      #  soluz <- as.numeric(attributes(allstrata)$confr[1:nrow(strcor),3])
+      soluz <- allstrata[1:nrow(strcor)]
+    }
+    if (strcens = TRUE) {
+      soluz <- bethel(strcor, errors, minnumstr, printa = FALSE,
+                      realAllocation = realAllocation)
+    }
+#-----------------------------------------------------  
+      
 	risulta <- cbind(strcor, soluz)
 	cat("\n *** Sample cost: ", sum(soluz))
 	cat(paste("\n *** Number of strata: ", nrow(strcor)))

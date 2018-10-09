@@ -370,29 +370,29 @@ is the minimum one, is retained as the optimal one.
 The overall solution is obtained by concatenating optimal clusters obtained in domains. The result is a dataframe with two columns: the first indicates the clusters, the second the domains:
 
 ```{r, eval=TRUE, echo=TRUE, warning=FALSE}
-solutionKmeans <- KmeansSolution(swissstrata,
+solutionKmeans1 <- KmeansSolution(swissstrata,
                                    swisserrors,
                                    nstrata=NA,
                                    minnumstrat=2,
                                    maxclusters=NA,
                                    showPlot=FALSE)
-head(solutionKmeans)
+head(solutionKmeans1)
 ```
 
-This solution can be given as argument to the parameter *suggestion* in the *optimizeStrata* function.
+This solution can be given as argument to the parameter *suggestion* in the *optimizeStrata* function:
 
-Suppose we want to optimize the stratification of domain 3 by making use of the initial solution given by the kmeans algorithm in that domain:
 
-```{r, eval=FALSE, echo=TRUE, warning=FALSE, }
-solution_dom3 <- optimizeStrata(
+```{r, eval=TRUE, echo=TRUE, warning=FALSE, }
+solution_with_kmeans <- optimizeStrata(
 	errors = swisserrors,
 	strata = swissstrata,
-	alldomains = FALSE,
-	dom = 3,
-	suggestions = solutionKmeans[solutionKmeans$domainvalue == 3,],
-	parallel = FALSE,
+	suggestions = solutionKmeans1,
+	parallel = TRUE,
+	writeFiles = FALSE,
 	showPlot = FALSE)
-sum(ceiling(solution_dom3$aggr_strata$SOLUZ))
+```
+```{r, eval=TRUE, echo=TRUE, warning=FALSE, }
+sum(ceiling(solution_with_kmeans$aggr_strata$SOLUZ))
 ```
 
 thus obtaining a much more conventient solution than the one without the kmeans suggestion, with the same number of iterations.
