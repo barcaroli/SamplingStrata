@@ -9,7 +9,7 @@ importFrom("grDevices","png")
 importFrom("utils", "install.packages","globalVariables")
 importFrom("doParallel", "registerDoParallel")
 importFrom("parallel", "clusterExport","detectCores","makePSOCKcluster","stopCluster")
-importFrom("foreach", "foreach","%dopar%")
+importFrom("pbapply", "pblapply")
 
 
 
