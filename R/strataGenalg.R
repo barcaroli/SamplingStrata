@@ -181,14 +181,14 @@ strataGenalg <- function(errors, strata, cens, strcens,
  #   if (strcens == TRUE) strcor <- rbind(strcor, cens)
 #-----------------------------------------------------    
 # Here the change to take into account the censused strata
-    if (strcens = TRUE) {
+    if (strcens == TRUE) {
       stratatot <- rbind(strcor,cens)
       allstrata <- bethel(stratatot,errors,minnumstr,printa=FALSE,
                           realAllocation = realAllocation)
       #  soluz <- as.numeric(attributes(allstrata)$confr[1:nrow(strcor),3])
       soluz <- allstrata[1:nrow(strcor)]
     }
-    if (strcens = TRUE) {
+    if (strcens == FALSE) {
       soluz <- bethel(strcor, errors, minnumstr, printa = FALSE,
                       realAllocation = realAllocation)
     }
