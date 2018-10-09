@@ -383,7 +383,7 @@ This solution can be given as argument to the parameter *suggestion* in the *opt
 
 Suppose we want to optimize the stratification of domain 3 by making use of the initial solution given by the kmeans algorithm in that domain:
 
-```{r, eval=TRUE, echo=TRUE, warning=FALSE, }
+```{r, eval=FALSE, echo=TRUE, warning=FALSE, }
 solution_dom3 <- optimizeStrata(
 	errors = swisserrors,
 	strata = swissstrata,
