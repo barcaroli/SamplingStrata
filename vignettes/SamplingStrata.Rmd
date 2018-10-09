@@ -388,7 +388,7 @@ solution_with_kmeans <- optimizeStrata(
 	strata = swissstrata,
 	suggestions = solutionKmeans1,
 	parallel = TRUE,
-	writeFiles = FALSE,
+	writeFiles = TRUE,
 	showPlot = FALSE)
 ```
 ```{r, eval=TRUE, echo=TRUE, warning=FALSE, }
@@ -555,7 +555,7 @@ sum(outstrata$SOLUZ)
 eval_ceiling <- evalSolution(framenew, 
                      outstrata, 
                      nsampl=200,
-                     writeFiles = TRUE,
+                     writeFiles = FALSE,
                      progress = FALSE)
 eval_ceiling$coeff_var
 swisserrors
@@ -563,10 +563,6 @@ swisserrors
 
 
 These values are on average compliant with the precision constraints set. 
-
-```{r,  echo=FALSE, out.width = '80%'}
-knitr::include_graphics("simulation/cv.png")
-```
 
 
 # Handling 'take-all' strata in the optimization step
