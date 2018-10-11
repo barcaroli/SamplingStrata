@@ -348,6 +348,12 @@ The results of the execution are contained in the list 'solution', composed by t
 1.	*solution$indices*: the vector of the indices that indicates to what aggregated stratum each atomic stratum belongs;
 2.	*solution$aggr_strata*: the dataframe containing information on the optimal aggregated strata. 
 
+We can calculate the expected CV's by executing the function:
+```{r, eval=TRUE, echo=TRUE }
+expected_CV(solution$aggr_strata)
+swisserrors
+```
+and compare them to the set of precision constraints in order to verify the compliance.
 
 # Initial solution with kmeans clustering of atomic strata
 
