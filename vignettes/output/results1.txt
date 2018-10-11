@@ -1,0 +1,25 @@
+
+---------------------------------------------
+Optimal stratification with Genetic Algorithm
+---------------------------------------------
+ *** Parameters ***
+---------------------------
+Domain:  1
+Maximum number of strata:  79
+Minimum number of units per stratum:  2
+Take-all strata (TRUE/FALSE):  TRUE
+number of take-all strata :  40
+number of sampling strata :  79
+Number of target variables:  4
+Number of domains:  1
+Number of GA iterations:  50
+Dimension of GA population:  20
+Mutation chance in GA generation:  NA
+Elitism rate in GA generation:  0.2
+Chance to add strata to maximum:  0
+Allocation with real numbers instead of integers:  TRUE
+ *** Sample cost:  17.26609
+ *** Number of strata:  7
+ *** Sample cost:  17.26609
+ *** Number of strata:  7
+...written output to G:/00 Sampling/SamplingStrata 1.3-1/SamplingStrataGithub/SamplingStrata/vignettes/output/outstrata1.txt
