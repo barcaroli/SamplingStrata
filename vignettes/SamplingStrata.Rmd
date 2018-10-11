@@ -351,9 +351,12 @@ The results of the execution are contained in the list 'solution', composed by t
 We can calculate the expected CV's by executing the function:
 ```{r, eval=TRUE, echo=TRUE }
 expected_CV(solution$aggr_strata)
+```
+and compare them to the set of precision constraints in order to verify the compliance:
+```{r, eval=TRUE, echo=TRUE }
 swisserrors
 ```
-and compare them to the set of precision constraints in order to verify the compliance.
+
 
 # Initial solution with kmeans clustering of atomic strata
 
@@ -393,7 +396,7 @@ solution_with_kmeans <- optimizeStrata(
 	errors = swisserrors,
 	strata = swissstrata,
 	suggestions = solutionKmeans1,
-	parallel = TRUE,
+	parallel = FALSE,
 	writeFiles = TRUE,
 	showPlot = FALSE)
 ```
@@ -665,6 +668,15 @@ and this is the proportion of sampling and censused units:
 survey$cens <- ifelse(survey$LABEL == "999999",1,0)
 table(survey$cens)
 ```
+In order to verify compliance to the precision constraint, we perform the following:
+
+```{r, eval=TRUE, echo=TRUE}
+cens2 <- cens[,-c(14:19)]
+cens2$SOLUZ <- cens2$N
+stratatot <- rbind(solution$aggr_strata,cens2)
+expected_CV(stratatot)
+```
+
 
 # Handling Anticipated Variance
 
