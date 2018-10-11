@@ -5,14 +5,14 @@
 Expected coefficients of variation of target variables Y
 }
 \description{
-Once optimized the sampling frame, this function allows to calculate the expected coefficients of variation on the current optimized solution, and to compare to the precision constraints.
+Once optimized the sampling frame, this function allows to calculate the expected coefficients of variation on the aggregated strata of the current optimized solution, and to compare them to the precision constraints.
 }
 \usage{
-expected_CV(solution)
+expected_CV(strata)
 }
 \arguments{
-  \item{solution}{
-Solution obtained by the execution of the 'optimizedStrata' function
+  \item{strata}{
+Aggregated strata in the solution obtained by the execution of the 'optimizedStrata' function
 	}
 }
 \value{
@@ -30,7 +30,7 @@ solution <- optimizeStrata (
     strata = swissstrata, 
 )
 # calculate CV's on Y's
-expected_CV(solution)
+expected_CV(solution$aggr_strata)
 # compare to precision constraints
 swisserrors
 }
