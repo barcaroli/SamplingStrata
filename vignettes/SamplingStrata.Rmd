@@ -629,7 +629,7 @@ solution <- optimizeStrata(
 	showPlot = FALSE
 )
 ```
-
+ 
 Once the optimized solution has been produced, the next steps are executed by considering only the sampling part of the frame:
 
 ```{r, eval=TRUE, echo=TRUE}
