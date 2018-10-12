@@ -137,11 +137,19 @@
 <span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> (
     <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>swisserrors</span>,
     <span class='kw'>strata</span> <span class='kw'>=</span> <span class='no'>swissstrata</span>,
-)</div><div class='output co'>#&gt; <span class='error'>Error in optimizeStrata(errors = swisserrors, strata = swissstrata, ): </span>
-#&gt; <span class='error'>Only one core available: no parallel processing possible. </span>
-#&gt; <span class='error'>               </span>
-#&gt; <span class='error'>Please change parameter parallel = FALSE and run again</span></div><div class='input'><span class='co'># calculate CV's on Y's</span>
-<span class='fu'>expected_CV</span>(<span class='no'>solution</span>$<span class='no'>aggr_strata</span>)</div><div class='output co'>#&gt; <span class='error'>Error in expected_CV(solution$aggr_strata): oggetto "solution" non trovato</span></div><div class='input'><span class='co'># compare to precision constraints</span>
+)</div><div class='output co'>#&gt; 
+#&gt;  *** Starting parallel optimization for  7  domains using  3  cores</div><div class='img'><img src='expected_CV-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='expected_CV-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='expected_CV-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='expected_CV-4.png' alt='' width='700' height='433' /></div><div class='img'><img src='expected_CV-5.png' alt='' width='700' height='433' /></div><div class='img'><img src='expected_CV-6.png' alt='' width='700' height='433' /></div><div class='img'><img src='expected_CV-7.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt;  *** Sample size :  207
+#&gt;  *** Number of strata :  71
+#&gt; ---------------------------</div><div class='input'><span class='co'># calculate CV's on Y's</span>
+<span class='fu'>expected_CV</span>(<span class='no'>solution</span>$<span class='no'>aggr_strata</span>)</div><div class='output co'>#&gt;      cv(Y1) cv(Y2) cv(Y3) cv(Y4)
+#&gt; DOM1  0.078  0.076  0.076  0.082
+#&gt; DOM2  0.077  0.078  0.078  0.081
+#&gt; DOM3  0.076  0.076  0.077  0.086
+#&gt; DOM4  0.080  0.075  0.077  0.076
+#&gt; DOM5  0.077  0.080  0.079  0.083
+#&gt; DOM6  0.074  0.073  0.077  0.075
+#&gt; DOM7  0.072  0.075  0.069  0.094</div><div class='input'><span class='co'># compare to precision constraints</span>
 <span class='no'>swisserrors</span></div><div class='output co'>#&gt;    DOM  CV1  CV2  CV3  CV4 domainvalue
 #&gt; 1 DOM1 0.08 0.12 0.08 0.12           1
 #&gt; 2 DOM1 0.08 0.12 0.08 0.12           2
