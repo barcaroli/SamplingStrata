@@ -20,7 +20,7 @@ Matrix containing values of the CV's in the different domains
 }
  
 \examples{
-\donttest{
+\dontrun{
 library(SamplingStrata)
 data(swisserrors)
 data(swissstrata)
