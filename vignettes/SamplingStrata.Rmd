@@ -332,7 +332,7 @@ In the case of the Swiss municipalities, we can use almost all of default values
 solution <- optimizeStrata(
 	errors = swisserrors, 
 	strata = swissstrata,
-	parallel = FALSE,
+	parallel = TRUE,
 	writeFiles = FALSE,
 	showPlot = FALSE)
 ```
@@ -347,6 +347,15 @@ The results of the execution are contained in the list 'solution', composed by t
 
 1.	*solution$indices*: the vector of the indices that indicates to what aggregated stratum each atomic stratum belongs;
 2.	*solution$aggr_strata*: the dataframe containing information on the optimal aggregated strata. 
+
+We can calculate the expected CV's by executing the function:
+```{r, eval=TRUE, echo=TRUE }
+expected_CV(solution$aggr_strata)
+```
+and compare them to the set of precision constraints in order to verify the compliance:
+```{r, eval=TRUE, echo=TRUE }
+swisserrors
+```
 
 
 # Initial solution with kmeans clustering of atomic strata
@@ -618,12 +627,12 @@ solution <- optimizeStrata(
 	strata = strata, 
 	cens = cens, 
 	strcens = TRUE,
-	parallel = FALSE,
+	parallel = TRUE,
 	writeFiles = TRUE,
 	showPlot = FALSE
 )
 ```
-
+ 
 Once the optimized solution has been produced, the next steps are executed by considering only the sampling part of the frame:
 
 ```{r, eval=TRUE, echo=TRUE}
@@ -659,6 +668,15 @@ and this is the proportion of sampling and censused units:
 survey$cens <- ifelse(survey$LABEL == "999999",1,0)
 table(survey$cens)
 ```
+In order to verify compliance to the precision constraint, we perform the following:
+
+```{r, eval=TRUE, echo=TRUE}
+cens2 <- cens[,-c(14:19)]
+cens2$SOLUZ <- cens2$N
+stratatot <- rbind(solution$aggr_strata,cens2)
+expected_CV(stratatot)
+```
+
 
 # Handling Anticipated Variance
 

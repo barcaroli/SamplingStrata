@@ -1,3 +1,13 @@
+Changes in Version 1.3-1
+
+  o A new function 'expected_CV' has been added to calculate CV's   on target 
+  variables in different domains that may be expected from a given solution, output 
+  of the 'optimizeStrata' execution
+  
+  o Fixed a bug in the optimization step when considering also take-all strata
+
+
+
 Changes in Version 1.3
 
   o The optimization of population frame is run in parallel if different

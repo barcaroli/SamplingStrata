@@ -1,4 +1,5 @@
 #-----------------------------------------------------------------
+# rbga_PPF_GGA.R in SamplingStrata 1.3-1
 # This function is a modified version of the corresponding one
 # in the package "genalg" by E. Willighagen available on the CRAN
 # Date of last modification: October 12, 2017
@@ -29,9 +30,6 @@ rbga <- function(stringMin=c(), stringMax=c(),
        elitism = popSize*elitism_rate
     #   elitism = floor(popSize/5)
     }
-    
-    # TODO: should do a variaty of sanity checks first
-#    if (verbose) cat("Testing the sanity of parameters...\n");
     if (length(stringMin) != length(stringMax)) {
         stop("The vectors stringMin and stringMax must be of equal length.");
     }
@@ -205,9 +203,9 @@ rbga <- function(stringMin=c(), stringMax=c(),
                         ######################## parte nuova ###################
                         pikG1<-samprate[[parentIDs[1]]]
 #                        s<-ppss(pikG1^2,round(length(G1)/2))
-						s <- sample(1:length(pikG1),round(length(pikG1)/2),prob=pikG1^2)
+						            s <- sample(1:length(pikG1),round(length(pikG1)/2),prob=pikG1^2)
                         #s<-sample(1:length(pikG1), round(length(G1)/2, prob = fitness))
-                      cross <- G1[c(s)]
+                        cross <- G1[c(s)]
                         offspring <- parents[2,]
                         # increase <- length(G2)-min((parents[1,][parents[1,] %in% cross]))+1
                         offspring[parents[1,] %in% cross] <- (parents[1,])[parents[1,] %in% cross]

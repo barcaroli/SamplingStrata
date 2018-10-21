@@ -174,12 +174,17 @@ buildStrataDF <- function(dataset,
     if (progress == TRUE) close(pb)
     colnames(stratatot) <- toupper(colnames(stratatot))
     stratatot$DOM1 <- as.factor(stratatot$DOM1)
-    write.table(stratatot, "strata.txt", quote = FALSE, sep = "\t",
-                dec = ".", row.names = FALSE)
-    stratatot <- read.delim("strata.txt")
-    unlink("strata.txt")
+    # write.table(stratatot, "strata.txt", quote = FALSE, sep = "\t",
+    #             dec = ".", row.names = FALSE)
+    # stratatot <- read.delim("strata.txt")
+    # unlink("strata.txt")
     options("scipen"=100)
-    for (i in (1:nvarY)) {
+    indx <- sapply(stratatot, is.factor)
+    stratatot[indx] <- lapply(stratatot[indx], function(x) as.numeric(as.character(x)))
+      for (j in (1:nvarX)) {
+        stmt <- paste("stratatot$X",j," <- as.numeric(stratatot$X",j,")",sep="")
+        eval(parse(text=stmt))
+      }
       for (j in (1:nrow(stratatot))) {
         stmt <- paste("stratatot$M",i,"[j] <- ifelse(stratatot$M",i,"[j] == 0,0.000000000000001,stratatot$M",i,"[j])",sep="")
         eval(parse(text=stmt))
