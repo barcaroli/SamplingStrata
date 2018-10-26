@@ -189,7 +189,7 @@ buildStrataDF <- function(dataset,
         stmt <- paste("stratatot$M",i,"[j] <- ifelse(stratatot$M",i,"[j] == 0,0.000000000000001,stratatot$M",i,"[j])",sep="")
         eval(parse(text=stmt))
       }
-    }
+    # }
     # if (writeFiles == TRUE )
     # write.table(stratatot, "strata.txt", quote = FALSE, sep = "\t", 
     #     dec = ".", row.names = FALSE)
