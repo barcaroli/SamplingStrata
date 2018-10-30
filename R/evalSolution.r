@@ -10,6 +10,7 @@ evalSolution <- function (frame, outstrata,
     if(!dir.exists(direnew)) dir.create(direnew)
     setwd(direnew)
   }
+  colnames(frame) <- toupper(colnames(frame))
   numY <- length(grep("Y", toupper(colnames(frame))))
   numdom <- length(levels(as.factor(frame$DOMAINVALUE)))
   param <- array(0, c(numY, numdom))
