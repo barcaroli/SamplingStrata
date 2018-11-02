@@ -1,9 +1,9 @@
 optimizeStrata2 <- 
   function (errors, 
             frame,
-            # strata, 
             cens = NULL, 
             strcens = FALSE, 
+            model = NULL, 
             alldomains = TRUE, 
             dom = NULL, 
             nStrata = 5, 
@@ -118,7 +118,10 @@ optimizeStrata2 <-
                                 }
                                 if (nrow(stcamp[[i]]) > 0) {
                                   solut <- strataGenalg2(errors = erro[[i]], 
-                                                         frame = stcamp[[i]], 
+                                                         frame = stcamp[[i]],
+                                                         cens = cens, 
+                                                         strcens = flagcens, 
+                                                         model,
                                                          ncuts = (nStrata - 1),
                                                          dominio = i, 
                                                          minnumstr, 
@@ -212,7 +215,10 @@ optimizeStrata2 <-
           }
           if (nrow(stcamp[[i]]) > 0) {
             solut <- strataGenalg2(errors = erro[[i]], 
-                                   frame = stcamp[[i]], 
+                                   frame = stcamp[[i]],
+                                   cens = cens, 
+                                   strcens = flagcens, 
+                                   model,
                                    ncuts = (nStrata - 1),
                                    dominio = i, 
                                    minnumstr, 
@@ -288,6 +294,9 @@ optimizeStrata2 <-
       }
       solut <- strataGenalg2(errors = erro[[i]], 
                              frame = stcamp[[i]], 
+                             cens = cens, 
+                             strcens = flagcens, 
+                             model,
                              ncuts = (nStrata - 1),
                              dominio = i, 
                              minnumstr, 

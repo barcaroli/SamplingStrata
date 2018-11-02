@@ -1,5 +1,5 @@
 \name{optimizeStrata2}
-\Rdversion{1.3}
+\Rdversion{1.3-1}
 \alias{optimizeStrata2}
 \title{
 Best stratification of a sampling frame for multipurpose surveys
@@ -11,6 +11,9 @@ This function runs a set of other functions to optimise the stratification of a 
 	optimizeStrata(
 	errors , 
 	frame , 
+	cens = NULL, 
+  strcens = FALSE, 
+  model = NULL, 
 	nStrata,
 	cens = NULL, 
 	strcens = FALSE,
@@ -37,6 +40,19 @@ This function runs a set of other functions to optimise the stratification of a 
 }
   \item{frame}{
   This is the (mandatory) dataframe containing the information related to the sampling frame.
+}
+  \item{cens}{
+  This the (optional) dataframe containing the takeall strata, those strata whose units must be selected in whatever sample. It has same structure than "strata" dataframe.
+}
+  \item{strcens}{
+  Flag (TRUE/FALSE) to indicate if takeall strata do exist or not. Default is FALSE.
+}
+\item{model}{
+  In case the Y variables are not directly observed, but are estimated by means of other explicative variables, in order
+  to compute the anticipated variance, information on models are given by a dataframe "model" with as many rows as the
+  target variables. Each row contains the indication if the model is linear o loglinear, and the values of the model parameters 
+  beta, sig2, gamma (> 1 in case of heteroscedasticity). 
+  Default is NULL.
 }
   \item{nStrata}{
   Indicates the number of strata for each variable.
@@ -143,7 +159,8 @@ solution <- optimizeStrata2 (
             errors, 
             frame,
             cens = NULL, 
-            strcens = FALSE, 
+            strcens = FALSE,
+            model = NULL,
             alldomains = TRUE, 
             dom = NULL, 
             nStrata = 5, 

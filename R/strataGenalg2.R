@@ -1,6 +1,9 @@
 strataGenalg2 <- function (
     errors, 
     frame, 
+    cens,
+    strcens,
+    model,
     ncuts,
     dominio, 
     minnumstr, 
@@ -19,7 +22,9 @@ strataGenalg2 <- function (
 #--------------------------------
 # Functions for Genetic Algorithm
 #--------------------------------
-evaluate <- function(dataset,errors,string=c(),ncuts) {
+evaluate <- function(dataset,
+                     errors,
+                     string=c(),ncuts) {
   frame <- dataset
   nX <- sum(grepl("X",colnames(frame)))
   for(i in 1:nX){
@@ -44,8 +49,23 @@ evaluate <- function(dataset,errors,string=c(),ncuts) {
     }  
   }
   frame$X1=apply(frame[,c((ncol(frame)-ncuts):ncol(frame))],1,max)
-  strata <- buildStrataDF(frame,progress = FALSE)
-  size <- sum(stratContig::bethel(strata,errors))
+  strata <- buildStrataDF(frame,model=model,progress = FALSE)
+  if (strcens == TRUE) {
+    stratatot <- rbind(strata,cens)
+    soluz <- bethel(stratatot, 
+                    errors, 
+                    minnumstr, 
+                    printa = FALSE,
+                    realAllocation = realAllocation)
+  }
+  if (strcens == FALSE) {
+    soluz <- bethel(strata, 
+                    errors, 
+                    minnumstr, 
+                    printa = FALSE,
+                    realAllocation = realAllocation)
+  }
+  size <- sum(soluz)
   size
 }
 
@@ -62,6 +82,9 @@ stringMin = rep(0,ncuts*sum(grepl("X",colnames(frame))))
 stringMax = rep(1,ncuts*sum(grepl("X",colnames(frame))))
 rbga.results = rbga2(
                     frame,
+                    cens,
+                    strcens,
+                    model,
                     errors,
                     ncuts,
                     stringMin, 
@@ -109,14 +132,22 @@ for(i in 1:(ncuts+2-1)) {
   }  
 }
 frame$X1=apply(frame[,c((ncol(frame)-ncuts):ncol(frame))],1,max)
-strata <- buildStrataDF(frame,progress = FALSE)
-# size <- sum(bethel(strata,errors))
-# size
-soluz <- bethel(strata, 
-                errors, 
-                minnumstr, 
-                printa = FALSE,
-                realAllocation = realAllocation)
+strata <- buildStrataDF(frame,model=model,progress = FALSE)
+if (strcens == TRUE) {
+  stratatot <- rbind(strata,cens)
+  soluz <- bethel(stratatot, 
+                  errors, 
+                  minnumstr, 
+                  printa = FALSE,
+                  realAllocation = realAllocation)
+}
+if (strcens == FALSE) {
+  soluz <- bethel(strata, 
+                  errors, 
+                  minnumstr, 
+                  printa = FALSE,
+                  realAllocation = realAllocation)
+}
 #-----------------------------------------------------  
 
 risulta <- cbind(strata, soluz)

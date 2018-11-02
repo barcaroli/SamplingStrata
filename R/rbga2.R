@@ -9,6 +9,8 @@
 # iters            = number of generations
 # mutationChance   = chance that a var in the string gets mutated
 rbga2 <- function(dataset,
+                  cens,
+                  strcens,
                  errors,
                  ncuts,
                  stringMin=c(), 
@@ -102,9 +104,12 @@ rbga2 <- function(dataset,
                 if (is.na(evalVals[object])) {
                          #---- Modification:
                       res <- evalFunc(dataset,
-                               errors,
-                               population[object,],
-                               ncuts);
+                                      cens,
+                                      strcens,
+                                      model,
+                                      errors,
+                                      population[object,],
+                                      ncuts);
                       evalVals[object] = res
                     #---- End modification:
                     if (verbose) cat(".");
