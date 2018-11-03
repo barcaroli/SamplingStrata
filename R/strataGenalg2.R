@@ -23,6 +23,9 @@ strataGenalg2 <- function (
 # Functions for Genetic Algorithm
 #--------------------------------
 evaluate <- function(dataset,
+                     cens,
+                     strcens,
+                     model,
                      errors,
                      string=c(),ncuts) {
   frame <- dataset
