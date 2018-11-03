@@ -26,6 +26,7 @@ evaluate <- function(dataset,
                      cens,
                      strcens,
                      model,
+                     minnumstr,
                      errors,
                      string=c(),ncuts) {
   frame <- dataset
@@ -88,6 +89,7 @@ rbga.results = rbga2(
                     cens,
                     strcens,
                     model,
+                    minnumstr,
                     errors,
                     ncuts,
                     stringMin, 
