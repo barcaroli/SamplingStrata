@@ -139,6 +139,7 @@ if (strcens == TRUE) {
                   minnumstr, 
                   printa = FALSE,
                   realAllocation = realAllocation)
+  risulta <- cbind(strata, soluz[-length(soluz)])
 }
 if (strcens == FALSE) {
   soluz <- bethel(strata, 
@@ -146,10 +147,11 @@ if (strcens == FALSE) {
                   minnumstr, 
                   printa = FALSE,
                   realAllocation = realAllocation)
+  risulta <- cbind(strata, soluz)
 }
 #-----------------------------------------------------  
 
-risulta <- cbind(strata, soluz)
+
 cat("\n *** Sample cost: ", sum(soluz))
 cat(paste("\n *** Number of strata: ", nrow(strata)))
 # if (writeFiles == TRUE) {
