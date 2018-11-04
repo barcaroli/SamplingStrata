@@ -140,7 +140,7 @@ if (strcens == TRUE) {
                   printa = FALSE,
                   realAllocation = realAllocation)
   risulta <- cbind(strata, soluz[-length(soluz)])
-  colnamnes(risulta)[ncol(risulta)] <- "SOLUZ"
+  colnames(risulta)[ncol(risulta)] <- "SOLUZ"
 }
 if (strcens == FALSE) {
   soluz <- bethel(strata, 
