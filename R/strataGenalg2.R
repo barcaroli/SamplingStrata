@@ -106,12 +106,6 @@ rbga.results = rbga2(
 
 title(paste("Best solution: ",round(min(rbga.results$best),2)))
 # Reconstruction of the optimal solution    
-# frame <- buildFrameDF(swissmunicipalities,
-#                       id = "id",
-#                       domainvalue = "domain",
-#                       X = c("Surfacesbois","Surfacescult"),
-#                       Y = c("Pop020", "Pop2040")
-#                       )
 nX <- sum(grepl("X",colnames(frame)))
 out <- rbga.results
 string <- out$population[which(out$evaluations==min(out$evaluations))[1],]
@@ -130,7 +124,7 @@ for(j in 1:nX){
   eval(parse(text=paste("frame$X",j," <- NULL",sep="")))
 }
     
-for(i in 1:(ncuts+2-1)) {
+for(i in 1:(ncuts+1)) {
   eval(parse(text=paste("frame$c",i,"<-0",sep="")))
   for(j in 1:nX) {
     eval(parse(text=paste("frame$c",i,"<-ifelse((frame$ZZ",j,">=x",j,"_cuts$lim[",i,"] & frame$ZZ",j,"<= x",j,"_cuts$lim[",i+1,"]),",i,",frame$c",i,")",sep="")))

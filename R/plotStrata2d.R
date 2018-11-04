@@ -71,5 +71,8 @@ plotStrata2d <- function (x, domain, vars)
   cat("\nBoundaries for the 2nd variable")
   cat("\n",as.numeric(ycuts))
   cat("\n--------------------------------")
-  return(p)
+  out <- list(x1_boundaries = as.numeric(xcuts),
+              x2_boundaries = as.numeric(ycuts),
+              plot = p)
+  return(out)
 }
