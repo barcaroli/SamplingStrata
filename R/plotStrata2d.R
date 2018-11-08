@@ -65,12 +65,13 @@ plotStrata2d <- function (x, domain, vars)
   # eval(parse(text=stringa))
   # p + labs(x = vars[1]) + labs(y = vars[2])
   
-  plot(x$X1,x$X2,,type="n",cex=0.001,xlab=vars[1],ylab=vars[2])
-  cl <- c("red","yellow","salmon","green","orange")
+  plot(x$X1,x$X2,type="n",cex=0.01,xlab=vars[1],ylab=vars[2])
+  cl <- c("yellow","red","salmon","green","orange")
   # cl <- gray(c(1:(nstrata+1)/(nstrata+1),alpha=NULL))
   for (i in (1:nstrata)) {
+    m <- i - nstrata * floor(i/nstrata)
     eval(parse(text=paste("polycorr <- poly[poly$value==",i,",]",sep="")))
-    eval(parse(text=paste("polygon(polycorr$x,polycorr$y,col=cl[",i,"])",sep="")))
+    eval(parse(text=paste("polygon(polycorr$x,polycorr$y,col=cl[",m,"])",sep="")))
   }
   legend("topright", title="Strata",legend = c(as.character(c(1:(nstrata)))), 
          col = cl,
