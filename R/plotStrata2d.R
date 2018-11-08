@@ -57,13 +57,27 @@ plotStrata2d <- function (x, domain, vars)
   }
   poly <- data.frame(id = as.factor(id), value = as.factor(value), 
                      x = xs, y = ys)
-  p <- ggplot(poly, aes(x = x, y = y)) + geom_polygon(aes(fill = value, 
-                                                          group = id))
-  stringa <- paste("p <- p + geom_point(data = x, aes_string(x = x$",vars[1],", y = x$",vars[2],"), 
-          colour = rgb(0, 0, 0, 0.3)) +
-          guides(fill = guide_legend(title = 'Strata'))", sep="")
-  eval(parse(text=stringa))
-  p + labs(x = vars[1]) + labs(y = vars[2])
+  # p <- ggplot(poly, aes(x = x, y = y)) + geom_polygon(aes(fill = value, 
+  #                                                         group = id))
+  # stringa <- paste("p <- p + geom_point(data = x, aes_string(x = x$",vars[1],", y = x$",vars[2],"), 
+  #         colour = rgb(0, 0, 0, 0.3)) +
+  #         guides(fill = guide_legend(title = 'Strata'))", sep="")
+  # eval(parse(text=stringa))
+  # p + labs(x = vars[1]) + labs(y = vars[2])
+  
+  plot(x$X1,x$X2,,type="n",cex=0.001,xlab=vars[1],ylab=vars[2])
+  cl <- c("red","yellow","salmon","green","orange")
+  # cl <- gray(c(1:(nstrata+1)/(nstrata+1),alpha=NULL))
+  for (i in (1:nstrata)) {
+    eval(parse(text=paste("polycorr <- poly[poly$value==",i,",]",sep="")))
+    eval(parse(text=paste("polygon(polycorr$x,polycorr$y,col=cl[",i,"])",sep="")))
+  }
+  legend("topright", title="Strata",legend = c(as.character(c(1:5))), 
+         col = cl,
+         ncol = 1, cex = 1, lwd = 3, text.font = 1, text.col ="black",
+         box.lty=0.5)
+  title("Strata boundaries")
+  points(x$X1,x$X2,cex=0.01)
   
   cat("\n--------------------------------")
   cat("\nBoundaries for the 1st variable")
@@ -71,8 +85,7 @@ plotStrata2d <- function (x, domain, vars)
   cat("\nBoundaries for the 2nd variable")
   cat("\n",as.numeric(ycuts))
   cat("\n--------------------------------")
-  out <- list(x1_boundaries = as.numeric(xcuts),
-              x2_boundaries = as.numeric(ycuts),
-              plot = p)
-  return(out)
+  boundaries <- list(x1_boundaries = as.numeric(xcuts),
+              x2_boundaries = as.numeric(ycuts))
+  return(boundaries)
 }
