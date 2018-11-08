@@ -1,5 +1,6 @@
-plotStrata2d <- function (x, domain, vars) 
+plotStrata2d <- function (x, domain, vars, labels) 
 { 
+  if (is.null(labels)) labels=vars
   x <- x[x$domainvalue == domain,]
   nstrata <- length(levels(as.factor(x$LABEL)))
   if (length(vars) != 2) stop("Indicate just two variables...")
@@ -65,20 +66,25 @@ plotStrata2d <- function (x, domain, vars)
   # eval(parse(text=stringa))
   # p + labs(x = vars[1]) + labs(y = vars[2])
   
-  plot(x$X1,x$X2,type="n",cex=0.01,xlab=vars[1],ylab=vars[2])
+  plot(x$X1,x$X2,type="n",cex=0.01,
+       xlab=labels[1],ylab=labels[2])
   cl <- c("yellow","red","salmon","green","orange")
   # cl <- gray(c(1:(nstrata+1)/(nstrata+1),alpha=NULL))
   for (i in (1:nstrata)) {
-    m <- i - nstrata * floor(i/nstrata)
+    j = i - 1
+    m <- j - length(cl) * floor(j/length(cl)) + 1
     eval(parse(text=paste("polycorr <- poly[poly$value==",i,",]",sep="")))
     eval(parse(text=paste("polygon(polycorr$x,polycorr$y,col=cl[",m,"])",sep="")))
   }
-  legend("topright", title="Strata",legend = c(as.character(c(1:(nstrata)))), 
+  legend("topright", 
+         title="Strata",
+         legend = c(as.character(c(1:(nstrata)))), 
          col = cl,
-         ncol = 1, cex = 1, lwd = 3, text.font = 1, text.col ="black",
-         box.lty=0.5)
-  title("Strata boundaries")
-  points(x$X1,x$X2,cex=0.01)
+         ncol = 1, cex = 0.7, lwd = 3, text.font = 1, 
+         text.col ="black",
+         box.lty=1)
+  title("Strata boundaries",cex.main = 0.8)
+  points(x$X1,x$X2,cex=0.4)
   
   cat("\n--------------------------------")
   cat("\nBoundaries for the 1st variable")
