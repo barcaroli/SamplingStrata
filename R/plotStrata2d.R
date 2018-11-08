@@ -72,7 +72,7 @@ plotStrata2d <- function (x, domain, vars)
     eval(parse(text=paste("polycorr <- poly[poly$value==",i,",]",sep="")))
     eval(parse(text=paste("polygon(polycorr$x,polycorr$y,col=cl[",i,"])",sep="")))
   }
-  legend("topright", title="Strata",legend = c(as.character(c(1:5))), 
+  legend("topright", title="Strata",legend = c(as.character(c(1:(nstrata)))), 
          col = cl,
          ncol = 1, cex = 1, lwd = 3, text.font = 1, text.col ="black",
          box.lty=0.5)
