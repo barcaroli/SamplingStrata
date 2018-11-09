@@ -51,7 +51,7 @@ selectSample <- function(frame, outstrata, writeFiles = FALSE,verbatim=TRUE) {
 	if (numdom == 1) {
 		domframe <- frame
 		domstrata <- outstrata
-		strataord <- domstrata[order(domstrata$STRATO), ]
+		strataord <- domstrata[order(as.numeric(domstrata$STRATO)), ]
 		lista <- domframe
 		lista$STRATO <- lista$LABEL
 		listaord <- lista[order(lista$STRATO), ]
