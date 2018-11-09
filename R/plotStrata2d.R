@@ -1,5 +1,7 @@
 plotStrata2d <- function (x, domain, vars, labels = NULL) 
 { 
+  if (domain < 1 | domain > length(levels(as.factor(x$domainvalue))))
+    stop("Domain out of bounds")
   if (is.null(labels)) labels=vars
   x <- x[x$domainvalue == domain,]
   nstrata <- length(levels(as.factor(x$LABEL)))
@@ -83,7 +85,10 @@ plotStrata2d <- function (x, domain, vars, labels = NULL)
          ncol = 1, cex = 0.7, lwd = 3, text.font = 1, 
          text.col ="black",
          box.lty=1)
-  title("Strata boundaries",cex.main = 0.8)
+  title(paste("Strata boundaries in domain ",domain,sep=""),
+        font.main=1,
+        # col.main="red",
+        cex.main = 1)
   points(x$X1,x$X2,cex=0.4)
   
   cat("\n--------------------------------")
