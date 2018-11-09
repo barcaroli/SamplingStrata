@@ -1,4 +1,4 @@
-plotStrata2d <- function (x, domain, vars, labels) 
+plotStrata2d <- function (x, domain, vars, labels = NULL) 
 { 
   if (is.null(labels)) labels=vars
   x <- x[x$domainvalue == domain,]
