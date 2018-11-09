@@ -356,16 +356,26 @@ optimizeStrata2 <-
                   row.names = FALSE, col.names = TRUE, quote = FALSE)
       cat("\n...written output to ", direnew,"/outstrata.txt\n")
     }
-    framenew <- updateFrame2(frame,solution)
+    vettsoldf <- as.data.frame(vettsol)
+    colnames(vettsoldf) <- c("ID","LABEL")
+    vettsoldf$STRATO <- vettsoldf$LABEL
+    framenew <- merge(frame,vettsoldf,by=c("ID"))
     if (strcens == TRUE) {
+      if (alldomains == FALSE) {
+        colnames(framecens) <- toupper(framecens)
+        colnames(framecensold) <- toupper(framecensold)
+        framecens <- framecens[framecens$DOMAINVALUE == dom,]
+        framecensold <- framecensold[framecensold$DOMAINVALUE == dom,]
+      }
       for (i in (1:nvarX)) {
         eval(parse(text=paste("framecens$X",i," <- framecensold$X",i,sep="")))
       }
       framecens$STRATO <- nStrata + 1
       framecens$LABEL <- nStrata + 1
+      colnames(framecens) <- toupper(colnames(framecens))
       framenew <- rbind(framenew,framecens)
     }
-    solution <- list(indices = vettsol, aggr_strata = outstrata, framenew)
+    solution <- list(indices = vettsol, aggr_strata = outstrata, framenew = framenew)
     if (writeFiles == TRUE) {
       setwd(dire)
     }
