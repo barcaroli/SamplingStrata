@@ -1,7 +1,7 @@
 optimizeStrata2 <- 
   function (errors, 
             frame,
-            cens = NULL, 
+            framecens = NULL, 
             strcens = FALSE, 
             model = NULL, 
             alldomains = TRUE, 
@@ -21,6 +21,20 @@ optimizeStrata2 <-
             parallel = TRUE, 
             cores) 
   { 
+    if (strcens == TRUE & is.null(framecens))
+      stop("No data in the cens dataframe")
+    if (strcens == TRUE) {
+      framecensold <- framecens
+      framecens$X1 <- nStrata + 1
+      nvarX <- length(grep("X", names(framecens)))
+      if (nvarX > 1) {
+        for (i in (2:nvarX)) {
+          eval(parse(text=paste("framecens$X",i," <- NULL",sep="")))
+        }
+      }  
+      cens <- buildStrataDF(framecens)
+      cens$CENS <- 1
+    }
     if (writeFiles == TRUE) {
       dire <- getwd()
       direnew <- paste(dire, "/output", sep = "")
@@ -32,6 +46,11 @@ optimizeStrata2 <-
     }
     
     if(parallel == FALSE & !missing(cores)){
+      cat("Sequential optimization as parallel = FALSE, defaulting number of cores = 1")
+      cores <- 1
+      Sys.sleep(0.314)
+    }
+    if(strcens == TRUE & !missing(cores)){
       cat("Sequential optimization as parallel = FALSE, defaulting number of cores = 1")
       cores <- 1
       Sys.sleep(0.314)
@@ -337,7 +356,16 @@ optimizeStrata2 <-
                   row.names = FALSE, col.names = TRUE, quote = FALSE)
       cat("\n...written output to ", direnew,"/outstrata.txt\n")
     }
-    solution <- list(indices = vettsol, aggr_strata = outstrata)
+    framenew <- updateFrame2(frame,solution)
+    if (strcens == TRUE) {
+      for (i in (1:nvarX)) {
+        eval(parse(text=paste("framecens$X",i," <- framecensold$X",i,sep="")))
+      }
+      framecens$STRATO <- nStrata + 1
+      framecens$LABEL <- nStrata + 1
+      framenew <- rbind(framenew,framecens)
+    }
+    solution <- list(indices = vettsol, aggr_strata = outstrata, framenew)
     if (writeFiles == TRUE) {
       setwd(dire)
     }
