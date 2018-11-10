@@ -11,7 +11,7 @@ This function runs a set of other functions to optimise the stratification of a 
 	optimizeStrata(
 	errors , 
 	frame , 
-	cens = NULL, 
+	framecens = NULL, 
   strcens = FALSE, 
   model = NULL, 
 	nStrata,
@@ -41,8 +41,8 @@ This function runs a set of other functions to optimise the stratification of a 
   \item{frame}{
   This is the (mandatory) dataframe containing the information related to the sampling frame.
 }
-  \item{cens}{
-  This the (optional) dataframe containing the takeall strata, those strata whose units must be selected in whatever sample. It has same structure than "strata" dataframe.
+  \item{framecens}{
+  This the (optional) dataframe containing the units to be selected in any case. It has same structure than "frame" dataframe.
 }
   \item{strcens}{
   Flag (TRUE/FALSE) to indicate if takeall strata do exist or not. Default is FALSE.
