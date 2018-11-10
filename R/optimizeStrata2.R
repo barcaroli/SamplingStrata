@@ -362,8 +362,8 @@ optimizeStrata2 <-
     framenew <- merge(frame,vettsoldf,by=c("ID"))
     if (strcens == TRUE) {
       if (alldomains == FALSE) {
-        colnames(framecens) <- toupper(framecens)
-        colnames(framecensold) <- toupper(framecensold)
+        colnames(framecens) <- toupper(colnames(framecens))
+        colnames(framecensold) <- toupper(colnames(framecensold))
         framecens <- framecens[framecens$DOMAINVALUE == dom,]
         framecensold <- framecensold[framecensold$DOMAINVALUE == dom,]
       }
@@ -374,7 +374,10 @@ optimizeStrata2 <-
       framecens$LABEL <- nStrata + 1
       colnames(framecens) <- toupper(colnames(framecens))
       framenew <- rbind(framenew,framecens)
+      cens$SOLUZ <- cens$N
+      outstrata <- rbind(outstrata,cens)
     }
+    
     solution <- list(indices = vettsol, aggr_strata = outstrata, framenew = framenew)
     if (writeFiles == TRUE) {
       setwd(dire)
