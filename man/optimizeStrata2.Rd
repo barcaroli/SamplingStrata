@@ -129,7 +129,10 @@ This function runs a set of other functions to optimise the stratification of a 
 }
 
 \value{
-A list containing (1) the vector of the solution and (2) the optimal aggregated strata
+A list containing 
+(1) the vector of the solution, 
+(2) the optimal aggregated strata,
+(3) the total sampling frame with the label of aggregated strata
 }
 
 \author{
@@ -155,10 +158,13 @@ frame <- buildFrameDF(swissmunicipalities,
                       X = c("Surfacesbois","Surfacescult"),
                       Y = c("Pop020", "Pop2040")
 )
+framesamp <- frame[frame$X1 < 1500 
+                   & frame$X2 < 1400,]
+framecens <- frame[!(frame$id %in% framesamp$id),]
 solution <- optimizeStrata2 (
             errors, 
-            frame,
-            cens = NULL, 
+            framesamp,
+            framecens, 
             strcens = FALSE,
             model = NULL,
             alldomains = TRUE, 
@@ -175,6 +181,13 @@ solution <- optimizeStrata2 (
             writeFiles = FALSE, 
             showPlot = TRUE, 
             parallel = FALSE) 
+sum(round(solution$aggr_strata$SOLUZ))
+expected_CV(solution$aggr_strata)
+framenew <- solution$framenew
+p <- plotStrata2d(framenew, domain = 1, vars = c("X1","X2"))
+p
+samp <- selectSample(framenew,solution$aggr_strata)
+samp <- selectSampleSystematic(framenew,solution$aggr_strata)
 }
 }
 \keyword{ survey }
