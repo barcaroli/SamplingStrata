@@ -8,29 +8,29 @@ Best stratification of a sampling frame for multipurpose surveys
 This function runs a set of other functions to optimise the stratification of a sampling frame 
 }
 \usage{
-	optimizeStrata(
-	errors , 
-	frame , 
-	framecens = NULL, 
-  strcens = FALSE, 
-  model = NULL, 
-	nStrata,
-	cens = NULL, 
-	strcens = FALSE,
-	alldomains = TRUE,
-	dom = NULL,	
-	minnumstr = 2, 
-	iter = 50, 
-	pops = 20, 
-	mut_chance = NA, 
-	elitism_rate = 0.2,
-	highvalue = 1e+08, 
-	suggestions = NULL,
-	realAllocation = TRUE,
-	writeFiles = FALSE,
-	showPlot = TRUE, 
-	parallel = TRUE,
-	cores
+	optimizeStrata2(
+	        errors , 
+	        frame , 
+	        framecens = NULL, 
+          strcens = FALSE, 
+          model = NULL, 
+	        nStrata,
+      	  cens = NULL, 
+	        strcens = FALSE,
+	        alldomains = TRUE,
+	        dom = NULL,	
+        	minnumstr = 2, 
+	        iter = 50, 
+	        pops = 20, 
+	        mut_chance = NA, 
+	        elitism_rate = 0.2,
+	        highvalue = 1e+08, 
+	        suggestions = NULL,
+	        realAllocation = TRUE,
+	        writeFiles = FALSE,
+	        showPlot = TRUE, 
+	        parallel = TRUE,
+	        cores
 	)
 }
 \arguments{
