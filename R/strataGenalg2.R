@@ -104,7 +104,7 @@ rbga.results = rbga2(
                     evalFunc=evaluate, 
                     verbose=FALSE)
 
-title(paste("Best solution: ",round(min(rbga.results$best),2)))
+# title(paste("Best solution: ",round(min(rbga.results$best),2)))
 # Reconstruction of the optimal solution    
 nX <- sum(grepl("X",colnames(frame)))
 out <- rbga.results

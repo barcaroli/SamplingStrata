@@ -138,7 +138,7 @@ rbga2 <- function(dataset,
             
             if (iter < iters) { # ok, must create the next generation
                 if (verbose) cat("Creating next generation...\n");
-              cat("\n Iteration  ",iter)
+              # cat("\n Iteration  ",iter)
                 newPopulation = matrix(nrow=popSize, ncol=vars);
                 newEvalVals = rep(NA, popSize);
                 
