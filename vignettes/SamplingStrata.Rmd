@@ -874,7 +874,7 @@ summary(frame)
 framecens <- frame[frame$X1 > 4000 
                    & frame$X2 > 1000,]
 # remaining units 
-framesamp <- frame[!(frame$id %in% framesamp$id),]
+framesamp <- frame[!(frame$id %in% framecens$id),]
 # precision constraints
 data("errors")
 errors$CV1 <- 0.1
@@ -891,7 +891,8 @@ solution <- optimizeStrata2 (
       framesamp,
       framecens = framecens, 
       strcens = TRUE, 
-      nStrata = 5 
+      nStrata = 4,
+      parallel = FALSE
       ) 
 sum(round(solution$aggr_strata$SOLUZ))
 expected_CV(solution$aggr_strata)
@@ -901,8 +902,10 @@ This function also outputs the new version of the overall frame (sampling plus c
 
 ```{r, eval = T}
 framenew <- solution$framenew
-head(framenew,3)
+outstrata <- solution$aggr_strata
 ```
+
+The first 4 strata are the ones pertaining to sampling units, the fifth is the one with censused units.
 
 It is also possible to plot the distribution of population units in the strata by using the function *plotStrata2d*:
 
@@ -919,7 +922,7 @@ boundaries
 Finally, the selection of the sample is perfomed by using the same function selectSample, but this time is no more necessary to handle separately units to be samples and units to be censused:
 
 ```{r, eval = T}
-samp <- selectSample(frametot,solution$aggr_strata)
+samp <- selectSample(frametot,outstrata)
 ```
 
 # Appendix - Methodological approach
