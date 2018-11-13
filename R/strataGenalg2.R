@@ -74,7 +74,7 @@ evaluate <- function(dataset,
 }
 
 monitor <- function(obj) {
-  if (showPlot = TRUE) {
+  if (showPlot == TRUE) {
     ylim=c(min(obj$evaluation),max(obj$evaluation))
     plot(obj$mean,type="l",col="red",ylim=ylim,xlab="Iterations",ylab="Sample size")
     points(obj$best,type="l",col="black")
