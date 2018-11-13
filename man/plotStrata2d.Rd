@@ -2,18 +2,23 @@
 \alias{plotStrata2d}
 \title{Plot bivariate distibutions in strata}
 \description{
-  Plots a 2d graph showing strata in different colours
+  Plots a 2d graph showing obtained strata in different colours
 }
 \usage{
 plotStrata <- function (x,
-						domain, 
-                        vars)
+						            domain, 
+                        vars,
+                        labels)
 }
 \arguments{
   \item{x}{the sampling frame}
   \item{domain}{a domain in the frame}
   \item{vars}{vars to appear in x and y axis}
+  \item{labels}{labels to appear in x and y axis}
  }
+\value{
+A list containing the boundaries of the strata
+}
 \examples{
 \dontrun{
 library(SamplingStrata)
@@ -36,7 +41,7 @@ frame <- buildFrameDF(swissmunicipalities,
 solution <- optimizeStrata2 (
             errors, 
             frame,
-            cens = NULL, 
+            framecens = NULL, 
             strcens = FALSE, 
             alldomains = TRUE, 
             dom = NULL, 

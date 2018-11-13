@@ -2,35 +2,33 @@
 \Rdversion{1.3-1}
 \alias{optimizeStrata2}
 \title{
-Best stratification of a sampling frame for multipurpose surveys
+Best stratification of a sampling frame for multipurpose surveys (only with continuous stratification variables)
 }
 \description{
-This function runs a set of other functions to optimise the stratification of a sampling frame 
+This function runs a set of other functions to optimise the stratification of a sampling frame, only when stratification variables are of the continuous type. It differentiates from 'optimizeStrata' that accepts both continuous and categorical variables
 }
 \usage{
-	optimizeStrata(
-	errors , 
-	frame , 
-	cens = NULL, 
-  strcens = FALSE, 
-  model = NULL, 
-	nStrata,
-	cens = NULL, 
-	strcens = FALSE,
-	alldomains = TRUE,
-	dom = NULL,	
-	minnumstr = 2, 
-	iter = 50, 
-	pops = 20, 
-	mut_chance = NA, 
-	elitism_rate = 0.2,
-	highvalue = 1e+08, 
-	suggestions = NULL,
-	realAllocation = TRUE,
-	writeFiles = FALSE,
-	showPlot = TRUE, 
-	parallel = TRUE,
-	cores
+	optimizeStrata2(
+            errors, 
+            frame,
+            framecens = NULL, 
+            strcens = FALSE, 
+            model = NULL, 
+            alldomains = TRUE, 
+            dom = NULL, 
+            nStrata = 5, 
+            minnumstr = 2, 
+            iter = 50, 
+            pops = 20, 
+            mut_chance = NA, 
+            elitism_rate = 0.2, 
+            highvalue = 1e+08, 
+            suggestions = NULL, 
+            realAllocation = TRUE, 
+            writeFiles = FALSE, 
+            showPlot = TRUE, 
+            parallel = TRUE, 
+            cores
 	)
 }
 \arguments{
@@ -41,8 +39,8 @@ This function runs a set of other functions to optimise the stratification of a 
   \item{frame}{
   This is the (mandatory) dataframe containing the information related to the sampling frame.
 }
-  \item{cens}{
-  This the (optional) dataframe containing the takeall strata, those strata whose units must be selected in whatever sample. It has same structure than "strata" dataframe.
+  \item{framecens}{
+  This the (optional) dataframe containing the units to be selected in any case. It has same structure than "frame" dataframe.
 }
   \item{strcens}{
   Flag (TRUE/FALSE) to indicate if takeall strata do exist or not. Default is FALSE.
@@ -53,9 +51,6 @@ This function runs a set of other functions to optimise the stratification of a 
   target variables. Each row contains the indication if the model is linear o loglinear, and the values of the model parameters 
   beta, sig2, gamma (> 1 in case of heteroscedasticity). 
   Default is NULL.
-}
-  \item{nStrata}{
-  Indicates the number of strata for each variable.
 }
   \item{cens}{
   This the (optional) dataframe containing the takeall strata, those strata whose units must be selected in whatever sample. It has same structure than "strata" dataframe.
@@ -71,13 +66,8 @@ This function runs a set of other functions to optimise the stratification of a 
   Indicates the domain on which the optimization must be carried. It is an integer value that has to be internal to the interval 
   (1 <--> number of domains). If 'alldomains' is set to TRUE, it is ignored.
 }
-  \item{initialStrata}{
-  This is the initial limit on the number of strata in the different domains for each solution. Default is NA, and in this case it is set equal to the
-  number of atomic strata in each domain.
-}
-  \item{addStrataFactor}{
-  This parameter indicates the probability that at each mutation the number of strata may increase with 
-  respect to the current value. Default is 0.0.
+  \item{nStrata}{
+  Indicates the number of strata for each variable.
 }
   \item{minnumstr}{
   Indicates the minimum number of units that must be allocated in each stratum. Default is 2.
@@ -129,7 +119,10 @@ This function runs a set of other functions to optimise the stratification of a 
 }
 
 \value{
-A list containing (1) the vector of the solution and (2) the optimal aggregated strata
+A list containing 
+(1) the vector of the solution, 
+(2) the optimal aggregated strata,
+(3) the total sampling frame with the label of aggregated strata
 }
 
 \author{
@@ -155,10 +148,13 @@ frame <- buildFrameDF(swissmunicipalities,
                       X = c("Surfacesbois","Surfacescult"),
                       Y = c("Pop020", "Pop2040")
 )
+framesamp <- frame[frame$X1 < 1500 
+                   & frame$X2 < 1400,]
+framecens <- frame[!(frame$id %in% framesamp$id),]
 solution <- optimizeStrata2 (
             errors, 
-            frame,
-            cens = NULL, 
+            framesamp,
+            framecens, 
             strcens = FALSE,
             model = NULL,
             alldomains = TRUE, 
@@ -175,6 +171,13 @@ solution <- optimizeStrata2 (
             writeFiles = FALSE, 
             showPlot = TRUE, 
             parallel = FALSE) 
+sum(round(solution$aggr_strata$SOLUZ))
+expected_CV(solution$aggr_strata)
+framenew <- solution$framenew
+p <- plotStrata2d(framenew, domain = 1, vars = c("X1","X2"))
+p
+samp <- selectSample(framenew,solution$aggr_strata)
+samp <- selectSampleSystematic(framenew,solution$aggr_strata)
 }
 }
 \keyword{ survey }

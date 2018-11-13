@@ -21,9 +21,18 @@ optimizeStrata2 <-
             parallel = TRUE, 
             cores) 
   { 
+    if (alldomains == TRUE) dom <- NULL
+    colnames(framesamp) <- toupper(colnames(framesamp))
+    if (alldomains == FALSE) {
+      framesamp <- framesamp[framesamp$DOMAINVALUE == dom,]
+    }
+    colnames(framecens) <- toupper(colnames(framecens))
     if (strcens == TRUE & is.null(framecens))
       stop("No data in the cens dataframe")
     if (strcens == TRUE) {
+      if (alldomains == FALSE) {
+        framecens <- framecens[framecens$DOMAINVALUE == dom,]
+      }
       framecensold <- framecens
       framecens$X1 <- nStrata + 1
       nvarX <- length(grep("X", names(framecens)))
@@ -32,8 +41,9 @@ optimizeStrata2 <-
           eval(parse(text=paste("framecens$X",i," <- NULL",sep="")))
         }
       }  
-      cens <- buildStrataDF(framecens)
+      cens <- buildStrataDF(framecens,progress=FALSE)
       cens$CENS <- 1
+      censtot <- cens
     }
     if (writeFiles == TRUE) {
       dire <- getwd()
@@ -362,8 +372,8 @@ optimizeStrata2 <-
     framenew <- merge(frame,vettsoldf,by=c("ID"))
     if (strcens == TRUE) {
       if (alldomains == FALSE) {
-        colnames(framecens) <- toupper(framecens)
-        colnames(framecensold) <- toupper(framecensold)
+        # colnames(framecens) <- toupper(colnames(framecens))
+        # colnames(framecensold) <- toupper(colnames(framecensold))
         framecens <- framecens[framecens$DOMAINVALUE == dom,]
         framecensold <- framecensold[framecensold$DOMAINVALUE == dom,]
       }
@@ -374,7 +384,10 @@ optimizeStrata2 <-
       framecens$LABEL <- nStrata + 1
       colnames(framecens) <- toupper(colnames(framecens))
       framenew <- rbind(framenew,framecens)
+      censtot$SOLUZ <- censtot$N
+      outstrata <- rbind(outstrata,censtot)
     }
+    
     solution <- list(indices = vettsol, aggr_strata = outstrata, framenew = framenew)
     if (writeFiles == TRUE) {
       setwd(dire)

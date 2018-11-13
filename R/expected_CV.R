@@ -5,7 +5,9 @@ expected_CV <- function (strata) {
   cv <- matrix(NA,nrow=ndom,ncol=nvars)
   colnames(cv) <- paste("cv(Y",c(1:nvars),")",sep="")
   rownames(cv) <- paste("DOM",c(1:ndom),sep="")
-  for (i in (1:ndom)) {
+  k<-0
+  for (i in (as.numeric(levels(as.factor(strata$DOM1))))) {
+    k<-k+1
     stratadom <- strata[strata$DOM1 == i,]
     for (j in 1:nvars) {
       n_h <- stratadom$SOLUZ
@@ -17,7 +19,7 @@ expected_CV <- function (strata) {
       Y_h <- N_h * M_h
       Var_h <- (N_h^2) * (1 - n_h/N_h) * ((S_h^2)/n_h)
       CV <- sqrt(sum(Var_h)) / sum(Y_h)
-      cv[i,j] <- CV 
+      cv[k,j] <- CV 
     }
   }
   cv <- round(cv,3)

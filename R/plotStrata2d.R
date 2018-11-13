@@ -1,9 +1,10 @@
 plotStrata2d <- function (x, domain, vars, labels = NULL) 
 { 
-  if (domain < 1 | domain > length(levels(as.factor(x$domainvalue))))
+  colnames(x) <- toupper(colnames(x))
+  if (!domain %in% levels(as.factor(x$DOMAINVALUE)))
     stop("Domain out of bounds")
   if (is.null(labels)) labels=vars
-  x <- x[x$domainvalue == domain,]
+  x <- x[x$DOMAINVALUE == domain,]
   nstrata <- length(levels(as.factor(x$LABEL)))
   if (length(vars) != 2) stop("Indicate just two variables...")
   stringa <- paste("x1 <- tapply(x$",vars[1],",x$LABEL,summary)",sep="")
