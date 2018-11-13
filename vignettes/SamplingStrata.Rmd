@@ -869,7 +869,6 @@ frame <- buildFrameDF(swissmunicipalities,
                       X = c("Surfacesbois","Surfacescult"),
                       Y = c("Pop020", "Pop2040")
                       )
-summary(frame)
 # choice of units to be selected in any case (census units)
 framecens <- frame[frame$X1 > 4000 
                    & frame$X2 > 1000,]
