@@ -5,7 +5,7 @@
   Plots a 2d graph showing obtained strata in different colours
 }
 \usage{
-plotStrata <- function (x,
+plotStrata2d <- function (x,
 						            domain, 
                         vars,
                         labels)
