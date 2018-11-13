@@ -74,9 +74,11 @@ evaluate <- function(dataset,
 }
 
 monitor <- function(obj) {
-  ylim=c(min(obj$evaluation),max(obj$evaluation))
-  plot(obj$mean,type="l",col="red",ylim=ylim,xlab="Iterations",ylab="Sample size")
-  points(obj$best,type="l",col="black")
+  if (showPlot = TRUE) {
+    ylim=c(min(obj$evaluation),max(obj$evaluation))
+    plot(obj$mean,type="l",col="red",ylim=ylim,xlab="Iterations",ylab="Sample size")
+    points(obj$best,type="l",col="black")
+  }
 }
 
 #-------------------------------
@@ -102,7 +104,8 @@ rbga.results = rbga2(
                     elitism,
                     monitorFunc=monitor, 
                     evalFunc=evaluate, 
-                    verbose=FALSE)
+                    verbose=FALSE,
+                    showPlot)
 
 # title(paste("Best solution: ",round(min(rbga.results$best),2)))
 # Reconstruction of the optimal solution    
