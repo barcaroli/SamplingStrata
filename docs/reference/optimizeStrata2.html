@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Best stratification of a sampling frame for multipurpose surveys — optimizeStrata • SamplingStrata</title>
+<title>Best stratification of a sampling frame for multipurpose surveys (only with continuous stratification variables) — optimizeStrata2 • SamplingStrata</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Best stratification of a sampling frame for multipurpose surveys — optimizeStrata" />
+<meta property="og:title" content="Best stratification of a sampling frame for multipurpose surveys (only with continuous stratification variables) — optimizeStrata2" />
 
-<meta property="og:description" content="This function runs a set of other functions to optimise the stratification of a sampling frame" />
+<meta property="og:description" content="This function runs a set of other functions to optimise the stratification of a sampling frame, only when stratification variables are of the continuous type. It differentiates from 'optimizeStrata' that accepts both continuous and categorical variables" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -102,38 +102,38 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Best stratification of a sampling frame for multipurpose surveys</h1>
+    <h1>Best stratification of a sampling frame for multipurpose surveys (only with continuous stratification variables)</h1>
     
-    <div class="hidden name"><code>optimizeStrata.Rd</code></div>
+    <div class="hidden name"><code>optimizeStrata2.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function runs a set of other functions to optimise the stratification of a sampling frame</p>
+    <p>This function runs a set of other functions to optimise the stratification of a sampling frame, only when stratification variables are of the continuous type. It differentiates from 'optimizeStrata' that accepts both continuous and categorical variables</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>optimizeStrata</span>(
-        <span class='no'>errors</span> ,
-        <span class='no'>strata</span> ,
-        <span class='kw'>cens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-        <span class='kw'>strcens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-        <span class='kw'>alldomains</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-        <span class='kw'>dom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-        <span class='kw'>initialStrata</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-        <span class='kw'>addStrataFactor</span> <span class='kw'>=</span> <span class='fl'>0.0</span>,
-        <span class='kw'>minnumstr</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-        <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-        <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-        <span class='kw'>mut_chance</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-        <span class='kw'>elitism_rate</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
-        <span class='kw'>highvalue</span> <span class='kw'>=</span> <span class='fl'>1e+08</span>,
-        <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-        <span class='kw'>realAllocation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-        <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-        <span class='kw'>showPlot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-        <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-        <span class='no'>cores</span>
+    <pre class="usage"><span class='fu'>optimizeStrata2</span>(
+            <span class='no'>errors</span>,
+            <span class='no'>frame</span>,
+            <span class='kw'>framecens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+            <span class='kw'>strcens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+            <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+            <span class='kw'>alldomains</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+            <span class='kw'>dom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+            <span class='kw'>nStrata</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+            <span class='kw'>minnumstr</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+            <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>50</span>,
+            <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+            <span class='kw'>mut_chance</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+            <span class='kw'>elitism_rate</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
+            <span class='kw'>highvalue</span> <span class='kw'>=</span> <span class='fl'>1e+08</span>,
+            <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+            <span class='kw'>realAllocation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+            <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+            <span class='kw'>showPlot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+            <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+            <span class='no'>cores</span>
         )</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -145,10 +145,24 @@
   related to target variables of the survey.</p></td>
     </tr>
     <tr>
-      <th>strata</th>
-      <td><p>This is the (mandatory) dataframe containing the information related to "atomic" strata, i.e. the strata obtained by 
-  the Cartesian product of all auxiliary variables X's. Information concerns the identifiability of strata
-  (values of X's) and variability of Y's (for each Y, mean and standard error in strata).</p></td>
+      <th>frame</th>
+      <td><p>This is the (mandatory) dataframe containing the information related to the sampling frame.</p></td>
+    </tr>
+    <tr>
+      <th>framecens</th>
+      <td><p>This the (optional) dataframe containing the units to be selected in any case. It has same structure than "frame" dataframe.</p></td>
+    </tr>
+    <tr>
+      <th>strcens</th>
+      <td><p>Flag (TRUE/FALSE) to indicate if takeall strata do exist or not. Default is FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>model</th>
+      <td><p>In case the Y variables are not directly observed, but are estimated by means of other explicative variables, in order
+  to compute the anticipated variance, information on models are given by a dataframe "model" with as many rows as the
+  target variables. Each row contains the indication if the model is linear o loglinear, and the values of the model parameters 
+  beta, sig2, gamma (&gt; 1 in case of heteroscedasticity). 
+  Default is NULL.</p></td>
     </tr>
     <tr>
       <th>cens</th>
@@ -169,14 +183,8 @@
   (1 &lt;--&gt; number of domains). If 'alldomains' is set to TRUE, it is ignored.</p></td>
     </tr>
     <tr>
-      <th>initialStrata</th>
-      <td><p>This is the initial limit on the number of strata in the different domains for each solution. Default is NA, and in this case it is set equal to the
-  number of atomic strata in each domain.</p></td>
-    </tr>
-    <tr>
-      <th>addStrataFactor</th>
-      <td><p>This parameter indicates the probability that at each mutation the number of strata may increase with 
-  respect to the current value. Default is 0.0.</p></td>
+      <th>nStrata</th>
+      <td><p>Indicates the number of strata for each variable.</p></td>
     </tr>
     <tr>
       <th>minnumstr</th>
@@ -241,36 +249,63 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list containing (1) the vector of the solution and (2) the optimal aggregated strata</p>
+    <p>A list containing 
+(1) the vector of the solution, 
+(2) the optimal aggregated strata,
+(3) the total sampling frame with the label of aggregated strata</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>library</span>(<span class='no'>SamplingStrata</span>)
-<span class='fu'>data</span>(<span class='no'>swissframe</span>)
-<span class='fu'>data</span>(<span class='no'>swisserrors</span>)
-<span class='fu'>data</span>(<span class='no'>swissstrata</span>)
-<span class='co'># optimisation of sampling strata</span>
-<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'>optimizeStrata</span> (
-    <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>swisserrors</span>,
-    <span class='kw'>strata</span> <span class='kw'>=</span> <span class='no'>swissstrata</span>,
-    <span class='kw'>cens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-    <span class='kw'>strcens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-    <span class='kw'>initialStrata</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-    <span class='kw'>addStrataFactor</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-    <span class='kw'>minnumstr</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-    <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>60</span>,
-    <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-    <span class='kw'>mut_chance</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-    <span class='kw'>elitism_rate</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
-    <span class='kw'>highvalue</span> <span class='kw'>=</span> <span class='fl'>100000000</span>,
-    <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-        <span class='kw'>realAllocation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-        <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-        <span class='kw'>showPlot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>sum</span>(<span class='fu'>ceiling</span>(<span class='no'>solution</span>$<span class='no'>aggr_strata</span>$<span class='no'>SOLUZ</span>))
-<span class='fu'>head</span>(<span class='no'>solution</span>$<span class='no'>aggr_strata</span>)
-<span class='co'># }</span></pre>
+    <pre class="examples"># NOT RUN {
+library(SamplingStrata)
+data("swissmunicipalities")
+swissmunicipalities = swissmunicipalities[swissmunicipalities$REG==1,]
+data("errors")
+errors$CV1 <- 0.1
+errors$CV2 <- 0.1
+errors <- errors[rep(row.names(errors),7),]
+errors$domainvalue <- c(1:7)
+errors
+swissmunicipalities$id <- c(1:nrow(swissmunicipalities))
+swissmunicipalities$domain = 1
+frame <- buildFrameDF(swissmunicipalities,
+                      id = "id",
+                      domainvalue = "REG",
+                      X = c("Surfacesbois","Surfacescult"),
+                      Y = c("Pop020", "Pop2040")
+)
+framesamp <- frame[frame$X1 < 1500 
+                   & frame$X2 < 1400,]
+framecens <- frame[!(frame$id <!-- %in% framesamp$id),] -->
+solution <- optimizeStrata2 (
+            errors, 
+            framesamp,
+            framecens, 
+            strcens = FALSE,
+            model = NULL,
+            alldomains = TRUE, 
+            dom = NULL, 
+            nStrata = 5, 
+            minnumstr = 2, 
+            iter = 50, 
+            pops = 20, 
+            mut_chance = NA, 
+            elitism_rate = 0.2, 
+            highvalue = 1e+08, 
+            suggestions = NULL, 
+            realAllocation = TRUE, 
+            writeFiles = FALSE, 
+            showPlot = TRUE, 
+            parallel = FALSE) 
+sum(round(solution$aggr_strata$SOLUZ))
+expected_CV(solution$aggr_strata)
+framenew <- solution$framenew
+p <- plotStrata2d(framenew, domain = 1, vars = c("X1","X2"))
+p
+samp <- selectSample(framenew,solution$aggr_strata)
+samp <- selectSampleSystematic(framenew,solution$aggr_strata)
+# }
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
