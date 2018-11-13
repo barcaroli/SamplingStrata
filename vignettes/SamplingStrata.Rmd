@@ -922,7 +922,7 @@ boundaries
 Finally, the selection of the sample is perfomed by using the same function selectSample, but this time is no more necessary to handle separately units to be samples and units to be censused:
 
 ```{r, eval = T}
-samp <- selectSample(frametot,outstrata)
+samp <- selectSample(framenew,outstrata)
 ```
 
 # Appendix - Methodological approach
