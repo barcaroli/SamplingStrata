@@ -41,7 +41,7 @@ optimizeStrata2 <-
           eval(parse(text=paste("framecens$X",i," <- NULL",sep="")))
         }
       }  
-      cens <- buildStrataDF(framecens,progress=FALSE)
+      cens <- buildStrataDF(framecens,progress=FALSE,verbose=FALSE)
       cens$CENS <- 1
       censtot <- cens
     }
