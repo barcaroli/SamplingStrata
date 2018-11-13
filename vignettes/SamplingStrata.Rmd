@@ -332,7 +332,7 @@ In the case of the Swiss municipalities, we can use almost all of default values
 solution <- optimizeStrata(
 	errors = swisserrors, 
 	strata = swissstrata,
-	parallel = TRUE,
+	parallel = FALSE,
 	writeFiles = FALSE,
 	showPlot = FALSE)
 ```
@@ -396,7 +396,7 @@ solution_with_kmeans <- optimizeStrata(
 	errors = swisserrors,
 	strata = swissstrata,
 	suggestions = solutionKmeans1,
-	parallel = TRUE,
+	parallel = FALSE,
 	writeFiles = TRUE,
 	showPlot = FALSE)
 ```
@@ -627,7 +627,7 @@ solution <- optimizeStrata(
 	strata = strata, 
 	cens = cens, 
 	strcens = TRUE,
-	parallel = TRUE,
+	parallel = FALSE,
 	writeFiles = TRUE,
 	showPlot = FALSE
 )
@@ -850,9 +850,77 @@ results2$coeff_var
 This time the expected CV's of all variables are more than compliant with the precision constraints.
 
 
+# Optimization variant with the *optimizeStrata2* function
 
+Function *optimizeStrata2* performs the same task than *optimizeStrata*, but with a different Genetic Algorithm, operating on a genome represented by vector containing real values, instead of integers. This permits to operate directly on the boundaries of the strata, instead of aggregating the initial atomic strata. In some situations (not exceedingly too big size of the sampling frame) this new function is much more efficient. Furthermore, resulting strata are guaranteed to not overlap with respect to the different stratification variables. A major limitation is in the nature of the stratification variables, that are required to be all continuous (though categorical ordinal can be handled). Another one is in the fact that it is necessary to choose the number of strata (it is not optimally determined during the evolution process as in the case of *optimizeStrata*).
 
+To operate with *optimizeStrata2* it is no more necessary to produce the *strata* dataframe. 
 
+Let us consider the following example: 
+
+```{r, eval = T}
+# sampling frame
+data("swissmunicipalities")
+swissmunicipalities$id <- c(1:nrow(swissmunicipalities))
+swissmunicipalities$dom <- 1
+frame <- buildFrameDF(swissmunicipalities,
+                      id = "id",
+                      domainvalue = "dom",
+                      X = c("Surfacesbois","Surfacescult"),
+                      Y = c("Pop020", "Pop2040")
+                      )
+summary(frame)
+# choice of units to be selected in any case (census units)
+framecens <- frame[frame$X1 > 4000 
+                   & frame$X2 > 1000,]
+# remaining units 
+framesamp <- frame[!(frame$id %in% framesamp$id),]
+# precision constraints
+data("errors")
+errors$CV1 <- 0.1
+errors$CV2 <- 0.1
+errors
+```
+By so doing, we have chosen two stratification variable (*Surfacesbois* and  *Surfacescult*) and two target variables (*Pop020* and *Pop2040*), on both of which we have set the same precision constraint (a maximum CV equal to 10%).
+
+Now the execution of the optimization step using *optimizeStrata2* is straightforward, as we do not need to categorize stratification variables and to generate the atomic strata:
+
+```{r, eval = T}
+solution <- optimizeStrata2 (
+      errors, 
+      framesamp,
+      framecens = framecens, 
+      strcens = TRUE, 
+      nStrata = 5 
+      ) 
+sum(round(solution$aggr_strata$SOLUZ))
+expected_CV(solution$aggr_strata)
+```
+
+This function also outputs the new version of the overall frame (sampling plus census), already provided with the labels indicating to which stratum each unit belongs: 
+
+```{r, eval = T}
+framenew <- solution$framenew
+head(framenew,3)
+```
+
+It is also possible to plot the distribution of population units in the strata by using the function *plotStrata2d*:
+
+```{r, eval = T}
+boundaries <- plotStrata2d(
+                  framenew, 
+                  domain = 1, 
+                  vars = c("X1","X2"),
+                  labels = c("Surfacesbois","Surfacescult")
+                  )
+boundaries
+```
+
+Finally, the selection of the sample is perfomed by using the same function selectSample, but this time is no more necessary to handle separately units to be samples and units to be censused:
+
+```{r, eval = T}
+samp <- selectSample(frametot,solution$aggr_strata)
+```
 
 # Appendix - Methodological approach
 
