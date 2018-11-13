@@ -120,7 +120,7 @@ rbga2 <- function(dataset,
             }
             bestEvals[iter] = min(evalVals);
             meanEvals[iter] = mean(evalVals);
-            cat("\nBest solution: ",bestEvals[iter])
+            # cat("\nBest solution: ",bestEvals[iter])
             if (verbose) cat(" done.\n");
             
             if (!is.null(monitorFunc)) {
