@@ -892,6 +892,8 @@ solution <- optimizeStrata2 (
       framecens = framecens, 
       strcens = TRUE, 
       nStrata = 4,
+      writeFiles = FALSE,
+      showPlot = FALSE,
       parallel = FALSE
       ) 
 sum(round(solution$aggr_strata$SOLUZ))

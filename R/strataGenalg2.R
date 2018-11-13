@@ -102,7 +102,7 @@ rbga.results = rbga2(
                     elitism,
                     monitorFunc=monitor, 
                     evalFunc=evaluate, 
-                    verbose=TRUE)
+                    verbose=FALSE)
 
 title(paste("Best solution: ",round(min(rbga.results$best),2)))
 # Reconstruction of the optimal solution    
