@@ -53,7 +53,7 @@ evaluate <- function(dataset,
     }  
   }
   frame$X1=apply(frame[,c((ncol(frame)-ncuts):ncol(frame))],1,max)
-  strata <- buildStrataDF(frame,model=model,progress = FALSE)
+  strata <- buildStrataDF(frame,model=model,progress = FALSE,verbose=FALSE)
   if (strcens == TRUE) {
     stratatot <- rbind(strata,cens)
     soluz <- bethel(stratatot, 
@@ -131,7 +131,7 @@ for(i in 1:(ncuts+1)) {
   }  
 }
 frame$X1=apply(frame[,c((ncol(frame)-ncuts):ncol(frame))],1,max)
-strata <- buildStrataDF(frame,model=model,progress = FALSE)
+strata <- buildStrataDF(frame,model=model,progress = FALSE,verbose=FALSE)
 if (strcens == TRUE) {
   stratatot <- rbind(strata,cens)
   soluz <- bethel(stratatot, 

@@ -7,7 +7,8 @@
 # ----------------------------------------------------
 buildStrataDF <- function(dataset, 
                           model=NULL, 
-                          progress=TRUE) {
+                          progress=TRUE,
+                          verbose=TRUE) {
     # stdev1 is for sampling data
     stdev1 <- function(x, w) {
         mx <- sum(x * w)/sum(w)
@@ -22,14 +23,18 @@ buildStrataDF <- function(dataset,
     nvarX <- length(grep("X", names(dataset)))
     nvarY <- length(grep("Y", names(dataset)))
     if (length(grep("WEIGHT", names(dataset))) == 1) {
-        cat("\nComputations are being done on sampling data\n")
-        stdev <- "stdev1"
+        if (verbose == TRUE) {
+          cat("\nComputations are being done on sampling data\n")
+        }
+          stdev <- "stdev1"
     }
     if (length(grep("WEIGHT", names(dataset))) == 0) {
         dataset$WEIGHT <- rep(1, nrow(dataset))
         stdev <- "stdev2"
-        cat("\nComputations are being done on population data\n")
-    }
+        if (verbose == TRUE) {
+          cat("\nComputations are being done on population data\n")
+        }
+      }
     #---------------------------------------------------------
     # Check the validity of the model
     if (!is.null(model)) {
@@ -194,7 +199,9 @@ buildStrataDF <- function(dataset,
     # write.table(stratatot, "strata.txt", quote = FALSE, sep = "\t", 
     #     dec = ".", row.names = FALSE)
     # stratatot <- read.delim("strata.txt")
-    cat("\nNumber of strata: ",nrow(stratatot))
-    cat("\n... of which with only one unit: ",sum(stratatot$N==1))
+    if (verbose == TRUE) {
+      cat("\nNumber of strata: ",nrow(stratatot))
+      cat("\n... of which with only one unit: ",sum(stratatot$N==1))
+    }
     return(stratatot)
 }
