@@ -113,7 +113,7 @@
     
     </div>
 
-    <pre class="usage">plotStrata <- function (x,
+    <pre class="usage">plotStrata2d <- function (x,
 						            domain, 
                         vars,
                         labels)</pre>
@@ -182,8 +182,11 @@
             <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
             <span class='kw'>showPlot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
             <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>framenew</span> <span class='kw'>&lt;-</span> <span class='fu'>updateFrame2</span>(<span class='no'>frame</span>,<span class='no'>solution</span>)
-<span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>plotStrata2d</span>(<span class='no'>framenew</span>, <span class='kw'>domain</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"X1"</span>,<span class='st'>"X2"</span>))
+<span class='no'>framenew</span> <span class='kw'>&lt;-</span> <span class='no'>solution</span>$<span class='no'>framenew</span>
+<span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>plotStrata2d</span>(<span class='no'>framenew</span>,
+                  <span class='kw'>domain</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+                  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"X1"</span>,<span class='st'>"X2"</span>),
+                  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Surfacesbois"</span>,<span class='st'>"Surfacescult"</span>))
 <span class='no'>p</span>
 <span class='co'># }</span></pre>
   </div>

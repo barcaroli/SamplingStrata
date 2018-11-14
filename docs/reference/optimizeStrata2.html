@@ -295,15 +295,17 @@ solution <- optimizeStrata2 (
             suggestions = NULL, 
             realAllocation = TRUE, 
             writeFiles = FALSE, 
-            showPlot = TRUE, 
-            parallel = FALSE) 
+            showPlot = FALSE, 
+            parallel = TRUE) 
 sum(round(solution$aggr_strata$SOLUZ))
 expected_CV(solution$aggr_strata)
 framenew <- solution$framenew
-p <- plotStrata2d(framenew, domain = 1, vars = c("X1","X2"))
+p <- plotStrata2d(framenew, 
+                  domain = 2, 
+                  vars = c("X1","X2"),
+                  labels = c("Surfacesbois","Surfacescult"))
 p
 samp <- selectSample(framenew,solution$aggr_strata)
-samp <- selectSampleSystematic(framenew,solution$aggr_strata)
 # }
 </pre>
   </div>
