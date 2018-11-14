@@ -871,8 +871,8 @@ frame <- buildFrameDF(swissmunicipalities,
                       )
 summary(frame)
 # choice of units to be selected in any case (census units)
-framecens <- frame[frame$X1 > 4000 
-                   & frame$X2 > 1000,]
+framecens <- frame[frame$X1 > 2500 
+                   | frame$X2 > 1500,]
 # remaining units 
 framesamp <- frame[!(frame$id %in% framecens$id),]
 # precision constraints
