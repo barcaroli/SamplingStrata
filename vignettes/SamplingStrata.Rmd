@@ -870,8 +870,8 @@ frame <- buildFrameDF(swissmunicipalities,
                       Y = c("Pop020", "Pop2040")
                       )
 # choice of units to be selected in any case (census units)
-framecens <- frame[frame$X1 > 4000 
-                   & frame$X2 > 1000,]
+framecens <- frame[frame$X1 > 2500 
+                   | frame$X2 > 1500,]
 # remaining units 
 framesamp <- frame[!(frame$id %in% framecens$id),]
 # precision constraints
@@ -913,7 +913,7 @@ It is also possible to plot the distribution of population units in the strata b
 ```{r, eval = T}
 boundaries <- plotStrata2d(
                   framenew, 
-                  domain = 1, 
+                  domain = 4, 
                   vars = c("X1","X2"),
                   labels = c("Surfacesbois","Surfacescult")
                   )

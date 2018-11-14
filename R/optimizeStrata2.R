@@ -32,18 +32,24 @@ optimizeStrata2 <-
     if (strcens == TRUE) {
       if (alldomains == FALSE) {
         framecens <- framecens[framecens$DOMAINVALUE == dom,]
-      }
-      framecensold <- framecens
-      framecens$X1 <- nStrata + 1
-      nvarX <- length(grep("X", names(framecens)))
-      if (nvarX > 1) {
-        for (i in (2:nvarX)) {
-          eval(parse(text=paste("framecens$X",i," <- NULL",sep="")))
+        if (is.null(framecens)) {
+          censi <- NULL
+          cens <- NULL
         }
-      }  
-      cens <- buildStrataDF(framecens,progress=FALSE,verbose=FALSE)
-      cens$CENS <- 1
-      censtot <- cens
+      }
+      if (!is.null(framecens)) {
+        framecensold <- framecens
+        framecens$X1 <- nStrata + 1
+        nvarX <- length(grep("X", names(framecens)))
+        if (nvarX > 1) {
+          for (i in (2:nvarX)) {
+            eval(parse(text=paste("framecens$X",i," <- NULL",sep="")))
+          }
+        }  
+        cens <- buildStrataDF(framecens,progress=FALSE,verbose=FALSE)
+        cens$CENS <- 1
+        censtot <- cens
+      }
     }
     if (writeFiles == TRUE) {
       dire <- getwd()
@@ -60,7 +66,7 @@ optimizeStrata2 <-
       cores <- 1
       Sys.sleep(0.314)
     }
-    if(strcens == TRUE & !missing(cores)){
+    if(alldomains == FALSE & !missing(cores)){
       cat("Sequential optimization as parallel = FALSE, defaulting number of cores = 1")
       cores <- 1
       Sys.sleep(0.314)
@@ -78,7 +84,7 @@ optimizeStrata2 <-
     if (!is.null(suggestions)) 
       suggestdom <- split(suggestions, list(suggestions$domainvalue))
     if (strcens == TRUE) {
-      colnames(cens) <- toupper(colnames(cens))
+      if (!is.null(cens)) colnames(cens) <- toupper(colnames(cens))
       # k <- length(levels(as.factor(strata$DOM1)))
       k <- length(levels(as.factor(frame$DOMAINVALUE)))
       stcens <- NULL
@@ -103,7 +109,7 @@ optimizeStrata2 <-
         }
         if (cores < 2) 
           stop("\nOnly one core available: no parallel processing possible. 
-               \nPlease change parameter parallel = FALSE and run again")
+               \nPlease change parameter parallel to FALSE and run again")
         cat("\n *** Starting parallel optimization for ", 
             ndom, " domains using ", cores, " cores\n")
         cl <- parallel::makePSOCKcluster(cores)
@@ -116,7 +122,7 @@ optimizeStrata2 <-
         par_ga_sol = pblapply(
           cl = cl, X = 1:ndom, FUN = function(i)  {         
                                 erro[[i]] <- erro[[i]][, -ncol(errors)]
-                                cens <- NULL
+                                # cens <- NULL
                                 flagcens <- strcens
                                 if (strcens == TRUE) {
                                   if (nrow(stcens[[i]]) > 0) {
@@ -213,7 +219,7 @@ optimizeStrata2 <-
           cat("\n *** Domain : ", i, " ", as.character(errors$DOMAINVALUE[i]))
           cat("\n Number of strata : ", nrow(stcamp[[i]]))
           erro[[i]] <- erro[[i]][, -ncol(errors)]
-          cens <- NULL
+          # cens <- NULL
           flagcens <- strcens
           if (strcens == TRUE) {
             if (nrow(stcens[[i]]) > 0) {
@@ -303,9 +309,9 @@ optimizeStrata2 <-
       flagcens <- strcens
       if (strcens == TRUE) {
         flagcens <- TRUE
-        colnames(cens) <- toupper(colnames(cens))
+        if (!is.null(cens)) colnames(cens) <- toupper(colnames(cens))
         censi <- cens[cens$DOM1 == i, ]
-        if (nrow(censi) == 0) {
+        if (is.null(censi)) {
           flagcens <- FALSE
           censi <- NULL
         }
