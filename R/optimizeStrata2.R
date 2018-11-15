@@ -83,13 +83,13 @@ optimizeStrata2 <-
     stcamp <- split(frame, list(frame$DOMAINVALUE))
     if (!is.null(suggestions)) 
       suggestdom <- split(suggestions, list(suggestions$domainvalue))
-    if (strcens == TRUE & !is.null(censi)) {
+    if (strcens == TRUE & nrow(cens)>0) {
       colnames(cens) <- toupper(colnames(cens))
       # k <- length(levels(as.factor(strata$DOM1)))
       k <- length(levels(as.factor(frame$DOMAINVALUE)))
       stcens <- NULL
       for (i in (1:k)) {
-        stcens[[i]] <- cens[cens$DOMAINVALUE == i, ]
+        stcens[[i]] <- cens[cens$DOM1 == i, ]
       }
     }
     # ndom <- length(levels(as.factor(strata$DOM1)))
