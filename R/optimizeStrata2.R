@@ -30,11 +30,15 @@ optimizeStrata2 <-
     if (strcens == TRUE & is.null(framecens))
       stop("No data in the cens dataframe")
     if (strcens == TRUE) {
+      censi <- NULL
       if (alldomains == FALSE) {
         framecens <- framecens[framecens$DOMAINVALUE == dom,]
         if (nrow(framecens) == 0) {
           censi <- NULL
           cens <- NULL
+        }
+        if (nrow(framecens) > 0) {
+          censi <- framecens
         }
       }
       if (nrow(framecens) > 0) {
@@ -83,7 +87,7 @@ optimizeStrata2 <-
     stcamp <- split(frame, list(frame$DOMAINVALUE))
     if (!is.null(suggestions)) 
       suggestdom <- split(suggestions, list(suggestions$domainvalue))
-    if (strcens == TRUE & nrow(cens)>0) {
+    if (strcens == TRUE & !is.null(cens) > 0) {
       colnames(cens) <- toupper(colnames(cens))
       # k <- length(levels(as.factor(strata$DOM1)))
       k <- length(levels(as.factor(frame$DOMAINVALUE)))
@@ -376,7 +380,7 @@ optimizeStrata2 <-
     colnames(vettsoldf) <- c("ID","LABEL")
     vettsoldf$STRATO <- vettsoldf$LABEL
     framenew <- merge(frame,vettsoldf,by=c("ID"))
-    if (strcens == TRUE & !is.null(censi)) {
+    if (strcens == TRUE & nrow(framecens) > 0) {
       if (alldomains == FALSE) {
         # colnames(framecens) <- toupper(colnames(framecens))
         # colnames(framecensold) <- toupper(colnames(framecensold))
