@@ -5,7 +5,7 @@
   Plots a 2d graph showing obtained strata in different colours
 }
 \usage{
-plotStrata <- function (x,
+plotStrata2d <- function (x,
 						            domain, 
                         vars,
                         labels)
@@ -57,8 +57,11 @@ solution <- optimizeStrata2 (
             writeFiles = FALSE, 
             showPlot = TRUE, 
             parallel = FALSE) 
-framenew <- updateFrame2(frame,solution)
-p <- plotStrata2d(framenew, domain = 2, vars = c("X1","X2"))
+framenew <- solution$framenew
+p <- plotStrata2d(framenew, 
+                  domain = 2, 
+                  vars = c("X1","X2"),
+                  labels = c("Surfacesbois","Surfacescult"))
 p
 }
 }

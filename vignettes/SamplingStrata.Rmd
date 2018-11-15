@@ -332,7 +332,7 @@ In the case of the Swiss municipalities, we can use almost all of default values
 solution <- optimizeStrata(
 	errors = swisserrors, 
 	strata = swissstrata,
-	parallel = FALSE,
+	parallel = TRUE,
 	writeFiles = FALSE,
 	showPlot = FALSE)
 ```
@@ -396,7 +396,7 @@ solution_with_kmeans <- optimizeStrata(
 	errors = swisserrors,
 	strata = swissstrata,
 	suggestions = solutionKmeans1,
-	parallel = FALSE,
+	parallel = TRUE,
 	writeFiles = TRUE,
 	showPlot = FALSE)
 ```
@@ -627,7 +627,7 @@ solution <- optimizeStrata(
 	strata = strata, 
 	cens = cens, 
 	strcens = TRUE,
-	parallel = FALSE,
+	parallel = TRUE,
 	writeFiles = TRUE,
 	showPlot = FALSE
 )
@@ -859,17 +859,15 @@ To operate with *optimizeStrata2* it is no more necessary to produce the *strata
 Let us consider the following example: 
 
 ```{r, eval = T}
-# sampling frame
 data("swissmunicipalities")
 swissmunicipalities$id <- c(1:nrow(swissmunicipalities))
 swissmunicipalities$dom <- 1
 frame <- buildFrameDF(swissmunicipalities,
                       id = "id",
-                      domainvalue = "dom",
+                      domainvalue = "REG",
                       X = c("Surfacesbois","Surfacescult"),
                       Y = c("Pop020", "Pop2040")
-                      )
-summary(frame)
+)
 # choice of units to be selected in any case (census units)
 framecens <- frame[frame$X1 > 2500 
                    | frame$X2 > 1500,]
@@ -879,51 +877,59 @@ framesamp <- frame[!(frame$id %in% framecens$id),]
 data("errors")
 errors$CV1 <- 0.1
 errors$CV2 <- 0.1
-errors
+errors <- errors[rep(nrow(errors),7),]
+errors$domainvalue <- c(1:nrow(errors))
 ```
-By so doing, we have chosen two stratification variable (*Surfacesbois* and  *Surfacescult*) and two target variables (*Pop020* and *Pop2040*), on both of which we have set the same precision constraint (a maximum CV equal to 10%).
+By so doing, we have chosen two stratification variables (*Surfacesbois* and  *Surfacescult*) and two target variables (*Pop020* and *Pop2040*), on both of which we have set the same precision constraint (a maximum CV equal to 10%).
 
-Now the execution of the optimization step using *optimizeStrata2* is straightforward, as we do not need to categorize stratification variables and to generate the atomic strata:
+Now the execution of the optimization step (for the domain 4) using *optimizeStrata2* is straightforward, as we do not need to categorize stratification variables and to generate the atomic strata:
 
 ```{r, eval = T}
 solution <- optimizeStrata2 (
-      errors, 
-      framesamp,
-      framecens = framecens, 
-      strcens = TRUE, 
-      nStrata = 4,
-      writeFiles = FALSE,
-      showPlot = FALSE,
-      parallel = FALSE
-      ) 
+  errors, 
+  framesamp,
+  framecens = framecens, 
+  strcens = TRUE, 
+  alldomains = FALSE,
+  dom = 4,
+  iter = 50,
+  pops = 20,
+  nStrata = 5,
+  writeFiles = FALSE,
+  showPlot = FALSE,
+  parallel = TRUE
+)
+```
+
+```{r, eval = T, echo=TRUE}
 sum(round(solution$aggr_strata$SOLUZ))
 expected_CV(solution$aggr_strata)
 ```
 
 This function also outputs the new version of the overall frame (sampling plus census), already provided with the labels indicating to which stratum each unit belongs: 
 
-```{r, eval = T}
+```{r, eval = T, echo=TRUE}
 framenew <- solution$framenew
 outstrata <- solution$aggr_strata
+outstrata
 ```
 
 The first 4 strata are the ones pertaining to sampling units, the fifth is the one with censused units.
 
 It is also possible to plot the distribution of population units in the strata by using the function *plotStrata2d*:
 
-```{r, eval = T}
+```{r, eval = T,echo=TRUE}
 boundaries <- plotStrata2d(
                   framenew, 
-                  domain = 1, 
+                  domain = 4, 
                   vars = c("X1","X2"),
                   labels = c("Surfacesbois","Surfacescult")
                   )
-boundaries
 ```
 
 Finally, the selection of the sample is perfomed by using the same function selectSample, but this time is no more necessary to handle separately units to be samples and units to be censused:
 
-```{r, eval = T}
+```{r, eval = T,echo=TRUE}
 samp <- selectSample(framenew,outstrata)
 ```
 

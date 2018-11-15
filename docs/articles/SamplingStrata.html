@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4</span>
       </span>
     </div>
 
@@ -71,7 +71,7 @@
       <h1>Optimization of sampling strata with the SamplingStrata package</h1>
                         <h4 class="author">Giulio Barcaroli</h4>
             
-            <h4 class="date">2018-10-11</h4>
+            <h4 class="date">2018-11-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/SamplingStrata.Rmd"><code>vignettes/SamplingStrata.Rmd</code></a></small>
       <div class="hidden name"><code>SamplingStrata.Rmd</code></div>
@@ -262,20 +262,20 @@ newframe &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bu
 <span class="co">#&gt; ... of which with only one unit:  389</span></code></pre></div>
 <p>This is the structure of the created dataframe:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(swissstrata)
-<span class="co">#&gt;        STRATO   N       M1        M2        M3       M4       S1       S2</span>
-<span class="co">#&gt; 1 1*1*1*1*1*1 184 48.31522  49.40217  61.44022 28.40761 26.81536 28.49831</span>
-<span class="co">#&gt; 2 1*1*1*1*1*2   1 98.00000 106.00000 116.00000 43.00000  0.00000  0.00000</span>
-<span class="co">#&gt; 3 1*1*1*2*1*1   2 57.00000  64.00000  70.00000 50.00000  4.00000  0.00000</span>
-<span class="co">#&gt; 4 1*1*2*1*1*1  11 77.72727  81.18182  92.36364 47.00000 15.24998 18.69768</span>
-<span class="co">#&gt; 5 1*2*1*1*1*1   9 58.22222  61.55556  66.77778 36.22222 25.46360 20.27100</span>
-<span class="co">#&gt; 6 1*2*1*2*1*1   8 61.00000  68.00000  84.62500 58.37500 24.56624 19.48076</span>
-<span class="co">#&gt;         S3       S4 COST CENS DOM1 X1 X2 X3 X4 X5 X6</span>
-<span class="co">#&gt; 1 32.63062 14.63922    1    0    1  1  1  1  1  1  1</span>
-<span class="co">#&gt; 2  0.00000  0.00000    1    0    1  1  1  1  1  1  2</span>
-<span class="co">#&gt; 3  1.00000 15.00000    1    0    1  1  1  1  2  1  1</span>
-<span class="co">#&gt; 4 17.03084 11.12736    1    0    1  1  1  2  1  1  1</span>
-<span class="co">#&gt; 5 24.89881 15.49751    1    0    1  1  2  1  1  1  1</span>
-<span class="co">#&gt; 6 26.35307 26.55625    1    0    1  1  2  1  2  1  1</span></code></pre></div>
+<span class="co">#&gt;                  STRATO   N       M1        M2        M3       M4       S1</span>
+<span class="co">#&gt; 1*1*1*1*1*1 1*1*1*1*1*1 184 48.31522  49.40217  61.44022 28.40761 26.81536</span>
+<span class="co">#&gt; 1*1*1*1*1*2 1*1*1*1*1*2   1 98.00000 106.00000 116.00000 43.00000  0.00000</span>
+<span class="co">#&gt; 1*1*1*2*1*1 1*1*1*2*1*1   2 57.00000  64.00000  70.00000 50.00000  4.00000</span>
+<span class="co">#&gt; 1*1*2*1*1*1 1*1*2*1*1*1  11 77.72727  81.18182  92.36364 47.00000 15.24998</span>
+<span class="co">#&gt; 1*2*1*1*1*1 1*2*1*1*1*1   9 58.22222  61.55556  66.77778 36.22222 25.46360</span>
+<span class="co">#&gt; 1*2*1*2*1*1 1*2*1*2*1*1   8 61.00000  68.00000  84.62500 58.37500 24.56624</span>
+<span class="co">#&gt;                   S2       S3       S4 COST CENS DOM1 X1 X2 X3 X4 X5 X6</span>
+<span class="co">#&gt; 1*1*1*1*1*1 28.49831 32.63062 14.63922    1    0    1  1  1  1  1  1  1</span>
+<span class="co">#&gt; 1*1*1*1*1*2  0.00000  0.00000  0.00000    1    0    1  1  1  1  1  1  2</span>
+<span class="co">#&gt; 1*1*1*2*1*1  0.00000  1.00000 15.00000    1    0    1  1  1  1  2  1  1</span>
+<span class="co">#&gt; 1*1*2*1*1*1 18.69768 17.03084 11.12736    1    0    1  1  1  2  1  1  1</span>
+<span class="co">#&gt; 1*2*1*1*1*1 20.27100 24.89881 15.49751    1    0    1  1  2  1  1  1  1</span>
+<span class="co">#&gt; 1*2*1*2*1*1 19.48076 26.35307 26.55625    1    0    1  1  2  1  2  1  1</span></code></pre></div>
 <p>It is worth while noting that the total number of different atomic strata is 641, lower than the dimension of the Cartesian product of the X’s (which is 4374): this is due to the fact that not all combinations of the value of the auxiliary variables are present in the sampling frame. Variables ‘cost’ and ‘cens’ are initialised respectively to 1 and 0 for all strata. It is possible to give them different values:</p>
 <ul>
 <li>for variable ‘cost’, it is possible to differentiate the cost of interviewing per unit by assigning real values;</li>
@@ -374,7 +374,7 @@ cv
 <span class="co">#&gt;  *** Starting parallel optimization for  7  domains using  3  cores</span></code></pre></div>
 <p><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-1.png" width="700"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-2.png" width="700"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-3.png" width="700"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-4.png" width="700"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-5.png" width="700"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-6.png" width="700"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-7.png" width="700"></p>
 <pre><code>#&gt; 
-#&gt;  *** Sample size :  204
+#&gt;  *** Sample size :  182
 #&gt;  *** Number of strata :  77
 #&gt; ---------------------------</code></pre>
 <p>Note that by so doing the <em>initialStrata</em> parameter is set equal to the number of atomic strata in each domain . Another possibility is to set a pre-determined value for each domain, for instance equal in each domain, as c(5,5,5,5,5,5,5,5).</p>
@@ -390,13 +390,13 @@ cv
 <p>We can calculate the expected CV’s by executing the function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/expected_CV.html">expected_CV</a></span>(solution<span class="op">$</span>aggr_strata)
 <span class="co">#&gt;      cv(Y1) cv(Y2) cv(Y3) cv(Y4)</span>
-<span class="co">#&gt; DOM1  0.078  0.072  0.073  0.083</span>
-<span class="co">#&gt; DOM2  0.072  0.080  0.076  0.081</span>
-<span class="co">#&gt; DOM3  0.073  0.074  0.073  0.087</span>
-<span class="co">#&gt; DOM4  0.075  0.070  0.076  0.083</span>
-<span class="co">#&gt; DOM5  0.078  0.077  0.077  0.080</span>
-<span class="co">#&gt; DOM6  0.077  0.076  0.079  0.076</span>
-<span class="co">#&gt; DOM7  0.078  0.080  0.074  0.088</span></code></pre></div>
+<span class="co">#&gt; DOM1  0.076  0.078  0.073  0.080</span>
+<span class="co">#&gt; DOM2  0.075  0.076  0.075  0.083</span>
+<span class="co">#&gt; DOM3  0.066  0.074  0.069  0.082</span>
+<span class="co">#&gt; DOM4  0.077  0.076  0.077  0.084</span>
+<span class="co">#&gt; DOM5  0.080  0.077  0.076  0.077</span>
+<span class="co">#&gt; DOM6  0.078  0.078  0.078  0.081</span>
+<span class="co">#&gt; DOM7  0.077  0.077  0.076  0.088</span></code></pre></div>
 <p>and compare them to the set of precision constraints in order to verify the compliance:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swisserrors
 <span class="co">#&gt;    DOM  CV1  CV2  CV3  CV4 domainvalue</span>
@@ -439,8 +439,8 @@ cv
 <span class="co">#&gt;  Number of strata:  9</span>
 <span class="co">#&gt;  Sample size     :  18</span>
 <span class="co">#&gt;  *** Domain:  2  ***</span>
-<span class="co">#&gt;  Number of strata:  8</span>
-<span class="co">#&gt;  Sample size     :  18</span>
+<span class="co">#&gt;  Number of strata:  9</span>
+<span class="co">#&gt;  Sample size     :  17</span>
 <span class="co">#&gt;  *** Domain:  3  ***</span>
 <span class="co">#&gt;  Number of strata:  7</span>
 <span class="co">#&gt;  Sample size     :  13</span>
@@ -448,8 +448,8 @@ cv
 <span class="co">#&gt;  Number of strata:  6</span>
 <span class="co">#&gt;  Sample size     :  10</span>
 <span class="co">#&gt;  *** Domain:  5  ***</span>
-<span class="co">#&gt;  Number of strata:  7</span>
-<span class="co">#&gt;  Sample size     :  13</span>
+<span class="co">#&gt;  Number of strata:  8</span>
+<span class="co">#&gt;  Sample size     :  15</span>
 <span class="co">#&gt;  *** Domain:  6  ***</span>
 <span class="co">#&gt;  Number of strata:  7</span>
 <span class="co">#&gt;  Sample size     :  13</span>
@@ -458,12 +458,12 @@ cv
 <span class="co">#&gt;  Sample size     :  15</span>
 <span class="kw">head</span>(solutionKmeans1)
 <span class="co">#&gt;   suggestions domainvalue</span>
-<span class="co">#&gt; 1           2           1</span>
-<span class="co">#&gt; 2           2           1</span>
-<span class="co">#&gt; 3           2           1</span>
-<span class="co">#&gt; 4           2           1</span>
-<span class="co">#&gt; 5           2           1</span>
-<span class="co">#&gt; 6           2           1</span></code></pre></div>
+<span class="co">#&gt; 1           7           1</span>
+<span class="co">#&gt; 2           7           1</span>
+<span class="co">#&gt; 3           7           1</span>
+<span class="co">#&gt; 4           7           1</span>
+<span class="co">#&gt; 5           7           1</span>
+<span class="co">#&gt; 6           7           1</span></code></pre></div>
 <p>This solution can be given as argument to the parameter <em>suggestion</em> in the <em>optimizeStrata</em> function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">solution_with_kmeans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/optimizeStrata.html">optimizeStrata</a></span>(
     <span class="dt">errors =</span> swisserrors,
@@ -475,12 +475,12 @@ cv
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  *** Starting parallel optimization for  7  domains using  3  cores</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  *** Sample size :  95</span>
-<span class="co">#&gt;  *** Number of strata :  47</span>
+<span class="co">#&gt;  *** Sample size :  94</span>
+<span class="co">#&gt;  *** Number of strata :  48</span>
 <span class="co">#&gt; ---------------------------</span>
-<span class="co">#&gt; ...written output to  C:/Users/UTENTE/Documents/00 Sampling/SamplingStrata 1.3-1/SamplingStrataGithub/SamplingStrata/vignettes/output /outstrata.txt</span></code></pre></div>
+<span class="co">#&gt; ...written output to  C:/Users/UTENTE/Documents/00 Sampling/SamplingStrata 1.4/SamplingStrataGithub/SamplingStrata/vignettes/output /outstrata.txt</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">ceiling</span>(solution_with_kmeans<span class="op">$</span>aggr_strata<span class="op">$</span>SOLUZ))
-<span class="co">#&gt; [1] 97</span></code></pre></div>
+<span class="co">#&gt; [1] 100</span></code></pre></div>
 <p>thus obtaining a much more conventient solution than the one without the kmeans suggestion, with the same number of iterations.</p>
 </div>
 <div id="adjustment-of-the-final-sampling-size" class="section level1">
@@ -495,24 +495,21 @@ cv
 <p>In the first case, no action is required. In the second case, it is necessary to reduce the number of units, by equally applying the same reduction rate in each stratum. In the third case, we could either to set more tight precision constraints, or proceed to increase the sample size by applying the same increase rate in each stratum. This increase/reduction process is iterative, as by applying the same rate we could find that in some strata there are not enough units to increase or to reduce. The function <em>adjustSize</em> permits to obtain the desired final sample size. Let us suppose that the obtained sample size is not affordable. We can reduce it by executing the following code:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">adjustedStrata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/adjustSize.html">adjustSize</a></span>(<span class="dt">size=</span><span class="dv">150</span>,<span class="dt">strata=</span>solution<span class="op">$</span>aggr_strata,<span class="dt">cens=</span><span class="ot">NULL</span>)
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  172</span>
-<span class="co">#&gt;  167</span>
-<span class="co">#&gt;  167</span>
-<span class="co">#&gt;  Final adjusted size:  167</span>
+<span class="co">#&gt;  166</span>
+<span class="co">#&gt;  165</span>
+<span class="co">#&gt;  164</span>
+<span class="co">#&gt;  164</span>
+<span class="co">#&gt;  Final adjusted size:  164</span>
 <span class="kw">sum</span>(adjustedStrata<span class="op">$</span>SOLUZ)
-<span class="co">#&gt; [1] 167</span></code></pre></div>
+<span class="co">#&gt; [1] 164</span></code></pre></div>
 <p>Instead, if we want to increase the size because the budget allows to do this, then this is the code:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">adjustedStrata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/adjustSize.html">adjustSize</a></span>(<span class="dt">size=</span><span class="dv">250</span>,<span class="dt">strata=</span>solution<span class="op">$</span>aggr_strata,<span class="dt">cens=</span><span class="ot">NULL</span>)
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  228</span>
-<span class="co">#&gt;  234</span>
-<span class="co">#&gt;  236</span>
-<span class="co">#&gt;  238</span>
-<span class="co">#&gt;  240</span>
-<span class="co">#&gt;  240</span>
-<span class="co">#&gt;  Final adjusted size:  240</span>
+<span class="co">#&gt;  251</span>
+<span class="co">#&gt;  251</span>
+<span class="co">#&gt;  Final adjusted size:  251</span>
 <span class="kw">sum</span>(adjustedStrata<span class="op">$</span>SOLUZ)
-<span class="co">#&gt; [1] 240</span></code></pre></div>
+<span class="co">#&gt; [1] 251</span></code></pre></div>
 <p>The difference between the desired sample size and the actual adjusted size depends on the number of strata in the optimized solution. Consider that the adjustment is performed in each stratum by taking into account the relative difference between the current sample size and the desired one: this produces an allocation that is expressed by a real number, that must be rounded. The higher the number of strata, the higher the impact of the rounding in all strata on the final adjusted sample size.</p>
 </div>
 <div id="analysis-of-results" class="section level1">
@@ -537,11 +534,11 @@ cv
 <span class="kw">head</span>(strata_aggregation)
 <span class="co">#&gt;   DOM1 AGGR_STRATUM X1 X2 X3 X4 X5 X6</span>
 <span class="co">#&gt; 1    1            1  1  1  1  1  1  1</span>
-<span class="co">#&gt; 2    1            1  1  1  2  1  1  1</span>
-<span class="co">#&gt; 3    1            1  1  2  1  1  1  1</span>
-<span class="co">#&gt; 4    1            1  1  2  1  3  1  1</span>
-<span class="co">#&gt; 5    1            1  1  3  1  2  1  1</span>
-<span class="co">#&gt; 6    1            1  2  1  2  1  1  1</span></code></pre></div>
+<span class="co">#&gt; 2    1            1  1  1  1  1  1  2</span>
+<span class="co">#&gt; 3    1            1  2  1  1  2  1  1</span>
+<span class="co">#&gt; 4    1            2  1  1  1  2  1  1</span>
+<span class="co">#&gt; 5    1            2  2  1  1  1  1  1</span>
+<span class="co">#&gt; 6    1            3  1  1  2  1  1  1</span></code></pre></div>
 <p>In this structure, for each aggregate stratum the values of the X’s variables in each contributing atomic stratum are reported. It is then possible to understand the meaning of each aggregate stratum produced by the optimization.</p>
 </div>
 <div id="updating-the-frame-and-selecting-the-sample" class="section level1">
@@ -558,10 +555,10 @@ cv
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selectSample.html">selectSample</a></span>(framenew, solution<span class="op">$</span>aggr_strata, <span class="dt">writeFiles=</span><span class="ot">FALSE</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; *** Sample has been drawn successfully ***</span>
-<span class="co">#&gt;  204  units have been selected from  77  strata</span>
+<span class="co">#&gt;  182  units have been selected from  77  strata</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ==&gt; There have been  11  take-all strata </span>
-<span class="co">#&gt; from which have been selected  33 units</span></code></pre></div>
+<span class="co">#&gt; ==&gt; There have been  12  take-all strata </span>
+<span class="co">#&gt; from which have been selected  25 units</span></code></pre></div>
 <p>that produces two .csv files:</p>
 <ul>
 <li>
@@ -587,19 +584,19 @@ sample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sele
                                  <span class="dt">sortvariable =</span> <span class="kw">c</span>(<span class="st">"POPTOT"</span>))
 <span class="co">#&gt; </span>
 <span class="co">#&gt; *** Sample has been drawn successfully ***</span>
-<span class="co">#&gt;  204  units have been selected from  77  strata</span>
+<span class="co">#&gt;  182  units have been selected from  77  strata</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ==&gt; There have been  11  take-all strata </span>
-<span class="co">#&gt; from which have been selected  33 units</span>
+<span class="co">#&gt; ==&gt; There have been  12  take-all strata </span>
+<span class="co">#&gt; from which have been selected  25 units</span>
 <span class="kw">head</span>(sample,<span class="dv">3</span>)
-<span class="co">#&gt;   DOMAINVALUE STRATO REG        ID     STRATUM PROGR X1 X2 X3 X4 X5 X6  Y1</span>
-<span class="co">#&gt; 1           1      1   1     Agiez 1*1*1*1*1*1  2443  1  1  1  1  1  1  53</span>
-<span class="co">#&gt; 2           1      1   1  Romairon 1*1*1*1*1*1  2880  1  1  1  1  1  1  10</span>
-<span class="co">#&gt; 3           1     10   1 Cugy (VD) 5*1*1*1*1*1   807  5  1  1  1  1  1 482</span>
-<span class="co">#&gt;    Y2  Y3  Y4 LABEL POPTOT WEIGHTS         FPC</span>
-<span class="co">#&gt; 1  52  78  41     1    224   120.0 0.008333333</span>
-<span class="co">#&gt; 2   4  15   8     1     37   120.0 0.008333333</span>
-<span class="co">#&gt; 3 605 687 218    10   1992    15.6 0.064102564</span></code></pre></div>
+<span class="co">#&gt;   DOMAINVALUE STRATO REG                     ID      STRATUM PROGR X1 X2</span>
+<span class="co">#&gt; 1           1      1   1            Obergesteln  1*1*1*1*1*1  2510  1  1</span>
+<span class="co">#&gt; 2           1      1   1 Villars-sous-Champvent  1*1*1*1*1*1  2867  1  1</span>
+<span class="co">#&gt; 3           1     10   1                 Geneve 17*1*1*1*3*2     2 17  1</span>
+<span class="co">#&gt;   X3 X4 X5 X6    Y1    Y2    Y3    Y4 LABEL POPTOT WEIGHTS        FPC</span>
+<span class="co">#&gt; 1  1  1  1  1    27    53    78    37     1    195    93.5 0.01069519</span>
+<span class="co">#&gt; 2  1  1  1  1    10    15    16     4     1     45    93.5 0.01069519</span>
+<span class="co">#&gt; 3  1  1  3  2 32429 60074 57063 28398    10 177964     1.0 1.00000000</span></code></pre></div>
 </div>
 <div id="evaluation-of-the-found-solution" class="section level1">
 <h1 class="hasAnchor">
@@ -614,13 +611,13 @@ sample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sele
 <p>For each drawn sample, the estimates related to the Y’s are calculated. Their mean and standard deviation are also computed, in order to produce the CV related to each variable in every domain. These CV’s can be inspected and compared to the constraints:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval<span class="op">$</span>coeff_var
 <span class="co">#&gt;          CV1        CV2        CV3        CV4  dom</span>
-<span class="co">#&gt; 1 0.08373267 0.07674971 0.07598969 0.07918572 DOM1</span>
-<span class="co">#&gt; 2 0.07211118 0.08034394 0.07632742 0.08286765 DOM2</span>
-<span class="co">#&gt; 3 0.07680896 0.07968986 0.07942111 0.09040304 DOM3</span>
-<span class="co">#&gt; 4 0.07069271 0.06641794 0.07102961 0.07316763 DOM4</span>
-<span class="co">#&gt; 5 0.07963608 0.07957590 0.08077755 0.07892764 DOM5</span>
-<span class="co">#&gt; 6 0.07660769 0.07608195 0.07655069 0.07588146 DOM6</span>
-<span class="co">#&gt; 7 0.08011459 0.08248059 0.07782720 0.08990209 DOM7</span>
+<span class="co">#&gt; 1 0.08066602 0.08218372 0.07967280 0.08736675 DOM1</span>
+<span class="co">#&gt; 2 0.07755900 0.07998275 0.07847469 0.08741524 DOM2</span>
+<span class="co">#&gt; 3 0.06883277 0.07566280 0.07560827 0.09420201 DOM3</span>
+<span class="co">#&gt; 4 0.08409640 0.08385566 0.08365826 0.09325089 DOM4</span>
+<span class="co">#&gt; 5 0.07738588 0.07590024 0.07333737 0.07271325 DOM5</span>
+<span class="co">#&gt; 6 0.08181795 0.07939662 0.07914963 0.07899161 DOM6</span>
+<span class="co">#&gt; 7 0.08151630 0.07599552 0.07482261 0.08926071 DOM7</span>
 swisserrors
 <span class="co">#&gt;    DOM  CV1  CV2  CV3  CV4 domainvalue</span>
 <span class="co">#&gt; 1 DOM1 0.08 0.12 0.08 0.12           1</span>
@@ -632,11 +629,11 @@ swisserrors
 <span class="co">#&gt; 7 DOM1 0.08 0.12 0.08 0.12           7</span></code></pre></div>
 <p>Whenever the precision constraints are not strictly observed, then it is possible to carry out the rounding to the upper integer (<em>ceiling</em>) the allocation vector. Accordingly to the Bethel algorithm, this ensure compliance to the precision constraints.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(solution<span class="op">$</span>aggr_strata<span class="op">$</span>SOLUZ)
-<span class="co">#&gt; [1] 201.9238</span>
+<span class="co">#&gt; [1] 184.3136</span>
 outstrata &lt;-<span class="st"> </span>solution<span class="op">$</span>aggr_strata
 outstrata<span class="op">$</span>SOLUZ &lt;-<span class="st"> </span><span class="kw">ceiling</span>(outstrata<span class="op">$</span>SOLUZ)
 <span class="kw">sum</span>(outstrata<span class="op">$</span>SOLUZ)
-<span class="co">#&gt; [1] 222</span>
+<span class="co">#&gt; [1] 202</span>
 eval_ceiling &lt;-<span class="st"> </span><span class="kw"><a href="../reference/evalSolution.html">evalSolution</a></span>(framenew, 
                      outstrata, 
                      <span class="dt">nsampl=</span><span class="dv">200</span>,
@@ -645,13 +642,13 @@ eval_ceiling &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <p><img src="SamplingStrata_files/figure-html/unnamed-chunk-31-1.png" width="700"><img src="SamplingStrata_files/figure-html/unnamed-chunk-31-2.png" width="700"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eval_ceiling<span class="op">$</span>coeff_var
 <span class="co">#&gt;          CV1        CV2        CV3        CV4  dom</span>
-<span class="co">#&gt; 1 0.07048582 0.06582325 0.06512852 0.07320728 DOM1</span>
-<span class="co">#&gt; 2 0.06503430 0.07299276 0.06979178 0.07321708 DOM2</span>
-<span class="co">#&gt; 3 0.07127310 0.07201010 0.07540907 0.08778265 DOM3</span>
-<span class="co">#&gt; 4 0.07906530 0.07461974 0.08008552 0.08633540 DOM4</span>
-<span class="co">#&gt; 5 0.07187626 0.07052407 0.07033379 0.07262185 DOM5</span>
-<span class="co">#&gt; 6 0.07292543 0.07584018 0.07885268 0.07774739 DOM6</span>
-<span class="co">#&gt; 7 0.06898186 0.06677326 0.06379725 0.07486548 DOM7</span>
+<span class="co">#&gt; 1 0.07104240 0.07164241 0.06715883 0.07258657 DOM1</span>
+<span class="co">#&gt; 2 0.07333898 0.07540785 0.07095560 0.07955467 DOM2</span>
+<span class="co">#&gt; 3 0.06135801 0.06794088 0.06441061 0.08143618 DOM3</span>
+<span class="co">#&gt; 4 0.07639766 0.07791243 0.08079341 0.08842736 DOM4</span>
+<span class="co">#&gt; 5 0.07372818 0.06757436 0.06826881 0.06975227 DOM5</span>
+<span class="co">#&gt; 6 0.08404387 0.08345414 0.08258248 0.07971117 DOM6</span>
+<span class="co">#&gt; 7 0.07831039 0.07836002 0.07704283 0.09176943 DOM7</span>
 swisserrors
 <span class="co">#&gt;    DOM  CV1  CV2  CV3  CV4 domainvalue</span>
 <span class="co">#&gt; 1 DOM1 0.08 0.12 0.08 0.12           1</span>
@@ -723,10 +720,10 @@ strata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/buil
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  *** Starting parallel optimization for  7  domains using  3  cores</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  *** Sample size :  110</span>
-<span class="co">#&gt;  *** Number of strata :  46</span>
+<span class="co">#&gt;  *** Sample size :  114</span>
+<span class="co">#&gt;  *** Number of strata :  44</span>
 <span class="co">#&gt; ---------------------------</span>
-<span class="co">#&gt; ...written output to  C:/Users/UTENTE/Documents/00 Sampling/SamplingStrata 1.3-1/SamplingStrataGithub/SamplingStrata/vignettes/output /outstrata.txt</span></code></pre></div>
+<span class="co">#&gt; ...written output to  C:/Users/UTENTE/Documents/00 Sampling/SamplingStrata 1.4/SamplingStrataGithub/SamplingStrata/vignettes/output /outstrata.txt</span></code></pre></div>
 <p>Once the optimized solution has been produced, the next steps are executed by considering only the sampling part of the frame:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">newstrata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/updateStrata.html">updateStrata</a></span>(strata, solution)
 <span class="co"># updating sampling frame with new strata labels</span>
@@ -735,10 +732,10 @@ framenew &lt;-<span class="st"> </span><span class="kw"><a href="../reference/up
 sample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selectSample.html">selectSample</a></span>(<span class="dt">frame=</span>framenew,<span class="dt">outstrata=</span>solution<span class="op">$</span>aggr_strata)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; *** Sample has been drawn successfully ***</span>
-<span class="co">#&gt;  110  units have been selected from  46  strata</span>
+<span class="co">#&gt;  114  units have been selected from  44  strata</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ==&gt; There have been  3  take-all strata </span>
-<span class="co">#&gt; from which have been selected  3 units</span></code></pre></div>
+<span class="co">#&gt; ==&gt; There have been  1  take-all strata </span>
+<span class="co">#&gt; from which have been selected  1 units</span></code></pre></div>
 <p>Finally, the units in the ‘take-all’ strata can be added to sampled ones. First, the census frame needs to be made homogeneous to the sample frame in order to permit the ‘rbind’ step:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># addition of necessary variables to </span>
 <span class="kw">colnames</span>(framesamp) &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">colnames</span>(framesamp))
@@ -755,20 +752,20 @@ framecens<span class="op">$</span>STRATO &lt;-<span class="st"> </span><span cla
 <span class="kw">table</span>(survey<span class="op">$</span>cens)
 <span class="co">#&gt; </span>
 <span class="co">#&gt;   0   1 </span>
-<span class="co">#&gt; 110 302</span></code></pre></div>
+<span class="co">#&gt; 114 302</span></code></pre></div>
 <p>In order to verify compliance to the precision constraint, we perform the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cens2 &lt;-<span class="st"> </span>cens[,<span class="op">-</span><span class="kw">c</span>(<span class="dv">14</span><span class="op">:</span><span class="dv">19</span>)]
 cens2<span class="op">$</span>SOLUZ &lt;-<span class="st"> </span>cens2<span class="op">$</span>N
 stratatot &lt;-<span class="st"> </span><span class="kw">rbind</span>(solution<span class="op">$</span>aggr_strata,cens2)
 <span class="kw"><a href="../reference/expected_CV.html">expected_CV</a></span>(stratatot)
 <span class="co">#&gt;      cv(Y1) cv(Y2) cv(Y3) cv(Y4)</span>
-<span class="co">#&gt; DOM1  0.077  0.071  0.075  0.077</span>
-<span class="co">#&gt; DOM2  0.076  0.073  0.077  0.083</span>
-<span class="co">#&gt; DOM3  0.075  0.074  0.072  0.080</span>
-<span class="co">#&gt; DOM4  0.076  0.068  0.075  0.079</span>
-<span class="co">#&gt; DOM5  0.079  0.081  0.080  0.079</span>
-<span class="co">#&gt; DOM6  0.076  0.076  0.080  0.074</span>
-<span class="co">#&gt; DOM7  0.074  0.072  0.074  0.084</span></code></pre></div>
+<span class="co">#&gt; DOM1  0.077  0.070  0.072  0.072</span>
+<span class="co">#&gt; DOM2  0.075  0.074  0.077  0.079</span>
+<span class="co">#&gt; DOM3  0.074  0.071  0.070  0.071</span>
+<span class="co">#&gt; DOM4  0.079  0.074  0.078  0.086</span>
+<span class="co">#&gt; DOM5  0.077  0.078  0.078  0.079</span>
+<span class="co">#&gt; DOM6  0.079  0.079  0.079  0.086</span>
+<span class="co">#&gt; DOM7  0.072  0.071  0.069  0.085</span></code></pre></div>
 </div>
 <div id="handling-anticipated-variance" class="section level1">
 <h1 class="hasAnchor">
@@ -953,13 +950,20 @@ model
 <span class="co">#&gt; Number of strata:  207</span>
 <span class="co">#&gt; ... of which with only one unit:  207</span>
 <span class="kw">head</span>(strata2)
-<span class="co">#&gt;   STRATO N          M1        M2          S1        S2 COST CENS DOM1  X1</span>
-<span class="co">#&gt; 1      1 1 0.024595860 15.737965 0.022690436 13.624506    1    0    1   1</span>
-<span class="co">#&gt; 2     10 1 0.009910578 30.945032 0.009142812 26.789408    1    0    1  10</span>
-<span class="co">#&gt; 3    100 1 0.011086660 28.468488 0.010227784 24.645441    1    0    1 100</span>
-<span class="co">#&gt; 4    101 1 0.067027720  7.465936 0.061835128  6.463332    1    0    1 101</span>
-<span class="co">#&gt; 5    102 1 0.064539738  7.678981 0.059539888  6.647767    1    0    1 102</span>
-<span class="co">#&gt; 6    103 1 0.030744575 13.331076 0.028362814 11.540840    1    0    1 103</span></code></pre></div>
+<span class="co">#&gt;     STRATO N          M1        M2          S1        S2 COST CENS DOM1</span>
+<span class="co">#&gt; 1        1 1 0.024595860 15.737965 0.022690436 13.624506    1    0    1</span>
+<span class="co">#&gt; 10      10 1 0.009910578 30.945032 0.009142812 26.789408    1    0    1</span>
+<span class="co">#&gt; 100    100 1 0.011086660 28.468488 0.010227784 24.645441    1    0    1</span>
+<span class="co">#&gt; 101    101 1 0.067027720  7.465936 0.061835128  6.463332    1    0    1</span>
+<span class="co">#&gt; 102    102 1 0.064539738  7.678981 0.059539888  6.647767    1    0    1</span>
+<span class="co">#&gt; 103    103 1 0.030744575 13.331076 0.028362814 11.540840    1    0    1</span>
+<span class="co">#&gt;      X1</span>
+<span class="co">#&gt; 1     1</span>
+<span class="co">#&gt; 10   10</span>
+<span class="co">#&gt; 100 100</span>
+<span class="co">#&gt; 101 101</span>
+<span class="co">#&gt; 102 102</span>
+<span class="co">#&gt; 103 103</span></code></pre></div>
 <p>We proceed with the optimization</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">strata2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/buildStrataDF.html">buildStrataDF</a></span>(frame, <span class="dt">model =</span> model, <span class="dt">progress =</span> <span class="ot">FALSE</span>)
 <span class="co">#&gt; </span>
@@ -1025,6 +1029,104 @@ results2<span class="op">$</span>coeff_var
 <span class="co">#&gt;          CV1        CV2        CV3  dom</span>
 <span class="co">#&gt; 1 0.00566401 0.05020429 0.02625483 DOM1</span></code></pre></div>
 <p>This time the expected CV’s of all variables are more than compliant with the precision constraints.</p>
+</div>
+<div id="optimization-variant-with-the-optimizestrata2-function" class="section level1">
+<h1 class="hasAnchor">
+<a href="#optimization-variant-with-the-optimizestrata2-function" class="anchor"></a>Optimization variant with the <em>optimizeStrata2</em> function</h1>
+<p>Function <em>optimizeStrata2</em> performs the same task than <em>optimizeStrata</em>, but with a different Genetic Algorithm, operating on a genome represented by vector containing real values, instead of integers. This permits to operate directly on the boundaries of the strata, instead of aggregating the initial atomic strata. In some situations (not exceedingly too big size of the sampling frame) this new function is much more efficient. Furthermore, resulting strata are guaranteed to not overlap with respect to the different stratification variables. A major limitation is in the nature of the stratification variables, that are required to be all continuous (though categorical ordinal can be handled). Another one is in the fact that it is necessary to choose the number of strata (it is not optimally determined during the evolution process as in the case of <em>optimizeStrata</em>).</p>
+<p>To operate with <em>optimizeStrata2</em> it is no more necessary to produce the <em>strata</em> dataframe.</p>
+<p>Let us consider the following example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"swissmunicipalities"</span>)
+swissmunicipalities<span class="op">$</span>id &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(swissmunicipalities))
+swissmunicipalities<span class="op">$</span>dom &lt;-<span class="st"> </span><span class="dv">1</span>
+frame &lt;-<span class="st"> </span><span class="kw"><a href="../reference/buildFrameDF.html">buildFrameDF</a></span>(swissmunicipalities,
+                      <span class="dt">id =</span> <span class="st">"id"</span>,
+                      <span class="dt">domainvalue =</span> <span class="st">"REG"</span>,
+                      <span class="dt">X =</span> <span class="kw">c</span>(<span class="st">"Surfacesbois"</span>,<span class="st">"Surfacescult"</span>),
+                      <span class="dt">Y =</span> <span class="kw">c</span>(<span class="st">"Pop020"</span>, <span class="st">"Pop2040"</span>)
+)
+<span class="co"># choice of units to be selected in any case (census units)</span>
+framecens &lt;-<span class="st"> </span>frame[frame<span class="op">$</span>X1 <span class="op">&gt;</span><span class="st"> </span><span class="dv">2500</span> 
+                   <span class="op">|</span><span class="st"> </span>frame<span class="op">$</span>X2 <span class="op">&gt;</span><span class="st"> </span><span class="dv">1500</span>,]
+<span class="co"># remaining units </span>
+framesamp &lt;-<span class="st"> </span>frame[<span class="op">!</span>(frame<span class="op">$</span>id <span class="op">%in%</span><span class="st"> </span>framecens<span class="op">$</span>id),]
+<span class="co"># precision constraints</span>
+<span class="kw">data</span>(<span class="st">"errors"</span>)
+errors<span class="op">$</span>CV1 &lt;-<span class="st"> </span><span class="fl">0.1</span>
+errors<span class="op">$</span>CV2 &lt;-<span class="st"> </span><span class="fl">0.1</span>
+errors &lt;-<span class="st"> </span>errors[<span class="kw">rep</span>(<span class="kw">nrow</span>(errors),<span class="dv">7</span>),]
+errors<span class="op">$</span>domainvalue &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(errors))</code></pre></div>
+<p>By so doing, we have chosen two stratification variables (<em>Surfacesbois</em> and <em>Surfacescult</em>) and two target variables (<em>Pop020</em> and <em>Pop2040</em>), on both of which we have set the same precision constraint (a maximum CV equal to 10%).</p>
+<p>Now the execution of the optimization step (for the domain 4) using <em>optimizeStrata2</em> is straightforward, as we do not need to categorize stratification variables and to generate the atomic strata:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">solution &lt;-<span class="st"> </span><span class="kw"><a href="../reference/optimizeStrata2.html">optimizeStrata2</a></span> (
+  errors, 
+  framesamp,
+  <span class="dt">framecens =</span> framecens, 
+  <span class="dt">strcens =</span> <span class="ot">TRUE</span>, 
+  <span class="dt">alldomains =</span> <span class="ot">FALSE</span>,
+  <span class="dt">dom =</span> <span class="dv">4</span>,
+  <span class="dt">iter =</span> <span class="dv">50</span>,
+  <span class="dt">pops =</span> <span class="dv">20</span>,
+  <span class="dt">nStrata =</span> <span class="dv">5</span>,
+  <span class="dt">writeFiles =</span> <span class="ot">FALSE</span>,
+  <span class="dt">showPlot =</span> <span class="ot">FALSE</span>,
+  <span class="dt">parallel =</span> <span class="ot">TRUE</span>
+)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  *** Sample cost:  33.71188</span>
+<span class="co">#&gt;  *** Number of strata:  5</span></code></pre></div>
+<p><img src="SamplingStrata_files/figure-html/unnamed-chunk-54-1.png" width="700"></p>
+<pre><code>#&gt; 
+#&gt;  *** Sample size :  32
+#&gt;  *** Number of strata :  5
+#&gt; ---------------------------</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">round</span>(solution<span class="op">$</span>aggr_strata<span class="op">$</span>SOLUZ))
+<span class="co">#&gt; [1] 33</span>
+<span class="kw"><a href="../reference/expected_CV.html">expected_CV</a></span>(solution<span class="op">$</span>aggr_strata)
+<span class="co">#&gt;      cv(Y1) cv(Y2)</span>
+<span class="co">#&gt; DOM1    0.1    0.1</span></code></pre></div>
+<p>This function also outputs the new version of the overall frame (sampling plus census), already provided with the labels indicating to which stratum each unit belongs:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">framenew &lt;-<span class="st"> </span>solution<span class="op">$</span>framenew
+outstrata &lt;-<span class="st"> </span>solution<span class="op">$</span>aggr_strata
+outstrata
+<span class="co">#&gt;   STRATO  N         M1        M2         S1         S2 COST CENS DOM1 X1</span>
+<span class="co">#&gt; 1      1 60   775.9333  1020.550   647.0303   995.7392    1    0    4  1</span>
+<span class="co">#&gt; 2      2 60  1123.4000  1490.317  1110.2729  1713.0530    1    0    4  2</span>
+<span class="co">#&gt; 3      3 38  1003.3947  1219.158   831.9013  1254.7394    1    0    4  3</span>
+<span class="co">#&gt; 4      4  7  3013.7143  3905.571  1729.3431  2687.8372    1    0    4  4</span>
+<span class="co">#&gt; 5      5  5 12844.8000 27980.600 22253.9804 51739.6494    1    0    4  5</span>
+<span class="co">#&gt; 6      6  1 18942.0000 28958.000     0.0000     0.0000    1    1    4  6</span>
+<span class="co">#&gt;       SOLUZ</span>
+<span class="co">#&gt; 1  7.222891</span>
+<span class="co">#&gt; 2 12.414151</span>
+<span class="co">#&gt; 3  5.808567</span>
+<span class="co">#&gt; 4  2.266276</span>
+<span class="co">#&gt; 5  5.000000</span>
+<span class="co">#&gt; 6  1.000000</span></code></pre></div>
+<p>The first 4 strata are the ones pertaining to sampling units, the fifth is the one with censused units.</p>
+<p>It is also possible to plot the distribution of population units in the strata by using the function <em>plotStrata2d</em>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">boundaries &lt;-<span class="st"> </span><span class="kw"><a href="../reference/plotStrata2d.html">plotStrata2d</a></span>(
+                  framenew, 
+                  <span class="dt">domain =</span> <span class="dv">4</span>, 
+                  <span class="dt">vars =</span> <span class="kw">c</span>(<span class="st">"X1"</span>,<span class="st">"X2"</span>),
+                  <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">"Surfacesbois"</span>,<span class="st">"Surfacescult"</span>)
+                  )</code></pre></div>
+<p><img src="SamplingStrata_files/figure-html/unnamed-chunk-57-1.png" width="700"></p>
+<pre><code>#&gt; 
+#&gt; --------------------------------
+#&gt; Boundaries for the 1st variable
+#&gt;  0 180 349 643 1126 2326 2807
+#&gt; Boundaries for the 2nd variable
+#&gt;  0 553 738 890 1270 1318 1827
+#&gt; --------------------------------</code></pre>
+<p>Finally, the selection of the sample is perfomed by using the same function selectSample, but this time is no more necessary to handle separately units to be samples and units to be censused:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">samp &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selectSample.html">selectSample</a></span>(framenew,outstrata)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; *** Sample has been drawn successfully ***</span>
+<span class="co">#&gt;  33  units have been selected from  6  strata</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ==&gt; There have been  2  take-all strata </span>
+<span class="co">#&gt; from which have been selected  6 units</span></code></pre></div>
 </div>
 <div id="appendix---methodological-approach" class="section level1">
 <h1 class="hasAnchor">
@@ -1135,6 +1237,7 @@ CV(\hat{Y_{G}}) &lt; U_{G}\\
       <li><a href="#evaluation-of-the-found-solution">Evaluation of the found solution</a></li>
       <li><a href="#handling-take-all-strata-in-the-optimization-step">Handling ‘take-all’ strata in the optimization step</a></li>
       <li><a href="#handling-anticipated-variance">Handling Anticipated Variance</a></li>
+      <li><a href="#optimization-variant-with-the-optimizestrata2-function">Optimization variant with the <em>optimizeStrata2</em> function</a></li>
       <li><a href="#appendix---methodological-approach">Appendix - Methodological approach</a></li>
       <li><a href="#references">References</a></li>
       </ul>
