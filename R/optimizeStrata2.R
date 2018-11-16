@@ -21,6 +21,7 @@ optimizeStrata2 <-
             parallel = TRUE, 
             cores) 
   { 
+    if (strcens == FALSE) cens=NULL
     if (alldomains == TRUE) dom <- NULL
     colnames(framesamp) <- toupper(colnames(framesamp))
     if (alldomains == FALSE) {
