@@ -47,24 +47,24 @@ buildStrataDF <- function(dataset,
       }
     }
     #---------------------------------------------------------     
-    numdom <- length(levels(droplevels(as.factor(dataset$DOMAINVALUE))))
+    numdom <- length(levels(as.factor(dataset$DOMAINVALUE)))
     stratatot <- NULL
     # create progress bar
     if (progress == TRUE) pb <- txtProgressBar(min = 0, max = numdom, style = 3)
     # begin domains cycle
-    for (d in (levels(droplevels(as.factor(dataset$DOMAINVALUE))))) {
+    for (d in (1:numdom)) {
       if (progress == TRUE) Sys.sleep(0.1)
       # update progress bar
       if (progress == TRUE) setTxtProgressBar(pb, d)
-		  dom <- levels(as.factor(droplevels(dataset$DOMAINVALUE)))[d]
+		  dom <- levels(as.factor(dataset$DOMAINVALUE))[d]
 		  domain <- dataset[dataset$DOMAINVALUE == dom, ]
         listX <- NULL
         namesX <- NULL
         for (i in 1:nvarX) {
             name <- paste("X", i, sep = "")
             namesX <- cbind(namesX, name)
-            if (i < nvarX)  {listX <- paste(listX, "domain$X", i, ",", sep = "") }
-            if (i == nvarX) {listX <- paste(listX, "domain$X", i, sep = "") }
+            if (i < nvarX) 
+                listX <- paste(listX, "domain$X", i, ",", sep = "") else listX <- paste(listX, "domain$X", i, sep = "")
         }
         listM <- NULL
         listS <- NULL
