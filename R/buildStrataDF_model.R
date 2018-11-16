@@ -47,12 +47,12 @@ buildStrataDF <- function(dataset,
       }
     }
     #---------------------------------------------------------     
-    numdom <- length(levels(as.factor(dataset$DOMAINVALUE)))
+    numdom <- length(levels(droplevels(as.factor(dataset$DOMAINVALUE))))
     stratatot <- NULL
     # create progress bar
     if (progress == TRUE) pb <- txtProgressBar(min = 0, max = numdom, style = 3)
     # begin domains cycle
-    for (d in (1:numdom)) {
+    for (d in (levels(droplevels(as.factor(dataset$DOMAINVALUE))))) {
       if (progress == TRUE) Sys.sleep(0.1)
       # update progress bar
       if (progress == TRUE) setTxtProgressBar(pb, d)
