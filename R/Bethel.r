@@ -15,6 +15,7 @@
 bethel <- function(stratif, errors, minnumstrat = 2, maxiter = 200, 
     maxiter1 = 25, printa = FALSE, realAllocation = FALSE, epsilon = 1e-11) # Begin body
 {
+    browser()
     # First input data frame
     colnames(stratif) <- toupper(colnames(stratif))
     
@@ -77,9 +78,9 @@ bethel <- function(stratif, errors, minnumstrat = 2, maxiter = 200,
         cens <- rep(0, nstrat)
     nocens <- 1 - cens
     # check variable cens
-    # if (sum(cens) == length(cens)) {
-    #     warning(print("Warning: Variable CENS always equal 1"))
-    # }
+    if (sum(cens) == length(cens)) {
+        warning(print("Warning: Variable CENS always equal 1"))
+    }
     # domains
     nom_dom <- sapply(1:ndom, function(i) paste("DOM", i, sep = ""))
     dom <- ordina_variabili(stratif, "DOM", ndom)
