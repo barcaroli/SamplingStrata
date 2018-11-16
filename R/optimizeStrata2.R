@@ -26,12 +26,12 @@ optimizeStrata2 <-
     if (alldomains == FALSE) {
       framesamp <- framesamp[framesamp$DOMAINVALUE == dom,]
     }
-    colnames(framecens) <- toupper(colnames(framecens))
     if (strcens == TRUE & is.null(framecens))
       stop("No data in the cens dataframe")
     if (strcens == TRUE) {
       censi <- NULL
       if (alldomains == FALSE) {
+        colnames(framecens) <- toupper(colnames(framecens))
         framecens <- framecens[framecens$DOMAINVALUE == dom,]
         if (nrow(framecens) == 0) {
           censi <- NULL
@@ -42,6 +42,7 @@ optimizeStrata2 <-
         }
       }
       if (nrow(framecens) > 0) {
+        colnames(framecens) <- toupper(colnames(framecens))
         framecensold <- framecens
         framecens$X1 <- nStrata + 1
         nvarX <- length(grep("X", names(framecens)))
