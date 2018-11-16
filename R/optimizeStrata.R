@@ -245,7 +245,7 @@ optimizeStrata <-
       }
       if (!is.null(suggestions) & alldomains == FALSE) {
         suggest <- matrix(0, nrow = 1, ncol = nrow(stcamp[[i]]))
-        suggest[1, ] <- suggestions$suggestions
+        suggest[1, ] <- suggestdom[[dom]]$suggestions
       }
       if (is.null(suggestions)) {
         suggest <- NULL
