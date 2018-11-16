@@ -54,6 +54,7 @@ evaluate <- function(dataset,
   }
   frame$X1=apply(frame[,c((ncol(frame)-ncuts):ncol(frame))],1,max)
   strata <- buildStrataDF(frame,model=model,progress = FALSE,verbose=FALSE)
+  browser()
   if (strcens == TRUE) {
     stratatot <- rbind(strata,cens)
     soluz <- bethel(stratatot, 

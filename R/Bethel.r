@@ -15,7 +15,6 @@
 bethel <- function(stratif, errors, minnumstrat = 2, maxiter = 200, 
     maxiter1 = 25, printa = FALSE, realAllocation = FALSE, epsilon = 1e-11) # Begin body
 {
-    browser()
     # First input data frame
     colnames(stratif) <- toupper(colnames(stratif))
     
