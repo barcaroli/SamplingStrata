@@ -1,6 +1,6 @@
 optimizeStrata2 <- 
   function (errors, 
-            frame,
+            framesamp,
             framecens = NULL, 
             strcens = FALSE, 
             model = NULL, 
