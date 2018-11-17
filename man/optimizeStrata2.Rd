@@ -2,10 +2,10 @@
 \Rdversion{1.3-1}
 \alias{optimizeStrata2}
 \title{
-Best stratification of a sampling frame for multipurpose surveys
+Best stratification of a sampling frame for multipurpose surveys (only with continuous stratification variables)
 }
 \description{
-This function runs a set of other functions to optimise the stratification of a sampling frame 
+This function runs a set of other functions to optimise the stratification of a sampling frame, only when stratification variables are of the continuous type. It differentiates from 'optimizeStrata' that accepts both continuous and categorical variables
 }
 \usage{
 	optimizeStrata2(
