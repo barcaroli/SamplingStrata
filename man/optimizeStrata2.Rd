@@ -9,28 +9,26 @@ This function runs a set of other functions to optimise the stratification of a 
 }
 \usage{
 	optimizeStrata2(
-	        errors , 
-	        frame , 
-	        framecens = NULL, 
-          strcens = FALSE, 
-          model = NULL, 
-	        nStrata,
-      	  cens = NULL, 
-	        strcens = FALSE,
-	        alldomains = TRUE,
-	        dom = NULL,	
-        	minnumstr = 2, 
-	        iter = 50, 
-	        pops = 20, 
-	        mut_chance = NA, 
-	        elitism_rate = 0.2,
-	        highvalue = 1e+08, 
-	        suggestions = NULL,
-	        realAllocation = TRUE,
-	        writeFiles = FALSE,
-	        showPlot = TRUE, 
-	        parallel = TRUE,
-	        cores
+            errors, 
+            frame,
+            framecens = NULL, 
+            strcens = FALSE, 
+            model = NULL, 
+            alldomains = TRUE, 
+            dom = NULL, 
+            nStrata = 5, 
+            minnumstr = 2, 
+            iter = 50, 
+            pops = 20, 
+            mut_chance = NA, 
+            elitism_rate = 0.2, 
+            highvalue = 1e+08, 
+            suggestions = NULL, 
+            realAllocation = TRUE, 
+            writeFiles = FALSE, 
+            showPlot = TRUE, 
+            parallel = TRUE, 
+            cores
 	)
 }
 \arguments{
@@ -54,9 +52,6 @@ This function runs a set of other functions to optimise the stratification of a 
   beta, sig2, gamma (> 1 in case of heteroscedasticity). 
   Default is NULL.
 }
-  \item{nStrata}{
-  Indicates the number of strata for each variable.
-}
   \item{cens}{
   This the (optional) dataframe containing the takeall strata, those strata whose units must be selected in whatever sample. It has same structure than "strata" dataframe.
 }
@@ -71,13 +66,8 @@ This function runs a set of other functions to optimise the stratification of a 
   Indicates the domain on which the optimization must be carried. It is an integer value that has to be internal to the interval 
   (1 <--> number of domains). If 'alldomains' is set to TRUE, it is ignored.
 }
-  \item{initialStrata}{
-  This is the initial limit on the number of strata in the different domains for each solution. Default is NA, and in this case it is set equal to the
-  number of atomic strata in each domain.
-}
-  \item{addStrataFactor}{
-  This parameter indicates the probability that at each mutation the number of strata may increase with 
-  respect to the current value. Default is 0.0.
+  \item{nStrata}{
+  Indicates the number of strata for each variable.
 }
   \item{minnumstr}{
   Indicates the minimum number of units that must be allocated in each stratum. Default is 2.
