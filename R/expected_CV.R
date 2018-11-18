@@ -1,6 +1,6 @@
 expected_CV <- function (strata) {
   if (is.null(strata$SOLUZ)) stop("There is no allocation of units in strata")
-  # ndom <- length(unique(strata$DOM1))
+  ndom <- length(unique(strata$DOM1))
   nvars <- (ncol(strata) - 6) / 2
   cv <- matrix(NA,nrow=ndom,ncol=nvars)
   colnames(cv) <- paste("cv(Y",c(1:nvars),")",sep="")
