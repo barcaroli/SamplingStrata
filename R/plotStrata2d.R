@@ -1,7 +1,7 @@
 plotStrata2d <- function (x, domain, vars, labels = NULL) 
 { 
   colnames(x) <- toupper(colnames(x))
-  if (domain < 1 | domain > length(levels(as.factor(x$DOMAINVALUE))))
+  if (!domain %in% levels(as.factor(x$DOMAINVALUE)))
     stop("Domain out of bounds")
   if (is.null(labels)) labels=vars
   x <- x[x$DOMAINVALUE == domain,]
