@@ -21,6 +21,7 @@ optimizeStrata2 <-
             parallel = TRUE, 
             cores) 
   { 
+    if (alldomains=TRUE) dom <- NULL
     colnames(framesamp) <- toupper(colnames(framesamp))
     if (alldomains == FALSE) {
       framesamp <- framesamp[framesamp$DOMAINVALUE == dom,]
@@ -42,6 +43,7 @@ optimizeStrata2 <-
       }  
       cens <- buildStrataDF(framecens,progress=FALSE)
       cens$CENS <- 1
+      censtot <- cens
     }
     if (writeFiles == TRUE) {
       dire <- getwd()
@@ -382,8 +384,8 @@ optimizeStrata2 <-
       framecens$LABEL <- nStrata + 1
       colnames(framecens) <- toupper(colnames(framecens))
       framenew <- rbind(framenew,framecens)
-      cens$SOLUZ <- cens$N
-      outstrata <- rbind(outstrata,cens)
+      censtot$SOLUZ <- censtot$N
+      outstrata <- rbind(outstrata,censtot)
     }
     
     solution <- list(indices = vettsol, aggr_strata = outstrata, framenew = framenew)
