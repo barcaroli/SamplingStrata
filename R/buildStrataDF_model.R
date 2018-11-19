@@ -20,6 +20,7 @@ buildStrataDF <- function(dataset,
         sqrt(sum(w * (x - mx)^2)/(sum(w)))
     }
     colnames(dataset) <- toupper(colnames(dataset))
+    levels(dataset$DOMAINVALUE) <- droplevels(dataset$DOMAINVALUE)
     nvarX <- length(grep("X", names(dataset)))
     nvarY <- length(grep("Y", names(dataset)))
     if (length(grep("WEIGHT", names(dataset))) == 1) {

@@ -21,7 +21,10 @@ optimizeStrata2 <-
             parallel = TRUE, 
             cores) 
   { 
-    if (strcens == FALSE) cens=NULL
+    if (strcens == FALSE) {
+      cens=NULL
+      censi=NULL
+    }
     if (alldomains == TRUE) dom <- NULL
     colnames(framesamp) <- toupper(colnames(framesamp))
     if (alldomains == FALSE) {
@@ -317,9 +320,8 @@ optimizeStrata2 <-
         flagcens <- TRUE
         if (!is.null(cens)) colnames(cens) <- toupper(colnames(cens))
         censi <- cens[cens$DOM1 == i, ]
-        if (is.null(censi)) {
+        if (nrow(censi) == 0) {
           flagcens <- FALSE
-          censi <- NULL
         }
       }
       if (!is.null(suggestions) & alldomains == TRUE) {
@@ -382,7 +384,7 @@ optimizeStrata2 <-
     colnames(vettsoldf) <- c("ID","LABEL")
     vettsoldf$STRATO <- vettsoldf$LABEL
     framenew <- merge(frame,vettsoldf,by=c("ID"))
-    if (strcens == TRUE & nrow(framecens) > 0) {
+    if (strcens == TRUE & !is.null(censi)) {
       if (alldomains == FALSE) {
         # colnames(framecens) <- toupper(colnames(framecens))
         # colnames(framecensold) <- toupper(colnames(framecensold))
