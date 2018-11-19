@@ -25,7 +25,7 @@ selectSample <- function(frame, outstrata, writeFiles = FALSE,verbatim=TRUE) {
     colnames(frame) <- toupper(colnames(frame))
     colnames(outstrata) <- toupper(colnames(outstrata))
     outstrata$SOLUZ <- round(outstrata$SOLUZ)  # rounding of allocation numbers
-    numdom <- length(levels(as.factor(frame$DOMAINVALUE)))
+    numdom <- length(levels(droplevels(as.factor(frame$DOMAINVALUE))))
     samptot <- NULL
     chktot <- NULL
     # begin domains cycle

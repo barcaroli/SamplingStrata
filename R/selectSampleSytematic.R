@@ -46,7 +46,7 @@ selectSampleSystematic <- function(frame,
       }
     }
     outstrata$SOLUZ <- round(outstrata$SOLUZ)  # rounding of allocation numbers
-    numdom <- length(levels(as.factor(frame$DOMAINVALUE)))
+    numdom <- length(levels(droplevels(as.factor(frame$DOMAINVALUE))))
     samptot <- NULL
     chktot <- NULL
     # begin domains cycle
