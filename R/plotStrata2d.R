@@ -72,7 +72,7 @@ plotStrata2d <- function (x,
   #         guides(fill = guide_legend(title = 'Strata'))", sep="")
   # eval(parse(text=stringa))
   # p + labs(x = vars[1]) + labs(y = vars[2])
-  
+  par(mar=c(5.1, 4.1, 4.1, 8.1), xpd=TRUE)
   plot(x$X1,x$X2,type="n",cex=0.01,
        xlab=labels[1],ylab=labels[2])
   cl <- c("yellow","red","salmon","green","orange")
@@ -107,7 +107,6 @@ plotStrata2d <- function (x,
     outstrata <- outstrata[outstrata$DOM1 == domain,]
   outstrata <- outstrata[order(as.numeric(outstrata$STRATO)),]
   out <- NULL
-  out$Domain <- outstrata$DOM1
   out$Stratum <- outstrata$STRATO
   out$Population <- outstrata$N
   out$Allocation <- round(outstrata$SOLUZ)
@@ -120,13 +119,13 @@ plotStrata2d <- function (x,
   lab1 <- paste("Bounds",labels[1])
   lab2 <- paste("Bounds",labels[2])
   colnames(out) <- c("Stratum","Population",
-                     "Domain","Allocation","SamplingRate",
+                     "Allocation","SamplingRate",
                      lab1,
                      lab2)
   t <- formattable(out,
                    list(
-                     area(col = 3) ~ color_tile("#DeF7E9", "#71CA97"), 
-                     area(col = 4) ~ color_tile("#DeF7E9", "#71CA97"),
+                     area(col = 2) ~ color_tile("#DeF7E9", "#71CA97"), 
+                     area(col = 3) ~ color_tile("#DeF7E9", "#71CA97"),
                      'SamplingRate' = color_bar("#FA614B")))
   
   
