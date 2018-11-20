@@ -908,23 +908,23 @@ expected_CV(solution$aggr_strata)
 
 This function also outputs the new version of the overall frame (sampling plus census), already provided with the labels indicating to which stratum each unit belongs: 
 
-```{r, eval = T, echo=TRUE}
-framenew <- solution$framenew
-outstrata <- solution$aggr_strata
-outstrata
-```
-
 The first 4 strata are the ones pertaining to sampling units, the fifth is the one with censused units.
 
-It is also possible to plot the distribution of population units in the strata by using the function *plotStrata2d*:
+It is also possible to investigate the distribution of population units in the strata by using the function *plotStrata2d*:
 
 ```{r, eval = T,echo=TRUE}
-boundaries <- plotStrata2d(
-                  framenew, 
+outstrata <- plotStrata2d(
+                  solution$framenew, 
+                  solution$aggr_strata,
                   domain = 4, 
                   vars = c("X1","X2"),
-                  labels = c("Surfacesbois","Surfacescult")
+                  labels =     c("Surfacesbois","Surfacescult")
                   )
+```
+Together with the plot, also a tabular format of the optimized strata is produced by *plotStrata2d*:
+
+```{r, eval = T,echo=TRUE}
+outstrata
 ```
 
 Finally, the selection of the sample is perfomed by using the same function selectSample, but this time is no more necessary to handle separately units to be samples and units to be censused:
