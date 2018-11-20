@@ -19,7 +19,7 @@ plotStrata2d <- function (x,
   \item{labels}{labels to appear in x and y axis}
  }
 \value{
-A list containing the boundaries of the strata
+A formatted output containing information on the strata in the given domain
 }
 \examples{
 \dontrun{
