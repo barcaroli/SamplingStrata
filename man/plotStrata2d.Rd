@@ -6,12 +6,14 @@
 }
 \usage{
 plotStrata2d <- function (x,
+                        outstrata,
 						            domain, 
                         vars,
                         labels)
 }
 \arguments{
   \item{x}{the sampling frame}
+  \item{outstrata}{the optimized strata}
   \item{domain}{a domain in the frame}
   \item{vars}{vars to appear in x and y axis}
   \item{labels}{labels to appear in x and y axis}
@@ -57,8 +59,8 @@ solution <- optimizeStrata2 (
             writeFiles = FALSE, 
             showPlot = TRUE, 
             parallel = FALSE) 
-framenew <- solution$framenew
-p <- plotStrata2d(framenew, 
+p <- plotStrata2d(solution$framenew, 
+                  solution$aggr_strata,
                   domain = 2, 
                   vars = c("X1","X2"),
                   labels = c("Surfacesbois","Surfacescult"))
