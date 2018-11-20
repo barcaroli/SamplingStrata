@@ -921,7 +921,9 @@ outstrata <- plotStrata2d(
                   labels =     c("Surfacesbois","Surfacescult")
                   )
 ```
+
 Together with the plot, also a tabular format of the optimized strata is produced by *plotStrata2d*:
+
 
 ```{r, eval = T,echo=TRUE}
 outstrata
@@ -930,7 +932,7 @@ outstrata
 Finally, the selection of the sample is perfomed by using the same function selectSample, but this time is no more necessary to handle separately units to be samples and units to be censused:
 
 ```{r, eval = T,echo=TRUE}
-samp <- selectSample(framenew,outstrata)
+samp <- selectSample(solution$framenew,solution$aggr_strata)
 ```
 
 # Appendix - Methodological approach
