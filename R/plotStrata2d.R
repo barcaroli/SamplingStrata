@@ -104,7 +104,7 @@ plotStrata2d <- function (x,
   # cat("\n--------------------------------")
   # boundaries <- list(x1_boundaries = as.numeric(xcuts),
   #             x2_boundaries = as.numeric(ycuts))
-  outstrata <- outstrata[outstrata$DOM1 == domain,]
+    outstrata <- outstrata[outstrata$DOM1 == domain,]
   outstrata <- outstrata[order(as.numeric(outstrata$STRATO)),]
   out <- NULL
   out$Domain <- outstrata$DOM1
@@ -112,6 +112,8 @@ plotStrata2d <- function (x,
   out$Population <- outstrata$N
   out$Allocation <- round(outstrata$SOLUZ)
   out$'Sampling rate' <- outstrata$SOLUZ / outstrata$N
+  x1_boundaries = as.numeric(xcuts)
+  x2_boundaries = as.numeric(ycuts)
   out$bounds_X1 <- x1_boundaries[c(2:length(x1_boundaries))]
   out$bounds_X2 <- x2_boundaries[c(2:length(x2_boundaries))]
   out <- as.data.frame(out) 
