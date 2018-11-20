@@ -1,4 +1,8 @@
-plotStrata2d <- function (x, domain, vars, labels = NULL) 
+plotStrata2d <- function (x, 
+                          outstrata,
+                          domain, 
+                          vars, 
+                          labels = NULL) 
 { 
   colnames(x) <- toupper(colnames(x))
   if (!domain %in% levels(as.factor(x$DOMAINVALUE)))
@@ -79,7 +83,7 @@ plotStrata2d <- function (x, domain, vars, labels = NULL)
     eval(parse(text=paste("polycorr <- poly[poly$value==",i,",]",sep="")))
     eval(parse(text=paste("polygon(polycorr$x,polycorr$y,col=cl[",m,"])",sep="")))
   }
-  legend("topright", 
+  legend("topright", inset=c(-0.2,0),
          title="Strata",
          legend = c(as.character(c(1:(nstrata)))), 
          col = cl,
@@ -92,13 +96,38 @@ plotStrata2d <- function (x, domain, vars, labels = NULL)
         cex.main = 1)
   points(x$X1,x$X2,cex=0.4)
   
-  cat("\n--------------------------------")
-  cat("\nBoundaries for the 1st variable")
-  cat("\n",as.numeric(xcuts))
-  cat("\nBoundaries for the 2nd variable")
-  cat("\n",as.numeric(ycuts))
-  cat("\n--------------------------------")
-  boundaries <- list(x1_boundaries = as.numeric(xcuts),
-              x2_boundaries = as.numeric(ycuts))
-  return(boundaries)
+  # cat("\n--------------------------------")
+  # cat("\nBoundaries for the 1st variable")
+  # cat("\n",as.numeric(xcuts))
+  # cat("\nBoundaries for the 2nd variable")
+  # cat("\n",as.numeric(ycuts))
+  # cat("\n--------------------------------")
+  # boundaries <- list(x1_boundaries = as.numeric(xcuts),
+  #             x2_boundaries = as.numeric(ycuts))
+  outstrata <- outstrata[outstrata$DOM1 == domain,]
+  outstrata <- outstrata[order(as.numeric(outstrata$STRATO)),]
+  out <- NULL
+  out$Domain <- outstrata$DOM1
+  out$Stratum <- outstrata$STRATO
+  out$Population <- outstrata$N
+  out$Allocation <- round(outstrata$SOLUZ)
+  out$'Sampling rate' <- outstrata$SOLUZ / outstrata$N
+  out$bounds_X1 <- x1_boundaries[c(2:length(x1_boundaries))]
+  out$bounds_X2 <- x2_boundaries[c(2:length(x2_boundaries))]
+  out <- as.data.frame(out) 
+  lab1 <- paste("Bounds",labels[1])
+  lab2 <- paste("Bounds",labels[2])
+  colnames(out) <- c("Stratum","Population",
+                     "Domain","Allocation","SamplingRate",
+                     lab1,
+                     lab2)
+  t <- formattable(out,
+                   list(
+                     area(col = 2) ~ color_tile("#DeF7E9", "#71CA97"), 
+                     area(col = 4) ~ color_tile("#DeF7E9", "#71CA97"),
+                     'SamplingRate' = color_bar("#FA614B")))
+  
+  
+  return(t)
+  
 }
