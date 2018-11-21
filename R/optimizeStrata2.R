@@ -404,14 +404,14 @@ optimizeStrata2 <-
     }
     #-----------------------------------------    
     # new to tackle with erroneous allocation     
-    dataset <- framenew 
-    nX <- sum(grepl("X",colnames(frame)))
-    for(j in 1:nX){
-      eval(parse(text=paste("frame$X",j," <- NULL",sep="")))
-    }
-    dataset$X1 <- framenew$LABEL
-    outstrata2 <- buildStrataDF(dataset,progress=FALSE,verbose=FALSE)
-    outstrata2$SOLUZ <- outstrata$SOLUZ
+    # dataset <- framenew 
+    # nX <- sum(grepl("X",colnames(frame)))
+    # for(j in 1:nX){
+    #   eval(parse(text=paste("frame$X",j," <- NULL",sep="")))
+    # }
+    # dataset$X1 <- framenew$LABEL
+    # outstrata2 <- buildStrataDF(dataset,progress=FALSE,verbose=FALSE)
+    # outstrata2$SOLUZ <- outstrata$SOLUZ
     #-----------------------------------------    
     solution <- list(indices = vettsol, aggr_strata = outstrata2, framenew = framenew)
     if (writeFiles == TRUE) {
