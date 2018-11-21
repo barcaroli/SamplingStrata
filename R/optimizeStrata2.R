@@ -413,7 +413,7 @@ optimizeStrata2 <-
     # outstrata2 <- buildStrataDF(dataset,progress=FALSE,verbose=FALSE)
     # outstrata2$SOLUZ <- outstrata$SOLUZ
     #-----------------------------------------    
-    solution <- list(indices = vettsol, aggr_strata = outstrata2, framenew = framenew)
+    solution <- list(indices = vettsol, aggr_strata = outstrata, framenew = framenew)
     if (writeFiles == TRUE) {
       setwd(dire)
     }
