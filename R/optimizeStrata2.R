@@ -403,7 +403,7 @@ optimizeStrata2 <-
       outstrata <- rbind(outstrata,censtot)
     }
     #-----------------------------------------    
-    # new to tackle with erroneous allocation    
+    # new to tackle with erroneous allocation     
     dataset <- framenew
     nX <- sum(grepl("X",colnames(frame)))
     for(j in 1:nX){
