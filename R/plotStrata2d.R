@@ -72,7 +72,7 @@ plotStrata2d <- function (x,
   #         guides(fill = guide_legend(title = 'Strata'))", sep="")
   # eval(parse(text=stringa))
   # p + labs(x = vars[1]) + labs(y = vars[2])
-  par(mar=c(5.1, 4.1, 4.1, 8.1), xpd=TRUE)
+  # par(mar=c(5.1, 4.1, 4.1, 8.1), xpd=TRUE)
   plot(x$X1,x$X2,type="n",cex=0.01,
        xlab=labels[1],ylab=labels[2])
   cl <- c("yellow","red","salmon","green","orange")
@@ -83,7 +83,8 @@ plotStrata2d <- function (x,
     eval(parse(text=paste("polycorr <- poly[poly$value==",i,",]",sep="")))
     eval(parse(text=paste("polygon(polycorr$x,polycorr$y,col=cl[",m,"])",sep="")))
   }
-  legend("topright", inset=c(-0.2,0),
+  legend("topright", 
+         # inset=c(-0.2,0),
          title="Strata",
          legend = c(as.character(c(1:(nstrata)))), 
          col = cl,
