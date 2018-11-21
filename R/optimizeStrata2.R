@@ -404,7 +404,7 @@ optimizeStrata2 <-
     }
     #-----------------------------------------    
     # new to tackle with erroneous allocation     
-    dataset <- framenew
+    dataset <- framenew 
     nX <- sum(grepl("X",colnames(frame)))
     for(j in 1:nX){
       eval(parse(text=paste("frame$X",j," <- NULL",sep="")))
