@@ -131,55 +131,50 @@ Giulio Barcaroli
 
 \examples{
 \dontrun{
-library(SamplingStrata)
 data("swissmunicipalities")
-swissmunicipalities = swissmunicipalities[swissmunicipalities$REG==1,]
-data("errors")
-errors$CV1 <- 0.1
-errors$CV2 <- 0.1
-errors <- errors[rep(row.names(errors),7),]
-errors$domainvalue <- c(1:7)
-errors
 swissmunicipalities$id <- c(1:nrow(swissmunicipalities))
-swissmunicipalities$domain = 1
+swissmunicipalities$dom <- 1
 frame <- buildFrameDF(swissmunicipalities,
                       id = "id",
                       domainvalue = "REG",
                       X = c("Surfacesbois","Surfacescult"),
                       Y = c("Pop020", "Pop2040")
 )
-framesamp <- frame[frame$X1 < 1500 
-                   & frame$X2 < 1400,]
-framecens <- frame[!(frame$id %in% framesamp$id),]
+# choice of units to be selected in any case (census units)
+framecens <- frame[frame$X1 > 2500 
+                   | frame$X2 > 1500,]
+# remaining units 
+framesamp <- frame[!(frame$id %in% framecens$id),]
+# precision constraints
+data("errors")
+errors$CV1 <- 0.1
+errors$CV2 <- 0.1
+errors <- errors[rep(nrow(errors),7),]
+errors$domainvalue <- c(1:nrow(errors))
 solution <- optimizeStrata2 (
-            errors, 
-            framesamp,
-            framecens, 
-            strcens = FALSE,
-            model = NULL,
-            alldomains = TRUE, 
-            dom = NULL, 
-            nStrata = 5, 
-            minnumstr = 2, 
-            iter = 50, 
-            pops = 20, 
-            mut_chance = NA, 
-            elitism_rate = 0.2, 
-            highvalue = 1e+08, 
-            suggestions = NULL, 
-            realAllocation = TRUE, 
-            writeFiles = FALSE, 
-            showPlot = FALSE, 
-            parallel = TRUE) 
+  errors, 
+  framesamp,
+  framecens = framecens, 
+  strcens = TRUE, 
+  alldomains = FALSE,
+  dom = 4,
+  iter = 50,
+  pops = 20,
+  nStrata = 5,
+  writeFiles = FALSE,
+  showPlot = FALSE,
+  parallel = TRUE
+)
 sum(round(solution$aggr_strata$SOLUZ))
 expected_CV(solution$aggr_strata)
-framenew <- solution$framenew
-p <- plotStrata2d(framenew, 
-                  domain = 2, 
+outstrata <- plotStrata2d(
+                  solution$framenew, 
+                  solution$aggr_strata,
+                  domain = 4, 
                   vars = c("X1","X2"),
-                  labels = c("Surfacesbois","Surfacescult"))
-p
-samp <- selectSample(framenew,solution$aggr_strata)
+                  labels =     c("Surfacesbois","Surfacescult")
+                  )
+outstrata
 }
 }
 \keyword{ survey }
