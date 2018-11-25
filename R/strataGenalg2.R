@@ -54,7 +54,11 @@ evaluate <- function(dataset,
   }
   frame$X1=apply(frame[,c((ncol(frame)-ncuts):ncol(frame))],1,max)
   frame$X1 <- as.factor(frame$X1)
-  levels(frame$X1) <- c(1:length(levels(frame$X1)))
+  if (max(levels(frame$X1)) > length(levels(frame$X1))) {
+    levels(frame$X1) <- c(1:length(levels(frame$X1)))
+    frame$X1 <- droplevels(frame$X1)
+    frame$X1 <- as.numeric(frame$X1)
+  }
   frame$X1 <- as.numeric(frame$X1)
   strata <- buildStrataDF(frame,model=model,progress = FALSE,verbose=FALSE)
   browser()
@@ -138,6 +142,13 @@ for(i in 1:(ncuts+1)) {
   }  
 }
 frame$X1=apply(frame[,c((ncol(frame)-ncuts):ncol(frame))],1,max)
+frame$X1 <- as.factor(frame$X1)
+if (max(levels(frame$X1)) > length(levels(frame$X1))) {
+  levels(frame$X1) <- c(1:length(levels(frame$X1)))
+  frame$X1 <- droplevels(frame$X1)
+  frame$X1 <- as.numeric(frame$X1)
+}
+frame$X1 <- as.numeric(frame$X1)
 strata <- buildStrataDF(frame,model=model,progress = FALSE,verbose=FALSE)
 if (strcens == TRUE) {
   stratatot <- rbind(strata,cens)
