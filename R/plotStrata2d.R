@@ -4,6 +4,7 @@ plotStrata2d <- function (x,
                           vars, 
                           labels = NULL) 
 { 
+  outstrata <- outstrata[order(as.numeric(outstrata$DOM1),as.numeric(outstrata$STRATO)),]
   colnames(x) <- toupper(colnames(x))
   if (!domain %in% levels(as.factor(x$DOMAINVALUE)))
     stop("Domain out of bounds")
@@ -105,29 +106,35 @@ plotStrata2d <- function (x,
   # cat("\n--------------------------------")
   # boundaries <- list(x1_boundaries = as.numeric(xcuts),
   #             x2_boundaries = as.numeric(ycuts))
-    outstrata <- outstrata[outstrata$DOM1 == domain,]
+  outstrata <- outstrata[outstrata$DOM1 == domain,]
   outstrata <- outstrata[order(as.numeric(outstrata$STRATO)),]
   out <- NULL
   out$Stratum <- outstrata$STRATO
   out$Population <- outstrata$N
   out$Allocation <- round(outstrata$SOLUZ)
-  out$'Sampling rate' <- outstrata$SOLUZ / outstrata$N
+  out$'Sampling rate' <- round(outstrata$SOLUZ / outstrata$N,4)
   x1_boundaries = as.numeric(xcuts)
   x2_boundaries = as.numeric(ycuts)
-  out$bounds_X1 <- x1_boundaries[c(2:length(x1_boundaries))]
-  out$bounds_X2 <- x2_boundaries[c(2:length(x2_boundaries))]
+  out$bounds_X1_inf <- x1_boundaries[c(1:length(x1_boundaries)-1)]
+  out$bounds_X1_sup <- x1_boundaries[c(2:length(x1_boundaries))]
+  out$bounds_X2_inf <- x2_boundaries[c(1:length(x2_boundaries)-1)]
+  out$bounds_X2_sup <- x2_boundaries[c(2:length(x2_boundaries))]
   out <- as.data.frame(out) 
-  lab1 <- paste("Bounds",labels[1])
-  lab2 <- paste("Bounds",labels[2])
+  lab1 <- paste("Lower bounds",labels[1])
+  lab2 <- paste("Upper bounds")
+  lab3 <- paste("Lower bounds",labels[2])
+  lab4 <- paste("Upper bounds")
   colnames(out) <- c("Stratum","Population",
-                     "Allocation","SamplingRate",
+                     "Allocation","Sampling Rate",
                      lab1,
-                     lab2)
+                     lab2,
+                     lab3,
+                     lab4)
   t <- formattable(out,
                    list(
                      area(col = 2) ~ color_tile("#DeF7E9", "#71CA97"), 
                      area(col = 3) ~ color_tile("#DeF7E9", "#71CA97"),
-                     'SamplingRate' = color_bar("#FA614B")))
+                     'Sampling Rate' = color_bar("#FA614B")))
   
   
   return(t)
