@@ -27,10 +27,15 @@ plotStrata2d <- function (x,
   eval(parse(text=stringa))
   stringa <- paste("x2_max <- tapply(x$",vars[2],",x$LABEL,max)",sep="")
   eval(parse(text=stringa))
-  
-  out$bounds_X1 <- paste(x1_min[1:length(x1_min)],c(x1_min[2:length(x1_min)],x1_max[length(x1_max)]),sep="-")
-  out$bounds_X2 <- paste(x2_min[1:length(x2_min)],c(x2_min[2:length(x2_min)],x2_max[length(x2_max)]),sep="-")
-
+  xcuts <- c(c(x1_min[2:(length(x1_min)-1)]),x1_max[length(x1_min)],x1_max[length(x1_max)])
+  # out$bounds_X1 <- paste(c(x1_min[1:length(x1_min)-1],x1_min[length(x1_max)]),
+  #                        c(c(x1_min[2:(length(x1_min)-1)]),x1_max[length(x1_min)],x1_max[length(x1_max)])
+  #                        ,sep="-")
+  # out$bounds_X2 <- paste(c(x2_min[1:length(x2_min)-1],x2_min[length(x2_max)]),
+  #                        c(c(x2_min[2:(length(x2_min)-1)]),x2_max[length(x2_min)],x2_max[length(x2_max)])
+  #                        ,sep="-")
+  out$bounds_X1 <- paste(x1_min,x1_max,sep="-")
+  out$bounds_X2 <- paste(x2_min,x2_max,sep="-")
   out <- as.data.frame(out) 
   lab1 <- paste("Bounds",labels[1])
   lab2 <- paste("Bounds",labels[2])
