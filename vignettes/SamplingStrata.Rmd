@@ -870,7 +870,7 @@ frame <- buildFrameDF(swissmunicipalities,
 )
 # choice of units to be selected in any case (census units)
 framecens <- frame[frame$X1 > 2500 
-                   | frame$X2 > 1500,]
+                   | frame$X2 > 1200,]
 # remaining units 
 framesamp <- frame[!(frame$id %in% framecens$id),]
 # precision constraints
@@ -909,9 +909,14 @@ sum(round(solution$aggr_strata$SOLUZ))
 expected_CV(solution$aggr_strata)
 ```
 
-This function also outputs the new version of the overall frame (sampling plus census), already provided with the labels indicating to which stratum each unit belongs: 
+This function also outputs the new version of the overall frame (sampling plus census), already provided with the labels indicating to which stratum each unit belongs:
 
-The first 4 strata are the ones pertaining to sampling units, the fifth is the one with censused units.
+```{r  , include=TRUE}
+framenew <- solution$framenew
+table(framenew$LABEL)
+```
+
+The first 5 strata are the ones pertaining to sampling units, the 6th is the one with censused units.
 
 It is also possible to investigate the distribution of population units in the strata by using the function *plotStrata2d*:
 
@@ -932,11 +937,16 @@ Together with the plot, also a tabular format of the optimized strata is produce
 outstrata
 ```
 
-Finally, the selection of the sample is perfomed by using the same function selectSample, but this time is no more necessary to handle separately units to be samples and units to be censused:
+
+(The 6th 'take-all' stratum is not graphically represented because of its overlapping with the other strata.)
+
+Finally, the selection of the sample is performed by using the same function selectSample, but this time is no more necessary to handle separately units to be samples and units to be censused:
 
 ```{r, eval = T,echo=TRUE}
 samp <- selectSample(solution$framenew,solution$aggr_strata)
 ```
+
+
 
 # Appendix - Methodological approach
 
