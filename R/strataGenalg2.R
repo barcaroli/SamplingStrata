@@ -61,7 +61,6 @@ evaluate <- function(dataset,
   }
   frame$X1 <- as.numeric(frame$X1)
   strata <- buildStrataDF(frame,model=model,progress = FALSE,verbose=FALSE)
-  browser()
   if (strcens == TRUE) {
     stratatot <- rbind(strata,cens)
     soluz <- bethel(stratatot, 
