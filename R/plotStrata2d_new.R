@@ -112,7 +112,7 @@ plotStrata2d <- function (x,
                      area(col = 2) ~ color_tile("#DeF7E9", "#71CA97"), 
                      area(col = 3) ~ color_tile("#DeF7E9", "#71CA97"),
                      'SamplingRate' = color_bar("#FA614B")))
-  
+ 
   
   return(t)
   
