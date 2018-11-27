@@ -384,7 +384,8 @@ optimizeStrata2 <-
     colnames(vettsoldf) <- c("ID","LABEL")
     vettsoldf$STRATO <- vettsoldf$LABEL
     framenew <- merge(frame,vettsoldf,by=c("ID"))
-    if (strcens == TRUE & !is.null(censi)) {
+    # if (strcens == TRUE & !is.null(censi)) {
+    if (strcens == TRUE) {
       if (alldomains == FALSE) {
         # colnames(framecens) <- toupper(colnames(framecens))
         # colnames(framecensold) <- toupper(colnames(framecensold))
