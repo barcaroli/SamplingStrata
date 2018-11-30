@@ -197,7 +197,7 @@ rbga <- function(stringMin=c(), stringMax=c(),
                         fitness <- sort(probs, decreasing = TRUE)
                         if(sum(fitness>=2)) parentIDs = sample(1:popSize, 2, prob = fitness)
                         if(sum(fitness<2)) parentIDs = sample(1:popSize, 2)
-                        parentIDs = sample(1:popSize, 2, prob = fitness)
+                        # parentIDs = sample(1:popSize, 2, prob = fitness)
                         parents = sortedPopulation[parentIDs,];
                         # GGA crossover
                         G1 <- sort(unique(parents[1,]))
