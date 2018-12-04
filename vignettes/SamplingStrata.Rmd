@@ -332,7 +332,7 @@ In the case of the Swiss municipalities, we can use almost all of default values
 solution <- optimizeStrata(
 	errors = swisserrors, 
 	strata = swissstrata,
-	parallel = TRUE,
+	parallel = FALSE,
 	writeFiles = FALSE,
 	showPlot = FALSE)
 ```
@@ -396,7 +396,7 @@ solution_with_kmeans <- optimizeStrata(
 	errors = swisserrors,
 	strata = swissstrata,
 	suggestions = solutionKmeans1,
-	parallel = TRUE,
+	parallel = FALSE,
 	writeFiles = TRUE,
 	showPlot = FALSE)
 ```
@@ -627,7 +627,7 @@ solution <- optimizeStrata(
 	strata = strata, 
 	cens = cens, 
 	strcens = TRUE,
-	parallel = TRUE,
+	parallel = FALSE,
 	writeFiles = TRUE,
 	showPlot = FALSE
 )
@@ -870,15 +870,18 @@ frame <- buildFrameDF(swissmunicipalities,
 )
 # choice of units to be selected in any case (census units)
 framecens <- frame[frame$X1 > 2500 
-                   | frame$X2 > 1500,]
+                   | frame$X2 > 1200,]
 # remaining units 
 framesamp <- frame[!(frame$id %in% framecens$id),]
 # precision constraints
-data("errors")
+errors <- NULL
+errors$DOM <- "DOM1"
 errors$CV1 <- 0.1
 errors$CV2 <- 0.1
-errors <- errors[rep(nrow(errors),7),]
-errors$domainvalue <- c(1:nrow(errors))
+errors <- as.data.frame(errors)
+errors <- errors[rep(row.names(errors),7),]
+errors$domainvalue <- c(1:7)
+errors
 ```
 By so doing, we have chosen two stratification variables (*Surfacesbois* and  *Surfacescult*) and two target variables (*Pop020* and *Pop2040*), on both of which we have set the same precision constraint (a maximum CV equal to 10%).
 
@@ -897,7 +900,7 @@ solution <- optimizeStrata2 (
   nStrata = 5,
   writeFiles = FALSE,
   showPlot = FALSE,
-  parallel = TRUE
+  parallel = FALSE
 )
 ```
 
@@ -906,9 +909,14 @@ sum(round(solution$aggr_strata$SOLUZ))
 expected_CV(solution$aggr_strata)
 ```
 
-This function also outputs the new version of the overall frame (sampling plus census), already provided with the labels indicating to which stratum each unit belongs: 
+This function also outputs the new version of the overall frame (sampling plus census), already provided with the labels indicating to which stratum each unit belongs:
 
-The first 4 strata are the ones pertaining to sampling units, the fifth is the one with censused units.
+```{r  , include=TRUE}
+framenew <- solution$framenew
+table(framenew$LABEL)
+```
+
+The first 5 strata are the ones pertaining to sampling units, the 6th is the one with censused units.
 
 It is also possible to investigate the distribution of population units in the strata by using the function *plotStrata2d*:
 
@@ -929,11 +937,16 @@ Together with the plot, also a tabular format of the optimized strata is produce
 outstrata
 ```
 
-Finally, the selection of the sample is perfomed by using the same function selectSample, but this time is no more necessary to handle separately units to be samples and units to be censused:
+
+(The 6th 'take-all' stratum is not graphically represented because of its overlapping with the other strata.)
+
+Finally, the selection of the sample is performed by using the same function selectSample, but this time is no more necessary to handle separately units to be samples and units to be censused:
 
 ```{r, eval = T,echo=TRUE}
 samp <- selectSample(solution$framenew,solution$aggr_strata)
 ```
+
+
 
 # Appendix - Methodological approach
 

@@ -146,11 +146,15 @@ framecens <- frame[frame$X1 > 2500
 # remaining units 
 framesamp <- frame[!(frame$id %in% framecens$id),]
 # precision constraints
-data("errors")
+errors <- NULL
+errors$DOM <- "DOM1"
 errors$CV1 <- 0.1
 errors$CV2 <- 0.1
-errors <- errors[rep(nrow(errors),7),]
-errors$domainvalue <- c(1:nrow(errors))
+errors <- as.data.frame(errors)
+errors <- errors[rep(row.names(errors),7),]
+errors$domainvalue <- c(1:7)
+errors
+
 solution <- optimizeStrata2 (
   errors, 
   framesamp,

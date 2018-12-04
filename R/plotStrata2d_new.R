@@ -27,10 +27,15 @@ plotStrata2d <- function (x,
   eval(parse(text=stringa))
   stringa <- paste("x2_max <- tapply(x$",vars[2],",x$LABEL,max)",sep="")
   eval(parse(text=stringa))
-  
+  xcuts <- c(c(x1_min[2:(length(x1_min)-1)]),x1_max[length(x1_min)],x1_max[length(x1_max)])
+  # out$bounds_X1 <- paste(c(x1_min[1:length(x1_min)-1],x1_min[length(x1_max)]),
+  #                        c(c(x1_min[2:(length(x1_min)-1)]),x1_max[length(x1_min)],x1_max[length(x1_max)])
+  #                        ,sep="-")
+  # out$bounds_X2 <- paste(c(x2_min[1:length(x2_min)-1],x2_min[length(x2_max)]),
+  #                        c(c(x2_min[2:(length(x2_min)-1)]),x2_max[length(x2_min)],x2_max[length(x2_max)])
+  #                        ,sep="-")
   out$bounds_X1 <- paste(x1_min,x1_max,sep="-")
   out$bounds_X2 <- paste(x2_min,x2_max,sep="-")
-
   out <- as.data.frame(out) 
   lab1 <- paste("Bounds",labels[1])
   lab2 <- paste("Bounds",labels[2])
@@ -41,10 +46,15 @@ plotStrata2d <- function (x,
   
   cuts <- list(x1_max,x2_max)
   m <- length(cuts[[1]])
-  x1.min <- min(x$X1, na.rm = TRUE)
-  x1.max <- max(x$X1, na.rm = TRUE)
-  x2.min <- min(x$X2, na.rm = TRUE)
-  x2.max <- max(x$X2, na.rm = TRUE)
+
+  stringa <- paste("x1.min <- min(x$",vars[1],", na.rm = TRUE)",sep="")
+  eval(parse(text=stringa)) 
+  stringa <- paste("x1.max <- max(x$",vars[1],", na.rm = TRUE)",sep="")
+  eval(parse(text=stringa)) 
+  stringa <- paste("x2.min <- min(x$",vars[2],", na.rm = TRUE)",sep="")
+  eval(parse(text=stringa)) 
+  stringa <- paste("x2.max <- max(x$",vars[2],", na.rm = TRUE)",sep="")
+  eval(parse(text=stringa)) 
   cols <- rainbow(m + 1, alpha = 0.3)
   xcuts <- cuts[[1]]
   ycuts <- cuts[[2]]
@@ -75,8 +85,9 @@ plotStrata2d <- function (x,
   poly <- data.frame(id = as.factor(id), value = as.factor(value), 
                      x = xs, y = ys)
 
-  plot(x$X1,x$X2,type="n",cex=0.01,
-       xlab=labels[1],ylab=labels[2])
+  stringa <- paste("plot(x$",vars[1],",x$",vars[2],",type='n',cex=0.01,xlab=labels[1],ylab=labels[2])",sep="")
+  eval(parse(text=stringa)) 
+  # plot(x$1,x$2,type="n",cex=0.01,xlab=labels[1],ylab=labels[2])
   cl <- c("yellow","red","salmon","green","orange")
   # cl <- gray(c(1:(nstrata+1)/(nstrata+1),alpha=NULL))
   for (i in (1:nstrata)) {
@@ -97,7 +108,9 @@ plotStrata2d <- function (x,
         font.main=1,
         # col.main="red",
         cex.main = 1)
-  points(x$X1,x$X2,cex=0.4)
+  stringa <- paste("points(x$",vars[1],",x$",vars[2],",cex=0.4)",sep="")
+  eval(parse(text=stringa))
+  # points(x$X1,x$X2,cex=0.4)
   
   t <- formattable(out,
                    list(
