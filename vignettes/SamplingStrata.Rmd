@@ -771,7 +771,7 @@ solution1 <- optimizeStrata(cv,
                            strata1,
                            iter = 50,
                            pops = 20,
-                           parallel = TRUE,
+                           parallel = FALSE,
                            suggestions = KmeansSolution(strata1,cv),
                            writeFiles = FALSE,
                            showPlot = FALSE)
@@ -823,7 +823,7 @@ solution2 <-
     strata = strata2, 
     iter = 50, 
     pops = 20, 
-    parallel = TRUE,
+    parallel = FALSE,
     suggestions = KmeansSolution(strata2,cv),
     showPlot = FALSE,
     writeFiles = FALSE)
