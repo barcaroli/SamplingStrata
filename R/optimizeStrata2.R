@@ -85,11 +85,11 @@ optimizeStrata2 <-
     #   initialStrata <- as.numeric(table(strata$DOM1))
     # nstrata = initialStrata
     colnames(errors) <- toupper(colnames(errors))
-    colnames(framesamp) <- toupper(colnames(framesamp))
+    colnames(frame) <- toupper(colnames(frame))
     errors$DOMAINVALUE <- as.factor(errors$DOMAINVALUE)
     erro <- split(errors, list(errors$DOMAINVALUE))
     # stcamp <- split(strata, list(strata$DOM1))
-    stcamp <- split(framesamp, list(framesamp$DOMAINVALUE))
+    stcamp <- split(frame, list(frame$DOMAINVALUE))
     if (!is.null(suggestions)) 
       suggestdom <- split(suggestions, list(suggestions$domainvalue))
     if (strcens == TRUE & !is.null(cens) > 0) {
