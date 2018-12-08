@@ -183,11 +183,11 @@ evalSolution <- function (frame,
   # if (writeFiles == TRUE) 
   #   dev.off()
   # results <- list(coeff_var = cv1, bias = bias1)
-  est <- matrix(NA,nrow=ndom*nsampl,ncol=numY)
+  est <- matrix(NA,nrow=numdom*nsampl,ncol=numY)
   est <- as.data.frame(est) 
   colnames(est) <- c(paste("Y",c(1:numY),sep=""))
-  est$dom <- rep(c(1:ndom),each=nsampl)
-  for (i in (1:ndom)) {
+  est$dom <- rep(c(1:numdom),each=nsampl)
+  for (i in (1:numdom)) {
     est[est$dom == i,c(1:(numY))] <- estim[i,,]
   }
   if (writeFiles == TRUE) {
