@@ -332,7 +332,7 @@ In the case of the Swiss municipalities, we can use almost all of default values
 solution <- optimizeStrata(
 	errors = swisserrors, 
 	strata = swissstrata,
-	parallel = FALSE,
+	parallel = TRUE,
 	writeFiles = FALSE,
 	showPlot = FALSE)
 ```
@@ -396,7 +396,7 @@ solution_with_kmeans <- optimizeStrata(
 	errors = swisserrors,
 	strata = swissstrata,
 	suggestions = solutionKmeans1,
-	parallel = FALSE,
+	parallel = TRUE,
 	writeFiles = TRUE,
 	showPlot = FALSE)
 ```
@@ -640,7 +640,7 @@ solution <- optimizeStrata(
 	strata = strata, 
 	cens = cens, 
 	strcens = TRUE,
-	parallel = FALSE,
+	parallel = TRUE,
 	writeFiles = TRUE,
 	showPlot = FALSE
 )
@@ -787,7 +787,7 @@ solution1 <- optimizeStrata(cv,
                            strata1,
                            iter = 50,
                            pops = 20,
-                           parallel = FALSE,
+                           parallel = TRUE,
                            suggestions = KmeansSolution(strata1,cv),
                            writeFiles = FALSE,
                            showPlot = FALSE)
@@ -839,7 +839,7 @@ solution2 <-
     strata = strata2, 
     iter = 50, 
     pops = 20, 
-    parallel = FALSE,
+    parallel = TRUE,
     suggestions = KmeansSolution(strata2,cv),
     showPlot = FALSE,
     writeFiles = FALSE)
