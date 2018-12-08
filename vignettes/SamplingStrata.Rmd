@@ -553,34 +553,18 @@ eval$coeff_var
 swisserrors
 ```
 
-Whenever the precision constraints are not strictly observed, then it is possible to carry out the rounding to the upper integer (*ceiling*) the allocation vector. Accordingly to the Bethel algorithm, this ensure compliance to the precision constraints.
-
-
-```{r, eval=TRUE, echo=TRUE}
-sum(solution$aggr_strata$SOLUZ)
-outstrata <- solution$aggr_strata
-outstrata$SOLUZ <- ceiling(outstrata$SOLUZ)
-sum(outstrata$SOLUZ)
-eval_ceiling <- evalSolution(framenew, 
-                     outstrata, 
-                     nsampl=200,
-                     writeFiles = FALSE,
-                     progress = FALSE)
-eval_ceiling$coeff_var
-swisserrors
-```
-
 These values are on average compliant with the precision constraints set. 
-It is also possible to analyse the sampling distribution of the estimates for each variable of interest:
+
+It is also possible to analyse the sampling distribution of the estimates for each variable of interest in a selected domain:
 
 
 ```{r, eval=TRUE, echo=TRUE}
 dom = 1
-hist(eval_ceiling$est$Y1[results$est$dom == dom], col = "grey", border = "white",
+hist(eval$est$Y1[eval$est$dom == dom], col = "grey", border = "white",
      xlab = expression(hat(Y)[1]),
      freq = FALSE,
      main = paste("Variable Y1 Domain ",dom,sep=""))
-abline(v = mean(eval_ceiling$est$Y1[results$est$dom == dom]), col = "blue", lwd = 2)
+abline(v = mean(eval$est$Y1[eval$est$dom == dom]), col = "blue", lwd = 2)
 abline(v = mean(swissframe$Y1[swissframe$domainvalue==dom]), col = "red")
 legend("topright", c("distribution mean", "true value"),
        lty = 1, col = c("blue", "red"), box.col = NA, cex = 0.8)
