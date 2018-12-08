@@ -1,5 +1,5 @@
 \name{evalSolution}
-\Rdversion{1.3}
+\Rdversion{1.4}
 \alias{evalSolution}
 \title{
 Evaluation of the solution produced by the function 'optimizeStrata' by
@@ -44,7 +44,8 @@ A flag to write in the work directory the outputs of the function. Default is TR
   }
 }
 \value{
-A list containing (i) the CV distribution in the domains and (ii) the bias distribution in the domains
+A list containing (i) the CV distribution in the domains, (ii) the bias distribution in the domains, (iii) the dataframe containing the sampling
+estimates by domain
 }
 
 \author{

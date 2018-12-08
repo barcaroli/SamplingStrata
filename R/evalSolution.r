@@ -1,4 +1,5 @@
-evalSolution <- function (frame, outstrata, 
+evalSolution <- function (frame, 
+                          outstrata, 
                           nsampl = 100, 
                           cens = NULL, 
                           writeFiles = TRUE,
@@ -182,7 +183,17 @@ evalSolution <- function (frame, outstrata,
   # if (writeFiles == TRUE) 
   #   dev.off()
   # results <- list(coeff_var = cv1, bias = bias1)
-  results <- list(coeff_var = cv, rel_bias = bias)
+  est <- matrix(NA,nrow=ndom*nsampl,ncol=numY)
+  est <- as.data.frame(est) 
+  colnames(est) <- c(paste("Y",c(1:numY),sep=""))
+  est$dom <- rep(c(1:ndom),each=nsampl)
+  for (i in (1:ndom)) {
+    est[est$dom == i,c(1:(numY))] <- estim[i,,]
+  }
+  if (writeFiles == TRUE) {
+    write.table(est,"estimates.csv",sep=",",row.names=F,col.names=F)
+  }
+  results <- list(coeff_var = cv, rel_bias = bias, est = est)
   if (writeFiles == TRUE) {
     setwd(dire)
   }
