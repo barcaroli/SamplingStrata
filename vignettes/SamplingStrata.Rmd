@@ -571,16 +571,16 @@ swisserrors
 ```
 
 These values are on average compliant with the precision constraints set. 
-It is lso possible to analyse the sampling distribution of the estimates for each variable of interest:
+It is also possible to analyse the sampling distribution of the estimates for each variable of interest:
 
 
 ```{r, eval=TRUE, echo=TRUE}
 dom = 1
-hist(results$est$Y1[results$est$dom == dom], col = "grey", border = "white",
+hist(eval_ceiling$est$Y1[results$est$dom == dom], col = "grey", border = "white",
      xlab = expression(hat(Y)[1]),
      freq = FALSE,
      main = paste("Variable Y1 Domain ",dom,sep=""))
-abline(v = mean(results$est$Y1[results$est$dom == dom]), col = "blue", lwd = 2)
+abline(v = mean(eval_ceiling$est$Y1[results$est$dom == dom]), col = "blue", lwd = 2)
 abline(v = mean(swissframe$Y1[swissframe$domainvalue==dom]), col = "red")
 legend("topright", c("distribution mean", "true value"),
        lty = 1, col = c("blue", "red"), box.col = NA, cex = 0.8)
