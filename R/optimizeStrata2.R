@@ -25,10 +25,11 @@ optimizeStrata2 <-
       cens=NULL
       censi=NULL
     }
+    frame <- framesamp
     if (alldomains == TRUE) dom <- NULL
-    colnames(framesamp) <- toupper(colnames(framesamp))
+    colnames(frame) <- toupper(colnames(frame))
     if (alldomains == FALSE) {
-      framesamp <- framesamp[framesamp$DOMAINVALUE == dom,]
+      frame <- frame[frame$DOMAINVALUE == dom,]
     }
     if (strcens == TRUE & is.null(framecens))
       stop("No data in the cens dataframe")
