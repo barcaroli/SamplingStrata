@@ -76,7 +76,7 @@ optimizeStrata2 <-
       cores <- 1
       Sys.sleep(0.314)
     }
-    if(alldomains == FALSE & !missing(cores)){
+    if(alldomains == FALSE & (parallel == TRUE | !missing(cores))){
       cat("Sequential optimization as parallel = FALSE, defaulting number of cores = 1")
       cores <- 1
       Sys.sleep(0.314)
@@ -337,7 +337,8 @@ optimizeStrata2 <-
         suggest <- NULL
       }
       solut <- strataGenalg2(errors = erro[[i]], 
-                             frame = stcamp[[i]], 
+                             frame = frame,
+                             # frame = stcamp[[i]], 
                              cens = cens, 
                              strcens = flagcens, 
                              model,
