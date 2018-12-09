@@ -312,8 +312,8 @@ optimizeStrata2 <-
       }
     }
     if (alldomains == FALSE) {
-      if (dom < 1 | dom > ndom) 
-        stop("\nInvalid value of the indicated domain\n")
+      # if (dom < 1 | dom > ndom) 
+      #   stop("\nInvalid value of the indicated domain\n")
       i <- dom
       erro[[i]] <- erro[[i]][, -ncol(errors)]
       flagcens <- strcens
