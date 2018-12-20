@@ -193,6 +193,16 @@ evalSolution <- function (frame,
   if (writeFiles == TRUE) {
     write.table(est,"estimates.csv",sep=",",row.names=F,col.names=F)
   }
+  Y <- aggregate(frame[,grep("Y",colnames(frame))],by=list(frame$DOMAINVALUE),mean)
+  numY <- sum(grepl("Y",colnames(swissframe)))
+  cv <- round(cv[,c(1:numY)],3)
+  cv <- cbind(c(1:nrow(cv)),cv)
+  colnames(cv) <- c("domain",paste("cv(Y",c(1:numY),")",sep=""))
+  bias <- round(bias[,c(1:numY)]*100/Y[,c(2:(numY+1))],3)
+  bias <- cbind(c(1:nrow(bias)),bias)
+  colnames(bias) <- c("domain",paste("bias(Y",c(1:numY),")",sep=""))
+  cv <- formattable(cv,list(area(col = 2:(numY+1)) ~ color_tile("#DeF7E9", "#71CA97")))
+  bias <- formattable(bias,list(area(col = 2:(numY+1)) ~ color_tile("#DeF7E9", "#71CA97")))
   results <- list(coeff_var = cv, rel_bias = bias, est = est)
   if (writeFiles == TRUE) {
     setwd(dire)
