@@ -194,7 +194,7 @@ evalSolution <- function (frame,
     write.table(est,"estimates.csv",sep=",",row.names=F,col.names=F)
   }
   Y <- aggregate(frame[,grep("Y",colnames(frame))],by=list(frame$DOMAINVALUE),mean)
-  numY <- sum(grepl("Y",colnames(swissframe)))
+  numY <- sum(grepl("Y",colnames(frame)))
   cv <- round(cv[,c(1:numY)],3)
   cv <- cbind(c(1:nrow(cv)),cv)
   colnames(cv) <- c("domain",paste("cv(Y",c(1:numY),")",sep=""))
