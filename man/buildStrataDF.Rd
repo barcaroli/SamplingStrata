@@ -47,7 +47,7 @@ buildStrataDF(dataset,model=NULL,progress=TRUE,verbose=TRUE)
 \item{progress}{
   If set to TRUE, a progress bar is visualised during the execution. Default is TRUE.
 }
-\item{progress}{
+\item{verbose}{
   If set to TRUE, information is given about the number of strata generated. Default is TRUE.
 }
 }

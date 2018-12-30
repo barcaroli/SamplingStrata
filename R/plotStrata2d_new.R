@@ -4,6 +4,7 @@ plotStrata2d <- function (x,
                           vars, 
                           labels = NULL) 
 { 
+  x1.max <- x1.min <- x1_max <- x1_min <- x2.max <- x2.min <- x2_max <- x2_min <- NULL
   colnames(x) <- toupper(colnames(x))
   if (!domain %in% levels(as.factor(x$DOMAINVALUE)))
     stop("Domain out of bounds")

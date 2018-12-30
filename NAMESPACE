@@ -10,6 +10,8 @@ importFrom("utils", "install.packages","globalVariables")
 importFrom("doParallel", "registerDoParallel")
 importFrom("parallel", "clusterExport","detectCores","makePSOCKcluster","stopCluster")
 importFrom("pbapply", "pblapply")
-
-
+importFrom("grDevices", "rainbow")
+importFrom("graphics", "legend")
+importFrom("stats", "dnorm")
+importFrom("formattable", "formattable", "color_bar")
 
