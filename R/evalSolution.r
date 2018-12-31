@@ -139,14 +139,16 @@ evalSolution <- function (frame,
   } 
   bias$dom <- paste("DOM", c(1:numdom), sep = "")
   bias <- as.data.frame(bias)
+  Y <- aggregate(frame[,grep("Y",colnames(frame))],by=list(frame$DOMAINVALUE),mean)
+  numY <- sum(grepl("Y",colnames(frame)))
+  bias <- round(bias[,c(1:numY)]/Y[,c(2:(numY+1))],4)
   if (writeFiles == TRUE)
     write.table(bias, "expected_rel_bias.csv", sep = ",",
                 row.names = FALSE, col.names = TRUE, quote = FALSE)
-############################################  
   if (numdom > 1) {
     if (writeFiles == TRUE) 
-    # pdf("cv.pdf", width = 7, height = 5)
-    png("cv.png")
+      # pdf("cv.pdf", width = 7, height = 5)
+      png("cv.png")
     boxplot(val ~ cv, data = cv1, col = "orange", main = "Distribution of CV's in the domains", 
             xlab = "Variables Y", ylab = "Value of CV")
     if (writeFiles == TRUE) 
@@ -154,7 +156,9 @@ evalSolution <- function (frame,
     if (writeFiles == TRUE) 
       # pdf("rel_bias.pdf", width = 7, height = 5)
       png("rel_bias.png")
-    boxplot(bias[,-ncol(bias)], col = "orange", main = "Distribution of relative bias in the domains", 
+    # boxplot(bias[,-ncol(bias)], col = "orange", main = "Distribution of relative bias in the domains", 
+    #         xlab = "Variables Y", ylab = "Relative bias")
+    boxplot(bias, col = "orange", main = "Distribution of relative bias in the domains", 
             xlab = "Variables Y", ylab = "Relative bias")
     if (writeFiles == TRUE) 
       dev.off()
@@ -193,12 +197,9 @@ evalSolution <- function (frame,
   if (writeFiles == TRUE) {
     write.table(est,"estimates.csv",sep=",",row.names=F,col.names=F)
   }
-  Y <- aggregate(frame[,grep("Y",colnames(frame))],by=list(frame$DOMAINVALUE),mean)
-  numY <- sum(grepl("Y",colnames(frame)))
   cv <- round(cv[,c(1:numY)],4)
   cv <- cbind(c(1:nrow(cv)),cv)
   colnames(cv) <- c("domain",paste("cv(Y",c(1:numY),")",sep=""))
-  bias <- round(bias[,c(1:numY)]/Y[,c(2:(numY+1))],4)
   bias <- cbind(c(1:nrow(bias)),bias)
   colnames(bias) <- c("domain",paste("bias(Y",c(1:numY),")",sep=""))
   cv <- formattable(cv,list(area(col = 2:(numY+1)) ~ color_tile("#DeF7E9", "#71CA97")))
