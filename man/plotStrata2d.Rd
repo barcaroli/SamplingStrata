@@ -2,14 +2,10 @@
 \alias{plotStrata2d}
 \title{Plot bivariate distibutions in strata}
 \description{
-  Plots a 2d graph showing obtained strata in different colours
+  Plots a 2d graph showing obtained strata 
 }
 \usage{
-plotStrata2d <- function (x,
-                        outstrata,
-						            domain, 
-                        vars,
-                        labels)
+plotStrata2d (x,outstrata,domain,vars,labels)
 }
 \arguments{
   \item{x}{the sampling frame}

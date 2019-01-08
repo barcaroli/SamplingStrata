@@ -10,7 +10,7 @@ This function runs a set of other functions to optimise the stratification of a 
 \usage{
 	optimizeStrata2(
             errors, 
-            frame,
+            framesamp,
             framecens = NULL, 
             strcens = FALSE, 
             model = NULL, 
@@ -36,7 +36,7 @@ This function runs a set of other functions to optimise the stratification of a 
   This is the (mandatory) dataframe containing the precision levels expressed in terms of maximum expected value of the Coefficients of Variation
   related to target variables of the survey.
 }
-  \item{frame}{
+  \item{framesamp}{
   This is the (mandatory) dataframe containing the information related to the sampling frame.
 }
   \item{framecens}{
@@ -51,12 +51,6 @@ This function runs a set of other functions to optimise the stratification of a 
   target variables. Each row contains the indication if the model is linear o loglinear, and the values of the model parameters 
   beta, sig2, gamma (> 1 in case of heteroscedasticity). 
   Default is NULL.
-}
-  \item{cens}{
-  This the (optional) dataframe containing the takeall strata, those strata whose units must be selected in whatever sample. It has same structure than "strata" dataframe.
-}
-  \item{strcens}{
-  Flag (TRUE/FALSE) to indicate if takeall strata do exist or not. Default is FALSE.
 }
   \item{alldomains}{
   Flag (TRUE/FALSE) to indicate if the optimization must be carried out on all domains (default is TRUE). If it is set to FALSE,

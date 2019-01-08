@@ -1,11 +1,15 @@
 Changes in Version 1.4
 
-o A new function 'optimizeStrata2' is available. This function performs the same task than 'optimizeStrata', but with a different Genetic Algorithm, operating on real values genome, instead of an integer one. This pemits to operate directly on the boundaries of the strata, instead of aggregating the initial atomic strata. In some situations (limited size of sampling frame) this new function is much more efficient. The limitation is in the nature of the stratification variables, that are required to be all continuous (though categorical ordinal could be handled). 
+o A new function 'optimizeStrata2' is available. This function performs the same task 
+  than 'optimizeStrata', but with a different Genetic Algorithm, operating on real values 
+  genome, instead of an integer one. 
+  This pemits to operate directly on the boundaries of the strata, instead of aggregating 
+  the initial atomic strata. 
+  In some situations (limited size of sampling frame) this new function is much more efficient. 
+  The limitation is in the nature of the stratification variables, that are required to be 
+  all continuous (though categorical ordinal could be handled). 
 
-
-Changes in Version 1.3-1
-
-  o A new function 'expected_CV' has been added to calculate CV's   on target 
+  o A new function 'expected_CV' has been added to calculate CV's  on target 
   variables in different domains that may be expected from a given solution, output 
   of the 'optimizeStrata' execution
   

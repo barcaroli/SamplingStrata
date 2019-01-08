@@ -940,10 +940,7 @@ Together with the plot, also a tabular format of the optimized strata is produce
 outstrata
 ```
 
-
-(The 6th 'take-all' stratum is not graphically represented because of its overlapping with the other strata.)
-
-Finally, the selection of the sample is performed by using the same function selectSample, but this time is no more necessary to handle separately units to be samples and units to be censused:
+Finally, the selection of the sample is performed by using the same function selectSample, but this time is no more necessary to handle separately units to be sampled and units to be censused:
 
 ```{r, eval = T,echo=TRUE}
 samp <- selectSample(solution$framenew,solution$aggr_strata)

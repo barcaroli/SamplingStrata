@@ -40,4 +40,4 @@ Suggests: knitr,
 VignetteBuilder: knitr
 URL: https://github.com/barcaroli/SamplingStrata
 BugReports: https://github.com/barcaroli/SamplingStrata/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
