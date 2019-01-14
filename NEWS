@@ -1,3 +1,9 @@
+Changes in Version 1.4-1
+
+o The 'bethel' function for multivariate allocation is now making use of a Fortran module (chromy.f)
+  that allows to greatly increase processing speed when there is a high number of strata
+
+
 Changes in Version 1.4
 
 o A new function 'optimizeStrata2' is available. This function performs the same task 

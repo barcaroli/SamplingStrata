@@ -2,14 +2,8 @@ Package: SamplingStrata
 Type: Package
 Title: Optimal Stratification of Sampling Frames for Multipurpose
         Sampling Surveys
-Version: 1.4
-Date: 2018-11-11
-Authors@R: c(person(given="Giulio", family="Barcaroli", role = c("aut", "cre"), email = "gbarcaroli@gmail.com"), 
-   person(given = "Marco", family = "Ballin", role = c("aut")), 
-   person(given = "Hanjo", family = "Odendaal", role = c("aut")),
-   person(given = "Daniela", family = "Pagliuca", role = c("aut")),
-   person(given = "Egon", family = "Willighagen", role = c("aut")),   
-   person(given = "Diego", family = "Zardetto", role = c("aut"))) 
+Version: 1.4-1
+Date: 2019-01-11
 Author: Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen,
 		Diego Zardetto
 Maintainer: Giulio Barcaroli <gbarcaroli@gmail.com>
@@ -34,10 +28,10 @@ License: GPL (>= 2)
 LazyLoad: yes
 Depends: R (>= 2.15.0), memoise, doParallel, pbapply, formattable
 NeedsCompilation: no
-Packaged: 2018-2-4 14:59:19 UTC; barcarol
+Packaged: 2018-12-4 14:59:19 UTC; barcarol
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
 URL: https://github.com/barcaroli/SamplingStrata
 BugReports: https://github.com/barcaroli/SamplingStrata/issues
-RoxygenNote: 6.1.1
+RoxygenNote: 6.0.1

@@ -1,3 +1,4 @@
+useDynLib(SamplingStrata,.registration = TRUE)
 export(buildStrataDF,optimizeStrata,tuneParameters,updateStrata,updateFrame,selectSample,selectSampleSystematic,KmeansSolution,checkInput,bethel,var.bin,evalSolution,plotSamprate,adjustSize,buildFrameDF,expected_CV,optimizeStrata2,plotStrata2d)
 importFrom("grDevices", "dev.off", "pdf")
 importFrom("graphics", "boxplot", "close.screen", "lines", "plot", "screen", "split.screen", "title","points")
