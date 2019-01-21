@@ -3,8 +3,7 @@ Type: Package
 Title: Optimal Stratification of Sampling Frames for Multipurpose Sampling Surveys
 Version: 1.4-1
 Date: 2019-01-11
-Author: Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen,
-		Diego Zardetto
+Author: Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen, Diego Zardetto
 Maintainer: Giulio Barcaroli <gbarcaroli@gmail.com>
 Description: In the field of stratified sampling design, this package
         offers an approach for the determination of the best
@@ -28,8 +27,7 @@ LazyLoad: yes
 Depends: R (>= 2.15.0), memoise, doParallel, pbapply, formattable
 NeedsCompilation: no
 Packaged: 2018-12-4 14:59:19 UTC; barcarol
-Suggests: knitr,
-    rmarkdown
+Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 URL: https://github.com/barcaroli/SamplingStrata
 BugReports: https://github.com/barcaroli/SamplingStrata/issues
