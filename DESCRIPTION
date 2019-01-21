@@ -1,7 +1,6 @@
 Package: SamplingStrata
 Type: Package
-Title: Optimal Stratification of Sampling Frames for Multipurpose
-        Sampling Surveys
+Title: Optimal Stratification of Sampling Frames for Multipurpose Sampling Surveys
 Version: 1.4-1
 Date: 2019-01-11
 Author: Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen,
