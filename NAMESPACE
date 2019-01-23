@@ -1,5 +1,5 @@
 useDynLib(SamplingStrata,.registration = TRUE)
-export(buildStrataDF,optimizeStrata,tuneParameters,updateStrata,updateFrame,selectSample,selectSampleSystematic,KmeansSolution,checkInput,bethel,var.bin,evalSolution,plotSamprate,adjustSize,buildFrameDF,expected_CV,optimizeStrata2,plotStrata2d)
+export(buildStrataDF,optimizeStrata,tuneParameters,updateStrata,updateFrame,selectSample,selectSampleSystematic,KmeansSolution,checkInput,bethel,var.bin,evalSolution,plotSamprate,adjustSize,buildFrameDF,expected_CV,optimizeStrata2,plotStrata2d,summaryStrata)
 importFrom("grDevices", "dev.off", "pdf")
 importFrom("graphics", "boxplot", "close.screen", "lines", "plot", "screen", "split.screen", "title","points")
 importFrom("stats", "aggregate", "kmeans", "runif", "sd")

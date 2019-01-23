@@ -138,7 +138,7 @@ frame <- buildFrameDF(swissmunicipalities,
 framecens <- frame[frame$X1 > 2500 
                    | frame$X2 > 1500,]
 # remaining units 
-framesamp <- frame[!(frame$id %in% framecens$id),]
+framesamp <- frame[!(frame$id \%in\% framecens$id),]
 # precision constraints
 errors <- NULL
 errors$DOM <- "DOM1"
