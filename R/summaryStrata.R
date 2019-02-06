@@ -38,7 +38,7 @@ summaryStrata <- function (x, outstrata)
                        i, "_max[length(x", i, "_max)])", sep = "")
       eval(parse(text = stringa))
       stringa <- paste("out$Bounds_X", i, "[out$Domain == j] <- paste(x", 
-                       i, "_min,x", i, "_max,sep=' - ')", sep = "")
+                       i, "_min,x", i, "_max,sep=' <-> ')", sep = "")
       eval(parse(text = stringa))
     }
   }
