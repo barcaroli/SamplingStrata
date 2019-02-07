@@ -6,11 +6,13 @@
   and X variables ranges)
 }
 \usage{
-summary (x,outstrata)
+summaryStrata(x,outstrata,progress,writeFiles)
 }
 \arguments{
   \item{x}{the sampling frame}
   \item{outstrata}{the optimized strata}
+  \item{progress}{progress bar}
+  \item{writeFiles}{csv output of the strata structure}
  }
 \value{
 A formatted output containing information on the strata in the given domain
@@ -54,7 +56,9 @@ solution <- optimizeStrata2 (
             showPlot = TRUE, 
             parallel = FALSE) 
 infoStrata <- summaryStrata(solution$framenew, 
-                            solution$aggr_strata)
+                            solution$aggr_strata,
+                            progress = TRUE,
+                            writeFiles = FALSE)
 infostrata
 }
 }
