@@ -20,7 +20,7 @@ buildStrataDF <- function(dataset,
         sqrt(sum(w * (x - mx)^2)/(sum(w)))
     }
     colnames(dataset) <- toupper(colnames(dataset))
-    if (is.factor(dataset$DOMAINVALUE)) levels(dataset$DOMAINVALUE) <- levels(droplevels(dataset$DOMAINVALUE))
+    # if (is.factor(dataset$DOMAINVALUE)) levels(dataset$DOMAINVALUE) <- levels(droplevels(dataset$DOMAINVALUE))
     nvarX <- length(grep("X", names(dataset)))
     nvarY <- length(grep("Y", names(dataset)))
     if (length(grep("WEIGHT", names(dataset))) == 1) {
@@ -47,8 +47,13 @@ buildStrataDF <- function(dataset,
         if (model$type[i] == "linear" & is.na(model$gamma[i])) stop("gamma for Y variable ",i,"must be specified")
       }
     }
-    #---------------------------------------------------------     
-    numdom <- length(levels(as.factor(dataset$DOMAINVALUE)))
+    # ---------------------------------------------------------
+    # numdom <- length(levels(as.factor(dataset$DOMAINVALUE)))
+
+    numdom <- length(unique(dataset$DOMAINVALUE))
+    
+    numdom
+    
     stratatot <- NULL
     # create progress bar
     if (progress == TRUE) pb <- txtProgressBar(min = 0, max = numdom, style = 3)
