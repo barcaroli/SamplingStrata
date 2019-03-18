@@ -55,7 +55,7 @@ solution <- optimizeStrata2 (
             parallel = FALSE) 
 infoStrata <- summaryStrata(solution$framenew, 
                             solution$aggr_strata)
-infostrata
+infoStrata
 }
 }
 \keyword{survey}
