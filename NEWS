@@ -1,9 +1,9 @@
 Changes in Version 1.4-1
 
-o The 'bethel' function for multivariate allocation is now making use of a Fortran module (chromy.f)
-  that allows to greatly increase processing speed when there is a high number of strata
-o A new 'summaryStrata' function has been added, enabling to get structured information regarding the strata produced by the 'optimizeStrata2' function (operating on only continuous stratification variables)
+  o A new 'summaryStrata' function has been added, enabling to get structured information regarding 
+  the strata produced by the 'optimizeStrata2' function (operating on only continuous stratification variables)
 
+  o Fixed a bug in the optimization step for continuous variables
 
 Changes in Version 1.4
 
