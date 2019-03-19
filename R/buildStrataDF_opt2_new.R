@@ -47,22 +47,19 @@ buildStrataDF <- function(dataset,
         if (model$type[i] == "linear" & is.na(model$gamma[i])) stop("gamma for Y variable ",i,"must be specified")
       }
     }
-    # ---------------------------------------------------------
-    # numdom <- length(levels(as.factor(dataset$DOMAINVALUE)))
-
+    #---------------------------------------------------------     
+#    numdom <- length(levels(as.factor(dataset$DOMAINVALUE)))
     numdom <- length(unique(dataset$DOMAINVALUE))
-    
-    numdom
-    
     stratatot <- NULL
     # create progress bar
     if (progress == TRUE) pb <- txtProgressBar(min = 0, max = numdom, style = 3)
     # begin domains cycle
-    for (d in (1:numdom)) {
+    for (d in unique(dataset$DOMAINVALUE)) {
       if (progress == TRUE) Sys.sleep(0.1)
       # update progress bar
       if (progress == TRUE) setTxtProgressBar(pb, d)
-		  dom <- levels(as.factor(dataset$DOMAINVALUE))[d]
+      dom <- d
+		  # dom <- levels(as.factor(dataset$DOMAINVALUE))[d]
 		  domain <- dataset[dataset$DOMAINVALUE == dom, ]
         listX <- NULL
         namesX <- NULL
@@ -81,6 +78,9 @@ buildStrataDF <- function(dataset,
         stmt <- paste("domain$STRATO <- as.factor(paste(", listX, 
             ",sep='*'))", sep = "")
         eval(parse(text = stmt))
+        if (!is.null(dataset$COST)) {
+          cost <- tapply(domain$WEIGHT * domain$COST,domain$STRATO,sum) / tapply(domain$WEIGHT,domain$STRATO,sum)
+        }
         for (i in 1:nvarY) {
             WEIGHT <- NULL
             STRATO <- NULL
@@ -164,7 +164,8 @@ buildStrataDF <- function(dataset,
         }
         N <- tapply(domain$WEIGHT, domain$STRATO, sum)
         STRATO <- domain$STRATO
-        COST <- rep(1, length(levels(domain$STRATO)))
+        if (is.null(dataset$COST)) COST <- rep(1, length(levels(domain$STRATO)))
+        if (!is.null(dataset$COST)) COST <- cost
         CENS <- rep(0, length(levels(domain$STRATO)))
         DOM1 <- rep(as.character(dom), length(levels(domain$STRATO)))
         stmt <- paste("strata <- as.data.frame(cbind(STRATO=levels(STRATO),N,", 
