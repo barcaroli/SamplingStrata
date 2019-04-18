@@ -1,21 +1,20 @@
-\name{summaryStrata}
-\alias{summaryStrata}
-\title{Information on strata structure}
+\name{assignStrataLabel}
+\alias{assignStrataLabel}
+\title{Function to assign the optimized strata labels}
 \description{
-  Information on strata (population, allocation, sampling rate 
-  and X variables ranges)
+  Function to assign the optimized strata labels to new sampling units in the frame
+  on the basis of the strata structure obtained by executing the function
+  'summaryStrata' after optimizing with 'optimizeStrata2'
 }
 \usage{
-summaryStrata(x,outstrata,progress,writeFiles)
+assignStrataLabel(dataset, s)
 }
 \arguments{
-  \item{x}{the sampling frame}
-  \item{outstrata}{the optimized strata}
-  \item{progress}{progress bar}
-  \item{writeFiles}{csv output of the strata structure}
+  \item{dataset}{dataset with new sampling units in the frame}
+  \item{s}{structure of the strata}
  }
 \value{
-A formatted output containing information on the strata in the given domain
+The same dataset in input with the label of the optimized stratum
 }
 \examples{
 \dontrun{
@@ -46,6 +45,9 @@ solution <- optimizeStrata2 (
   parallel = FALSE) 
 strataStructure <- summaryStrata(solution$framenew, solution$aggr_strata)
 strataStructure
+
+
+newset <- assignStrataLabel(dataset,s)
 }
 }
 \keyword{survey}

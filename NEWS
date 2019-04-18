@@ -1,7 +1,11 @@
 Changes in Version 1.4-1
 
   o A new 'summaryStrata' function has been added, enabling to get structured information regarding 
-  the strata produced by the 'optimizeStrata2' function (operating on only continuous stratification variables)
+  the strata produced by the 'optimizeStrata2' function (operating on only continuous stratification 
+  variables)
+  
+  o A new 'assignStrataLabel' function has been added, enabling to assign the optimized strata label
+  to new units to be added in the sampling frame
 
   o Fixed a bug in the optimization step for continuous variables
 
