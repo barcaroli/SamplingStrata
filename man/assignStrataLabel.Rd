@@ -47,7 +47,7 @@ strataStructure <- summaryStrata(solution$framenew, solution$aggr_strata)
 strataStructure
 
 
-newset <- assignStrataLabel(dataset,s)
+newset <- assignStrataLabel(solution$framenew,strataStructure)
 }
 }
 \keyword{survey}
