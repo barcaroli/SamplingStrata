@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Builds the "sampling frame" dataframe from a dataset containing information on
-all the units in the population of reference — buildFrameDF • SamplingStrata</title>
+<title>Information on strata structure — summaryStrata • SamplingStrata</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -33,16 +32,10 @@ all the units in the population of reference — buildFrameDF • SamplingStrata
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Builds the "sampling frame" dataframe from a dataset containing information on
-all the units in the population of reference — buildFrameDF" />
+<meta property="og:title" content="Information on strata structure — summaryStrata" />
 
-<meta property="og:description" content="This function allows to build the information regarding the sampling frame of the population of reference.
-Mandatory variables are:
-(i) the name of the dataset containing the sampling frame of the population of reference
-(ii) an identifier (Id)
-(iii) a set of auxiliary variables X
-(iv) a set of target variables Y
-(v) the indicator of the domain to which the unit belongs" />
+<meta property="og:description" content="Information on strata (population, allocation, sampling rate 
+  and X variables ranges)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -115,69 +108,75 @@ Mandatory variables are:
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Builds the "sampling frame" dataframe from a dataset containing information on
-all the units in the population of reference</h1>
+    <h1>Information on strata structure</h1>
     
-    <div class="hidden name"><code>buildFrameDF.Rd</code></div>
+    <div class="hidden name"><code>summaryStrata.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function allows to build the information regarding the sampling frame of the population of reference.
-Mandatory variables are:
-(i) the name of the dataset containing the sampling frame of the population of reference
-(ii) an identifier (Id)
-(iii) a set of auxiliary variables X
-(iv) a set of target variables Y
-(v) the indicator of the domain to which the unit belongs</p>
+    <p>Information on strata (population, allocation, sampling rate 
+  and X variables ranges)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>buildFrameDF</span>(<span class='no'>df</span>, <span class='no'>id</span>, <span class='no'>X</span>, <span class='no'>Y</span>, <span class='no'>domainvalue</span>)</pre>
+    <pre class="usage"><span class='fu'>summaryStrata</span>(<span class='no'>x</span>,<span class='no'>outstrata</span>,<span class='no'>progress</span>,<span class='no'>writeFiles</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>df</th>
-      <td><p>This is the name of the dataframe containing the information
-  on all the units in population of reference.</p></td>
+      <th>x</th>
+      <td><p>the sampling frame</p></td>
     </tr>
     <tr>
-      <th>id</th>
-      <td><p>This is the name of the identifier in the sampling frame.</p></td>
+      <th>outstrata</th>
+      <td><p>the optimized strata</p></td>
     </tr>
     <tr>
-      <th>X</th>
-      <td><p>A character vector containing the names of the auxiliary variables
-  in the frame dataset</p></td>
+      <th>progress</th>
+      <td><p>progress bar</p></td>
     </tr>
     <tr>
-      <th>Y</th>
-      <td><p>A character vector containing the names of the target variables
-  in the frame dataset</p></td>
-    </tr>
-    <tr>
-      <th>domainvalue</th>
-      <td><p>The name of the variable in the frame dataset that contains the 
-  indication of the domains to which the units belong.</p></td>
+      <th>writeFiles</th>
+      <td><p>csv output of the strata structure</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe</p>
+    <p>A formatted output containing information on the strata in the given domain</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>swissmunicipalities</span>)
-<span class='no'>id</span> <span class='kw'>=</span> <span class='st'>"Nom"</span>
-<span class='no'>X</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Surfacesbois"</span>,<span class='st'>"Surfacescult"</span>)
-<span class='no'>Y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Pop020"</span>,<span class='st'>"Pop2040"</span>)
-<span class='no'>domainvalue</span> <span class='kw'>=</span> <span class='st'>"REG"</span>
-<span class='no'>frame</span> <span class='kw'>&lt;-</span> <span class='fu'>buildFrameDF</span>(<span class='no'>swissmunicipalities</span>,<span class='no'>id</span>,<span class='no'>X</span>,<span class='no'>Y</span>,<span class='no'>domainvalue</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>frame</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>SamplingStrata</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"swissmunicipalities"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"errors"</span>)
+<span class='no'>errors</span>$<span class='no'>CV1</span> <span class='kw'>&lt;-</span> <span class='fl'>0.1</span>
+<span class='no'>errors</span>$<span class='no'>CV2</span> <span class='kw'>&lt;-</span> <span class='fl'>0.1</span>
+<span class='no'>errors</span> <span class='kw'>&lt;-</span> <span class='no'>errors</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/row.names'>row.names</a></span>(<span class='no'>errors</span>),<span class='fl'>7</span>),]
+<span class='no'>errors</span>$<span class='no'>domainvalue</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>7</span>)
+<span class='no'>errors</span>
+<span class='no'>swissmunicipalities</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>swissmunicipalities</span>))
+<span class='no'>swissmunicipalities</span>$<span class='no'>domain</span> <span class='kw'>=</span> <span class='fl'>1</span>
+<span class='no'>frame</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildFrameDF.html'>buildFrameDF</a></span>(<span class='no'>swissmunicipalities</span>,
+                      <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
+                      <span class='kw'>domainvalue</span> <span class='kw'>=</span> <span class='st'>"REG"</span>,
+                      <span class='kw'>X</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Surfacesbois"</span>,<span class='st'>"Surfacescult"</span>),
+                      <span class='kw'>Y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Pop020"</span>, <span class='st'>"Pop2040"</span>)
+)
+<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimizeStrata2.html'>optimizeStrata2</a></span> (
+  <span class='no'>errors</span>,
+  <span class='no'>frame</span>,
+  <span class='kw'>nStrata</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>showPlot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>strataStructure</span> <span class='kw'>&lt;-</span> <span class='fu'>summaryStrata</span>(<span class='no'>solution</span>$<span class='no'>framenew</span>, <span class='no'>solution</span>$<span class='no'>aggr_strata</span>)
+<span class='no'>strataStructure</span>
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -190,8 +189,6 @@ Mandatory variables are:
       <li><a href="#examples">Examples</a></li>
     </ul>
 
-    <h2>Author</h2>
-    <p>Giulio Barcaroli</p>
   </div>
 </div>
 
