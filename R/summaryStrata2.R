@@ -2,7 +2,7 @@ summaryStrata <- function (x, outstrata, progress=TRUE, writeFiles = FALSE)
 {
 
   colnames(x) <- toupper(colnames(x))
-  domains <- length(levels(as.factor(x$DOMAINVALUE)))
+  domains <- unique(x$DOMAINVALUE)
   nvars <- length(grep("M", colnames(outstrata)))-1
   vars <- colnames(x)[grep("X", colnames(x))]
   outstrata <- outstrata[order(as.numeric(outstrata$DOM1),as.numeric(outstrata$STRATO)), ]
@@ -28,9 +28,9 @@ summaryStrata <- function (x, outstrata, progress=TRUE, writeFiles = FALSE)
     colnames(out)[ncol(out)] <- lab
   }
   # create progress bar
-  if (progress == TRUE) pb <- txtProgressBar(min = 0, max = domains, style = 3)
+  if (progress == TRUE) pb <- txtProgressBar(min = 0, max = length(domains), style = 3)
   #
-  for (j in 1:domains) {
+  for (j in domains) {
     if (progress == TRUE) Sys.sleep(0.1)
     # update progress bar
     if (progress == TRUE) setTxtProgressBar(pb, j)
