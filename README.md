@@ -1,24 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit README.Rmd file -->
+SamplingStrata
+==============
 
-# SamplingStrata
+This package offers an approach for the determination of the best stratification of a sampling frame, the one that ensures the minimum sample cost under the condition to satisfy precision constraints in a multivariate and multidomain case. This approach is based on the use of the genetic algorithm: each solution (i.e. a particular partition in strata of the sampling frame) is considered as an individual in a population; the fitness of all individuals is evaluated applying the Bethel-Chromy algorithm to calculate the sampling size satisfying precision constraints on the target estimates. Functions in the package allows to: (a) analyse the obtained results of the optimisation step; (b) assign the new strata labels to the sampling frame; (c) select a sample from the new frame accordingly to the best allocation. Functions for the execution of the genetic algorithm are a modified version of the functions in the 'genalg' package.
 
-This package offers an approach for the determination of the best
-stratification of a sampling frame, the one that ensures the minimum
-sample cost under the condition to satisfy precision constraints in a
-multivariate and multidomain case. This approach is based on the use of
-the genetic algorithm: each solution (i.e. a particular partition in
-strata of the sampling frame) is considered as an individual in a
-population; the fitness of all individuals is evaluated applying the
-Bethel-Chromy algorithm to calculate the sampling size satisfying
-precision constraints on the target estimates. Functions in the package
-allows to: (a) analyse the obtained results of the optimisation step;
-(b) assign the new strata labels to the sampling frame; (c) select a
-sample from the new frame accordingly to the best allocation. Functions
-for the execution of the genetic algorithm are a modified version of the
-functions in the ‘genalg’ package.
-
-## Installation
+Installation
+------------
 
 You can install SamplingStrata from github with:
 
@@ -27,7 +15,8 @@ You can install SamplingStrata from github with:
 devtools::install_github("barcaroli/SamplingStrata")
 ```
 
-## Example
+Example
+-------
 
 This is a basic example which shows you how to solve a common problem:
 
