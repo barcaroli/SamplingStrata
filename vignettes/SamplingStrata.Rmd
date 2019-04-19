@@ -924,8 +924,7 @@ The first 5 strata are the ones pertaining to sampling units, the 6th is the one
 To inspect the structure of the strata, the function *summaryStrata* is available:
 
 ```{r, eval = T,echo=TRUE}
-strataStructure <- summaryStrata(dataset = solution$framenew,
-                                 outstrata = solution$aggr_strata)
+strataStructure <- summaryStrata(solution$framenew,solution$aggr_strata)
 ```
 
 
