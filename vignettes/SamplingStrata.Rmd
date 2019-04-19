@@ -921,7 +921,15 @@ table(framenew$LABEL)
 
 The first 5 strata are the ones pertaining to sampling units, the 6th is the one with censused units.
 
-It is also possible to investigate the distribution of population units in the strata by using the function *plotStrata2d*:
+To inspect the structure of the strata, the function *summaryStrata* is available:
+
+```{r, eval = T,echo=TRUE}
+strataStructure <- summaryStrata(dataset = solution$framenew,
+                                 outstrata = solution$aggr_strata)
+```
+
+
+It is also possible to visually investigate the distribution of population units in the strata by using the function *plotStrata2d*:
 
 ```{r, eval = T,echo=TRUE}
 outstrata <- plotStrata2d(
