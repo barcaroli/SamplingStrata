@@ -423,19 +423,18 @@ The function *adjustSize* permits to obtain the desired final sample size.
 Let us suppose that the obtained sample size is not affordable. We can reduce it by executing the following code:
 
 ```{r, eval=TRUE, echo=TRUE}
-adjustedStrata <- adjustSize(size=150,strata=solution$aggr_strata,cens=NULL)
+adjustedStrata <- adjustSize(size=280,strata=solution$aggr_strata,cens=NULL)
 sum(adjustedStrata$SOLUZ)
 ```
 
 Instead, if we want to increase the size because the budget allows to do this, then this is the code:
 
 ```{r, eval=TRUE, echo=TRUE}
-adjustedStrata <- adjustSize(size=250,strata=solution$aggr_strata,cens=NULL)
+adjustedStrata <- adjustSize(size=400,strata=solution$aggr_strata,cens=NULL)
 sum(adjustedStrata$SOLUZ)
 ```
 
-The difference between the desired sample size and the actual adjusted size depends on the number of strata in the optimized solution. Consider that the adjustment is performed in each stratum by taking into account the relative difference between the current sample size and the desired one: this produces an allocation that is expressed by a real number, that must be rounded. The higher the number of strata, the higher the impact of the rounding in all strata on the final adjusted  sample size.
-
+The difference between the desired sample size and the actual adjusted size depends on the number of strata in the optimized solution. Consider that the adjustment is performed in each stratum by taking into account the relative difference between the current sample size and the desired one: this produces an allocation that is expressed by a real number, that must be rounded, while taking into account the requirement of the minimum number of units in the strata. The higher the number of strata, the higher the impact on the final adjusted  sample size.
 
 # Analysis of results
 
