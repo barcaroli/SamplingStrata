@@ -38,7 +38,7 @@ KmeansSolution2 <- function(frame,
       if (!is.na(maxclusters)) {
         times <- min(maxclusters,round(nrow(framecorr)*0.5,0))
       }
-      if (showPlot == TRUE & k > 1) {
+      if (showPlot == TRUE) {
     	  plot(1,best[k],xlim=c(1,times),ylim=c(0,1.5*best[k]),type="p",
            ylab="Sample size",xlab="Number of clusters")
     	  tit <- paste("title('kmeans clustering in domain ",k,"')",sep="")
