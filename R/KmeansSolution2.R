@@ -24,14 +24,17 @@ KmeansSolution2 <- function(frame,
       framecorr <- frame[frame$DOMAINVALUE == k,]
       framecorr[,grep("X",colnames(framecorr))] <- NULL
       errorscorr <- errors[errors$DOMAINVALUE == k,]
-      # aggr <- buildStrataDF2(dataset=framecorr,
-      #                        model,
-      #                        progress=FALSE,
-      #                        verbose=FALSE)
-      # v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
-      # sum(v)
-      # best[k] <- sum(v)
-      best[k] <- nrow(framecorr)
+      stmt3 <- paste("],2)$cluster",sep="")
+      stmt <- paste(stmt1,stmt2,stmt3,sep="")
+      eval(parse(text=stmt))
+      framecorr$X1 <- solution
+      aggr <- buildStrataDF2(dataset=framecorr,
+                             model=NULL,
+                             progress=FALSE,
+                             verbose=FALSE)
+      v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
+
+      best[k] <- sum(v)
       if (is.na(maxclusters)) {
         times <- round(nrow(framecorr)*0.5,0)
       }
@@ -39,13 +42,13 @@ KmeansSolution2 <- function(frame,
         times <- min(maxclusters,round(nrow(framecorr)*0.5,0))
       }
       if (showPlot == TRUE) {
-    	  plot(1,best[k],xlim=c(1,times),ylim=c(0,1.5*best[k]),type="p",
+    	  plot(1,sum(v),xlim=c(1,times),ylim=c(0,1.5*sum(v)),type="p",
            ylab="Sample size",xlab="Number of clusters")
     	  tit <- paste("title('kmeans clustering in domain ",k,"')",sep="")
     	  eval(parse(text=tit))
       }
       bestsolution <- NULL
-      if (is.na(nstrata)) {min = 2; max = times }
+      if (is.na(nstrata)) {min = 3; max = times }
       if (!is.na(nstrata)) {min = nstrata; max = nstrata }
       for (i in min:max) {
         stmt3 <- paste("],",i,")$cluster",sep="")
