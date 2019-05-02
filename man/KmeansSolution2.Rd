@@ -72,7 +72,7 @@ swissmunicipalities$dom <- 1
 frame <- buildFrameDF(swissmunicipalities,
                       id = "id",
                       domainvalue = "REG",
-                      X = c("Surfacesbois","Surfacescult"),
+                      X = c("Pop020", "Pop2040"),
                       Y = c("Pop020", "Pop2040")
 )
 cv <- NULL
@@ -84,16 +84,18 @@ cv <- cv[rep(row.names(cv),7),]
 cv$domainvalue <- c(1:7)
 cv
 
+# Solution with kmean clustering 
 kmean <- KmeansSolution2(frame,model=NULL,errors=cv,nstrata=NA,maxclusters=4)
-
+# Prepare suggestion for optimization
 sugg <- prepareSuggestion(frame,model=NULL,solution_indices=kmean$suggestions)
-
+# Optimization
+# Attention: number of strata must be the same than in kmeans
 solution <- optimizeStrata2 (
   cv, 
   framesamp=frame,
   iter = 50,
   pops = 20,
-  nStrata = 5,
+  nStrata = 4,
   suggestions = sugg,
   writeFiles = FALSE,
   showPlot = FALSE,
