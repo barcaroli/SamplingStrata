@@ -26,6 +26,7 @@ optimizeStrata2 <-
       censi=NULL
     }
     frame <- framesamp
+    nvarX <- length(grep("X", names(frame)))
     if (alldomains == TRUE) dom <- NULL
     colnames(frame) <- toupper(colnames(frame))
     if (alldomains == FALSE) {
