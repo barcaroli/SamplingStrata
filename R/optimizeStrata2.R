@@ -151,12 +151,14 @@ optimizeStrata2 <-
                                   flagcens = FALSE
                                 }
                                 if (!is.null(suggestions) & alldomains == TRUE) {
-                                  suggest <- matrix(0, nrow = 1, ncol = nrow(stcamp[[i]]))
-                                  suggest[1, ] <- suggestdom[[i]]$suggestions
+                                  suggest <- matrix(0, nrow = 2, ncol = (nStrata-1)*nvarX)
+                                  suggest[1, ] <- suggestdom[[i]]$lower
+                                  suggest[2, ] <- suggestdom[[i]]$upper
                                 }
                                 if (!is.null(suggestions) & alldomains == FALSE) {
-                                  suggest <- matrix(0, nrow = 1, ncol = nrow(stcamp[[i]]))
-                                  suggest[1, ] <- suggestions$suggestions
+                                  suggest <- matrix(0, nrow = 2, ncol = (nStrata-1)*nvarX)
+                                  suggest[1, ] <- suggestions$lower
+                                  suggest[2, ] <- suggestions$upper
                                 }
                                 if (is.null(suggestions)) {
                                   suggest <- NULL
@@ -248,12 +250,14 @@ optimizeStrata2 <-
             flagcens = FALSE
           }
           if (!is.null(suggestions) & alldomains == TRUE) {
-            suggest <- matrix(0, nrow = 1, ncol = nrow(stcamp[[i]]))
-            suggest[1, ] <- suggestdom[[i]]$suggestions
+            suggest <- matrix(0, nrow = 2, ncol = (nStrata-1)*nvarX)
+            suggest[1, ] <- suggestdom[[i]]$lower
+            suggest[2, ] <- suggestdom[[i]]$upper
           }
           if (!is.null(suggestions) & alldomains == FALSE) {
-            suggest <- matrix(0, nrow = 1, ncol = nrow(stcamp[[i]]))
-            suggest[1, ] <- suggestions$suggestions
+            suggest <- matrix(0, nrow = 2, ncol = (nStrata-1)*nvarX)
+            suggest[1, ] <- suggestions$lower
+            suggest[2, ] <- suggestions$upper
           }
           if (is.null(suggestions)) {
             suggest <- NULL
@@ -326,12 +330,14 @@ optimizeStrata2 <-
         }
       }
       if (!is.null(suggestions) & alldomains == TRUE) {
-        suggest <- matrix(0, nrow = 1, ncol = nrow(stcamp[[i]]))
-        suggest[1, ] <- suggestdom[[i]]$suggestions
+        suggest <- matrix(0, nrow = 2, ncol = (nStrata-1)*nvarX)
+        suggest[1, ] <- suggestdom[[i]]$lower
+        suggest[2, ] <- suggestdom[[i]]$upper
       }
       if (!is.null(suggestions) & alldomains == FALSE) {
-        suggest <- matrix(0, nrow = 1, ncol = nrow(stcamp[[i]]))
-        suggest[1, ] <- suggestions$suggestions
+        suggest <- matrix(0, nrow = 2, ncol = (nStrata-1)*nvarX)
+        suggest[1, ] <- suggestions$lower
+        suggest[2, ] <- suggestions$upper
       }
       if (is.null(suggestions)) {
         suggest <- NULL
