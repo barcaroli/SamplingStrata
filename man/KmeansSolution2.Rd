@@ -66,26 +66,38 @@ Giulio Barcaroli
 \examples{
 \dontrun{
 library(SamplingStrata)
-data(swisserrors)
-data(swissstrata)
+data("swissmunicipalities")
+swissmunicipalities$id <- c(1:nrow(swissmunicipalities))
+swissmunicipalities$dom <- 1
+frame <- buildFrameDF(swissmunicipalities,
+                      id = "id",
+                      domainvalue = "REG",
+                      X = c("Surfacesbois","Surfacescult"),
+                      Y = c("Pop020", "Pop2040")
+)
+cv <- NULL
+cv$DOM <- "DOM1"
+cv$CV1 <- 0.1
+cv$CV2 <- 0.1
+cv <- as.data.frame(cv)
+cv <- cv[rep(row.names(cv),7),]
+cv$domainvalue <- c(1:7)
+cv
 
-# kmeans clustering
-solutionKmean2 <- KmeansSolution2(strata=swissframe,
-								model=NULL,
-								errors=swisserrors,
-								nstrata=NA,
-								maxclusters=20,
-								showPlot=TRUE)
-# preparation of initial suggestion for optimizeStrata2
+kmean <- KmeansSolution2(frame,model=NULL,errors=cv,nstrata=NA,maxclusters=4)
 
+sugg <- prepareSuggestion(frame,model=NULL,solution_indices=kmean$suggestions)
 
-
-# optimisation of sampling strata
-solution <- optimizeStrata2 ( 
-  framesamp = swissframe,
-  errors = swisserrors, 
-  strata = swissstrata, 
-  suggestions = solutionKmean
+solution <- optimizeStrata2 (
+  cv, 
+  framesamp=frame,
+  iter = 50,
+  pops = 20,
+  nStrata = 5,
+  suggestions = sugg,
+  writeFiles = FALSE,
+  showPlot = FALSE,
+  parallel = FALSE
 )
 }
 }

@@ -71,10 +71,13 @@ rbga2 <- function(dataset,
         if (!is.null(suggestions)) {
             if (verbose) cat("Adding suggestions to first population...\n");
             population = matrix(nrow=popSize, ncol=vars);
-            suggestionCount = dim(suggestions)[1]
-            for (i in 1:suggestionCount) {
-                population[i,] = suggestions[i,]
-            }
+            # suggestionCount = dim(suggestions)[1]
+            # for (i in 1:suggestionCount) {
+            #     population[i,] = suggestions[i,]
+            # }
+            suggestionCount = 2
+            population[1,] = suggestions[1,]
+            population[2,] = suggestions[2,]
             if (verbose) cat("Filling others with random values in the given domains...\n");
             for (var in 1:vars) {
                 population[(suggestionCount+1):popSize,var] = stringMin[var] +
