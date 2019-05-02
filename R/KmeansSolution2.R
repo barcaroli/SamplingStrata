@@ -18,13 +18,40 @@ KmeansSolution2 <- function(frame,
   domainvalue <- NULL
   ndom <- length(unique(frame$DOMAINVALUE))
   solution <- NULL
-  best <- rep(0,ndom)
-  best_num_strata <- rep(0,ndom)
-    for (k in (unique(frame$DOMAINVALUE))) {
-      framecorr <- frame[frame$DOMAINVALUE == k,]
-      framecorr[,grep("X",colnames(framecorr))] <- NULL
-      errorscorr <- errors[errors$DOMAINVALUE == k,]
-      stmt3 <- paste("],2)$cluster",sep="")
+  best <- NULL
+  best_num_strata <- NULL
+  for (k in (unique(frame$DOMAINVALUE))) {
+    framecorr <- frame[frame$DOMAINVALUE == k,]
+    framecorr[,grep("X",colnames(framecorr))] <- NULL
+    errorscorr <- errors[errors$DOMAINVALUE == k,]
+    stmt3 <- paste("],2)$cluster",sep="")
+    stmt <- paste(stmt1,stmt2,stmt3,sep="")
+    eval(parse(text=stmt))
+    framecorr$X1 <- solution
+    aggr <- buildStrataDF2(dataset=framecorr,
+                           model=NULL,
+                           progress=FALSE,
+                           verbose=FALSE)
+    v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
+
+    best[k] <- sum(v)
+    if (is.na(maxclusters)) {
+      times <- round(nrow(framecorr)*0.5,0)
+    }
+    if (!is.na(maxclusters)) {
+      times <- min(maxclusters,round(nrow(framecorr)*0.5,0))
+    }
+    if (showPlot == TRUE) {
+  	  plot(2,sum(v),xlim=c(1,times),ylim=c(0,1.5*sum(v)),type="p",
+         ylab="Sample size",xlab="Number of clusters")
+  	  tit <- paste("title('kmeans clustering in domain ",k,"')",sep="")
+  	  eval(parse(text=tit))
+    }
+    bestsolution <- NULL
+    if (is.na(nstrata)) {min = 3; max = times }
+    if (!is.na(nstrata)) {min = nstrata; max = nstrata }
+    for (i in min:max) {
+      stmt3 <- paste("],",i,")$cluster",sep="")
       stmt <- paste(stmt1,stmt2,stmt3,sep="")
       eval(parse(text=stmt))
       framecorr$X1 <- solution
@@ -33,45 +60,17 @@ KmeansSolution2 <- function(frame,
                              progress=FALSE,
                              verbose=FALSE)
       v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
-
-      best[k] <- sum(v)
-      if (is.na(maxclusters)) {
-        times <- round(nrow(framecorr)*0.5,0)
+      # cat("\n",sum(v))
+      if (showPlot == TRUE) points(i,sum(v))
+      if (sum(v) <= best[k]) {
+        bestsolution <- solution
+        best_num_strata[k] <- i
+        best[k] <- sum(v)
       }
-      if (!is.na(maxclusters)) {
-        times <- min(maxclusters,round(nrow(framecorr)*0.5,0))
-      }
-      if (showPlot == TRUE) {
-    	  plot(1,sum(v),xlim=c(1,times),ylim=c(0,1.5*sum(v)),type="p",
-           ylab="Sample size",xlab="Number of clusters")
-    	  tit <- paste("title('kmeans clustering in domain ",k,"')",sep="")
-    	  eval(parse(text=tit))
-      }
-      bestsolution <- NULL
-      if (is.na(nstrata)) {min = 3; max = times }
-      if (!is.na(nstrata)) {min = nstrata; max = nstrata }
-      for (i in min:max) {
-        stmt3 <- paste("],",i,")$cluster",sep="")
-        stmt <- paste(stmt1,stmt2,stmt3,sep="")
-        eval(parse(text=stmt))
-        framecorr$X1 <- solution
-        aggr <- buildStrataDF2(dataset=framecorr,
-                               model=NULL,
-                               progress=FALSE,
-                               verbose=FALSE)
-        v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
-        # cat("\n",sum(v))
-        if (showPlot == TRUE) points(i,sum(v))
-        if (sum(v) <= best[k]) {
-          bestsolution <- solution
-          best_num_strata[k] <- i
-          best[k] <- sum(v)
-        }
-      }
-      suggestions <- c(suggestions,bestsolution)
-      domainvalue <- c(domainvalue,rep(k,nrow(framecorr)))
+    }
+    suggestions <- c(suggestions,bestsolution)
+    domainvalue <- c(domainvalue,rep(k,nrow(framecorr)))
   }
-  solutionKmean <- as.data.frame(cbind(suggestions,domainvalue))
   cat("\n-----------------")
   cat("\n Kmeans solution ")
   cat("\n-----------------")
@@ -80,5 +79,6 @@ KmeansSolution2 <- function(frame,
     cat("\n Number of strata: ",best_num_strata[i])
     cat("\n Sample size     : ",best[i])
   }
+  solutionKmean <- as.data.frame(cbind(suggestions,domainvalue))
   solutionKmean
 }
