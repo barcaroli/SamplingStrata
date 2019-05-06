@@ -158,6 +158,8 @@ if (strcens == TRUE) {
                   minnumstr, 
                   printa = FALSE,
                   realAllocation = realAllocation)
+  risulta <- cbind(strata, soluz[-length(soluz)])
+  colnames(risulta)[ncol(risulta)] <- "SOLUZ"
 }
 if (strcens == FALSE) {
   soluz <- bethel(strata, 
@@ -165,8 +167,8 @@ if (strcens == FALSE) {
                   minnumstr, 
                   printa = FALSE,
                   realAllocation = realAllocation)
+  risulta <- cbind(strata, soluz)
 }
-risulta <- cbind(strata, soluz)
 #-----------------------------------------------------  
 
 
