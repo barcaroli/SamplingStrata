@@ -135,7 +135,7 @@ for(j in 1:nX){
   eval(parse(text=paste("x",j,"_cuts$`v",j,"[order(v",j,")]`<-NULL",sep="")))
   eval(parse(text=paste("frame$X",j," <- NULL",sep="")))
 }
-
+    
 for(i in 1:(ncuts+1)) {
   eval(parse(text=paste("frame$c",i,"<-0",sep="")))
   for(j in 1:nX) {
