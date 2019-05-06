@@ -166,8 +166,7 @@ if (strcens == FALSE) {
                   printa = FALSE,
                   realAllocation = realAllocation)
 }
-  risulta <- cbind(strata, soluz)
-}
+risulta <- cbind(strata, soluz)
 #-----------------------------------------------------  
 
 
