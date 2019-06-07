@@ -963,7 +963,7 @@ For a given stratification, the overall size of the sample and the allocation in
 
 If the target survey variables are more than one the optimization problem is said to be *multivariate*; otherwise it is *univariate*.
 
-For a given stratification, in the univariate case the optimization of the allocation is in general based on the *Neyman allocation*. In the univariate case it is possible to make use of the *Bethel algorithm*.
+For a given stratification, in the univariate case the optimization of the allocation is in general based on the *Neyman allocation*. In the multivariate case it is possible to make use of the *Bethel algorithm*.
 
 The criteria according to which stratification is defined are crucial for the efficiency of the sample.
 
