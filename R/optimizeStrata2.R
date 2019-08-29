@@ -58,7 +58,7 @@ optimizeStrata2 <-
             eval(parse(text=paste("framecens$X",i," <- NULL",sep="")))
           }
         }  
-        cens <- buildStrataDF(framecens,progress=FALSE,verbose=FALSE)
+        cens <- buildStrataDF2(framecens,progress=FALSE,verbose=FALSE)
         cens$CENS <- 1
         censtot <- cens
       }
@@ -421,7 +421,7 @@ optimizeStrata2 <-
     #   eval(parse(text=paste("frame$X",j," <- NULL",sep="")))
     # }
     # dataset$X1 <- framenew$LABEL
-    # outstrata2 <- buildStrataDF(dataset,progress=FALSE,verbose=FALSE)
+    # outstrata2 <- buildStrataDF2(dataset,progress=FALSE,verbose=FALSE)
     # outstrata2$SOLUZ <- outstrata$SOLUZ
     #-----------------------------------------    
     solution <- list(indices = vettsol, aggr_strata = outstrata, framenew = framenew)
