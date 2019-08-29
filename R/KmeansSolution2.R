@@ -1,19 +1,10 @@
 KmeansSolution2 <- function(frame,
-<<<<<<< HEAD
                             model=NULL,
                             errors,
                             nstrata = NA,
                             minnumstrat =2,
                             maxclusters = NA,
                             showPlot = TRUE) {
-=======
-                                  model=NULL,
-                                  errors=cv,
-                                  nstrata = NA,
-                                  minnumstrat =2,
-                                  maxclusters = NA,
-                                  showPlot = TRUE) {
->>>>>>> b2d04e628d4fbd96c8264c709f5ad93d4ad91516
   colnames(frame) <- toupper(colnames(frame))
   colnames(errors) <- toupper(colnames(errors))
   nvariables <- ncol(errors) - 2
@@ -37,11 +28,7 @@ KmeansSolution2 <- function(frame,
     stmt <- paste(stmt1,stmt2,stmt3,sep="")
     eval(parse(text=stmt))
     framecorr$X1 <- solution
-<<<<<<< HEAD
     aggr <- buildStrataDF(dataset=framecorr,
-=======
-    aggr <- buildStrataDF2(dataset=framecorr,
->>>>>>> b2d04e628d4fbd96c8264c709f5ad93d4ad91516
                            model=NULL,
                            progress=FALSE,
                            verbose=FALSE)
@@ -68,11 +55,7 @@ KmeansSolution2 <- function(frame,
       stmt <- paste(stmt1,stmt2,stmt3,sep="")
       eval(parse(text=stmt))
       framecorr$X1 <- solution
-<<<<<<< HEAD
       aggr <- buildStrataDF(dataset=framecorr,
-=======
-      aggr <- buildStrataDF2(dataset=framecorr,
->>>>>>> b2d04e628d4fbd96c8264c709f5ad93d4ad91516
                              model=NULL,
                              progress=FALSE,
                              verbose=FALSE)
@@ -83,11 +66,8 @@ KmeansSolution2 <- function(frame,
         bestsolution <- solution
         best_num_strata[k] <- i
         best[k] <- sum(v)
-<<<<<<< HEAD
         cat("\nStrata ",i)
         cat("\nSample size ",sum(v))
-=======
->>>>>>> b2d04e628d4fbd96c8264c709f5ad93d4ad91516
       }
     }
     suggestions <- c(suggestions,bestsolution)
