@@ -1,13 +1,8 @@
 Package: SamplingStrata
 Type: Package
 Title: Optimal Stratification of Sampling Frames for Multipurpose Sampling Surveys
-<<<<<<< HEAD
 Version: 1.5
-Date: 2019-08-29
-=======
-Version: 1.4-2
-Date: 2019-04-06
->>>>>>> b2d04e628d4fbd96c8264c709f5ad93d4ad91516
+Date: 2019-08-31
 Author: Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen, Diego Zardetto
 Maintainer: Giulio Barcaroli <gbarcaroli@gmail.com>
 Description: In the field of stratified sampling design, this package offers an approach for the determination of the best stratification of a sampling frame, the one that ensures the minimum sample cost under the condition to satisfy precision constraints in a multivariate and multidomain case. This approach is based on the use of the genetic algorithm: each solution (i.e. a particular partition in strata of the sampling frame) is considered as an individual in a population; the fitness of all individuals is evaluated applying the Bethel-Chromy algorithm to calculate the sampling size satisfying precision constraints on the target estimates. Functions in the package allows to: (a) analyse the obtained results of the optimisation step; (b) assign the new strata labels to the sampling frame; (c) select a sample from the new frame accordingly to the best allocation. Functions for the execution of the genetic algorithm are a modified version of the functions in the 'genalg' package.  

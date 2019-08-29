@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 export(buildStrataDF,optimizeStrata,tuneParameters,updateStrata,updateFrame,selectSample,selectSampleSystematic,KmeansSolution,checkInput,bethel,var.bin,evalSolution,plotSamprate,adjustSize,buildFrameDF,expected_CV,optimizeStrata2,plotStrata2d,summaryStrata,assignStrataLabel,KmeansSolution2,KmeansSolutionSpatial,optimizeStrataSpatial,buildStrataDFSpatial,aggrStrata2,aggrStrataSpatial)
-=======
-export(buildStrataDF,optimizeStrata,tuneParameters,updateStrata,updateFrame,selectSample,selectSampleSystematic,KmeansSolution,checkInput,bethel,var.bin,evalSolution,plotSamprate,adjustSize,buildFrameDF,expected_CV,optimizeStrata2,plotStrata2d,summaryStrata,assignStrataLabel,KmeansSolution2,prepareSuggestion)
->>>>>>> b2d04e628d4fbd96c8264c709f5ad93d4ad91516
 importFrom("grDevices", "dev.off", "pdf")
 importFrom("graphics", "boxplot", "close.screen", "lines", "plot", "screen", "split.screen", "title","points")
 importFrom("stats", "aggregate", "kmeans", "runif", "sd")
