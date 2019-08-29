@@ -1,9 +1,11 @@
-strataGenalg2 <- function (
+strataGenalgSpatial <- function (
     errors, 
     frame, 
     cens,
     strcens,
-    model,
+    fitting,
+    range,
+    gamma,
     ncuts,
     dominio, 
     minnumstr, 
@@ -25,10 +27,13 @@ strataGenalg2 <- function (
 evaluate <- function(dataset,
                      cens,
                      strcens,
-                     model,
+                     fitting,
+                     range,
+                     gamma,
                      minnumstr,
                      errors,
-                     string=c(),ncuts) {
+                     string=c(),
+                     ncuts) {
   frame <- dataset
   nX <- sum(grepl("X",colnames(frame)))
   for(i in 1:nX){
@@ -38,7 +43,7 @@ evaluate <- function(dataset,
   for(j in 1:nX){
       ini=(j-1)*(NROW(v)/nX)+1
       fin=j*(NROW(v)/nX)
-      eval(parse(text=paste("v",j,"<-string[ini:fin]*max(frame$ZZ",j,")",sep="")))
+      eval(parse(text=paste("v",j,"<-string[ini:fin]*max(frame$ZZ",i,")",sep="")))
       eval(parse(text=paste("x",j,"_cuts<-as.data.frame(v",j,"[order(v",j,")])",sep="")))
       eval(parse(text=paste("x",j,"_cuts<-as.data.frame(rbind(min(frame$ZZ",j,")",",x",j,"_cuts,max(frame$ZZ",j,")))",sep="")))
       eval(parse(text=paste("x",j,"_cuts$lim<-x",j,"_cuts$`v",j,"[order(v",j,")]`",sep="")))
@@ -60,7 +65,12 @@ evaluate <- function(dataset,
     frame$X1 <- as.numeric(frame$X1)
   }
   frame$X1 <- as.numeric(frame$X1)
-  strata <- buildStrataDF(frame,model=model,progress = FALSE,verbose=FALSE)
+  strata <- buildStrataDFSpatial(dataset=frame,
+                                 fitting=fitting,
+                                 range=range,
+                                 gamma=gamma,
+                                 progress=FALSE,
+                                 verbose=FALSE)
   if (strcens == TRUE) {
     stratatot <- rbind(strata,cens)
     soluz <- bethel(stratatot, 
@@ -95,11 +105,13 @@ monitor <- function(obj) {
 #-------------------------------
 stringMin = rep(0,ncuts*sum(grepl("X",colnames(frame))))
 stringMax = rep(1,ncuts*sum(grepl("X",colnames(frame))))
-rbga.results = rbga2(
+rbga.results = rbgaSpatial(
                     frame,
                     cens,
                     strcens,
-                    model,
+                    fitting,
+                    range,
+                    gamma,
                     minnumstr,
                     errors,
                     ncuts,
@@ -128,7 +140,7 @@ v<-string
 for(j in 1:nX){
   ini=(j-1)*(NROW(v)/nX)+1
   fin=j*(NROW(v)/nX)
-  eval(parse(text=paste("v",j,"<-string[ini:fin]*max(frame$ZZ",j,")",sep="")))
+  eval(parse(text=paste("v",j,"<-string[ini:fin]*max(frame$ZZ",i,")",sep="")))
   eval(parse(text=paste("x",j,"_cuts<-as.data.frame(v",j,"[order(v",j,")])",sep="")))
   eval(parse(text=paste("x",j,"_cuts<-as.data.frame(rbind(min(frame$ZZ",j,")",",x",j,"_cuts,max(frame$ZZ",j,")))",sep="")))
   eval(parse(text=paste("x",j,"_cuts$lim<-x",j,"_cuts$`v",j,"[order(v",j,")]`",sep="")))
@@ -150,7 +162,11 @@ if (max(levels(frame$X1)) > length(levels(frame$X1))) {
   frame$X1 <- as.numeric(frame$X1)
 }
 frame$X1 <- as.numeric(frame$X1)
-strata <- buildStrataDF(frame,model=model,progress = FALSE,verbose=FALSE)
+strata <- buildStrataDFSpatial(dataset=frame,
+                               fitting=fitting,
+                               range=range,
+                               gamma=gamma,
+                               progress=FALSE,verbose=FALSE)
 if (strcens == TRUE) {
   stratatot <- rbind(strata,cens)
   soluz <- bethel(stratatot, 

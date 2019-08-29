@@ -1,12 +1,14 @@
-optimizeStrata2 <- 
+optimizeStrataSpatial <- 
   function (errors, 
             framesamp,
             framecens = NULL, 
             strcens = FALSE, 
-            model = NULL, 
             alldomains = TRUE, 
             dom = NULL, 
             nStrata = 5, 
+            fitting=1,
+            range=1,
+            gamma=3,
             minnumstr = 2, 
             iter = 50, 
             pops = 20, 
@@ -28,8 +30,8 @@ optimizeStrata2 <-
     frame <- framesamp
     if (alldomains == TRUE) dom <- NULL
     colnames(frame) <- toupper(colnames(frame))
+    nvarX <- length(grep("X", names(framesamp)))
     ndom <- length(levels(as.factor(frame$DOMAINVALUE)))
-    nvarX <- length(grep("X", names(frame)))
     if (alldomains == FALSE) {
       frame <- frame[frame$DOMAINVALUE == dom,]
     }
@@ -58,7 +60,11 @@ optimizeStrata2 <-
             eval(parse(text=paste("framecens$X",i," <- NULL",sep="")))
           }
         }  
-        cens <- buildStrataDF(framecens,progress=FALSE,verbose=FALSE)
+        cens <- buildStrataDFSpatial(dataset=frame,
+                                     fitting=fitting,
+                                     range=range,
+                                     gamma=gamma,
+                                     progress=FALSE,verbose=FALSE)
         cens$CENS <- 1
         censtot <- cens
       }
@@ -108,7 +114,6 @@ optimizeStrata2 <-
       }
     }
     # ndom <- length(levels(as.factor(strata$DOM1)))
-    # ndom <- length(levels(as.factor(frame$DOMAINVALUE)))
     if (alldomains == TRUE) {
       # if (ndom > length(nstrata)) 
       #   stop("'initialStrata' vector lenght (=", length(nstrata), 
@@ -136,78 +141,80 @@ optimizeStrata2 <-
         
         par_ga_sol = pblapply(
           cl = cl, X = 1:ndom, FUN = function(i)  {         
-                                erro[[i]] <- erro[[i]][, -ncol(errors)]
-                                # cens <- NULL
-                                flagcens <- strcens
-                                if (strcens == TRUE) {
-                                  if (nrow(stcens[[i]]) > 0) {
-                                    cens <- stcens[[i]]
-                                    flagcens = TRUE
-                                  }
-                                }
-                                if (strcens == TRUE) {
-                                  if (nrow(stcens[[i]]) == 0) {
-                                    cens <- NULL
-                                    flagcens = FALSE
-                                  }
-                                }
-                                if (strcens == FALSE) {
-                                  cens <- NULL
-                                  flagcens = FALSE
-                                }
-                                if (!is.null(suggestions) & alldomains == TRUE) {
-                                  suggest <- matrix(0, nrow = 2, ncol = (nStrata-1)*nvarX)
-                                  suggest[1, ] <- suggestdom[[i]]$suggestions1
-                                  suggest[2, ] <- suggestdom[[i]]$suggestions2
-                                }
-                                if (!is.null(suggestions) & alldomains == FALSE) {
-                                  suggest <- matrix(0, nrow = 2, ncol = (nStrata-1)*nvarX)
-                                  suggest[1, ] <- suggestdom[[i]]$suggestions1
-                                  suggest[2, ] <- suggestdom[[i]]$suggestions2
-                                }
-                                if (is.null(suggestions)) {
-                                  suggest <- NULL
-                                }
-                                if (nrow(stcamp[[i]]) > 0) {
-                                  solut <- strataGenalg2(errors = erro[[i]], 
-                                                         frame = stcamp[[i]],
-                                                         cens = cens, 
-                                                         strcens = flagcens, 
-                                                         model,
-                                                         ncuts = (nStrata - 1),
-                                                         dominio = i, 
-                                                         minnumstr, 
-                                                         iter, 
-                                                         pops, 
-                                                         mut_chance, 
-                                                         elitism_rate, 
-                                                         suggestions = suggest, 
-                                                         realAllocation, 
-                                                         writeFiles, 
-                                                         showPlot)
-                                  if (nrow(stcamp[[i]]) == 1) {
-                                    solut <- list(c(1), 
-                                                  stcamp[[i]][c(1:grep("DOMAINVALUE", 
-                                                  colnames(stcamp[[i]])))])
-                                    error <- data.frame(erro[[i]])
-                                    strat <- data.frame(solut[[2]])
-                                    solut[[2]]$SOLUZ <- sum(bethel(strat, error, 
-                                                                   realAllocation = T))
-                                    if (solut[[2]]$SOLUZ > solut[[2]]$N) 
-                                      solut[[2]]$SOLUZ <- solut[[2]]$N
-                                  }
-                                  vettsol <- solut[[1]]
-                                  if (length(outstrata) > 0) 
-                                  colnames(outstrata) <- toupper(colnames(outstrata))
-                                  colnames(solut[[2]]) <- toupper(colnames(solut[[2]]))
-                                  outstrata <- solut[[2]]
-                                  rbga.results <- solut[[3]]
-                                  list(vettsol = vettsol, outstrata = outstrata, 
-                                       rbga.results = rbga.results)
-                                }
-                              }
+            erro[[i]] <- erro[[i]][, -ncol(errors)]
+            # cens <- NULL
+            flagcens <- strcens
+            if (strcens == TRUE) {
+              if (nrow(stcens[[i]]) > 0) {
+                cens <- stcens[[i]]
+                flagcens = TRUE
+              }
+            }
+            if (strcens == TRUE) {
+              if (nrow(stcens[[i]]) == 0) {
+                cens <- NULL
+                flagcens = FALSE
+              }
+            }
+            if (strcens == FALSE) {
+              cens <- NULL
+              flagcens = FALSE
+            }
+            if (!is.null(suggestions) & alldomains == TRUE) {
+              suggest <- matrix(0, nrow = 2, ncol = ncuts*nvarX)
+              suggest[1, ] <- suggestdom[[i]]$suggestions1
+              suggest[2, ] <- suggestdom[[i]]$suggestions2
+            }
+            if (!is.null(suggestions) & alldomains == FALSE) {
+              suggest <- matrix(0, nrow = 2, ncol = ncuts*nvarX)
+              suggest[1, ] <- suggestions$suggestions1
+              suggest[2, ] <- suggestdom[[i]]$suggestions2
+            }
+            if (is.null(suggestions)) {
+              suggest <- NULL
+            }
+            if (nrow(stcamp[[i]]) > 0) {
+              solut <- strataGenalgSpatial(errors = erro[[i]], 
+                                            frame = stcamp[[i]],
+                                            cens = cens, 
+                                            strcens = flagcens, 
+                                            fitting  = fitting,
+                                            range = range,
+                                            gamma = gamma,
+                                            ncuts = (nStrata - 1),
+                                            dominio = i, 
+                                            minnumstr, 
+                                            iter, 
+                                            pops, 
+                                            mut_chance, 
+                                            elitism_rate, 
+                                            suggestions = suggest, 
+                                            realAllocation, 
+                                            writeFiles, 
+                                            showPlot)
+              if (nrow(stcamp[[i]]) == 1) {
+                solut <- list(c(1), 
+                              stcamp[[i]][c(1:grep("DOMAINVALUE", 
+                                                   colnames(stcamp[[i]])))])
+                error <- data.frame(erro[[i]])
+                strat <- data.frame(solut[[2]])
+                solut[[2]]$SOLUZ <- sum(bethel(strat, error, 
+                                               realAllocation = T))
+                if (solut[[2]]$SOLUZ > solut[[2]]$N) 
+                  solut[[2]]$SOLUZ <- solut[[2]]$N
+              }
+              vettsol <- solut[[1]]
+              if (length(outstrata) > 0) 
+                colnames(outstrata) <- toupper(colnames(outstrata))
+              colnames(solut[[2]]) <- toupper(colnames(solut[[2]]))
+              outstrata <- solut[[2]]
+              rbga.results <- solut[[3]]
+              list(vettsol = vettsol, outstrata = outstrata, 
+                   rbga.results = rbga.results)
+            }
+          }
         )
-#       vettsol <- do.call(c, lapply(par_ga_sol, `[[`, 1)) 
+        #       vettsol <- do.call(c, lapply(par_ga_sol, `[[`, 1)) 
         vettsol <- do.call(rbind, lapply(par_ga_sol, `[[`, 1))
         outstrata <- do.call(rbind, lapply(par_ga_sol, `[[`, 2))
         results <- do.call(rbind, lapply(par_ga_sol, `[[`, 3))
@@ -255,35 +262,37 @@ optimizeStrata2 <-
             flagcens = FALSE
           }
           if (!is.null(suggestions) & alldomains == TRUE) {
-            suggest <- matrix(0, nrow = 2, ncol = (nStrata-1)*nvarX)
+            suggest <- matrix(0, nrow = 2, ncol = ncuts*nvarX)
             suggest[1, ] <- suggestdom[[i]]$suggestions1
             suggest[2, ] <- suggestdom[[i]]$suggestions2
           }
           if (!is.null(suggestions) & alldomains == FALSE) {
-            suggest <- matrix(0, nrow = 2, ncol = (nStrata-1)*nvarX)
-            suggest[1, ] <- suggestions$suggestions1
-            suggest[2, ] <- suggestions$suggestions2
+            suggest <- matrix(0, nrow = 2, ncol = ncuts*nvarX)
+            suggest[1, ] <- suggestdom[[i]]$suggestions1
+            suggest[2, ] <- suggestdom[[i]]$suggestions2
           }
           if (is.null(suggestions)) {
             suggest <- NULL
           }
           if (nrow(stcamp[[i]]) > 0) {
-            solut <- strataGenalg2(errors = erro[[i]], 
-                                   frame = stcamp[[i]],
-                                   cens = cens, 
-                                   strcens = flagcens, 
-                                   model,
-                                   ncuts = (nStrata - 1),
-                                   dominio = i, 
-                                   minnumstr, 
-                                   iter, 
-                                   pops, 
-                                   mut_chance, 
-                                   elitism_rate, 
-                                   suggestions = suggest, 
-                                   realAllocation, 
-                                   writeFiles, 
-                                   showPlot)
+            solut <- strataGenalgSpatial(errors = erro[[i]], 
+                                          frame = stcamp[[i]],
+                                          cens = cens, 
+                                          strcens = flagcens, 
+                                          fitting = fitting,
+                                          range = range,
+                                          gamma = gamma,
+                                          ncuts = (nStrata - 1),
+                                          dominio = i, 
+                                          minnumstr, 
+                                          iter, 
+                                          pops, 
+                                          mut_chance, 
+                                          elitism_rate, 
+                                          suggestions = suggest, 
+                                          realAllocation, 
+                                          writeFiles, 
+                                          showPlot)
             if (nrow(stcamp[[i]]) == 1) {
               solut <- list(c(1), stcamp[[i]][c(1:grep("DOMAINVALUE", 
                                                        colnames(stcamp[[i]])))])
@@ -335,33 +344,35 @@ optimizeStrata2 <-
         }
       }
       if (!is.null(suggestions) & alldomains == TRUE) {
-        suggest <- matrix(0, nrow = 2, ncol = (nStrata-1)*nvarX)
+        suggest <- matrix(0, nrow = 1, ncol = ncuts*nvarX)
         suggest[1, ] <- suggestdom[[i]]$suggestions
       }
       if (!is.null(suggestions) & alldomains == FALSE) {
-        suggest <- matrix(0, nrow = 2, ncol = (nStrata-1)*nvarX)
+        suggest <- matrix(0, nrow = 1, ncol = ncuts*nvarX)
         suggest[1, ] <- suggestions$suggestions
       }
       if (is.null(suggestions)) {
         suggest <- NULL
       }
-      solut <- strataGenalg2(errors = erro[[i]], 
-                             frame = frame,
-                             # frame = stcamp[[i]], 
-                             cens = cens, 
-                             strcens = flagcens, 
-                             model,
-                             ncuts = (nStrata - 1),
-                             dominio = i, 
-                             minnumstr, 
-                             iter, 
-                             pops, 
-                             mut_chance, 
-                             elitism_rate, 
-                             suggestions = suggest, 
-                             realAllocation, 
-                             writeFiles, 
-                             showPlot)
+      solut <- strataGenalgSpatial(errors = erro[[i]], 
+                                    frame = frame,
+                                    # frame = stcamp[[i]], 
+                                    cens = cens, 
+                                    strcens = flagcens, 
+                                    fitting = fitting,
+                                    range = range,
+                                    gamma = gamma,
+                                    ncuts = (nStrata - 1),
+                                    dominio = i, 
+                                    minnumstr, 
+                                    iter, 
+                                    pops, 
+                                    mut_chance, 
+                                    elitism_rate, 
+                                    suggestions = suggest, 
+                                    realAllocation, 
+                                    writeFiles, 
+                                    showPlot)
       vettsol <- solut[[1]]
       outstrata <- solut[[2]]
       rbga.object <- solut[[3]]
@@ -421,7 +432,7 @@ optimizeStrata2 <-
     #   eval(parse(text=paste("frame$X",j," <- NULL",sep="")))
     # }
     # dataset$X1 <- framenew$LABEL
-    # outstrata2 <- buildStrataDF(dataset,progress=FALSE,verbose=FALSE)
+    # outstrata2 <- buildStrataDFSpatial(dataset,progress=FALSE,verbose=FALSE)
     # outstrata2$SOLUZ <- outstrata$SOLUZ
     #-----------------------------------------    
     solution <- list(indices = vettsol, aggr_strata = outstrata, framenew = framenew)

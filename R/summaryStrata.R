@@ -1,4 +1,7 @@
-summaryStrata <- function (x, outstrata, progress = TRUE, writeFiles = FALSE) 
+summaryStrata <- function (x, 
+                           outstrata, 
+                           progress = TRUE, 
+                           writeFiles = FALSE) 
 {
   colnames(x) <- toupper(colnames(x))
   domains <- length(levels(as.factor(x$DOMAINVALUE)))

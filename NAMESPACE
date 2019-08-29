@@ -1,4 +1,4 @@
-export(buildStrataDF,optimizeStrata,tuneParameters,updateStrata,updateFrame,selectSample,selectSampleSystematic,KmeansSolution,checkInput,bethel,var.bin,evalSolution,plotSamprate,adjustSize,buildFrameDF,expected_CV,optimizeStrata2,plotStrata2d,summaryStrata,assignStrataLabel)
+export(buildStrataDF,optimizeStrata,tuneParameters,updateStrata,updateFrame,selectSample,selectSampleSystematic,KmeansSolution,checkInput,bethel,var.bin,evalSolution,plotSamprate,adjustSize,buildFrameDF,expected_CV,optimizeStrata2,plotStrata2d,summaryStrata,assignStrataLabel,KmeansSolution2,KmeansSolutionSpatial,optimizeStrataSpatial,buildStrataDFSpatial,aggrStrata2,aggrStrataSpatial)
 importFrom("grDevices", "dev.off", "pdf")
 importFrom("graphics", "boxplot", "close.screen", "lines", "plot", "screen", "split.screen", "title","points")
 importFrom("stats", "aggregate", "kmeans", "runif", "sd")
@@ -12,6 +12,6 @@ importFrom("parallel", "clusterExport","detectCores","makePSOCKcluster","stopClu
 importFrom("pbapply", "pblapply")
 importFrom("grDevices", "rainbow")
 importFrom("graphics", "legend")
-importFrom("stats", "dnorm")
+importFrom("stats", "dnorm","cov","var")
 importFrom("formattable", "formattable", "color_bar")
 

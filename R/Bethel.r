@@ -388,8 +388,8 @@ checkData <- function(strata = NULL, errors = NULL) {
         # stop('In strata dataframe the number of means and std
         # deviations differs from the number of coefficient of
         # variations in errors dataframe')
-        if (sum(grepl("DOM", toupper(colnames(strata)), fixed = TRUE)) != 
-            nrow(errors)) 
+        if (sum(grepl("DOM", toupper(colnames(strata)), fixed = TRUE)) !=
+            nrow(errors))
             stop("The different domains (DOMx) in strata dataframe are not represented in errors dataframe")
     }
     

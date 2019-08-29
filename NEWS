@@ -1,3 +1,18 @@
+Changes in Version 1.5
+
+  o A new 'optimizeStrataSpatial' function is available: this function optimizes the frame stratification
+  taking into account also spatial correlation of frame units in a territorial context. As for 'optimizeStrata2',
+  this function can be used only on continuous stratification variables	
+	
+  o A new 'kMeansSolutionSpatial' function has been added: this function is the same than 'KmeansSolution', 
+  but operates in the case of optimization with only continuous stratification variables and has to be 
+  used only in conjunction with 'optimizeStrataSpatial'
+  
+  o A new 'KmeansSolution2' function has been added: this function is the same than 'KmeansSolution', 
+  but operates in the case of optimization with only continuous stratification variables and has to be 
+  used only in conjunction with 'optimizeStrata2'
+  
+
 Changes in Version 1.4-1
 
   o A new 'summaryStrata' function has been added, enabling to get structured information regarding 
@@ -8,6 +23,7 @@ Changes in Version 1.4-1
   to new units to be added in the sampling frame
 
   o Fixed a bug in the optimization step for continuous variables
+
 
 Changes in Version 1.4
 

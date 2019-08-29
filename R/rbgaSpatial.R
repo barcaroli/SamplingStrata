@@ -8,11 +8,13 @@
 # popSize          = the population size
 # iters            = number of generations
 # mutationChance   = chance that a var in the string gets mutated
-rbga2 <- function(dataset,
-                  cens,
-                  strcens,
-                  model,
-                  minnumstr,
+rbgaSpatial <- function(dataset,
+                 cens,
+                 strcens,
+                 fitting,
+                 range,
+                 gamma,
+                 minnumstr,
                  errors,
                  ncuts,
                  stringMin=c(), 
@@ -71,13 +73,10 @@ rbga2 <- function(dataset,
         if (!is.null(suggestions)) {
             if (verbose) cat("Adding suggestions to first population...\n");
             population = matrix(nrow=popSize, ncol=vars);
-            # suggestionCount = dim(suggestions)[1]
-            # for (i in 1:suggestionCount) {
-            #     population[i,] = suggestions[i,]
-            # }
-            suggestionCount = 2
-            population[1,] = suggestions[1,]
-            population[2,] = suggestions[2,]
+            suggestionCount = dim(suggestions)[1]
+            for (i in 1:suggestionCount) {
+                population[i,] = suggestions[i,]
+            }
             if (verbose) cat("Filling others with random values in the given domains...\n");
             for (var in 1:vars) {
                 population[(suggestionCount+1):popSize,var] = stringMin[var] +
@@ -111,7 +110,9 @@ rbga2 <- function(dataset,
                       res <- evalFunc(dataset,
                                       cens,
                                       strcens,
-                                      model,
+                                      fitting,
+                                      range,
+                                      gamma,
                                       minnumstr,
                                       errors,
                                       population[object,],
@@ -203,19 +204,18 @@ rbga2 <- function(dataset,
                                 # OPTION 2
                                 # mutate around solution
                               #-------- Modification :
-                              if (mutationFactor == 0) {
+                              # if (mutationFactor == 0) {
                                 dempeningFactor = (iters-iter)/iters
                                 direction       = sample(c(-1,1),1)
                                 mutationVal     = (stringMax[var]-stringMin[var])*0.01
-                                mutation = population[object,var] + direction*mutationVal
+                                mutation = population[object,var] + direction * mutationVal 
                                 # * dempeningFactor
-                              }
-                              if (mutationFactor > 0) {
-                                direction = sample(c(-1,1),1)
-                                mutation = population[object,var] * (1+(mutationFactor*direction))
-                                # mutation = population[object,var] * (1-mutationFactor)
-
-                              }
+                              # }
+                              # if (mutationFactor > 0) {
+                              #   direction = sample(c(-1,1),1)
+                              #   mutation = population[object,var] * (1+(mutationFactor*direction))
+                              #   mutation = population[object,var] * (1-mutationFactor)
+                              # }
                               # but in domain. if not, then take random
                               if (mutation < stringMin[var]) 
                                 mutation = stringMin[var] +
