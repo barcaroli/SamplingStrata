@@ -20,11 +20,7 @@ the second the domains.
 \usage{
 KmeansSolution2(frame,
                 model=NULL,
-<<<<<<< HEAD
                 errors,
-=======
-                errors=cv,
->>>>>>> b2d04e628d4fbd96c8264c709f5ad93d4ad91516
                 nstrata = NA,
                 minnumstrat =2,
                 maxclusters = NA,
