@@ -33,14 +33,18 @@ buildStrataDFSpatial <- function(dataset,
     eval(parse(text = stmt))
     if (nrow(dataset) > 1) {
       somma_coppie_var <- as.matrix(outer(var,var,"+"))
-      spatial_correlation <- (1 - (exp(-gamma*dist/range)))
+      prod_coppie_var <- as.matrix(outer(sqrt(var),sqrt(var),"*"))
+      # spatial_correlation <- (1 - (exp(-gamma*dist/range)))
+      spatial_cov <- prod_coppie_var*exp(-gamma*dist/range)
     }
     if (nrow(dataset) <= 1) {
       somma_coppie_var <- 0
-      spatial_correlation <- 0
+      # spatial_correlation <- 0
+      spatial_cov <- 0
     }
     # variance in the stratum
-    D2 <- z_z/fitting + somma_coppie_var * spatial_correlation
+    # D2 <- z_z/fitting + somma_coppie_var * spatial_correlation
+    D2 <- z_z/fitting + somma_coppie_var-2*spatial_cov
     var_strato <- sum(D2) / (2*nrow(dataset)^2)
     # standard deviation
     if (var_strato < 0) var_strato <- 0
