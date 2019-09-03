@@ -201,6 +201,7 @@ buildStrataDF2 <- function(dataset,
                 l.split <- split(samp, samp$STRATO, drop = TRUE)
                 #-- PART I ---------------
                 stdev = "stdev3"
+                fitting <- model$fitting[i]
                 beta1 <- model$beta[i]
                 beta2 <- model$beta2[i]
                 # st <- paste("gammas <- tapply(Y^model$gamma[",i,"],STRATO,sum) / as.numeric(table(STRATO))",sep="")
@@ -226,7 +227,7 @@ buildStrataDF2 <- function(dataset,
                 # eval(parse(text=stmt))
                 #-- TOTAL S ---------------
                 # st <- paste("S",i," <- sqrt(sd1^2 + sd2^2 + cov1^2)",sep="")
-                st <- paste("S",i," <- sqrt(sd1^2 + sd2^2)",sep="")
+                st <- paste("S",i," <- sqrt(sd1^2 + sd2^2)/fitting",sep="")
                 eval(parse(text=st))
               }
             }
