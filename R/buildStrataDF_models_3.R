@@ -227,7 +227,7 @@ buildStrataDF2 <- function(dataset,
                 # eval(parse(text=stmt))
                 #-- TOTAL S ---------------
                 # st <- paste("S",i," <- sqrt(sd1^2 + sd2^2 + cov1^2)",sep="")
-                st <- paste("S",i," <- sqrt(sd1^2/fitting + sd2^2)",sep="")
+                st <- paste("S",i," <- sqrt((sd1/fitting)^2 + sd2^2)",sep="")
                 eval(parse(text=st))
               }
             }
