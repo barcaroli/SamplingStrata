@@ -39,19 +39,18 @@ buildStrataDF2 <- function(dataset,
     }
     # covar is for spatial models (part III)
     # cov1 <- function(df,psill,range,Y,W,beta1,beta2) {
-      
-      preds <- beta1 * Y + beta2 * W
-      dist <- sqrt((outer(df$LON, df$LON, "-"))^2 + (outer(df$LAT, df$LAT, "-"))^2)
-      std_eps_ntimes <- sqrt(rep(psill, nrow(df)))
-      v <- var(preds)
-      v <- ifelse(is.na(v),0,v)
-      std_pred_ntimes <- sqrt(rep(v,nrow(df)))
-      prod_couples_std <- as.matrix(outer(std_eps_ntimes,std_pred_ntimes ),"*")
-      spatial_autocovariance <- prod_couples_std * exp(-1 * dist/(range + 1e-07))
-      D2 <-  2 * spatial_autocovariance
-      var2 <- sum(D2)/(2 * nrow(df)^2)
-      sqrt(var2)
-    }
+    #   preds <- beta1 * Y + beta2 * W
+    #   dist <- sqrt((outer(df$LON, df$LON, "-"))^2 + (outer(df$LAT, df$LAT, "-"))^2)
+    #   std_eps_ntimes <- sqrt(rep(psill, nrow(df)))
+    #   v <- var(preds)
+    #   v <- ifelse(is.na(v),0,v)
+    #   std_pred_ntimes <- sqrt(rep(v,nrow(df)))
+    #   prod_couples_std <- as.matrix(outer(std_eps_ntimes,std_pred_ntimes ),"*")
+    #   spatial_autocovariance <- prod_couples_std * exp(-1 * dist/(range + 1e-07))
+    #   D2 <-  2 * spatial_autocovariance
+    #   var2 <- sum(D2)/(2 * nrow(df)^2)
+    #   sqrt(var2)
+    # }
     colnames(dataset) <- toupper(colnames(dataset))
     # if (is.factor(dataset$DOMAINVALUE)) levels(dataset$DOMAINVALUE) <- levels(droplevels(dataset$DOMAINVALUE))
     nvarX <- length(grep("X", names(dataset)))
