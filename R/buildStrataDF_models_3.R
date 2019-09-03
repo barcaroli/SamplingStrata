@@ -37,20 +37,20 @@ buildStrataDF2 <- function(dataset,
       var2 <- sum(D2)/(2*nrow(df)^2)
       sqrt (var2)
     }
-    # covar is for spatial models (part III)
-    # cov1 <- function(df,psill,range,Y,W,beta1,beta2) {
-    #   preds <- beta1 * Y + beta2 * W
-    #   dist <- sqrt((outer(df$LON, df$LON, "-"))^2 + (outer(df$LAT, df$LAT, "-"))^2)
-    #   std_eps_ntimes <- sqrt(rep(psill, nrow(df)))
-    #   v <- var(preds)
-    #   v <- ifelse(is.na(v),0,v)
-    #   std_pred_ntimes <- sqrt(rep(v,nrow(df)))
-    #   prod_couples_std <- as.matrix(outer(std_eps_ntimes,std_pred_ntimes ),"*")
-    #   spatial_autocovariance <- prod_couples_std * exp(-1 * dist/(range + 1e-07))
-    #   D2 <-  2 * spatial_autocovariance
-    #   var2 <- sum(D2)/(2 * nrow(df)^2)
-    #   sqrt(var2)
-    # }
+    # cov1 is for spatial models (part III)
+    cov1 <- function(df,psill,range,Y,W,beta1,beta2) {
+      preds <- beta1 * Y + beta2 * W
+      dist <- sqrt((outer(df$LON, df$LON, "-"))^2 + (outer(df$LAT, df$LAT, "-"))^2)
+      std_eps_ntimes <- sqrt(rep(psill, nrow(df)))
+      v <- var(preds)
+      v <- ifelse(is.na(v),0,v)
+      std_pred_ntimes <- sqrt(rep(v,nrow(df)))
+      prod_couples_std <- as.matrix(outer(std_eps_ntimes,std_pred_ntimes ),"*")
+      spatial_autocovariance <- prod_couples_std * exp(-1 * dist/(range + 1e-07))
+      D2 <-  2 * spatial_autocovariance
+      var2 <- sum(D2)/(2 * nrow(df)^2)
+      sqrt(var2)
+    }
     colnames(dataset) <- toupper(colnames(dataset))
     # if (is.factor(dataset$DOMAINVALUE)) levels(dataset$DOMAINVALUE) <- levels(droplevels(dataset$DOMAINVALUE))
     nvarX <- length(grep("X", names(dataset)))
@@ -221,13 +221,15 @@ buildStrataDF2 <- function(dataset,
                 #               sep = "")
                 # eval(parse(text=stmt2))
                 #-- PART III ---------------
-                # stmt <- paste("cov1 <- sapply(l.split, function(df,y,w) ",
-                #                "cov1(df,psill,range,df[,y],df[,w],beta1,beta2), y = 'Y",i,"',w = 'W",i,"')",
-                #                sep = "")
-                # eval(parse(text=stmt))
+                psill2 <- model$sig2_2[i]
+                range2 <- model$range_2[i]
+                stmt <- paste("cov1 <- sapply(l.split, function(df,y,w) ",
+                               "cov1(df,psill2,range2,df[,y],df[,w],beta1,beta2), y = 'Y",i,"',w = 'W",i,"')",
+                               sep = "")
+                eval(parse(text=stmt))
                 #-- TOTAL S ---------------
-                # st <- paste("S",i," <- sqrt(sd1^2 + sd2^2 + cov1^2)",sep="")
-                st <- paste("S",i," <- sqrt((sd1/fitting)^2 + sd2^2)",sep="")
+                st <- paste("S",i," <- sqrt(sd1^2/fitting + sd2^2 + cov1^2)",sep="")
+                # st <- paste("S",i," <- sqrt(sd1^2/fitting) + sd2^2)",sep="")
                 eval(parse(text=st))
               }
             }
