@@ -38,7 +38,7 @@ buildStrataDF2 <- function(dataset,
       sqrt (var2)
     }
     # covar is for spatial models (part III)
-    cov1 <- function(df,psill,range,Y,W,beta1,beta2) {
+    # cov1 <- function(df,psill,range,Y,W,beta1,beta2) {
       
       preds <- beta1 * Y + beta2 * W
       dist <- sqrt((outer(df$LON, df$LON, "-"))^2 + (outer(df$LAT, df$LAT, "-"))^2)
@@ -221,12 +221,13 @@ buildStrataDF2 <- function(dataset,
                 #               sep = "")
                 # eval(parse(text=stmt2))
                 #-- PART III ---------------
-                stmt <- paste("cov1 <- sapply(l.split, function(df,y,w) ",
-                               "cov1(df,psill,range,df[,y],df[,w],beta1,beta2), y = 'Y",i,"',w = 'W",i,"')",
-                               sep = "")
-                eval(parse(text=stmt))
+                # stmt <- paste("cov1 <- sapply(l.split, function(df,y,w) ",
+                #                "cov1(df,psill,range,df[,y],df[,w],beta1,beta2), y = 'Y",i,"',w = 'W",i,"')",
+                #                sep = "")
+                # eval(parse(text=stmt))
                 #-- TOTAL S ---------------
-                st <- paste("S",i," <- sqrt(sd1^2 + sd2^2 + cov1^2)",sep="")
+                # st <- paste("S",i," <- sqrt(sd1^2 + sd2^2 + cov1^2)",sep="")
+                st <- paste("S",i," <- sqrt(sd1^2 + sd2^2)",sep="")
                 eval(parse(text=st))
               }
             }
