@@ -11,7 +11,7 @@
 buildStrataDFSpatial <- function(dataset,
                                   fitting=1,
                                   range=1,
-                                  gamma=3,
+                                  kappa=3,
                                   progress=FALSE,
                                   verbose=FALSE) {
 #---------------------------------------------
@@ -23,7 +23,7 @@ buildStrataDFSpatial <- function(dataset,
   # dist <- sqrt((outer(dataset$LON,dataset$LON,"-"))^2+(outer(dataset$LAT,dataset$LAT,"-"))^2)
 
 # standard deviation calculated with distances
-  stdev <- function(dataset, i, fitting, range, gamma) {
+  stdev <- function(dataset, i, fitting, range, kappa) {
     z_z <- NULL
     var <- NULL
     dist <- sqrt((outer(dataset$LON,dataset$LON,"-"))^2+(outer(dataset$LAT,dataset$LAT,"-"))^2)
@@ -34,8 +34,8 @@ buildStrataDFSpatial <- function(dataset,
     if (nrow(dataset) > 1) {
       somma_coppie_var <- as.matrix(outer(var,var,"+"))
       prod_coppie_var <- as.matrix(outer(sqrt(var),sqrt(var),"*"))
-      # spatial_correlation <- (1 - (exp(-gamma*dist/range)))
-      spatial_cov <- prod_coppie_var*exp(-gamma*dist/range)
+      # spatial_correlation <- (1 - (exp(-kappa*dist/range)))
+      spatial_cov <- prod_coppie_var*exp(-kappa*dist/range)
     }
     if (nrow(dataset) <= 1) {
       somma_coppie_var <- 0
@@ -52,7 +52,7 @@ buildStrataDFSpatial <- function(dataset,
     return(sd_strato)
   }
   
-  # stdev <- function(zz, dist, var, strat, dataset, fitting, range, gamma) {
+  # stdev <- function(zz, dist, var, strat, dataset, fitting, range, kappa) {
   #   ind <- which(dataset$STRATO == strat)
   #   # differences
   #   z_z<-zz[ind,ind]
@@ -63,7 +63,7 @@ buildStrataDFSpatial <- function(dataset,
   #   
   #   if (length(ind) > 1) {
   #     somma_coppie_var <- as.matrix(outer(var,var,"+"))
-  #     spatial_correlation <- (1 - (exp(-gamma*dist/range)))
+  #     spatial_correlation <- (1 - (exp(-kappa*dist/range)))
   #   }
   #   if (length(ind) <= 1) {
   #     somma_coppie_var <- 0
@@ -141,14 +141,14 @@ buildStrataDFSpatial <- function(dataset,
         # stmt <- paste("zz <- outer(dataset$Y",i,",dataset$Y",i,",'-')^2",sep="")
         # eval(parse(text = stmt))
         l.split <- split(dataset, dataset$STRATO, drop = TRUE)
-        sd <- sapply(l.split, function(df) stdev(df,i,fitting,range,gamma))
+        sd <- sapply(l.split, function(df) stdev(df,i,fitting,range,kappa))
         stmt <- paste("S", i, " <- sd ", sep = "")
         eval(parse(text = stmt))
         # for (j in (1:length(levels(STRATO)))) {
         #   strat <- levels(STRATO)[j]
         #   stmt <- paste("zz <- outer(dataset$Y",i,",dataset$Y",i,",'-')^2",sep="")
         #   eval(parse(text = stmt))
-        #   sd <- stdev(zz,dist,var,strat,dataset,fitting,range,gamma)
+        #   sd <- stdev(zz,dist,var,strat,dataset,fitting,range,kappa)
         #   stmt <- paste("S",i,"[",j,"] <- sd",sep="")
         #   eval(parse(text=stmt))
         # }

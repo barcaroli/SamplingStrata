@@ -12,7 +12,7 @@ This function builds the dataframe "strata" considering as input a given domain 
 aggrStrataSpatial(dataset,
             fitting,
             range,
-            gamma, 
+            kappa, 
             vett, 
             dominio)
 }
@@ -32,7 +32,7 @@ aggrStrataSpatial(dataset,
 \item{range}{
 	Maximum range for spatial autocorrelation
 }	
-\item{gamma}{
+\item{kappa}{
 	Factor used in evaluating spatial autocorrelation. 
 	Default is 3.
 }	
@@ -56,7 +56,7 @@ Giulio Barcaroli
 strata <- aggrStrataSpatial(dataset=frame,
                             fitting=1,
                             range=800,
-                            gamma=1)
+                            kappa=1)
 }
 }
 \keyword{ survey }

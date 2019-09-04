@@ -19,7 +19,7 @@ a component of spatial autocorrelation in frame units.
             nStrata = 5, 
             fitting=1,
             range=1,
-            gamma=3,
+            kappa=3,
             minnumstr = 2, 
             iter = 50, 
             pops = 20, 
@@ -66,7 +66,7 @@ a component of spatial autocorrelation in frame units.
 \item{range}{
 	Maximum range for spatial autocorrelation
 }	
-\item{gamma}{
+\item{kappa}{
 	Factor used in evaluating spatial autocorrelation. 
 	Default is 1.
 }	
@@ -197,7 +197,7 @@ solution <- optimizeStrataSpatial (
   nStrata = 3,
   fitting = 1,
   range = fit.vgm$var_model$range[2],
-  gamma=1,
+  kappa=1,
   writeFiles = FALSE,
   showPlot = TRUE,
   parallel = FALSE)
