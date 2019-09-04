@@ -228,7 +228,9 @@ buildStrataDF2 <- function(dataset,
                                sep = "")
                 eval(parse(text=stmt))
                 #-- TOTAL S ---------------
-                st <- paste("S",i," <- sqrt(sd1^2/fitting + sd2^2 + cov1^2)",sep="")
+                st <- paste("gammas <- tapply(Y^model$gamma[",i,"],STRATO,sum) / as.numeric(table(STRATO))",sep="")
+                eval(parse(text=st))
+                st <- paste("S",i," <- sqrt(sd1^2/fitting + (sd2^2 + cov1^2) * gammas)",sep="")
                 # st <- paste("S",i," <- sqrt(sd1^2/fitting) + sd2^2)",sep="")
                 eval(parse(text=st))
               }
