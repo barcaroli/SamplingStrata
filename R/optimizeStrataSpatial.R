@@ -9,6 +9,7 @@ optimizeStrataSpatial <-
             fitting=1,
             range=1,
             kappa=3,
+            gamma=0,
             minnumstr = 2, 
             iter = 50, 
             pops = 20, 
@@ -64,6 +65,7 @@ optimizeStrataSpatial <-
                                      fitting=fitting,
                                      range=range,
                                      kappa=kappa,
+                                     gamma=gamma,
                                      progress=FALSE,verbose=FALSE)
         cens$CENS <- 1
         censtot <- cens
@@ -181,6 +183,7 @@ optimizeStrataSpatial <-
                                             fitting  = fitting,
                                             range = range,
                                             kappa = kappa,
+                                            gamma = gamma,
                                             ncuts = (nStrata - 1),
                                             dominio = i, 
                                             minnumstr, 
@@ -282,6 +285,7 @@ optimizeStrataSpatial <-
                                           fitting = fitting,
                                           range = range,
                                           kappa = kappa,
+                                          gamma = gamma,
                                           ncuts = (nStrata - 1),
                                           dominio = i, 
                                           minnumstr, 
@@ -362,6 +366,7 @@ optimizeStrataSpatial <-
                                     fitting = fitting,
                                     range = range,
                                     kappa = kappa,
+                                    gamma = gamma,
                                     ncuts = (nStrata - 1),
                                     dominio = i, 
                                     minnumstr, 

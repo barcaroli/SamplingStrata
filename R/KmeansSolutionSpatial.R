@@ -1,7 +1,8 @@
 KmeansSolutionSpatial <- function (frame, 
                                    fitting = 1, 
                                    range = 1, 
-                                   kappa = 3, 
+                                   kappa = 3,
+                                   gamma = 0,
                                    errors, 
                                    nstrata = NA, 
                                    minnumstrat = 2, 
@@ -31,6 +32,7 @@ KmeansSolutionSpatial <- function (frame,
                               fitting = fitting, 
                               range = range, 
                               kappa = kappa, 
+                              gamma = gamma,
                               vett = rep(1, nrow(frame[frame$domainvalue == k,])), 
                               dominio = k)
     v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
@@ -67,7 +69,8 @@ KmeansSolutionSpatial <- function (frame,
       aggr <- aggrStrataSpatial(dataset = stratacorr, 
                                 fitting = fitting, 
                                 range = range, 
-                                kappa = kappa, 
+                                kappa = kappa,
+                                gamma = gamma,
                                 vett = solution[frame$domainvalue == k], 
                                 dominio = k)
       v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)

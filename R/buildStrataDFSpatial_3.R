@@ -12,6 +12,7 @@ buildStrataDFSpatial <- function(dataset,
                                   fitting=1,
                                   range=1,
                                   kappa=3,
+                                  gamma=0,
                                   progress=FALSE,
                                   verbose=FALSE) {
 #---------------------------------------------
@@ -29,6 +30,8 @@ buildStrataDFSpatial <- function(dataset,
     dist <- sqrt((outer(dataset$LON,dataset$LON,"-"))^2+(outer(dataset$LAT,dataset$LAT,"-"))^2)
     stmt <- paste("z_z <- outer(dataset$Y",i,",dataset$Y",i,",'-')^2",sep="")
     eval(parse(text = stmt))
+    stmt <- paste("hetero <- sum(dataset$Y",i,"^gamma) / nrow(dataset)",sep="")
+    eval(parse(text = stmt))
     stmt <- paste("var <- dataset$VAR",i,sep="")
     eval(parse(text = stmt))
     if (nrow(dataset) > 1) {
@@ -44,7 +47,8 @@ buildStrataDFSpatial <- function(dataset,
     }
     # variance in the stratum
     # D2 <- z_z/fitting + somma_coppie_var * spatial_correlation
-    D2 <- z_z/fitting + somma_coppie_var-2*spatial_cov
+    # formula with treatment of heteroscedasticity
+    D2 <- z_z/fitting + (somma_coppie_var - 2*spatial_cov) * hetero 
     var_strato <- sum(D2) / (2*nrow(dataset)^2)
     # standard deviation
     if (var_strato < 0) var_strato <- 0
