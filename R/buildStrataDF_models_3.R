@@ -221,17 +221,17 @@ buildStrataDF2 <- function(dataset,
                 #               sep = "")
                 # eval(parse(text=stmt2))
                 #-- PART III ---------------
-                psill2 <- model$sig2_2[i]
-                range2 <- model$range_2[i]
-                stmt <- paste("cov1 <- sapply(l.split, function(df,y,w) ",
-                               "cov1(df,psill2,range2,df[,y],df[,w],beta1,beta2), y = 'Y",i,"',w = 'W",i,"')",
-                               sep = "")
-                eval(parse(text=stmt))
+                # psill2 <- model$sig2_2[i]
+                # range2 <- model$range_2[i]
+                # stmt <- paste("cov1 <- sapply(l.split, function(df,y,w) ",
+                #                "cov1(df,psill2,range2,df[,y],df[,w],beta1,beta2), y = 'Y",i,"',w = 'W",i,"')",
+                #                sep = "")
+                # eval(parse(text=stmt))
                 #-- TOTAL S ---------------
                 st <- paste("gammas <- tapply(Y^model$gamma[",i,"],STRATO,sum) / as.numeric(table(STRATO))",sep="")
                 eval(parse(text=st))
-                st <- paste("S",i," <- sqrt(sd1^2/fitting + (sd2^2 + cov1^2) * gammas)",sep="")
-                # st <- paste("S",i," <- sqrt(sd1^2/fitting) + sd2^2)",sep="")
+                # st <- paste("S",i," <- sqrt(sd1^2/fitting + (sd2^2 + cov1^2) * gammas)",sep="")
+                st <- paste("S",i," <- sqrt(sd1^2/fitting) + sd2^2)",sep="")
                 eval(parse(text=st))
               }
             }

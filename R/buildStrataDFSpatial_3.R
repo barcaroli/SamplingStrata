@@ -22,7 +22,7 @@ buildStrataDFSpatial <- function(dataset,
   # covar <- as.data.frame(covar)
   colnames(dataset) <- toupper(colnames(dataset))
   # dist <- sqrt((outer(dataset$LON,dataset$LON,"-"))^2+(outer(dataset$LAT,dataset$LAT,"-"))^2)
-
+  #---------------------------------------------
 # standard deviation calculated with distances
   stdev <- function(dataset, i, fitting, range, kappa) {
     z_z <- NULL
@@ -56,31 +56,6 @@ buildStrataDFSpatial <- function(dataset,
     return(sd_strato)
   }
   
-  # stdev <- function(zz, dist, var, strat, dataset, fitting, range, kappa) {
-  #   ind <- which(dataset$STRATO == strat)
-  #   # differences
-  #   z_z<-zz[ind,ind]
-  #   # distances
-  #   dist <- dist[ind,ind]
-  #   # variances
-  #   var <- var[ind]
-  #   
-  #   if (length(ind) > 1) {
-  #     somma_coppie_var <- as.matrix(outer(var,var,"+"))
-  #     spatial_correlation <- (1 - (exp(-kappa*dist/range)))
-  #   }
-  #   if (length(ind) <= 1) {
-  #     somma_coppie_var <- 0
-  #     spatial_correlation <- 0
-  #   }
-  #   # variance in the stratum
-  #   D2 <- z_z/fitting + somma_coppie_var * spatial_correlation
-  #   var_strato <- sum(D2) / (2*length(ind)^2)
-  #   # standard deviation
-  #   if (var_strato < 0) var_strato <- 0
-  #   sd_strato <- sqrt(var_strato)
-  #   return(sd_strato)
-  # }
 #---------------------------------------------
     colnames(dataset) <- toupper(colnames(dataset))
     # if (is.factor(dataset$DOMAINVALUE)) levels(dataset$DOMAINVALUE) <- levels(droplevels(dataset$DOMAINVALUE))
