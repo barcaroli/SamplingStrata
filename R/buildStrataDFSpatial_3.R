@@ -45,6 +45,10 @@ buildStrataDFSpatial <- function(dataset,
       # spatial_correlation <- 0
       spatial_cov <- 0
     }
+    # Add this in case there are no coordinates
+    if (sum(dist) == 0) {
+      spatial_cov <- 0
+    }
     # variance in the stratum
     # D2 <- z_z/fitting + somma_coppie_var * spatial_correlation
     # formula with treatment of heteroscedasticity
