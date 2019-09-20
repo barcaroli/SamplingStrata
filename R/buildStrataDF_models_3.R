@@ -37,9 +37,8 @@ buildStrataDF2 <- function(dataset,
       var2 <- sum(D2)/(2*nrow(df)^2)
       sqrt (var2)
     }
-    # covar is for spatial models (part III)
+    # cov1 is for spatial models (part III)
     cov1 <- function(df,psill,range,Y,W,beta1,beta2) {
-      
       preds <- beta1 * Y + beta2 * W
       dist <- sqrt((outer(df$LON, df$LON, "-"))^2 + (outer(df$LAT, df$LAT, "-"))^2)
       std_eps_ntimes <- sqrt(rep(psill, nrow(df)))
@@ -202,6 +201,7 @@ buildStrataDF2 <- function(dataset,
                 l.split <- split(samp, samp$STRATO, drop = TRUE)
                 #-- PART I ---------------
                 stdev = "stdev3"
+                fitting <- model$fitting[i]
                 beta1 <- model$beta[i]
                 beta2 <- model$beta2[i]
                 # st <- paste("gammas <- tapply(Y^model$gamma[",i,"],STRATO,sum) / as.numeric(table(STRATO))",sep="")
@@ -221,6 +221,7 @@ buildStrataDF2 <- function(dataset,
                 #               sep = "")
                 # eval(parse(text=stmt2))
                 #-- PART III ---------------
+<<<<<<< HEAD
                 # stmt <- paste("cov1 <- sapply(l.split, function(df,y,w) ",
                 #                "cov1(df,psill,range,df[,y],df[,w],beta1,beta2), y = 'Y",i,"',w = 'W",i,"')",
                 #                sep = "")
@@ -228,6 +229,19 @@ buildStrataDF2 <- function(dataset,
                 #-- TOTAL S ---------------
                 # st <- paste("S",i," <- sqrt(sd1^2 + sd2^2 + cov1^2)",sep="")
                 st <- paste("S",i," <- sqrt(sd1^2 + sd2^2)",sep="")
+=======
+                # psill2 <- model$sig2_2[i]
+                # range2 <- model$range_2[i]
+                # stmt <- paste("cov1 <- sapply(l.split, function(df,y,w) ",
+                #                "cov1(df,psill2,range2,df[,y],df[,w],beta1,beta2), y = 'Y",i,"',w = 'W",i,"')",
+                #                sep = "")
+                # eval(parse(text=stmt))
+                #-- TOTAL S ---------------
+                st <- paste("gammas <- tapply(Y^model$gamma[",i,"],STRATO,sum) / as.numeric(table(STRATO))",sep="")
+                eval(parse(text=st))
+                # st <- paste("S",i," <- sqrt(sd1^2/fitting + (sd2^2 + cov1^2) * gammas)",sep="")
+                st <- paste("S",i," <- sqrt((sd1^2/fitting) + sd2^2)",sep="")
+>>>>>>> a13212474751b45c4e618f4eb98743940e3d58ed
                 eval(parse(text=st))
               }
             }

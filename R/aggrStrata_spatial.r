@@ -9,13 +9,14 @@
 aggrStrataSpatial <- function(dataset,
                               fitting=1,
                               range=1,
-                              gamma=3, 
+                              kappa=3, 
+                              gamma=0,
                               vett, 
                               dominio) {
 
   #---------------------------------------------------------    
   # standard deviation calculated with distances
-  stdev <- function(zz, dist, var, STRATO, dataset, fitting, range, gamma) {
+  stdev <- function(zz, dist, var, STRATO, dataset, fitting, range, kappa) {
     ind <- which(dataset$STRATO == STRATO)
     # differences
     z_z<-zz[ind,ind]
@@ -26,7 +27,7 @@ aggrStrataSpatial <- function(dataset,
     
     if (length(ind) > 1) {
       somma_coppie_var <- as.matrix(outer(var,var,"+"))
-      spatial_correlation <- (1 - (exp(-gamma*dist/range)))
+      spatial_correlation <- (1 - (exp(-kappa*dist/range)))
     }
     if (length(ind) <= 1) {
       somma_coppie_var <- 0
@@ -63,7 +64,7 @@ aggrStrataSpatial <- function(dataset,
       eval(parse(text = stmt))
       stmt <- paste("zz <- outer(dataset$Y",i,",dataset$Y",i,",'-')^2",sep="")
       eval(parse(text = stmt))
-      sd <- stdev(zz,dist,var,j,dataset,fitting,range,gamma)
+      sd <- stdev(zz,dist,var,j,dataset,fitting,range,kappa)
       stmt <- paste("strato$S",i," <- sd",sep="")
       eval(parse(text=stmt))
     }

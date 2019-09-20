@@ -11,7 +11,8 @@
 buildStrataDFSpatial <- function(dataset,
                                   fitting=1,
                                   range=1,
-                                  gamma=3,
+                                  kappa=3,
+                                  gamma=0,
                                   progress=FALSE,
                                   verbose=FALSE) {
 #---------------------------------------------
@@ -21,26 +22,37 @@ buildStrataDFSpatial <- function(dataset,
   # covar <- as.data.frame(covar)
   colnames(dataset) <- toupper(colnames(dataset))
   # dist <- sqrt((outer(dataset$LON,dataset$LON,"-"))^2+(outer(dataset$LAT,dataset$LAT,"-"))^2)
-
+  #---------------------------------------------
 # standard deviation calculated with distances
-  stdev <- function(dataset, i, fitting, range, gamma) {
+  stdev <- function(dataset, i, fitting, range, kappa) {
     z_z <- NULL
     var <- NULL
     dist <- sqrt((outer(dataset$LON,dataset$LON,"-"))^2+(outer(dataset$LAT,dataset$LAT,"-"))^2)
     stmt <- paste("z_z <- outer(dataset$Y",i,",dataset$Y",i,",'-')^2",sep="")
     eval(parse(text = stmt))
+    stmt <- paste("hetero <- sum(dataset$Y",i,"^gamma) / nrow(dataset)",sep="")
+    eval(parse(text = stmt))
     stmt <- paste("var <- dataset$VAR",i,sep="")
     eval(parse(text = stmt))
     if (nrow(dataset) > 1) {
       somma_coppie_var <- as.matrix(outer(var,var,"+"))
-      spatial_correlation <- (1 - (exp(-gamma*dist/range)))
+      prod_coppie_var <- as.matrix(outer(sqrt(var),sqrt(var),"*"))
+      # spatial_correlation <- (1 - (exp(-kappa*dist/range)))
+      spatial_cov <- prod_coppie_var*exp(-kappa*dist/range)
     }
     if (nrow(dataset) <= 1) {
       somma_coppie_var <- 0
-      spatial_correlation <- 0
+      # spatial_correlation <- 0
+      spatial_cov <- 0
+    }
+    # Add this in case there are no coordinates
+    if (sum(dist) == 0) {
+      spatial_cov <- 0
     }
     # variance in the stratum
-    D2 <- z_z/fitting + somma_coppie_var * spatial_correlation
+    # D2 <- z_z/fitting + somma_coppie_var * spatial_correlation
+    # formula with treatment of heteroscedasticity
+    D2 <- z_z/fitting + (somma_coppie_var - 2*spatial_cov) * hetero 
     var_strato <- sum(D2) / (2*nrow(dataset)^2)
     # standard deviation
     if (var_strato < 0) var_strato <- 0
@@ -48,31 +60,6 @@ buildStrataDFSpatial <- function(dataset,
     return(sd_strato)
   }
   
-  # stdev <- function(zz, dist, var, strat, dataset, fitting, range, gamma) {
-  #   ind <- which(dataset$STRATO == strat)
-  #   # differences
-  #   z_z<-zz[ind,ind]
-  #   # distances
-  #   dist <- dist[ind,ind]
-  #   # variances
-  #   var <- var[ind]
-  #   
-  #   if (length(ind) > 1) {
-  #     somma_coppie_var <- as.matrix(outer(var,var,"+"))
-  #     spatial_correlation <- (1 - (exp(-gamma*dist/range)))
-  #   }
-  #   if (length(ind) <= 1) {
-  #     somma_coppie_var <- 0
-  #     spatial_correlation <- 0
-  #   }
-  #   # variance in the stratum
-  #   D2 <- z_z/fitting + somma_coppie_var * spatial_correlation
-  #   var_strato <- sum(D2) / (2*length(ind)^2)
-  #   # standard deviation
-  #   if (var_strato < 0) var_strato <- 0
-  #   sd_strato <- sqrt(var_strato)
-  #   return(sd_strato)
-  # }
 #---------------------------------------------
     colnames(dataset) <- toupper(colnames(dataset))
     # if (is.factor(dataset$DOMAINVALUE)) levels(dataset$DOMAINVALUE) <- levels(droplevels(dataset$DOMAINVALUE))
@@ -137,14 +124,14 @@ buildStrataDFSpatial <- function(dataset,
         # stmt <- paste("zz <- outer(dataset$Y",i,",dataset$Y",i,",'-')^2",sep="")
         # eval(parse(text = stmt))
         l.split <- split(dataset, dataset$STRATO, drop = TRUE)
-        sd <- sapply(l.split, function(df) stdev(df,i,fitting,range,gamma))
+        sd <- sapply(l.split, function(df) stdev(df,i,fitting,range,kappa))
         stmt <- paste("S", i, " <- sd ", sep = "")
         eval(parse(text = stmt))
         # for (j in (1:length(levels(STRATO)))) {
         #   strat <- levels(STRATO)[j]
         #   stmt <- paste("zz <- outer(dataset$Y",i,",dataset$Y",i,",'-')^2",sep="")
         #   eval(parse(text = stmt))
-        #   sd <- stdev(zz,dist,var,strat,dataset,fitting,range,gamma)
+        #   sd <- stdev(zz,dist,var,strat,dataset,fitting,range,kappa)
         #   stmt <- paste("S",i,"[",j,"] <- sd",sep="")
         #   eval(parse(text=stmt))
         # }

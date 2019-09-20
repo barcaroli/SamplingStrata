@@ -29,7 +29,7 @@ used as an input by the function "optimizeStrata".
 buildStrataDFSpatial(dataset,
                      fitting=1,
                      range=1,
-                     gamma=3,
+                     kappa=3,
                      progress=FALSE,
                      verbose=FALSE)
 }
@@ -49,7 +49,7 @@ buildStrataDFSpatial(dataset,
 \item{range}{
 	Maximum range for spatial autocorrelation
 }	
-\item{gamma}{
+\item{kappa}{
 	Factor used in evaluating spatial autocorrelation. 
 	Default is 3.
 }	

@@ -22,7 +22,7 @@ the second the domains.
 KmeansSolutionSpatial(frame, 
                     fitting = 1, 
                     range = 1, 
-                    gamma = 3, 
+                    kappa = 3, 
                     errors, 
                     nstrata = NA, 
                     minnumstrat = 2, 
@@ -40,7 +40,7 @@ KmeansSolutionSpatial(frame,
 \item{range}{
 	Maximum range for spatial autocorrelation
 }	
-\item{gamma}{
+\item{kappa}{
 	Factor used in evaluating spatial autocorrelation. 
 	Default is 3.
 }	
@@ -135,7 +135,7 @@ km <- KmeansSolutionSpatial(frame,
                             errors = cv,
                             fitting = 1,
                             range = fit.vgm$var_model$range[2],
-                            gamma=1,
+                            kappa=1,
                             nstrata=NA,
                             maxclusters = 5)
 ############################
@@ -144,7 +144,7 @@ km <- KmeansSolutionSpatial(frame,
 strataKm <- aggrStrataSpatial(dataset=frame,
                         fitting = 1,
                         range = fit.vgm$var_model$range[2],
-                        gamma=1,
+                        kappa=1,
                         vett=km$suggestions,
                         dominio=1)
 strataKm$SOLUZ <- bethel(strataKm,cv)
