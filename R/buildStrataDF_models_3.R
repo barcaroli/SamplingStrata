@@ -239,7 +239,6 @@ buildStrataDF2 <- function(dataset,
                 eval(parse(text=st))
                 # st <- paste("S",i," <- sqrt(sd1^2/fitting + (sd2^2 + cov1^2) * gammas)",sep="")
                 st <- paste("S",i," <- sqrt((sd1^2/fitting) + sd2^2)",sep="")
->>>>>>> a13212474751b45c4e618f4eb98743940e3d58ed
                 eval(parse(text=st))
               }
             }
