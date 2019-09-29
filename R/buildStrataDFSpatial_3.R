@@ -30,7 +30,7 @@ buildStrataDFSpatial <- function(dataset,
     dist <- sqrt((outer(dataset$LON,dataset$LON,"-"))^2+(outer(dataset$LAT,dataset$LAT,"-"))^2)
     stmt <- paste("z_z <- outer(dataset$Y",i,",dataset$Y",i,",'-')^2",sep="")
     eval(parse(text = stmt))
-    stmt <- paste("hetero <- sum(dataset$Y",i,"^gamma) / nrow(dataset)",sep="")
+    stmt <- paste("hetero <- sum(dataset$Y",i,"^ (gamma*2) ) / nrow(dataset)",sep="")
     eval(parse(text = stmt))
     stmt <- paste("var <- dataset$VAR",i,sep="")
     eval(parse(text = stmt))
@@ -43,10 +43,6 @@ buildStrataDFSpatial <- function(dataset,
     if (nrow(dataset) <= 1) {
       somma_coppie_var <- 0
       # spatial_correlation <- 0
-      spatial_cov <- 0
-    }
-    # Add this in case there are no coordinates
-    if (sum(dist) == 0) {
       spatial_cov <- 0
     }
     # variance in the stratum
