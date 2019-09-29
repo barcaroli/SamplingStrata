@@ -235,11 +235,8 @@ buildStrataDF2 <- function(dataset,
                 # eval(parse(text=stmt))
                 #-- TOTAL S ---------------
                 # st <- paste("S",i," <- sqrt(sd1^2 + sd2^2 + cov1^2)",sep="")
-<<<<<<< HEAD
                 # st <- paste("S",i," <- sqrt(sd1^2 + sd2^2)",sep="")
-=======
                 st <- paste("S",i," <- sqrt(sd1^2 + sd2^2)",sep="")
->>>>>>> 33f0665db0952ea3a443ae7fbbff1859e8799781
                 # psill2 <- model$sig2_2[i]
                 # range2 <- model$range_2[i]
                 # stmt <- paste("cov1 <- sapply(l.split, function(df,y,w) ",
