@@ -13,6 +13,9 @@ Changes in Version 1.5
   but operates in the case of optimization with only continuous stratification variables and has to be 
   used only in conjunction with 'optimizeStrata2'
   
+  o A new 'computeGamma' function has been added: this function allows to calculate a heteroscedasticity index,
+  to be passed to optimization step as a model parametere in order to correctly evaluate the variance in the strata.
+  
 =======
 Changes in Version 1.4-2
 

@@ -27,9 +27,12 @@ buildStrataDF2 <- function(dataset,
       sqrt (a %*% b %*% c)
     }
     # stdev4 is for spatial models (part II)
-    stdev4 <- function(df,psill,range) {
+    stdev4 <- function(df,var_eps,range,gamma,i) {
+      st <- paste("Y <- df$Y",i,sep="")
+      eval(parse(text=st))
       dist <- sqrt((outer(df$LON,df$LON,"-"))^2+(outer(df$LAT,df$LAT,"-"))^2)
-      var_ntimes <- rep(psill,nrow(df))
+      var_ntimes <- rep(var_eps,nrow(df))
+      var_ntimes <- var_ntimes*Y^(2*gamma)
       prod_couples_std <- as.matrix(outer(sqrt(var_ntimes),sqrt(var_ntimes),"*"))
       sum_couples_var <- as.matrix(outer(var_ntimes,var_ntimes,"+"))
       spatial_autocovariance <- prod_couples_std * exp(-1*dist/(range+0.0000001))
@@ -165,7 +168,7 @@ buildStrataDF2 <- function(dataset,
                               stdev, "(df[,x],df[,w]), x='Y", i, "', w='WEIGHT')", 
                               sep = "")
                 eval(parse(text=stmt))
-                st <- paste("gammas <- tapply(Y^model$gamma[",i,"],STRATO,sum) / as.numeric(table(STRATO))",sep="")
+                st <- paste("gammas <- tapply(Y^(model$gamma[",i,"]*2),STRATO,sum) / as.numeric(table(STRATO))",sep="")
                 eval(parse(text=st))
                 st <- paste("S",i," <- sqrt(S",i,"^2 * model$beta[",i,"]^2 + model$sig2[",i,"] * gammas)",sep="")
                 eval(parse(text=st))   
@@ -212,9 +215,14 @@ buildStrataDF2 <- function(dataset,
                               sep = "")
                 eval(parse(text=stmt))
                 #-- PART II ---------------
-                psill <- model$sig2[i]
+                stdev <- "stdev4"
+                sig2_eps <- model$sig2[i]
                 range <- model$range[i]
-                sd2 <- sapply(l.split, function(df) stdev4(df,psill,range))
+                gamma <- model$gamma[i]
+                stmt <- paste("sd2 <- sapply(l.split, function(df) ",
+                              stdev, "(df,sig2_eps,range,gamma,i))",sep = "")
+                eval(parse(text=stmt))
+                # sd2 <- sapply(l.split, function(df) stdev4(Y,model$sig2[i],model$range[i],model$gamma[i]))
                 # stdev <- "stdev4"
                 # stmt2 <- paste("sd2 <- sapply(l.split, function(df) ",
                 #               stdev, "(df,psill,range))",
@@ -227,6 +235,7 @@ buildStrataDF2 <- function(dataset,
                 # eval(parse(text=stmt))
                 #-- TOTAL S ---------------
                 # st <- paste("S",i," <- sqrt(sd1^2 + sd2^2 + cov1^2)",sep="")
+                # st <- paste("S",i," <- sqrt(sd1^2 + sd2^2)",sep="")
                 st <- paste("S",i," <- sqrt(sd1^2 + sd2^2)",sep="")
                 # psill2 <- model$sig2_2[i]
                 # range2 <- model$range_2[i]
@@ -235,8 +244,8 @@ buildStrataDF2 <- function(dataset,
                 #                sep = "")
                 # eval(parse(text=stmt))
                 #-- TOTAL S ---------------
-                st <- paste("gammas <- tapply(Y^model$gamma[",i,"],STRATO,sum) / as.numeric(table(STRATO))",sep="")
-                eval(parse(text=st))
+                # st <- paste("gammas <- tapply(Y^model$gamma[",i,"],STRATO,sum) / as.numeric(table(STRATO))",sep="")
+                # eval(parse(text=st))
                 # st <- paste("S",i," <- sqrt(sd1^2/fitting + (sd2^2 + cov1^2) * gammas)",sep="")
                 st <- paste("S",i," <- sqrt((sd1^2/fitting) + sd2^2 * gammas)",sep="")
                 eval(parse(text=st))

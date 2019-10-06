@@ -24,16 +24,17 @@ buildStrataDFSpatial <- function(dataset,
   # dist <- sqrt((outer(dataset$LON,dataset$LON,"-"))^2+(outer(dataset$LAT,dataset$LAT,"-"))^2)
   #---------------------------------------------
 # standard deviation calculated with distances
-  stdev <- function(dataset, i, fitting, range, kappa) {
+  stdev <- function(dataset, i, fitting, range, kappa, gamma) {
     z_z <- NULL
     var <- NULL
     dist <- sqrt((outer(dataset$LON,dataset$LON,"-"))^2+(outer(dataset$LAT,dataset$LAT,"-"))^2)
     stmt <- paste("z_z <- outer(dataset$Y",i,",dataset$Y",i,",'-')^2",sep="")
     eval(parse(text = stmt))
-    stmt <- paste("hetero <- sum(dataset$Y",i,"^gamma) / nrow(dataset)",sep="")
-    eval(parse(text = stmt))
-    stmt <- paste("var <- dataset$VAR",i,sep="")
-    eval(parse(text = stmt))
+    # stmt <- paste("hetero <- sum(dataset$Y",i,"^ (gamma*2) ) / nrow(dataset)",sep="")
+    # eval(parse(text = stmt))
+    # stmt <- paste("var <- dataset$VAR",i,sep="")
+    stmt <- paste("var <- dataset$VAR",i," * dataset$Y",i,"^(gamma*2)",sep="")
+    eval(parse(text=stmt))
     if (nrow(dataset) > 1) {
       somma_coppie_var <- as.matrix(outer(var,var,"+"))
       prod_coppie_var <- as.matrix(outer(sqrt(var),sqrt(var),"*"))
@@ -45,14 +46,11 @@ buildStrataDFSpatial <- function(dataset,
       # spatial_correlation <- 0
       spatial_cov <- 0
     }
-    # Add this in case there are no coordinates
-    if (sum(dist) == 0) {
-      spatial_cov <- 0
-    }
     # variance in the stratum
     # D2 <- z_z/fitting + somma_coppie_var * spatial_correlation
     # formula with treatment of heteroscedasticity
-    D2 <- z_z/fitting + (somma_coppie_var - 2*spatial_cov) * hetero 
+    # D2 <- z_z/fitting + (somma_coppie_var - 2*spatial_cov) * hetero 
+    D2 <- z_z/fitting + (somma_coppie_var - 2*spatial_cov)
     var_strato <- sum(D2) / (2*nrow(dataset)^2)
     # standard deviation
     if (var_strato < 0) var_strato <- 0
@@ -124,7 +122,7 @@ buildStrataDFSpatial <- function(dataset,
         # stmt <- paste("zz <- outer(dataset$Y",i,",dataset$Y",i,",'-')^2",sep="")
         # eval(parse(text = stmt))
         l.split <- split(dataset, dataset$STRATO, drop = TRUE)
-        sd <- sapply(l.split, function(df) stdev(df,i,fitting,range,kappa))
+        sd <- sapply(l.split, function(df) stdev(df,i,fitting,range,kappa,gamma))
         stmt <- paste("S", i, " <- sd ", sep = "")
         eval(parse(text = stmt))
         # for (j in (1:length(levels(STRATO)))) {
