@@ -1,4 +1,4 @@
-buildStrataSpatialDF <- function (dataset, fitting, range, gamma, progress = FALSE, 
+buildStrataDFSpatial <- function (dataset, fitting, range, gamma, progress = FALSE, 
           verbose = FALSE) 
 {
   colnames(dataset) <- toupper(colnames(dataset))
