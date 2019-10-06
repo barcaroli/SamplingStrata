@@ -16,6 +16,10 @@ buildStrataDFSpatial <- function(dataset,
                                   progress=FALSE,
                                   verbose=FALSE) {
 #---------------------------------------------
+  # covar <- ifelse(is.nan(covar),0,covar)
+  # covar <- as.matrix(covar,nrow=length(pred),ncol=length(pred))
+  # pred <- as.data.frame(pred)
+  # covar <- as.data.frame(covar)
   colnames(dataset) <- toupper(colnames(dataset))
   # dist <- sqrt((outer(dataset$LON,dataset$LON,"-"))^2+(outer(dataset$LAT,dataset$LAT,"-"))^2)
   #---------------------------------------------
@@ -26,28 +30,29 @@ buildStrataDFSpatial <- function(dataset,
     dist <- sqrt((outer(dataset$LON,dataset$LON,"-"))^2+(outer(dataset$LAT,dataset$LAT,"-"))^2)
     stmt <- paste("z_z <- outer(dataset$Y",i,",dataset$Y",i,",'-')^2",sep="")
     eval(parse(text = stmt))
+    # stmt <- paste("hetero <- sum(dataset$Y",i,"^ (gamma*2) ) / nrow(dataset)",sep="")
+    # eval(parse(text = stmt))
+    # stmt <- paste("var <- dataset$VAR",i,sep="")
     stmt <- paste("var <- dataset$VAR",i," * dataset$Y",i,"^(gamma*2)",sep="")
     eval(parse(text=stmt))
     if (nrow(dataset) > 1) {
       somma_coppie_var <- as.matrix(outer(var,var,"+"))
       # prod_coppie_var <- as.matrix(outer(sqrt(var),sqrt(var),"*"))
-      # aggiungo il prodotto degli scarti quadratici medi
       prod_coppie_std <- sqrt(as.matrix(outer(var, var, "*")))
-      # questo lo commento
-      # spatial_correlation <- (1 - (exp(-kappa * dist/range)))
-      # e lo sostituisco con questo
-      spatial_correlation <-  exp(-kappa * dist/range)
       # spatial_correlation <- (1 - (exp(-kappa* dist/range)))
+      spatial_cov <- prod_coppie_std*exp(-kappa*dist/range) 
       # spatial_cov <- somma_coppie_var*exp(-kappa*dist/range)
     }
     if (nrow(dataset) <= 1) {
       somma_coppie_var <- 0
-      spatial_correlation <- 0
-      # spatial_cov <- 0
+      # spatial_correlation <- 0
+      spatial_cov <- 0
     }
     # variance in the stratum
-    # D2 <- z_z/fitting + (somma_coppie_var - 2*spatial_cov)
-    D2 <- z_z/fitting + somma_coppie_var -2*prod_coppie_std*spatial_correlation
+    # D2 <- z_z/fitting + somma_coppie_var * spatial_correlation
+    # formula with treatment of heteroscedasticity
+    # D2 <- z_z/fitting + (somma_coppie_var - 2*spatial_cov) * hetero 
+    D2 <- z_z/fitting + somma_coppie_var -2*spatial_cov
     var_strato <- sum(D2) / (2*nrow(dataset)^2)
     # standard deviation
     if (var_strato < 0) var_strato <- 0
