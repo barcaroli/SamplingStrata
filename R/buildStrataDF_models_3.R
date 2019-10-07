@@ -33,8 +33,9 @@ buildStrataDF2 <- function(dataset,
       dist <- sqrt((outer(df$LON,df$LON,"-"))^2+(outer(df$LAT,df$LAT,"-"))^2)
       var_ntimes <- rep(var_eps,nrow(df))
       var_ntimes <- var_ntimes*Y^(2*gamma)
-      prod_couples_std <- as.matrix(outer(sqrt(var_ntimes),sqrt(var_ntimes),"*"))
       sum_couples_var <- as.matrix(outer(var_ntimes,var_ntimes,"+"))
+      # prod_couples_std <- as.matrix(outer(sqrt(var_ntimes),sqrt(var_ntimes),"*"))
+      prod_couples_std <- as.matrix(sqrt(as.matrix(outer(var_ntimes,var_ntimes, "*"))))
       spatial_autocovariance <- prod_couples_std * exp(-1*dist/(range+0.0000001))
       D2<-sum_couples_var-2*spatial_autocovariance
       var2 <- sum(D2)/(2*nrow(df)^2)
@@ -236,7 +237,7 @@ buildStrataDF2 <- function(dataset,
                 #-- TOTAL S ---------------
                 # st <- paste("S",i," <- sqrt(sd1^2 + sd2^2 + cov1^2)",sep="")
                 # st <- paste("S",i," <- sqrt(sd1^2 + sd2^2)",sep="")
-                st <- paste("S",i," <- sqrt(sd1^2 + sd2^2)",sep="")
+                # st <- paste("S",i," <- sqrt(sd1^2 + sd2^2)",sep="")
                 # psill2 <- model$sig2_2[i]
                 # range2 <- model$range_2[i]
                 # stmt <- paste("cov1 <- sapply(l.split, function(df,y,w) ",
@@ -247,7 +248,8 @@ buildStrataDF2 <- function(dataset,
                 # st <- paste("gammas <- tapply(Y^model$gamma[",i,"],STRATO,sum) / as.numeric(table(STRATO))",sep="")
                 # eval(parse(text=st))
                 # st <- paste("S",i," <- sqrt(sd1^2/fitting + (sd2^2 + cov1^2) * gammas)",sep="")
-                st <- paste("S",i," <- sqrt((sd1^2/fitting) + sd2^2 * gammas)",sep="")
+                # st <- paste("S",i," <- sqrt((sd1^2/fitting) + sd2^2 * gammas)",sep="")
+                st <- paste("S",i," <- sqrt((sd1^2/fitting) + sd2^2)",sep="")
                 eval(parse(text=st))
               }
             }
