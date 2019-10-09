@@ -35,7 +35,7 @@ buildStrataDF2 <- function(dataset,
       var_ntimes <- var_ntimes*Y^(2*gamma)
       sum_couples_var <- as.matrix(outer(var_ntimes,var_ntimes,"+"))
       # prod_couples_std <- as.matrix(outer(sqrt(var_ntimes),sqrt(var_ntimes),"*"))
-      prod_couples_std <- as.matrix(sqrt(as.matrix(outer(var_ntimes,var_ntimes, "*"))))
+      prod_couples_std <- sqrt(as.matrix(outer(var_ntimes,var_ntimes, "*")))
       spatial_autocovariance <- prod_couples_std * exp(-1*dist/(range+0.0000001))
       D2<-sum_couples_var-2*spatial_autocovariance
       var2 <- sum(D2)/(2*nrow(df)^2)

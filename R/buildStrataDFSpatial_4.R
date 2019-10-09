@@ -32,8 +32,8 @@ buildStrataDFSpatial <- function(dataset,
     eval(parse(text = stmt))
     # stmt <- paste("hetero <- sum(dataset$Y",i,"^ (gamma*2) ) / nrow(dataset)",sep="")
     # eval(parse(text = stmt))
-    # stmt <- paste("var <- dataset$VAR",i,sep="")
-    stmt <- paste("var <- dataset$VAR",i," * dataset$Y",i,"^(gamma*2)",sep="")
+    stmt <- paste("var <- dataset$VAR",i,sep="")
+    # stmt <- paste("var <- dataset$VAR",i," * dataset$Y",i,"^(gamma*2)",sep="")
     eval(parse(text=stmt))
     if (nrow(dataset) > 1) {
       somma_coppie_var <- as.matrix(outer(var,var,"+"))
@@ -52,8 +52,16 @@ buildStrataDFSpatial <- function(dataset,
     # D2 <- z_z/fitting + somma_coppie_var * spatial_correlation
     # formula with treatment of heteroscedasticity
     # D2 <- z_z/fitting + (somma_coppie_var - 2*spatial_cov) * hetero 
-    D2 <- z_z/fitting + somma_coppie_var -2*spatial_cov
-    var_strato <- sum(D2) / (2*nrow(dataset)^2)
+    # D2 <- z_z/fitting + somma_coppie_var -2*spatial_cov
+    # var_strato <- sum(D2) / (2*nrow(dataset)^2)
+    D2 <- z_z + somma_coppie_var -2*spatial_cov
+    # sum(somma_coppie_var -2*spatial_cov) / (2*nrow(dataset)^2)
+    # sqrt((sum(z_z))/(2*nrow(dataset)^2))
+    # sqrt((sum(z_z))/(2*nrow(dataset)^2))
+    sd1 <- sqrt((sum(z_z))/(2*nrow(dataset)^2))
+    sd2 <- sum(somma_coppie_var -2*spatial_cov) / (2*nrow(dataset)^2)
+    # var_strato <- sum(D2) / (2*nrow(dataset)^2)
+    var_strato <- sd1^2/fitting + sd2^2
     # standard deviation
     if (var_strato < 0) var_strato <- 0
     sd_strato <- sqrt(var_strato)
