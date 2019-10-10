@@ -3,7 +3,7 @@
 # starting from the available sampling frame
 # taking into account anticipated variance
 # Author: Giulio Barcaroli
-# Date: August 2019
+# Date: October 2019
 # ----------------------------------------------------
 buildStrataDF2 <- function(dataset, 
                           model=NULL, 
@@ -27,16 +27,13 @@ buildStrataDF2 <- function(dataset,
       sqrt (a %*% b %*% c)
     }
     # stdev4 is for spatial models (part II)
-    stdev4 <- function(df,var_eps,range,gamma,i,beta1,beta2) {
+    stdev4 <- function(df,var_eps,range,gamma,i) {
       st <- paste("Y <- df$Y",i,sep="")
-      eval(parse(text=st))
-      st <- paste("W <- df$W",i,sep="")
       eval(parse(text=st))
       dist <- sqrt((outer(df$LON,df$LON,"-"))^2+(outer(df$LAT,df$LAT,"-"))^2)
       pred <- beta1*Y + beta2*W
       var_ntimes <- rep(var_eps,nrow(df))
-      # var_ntimes <- var_ntimes*Y^(2*gamma)
-      var_ntimes <- var_ntimes*pred^(2*gamma)
+      var_ntimes <- var_ntimes*Y^(2*gamma)
       sum_couples_var <- as.matrix(outer(var_ntimes,var_ntimes,"+"))
       # prod_couples_std <- as.matrix(outer(sqrt(var_ntimes),sqrt(var_ntimes),"*"))
       prod_couples_std <- sqrt(as.matrix(outer(var_ntimes,var_ntimes, "*")))
@@ -228,7 +225,7 @@ buildStrataDF2 <- function(dataset,
                 range <- model$range[i]
                 gamma <- model$gamma[i]
                 stmt <- paste("sd2 <- sapply(l.split, function(df) ",
-                              stdev, "(df,sig2_eps,range,gamma,i,beta1,beta2))",sep = "")
+                              stdev, "(df,sig2_eps,range,gamma,i))",sep = "")
                 eval(parse(text=stmt))
                 # sd2 <- sapply(l.split, function(df) stdev4(Y,model$sig2[i],model$range[i],model$gamma[i]))
                 # stdev <- "stdev4"
