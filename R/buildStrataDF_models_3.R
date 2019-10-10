@@ -27,18 +27,25 @@ buildStrataDF2 <- function(dataset,
       sqrt (a %*% b %*% c)
     }
     # stdev4 is for spatial models (part II)
-    stdev4 <- function(df,var_eps,range,gamma,i) {
+    stdev4 <- function(df,var_eps,range,gamma,i,beta1,beta2) {
       st <- paste("Y <- df$Y",i,sep="")
       eval(parse(text=st))
+      st <- paste("W <- df$W",i,sep="")
+      eval(parse(text=st))
       dist <- sqrt((outer(df$LON,df$LON,"-"))^2+(outer(df$LAT,df$LAT,"-"))^2)
+      pred <- beta1*Y + beta2*W
       var_ntimes <- rep(var_eps,nrow(df))
-      var_ntimes <- var_ntimes*Y^(2*gamma)
+      # var_ntimes <- var_ntimes*Y^(2*gamma)
+      var_ntimes <- var_ntimes*pred^(2*gamma)
       sum_couples_var <- as.matrix(outer(var_ntimes,var_ntimes,"+"))
       # prod_couples_std <- as.matrix(outer(sqrt(var_ntimes),sqrt(var_ntimes),"*"))
       prod_couples_std <- sqrt(as.matrix(outer(var_ntimes,var_ntimes, "*")))
       spatial_autocovariance <- prod_couples_std * exp(-1*dist/(range+0.0000001))
       D2<-sum_couples_var-2*spatial_autocovariance
-      var2 <- sum(D2)/(2*nrow(df)^2)
+      sum(sum_couples_var) / (2*nrow(df)^2)
+      sum(2*spatial_autocovariance) / (2*nrow(df)^2)
+      sum(sum_couples_var-2*spatial_autocovariance) / (2*nrow(df)^2)
+      var2 <- sum(D2)/(2*nrow(df)^2) 
       sqrt (var2)
     }
     # cov1 is for spatial models (part III)
@@ -221,7 +228,7 @@ buildStrataDF2 <- function(dataset,
                 range <- model$range[i]
                 gamma <- model$gamma[i]
                 stmt <- paste("sd2 <- sapply(l.split, function(df) ",
-                              stdev, "(df,sig2_eps,range,gamma,i))",sep = "")
+                              stdev, "(df,sig2_eps,range,gamma,i,beta1,beta2))",sep = "")
                 eval(parse(text=stmt))
                 # sd2 <- sapply(l.split, function(df) stdev4(Y,model$sig2[i],model$range[i],model$gamma[i]))
                 # stdev <- "stdev4"
