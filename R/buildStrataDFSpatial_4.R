@@ -55,11 +55,12 @@ buildStrataDFSpatial <- function(dataset,
     # D2 <- z_z/fitting + somma_coppie_var -2*spatial_cov
     # var_strato <- sum(D2) / (2*nrow(dataset)^2)
     D2 <- z_z + somma_coppie_var -2*spatial_cov
-    # sum(somma_coppie_var -2*spatial_cov) / (2*nrow(dataset)^2)
-    # sqrt((sum(z_z))/(2*nrow(dataset)^2))
-    # sqrt((sum(z_z))/(2*nrow(dataset)^2))
-    sd1 <- sqrt((sum(z_z))/(2*nrow(dataset)^2))
-    sd2 <- sum(somma_coppie_var -2*spatial_cov) / (2*nrow(dataset)^2)
+    sum(somma_coppie_var -2*spatial_cov) / (2*nrow(dataset)^2)
+    sum(somma_coppie_var) / (2*nrow(dataset)^2)
+    sum(2*spatial_cov) / (2*nrow(dataset)^2)
+    sqrt((sum(z_z))/(2*nrow(dataset)^2))
+    sd1 <- sqrt((sum(z_z)) / (2*nrow(dataset)^2))
+    sd2 <- sqrt(sum(somma_coppie_var -2*spatial_cov) / (2*nrow(dataset)^2))
     # var_strato <- sum(D2) / (2*nrow(dataset)^2)
     var_strato <- sd1^2/fitting + sd2^2
     # standard deviation
