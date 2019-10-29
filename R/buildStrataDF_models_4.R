@@ -111,7 +111,7 @@ buildStrataDF <- function(dataset,
       if (progress == TRUE) setTxtProgressBar(pb, d)
       # dom <- unique(dataset$DOMAINVALUE)[d]
 		  dom <- levels(as.factor(dataset$DOMAINVALUE))[d]
-      dom <- d
+      # dom <- d
 		  domain <- dataset[dataset$DOMAINVALUE == dom, ]
         listX <- NULL
         namesX <- NULL
