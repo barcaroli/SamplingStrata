@@ -93,8 +93,10 @@ buildStrataDF <- function(dataset,
       }
       
     }
-    #---------------------------------------------------------     
-   numdom <- length(levels(as.factor(dataset$DOMAINVALUE)))
+    #--------------------------------------------------------- 
+    dataset$DOMAINVALUE <- factor(dataset$DOMAINVALUE)
+    # dataset$DOMAINVALUE <- droplevels(dataset$DOMAINVALUE)
+    numdom <- length(levels(dataset$DOMAINVALUE))
 #    numdom <- length(unique(dataset$DOMAINVALUE))
     stratatot <- NULL
     # create progress bar
