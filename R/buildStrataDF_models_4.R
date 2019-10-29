@@ -5,7 +5,7 @@
 # Author: Giulio Barcaroli
 # Date: October 2019
 # ----------------------------------------------------
-buildStrataDF2 <- function(dataset, 
+buildStrataDF <- function(dataset, 
                           model=NULL, 
                           progress=TRUE,
                           verbose=TRUE) {

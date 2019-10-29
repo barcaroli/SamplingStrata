@@ -1,9 +1,9 @@
 \name{buildStrataDF}
-\Rdversion{1.3}
+\Rdversion{1.5}
 \alias{buildStrataDF}
 \title{
 Builds the "strata" dataframe containing information on target variables Y's
-distributions in the different strata, starting from sample data or from a frame
+distributions in the different strata, starting from sample data or from a frame (only for 'optimizeStrata2')
 }
 \description{
 This function allows to build the information regarding strata in the population required as
@@ -26,7 +26,10 @@ The dataframe "strata" is written to an external file (tab delimited, extension 
 used as an input by the function "optimizeStrata".
 }
 \usage{
-buildStrataDF(dataset,model=NULL,progress=TRUE,verbose=TRUE)
+buildStrataDF(dataset,
+              model=NULL,
+              progress=TRUE,
+              verbose=TRUE)
 }
 \arguments{
   \item{dataset}{
