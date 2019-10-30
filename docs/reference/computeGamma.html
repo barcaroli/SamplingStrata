@@ -6,8 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Builds the "strata" dataframe containing information on target variables Y's
-distributions in the different strata, starting from a frame where units are spatially correlated. — aggrStrataSpatial • SamplingStrata</title>
+<title>Function that allows to calculate a heteroscedasticity index,
+together with associate prediction variance,
+to be used by the optimization step 
+to correctly evaluate the standard deviation in the strata
+due to prediction errors. — computeGamma • SamplingStrata</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -33,10 +36,21 @@ distributions in the different strata, starting from a frame where units are spa
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Builds the "strata" dataframe containing information on target variables Y's
-distributions in the different strata, starting from a frame where units are spatially correlated. — aggrStrataSpatial" />
+<meta property="og:title" content="Function that allows to calculate a heteroscedasticity index,
+together with associate prediction variance,
+to be used by the optimization step 
+to correctly evaluate the standard deviation in the strata
+due to prediction errors. — computeGamma" />
 
-<meta property="og:description" content="This function builds the dataframe &quot;strata&quot; considering as input a given domain in the sampling frame. The variance in each stratum is calculated by considering also the component of spatial autocorrelation." />
+<meta property="og:description" content="When the anticipated variance has to be calculated during the execution
+of the optimization step, his function allows to calculate a heteroscedasticity index,
+together with associate prediction variance,
+to be used to correctly evaluate the variance in the strata.
+The function returns a list where the first object is the heteroscedasticity indexand the 
+second is the associated standard deviation in the strata
+due to prediction errors. 
+These two values can be passed as parameters of the model, or used to calculate
+prediction errors for ach unit in the frame." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -104,73 +118,62 @@ distributions in the different strata, starting from a frame where units are spa
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Builds the "strata" dataframe containing information on target variables Y's
-distributions in the different strata, starting from a frame where units are spatially correlated.</h1>
+    <h1>Function that allows to calculate a heteroscedasticity index,
+together with associate prediction variance,
+to be used by the optimization step 
+to correctly evaluate the standard deviation in the strata
+due to prediction errors.</h1>
     
-    <div class="hidden name"><code>aggStrataSpatial.Rd</code></div>
+    <div class="hidden name"><code>computeGamma.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function builds the dataframe "strata" considering as input a given domain in the sampling frame. The variance in each stratum is calculated by considering also the component of spatial autocorrelation.</p>
+    <p>When the anticipated variance has to be calculated during the execution
+of the optimization step, his function allows to calculate a heteroscedasticity index,
+together with associate prediction variance,
+to be used to correctly evaluate the variance in the strata.
+The function returns a list where the first object is the heteroscedasticity indexand the 
+second is the associated standard deviation in the strata
+due to prediction errors. 
+These two values can be passed as parameters of the model, or used to calculate
+prediction errors for ach unit in the frame.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>aggrStrataSpatial</span>(<span class='no'>dataset</span>,
-            <span class='no'>fitting</span>,
-            <span class='no'>range</span>,
-            <span class='no'>kappa</span>,
-            <span class='no'>vett</span>,
-            <span class='no'>dominio</span>)</pre>
+    <pre class="usage"><span class='fu'>computeGamma</span>(<span class='no'>e</span>,<span class='no'>x</span>,<span class='no'>nbins</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dataset</th>
-      <td><p>This is the name of the dataframe containing the sample data, or the frame data. 
-  It is strictly required that auxiliary information is organised in variables named 
-  as X1, X2, ... , Xm (there should be at least one of them) and the target variables 
-  are denoted by Y1, Y2, ... , Yn.
-  In addition, in case of sample data, a variable named 'WEIGHT' must be present in the dataframe, 
-  containing   the weigths associated to each sampling unit</p></td>
+      <th>e</th>
+      <td><p>This is the variable that contains prediction errors (residuals) of the model.</p></td>
     </tr>
     <tr>
-      <th>fitting</th>
-      <td><p>Fitting of the model(s).
-	Default is 1.</p></td>
+      <th>x</th>
+      <td><p>This is the variable that contains explanatory variable in the model.</p></td>
     </tr>
     <tr>
-      <th>range</th>
-      <td><p>Maximum range for spatial autocorrelation</p></td>
-    </tr>
-    <tr>
-      <th>kappa</th>
-      <td><p>Factor used in evaluating spatial autocorrelation. 
-	Default is 3.</p></td>
-    </tr>
-    <tr>
-      <th>vett</th>
-      <td><p>vector of values indicating how the units in the dataset must 
-	be aggregated in strata.</p></td>
-    </tr>
-    <tr>
-      <th>dominio</th>
-      <td><p>Value indicating the domain in the dataset to be processed.</p></td>
+      <th>nbins</th>
+      <td><p>Number of bins to be passed to the 'var.bin' function. Default is 6.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe containing strata</p>
+    <p>A list containing: (i) the value of the heteroscedasticity index, (ii) associated standard deviation.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>strata</span> <span class='kw'>&lt;-</span> <span class='fu'>aggrStrataSpatial</span>(<span class='kw'>dataset</span><span class='kw'>=</span><span class='no'>frame</span>,
-                            <span class='kw'>fitting</span><span class='kw'>=</span><span class='fl'>1</span>,
-                            <span class='kw'>range</span><span class='kw'>=</span><span class='fl'>800</span>,
-                            <span class='kw'>kappa</span><span class='kw'>=</span><span class='fl'>1</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"swissmunicipalities"</span>)
+<span class='no'>swiss_sample</span> <span class='kw'>&lt;-</span> <span class='no'>swissmunicipalities</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>swissmunicipalities</span>)),<span class='fl'>500</span>),]
+<span class='no'>mod_Airind_POPTOT</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>swiss_sample</span>$<span class='no'>Airind</span> ~ <span class='no'>swiss_sample</span>$<span class='no'>POPTOT</span>)
+<span class='fu'>computeGamma</span>(<span class='no'>mod_Airind_POPTOT</span>$<span class='no'>residuals</span>,
+             <span class='no'>swiss_sample</span>$<span class='no'>POPTOT</span>,
+             <span class='kw'>nbins</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+<span class='co'># [1] 0.78830779 0.01418615</span>
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -184,7 +187,7 @@ distributions in the different strata, starting from a frame where units are spa
     </ul>
 
     <h2>Author</h2>
-    <p>Giulio Barcaroli</p>
+    <p>Marco Ballin, Giulio Barcaroli</p>
   </div>
 </div>
 

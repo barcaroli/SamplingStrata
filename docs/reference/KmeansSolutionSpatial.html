@@ -138,7 +138,7 @@ the second the domains.</p>
     <pre class="usage"><span class='fu'>KmeansSolutionSpatial</span>(<span class='no'>frame</span>,
                     <span class='kw'>fitting</span> <span class='kw'>=</span> <span class='fl'>1</span>,
                     <span class='kw'>range</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-                    <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+                    <span class='kw'>kappa</span> <span class='kw'>=</span> <span class='fl'>3</span>,
                     <span class='no'>errors</span>,
                     <span class='kw'>nstrata</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
                     <span class='kw'>minnumstrat</span> <span class='kw'>=</span> <span class='fl'>2</span>,
@@ -162,7 +162,7 @@ the second the domains.</p>
       <td><p>Maximum range for spatial autocorrelation</p></td>
     </tr>
     <tr>
-      <th>gamma</th>
+      <th>kappa</th>
       <td><p>Factor used in evaluating spatial autocorrelation. 
 	Default is 3.</p></td>
     </tr>
@@ -258,7 +258,7 @@ number of atomic strata divided by 2.</p></td>
                             <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>cv</span>,
                             <span class='kw'>fitting</span> <span class='kw'>=</span> <span class='fl'>1</span>,
                             <span class='kw'>range</span> <span class='kw'>=</span> <span class='no'>fit.vgm</span>$<span class='no'>var_model</span>$<span class='no'>range</span>[<span class='fl'>2</span>],
-                            <span class='kw'>gamma</span><span class='kw'>=</span><span class='fl'>1</span>,
+                            <span class='kw'>kappa</span><span class='kw'>=</span><span class='fl'>1</span>,
                             <span class='kw'>nstrata</span><span class='kw'>=</span><span class='fl'>NA</span>,
                             <span class='kw'>maxclusters</span> <span class='kw'>=</span> <span class='fl'>5</span>)
 <span class='co'>############################</span>
@@ -267,7 +267,7 @@ number of atomic strata divided by 2.</p></td>
 <span class='no'>strataKm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='aggStrataSpatial.html'>aggrStrataSpatial</a></span>(<span class='kw'>dataset</span><span class='kw'>=</span><span class='no'>frame</span>,
                         <span class='kw'>fitting</span> <span class='kw'>=</span> <span class='fl'>1</span>,
                         <span class='kw'>range</span> <span class='kw'>=</span> <span class='no'>fit.vgm</span>$<span class='no'>var_model</span>$<span class='no'>range</span>[<span class='fl'>2</span>],
-                        <span class='kw'>gamma</span><span class='kw'>=</span><span class='fl'>1</span>,
+                        <span class='kw'>kappa</span><span class='kw'>=</span><span class='fl'>1</span>,
                         <span class='kw'>vett</span><span class='kw'>=</span><span class='no'>km</span>$<span class='no'>suggestions</span>,
                         <span class='kw'>dominio</span><span class='kw'>=</span><span class='fl'>1</span>)
 <span class='no'>strataKm</span>$<span class='no'>SOLUZ</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bethel.html'>bethel</a></span>(<span class='no'>strataKm</span>,<span class='no'>cv</span>)
