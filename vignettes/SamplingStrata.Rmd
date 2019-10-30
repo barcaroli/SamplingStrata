@@ -711,53 +711,70 @@ where
 
 $$epsilon \sim N(0,sig2)$$
 
-In order to make evident the importance of the above, consider the following example, based on the dataset *nations* available in the package.
+In order to make evident the importance of the above, consider the following example, based on the dataset *swissmunicipalities* available in the package.
 
 
 ```{r, eval = T}
-data(nations)
-head(nations)
+data("swissmunicipalities")
+swissmunicipalities$id <- c(1:nrow(swissmunicipalities))
+swissmunicipalities$dom <- 1
 ```
 
-Let us assume that in the sampling frame only variable *GDP* (Gross Domestic Product) is available for all countries, while *contraception rates* and *infant mortality rates* are available only on a subset of countries (about one third).
+Let us assume that in the sampling frame only variable *total population* is available for all municipalities, while *industrial area* and *buildings area*are available only on a sample of 500 municipalities.
 
 ```{r, eval = T}
 set.seed(1234)
-nations_sample <- nations[sample(c(1:207),70),]
+swiss_sample <- swissmunicipalities[sample(c(1:nrow(swissmunicipalities)),500),]
 ```
 
-In this subset we can fit models between GDP and the two variables that we assume are the target of our survey.
+In this subset we can fit models between POPTOT and the two variables that we assume are the target of our survey.
 
-One model for *infant mortality* and *GDP*:
+One model for *industrial area* and *total population*:
 
 ```{r, eval = T}
-mod_logGDP_INFMORT <- lm(log(nations_sample$infant.mortality) ~ log(nations_sample$GDP))
-summary(mod_logGDP_INFMORT)
+mod_Airind_POPTOT <- lm(swiss_sample$Airind ~ swiss_sample$POPTOT)
+summary(mod_Airind_POPTOT)
 ```
 
-and one model for *contraception* and *GDP*:
+and one model for *buildings area* and *total population*:
 
 ```{r, eval = T}
-mod_logGDP_CONTRA <- lm(log(nations_sample$contraception) ~ log(nations_sample$GDP))
-summary(mod_logGDP_CONTRA)
+mod_Airbat_POPTOT <- lm(swiss_sample$Airbat ~ swiss_sample$POPTOT)
+summary(mod_Airbat_POPTOT)
 ```
+
+We calculate the heteroscedasticity index and associated prediction standard error for both models:
+
+```{r, eval = T}
+airind <- computeGamma(mod_Airind_POPTOT$residuals,
+             swiss_sample$POPTOT,
+             nbins = 10)
+airind
+```
+
+
+```{r, eval = T}
+airbat <- computeGamma(mod_Airbat_POPTOT$residuals,
+             swiss_sample$POPTOT,
+             nbins = 10)
+airbat
+```
+
 
 We define the *sampling frame* in this way:
 
 
 ```{r, eval = T}
-nations$progr <- c(1:nrow(nations))
-nations$dom <- 1
-frame <- buildFrameDF(nations,
-                      id="Country",
-                      X="progr",
-                      Y=c("GDP","GDP"),
+frame <- buildFrameDF(swissmunicipalities,
+                      id="id",
+                      X="id",
+                      Y=c("POPTOT","POPTOT"),
                       domainvalue = "dom")
 ```
 
 that is, we replicate twice the variable *GDP* because it will be used once for *infant mortality* and once for *contraception*. 
 
-We set 10% and 5% precision constraints on these two variables:
+We set 10% and 5% precision constraints on these variables:
 
 ```{r, eval = T}
 cv <- as.data.frame(list(DOM=rep("DOM1",1),
@@ -768,88 +785,58 @@ cv <- as.data.frame(list(DOM=rep("DOM1",1),
 cv
 ```
 
-We build the strata without any assumption on the variability of the two target variables, and proceed in the optimization:
-
-```{r, eval = T}
-strata1 <- buildStrataDF(frame, progress = FALSE)
-solution1 <- optimizeStrata(cv,
-                           strata1,
-                           iter = 50,
-                           pops = 20,
-                           parallel = FALSE,
-                           suggestions = KmeansSolution(strata1,cv),
-                           writeFiles = FALSE,
-                           showPlot = FALSE)
-sum(solution1$aggr_strata$SOLUZ)
-```
-
-Then, we evaluate the expected CV's on the three variables:
-
-```{r, eval = T}
-newstrata <- updateStrata(strata1,solution1)
-framenew1 <- updateFrame(frame,newstrata)
-framenew1 <- framenew1[order(framenew1$ID),]
-framenew1$Y2 <- nations$infant.mortality
-framenew1$Y3 <- nations$contraception
-results1 <- evalSolution(framenew1, solution1$aggr_strata, 50, progress = FALSE)
-results1$coeff_var
-```
-
-Clearly, the CV's on *infant mortality* and *contraception* are not compliant with the corresponding precision constraints.
-
 We now proceed in building the *strata* dataframe using the models:
 
 ```{r, eval = T}
 model <- NULL
-model$beta[1] <- mod_logGDP_INFMORT$coefficients[2]
-model$sig2[1] <- summary(mod_logGDP_INFMORT)$sigma
-model$type[1] <- "loglinear"
-model$gamma[1] <- 0
-model$beta[2] <- mod_logGDP_CONTRA$coefficients[2]
-model$sig2[2] <- summary(mod_logGDP_CONTRA)$sigma
-model$type[2] <- "loglinear"
-model$gamma[2] <- 0
+model$beta[1] <- mod_Airind_POPTOT$coefficients[2]
+model$sig2[1] <- airind[2]^2
+model$type[1] <- "linear"
+model$gamma[1] <- airind[1]
+model$beta[2] <- mod_Airbat_POPTOT$coefficients[2]
+model$sig2[2] <- airbat[2]^2
+model$type[2] <- "linear"
+model$gamma[2] <- airbat[1] 
 model <- as.data.frame(model)
 model
 ```
 
 ```{r, eval = T}
-strata2 <- buildStrataDF(frame, model = model, progress = FALSE)
-head(strata2)
+strata <- buildStrataDF(frame, model = model, progress = FALSE)
+head(strata)
 ```
 
 We proceed with the optimization
 
 ```{r, eval = T}
-strata2 <- buildStrataDF(frame, model = model, progress = FALSE)
-solution2 <-
+strata <- buildStrataDF(frame, model = model, progress = FALSE)
+solution <-
   optimizeStrata(
     errors = cv , 
-    strata = strata2, 
+    strata = strata, 
     iter = 50, 
     pops = 20, 
     parallel = FALSE,
-    suggestions = KmeansSolution(strata2,cv),
+    suggestions = KmeansSolution(strata,cv,maxclusters=10,showPlot=FALSE),
     showPlot = FALSE,
     writeFiles = FALSE)
 ```
 
-This time the sample size is much higher.
 
 What about the expected CV's?
 
 
 ```{r, eval = T}
-newstrata <- updateStrata(strata2,solution2)
-framenew2 <- updateFrame(frame,newstrata)
-framenew2 <- framenew2[order(framenew2$ID),]
-framenew2$Y2 <- nations$infant.mortality
-framenew2$Y3 <- nations$contraception
-results2 <- evalSolution(framenew2, solution2$aggr_strata, 50, progress = FALSE)
-results2$coeff_var
+newstrata <- updateStrata(strata,solution)
+framenew <- updateFrame(frame,newstrata)
+framenew <- framenew[order(framenew$ID),]
+framenew$Y2 <- swissmunicipalities$Airind
+framenew$Y3 <- swissmunicipalities$Airbat
+results <- evalSolution(framenew, solution$aggr_strata, 200, progress = FALSE)
+results$coeff_var
 ```
 
-This time the expected CV's of all variables are more than compliant with the precision constraints.
+The first CV is the one related to *total population*, the other two regard respectively *industrial area* and *building area*: these latter two are more than compliant with the precision constraints.
 
 
 # Optimization variant with the *optimizeStrata2* function
