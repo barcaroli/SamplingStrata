@@ -720,7 +720,7 @@ swissmunicipalities$id <- c(1:nrow(swissmunicipalities))
 swissmunicipalities$dom <- 1
 ```
 
-Let us assume that in the sampling frame only variable *total population* is available for all municipalities, while *industrial area* and *buildings area*are available only on a sample of 500 municipalities.
+Let us assume that in the sampling frame only variable *total population* is available for all municipalities, while *industrial area* and *buildings area* are available only on a sample of 500 municipalities.
 
 ```{r, eval = T}
 set.seed(1234)
@@ -830,13 +830,13 @@ What about the expected CV's?
 newstrata <- updateStrata(strata,solution)
 framenew <- updateFrame(frame,newstrata)
 framenew <- framenew[order(framenew$ID),]
-framenew$Y2 <- swissmunicipalities$Airind
-framenew$Y3 <- swissmunicipalities$Airbat
+framenew$Y1 <- swissmunicipalities$Airind
+framenew$Y2 <- swissmunicipalities$Airbat
 results <- evalSolution(framenew, solution$aggr_strata, 200, progress = FALSE)
 results$coeff_var
 ```
 
-The first CV is the one related to *total population*, the other two regard respectively *industrial area* and *building area*: these latter two are more than compliant with the precision constraints.
+These two CV's regard respectively *industrial area* and *building area*: they are more than compliant with the precision constraints (10\% and 5\%).
 
 
 # Optimization variant with the *optimizeStrata2* function
