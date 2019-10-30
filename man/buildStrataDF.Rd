@@ -3,7 +3,7 @@
 \alias{buildStrataDF}
 \title{
 Builds the "strata" dataframe containing information on target variables Y's
-distributions in the different strata, starting from sample data or from a frame (only for 'optimizeStrata2')
+distributions in the different strata, starting from sample data or from a frame 
 }
 \description{
 This function allows to build the information regarding strata in the population required as
