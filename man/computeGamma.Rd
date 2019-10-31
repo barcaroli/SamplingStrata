@@ -17,10 +17,15 @@ The function returns a list where the first object is the heteroscedasticity ind
 second is the associated standard deviation in the strata
 due to prediction errors. 
 The two parameters are calculated in this way:
+\\
 - residuals 'e' are grouped in clusters defined by values of the explanatory variable 'x';
+\\
 - a model is fitted by considering log(e) and log(mean(x)) values;
+\\
 - the intercept is the value of standard deviation of residuals;
+\\
 - the slope is the value of the heteroscedasticity index.
+\\
 These two values can be passed as parameters of the model, or used to calculate
 prediction errors for ach unit in the frame.
 }
