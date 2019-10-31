@@ -42,7 +42,7 @@ computeGamma(e,x,nbins,showPlot)
 \item{nbins}{
   Number of bins to be passed to the 'var.bin' function. Default is 6.
 }
-\item{nbins}{
+\item{showPlot}{
   Visualization of plots. Default is TRUE.
 }
 }
