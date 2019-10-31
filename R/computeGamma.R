@@ -22,7 +22,7 @@ computeGamma <- function (e,
     par(mfrow=c(1,2))
     boxplot(e ~ p_bins, data = dataset, ylab="residuals", xlab="clusters",col="orange")
     title("Distribution of residuals")
-    plot(log(x_eps), log(std_eps), xlab="log(mean(Y))", ylab="log(stdev(residuals))")
+    plot(log(x_eps), log(std_eps), xlab="log(mean(x))", ylab="log(stdev(residuals))")
     abline(lm_gamma)
     title("Model")
     par(mfrow=c(1,1))
