@@ -20,7 +20,7 @@ These two values can be passed as parameters of the model, or used to calculate
 prediction errors for ach unit in the frame.
 }
 \usage{
-computeGamma(e,x,nbins)
+computeGamma(e,x,nbins,showPlot)
 }
 \arguments{
   \item{e}{
@@ -31,6 +31,9 @@ computeGamma(e,x,nbins)
 }
 \item{nbins}{
   Number of bins to be passed to the 'var.bin' function. Default is 6.
+}
+\item{nbins}{
+  Visualization of plots. Default is TRUE.
 }
 }
 \value{
