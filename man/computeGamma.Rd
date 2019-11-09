@@ -42,7 +42,7 @@ computeGamma(e,x,nbins,showPlot)
 }
 }
 \value{
-A list containing: (i) the value of the heteroscedasticity index, (ii) associated standard deviation.
+A list containing: (i) the value of the heteroscedasticity index, (ii) associated standard deviation, (iii) R^2 of the interpolating model.
 }
 \author{
 Marco Ballin, Giulio Barcaroli 
