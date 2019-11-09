@@ -55,8 +55,9 @@ swiss_sample <- swissmunicipalities[sample(c(1:nrow(swissmunicipalities)),500),]
 mod_Airind_POPTOT <- lm(swiss_sample$Airind ~ swiss_sample$POPTOT)
 computeGamma(mod_Airind_POPTOT$residuals,
              swiss_sample$POPTOT,
-             nbins = 10)
-# [1] 0.78830779 0.01418615
+             nbins = 8)
+#     gamma     sigma  r.square 
+# 0.8029292 0.0150446 0.9598539
 }
 }
 \keyword{ survey }

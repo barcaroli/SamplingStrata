@@ -30,6 +30,7 @@ computeGamma <- function (e, x, nbins = 6, showPlot = TRUE)
   ris_gamma[1] <- lm_gamma$coefficients[2]
   ris_gamma[2] <- exp(lm_gamma$coefficients[1])
   ris_gamma[3] <- summary(lm_gamma)$r.square
+  names(ris_gamma) <- c("gamma","sigma","r.square")
   return(ris_gamma)
 }
 
