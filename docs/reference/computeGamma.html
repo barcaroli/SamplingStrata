@@ -176,7 +176,7 @@ prediction errors for ach unit in the frame.</p>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list containing: (i) the value of the heteroscedasticity index, (ii) associated standard deviation.</p>
+    <p>A list containing: (i) the value of the heteroscedasticity index, (ii) associated standard deviation, (iii) R^2 of the interpolating model.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -186,8 +186,9 @@ prediction errors for ach unit in the frame.</p>
 <span class='no'>mod_Airind_POPTOT</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>swiss_sample</span>$<span class='no'>Airind</span> ~ <span class='no'>swiss_sample</span>$<span class='no'>POPTOT</span>)
 <span class='fu'>computeGamma</span>(<span class='no'>mod_Airind_POPTOT</span>$<span class='no'>residuals</span>,
              <span class='no'>swiss_sample</span>$<span class='no'>POPTOT</span>,
-             <span class='kw'>nbins</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-<span class='co'># [1] 0.78830779 0.01418615</span>
+             <span class='kw'>nbins</span> <span class='kw'>=</span> <span class='fl'>8</span>)
+<span class='co'>#     gamma     sigma  r.square </span>
+<span class='co'># 0.8029292 0.0150446 0.9598539</span>
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
