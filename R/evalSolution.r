@@ -156,10 +156,10 @@ evalSolution <- function (frame,
     if (writeFiles == TRUE) 
       # pdf("rel_bias.pdf", width = 7, height = 5)
       png("rel_bias.png")
-    # boxplot(bias[,-ncol(bias)], col = "orange", main = "Distribution of relative bias in the domains", 
-    #         xlab = "Variables Y", ylab = "Relative bias")
-    boxplot(bias, col = "orange", main = "Distribution of relative bias in the domains", 
+    boxplot(bias[,-ncol(bias)], col = "orange", main = "Distribution of relative bias in the domains",
             xlab = "Variables Y", ylab = "Relative bias")
+    # boxplot(bias, col = "orange", main = "Distribution of relative bias in the domains", 
+    #         xlab = "Variables Y", ylab = "Relative bias")
     if (writeFiles == TRUE) 
       dev.off()
     
