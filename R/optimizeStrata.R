@@ -47,6 +47,7 @@ optimizeStrata <-
              ndom, ")\nSet initialStrata with a number of elements equal to the number of domains")
       vettsol <- NULL
       outstrata <- NULL
+      if (parallel == TRUE & ndom == 1) parallel <- FALSE
       if (parallel) {
         if (missing(cores)) {
           cores <- parallel::detectCores() - 1
