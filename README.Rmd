@@ -71,7 +71,5 @@ eval <- evalSolution(frame = framenew,
                      writeFiles = FALSE)
 eval$coeff_var
 swisserrors
-
 ```
-
 

@@ -2,7 +2,7 @@
 \Rdversion{1.3-1}
 \alias{optimizeStrataSpatial}
 \title{
-Best stratification of a sampling frame for multipurpose surveys (only with continuous stratification variables)
+Best stratification of a sampling frame for multipurpose surveys considering also spatial correlation
 }
 \description{
 This function runs a set of other functions to optimise the stratification of a sampling frame, only when stratification variables are of the continuous type, and if there is also 

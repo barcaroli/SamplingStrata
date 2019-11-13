@@ -57,8 +57,8 @@ strataGenalg <- function(errors, strata, cens, strcens,
     cat("\nChance to add strata to maximum: ", addStrataFactor)
     cat("\nAllocation with real numbers instead of integers: ", 
         realAllocation)
-    if (!is.null(suggestions)) 
-        cat("\nSuggestion: ", suggestions[1, ])
+    # if (!is.null(suggestions)) 
+    #     cat("\nSuggestion: ", suggestions[1, ])
     if (writeFiles == TRUE) sink()
     #
     # --------------------------------------------------------------------------

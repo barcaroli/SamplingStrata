@@ -28,7 +28,7 @@ KmeansSolution2 <- function(frame,
     stmt <- paste(stmt1,stmt2,stmt3,sep="")
     eval(parse(text=stmt))
     framecorr$X1 <- solution
-    aggr <- buildStrataDF2(dataset=framecorr,
+    aggr <- buildStrataDF(dataset=framecorr,
                            model=NULL,
                            progress=FALSE,
                            verbose=FALSE)
@@ -55,7 +55,7 @@ KmeansSolution2 <- function(frame,
       stmt <- paste(stmt1,stmt2,stmt3,sep="")
       eval(parse(text=stmt))
       framecorr$X1 <- solution
-      aggr <- buildStrataDF2(dataset=framecorr,
+      aggr <- buildStrataDF(dataset=framecorr,
                              model=NULL,
                              progress=FALSE,
                              verbose=FALSE)

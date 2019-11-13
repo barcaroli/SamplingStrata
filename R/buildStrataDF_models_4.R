@@ -3,9 +3,9 @@
 # starting from the available sampling frame
 # taking into account anticipated variance
 # Author: Giulio Barcaroli
-# Date: August 2019
+# Date: October 2019
 # ----------------------------------------------------
-buildStrataDF2 <- function(dataset, 
+buildStrataDF <- function(dataset, 
                           model=NULL, 
                           progress=TRUE,
                           verbose=TRUE) {
@@ -31,13 +31,18 @@ buildStrataDF2 <- function(dataset,
       st <- paste("Y <- df$Y",i,sep="")
       eval(parse(text=st))
       dist <- sqrt((outer(df$LON,df$LON,"-"))^2+(outer(df$LAT,df$LAT,"-"))^2)
+      pred <- beta1*Y + beta2*W
       var_ntimes <- rep(var_eps,nrow(df))
       var_ntimes <- var_ntimes*Y^(2*gamma)
-      prod_couples_std <- as.matrix(outer(sqrt(var_ntimes),sqrt(var_ntimes),"*"))
       sum_couples_var <- as.matrix(outer(var_ntimes,var_ntimes,"+"))
+      # prod_couples_std <- as.matrix(outer(sqrt(var_ntimes),sqrt(var_ntimes),"*"))
+      prod_couples_std <- sqrt(as.matrix(outer(var_ntimes,var_ntimes, "*")))
       spatial_autocovariance <- prod_couples_std * exp(-1*dist/(range+0.0000001))
       D2<-sum_couples_var-2*spatial_autocovariance
-      var2 <- sum(D2)/(2*nrow(df)^2)
+      sum(sum_couples_var) / (2*nrow(df)^2)
+      sum(2*spatial_autocovariance) / (2*nrow(df)^2)
+      sum(sum_couples_var-2*spatial_autocovariance) / (2*nrow(df)^2)
+      var2 <- sum(D2)/(2*nrow(df)^2) 
       sqrt (var2)
     }
     # cov1 is for spatial models (part III)
@@ -88,15 +93,19 @@ buildStrataDF2 <- function(dataset,
       }
       
     }
-    #---------------------------------------------------------     
-#    numdom <- length(levels(as.factor(dataset$DOMAINVALUE)))
-    numdom <- length(unique(dataset$DOMAINVALUE))
+    #--------------------------------------------------------- 
+    dataset$DOMAINVALUE <- factor(dataset$DOMAINVALUE)
+    # dataset$DOMAINVALUE <- droplevels(dataset$DOMAINVALUE)
+    numdom <- length(levels(dataset$DOMAINVALUE))
+#    numdom <- length(unique(dataset$DOMAINVALUE))
     stratatot <- NULL
     # create progress bar
     if (progress == TRUE) pb <- txtProgressBar(min = 0, max = numdom, style = 3)
     # begin domains cycle
-    dataset$DOMAINVALUE <- as.numeric(dataset$DOMAINVALUE)
-    for (d in unique(dataset$DOMAINVALUE)) {
+    # dataset$DOMAINVALUE <- as.numeric(dataset$DOMAINVALUE)
+    # for (d in unique(dataset$DOMAINVALUE)) {
+    # dataset$DOMAINVALUE <- as.numeric(dataset$DOMAINVALUE)
+    for (d in (levels(dataset$DOMAINVALUE))) {
       if (progress == TRUE) Sys.sleep(0.1)
       # update progress bar
       if (progress == TRUE) setTxtProgressBar(pb, d)
@@ -236,7 +245,7 @@ buildStrataDF2 <- function(dataset,
                 #-- TOTAL S ---------------
                 # st <- paste("S",i," <- sqrt(sd1^2 + sd2^2 + cov1^2)",sep="")
                 # st <- paste("S",i," <- sqrt(sd1^2 + sd2^2)",sep="")
-                st <- paste("S",i," <- sqrt(sd1^2 + sd2^2)",sep="")
+                # st <- paste("S",i," <- sqrt(sd1^2 + sd2^2)",sep="")
                 # psill2 <- model$sig2_2[i]
                 # range2 <- model$range_2[i]
                 # stmt <- paste("cov1 <- sapply(l.split, function(df,y,w) ",
@@ -247,7 +256,8 @@ buildStrataDF2 <- function(dataset,
                 # st <- paste("gammas <- tapply(Y^model$gamma[",i,"],STRATO,sum) / as.numeric(table(STRATO))",sep="")
                 # eval(parse(text=st))
                 # st <- paste("S",i," <- sqrt(sd1^2/fitting + (sd2^2 + cov1^2) * gammas)",sep="")
-                st <- paste("S",i," <- sqrt((sd1^2/fitting) + sd2^2 * gammas)",sep="")
+                # st <- paste("S",i," <- sqrt((sd1^2/fitting) + sd2^2 * gammas)",sep="")
+                st <- paste("S",i," <- sqrt((sd1^2/fitting) + sd2^2)",sep="")
                 eval(parse(text=st))
               }
             }
