@@ -72,7 +72,7 @@ optimizeStrata2 <-
         dir.create(direnew)
       #setwd(direnew)
     }
-    
+    if (parallel == TRUE & ndom == 1) parallel <- FALSE
     if(parallel == FALSE & !missing(cores)){
       cat("Sequential optimization as parallel = FALSE, defaulting number of cores = 1")
       cores <- 1
