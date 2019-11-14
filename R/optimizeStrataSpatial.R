@@ -103,7 +103,7 @@ optimizeStrataSpatial <-
     stcamp <- split(frame, list(frame$DOMAINVALUE))
     if (!is.null(suggestions)) {
       nvalues <- nrow(suggestions)
-      # if (nvalues != ndom*nvarX*(nStrata-1)) stop("Number of values in suggestions not compatible with nStrata")
+      if (nvalues != ndom*nvarX*(nStrata-1)) stop("Number of values in suggestions not compatible with nStrata")
       suggestdom <- split(suggestions, list(suggestions$domainvalue))
     }
     if (strcens == TRUE & !is.null(cens) > 0) {
