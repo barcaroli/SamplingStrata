@@ -64,11 +64,11 @@ a component of spatial autocorrelation in frame units.
 	Default is 1.
 }
 \item{range}{
-	Maximum range for spatial autocorrelation
+	Maximum range for spatial autocorrelation. It is a vector with as many elements as the number of target variables Y.
 }	
 \item{kappa}{
 	Factor used in evaluating spatial autocorrelation. 
-	Default is 1.
+	Default is 3.
 }	
 \item{minnumstr}{
   Indicates the minimum number of units that must be allocated in each stratum. Default is 2.
