@@ -8,7 +8,7 @@
 # ----------------------------------------------------
 aggrStrataSpatial <- function(dataset,
                               fitting=1,
-                              range=1,
+                              range=c(0),
                               kappa=3, 
                               gamma=0,
                               vett, 
@@ -64,7 +64,9 @@ aggrStrataSpatial <- function(dataset,
       eval(parse(text = stmt))
       stmt <- paste("zz <- outer(dataset$Y",i,",dataset$Y",i,",'-')^2",sep="")
       eval(parse(text = stmt))
-      sd <- stdev(zz,dist,var,j,dataset,fitting,range,kappa)
+      stmt <- paste("rng <- range[",i,"]",sep="")
+      eval(parse(text = stmt))
+      sd <- stdev(zz,dist,var,j,dataset,fitting,rng,kappa)
       stmt <- paste("strato$S",i," <- sd",sep="")
       eval(parse(text=stmt))
     }

@@ -1,6 +1,6 @@
 KmeansSolutionSpatial <- function (frame, 
                                    fitting = 1, 
-                                   range = 1, 
+                                   range = c(0), 
                                    kappa = 3,
                                    gamma = 0,
                                    errors, 
