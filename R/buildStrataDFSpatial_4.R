@@ -10,7 +10,7 @@
 # ----------------------------------------------------
 buildStrataDFSpatial <- function(dataset,
                                   fitting=1,
-                                  range=1,
+                                  range=c(0),
                                   kappa=3,
                                   gamma=0,
                                   progress=FALSE,
@@ -39,9 +39,9 @@ buildStrataDFSpatial <- function(dataset,
       somma_coppie_var <- as.matrix(outer(var,var,"+"))
       # prod_coppie_var <- as.matrix(outer(sqrt(var),sqrt(var),"*"))
       prod_coppie_std <- sqrt(as.matrix(outer(var, var, "*")))
-      # spatial_correlation <- (1 - (exp(-kappa* dist/range)))
-      spatial_cov <- prod_coppie_std*exp(-kappa*dist/range) 
-      # spatial_cov <- somma_coppie_var*exp(-kappa*dist/range)
+      # spatial_correlation <- (1 - (exp(-kappa* dist/range[i])))
+      spatial_cov <- prod_coppie_std*exp(-kappa*dist/range[i]) 
+      # spatial_cov <- somma_coppie_var*exp(-kappa*dist/range[i])
     }
     if (nrow(dataset) <= 1) {
       somma_coppie_var <- 0
