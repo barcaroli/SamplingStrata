@@ -49,7 +49,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 	  if (is.null(errors)) stop("The 'precision constraints' (errors) dataframe is missing")
     checkInput(errors, strata)
 	  if (!is.null(cens) & is.null(strcens)) stop("Takeall strata presence indicated (strcens=TRUE), but no related strata dataframe (cens) is given")
-	  optimizeStrata(
+	  solution <- optimizeStrata(
     	errors = errors, 
     	strata = strata, 
     	cens = cens, 
@@ -84,7 +84,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 	  if (!is.null(range)) stop("Range value(s) not required with this method")
 	  if (!is.null(range)) stop("Kappa value not required with this method")
 	  if (!is.null(framecens)) checkInput(errors, frame=framecens) 
-	  optimizeStrata2(
+	  solution <- optimizeStrata2(
       errors = errors, 
       framesamp = framesamp,
       framecens = framecens, 
@@ -117,7 +117,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 	  nvars <- length(grep("var", names(framesamp)))
 	  if (nvarY != nvars) stop("Variances in the frame dataframe must be given (one for each Y)")
 	  if (sum(grep("lon",colnames(framesamp))) == 0 | sum(grep("lat",colnames(framesamp))) == 0)  stop("Coordinates (lon and lat) must be given in the frame dataframe")
-	  optimizeStrataSpatial(
+	  solution <- optimizeStrataSpatial(
       errors = errors, 
       framesamp = framesamp,
       framecens = framecens, 
@@ -142,4 +142,5 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
       kappa = kappa
 	  )
   }
+  return(solution)
 }
