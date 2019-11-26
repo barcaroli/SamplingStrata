@@ -5,7 +5,7 @@
 Best stratification of a sampling frame for multipurpose surveys 
 }
 \description{
-Wrapper function to call the different optimization functions: (i) optimizeStrata (method = "atomic"); (ii) optimizeStrata (method = "continuous"); (iii) optimizeStrata (method = "spatial").
+Wrapper function to call the different optimization functions: (i) optimizeStrata (method = "atomic"); (ii) optimizeStrata2 (method = "continuous"); (iii) optimizeStrata (method = "spatial").
 }
 \usage{
 optimStrata <- function(method=c("atomic","continuous","spatial"),
@@ -13,7 +13,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         errors,
                         alldomains=TRUE,
                         dom=NULL,
-						strcens=NULL,
+						            strcens=NULL,
                         minnumstr=2,
                         iter=50,
                         pops=20,
@@ -28,7 +28,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         strata=NULL,
                         initialStrata=NA,
                         addStrataFactor=0.0,
-						cens=NULL,
+						            cens=NULL,
                         # parameters only for optimizeStrata2 and optimizeStrataSpatial
                         framesamp=NULL,
                         framecens=NULL,
@@ -42,6 +42,9 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 	)
 }
 \arguments{
+  \item{method}{
+  This parameter allows to choose the method to be applied in the optimization step: (i) optimizeStrata (method = "atomic"); (ii) optimizeStrata (method = "continuous"); (iii) optimizeStrata (method = "spatial")
+}
   \item{errors}{
   This is the (mandatory) dataframe containing the precision levels expressed in terms of maximum expected value of the Coefficients of Variation
   related to target variables of the survey.
@@ -61,7 +64,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
   Indicates the minimum number of units that must be allocated in each stratum. Default is 2.
 }
   \item{iter}{
-  Indicated the maximum number of iterations (= generations) of the genetic algorithm. Default is 50.
+  Indicates the maximum number of iterations (= generations) of the genetic algorithm. Default is 50.
 }
   \item{pops}{
   The dimension of each generations in terms of individuals. Default is 20.
@@ -97,9 +100,6 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
   If the analysis is run in parallel, how many cores should be used.
   If not specified n-1 of total available cores are used OR if number of domains < (n-1) cores, then number of cores equal to number of domains are used.
 }
-  \item{nStrata}{
-  Indicates the number of strata for each variable.
-}
   \item{strata}{
   This is the (mandatory) dataframe containing the information related to "atomic" strata, i.e. the strata obtained by 
   the Cartesian product of all auxiliary variables X's. Information concerns the identifiability of strata
@@ -120,9 +120,12 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
   This is the dataframe containing the information related to the sampling frame.
 }
   \item{framecens}{
-  This the dataframe containing the units to be selected in any case. It has same structure than "dataframe" dataframe.
+  This the dataframe containing the units to be selected in any case. It has same structure than "framesamp" dataframe.
 }
-\item{model}{
+  \item{nStrata}{
+  Indicates the number of strata for each variable.
+}
+  \item{model}{
   In case the Y variables are not directly observed, but are estimated by means of other explicative variables, in order
   to compute the anticipated variance, information on models are given by a dataframe "model" with as many rows as the
   target variables. Each row contains the indication if the model is linear o loglinear, and the values of the model parameters 
