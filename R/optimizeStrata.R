@@ -3,7 +3,7 @@ optimizeStrata <-
             dom = NULL, initialStrata = NA, addStrataFactor = 0, minnumstr = 2, 
             iter = 50, pops = 20, mut_chance = NA, elitism_rate = 0.2, 
             highvalue = 1e+08, suggestions = NULL, realAllocation = TRUE, 
-            writeFiles = FALSE, showPlot = TRUE, parallel = TRUE, cores) 
+            writeFiles = FALSE, showPlot = TRUE, parallel = TRUE, cores = NA) 
   {
     if (writeFiles == TRUE) {
       dire <- getwd()

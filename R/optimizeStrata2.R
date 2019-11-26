@@ -19,7 +19,7 @@ optimizeStrata2 <-
             writeFiles = FALSE, 
             showPlot = TRUE, 
             parallel = TRUE, 
-            cores) 
+            cores = NA) 
   { 
     if (strcens == FALSE) {
       cens=NULL
