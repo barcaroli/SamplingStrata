@@ -79,7 +79,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 	  if (!is.na(initialStrata)) stop("Initial number of strata is not required with this method")
 	  if (!is.na(addStrataFactor)) stop("'addStrataFactor' is not required with this method")
 	  if (!is.null(cens)) stop("Takeall strata dataframe is not required with this method")
-    checkInput(errors, frame=framesamp)
+    checkInput(errors, sampframe=framesamp)
 	  if (!is.null(fitting)) stop("Fitting value(s) not required with this method")
 	  if (!is.null(range)) stop("Range value(s) not required with this method")
 	  if (!is.null(range)) stop("Kappa value not required with this method")
