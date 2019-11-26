@@ -13,6 +13,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         errors,
                         alldomains=TRUE,
                         dom=NULL,
+                        strcens=NULL,
                         minnumstr=2,
                         iter=50,
                         pops=20,
@@ -28,7 +29,6 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         initialStrata=NA,
                         addStrataFactor=0.0,
 						            cens=NULL,
-                        strcens=NULL,
                         # parameters only for optimizeStrata2 and optimizeStrataSpatial
                         framesamp=NULL,
                         framecens=NULL,
@@ -43,7 +43,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
   # Control of method
   if(!(method %in% c("atomic","continuous","spatial"))) stop("Method should be one in 'atomic','continuous','spatial'")
   # Control of common parameters
-  if (alldomains==TRUE & is.null(dom)) stop("Processing of all domains set TRUE, but a given domain has been indicated")
+  if (alldomains==TRUE & !is.null(dom)) stop("Processing of all domains set TRUE, but a given domain has been indicated")
   # Method 'atomic'
   if (method == "atomic") {
 	  if (is.null(errors)) stop("The 'precision constraints' (errors) dataframe is missing")
