@@ -23,7 +23,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         writeFiles=FALSE,
                         showPlot=TRUE,
                         parallel=TRUE,
-                        cores,
+                        cores=NA,
                         # parameters only for optimizeStrata
                         strata=NULL,
                         initialStrata=NA,
@@ -42,6 +42,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 {
   # Control of method
   if(!(method %in% c("atomic","continuous","spatial"))) stop("Method should be one in 'atomic','continuous','spatial'")
+  # if (missing(cores)) cores <- 1
   # Control of common parameters
   if (alldomains==TRUE & !is.null(dom)) stop("Processing of all domains set TRUE, but a given domain has been indicated")
   # Method 'atomic'
@@ -69,7 +70,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
     	writeFiles = writeFiles,
     	showPlot = showPlot, 
     	parallel = parallel,
-    	cores = cores
+    	cores
 	)	
   }
   # Method 'continuous'

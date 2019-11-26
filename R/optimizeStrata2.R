@@ -73,12 +73,12 @@ optimizeStrata2 <-
       #setwd(direnew)
     }
     if (parallel == TRUE & ndom == 1) parallel <- FALSE
-    if(parallel == FALSE & !missing(cores)){
+    if(parallel == FALSE & !missing(cores & !is.na(cores))){
       cat("Sequential optimization as parallel = FALSE, defaulting number of cores = 1")
       cores <- 1
       Sys.sleep(0.314)
     }
-    if(alldomains == FALSE & (parallel == TRUE | !missing(cores))){
+    if(alldomains == FALSE & (parallel == TRUE | !missing(cores) | !is.na(cores))){
       cat("Sequential optimization as parallel = FALSE, defaulting number of cores = 1")
       cores <- 1
       Sys.sleep(0.314)
@@ -117,7 +117,7 @@ optimizeStrata2 <-
       vettsol <- NULL
       outstrata <- NULL
       if (parallel) {
-        if (missing(cores)) {
+        if (missing(cores) | is.na(cores)) {
           cores <- parallel::detectCores() - 1
           if (ndom < cores) 
             cores <- ndom
