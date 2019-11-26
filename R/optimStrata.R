@@ -35,9 +35,9 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         model=NULL,
                         nStrata=5,
                         # parameters only for optimizeStrataSpatial
-                        fitting=1,
-                        range=c(1),
-                        kappa=3
+                        fitting=NA,
+                        range=NA,
+                        kappa=NA
                         ) 
 {
   # Control of method
@@ -80,10 +80,10 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 	  if (!is.na(addStrataFactor)) stop("'addStrataFactor' is not required with this method")
 	  if (!is.null(cens)) stop("Takeall strata dataframe is not required with this method")
     checkInput(errors, sampframe=framesamp)
-	  if (!is.null(fitting)) stop("Fitting value(s) not required with this method")
-	  if (!is.null(range)) stop("Range value(s) not required with this method")
-	  if (!is.null(range)) stop("Kappa value not required with this method")
-	  if (!is.null(framecens)) checkInput(errors, frame=framecens) 
+	  if (!is.na(fitting)) stop("Fitting value(s) not required with this method")
+	  if (!is.na(range)) stop("Range value(s) not required with this method")
+	  if (!is.na(range)) stop("Kappa value not required with this method")
+	  if (!is.null(framecens)) checkInput(errors, sampframe=framecens) 
 	  solution <- optimizeStrata2(
       errors = errors, 
       framesamp = framesamp,
@@ -109,9 +109,11 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
   }
   # Method 'spatial'
   if (method=="spatial") {
+    checkInput(errors, sampframe=framesamp)
 	  nvarY <- length(grep("Y", names(framesamp)))
-	  if (is.null(fitting)) stop("Fitting values of spatial models must be given")
-	  if (is.null(range)) stop("Range values of spatial models must be given")
+	  if (is.na(fitting)) stop("Fitting values of spatial models must be given")
+	  if (is.na(range)) stop("Range values of spatial models must be given")
+	  if (is.na(kappa)) kappa <- 3
 	  if (nvarY != length(as.numeric(fitting))) stop("Fitting values must be equal to the number of Y's")
 	  if (nvarY != length(as.numeric(range))) stop("Range values must be equal to the number of Y's")
 	  nvars <- length(grep("var", names(framesamp)))
