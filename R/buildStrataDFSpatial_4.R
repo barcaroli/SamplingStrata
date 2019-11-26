@@ -9,7 +9,7 @@
 # Date: April 2019
 # ----------------------------------------------------
 buildStrataDFSpatial <- function(dataset,
-                                  fitting=1,
+                                  fitting=c(1),
                                   range=c(0),
                                   kappa=3,
                                   gamma=0,
@@ -62,7 +62,7 @@ buildStrataDFSpatial <- function(dataset,
     sd1 <- sqrt((sum(z_z)) / (2*nrow(dataset)^2))
     sd2 <- sqrt(sum(somma_coppie_var -2*spatial_cov) / (2*nrow(dataset)^2))
     # var_strato <- sum(D2) / (2*nrow(dataset)^2)
-    var_strato <- sd1^2/fitting + sd2^2
+    var_strato <- sd1^2/fitting[i] + sd2^2
     # standard deviation
     if (var_strato < 0) var_strato <- 0
     sd_strato <- sqrt(var_strato)

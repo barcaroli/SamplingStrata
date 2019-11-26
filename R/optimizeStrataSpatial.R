@@ -6,7 +6,7 @@ optimizeStrataSpatial <-
             alldomains = TRUE, 
             dom = NULL, 
             nStrata = 5, 
-            fitting=1,
+            fitting=c(1),
             range=c(0),
             kappa=3,
             gamma=0,

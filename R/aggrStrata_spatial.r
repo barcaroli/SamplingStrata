@@ -7,7 +7,7 @@
 # Date: 6 April 2019
 # ----------------------------------------------------
 aggrStrataSpatial <- function(dataset,
-                              fitting=1,
+                              fitting=c(1),
                               range=c(0),
                               kappa=3, 
                               gamma=0,
@@ -66,7 +66,9 @@ aggrStrataSpatial <- function(dataset,
       eval(parse(text = stmt))
       stmt <- paste("rng <- range[",i,"]",sep="")
       eval(parse(text = stmt))
-      sd <- stdev(zz,dist,var,j,dataset,fitting,rng,kappa)
+      stmt <- paste("fit <- fitting[",i,"]",sep="")
+      eval(parse(text = stmt))
+      sd <- stdev(zz,dist,var,j,dataset,fit,rng,kappa)
       stmt <- paste("strato$S",i," <- sd",sep="")
       eval(parse(text=stmt))
     }
