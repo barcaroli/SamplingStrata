@@ -27,7 +27,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         # parameters only for optimizeStrata
                         strata=NULL,
                         initialStrata=NA,
-                        addStrataFactor=0.0,
+                        addStrataFactor=NA,
 						            cens=NULL,
                         # parameters only for optimizeStrata2 and optimizeStrataSpatial
                         framesamp=NULL,
@@ -77,7 +77,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 	  if (is.null(errors)) stop("The 'precision constraints' (errors) dataframe is missing")
 	  if (!is.null(strata)) stop("Strata dataframe is not required with this method")
 	  if (!is.na(initialStrata)) stop("Initial number of strata is not required with this method")
-	  if (!is.null(addStrataFactor)) stop("'addStrataFactor' is not required with this method")
+	  if (!is.na(addStrataFactor)) stop("'addStrataFactor' is not required with this method")
 	  if (!is.null(cens)) stop("Takeall strata dataframe is not required with this method")
     checkInput(errors, frame=framesamp)
 	  if (!is.null(fitting)) stop("Fitting value(s) not required with this method")
