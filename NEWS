@@ -1,6 +1,8 @@
 <<<<<<< HEAD
 Changes in Version 1.5
 
+  o A new 'optimStrata' function is available: this function is a wrapper that allows to execute the three different         optimization functions: (i) optimizeStrata (method = "atomic"); (ii) optimizeStrata (method = "continuous"); (iii)         optimizeStrata (method = "spatial").	
+
   o A new 'optimizeStrataSpatial' function is available: this function optimizes the frame stratification
   taking into account also spatial correlation of frame units in a territorial context. As for 'optimizeStrata2',
   this function can be used only on continuous stratification variables	
