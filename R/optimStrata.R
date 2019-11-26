@@ -116,7 +116,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 	  if (nvarY != length(as.numeric(range))) stop("Range values must be equal to the number of Y's")
 	  nvars <- length(grep("var", names(framesamp)))
 	  if (nvarY != nvars) stop("Variances in the frame dataframe must be given (one for each Y)")
-	  if (grepl("lon",colnames(framesamp)) == FALSE | grepl("lat",colnames(framesamp)))  stop("Coordinates (lon and lat) must be given in the frame dataframe")
+	  if (sum(grep("lon",colnames(framesamp))) == 0 | sum(grep("lat",colnames(framesamp))) == 0)  stop("Coordinates (lon and lat) must be given in the frame dataframe")
 	  optimizeStrataSpatial(
       errors = errors, 
       framesamp = framesamp,
