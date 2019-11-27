@@ -5,6 +5,7 @@ summaryStrata <- function (x,
 {
   colnames(x) <- toupper(colnames(x))
   domains <- length(levels(as.factor(x$DOMAINVALUE)))
+  doms <- as.numeric(levels(as.factor(x$DOMAINVALUE)))
   nvars <- length(grep("X", colnames(x))) 
   vars <- colnames(x)[grep("X", colnames(x))]
   outstrata <- outstrata[order(as.numeric(outstrata$DOM1), 
@@ -35,7 +36,7 @@ summaryStrata <- function (x,
   }
   if (progress == TRUE) 
     pb <- txtProgressBar(min = 0, max = domains, style = 3)
-  for (j in 1:domains) {
+  for (j in doms) {
     if (progress == TRUE) 
       Sys.sleep(0.1)
     if (progress == TRUE) 
