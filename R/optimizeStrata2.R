@@ -73,7 +73,7 @@ optimizeStrata2 <-
       #setwd(direnew)
     }
     if (parallel == TRUE & ndom == 1) parallel <- FALSE
-    if(parallel == FALSE & !missing(cores & !is.na(cores))){
+    if(parallel == FALSE & !missing(cores) & !is.na(cores)) {
       cat("Sequential optimization as parallel = FALSE, defaulting number of cores = 1")
       cores <- 1
       Sys.sleep(0.314)
