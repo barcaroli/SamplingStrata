@@ -12,14 +12,14 @@ number of take-all strata :  40
 number of sampling strata :  79
 Number of target variables:  4
 Number of domains:  1
-Number of GA iterations:  10
-Dimension of GA population:  10
+Number of GA iterations:  50
+Dimension of GA population:  20
 Mutation chance in GA generation:  NA
 Elitism rate in GA generation:  0.2
 Chance to add strata to maximum:  0
 Allocation with real numbers instead of integers:  TRUE
- *** Sample cost:  41.3176
- *** Number of strata:  18
- *** Sample cost:  41.3176
- *** Number of strata:  18
-...written output to C:/Users/UTENTE/Documents/00 Sampling/SamplingStrata 1.5/SamplingStrataGithub/SamplingStrata/output/outstrata1.txt
+ *** Sample cost:  24.33233
+ *** Number of strata:  5
+ *** Sample cost:  24.33233
+ *** Number of strata:  5
+...written output to C:/Users/Giulio/Google Drive/Sampling/SamplingStrata 1.5/SamplingStrataGithub/SamplingStrata/output/outstrata1.txt

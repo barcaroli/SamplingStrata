@@ -13,7 +13,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         errors,
                         alldomains=TRUE,
                         dom=NULL,
-						            strcens=NULL,
+                        strcens=FALSE,
                         minnumstr=2,
                         iter=50,
                         pops=20,
@@ -27,7 +27,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         # parameters only for optimizeStrata
                         strata=NULL,
                         initialStrata=NA,
-                        addStrataFactor=0.0,
+                        addStrataFactor=NA,
 						            cens=NULL,
                         # parameters only for optimizeStrata2 and optimizeStrataSpatial
                         framesamp=NULL,
@@ -35,11 +35,10 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         model=NULL,
                         nStrata=5,
                         # parameters only for optimizeStrataSpatial
-                        fitting=1,
-                        range=c(1),
-                        kappa=3
+                        fitting=NA,
+                        range=NA,
+                        kappa=NA
                         ) 
-	)
 }
 \arguments{
   \item{method}{
@@ -133,15 +132,13 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
   Default is NULL.
 }
 \item{fitting}{
-	Fitting of the model(s).
-	Default is 1.
+	Fitting of the model(s) (in terms of R squared)
 }
 \item{range}{
 	Maximum range for spatial autocorrelation. It is a vector with as many elements as the number of target variables Y.
 }	
 \item{kappa}{
 	Factor used in evaluating spatial autocorrelation. 
-	Default is 3.
 }	
 
 }

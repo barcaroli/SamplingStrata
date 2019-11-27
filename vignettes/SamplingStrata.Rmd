@@ -407,7 +407,8 @@ This solution can be given as argument to the parameter *suggestion* in the *opt
 
 
 ```{r, eval=TRUE, echo=TRUE, warning=FALSE, }
-solution_with_kmeans <- optimizeStrata(
+solution_with_kmeans <- optimStrata(
+  method = "atomic",
 	errors = swisserrors,
 	strata = swissstrata,
 	suggestions = solutionKmeans1,
@@ -981,9 +982,9 @@ v <- variogram(lead ~ dist + soil, data=meuse)
 fit.vgm <- autofitVariogram(lead ~ elev + soil, meuse, model = "Exp")
 plot(v, fit.vgm$var_model)
 fit.vgm$var_model
-# model    psill    range
-# 1   Nug 1524.895   0.0000
-# 2   Exp 8275.431 458.3303
+```
+
+```{r, eval = T,echo=TRUE}
 g <- NULL
 g <- gstat(g, "Pb", lead ~ dist + soil, meuse)
 g
@@ -1035,7 +1036,7 @@ solution <- optimStrata (
   range = fit.vgm$var_model$range[2],
   kappa=1,
   writeFiles = FALSE,
-  showPlot = TRUE,
+  showPlot = FALSE,
   parallel = FALSE)
 framenew <- solution$framenew
 outstrata <- solution$aggr_strata
