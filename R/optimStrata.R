@@ -50,7 +50,8 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 	  if (is.null(errors)) stop("The 'precision constraints' (errors) dataframe is missing")
     checkInput(errors, strata)
 	  if (!is.null(cens) & is.null(strcens)) stop("Takeall strata presence indicated (strcens=TRUE), but no related strata dataframe (cens) is given")
-	  solution <- optimizeStrata(
+	  if (is.na(addStrataFactor)) addStrataFactor <- 0.0
+    solution <- optimizeStrata(
     	errors = errors, 
     	strata = strata, 
     	cens = cens, 
@@ -70,7 +71,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
     	writeFiles = writeFiles,
     	showPlot = showPlot, 
     	parallel = parallel,
-    	cores
+    	cores = cores
 	)	
   }
   # Method 'continuous'
