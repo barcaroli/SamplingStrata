@@ -973,15 +973,57 @@ coordinates(meuse)<-c("x","y")
 coordinates(meuse.grid)<-c("x","y")
 ```
 
-We analyse the territorial distribution of the lead concentration, and model its relations with distance from the river and with the soil type, by using the subset of 155 points on which these values have been jointly observed: 
+```{r, eval = T,echo=FALSE}
+par(mfrow=c(1,2))
+plot(meuse.grid)
+title("Meuse territory (3,103 points)",sub="with observed distance and soil values",cex.main=0.8,cex.sub=0.8)
+plot(meuse)
+title("Subset of 155 points",sub="with observed metals concentration,",cex.main=0.8,cex.sub=0.8)
+par(mfrow=c(1,1))
+```
+
+
+We analyse the territorial distribution of two metals concentration, i.e. *copper* and *lead*, and model their relations with *distance* from the river and with the *soil* type, by using the subset of 155 points on which these values have been jointly observed, first with simple linear models:
+
+```{r, eval = T,echo=TRUE}
+lm_copper <- lm(copper ~ dist + soil, data=meuse)
+sm_copper <- summary(lm_copper)
+sm_copper$r.squared
+```
+
+```{r, eval = T,echo=TRUE}
+lm_lead <- lm(lead ~ dist + soil, data=meuse)
+sm_lead <- summary(lm_lead)
+sm_lead$r.squared
+```
+
+
+then by analysing these relations in a spatial context for *copper*:
 
 ```{r, eval = T,echo=TRUE}
 library(gstat)
 library(automap)
+v <- variogram(copper ~ dist + soil, data=meuse)
+fit.vgm.copper <- autofitVariogram(copper ~ elev + soil, meuse, model = "Exp")
+fit.vgm.copper$var_model
+```
+
+```{r, eval = T,echo=TRUE}
+g <- NULL
+g <- gstat(g, "Pb", copper ~ dist + soil, meuse)
+g
+vm <- variogram(g)
+vm.fit.copper <- fit.lmc(vm, g, vgm(psill=fit.vgm.copper$var_model$psill[2], 
+                  model="Exp", range=fit.vgm.copper$var_model$range[2], 
+                  nugget=fit.vgm.copper$var_model$psill[1]))
+```
+
+and for *lead*:
+
+```{r, eval = T,echo=TRUE}
 v <- variogram(lead ~ dist + soil, data=meuse)
-fit.vgm <- autofitVariogram(lead ~ elev + soil, meuse, model = "Exp")
-plot(v, fit.vgm$var_model)
-fit.vgm$var_model
+fit.vgm.lead <- autofitVariogram(lead ~ elev + soil, meuse, model = "Exp")
+fit.vgm.lead$var_model
 ```
 
 ```{r, eval = T,echo=TRUE}
@@ -989,12 +1031,24 @@ g <- NULL
 g <- gstat(g, "Pb", lead ~ dist + soil, meuse)
 g
 vm <- variogram(g)
-vm.fit <- fit.lmc(vm, g, vgm(psill=fit.vgm$var_model$psill[2], 
-                  model="Exp", range=fit.vgm$var_model$range[2], 
-                  nugget=fit.vgm$var_model$psill[1]))
+vm.fit.lead <- fit.lmc(vm, g, vgm(psill=fit.vgm.lead$var_model$psill[2], 
+                  model="Exp", range=fit.vgm.lead$var_model$range[2], 
+                  nugget=fit.vgm.lead$var_model$psill[1]))
 ```
 
-Using this kriging model, we are able to predict the values of lead concentration on the totality of the 3,103 points in the Meuse territory:
+
+```{r, eval = T,echo=FALSE}
+par(mfrow=c(1,2))
+plot(v, fit.vgm.copper$var_model)
+title("Variogram for copper",cex.main=0.8)
+plot(v, fit.vgm.lead$var_model)
+title("Variogram for lead",cex.main=0.8)
+par(mfrow=c(1,1))
+```
+
+
+
+Using this kriging models, we are able to predict the values of copper and lead concentration on the totality of the 3,103 points in the Meuse territory:
 
 ```{r, eval = T,echo=TRUE}
 # Prediction on the whole grid
