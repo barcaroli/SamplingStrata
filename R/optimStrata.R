@@ -132,7 +132,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 	    if (nvarY != nvars) stop("Variances in the 'framecens' dataframe must be given (one for each Y)")
 	    for (i in (1:nvars)) {
 	      stmt <- paste("if (min(framecens$var",i,") < 0) stop('Variance var",i," of variable Y",i," has negative values in framecens')",sep="")
-	      evan(parse(text=stmt))
+	      eval(parse(text=stmt))
 	   }
 	    if (sum(grep("lon",colnames(framecens))) == 0 | sum(grep("lat",colnames(framecens))) == 0)  stop("Coordinates (lon and lat) must be given in 'framecens' dataframe")
 	  }
