@@ -3,11 +3,14 @@ title: "Optimization of sampling strata with the SamplingStrata package"
 author: "Giulio Barcaroli"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+    keep_md: true 
+    toc: true
 bibliography: SamplingStrata.bib
 vignette: >
   %\VignetteIndexEntry{Optimization of sampling strata with the SamplingStrata package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include = FALSE}
@@ -304,40 +307,85 @@ he first fundamental parameter to be passed to optimStrata is *method*: this par
 
 The parameters common to all methods are:
 
-*	*errors*: the (mandatory) dataframe containing the precision levels expressed in terms of maximum allowable * *alldomains*:  Flag (TRUE/FALSE) to indicate if the optimization must be carried out on all domains (default is TRUE). If it is set to FALSE, then a value must be given to parameter 'dom';
-* *dom*: indicates the domain on which the optimization must be carried; 
-* *strcens*: flag (TRUE/FALSE) to indicate if takeall strata do exist or not (default is FALSE);
-* *minnumstr*: indicates the minimum number of units that must be allocated in each stratum (default is 2);
-* *iter*: indicates the maximum number of iterations (= generations) of the genetic algorithm (default is 50);
-* *pops*: the dimension of each generations in terms of individuals (default is 20);
-* *mut_chance*: mutation chance, that is for each new individual, the probability to change each single chromosome, i.e. one bit of the solution vector. High values of this parameter allow a deeper exploration of the solution space, but at a  slower convergence, while low values permit a faster convergence, but the final solution can be distant from the optimal one. Default is NA, in correspondence of which it is computed as 1/(vars+1) where vars is the length of elements in the solution;
-* *elitism_rate*: this  parameter indicates the rate of better solutions that must be preserved from one generation to another (default is 0.2);
-* *suggestions*: optional parameter for genetic algorithm that indicates a suggested solution to be introduced in the initial population. The most convenient is the one found by the function "KmeanSolution" (default is NULL); 
-* *writeFiles*: indicates if the various dataframes and plots produced during the execution have to be written in the working directory (default is FALSE);
-* *showPlot*: indicates if the plot showing the trend in the value of the objective function has to be shown or not. Default is TRUE. In parallel = TRUE, this defaults to FALSE;
-* *parallel*: should the optimization be run in parallel (default is TRUE);
-cores: if the analysis is run in parallel, how many cores should be used.If not specified n-1 of total available cores are used OR if number of domains < (n-1) cores, then number of cores equal to number of domains are used.
-}
+| Parameter     |  Description   |
+| ------------- |:-------------------------------------------------------------------------|
+| *errors*      | The (mandatory) dataframe containing the precision levels expressed in | 
+|               |   terms of maximum allowable coefficient of variation on a given estimate |
+| *alldomains*  | Flag (TRUE/FALSE) to indicate if the optimization must be carried out on  |
+|               |   all domains (default is TRUE). If it is set to FALSE, then a value must | 
+|               |   be given to parameter *dom* |
+| *dom*         | Indicates the domain on which the optimization must be carried |
+| *strcens*     | Flag (TRUE/FALSE) to indicate if take-all strata do exist or not  |
+|               |   (default is FALSE) |
+| *minnumstr*   | Minimum number of units that must be allocated in each stratum |
+|               |   (default is 2) |
+| *iter*        | Maximum number of iterations (= generations) of the genetic algorithm | 
+|               |   (default is 50) |
+| *pops*        | The dimension of each generations in terms of individuals (default is 20) |
+| *mut_chance*  | Mutation chance, that is for each new individual, the probability to  |
+|               |   change each single chromosome, i.e. one bit of the solution vector. |
+|               |   High values of this parameter allow a deeper exploration of the  |
+|               |   solution space, but at a  slower convergence, while low values permit |
+|               |   a faster convergence, but the final solution can be distant from the | 
+|               |   optimal one. Default is NA, in correspondence of which it is computed  |
+|               |   as 1/(vars+1) where vars is the length of elements in the solution |
+| *elitism_rate*  | This  parameter indicates the rate of better solutions that must be 
+|               |   preserved from one generation to another (default is 0.2) |
+| *suggestions* | Optional parameter for genetic algorithm that indicates a suggested solution | 
+|               |   to be introduced in the initial population. The most convenient is the |
+|               |   one found by the function "KmeanSolution" (default is NULL) | 
+| *writeFiles* | Indicates if the various dataframes and plots produced during the execution |
+|               |   have to be written in the working directory (default is FALSE) |
+| *showPlot* | Indicates if the plot showing the trend in the value of the objective function |
+|               |   has to be shown or not. Default is TRUE. |
+|               |   In parallel = TRUE, this defaults to FALSE |
+| *parallel* | To indicate if the optimization has to be run in parallel (default is TRUE) |
+| *cores* | If the analysis is run in parallel, how many cores should be used. |
+|               |   If not specified n-1 of total available cores are used OR if number |
+|               |   of domains < (n-1) cores, then number of cores equal to number of domains |
+|               |   are used |
+
 
 The parameters specific for method "*atomic*" are:
 
-* *strata*:  this is the dataframe containing the information related to "atomic" strata, i.e. the strata obtained by the Cartesian product of all auxiliary variables X's. Information concerns the identifiability of strata   (values of X's) and variability of Y's (for each Y, mean and standard error in strata);
-* *initialStrata*: this is the initial limit on the number of strata in the different domains for each solution. Default is NA, and in this case it is set equal to the number of atomic strata in each domain;
-* *addStrataFactor*: this parameter indicates the probability that at each mutation the number of strata may increase with  respect to the current value (default is 0.0)
-* *cens*: this the dataframe containing the takeall strata, those strata whose units must be selected in whatever sample. It has same structure than "strata" dataframe;
+| Parameter     |  Description   |
+| ------------- |:-------------------------------------------------------------------------|
+| *strata* | The name of the dataframe containing the information related to "atomic" |
+|               |   strata, i.e. the strata obtained by the Cartesian product of all |
+|               |   auxiliary variables X's. Information concerns the identifiability of |
+|               |   strata (values of X's) and variability of Y's (for each Y, mean and |
+|               |   standard error in strata) |
+| *initialStrata* | The initial limit on the number of strata in the different domains for |
+|               |   each solution. Default is NA, and in this case it is set equal to the |
+|               |   number of atomic strata in each domain |
+| *addStrataFactor* | The probability that at each mutation the number of strata may increase |
+|               |   with  respect to the current value (default is 0.0) |
+| *cens* | The name of the dataframe containing the takeall strata, those strata whose units |
+|               |   must be selected in whatever sample. It has same structure than "strata" |
+|               |   dataframe |
 
 The parameters common for methods "*continuous*"  and "*spatial*" are:
 
-* *framesamp*: this is the dataframe containing the information related to the sampling frame;
-* *framecens*: this the dataframe containing the units to be selected in any case. It has same structure than "framesamp" dataframe;
-* *nStrata*: indicates the number of strata for each variable;
-* *model*: in case the Y variables are not directly observed, but are estimated by means of other explicative variables, in order to compute the anticipated variance, information on models are given by a dataframe "model" with as many rows as the target variables. Default is NULL.
+| Parameter     |  Description   |
+| ------------- |:-------------------------------------------------------------------------|
+| *framesamp*   | The name of the dataframe containing the information related to the |
+|               |   sampling frame |
+| *framecens*   | The name of the dataframe containing the units to be selected in any case. |
+|               |   It has same structure than "framesamp" dataframe |
+| *nStrata*     | The number of strata to be obtained |
+| *model*       | In case the Y variables are not directly observed, but are estimated by |
+|               |   means of other explicative variables, in order to compute the anticipated |
+|               |   variance, information on models are given by a dataframe "model" with as |
+|               |   many rows as the target variables. Default is NULL. |
 
 The parameters specific for method "*spatial*" are:
 
-* *fitting*: fitting (r squared) of the spatial model(s) (default is 1);
-* *range*: maximum range for spatial autocorrelation. It is a vector with as many elements as the number of target variables Y;
-* kappa: constant used in evaluating spatial autocorrelation (default is 3).
+| Parameter     |  Description   |
+| ------------- |:-------------------------------------------------------------------------|
+| *fitting* | Fitting (in terms of r squared) of the spatial model(s) (default is 1) |
+| *range* | Maximum range for spatial autocorrelation. It is a vector with as many elements |
+|               |   as the number of target variables Y |
+| *kappa* | Constant used in evaluating spatial autocorrelation (default is 3) |
 
 
 In the case of the Swiss municipalities, we choose the "*atomic*" method and make use of almost all of default values for parameters with the exception of the errors and strata dataframes, and for the option 'writeFiles':

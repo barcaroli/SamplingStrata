@@ -82,6 +82,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 	  if (!is.na(addStrataFactor)) stop("'addStrataFactor' is not required with this method")
 	  if (!is.null(cens)) stop("Takeall strata dataframe is not required with this method")
     checkInput(errors, sampframe=framesamp)
+    if (!is.null(framecens)) checkInput(errors, sampframe=framecens)
 	  if (!is.na(fitting)) stop("Fitting value(s) not required with this method")
 	  if (!is.na(range)) stop("Range value(s) not required with this method")
 	  if (!is.na(range)) stop("Kappa value not required with this method")
@@ -119,8 +120,23 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 	  if (nvarY != length(as.numeric(fitting))) stop("Fitting values must be equal to the number of Y's")
 	  if (nvarY != length(as.numeric(range))) stop("Range values must be equal to the number of Y's")
 	  nvars <- length(grep("var", names(framesamp)))
-	  if (nvarY != nvars) stop("Variances in the frame dataframe must be given (one for each Y)")
-	  if (sum(grep("lon",colnames(framesamp))) == 0 | sum(grep("lat",colnames(framesamp))) == 0)  stop("Coordinates (lon and lat) must be given in the frame dataframe")
+	  if (nvarY != nvars) stop("Variances in the 'framesamp' dataframe must be given (one for each Y)")
+	  for (i in (1:nvars)) {
+	    stmt <- paste("if (min(framesamp$var",i,") < 0) stop('Variance var",i," of variable Y",i," has negative values in framesamp')",sep="")
+	  }
+	  if (sum(grep("lon",colnames(framesamp))) == 0 | sum(grep("lat",colnames(framesamp))) == 0)  stop("Coordinates (lon and lat) must be given in 'framesamp' dataframe")
+	  
+	  if (!is.null(framecens)) {
+	    checkInput(errors, sampframe=framecens)
+	    nvars <- length(grep("var", names(framecens)))
+	    if (nvarY != nvars) stop("Variances in the 'framecens' dataframe must be given (one for each Y)")
+	    for (i in (1:nvars)) {
+	      stmt <- paste("if (min(framecens$var",i,") < 0) stop('Variance var",i," of variable Y",i," has negative values in framecens')",sep="")
+	      evan(parse(text=stmt))
+	   }
+	    if (sum(grep("lon",colnames(framecens))) == 0 | sum(grep("lat",colnames(framecens))) == 0)  stop("Coordinates (lon and lat) must be given in 'framecens' dataframe")
+	  }
+	  
 	  solution <- optimizeStrataSpatial(
       errors = errors, 
       framesamp = framesamp,

@@ -55,6 +55,14 @@ checkInput <- function (errors = NULL, strata = NULL, sampframe = NULL)
     if (sum(grepl("DOMAINVALUE", colnames(sampframe))) < 
         1) 
       stop("In frame dataframe the indication of the domain (DOMAINVALUE) is missing")
+    for (i in (1:(sum(grepl("Y", colnames(sampframe)))))) {
+      stmt <- paste("if (min(sampframe$Y",i,") < 0) stop('Variable Y",i," has negative values in sampframe')",sep="")
+      eval(parse(text=stmt))
+    }
+    for (i in (1:(sum(grepl("X", colnames(sampframe)))))) {
+      stmt <- paste("if (min(sampframe$X",i,") < 0) stop('Variable X",i," has negative values in sampframe')",sep="")
+      eval(parse(text=stmt))
+    }
   }
   if (!is.null(sampframe) && !is.null(strata)) {
     if (sum(grepl("S+[0123456789]", toupper(colnames(strata)), 
