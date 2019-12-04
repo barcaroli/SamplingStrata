@@ -3,8 +3,6 @@ title: "Optimization of sampling strata with the SamplingStrata package"
 author: "Giulio Barcaroli"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
-    keep_md: true 
-    toc: true
 bibliography: SamplingStrata.bib
 vignette: >
   %\VignetteIndexEntry{Optimization of sampling strata with the SamplingStrata package}
