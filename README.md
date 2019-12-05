@@ -1,4 +1,6 @@
 
+true
+
 <!-- README.md is generated from README.Rmd. Please edit README.Rmd file -->
 
 ## SamplingStrata: Optimal Stratification of Sampling Frames for Multipurpose Sampling Surveys
@@ -542,8 +544,8 @@ solution <- optimStrata(
 ![](README-unnamed-chunk-17-1.png)<!-- -->![](README-unnamed-chunk-17-2.png)<!-- -->![](README-unnamed-chunk-17-3.png)<!-- -->![](README-unnamed-chunk-17-4.png)<!-- -->![](README-unnamed-chunk-17-5.png)<!-- -->![](README-unnamed-chunk-17-6.png)<!-- -->![](README-unnamed-chunk-17-7.png)<!-- -->
 
     #> 
-    #>  *** Sample size :  332
-    #>  *** Number of strata :  102
+    #>  *** Sample size :  361
+    #>  *** Number of strata :  117
     #> ---------------------------
 
 Note that by so doing the *initialStrata* parameter is set equal to the
@@ -576,13 +578,13 @@ We can calculate the expected CV’s by executing the function:
 ``` r
 expected_CV(solution$aggr_strata)
 #>      cv(Y1) cv(Y2) cv(Y3) cv(Y4)
-#> DOM1  0.079  0.073  0.076  0.080
-#> DOM2  0.078  0.077  0.080  0.092
-#> DOM3  0.077  0.078  0.077  0.081
-#> DOM4  0.078  0.074  0.078  0.078
-#> DOM5  0.075  0.076  0.076  0.073
-#> DOM6  0.074  0.075  0.079  0.077
-#> DOM7  0.077  0.076  0.072  0.073
+#> DOM1  0.078  0.072  0.073  0.074
+#> DOM2  0.071  0.073  0.073  0.081
+#> DOM3  0.069  0.071  0.074  0.080
+#> DOM4  0.075  0.070  0.069  0.066
+#> DOM5  0.078  0.080  0.077  0.077
+#> DOM6  0.079  0.078  0.079  0.072
+#> DOM7  0.078  0.075  0.079  0.088
 ```
 
 and compare them to the set of precision constraints in order to verify
@@ -647,31 +649,31 @@ solutionKmeans1 <- KmeansSolution(swissstrata,
 #>  Number of strata:  9
 #>  Sample size     :  18
 #>  *** Domain:  2  ***
-#>  Number of strata:  9
-#>  Sample size     :  17
+#>  Number of strata:  8
+#>  Sample size     :  18
 #>  *** Domain:  3  ***
-#>  Number of strata:  7
-#>  Sample size     :  13
+#>  Number of strata:  8
+#>  Sample size     :  15
 #>  *** Domain:  4  ***
 #>  Number of strata:  6
 #>  Sample size     :  10
 #>  *** Domain:  5  ***
-#>  Number of strata:  8
-#>  Sample size     :  15
+#>  Number of strata:  7
+#>  Sample size     :  13
 #>  *** Domain:  6  ***
 #>  Number of strata:  7
 #>  Sample size     :  13
 #>  *** Domain:  7  ***
-#>  Number of strata:  7
-#>  Sample size     :  14
+#>  Number of strata:  6
+#>  Sample size     :  16
 head(solutionKmeans1)
 #>   suggestions domainvalue
-#> 1           3           1
-#> 2           3           1
-#> 3           3           1
-#> 4           3           1
-#> 5           3           1
-#> 6           3           1
+#> 1           8           1
+#> 2           8           1
+#> 3           8           1
+#> 4           8           1
+#> 5           8           1
+#> 6           8           1
 ```
 
 This solution can be given as argument to the parameter *suggestion* in
@@ -691,7 +693,7 @@ solution_with_kmeans <- optimStrata(
 #> 
 #>  *** Starting parallel optimization for  7  domains using  5  cores
 #> 
-#>  *** Sample size :  96
+#>  *** Sample size :  101
 #>  *** Number of strata :  49
 #> ---------------------------
 #> ...written output to  C:/Users/Giulio/Google Drive/Sampling/SamplingStrata 1.5/SamplingStrataGithub/SamplingStrata/output /outstrata.txt
@@ -699,7 +701,7 @@ solution_with_kmeans <- optimStrata(
 
 ``` r
 sum(ceiling(solution_with_kmeans$aggr_strata$SOLUZ))
-#> [1] 98
+#> [1] 102
 ```
 
 thus obtaining a much more conventient solution than the one without the
@@ -733,13 +735,13 @@ code:
 ``` r
 adjustedStrata <- adjustSize(size=280,strata=solution$aggr_strata,cens=NULL)
 #> 
-#>  294
-#>  293
-#>  292
-#>  292
-#>  Final adjusted size:  292
+#>  304
+#>  300
+#>  297
+#>  297
+#>  Final adjusted size:  297
 sum(adjustedStrata$SOLUZ)
-#> [1] 292
+#> [1] 297
 ```
 
 Instead, if we want to increase the size because the budget allows to do
@@ -749,17 +751,12 @@ code:
 ``` r
 adjustedStrata <- adjustSize(size=400,strata=solution$aggr_strata,cens=NULL)
 #> 
-#>  374
-#>  382
 #>  385
-#>  387
 #>  388
-#>  389
-#>  390
-#>  390
-#>  Final adjusted size:  390
+#>  388
+#>  Final adjusted size:  388
 sum(adjustedStrata$SOLUZ)
-#> [1] 390
+#> [1] 388
 ```
 
 The difference between the desired sample size and the actual adjusted
@@ -807,11 +804,11 @@ strata_aggregation <- read.delim("strata_aggregation.txt")
 head(strata_aggregation)
 #>   DOM1 AGGR_STRATUM X1 X2 X3 X4 X5 X6
 #> 1    1            1  1  1  1  1  1  1
-#> 2    1            1  4  1  2  1  1  1
-#> 3    1            1  4  2  1  1  1  1
-#> 4    1            1  5  1  3  1  1  2
-#> 5    1            1  7  2  1  2  1  2
-#> 6    1            1  8  3  2  2  2  1
+#> 2    1            1  1  1  2  1  1  1
+#> 3    1            1  8  2  2  2  2  1
+#> 4    1            1  8  3  2  2  2  1
+#> 5    1            2  1  1  1  1  1  2
+#> 6    1            3  1  1  1  2  1  1
 ```
 
 In this structure, for each aggregate stratum the values of the X’s
@@ -847,10 +844,10 @@ possible to select the sample from the new version of the frame:
 sample <- selectSample(framenew, solution$aggr_strata, writeFiles=FALSE)
 #> 
 #> *** Sample has been drawn successfully ***
-#>  332  units have been selected from  102  strata
+#>  361  units have been selected from  117  strata
 #> 
-#> ==> There have been  24  take-all strata 
-#> from which have been selected  62 units
+#> ==> There have been  25  take-all strata 
+#> from which have been selected  61 units
 ```
 
 that produces two .csv files:
@@ -895,19 +892,19 @@ sample <- selectSampleSystematic(frame=framenew,
                                  sortvariable = c("POPTOT"))
 #> 
 #> *** Sample has been drawn successfully ***
-#>  332  units have been selected from  102  strata
+#>  361  units have been selected from  117  strata
 #> 
-#> ==> There have been  24  take-all strata 
-#> from which have been selected  62 units
+#> ==> There have been  25  take-all strata 
+#> from which have been selected  61 units
 head(sample,3)
-#>   DOMAINVALUE STRATO REG           ID     STRATUM PROGR X1 X2 X3 X4 X5 X6 Y1
-#> 1           1      1   1     Birgisch 1*1*1*1*1*1  2456  1  1  1  1  1  1 52
-#> 2           1      1   1  Champmartin 1*1*1*1*1*1  2886  1  1  1  1  1  1  5
-#> 3           1      1   1 Cottens (VD) 1*1*1*1*1*1  2175  1  1  1  1  1  1 84
-#>    Y2  Y3 Y4 LABEL POPTOT  WEIGHTS        FPC
-#> 1  59  69 37     1    217 28.28571 0.03535354
-#> 2   5  14  9     1     33 28.28571 0.03535354
-#> 3 100 120 39     1    343 28.28571 0.03535354
+#>   DOMAINVALUE STRATO REG            ID     STRATUM PROGR X1 X2 X3 X4 X5 X6  Y1
+#> 1           1      1   1       Bettens 1*1*1*1*1*1  2203  1  1  1  1  1  1 101
+#> 2           1      1   1  Bretonnieres 1*1*1*1*1*1  2495  1  1  1  1  1  1  50
+#> 3           1      1   1 Chene-Paquier 1*1*1*1*1*1  2734  1  1  1  1  1  1  30
+#>    Y2 Y3 Y4 LABEL POPTOT  WEIGHTS        FPC
+#> 1 119 80 30     1    330 32.83333 0.03045685
+#> 2  54 64 32     1    200 32.83333 0.03045685
+#> 3  26 27 21     1    104 32.83333 0.03045685
 ```
 
 # Evaluation of the found solution
@@ -936,13 +933,13 @@ inspected and compared to the constraints:
 ``` r
 eval$coeff_var
 #>      CV1    CV2    CV3    CV4  dom
-#> 1 0.0780 0.0722 0.0767 0.0772 DOM1
-#> 2 0.0752 0.0752 0.0764 0.0900 DOM2
-#> 3 0.0754 0.0767 0.0749 0.0824 DOM3
-#> 4 0.0782 0.0744 0.0763 0.0743 DOM4
-#> 5 0.0821 0.0833 0.0827 0.0779 DOM5
-#> 6 0.0808 0.0823 0.0849 0.0834 DOM6
-#> 7 0.0856 0.0835 0.0804 0.0810 DOM7
+#> 1 0.0839 0.0778 0.0774 0.0808 DOM1
+#> 2 0.0751 0.0750 0.0743 0.0789 DOM2
+#> 3 0.0705 0.0731 0.0749 0.0798 DOM3
+#> 4 0.0713 0.0673 0.0660 0.0668 DOM4
+#> 5 0.0757 0.0814 0.0777 0.0770 DOM5
+#> 6 0.0871 0.0854 0.0857 0.0813 DOM6
+#> 7 0.0746 0.0741 0.0760 0.0876 DOM7
 swisserrors
 #>    DOM  CV1  CV2  CV3  CV4 domainvalue
 #> 1 DOM1 0.08 0.12 0.08 0.12           1
@@ -962,13 +959,13 @@ We can also inspect the relative bias:
 ``` r
 eval$rel_bias
 #>        y1      y2      y3      y4  dom
-#> 1 -0.0042 -0.0027 -0.0031 -0.0058 DOM1
-#> 2  0.0055  0.0055  0.0055  0.0035 DOM2
-#> 3  0.0005 -0.0009 -0.0020 -0.0013 DOM3
-#> 4  0.0089  0.0067  0.0088  0.0094 DOM4
-#> 5 -0.0047 -0.0053 -0.0050 -0.0041 DOM5
-#> 6  0.0033  0.0023  0.0039  0.0028 DOM6
-#> 7  0.0081  0.0069  0.0069  0.0020 DOM7
+#> 1 -0.0030 -0.0030 -0.0022 -0.0041 DOM1
+#> 2 -0.0017 -0.0013 -0.0015 -0.0041 DOM2
+#> 3  0.0051  0.0053  0.0049  0.0033 DOM3
+#> 4  0.0079  0.0074  0.0061  0.0043 DOM4
+#> 5  0.0002  0.0011  0.0008  0.0032 DOM5
+#> 6 -0.0058 -0.0055 -0.0068 -0.0059 DOM6
+#> 7 -0.0069 -0.0045 -0.0053 -0.0054 DOM7
 ```
 
 It is also possible to analyse the sampling distribution of the
@@ -1081,8 +1078,8 @@ solution <- optimStrata(
 #> 
 #>  *** Starting parallel optimization for  7  domains using  5  cores
 #> 
-#>  *** Sample size :  171
-#>  *** Number of strata :  62
+#>  *** Sample size :  172
+#>  *** Number of strata :  48
 #> ---------------------------
 #> ...written output to  C:/Users/Giulio/Google Drive/Sampling/SamplingStrata 1.5/SamplingStrataGithub/SamplingStrata/output /outstrata.txt
 ```
@@ -1098,10 +1095,10 @@ framenew <- updateFrame(frame=framesamp,newstrata=newstrata)
 sample <- selectSample(frame=framenew,outstrata=solution$aggr_strata)
 #> 
 #> *** Sample has been drawn successfully ***
-#>  171  units have been selected from  62  strata
+#>  172  units have been selected from  48  strata
 #> 
-#> ==> There have been  10  take-all strata 
-#> from which have been selected  14 units
+#> ==> There have been  5  take-all strata 
+#> from which have been selected  7 units
 ```
 
 Finally, the units in the ‘take-all’ strata can be added to sampled
@@ -1132,7 +1129,7 @@ survey$cens <- ifelse(survey$LABEL == "999999",1,0)
 table(survey$cens)
 #> 
 #>   0   1 
-#> 171 302
+#> 172 302
 ```
 
 In order to verify compliance to the precision constraint, we perform
@@ -1144,13 +1141,13 @@ cens2$SOLUZ <- cens2$N
 stratatot <- rbind(solution$aggr_strata,cens2)
 expected_CV(stratatot)
 #>      cv(Y1) cv(Y2) cv(Y3) cv(Y4)
-#> DOM1  0.080  0.074  0.080  0.077
-#> DOM2  0.075  0.071  0.075  0.077
-#> DOM3  0.077  0.076  0.076  0.081
-#> DOM4  0.077  0.071  0.076  0.084
-#> DOM5  0.078  0.076  0.080  0.082
-#> DOM6  0.066  0.068  0.073  0.076
-#> DOM7  0.075  0.073  0.072  0.075
+#> DOM1  0.080  0.074  0.078  0.073
+#> DOM2  0.079  0.078  0.079  0.080
+#> DOM3  0.079  0.078  0.079  0.082
+#> DOM4  0.077  0.071  0.080  0.090
+#> DOM5  0.076  0.076  0.077  0.072
+#> DOM6  0.075  0.074  0.078  0.075
+#> DOM7  0.077  0.077  0.075  0.076
 ```
 
 # Handling Anticipated Variance

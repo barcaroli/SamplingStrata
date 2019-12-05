@@ -1,6 +1,7 @@
 ---
 output: github_document
 keep_md: TRUE
+toc: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit README.Rmd file -->
