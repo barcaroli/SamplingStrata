@@ -24,17 +24,17 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         showPlot=TRUE,
                         parallel=TRUE,
                         cores,
-                        # parameters only for optimizeStrata
+                        # parameters only for method = "atomic"
                         strata=NULL,
                         initialStrata=NA,
                         addStrataFactor=NA,
 						            cens=NULL,
-                        # parameters only for optimizeStrata2 and optimizeStrataSpatial
+                        # parameters only for method = "continuous" or "spatial"
                         framesamp=NULL,
                         framecens=NULL,
                         model=NULL,
                         nStrata=5,
-                        # parameters only for optimizeStrataSpatial
+                        # parameters only for method = "spatial"
                         fitting=NA,
                         range=NA,
                         kappa=NA
@@ -132,7 +132,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
   Default is NULL.
 }
 \item{fitting}{
-	Fitting of the model(s) (in terms of R squared)
+	Fitting of the model(s) (in terms of R squared). It is a vector with as many elements as the number of target variables Y.
 }
 \item{range}{
 	Maximum range for spatial autocorrelation. It is a vector with as many elements as the number of target variables Y.
@@ -160,7 +160,19 @@ Giulio Barcaroli
 
 \examples{
 \dontrun{
-
+library(SamplingStrata)
+data(swissframe)
+data(swisserrors)
+data(swissstrata)
+# optimisation of sampling strata
+solution <- optimStrata ( 
+    method = "atomic",
+    errors = swisserrors, 
+    strata = swissstrata, 
+    iter = 60,
+    pops = 20)
+sum(ceiling(solution$aggr_strata$SOLUZ))
+head(solution$aggr_strata)
 }
 }
 \keyword{ survey }
