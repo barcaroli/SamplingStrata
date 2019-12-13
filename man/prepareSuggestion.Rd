@@ -2,14 +2,15 @@
 \Rdversion{1.3}
 \alias{prepareSuggestion}
 \title{
-Prepare suggestions for optimization with method = "continuous"
+Prepare suggestions for optimization with method = "continuous" or "spatial"
 }
 \description{
-This function has to be used only in conjunction with "KmeansSolution2", 
+This function has to be used only in conjunction with "KmeansSolution2" or 
+with "KmeansSolutionSpatial", 
 i.e. in the case of optimizing with only continuous stratification variables.
 This function prepares the suggestion for the optimization function in case
-of continuous variables (i.e. with "optimizeStrata2", or with "optimStrata" 
-when method = "continuous").
+of continuous variables (i.e. with with "optimStrata" 
+when method = "continuous" or method = "spatial").
 }
 \usage{
 prepareSuggestion(kmean,frame)
