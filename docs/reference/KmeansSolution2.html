@@ -211,7 +211,8 @@ number of atomic strata divided by 2.</p></td>
 <span class='no'>sugg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSuggestion.html'>prepareSuggestion</a></span>(<span class='no'>kmean</span>,<span class='no'>frame</span>)
 <span class='co'># Optimization</span>
 <span class='co'># Attention: number of strata must be the same than in kmeans</span>
-<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimizeStrata2.html'>optimizeStrata2</a></span> (
+<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimStrata.html'>optimStrata</a></span> (
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"continuous"</span>,
   <span class='no'>cv</span>,
   <span class='kw'>framesamp</span><span class='kw'>=</span><span class='no'>frame</span>,
   <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>50</span>,

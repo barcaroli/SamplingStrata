@@ -187,7 +187,8 @@ number of atomic strata divided by 2.</p></td>
                                                                 <span class='kw'>showPlot</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 
 <span class='co'># optimisation of sampling strata</span>
-<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> (
+<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimStrata.html'>optimStrata</a></span> (
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"atomic"</span>,
   <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>swisserrors</span>,
   <span class='kw'>strata</span> <span class='kw'>=</span> <span class='no'>swissstrata</span>,
   <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='no'>solutionKmean</span>
