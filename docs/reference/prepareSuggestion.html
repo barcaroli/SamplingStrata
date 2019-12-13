@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Information on strata structure — summaryStrata • SamplingStrata</title>
+<title>Prepare suggestions for optimization with method = "continuous" or "spatial" — prepareSuggestion • SamplingStrata</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,13 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Information on strata structure — summaryStrata" />
-<meta property="og:description" content="Information on strata (population, allocation, sampling rate 
-  and X variables ranges)" />
+<meta property="og:title" content="Prepare suggestions for optimization with method = "continuous" or "spatial" — prepareSuggestion" />
+<meta property="og:description" content="This function has to be used only in conjunction with &quot;KmeansSolution2&quot; or 
+with &quot;KmeansSolutionSpatial&quot;, 
+i.e. in the case of optimizing with only continuous stratification variables.
+This function prepares the suggestion for the optimization function in case
+of continuous variables (i.e. with with &quot;optimStrata&quot; 
+when method = &quot;continuous&quot; or method = &quot;spatial&quot;)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -105,72 +109,77 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Information on strata structure</h1>
+    <h1>Prepare suggestions for optimization with method = "continuous" or "spatial"</h1>
     
-    <div class="hidden name"><code>summaryStrata.Rd</code></div>
+    <div class="hidden name"><code>prepareSuggestion.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Information on strata (population, allocation, sampling rate 
-  and X variables ranges)</p>
+    <p>This function has to be used only in conjunction with "KmeansSolution2" or 
+with "KmeansSolutionSpatial", 
+i.e. in the case of optimizing with only continuous stratification variables.
+This function prepares the suggestion for the optimization function in case
+of continuous variables (i.e. with with "optimStrata" 
+when method = "continuous" or method = "spatial").</p>
     </div>
 
-    <pre class="usage"><span class='fu'>summaryStrata</span>(<span class='no'>x</span>,<span class='no'>outstrata</span>,<span class='no'>progress</span>,<span class='no'>writeFiles</span>)</pre>
+    <pre class="usage"><span class='fu'>prepareSuggestion</span>(<span class='no'>kmean</span>,<span class='no'>frame</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>the sampling frame</p></td>
+      <th>kmean</th>
+      <td><p>The result of the execution of function 'KmeansSolution2'.</p></td>
     </tr>
     <tr>
-      <th>outstrata</th>
-      <td><p>the optimized strata</p></td>
-    </tr>
-    <tr>
-      <th>progress</th>
-      <td><p>progress bar</p></td>
-    </tr>
-    <tr>
-      <th>writeFiles</th>
-      <td><p>csv output of the strata structure</p></td>
+      <th>frame</th>
+      <td><p>The (mandatory) dataframe containing the information related to each unit in the sampling frame.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A formatted output containing information on the strata in the given domain</p>
+    <p>A dataframe containing the suggestions</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>SamplingStrata</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"swissmunicipalities"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"errors"</span>)
-<span class='no'>errors</span>$<span class='no'>CV1</span> <span class='kw'>&lt;-</span> <span class='fl'>0.1</span>
-<span class='no'>errors</span>$<span class='no'>CV2</span> <span class='kw'>&lt;-</span> <span class='fl'>0.1</span>
-<span class='no'>errors</span> <span class='kw'>&lt;-</span> <span class='no'>errors</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/row.names'>row.names</a></span>(<span class='no'>errors</span>),<span class='fl'>7</span>),]
-<span class='no'>errors</span>$<span class='no'>domainvalue</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>7</span>)
-<span class='no'>errors</span>
 <span class='no'>swissmunicipalities</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>swissmunicipalities</span>))
-<span class='no'>swissmunicipalities</span>$<span class='no'>domain</span> <span class='kw'>=</span> <span class='fl'>1</span>
+<span class='no'>swissmunicipalities</span>$<span class='no'>dom</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>
 <span class='no'>frame</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildFrameDF.html'>buildFrameDF</a></span>(<span class='no'>swissmunicipalities</span>,
                       <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
                       <span class='kw'>domainvalue</span> <span class='kw'>=</span> <span class='st'>"REG"</span>,
-                      <span class='kw'>X</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Surfacesbois"</span>,<span class='st'>"Surfacescult"</span>),
+                      <span class='kw'>X</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Pop020"</span>, <span class='st'>"Pop2040"</span>),
                       <span class='kw'>Y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Pop020"</span>, <span class='st'>"Pop2040"</span>)
 )
+<span class='no'>cv</span> <span class='kw'>&lt;-</span> <span class='kw'>NULL</span>
+<span class='no'>cv</span>$<span class='no'>DOM</span> <span class='kw'>&lt;-</span> <span class='st'>"DOM1"</span>
+<span class='no'>cv</span>$<span class='no'>CV1</span> <span class='kw'>&lt;-</span> <span class='fl'>0.1</span>
+<span class='no'>cv</span>$<span class='no'>CV2</span> <span class='kw'>&lt;-</span> <span class='fl'>0.1</span>
+<span class='no'>cv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>cv</span>)
+<span class='no'>cv</span> <span class='kw'>&lt;-</span> <span class='no'>cv</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/row.names'>row.names</a></span>(<span class='no'>cv</span>),<span class='fl'>7</span>),]
+<span class='no'>cv</span>$<span class='no'>domainvalue</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>7</span>)
+<span class='no'>cv</span>
+
+<span class='co'># Solution with kmean clustering </span>
+<span class='no'>kmean</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='KmeansSolution2.html'>KmeansSolution2</a></span>(<span class='no'>frame</span>,<span class='kw'>model</span><span class='kw'>=</span><span class='kw'>NULL</span>,<span class='kw'>errors</span><span class='kw'>=</span><span class='no'>cv</span>,<span class='kw'>nstrata</span><span class='kw'>=</span><span class='fl'>NA</span>,<span class='kw'>maxclusters</span><span class='kw'>=</span><span class='fl'>4</span>)
+<span class='co'># Prepare suggestion for optimization</span>
+<span class='no'>sugg</span> <span class='kw'>&lt;-</span> <span class='fu'>prepareSuggestion</span>(<span class='no'>kmean</span>,<span class='no'>frame</span>)
+<span class='co'># Optimization</span>
+<span class='co'># Attention: number of strata must be the same than in kmeans</span>
 <span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimizeStrata2.html'>optimizeStrata2</a></span> (
-  <span class='no'>errors</span>,
-  <span class='no'>frame</span>,
-  <span class='kw'>nStrata</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='no'>cv</span>,
+  <span class='kw'>framesamp</span><span class='kw'>=</span><span class='no'>frame</span>,
+  <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>50</span>,
+  <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+  <span class='kw'>nStrata</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='no'>sugg</span>,
   <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>showPlot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>strataStructure</span> <span class='kw'>&lt;-</span> <span class='fu'>summaryStrata</span>(<span class='no'>solution</span>$<span class='no'>framenew</span>, <span class='no'>solution</span>$<span class='no'>aggr_strata</span>)
-<span class='no'>strataStructure</span>
+  <span class='kw'>showPlot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -181,6 +190,8 @@
       <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p>Giulio Barcaroli</p>
   </div>
 </div>
 
