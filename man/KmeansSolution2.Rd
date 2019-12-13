@@ -5,7 +5,8 @@
 Initial solution obtained by applying kmeans clustering of frame units
 }
 \description{
-This function has to be used only in conjunction with "optimizeStrata2", i.e. in the
+This function has to be used only in conjunction with "optimizeStrata2", 
+or with "optimStrata" when method = "continuous", i.e. in the
 case of optimizing with only continuous stratification variables.
 The function "KmeansSolution2" has a twofold objective:
 - to give indication about a possible best number of final strata (by fixing a 
@@ -87,7 +88,7 @@ cv
 # Solution with kmean clustering 
 kmean <- KmeansSolution2(frame,model=NULL,errors=cv,nstrata=NA,maxclusters=4)
 # Prepare suggestion for optimization
-sugg <- prepareSuggestion(frame,model=NULL,solution_indices=kmean$suggestions)
+sugg <- prepareSuggestion(kmean,frame)
 # Optimization
 # Attention: number of strata must be the same than in kmeans
 solution <- optimizeStrata2 (

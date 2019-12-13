@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Changes in Version 1.5
 
   o A new 'optimStrata' function is available: this function is a wrapper that allows to execute the three different         optimization functions: (i) optimizeStrata (method = "atomic"); (ii) optimizeStrata (method = "continuous"); (iii)         optimizeStrata (method = "spatial").	
@@ -6,7 +5,7 @@ Changes in Version 1.5
   o A new 'optimizeStrataSpatial' function is available: this function optimizes the frame stratification
   taking into account also spatial correlation of frame units in a territorial context. As for 'optimizeStrata2',
   this function can be used only on continuous stratification variables	
-	
+  
   o A new 'kMeansSolutionSpatial' function has been added: this function is the same than 'KmeansSolution', 
   but operates in the case of optimization with only continuous stratification variables and has to be 
   used only in conjunction with 'optimizeStrataSpatial'
@@ -14,6 +13,8 @@ Changes in Version 1.5
   o A new 'KmeansSolution2' function has been added: this function is the same than 'KmeansSolution', 
   but operates in the case of optimization with only continuous stratification variables and has to be 
   used only in conjunction with 'optimizeStrata2'
+  
+  o A new 'prepareSuggestion' function has been added: this function operates on the result of 'kMeanSolution2 order to prepare the suggestions for the optimization with only continuous stratification variables   
   
   o A new 'computeGamma' function has been added: this function allows to calculate a heteroscedasticity index,
   to be passed to optimization step as a model parametere in order to correctly evaluate the variance in the strata.

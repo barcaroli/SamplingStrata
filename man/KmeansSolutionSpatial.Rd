@@ -155,7 +155,7 @@ strataKm$STRATO <- strataKm$stratum
 ssKm <- summaryStrata(framenew,strataKm)
 ssKm
 frameres <- SpatialPointsDataFrame(data=framenew, 
-                                   coords=cbind(lon,framenew$lat) )
+                                   coords=cbind(framenew$lon,framenew$lat) )
 frameres2 <- SpatialPixelsDataFrame(points=frameres[c("lon","lat")], 
                                     data=framenew)
 frameres2$LABEL <- as.factor(frameres2$LABEL)

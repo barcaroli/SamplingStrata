@@ -2,7 +2,23 @@
 # or from KmeansSolutionSpatial for optimizeStrata2
 # or optimizeStrataSpatial
 
-prepareSuggestion <- function(ss) {
+prepareSuggestion <- function(kmean=kmean,
+                              frame=frame) {
+  kmean$id <- row.names(kmean)
+  frame1 <- frame
+  nvarX <- sum(grepl("X",colnames(frame1)))
+  for (i in (1:nvarX)) {
+    st <- paste("frame1$X",i," <- NULL",sep="")
+    eval(parse(text=st))
+  }
+  frame1 <- merge(frame1,kmean[,c("id","suggestions")],by=c("id"))
+  frame1$X1 <- frame1$suggestions
+  strataKm <- buildStrataDF(frame1)
+  strataKm$SOLUZ <- bethel(strataKm,cv[1,])
+  framenew <- frame
+  framenew <- merge(framenew,kmean[,c("id","suggestions")],by=c("id"))
+  framenew$LABEL <- frame1$suggestions
+  ss <- summaryStrata(framenew,strataKm)
   ndom <- length(unique(ss$Domain))
   nvarX <- length(grep("X",colnames(ss)))/2
   nstrat <- nrow(ss[ss$Domain == 1,])
