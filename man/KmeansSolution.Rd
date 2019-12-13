@@ -70,7 +70,8 @@ solutionKmean <- KmeansSolution(strata=swissstrata,
 								showPlot=TRUE)
 
 # optimisation of sampling strata
-solution <- optimizeStrata ( 
+solution <- optimStrata ( 
+  method = "atomic",
   errors = swisserrors, 
   strata = swissstrata, 
   suggestions = solutionKmean

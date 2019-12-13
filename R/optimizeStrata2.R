@@ -94,6 +94,8 @@ optimizeStrata2 <-
     # stcamp <- split(strata, list(strata$DOM1))
     stcamp <- split(frame, list(frame$DOMAINVALUE))
     if (!is.null(suggestions)) {
+      nStrataSuggested <- nrow(sugg[sugg$domainvalue==1,])
+      if (nStrataSuggested != nStrata) stop("Number of strata in 'suggestions' is different from 'nStrata' value")
       nvalues <- nrow(suggestions)
       if (nvalues != ndom*nvarX*(nStrata-1)) stop("Number of values in suggestions not compatible with nStrata")
       suggestdom <- split(suggestions, list(suggestions$domainvalue))
