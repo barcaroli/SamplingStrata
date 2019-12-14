@@ -60,7 +60,8 @@ kmean <- KmeansSolution2(frame,model=NULL,errors=cv,nstrata=NA,maxclusters=4)
 sugg <- prepareSuggestion(kmean,frame)
 # Optimization
 # Attention: number of strata must be the same than in kmeans
-solution <- optimizeStrata2 (
+solution <- optimStrata (
+  method="continuous",
   cv, 
   framesamp=frame,
   iter = 50,
