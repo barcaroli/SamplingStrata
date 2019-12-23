@@ -51,7 +51,7 @@ optimizeStrata2 <-
       if (nrow(framecens) > 0) {
         colnames(framecens) <- toupper(colnames(framecens))
         framecensold <- framecens
-        framecens$X1 <- nStrata[1] + 1
+        framecens$X1 <- max(nStrata) + 1
         nvarX <- length(grep("X", names(framecens)))
         if (nvarX > 1) {
           for (i in (2:nvarX)) {

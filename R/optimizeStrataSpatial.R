@@ -5,7 +5,7 @@ optimizeStrataSpatial <-
             strcens = FALSE, 
             alldomains = TRUE, 
             dom = NULL, 
-            nStrata = 5, 
+            nStrata = c(5), 
             fitting=c(1),
             range=c(0),
             kappa=3,
@@ -54,7 +54,7 @@ optimizeStrataSpatial <-
       if (nrow(framecens) > 0) {
         colnames(framecens) <- toupper(colnames(framecens))
         framecensold <- framecens
-        framecens$X1 <- nStrata + 1
+        framecens$X1 <- max(nStrata) + 1
         nvarX <- length(grep("X", names(framecens)))
         if (nvarX > 1) {
           for (i in (2:nvarX)) {
@@ -91,7 +91,7 @@ optimizeStrataSpatial <-
       cores <- 1
       Sys.sleep(0.314)
     }
-    ncuts <- nStrata - 1
+    # ncuts <- nStrata - 1
     # if (is.na(initialStrata)) 
     #   initialStrata <- as.numeric(table(strata$DOM1))
     # nstrata = initialStrata
@@ -102,10 +102,12 @@ optimizeStrataSpatial <-
     # stcamp <- split(strata, list(strata$DOM1))
     stcamp <- split(frame, list(frame$DOMAINVALUE))
     if (!is.null(suggestions)) {
-      nStrataSuggested <- nrow(sugg[sugg$domainvalue==1,])
-      if (nStrataSuggested != nStrata) stop("Number of strata in 'suggestions' is different from 'nStrata' value")
-      nvalues <- nrow(suggestions)
-      if (nvalues != ndom*nvarX*(nStrata-1)) stop("Number of values in suggestions not compatible with nStrata")
+      # nStrataSuggested <- nrow(sugg[sugg$domainvalue==1,])
+      # if (nStrataSuggested != nStrata) stop("Number of strata in 'suggestions' is different from 'nStrata' value")
+      for (i in (1:ndom)) {
+        nrow(suggestions[suggestions$domainvalue==i,])
+        if (nvalues != nvarX*(nStrata[i]-1)) stop("Number of values in suggestions not compatible with nStrata")
+      }
       suggestdom <- split(suggestions, list(suggestions$domainvalue))
     }
     if (strcens == TRUE & !is.null(cens) > 0) {
@@ -119,10 +121,10 @@ optimizeStrataSpatial <-
     }
     # ndom <- length(levels(as.factor(strata$DOM1)))
     if (alldomains == TRUE) {
-      # if (ndom > length(nstrata)) 
-      #   stop("'initialStrata' vector lenght (=", length(nstrata), 
-      #        ") \nis not compatible with number of domains (=", 
-      #        ndom, ")\nSet initialStrata with a number of elements equal to the number of domains")
+      if (ndom > length(nstrata))
+        stop("'initialStrata' vector lenght (=", length(nstrata),
+             ") \nis not compatible with number of domains (=",
+             ndom, ")\nSet initialStrata with a number of elements equal to the number of domains")
       vettsol <- NULL
       outstrata <- NULL
       if (parallel) {
@@ -186,7 +188,7 @@ optimizeStrataSpatial <-
                                             range = range,
                                             kappa = kappa,
                                             gamma = gamma,
-                                            ncuts = (nStrata - 1),
+                                            ncuts = (nStrata[i] - 1),
                                             dominio = i, 
                                             minnumstr, 
                                             iter, 
@@ -288,7 +290,7 @@ optimizeStrataSpatial <-
                                           range = range,
                                           kappa = kappa,
                                           gamma = gamma,
-                                          ncuts = (nStrata - 1),
+                                          ncuts = (nStrata[i] - 1),
                                           dominio = i, 
                                           minnumstr, 
                                           iter, 
@@ -369,7 +371,7 @@ optimizeStrataSpatial <-
                                     range = range,
                                     kappa = kappa,
                                     gamma = gamma,
-                                    ncuts = (nStrata - 1),
+                                    ncuts = (nStrata[i] - 1),
                                     dominio = i, 
                                     minnumstr, 
                                     iter, 
@@ -424,8 +426,8 @@ optimizeStrataSpatial <-
       for (i in (1:nvarX)) {
         eval(parse(text=paste("framecens$X",i," <- framecensold$X",i,sep="")))
       }
-      framecens$STRATO <- nStrata + 1
-      framecens$LABEL <- nStrata + 1
+      framecens$STRATO <- max(nStrata) + 1
+      framecens$LABEL <- max(nStrata) + 1
       colnames(framecens) <- toupper(colnames(framecens))
       framenew <- rbind(framenew,framecens)
       censtot$SOLUZ <- censtot$N

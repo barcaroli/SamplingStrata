@@ -13,14 +13,17 @@ of continuous variables (i.e. with with "optimStrata"
 when method = "continuous" or method = "spatial").
 }
 \usage{
-prepareSuggestion(kmean,frame)
+prepareSuggestion(kmean,frame,nstrata)
 }
 \arguments{
   \item{kmean}{
   The result of the execution of function 'KmeansSolution2'.
   }
   \item{frame}{
-  The (mandatory) dataframe containing the information related to each unit in the sampling frame.
+  The dataframe containing the information related to each unit in the sampling frame.
+  }
+    \item{nstrata}{
+  The vector of number of strata identified as the best for each domain.
   }
 }
 
@@ -42,36 +45,35 @@ swissmunicipalities$dom <- 1
 frame <- buildFrameDF(swissmunicipalities,
                       id = "id",
                       domainvalue = "REG",
-                      X = c("Pop020", "Pop2040"),
-                      Y = c("Pop020", "Pop2040")
+                      X = c("POPTOT", "HApoly"),
+                      Y = c("Surfacesbois", "Airind")
 )
-cv <- NULL
-cv$DOM <- "DOM1"
-cv$CV1 <- 0.1
-cv$CV2 <- 0.1
-cv <- as.data.frame(cv)
-cv <- cv[rep(row.names(cv),7),]
-cv$domainvalue <- c(1:7)
-cv
+ndom <- length(unique(frame$domainvalue))
+cv <- as.data.frame(list(
+              DOM = rep("DOM1",ndom),
+              CV1 = rep(0.1,ndom),
+              CV2 = rep(0.1,ndom),
+              domainvalue = c(1:ndom)))
 
 # Solution with kmean clustering 
 kmean <- KmeansSolution2(frame,model=NULL,errors=cv,nstrata=NA,maxclusters=4)
-# Prepare suggestion for optimization
-sugg <- prepareSuggestion(kmean,frame)
+# Number of strata for each domain
+nstrat <- tapply(kmean$suggestions,
+                 kmean$domainvalue,
+                 FUN=function(x) length(unique(x)))
+# Prepare suggestion for optimization step                 
+sugg <- prepareSuggestion(kmean = kmean,
+                          frame = frame,
+                          nstrat = nstrat)
 # Optimization
-# Attention: number of strata must be the same than in kmeans
 solution <- optimStrata (
   method="continuous",
-  cv, 
+  errors=cv, 
   framesamp=frame,
   iter = 50,
-  pops = 20,
-  nStrata = 4,
-  suggestions = sugg,
-  writeFiles = FALSE,
-  showPlot = FALSE,
-  parallel = FALSE
-)
+  pops = 10,
+  nStrata = nstrat,
+  suggestions = sugg)
 }
 }
 \keyword{ survey }
