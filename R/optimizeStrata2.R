@@ -97,9 +97,9 @@ optimizeStrata2 <-
       for (i in (1:ndom)) {
         nStrataSuggested <- length(unique(suggestions$suggestions[suggestions$domainvalue==i]))
         if (nStrataSuggested != nStrata[i]) stop("Number of strata in 'suggestions' is different from 'nStrata' value in domain ",i)
+        # nvalues <- nrow(suggestions[suggestions$domainvalue==i,])
+        # if (nvalues != nvarX*(nStrata[i]-1)) stop("Number of values in suggestions not compatible with nStrata")
       }
-      nvalues <- nrow(suggestions)
-      if (nvalues != ndom*nvarX*(nStrata[i]-1)) stop("Number of values in suggestions not compatible with nStrata")
       suggestdom <- split(suggestions, list(suggestions$domainvalue))
     }
     if (strcens == TRUE & !is.null(cens) > 0) {
