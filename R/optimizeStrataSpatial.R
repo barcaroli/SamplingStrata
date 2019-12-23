@@ -171,7 +171,7 @@ optimizeStrataSpatial <-
             }
             if (!is.null(suggestions) & alldomains == FALSE) {
               suggest <- matrix(0, nrow = 2, ncol = ncuts*nvarX)
-              suggest[1, ] <- suggestions$suggestions1
+              suggest[1, ] <- suggestdom[[i]]$suggestions1
               suggest[2, ] <- suggestdom[[i]]$suggestions2
             }
             if (is.null(suggestions)) {
