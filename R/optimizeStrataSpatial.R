@@ -121,8 +121,8 @@ optimizeStrataSpatial <-
     }
     # ndom <- length(levels(as.factor(strata$DOM1)))
     if (alldomains == TRUE) {
-      if (ndom > length(nstrata))
-        stop("'initialStrata' vector lenght (=", length(nstrata),
+      if (ndom > length(nStrata))
+        stop("'initialStrata' vector lenght (=", length(nStrata),
              ") \nis not compatible with number of domains (=",
              ndom, ")\nSet initialStrata with a number of elements equal to the number of domains")
       vettsol <- NULL
