@@ -13,7 +13,7 @@ of continuous variables (i.e. with with "optimStrata"
 when method = "continuous" or method = "spatial").
 }
 \usage{
-prepareSuggestion(kmean,frame,nstrata,cv)
+prepareSuggestion(kmean,frame,nstrata)
 }
 \arguments{
   \item{kmean}{
@@ -24,9 +24,6 @@ prepareSuggestion(kmean,frame,nstrata,cv)
   }
     \item{nstrata}{
   The vector of number of strata identified as the best for each domain.
-  }
-      \item{cv}{
-  Precision constraints.
   }
 }
 
@@ -67,8 +64,7 @@ nstrat <- tapply(kmean$suggestions,
 # Prepare suggestion for optimization step                 
 sugg <- prepareSuggestion(kmean = kmean,
                           frame = frame,
-                          nstrat = nstrat,
-                          cv = cv)
+                          nstrat = nstrat)
 # Optimization
 solution <- optimStrata (
   method="continuous",

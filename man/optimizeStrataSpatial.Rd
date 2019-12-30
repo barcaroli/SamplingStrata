@@ -161,30 +161,32 @@ g <- gstat(g, "Pb", lead ~ dist + soil, meuse)
 g
 vm <- variogram(g)
 vm.fit <- fit.lmc(vm, g, vgm(psill=fit.vgm$var_model$psill[2], 
-                  model="Exp", range=fit.vgm$var_model$range[2], 
-                  nugget=fit.vgm$var_model$psill[1]))
+                             model="Exp", range=fit.vgm$var_model$range[2], 
+                             nugget=fit.vgm$var_model$psill[1]))
 # Prediction on the whole grid
 preds <- predict(vm.fit, meuse.grid)
 names(preds)
 # [1] "Pb.pred" "Pb.var"
 preds$Pb.pred <- ifelse(preds$Pb.pred < 0,0,preds$Pb.pred)
 df <- NULL
+df$id <- meuse.grid$id
 df$Pb.pred <- preds@data$Pb.pred
 df$Pb.var <- preds@data$Pb.var
+df$lon <- meuse.grid$x
+df$lat <- meuse.grid$y
 df$dom1 <- 1
 df <- as.data.frame(df)
-df$id <- meuse.grid$id
 #################
 # Optimization
 #################
-frame <- buildFrameDF(df=df,
+frame <- buildFrameSpatial(df=df,
                       id="id",
                       X=c("Pb.pred"),
                       Y=c("Pb.pred"),
+                      variance=c("Pb.var"),
+                      lon="lon",
+                      lat="lat",
                       domainvalue = "dom1")
-frame$var1 <- df$Pb.var
-frame$lon <- meuse.grid$x
-frame$lat <- meuse.grid$y
 cv <- as.data.frame(list(DOM=rep("DOM1",1),
                          CV1=rep(0.05,1),
                          domainvalue=c(1:1) ))
