@@ -5,6 +5,8 @@ Changes in Version 1.5
   o A new 'optimizeStrataSpatial' function is available: this function optimizes the frame stratification
   taking into account also spatial correlation of frame units in a territorial context. As for 'optimizeStrata2',
   this function can be used only on continuous stratification variables	
+
+  o A new 'buildFrameSpatial' function is available: this function allow to build the sampling frame dataframe taking into account also spatial information (coordinates and prediction errors of spatial models)
   
   o A new 'kMeansSolutionSpatial' function has been added: this function is the same than 'KmeansSolution', 
   but operates in the case of optimization with only continuous stratification variables and has to be 
