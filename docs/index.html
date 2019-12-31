@@ -7,11 +7,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Optimal Stratification of Sampling Frames for Multipurpose Sampling Surveys • SamplingStrata</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="Optimal Stratification of Sampling Frames for Multipurpose Sampling Surveys">
-<meta property="og:description" content="In the field of stratified sampling design, this package offers an approach for the determination of the best stratification of a sampling frame, the one that ensures the minimum sample cost under the condition to satisfy precision constraints in a multivariate and multidomain case. This approach is based on the use of the genetic algorithm: each solution (i.e. a particular partition in strata of the sampling frame) is considered as an individual in a population; the fitness of all individuals is evaluated applying the Bethel-Chromy algorithm to calculate the sampling size satisfying precision constraints on the target estimates. Functions in the package allows to: (a) analyse the obtained results of the optimisation step; (b) assign the new strata labels to the sampling frame; (c) select a sample from the new frame accordingly to the best allocation. Functions for the execution of the genetic algorithm are a modified version of the functions in the 'genalg' package.  ">
+<meta property="og:description" content="In the field of stratified sampling design, this package offers an approach for the determination of the best stratification of a sampling frame, the one that ensures the minimum sample cost under the condition to satisfy precision constraints in a multivariate and multidomain case. This approach is based on the use of the genetic algorithm: each solution (i.e. a particular partition in strata of the sampling frame) is considered as an individual in a population; the fitness of all individuals is evaluated applying the Bethel-Chromy algorithm to calculate the sampling size satisfying precision constraints on the target estimates. Functions in the package allows to: (a) analyse the obtained results of the optimisation step; (b) assign the new strata labels to the sampling frame; (c) select a sample from the new frame accordingly to the best allocation. Functions for the execution of the genetic algorithm are a modified version of the functions in the genalg package.  ">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -19,7 +20,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-article">
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -39,7 +40,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -62,13 +63,9 @@
 <!--/.navbar -->
 
       
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    
 
-    
-    
-<!-- README.md is generated from README.Rmd. Please edit README.Rmd file -->
+      </header><div class="row">
+  <div class="contents col-md-9">
 <div id="samplingstrata" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#samplingstrata" class="anchor"></a>SamplingStrata</h1></div>
@@ -87,90 +84,90 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install SamplingStrata from github with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># install.packages("devtools")</span></a>
-<a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"barcaroli/SamplingStrata"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># install.packages("devtools")</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"barcaroli/SamplingStrata"</span>)</span></code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>This is a basic example which shows you how to solve a common problem:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SamplingStrata)</a>
-<a class="sourceLine" id="cb2-2" title="2"></a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="co"># Data ----------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(swisserrors)</a>
-<a class="sourceLine" id="cb2-5" title="5">swisserrors</a>
-<a class="sourceLine" id="cb2-6" title="6"><span class="co">#    DOM  CV1  CV2  CV3  CV4 domainvalue</span></a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="co"># 1 DOM1 0.08 0.12 0.08 0.12           1</span></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="co"># 2 DOM1 0.08 0.12 0.08 0.12           2</span></a>
-<a class="sourceLine" id="cb2-9" title="9"><span class="co"># 3 DOM1 0.08 0.12 0.08 0.12           3</span></a>
-<a class="sourceLine" id="cb2-10" title="10"><span class="co"># 4 DOM1 0.08 0.12 0.08 0.12           4</span></a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="co"># 5 DOM1 0.08 0.12 0.08 0.12           5</span></a>
-<a class="sourceLine" id="cb2-12" title="12"><span class="co"># 6 DOM1 0.08 0.12 0.08 0.12           6</span></a>
-<a class="sourceLine" id="cb2-13" title="13"><span class="co"># 7 DOM1 0.08 0.12 0.08 0.12           7</span></a>
-<a class="sourceLine" id="cb2-14" title="14"></a>
-<a class="sourceLine" id="cb2-15" title="15"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(swissstrata)</a>
-<a class="sourceLine" id="cb2-16" title="16"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(swissstrata)</a>
-<a class="sourceLine" id="cb2-17" title="17"><span class="co">#        STRATO   N       M1        M2        M3       M4        S1       S2        S3       S4 cost cens DOM1 X1 X2 X3 X4 X5 X6</span></a>
-<a class="sourceLine" id="cb2-18" title="18"><span class="co"># 1 1*1*1*1*1*1 184 48.31522  49.40217  61.44022 28.40761 26.888529 28.57606 32.719652 14.67916    1    0    1  1  1  1  1  1  1</span></a>
-<a class="sourceLine" id="cb2-19" title="19"><span class="co"># 2 1*1*1*1*1*2   1 98.00000 106.00000 116.00000 43.00000  0.000000  0.00000  0.000000  0.00000    1    0    1  1  1  1  1  1  2</span></a>
-<a class="sourceLine" id="cb2-20" title="20"><span class="co"># 3 1*1*1*2*1*1   2 57.00000  64.00000  70.00000 50.00000  5.656854  0.00000  1.414214 21.21320    1    0    1  1  1  1  2  1  1</span></a>
-<a class="sourceLine" id="cb2-21" title="21"><span class="co"># 4 1*1*2*1*1*1  11 77.72727  81.18182  92.36364 47.00000 15.994317 19.61029 17.862098 11.67048    1    0    1  1  1  2  1  1  1</span></a>
-<a class="sourceLine" id="cb2-22" title="22"><span class="co"># 5 1*2*1*1*1*1   9 58.22222  61.55556  66.77778 36.22222 27.008229 21.50065 26.409173 16.43759    1    0    1  1  2  1  1  1  1</span></a>
-<a class="sourceLine" id="cb2-23" title="23"><span class="co"># 6 1*2*1*2*1*1   8 61.00000  68.00000  84.62500 58.37500 26.262412 20.82581 28.172618 28.38982    1    0    1  1  2  1  2  1  1</span></a>
-<a class="sourceLine" id="cb2-24" title="24"></a>
-<a class="sourceLine" id="cb2-25" title="25"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(swissframe)</a>
-<a class="sourceLine" id="cb2-26" title="26"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(swissframe)</a>
-<a class="sourceLine" id="cb2-27" title="27"><span class="co">#   progr REG X1 X2 X3 X4 X5 X6         id    Y1     Y2     Y3    Y4 domainvalue</span></a>
-<a class="sourceLine" id="cb2-28" title="28"><span class="co"># 1     1   4 18  3  2  1  3  3     Zurich 57324 131422 108178 66349           4</span></a>
-<a class="sourceLine" id="cb2-29" title="29"><span class="co"># 2     2   1 17  1  1  1  3  2     Geneve 32429  60074  57063 28398           1</span></a>
-<a class="sourceLine" id="cb2-30" title="30"><span class="co"># 3     3   3 17  1  1  1  3  3      Basel 28161  50349  53734 34314           3</span></a>
-<a class="sourceLine" id="cb2-31" title="31"><span class="co"># 4     4   2 17  2  3  1  3  3       Bern 19399  44263  39397 25575           2</span></a>
-<a class="sourceLine" id="cb2-32" title="32"><span class="co"># 5     5   1 17  2  2  1  3  2   Lausanne 24291  44202  35421 21000           1</span></a>
-<a class="sourceLine" id="cb2-33" title="33"><span class="co"># 6     6   4 16  3  3  1  3  3 Winterthur 18942  28958  27696 14887           4</span></a>
-<a class="sourceLine" id="cb2-34" title="34"></a>
-<a class="sourceLine" id="cb2-35" title="35"><span class="co"># Optimisation step ------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-36" title="36">solution &lt;-<span class="st"> </span><span class="kw"><a href="reference/optimStrata.html">optimStrata</a></span> (</a>
-<a class="sourceLine" id="cb2-37" title="37">  <span class="dt">method =</span> <span class="st">"atomic"</span>,</a>
-<a class="sourceLine" id="cb2-38" title="38">    <span class="dt">errors =</span> swisserrors,</a>
-<a class="sourceLine" id="cb2-39" title="39">    <span class="dt">strata =</span> swissstrata,</a>
-<a class="sourceLine" id="cb2-40" title="40">  <span class="dt">showPlot =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb2-41" title="41"></a>
-<a class="sourceLine" id="cb2-42" title="42"><span class="co"># update sampling strata with new strata labels --------------------------------</span></a>
-<a class="sourceLine" id="cb2-43" title="43">newstrata &lt;-<span class="st"> </span><span class="kw"><a href="reference/updateStrata.html">updateStrata</a></span>(swissstrata, </a>
-<a class="sourceLine" id="cb2-44" title="44">                          solution, </a>
-<a class="sourceLine" id="cb2-45" title="45">                          <span class="dt">writeFiles =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb2-46" title="46"></a>
-<a class="sourceLine" id="cb2-47" title="47"><span class="co"># update sampling frame with new strata labels ---------------------------------</span></a>
-<a class="sourceLine" id="cb2-48" title="48">framenew &lt;-<span class="st"> </span><span class="kw"><a href="reference/updateFrame.html">updateFrame</a></span>(<span class="dt">frame=</span>swissframe,</a>
-<a class="sourceLine" id="cb2-49" title="49">                        <span class="dt">newstrata=</span>newstrata,</a>
-<a class="sourceLine" id="cb2-50" title="50">                        <span class="dt">writeFile=</span><span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb2-51" title="51"></a>
-<a class="sourceLine" id="cb2-52" title="52"><span class="co"># evaluate the current solution ------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-53" title="53">eval &lt;-<span class="st"> </span><span class="kw"><a href="reference/evalSolution.html">evalSolution</a></span>(<span class="dt">frame =</span> framenew, </a>
-<a class="sourceLine" id="cb2-54" title="54">                     <span class="dt">outstrata =</span>solution<span class="op">$</span>aggr_strata, </a>
-<a class="sourceLine" id="cb2-55" title="55">                     <span class="dt">nsampl =</span> <span class="dv">500</span>, </a>
-<a class="sourceLine" id="cb2-56" title="56">                     <span class="dt">cens =</span> <span class="ot">NULL</span>, </a>
-<a class="sourceLine" id="cb2-57" title="57">                     <span class="dt">writeFiles =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb2-58" title="58">eval<span class="op">$</span>coeff_var</a>
-<a class="sourceLine" id="cb2-59" title="59"><span class="co">#      CV1    CV2    CV3    CV4  dom</span></a>
-<a class="sourceLine" id="cb2-60" title="60"><span class="co"># 1 0.0800 0.0789 0.0811 0.0817 DOM1</span></a>
-<a class="sourceLine" id="cb2-61" title="61"><span class="co"># 2 0.0767 0.0842 0.0780 0.0858 DOM2</span></a>
-<a class="sourceLine" id="cb2-62" title="62"><span class="co"># 3 0.0746 0.0753 0.0750 0.0779 DOM3</span></a>
-<a class="sourceLine" id="cb2-63" title="63"><span class="co"># 4 0.0785 0.0738 0.0777 0.0748 DOM4</span></a>
-<a class="sourceLine" id="cb2-64" title="64"><span class="co"># 5 0.0810 0.0806 0.0809 0.0801 DOM5</span></a>
-<a class="sourceLine" id="cb2-65" title="65"><span class="co"># 6 0.0781 0.0763 0.0782 0.0808 DOM6</span></a>
-<a class="sourceLine" id="cb2-66" title="66"><span class="co"># 7 0.0680 0.0719 0.0719 0.0808 DOM7</span></a>
-<a class="sourceLine" id="cb2-67" title="67"></a>
-<a class="sourceLine" id="cb2-68" title="68"><span class="co"># Select a sample --------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-69" title="69">s &lt;-<span class="st"> </span><span class="kw"><a href="reference/selectSample.html">selectSample</a></span>(<span class="dt">frame =</span> framenew, <span class="dt">outstrata =</span> solution<span class="op">$</span>aggr_strata)</a>
-<a class="sourceLine" id="cb2-70" title="70"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(s)</a>
-<a class="sourceLine" id="cb2-71" title="71"><span class="co">#   DOMAINVALUE STRATO      STRATUM PROGR REG X1 X2 X3 X4 X5 X6                   ID   Y1   Y2   Y3   Y4 LABEL   WEIGHTS        FPC</span></a>
-<a class="sourceLine" id="cb2-72" title="72"><span class="co"># 1           1      1  1*1*1*1*1*1  2132   1  1  1  1  1  1  1            Bremblens   89   90  138   43     1 97.500000 0.01025641</span></a>
-<a class="sourceLine" id="cb2-73" title="73"><span class="co"># 2           1      1  3*1*2*1*1*1  1227   1  3  1  2  1  1  1 Granges-pres-Marnand  331  289  350  176     1 97.500000 0.01025641</span></a>
-<a class="sourceLine" id="cb2-74" title="74"><span class="co"># 3           1     10 11*1*1*1*2*2   119   1 11  1  1  1  2  2        Ecublens (VD) 2320 3548 3309 1050    10  3.428571 0.29166667</span></a>
-<a class="sourceLine" id="cb2-75" title="75"><span class="co"># 4           1     10  7*3*2*2*2*1   362   1  7  3  2  2  2  1            Le Chenit  993 1054 1340  910    10  3.428571 0.29166667</span></a>
-<a class="sourceLine" id="cb2-76" title="76"><span class="co"># 5           1     10 12*1*1*1*2*2    70   1 12  1  1  1  2  2               Morges 2940 4388 4408 2418    10  3.428571 0.29166667</span></a>
-<a class="sourceLine" id="cb2-77" title="77"><span class="co"># 6           1     10  2*1*1*2*1*1  2041   1  2  1  1  2  1  1             Grimentz  121   96  125   62    10  3.428571 0.29166667</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(SamplingStrata)</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co"># Data ----------------------------------------------------------------------</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(swisserrors)</span>
+<span id="cb2-5"><a href="#cb2-5"></a>swisserrors</span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#    DOM  CV1  CV2  CV3  CV4 domainvalue</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co"># 1 DOM1 0.08 0.12 0.08 0.12           1</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co"># 2 DOM1 0.08 0.12 0.08 0.12           2</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co"># 3 DOM1 0.08 0.12 0.08 0.12           3</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co"># 4 DOM1 0.08 0.12 0.08 0.12           4</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co"># 5 DOM1 0.08 0.12 0.08 0.12           5</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co"># 6 DOM1 0.08 0.12 0.08 0.12           6</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co"># 7 DOM1 0.08 0.12 0.08 0.12           7</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(swissstrata)</span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(swissstrata)</span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="co">#        STRATO   N       M1        M2        M3       M4        S1       S2        S3       S4 cost cens DOM1 X1 X2 X3 X4 X5 X6</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="co"># 1 1*1*1*1*1*1 184 48.31522  49.40217  61.44022 28.40761 26.888529 28.57606 32.719652 14.67916    1    0    1  1  1  1  1  1  1</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="co"># 2 1*1*1*1*1*2   1 98.00000 106.00000 116.00000 43.00000  0.000000  0.00000  0.000000  0.00000    1    0    1  1  1  1  1  1  2</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a><span class="co"># 3 1*1*1*2*1*1   2 57.00000  64.00000  70.00000 50.00000  5.656854  0.00000  1.414214 21.21320    1    0    1  1  1  1  2  1  1</span></span>
+<span id="cb2-21"><a href="#cb2-21"></a><span class="co"># 4 1*1*2*1*1*1  11 77.72727  81.18182  92.36364 47.00000 15.994317 19.61029 17.862098 11.67048    1    0    1  1  1  2  1  1  1</span></span>
+<span id="cb2-22"><a href="#cb2-22"></a><span class="co"># 5 1*2*1*1*1*1   9 58.22222  61.55556  66.77778 36.22222 27.008229 21.50065 26.409173 16.43759    1    0    1  1  2  1  1  1  1</span></span>
+<span id="cb2-23"><a href="#cb2-23"></a><span class="co"># 6 1*2*1*2*1*1   8 61.00000  68.00000  84.62500 58.37500 26.262412 20.82581 28.172618 28.38982    1    0    1  1  2  1  2  1  1</span></span>
+<span id="cb2-24"><a href="#cb2-24"></a></span>
+<span id="cb2-25"><a href="#cb2-25"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(swissframe)</span>
+<span id="cb2-26"><a href="#cb2-26"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(swissframe)</span>
+<span id="cb2-27"><a href="#cb2-27"></a><span class="co">#   progr REG X1 X2 X3 X4 X5 X6         id    Y1     Y2     Y3    Y4 domainvalue</span></span>
+<span id="cb2-28"><a href="#cb2-28"></a><span class="co"># 1     1   4 18  3  2  1  3  3     Zurich 57324 131422 108178 66349           4</span></span>
+<span id="cb2-29"><a href="#cb2-29"></a><span class="co"># 2     2   1 17  1  1  1  3  2     Geneve 32429  60074  57063 28398           1</span></span>
+<span id="cb2-30"><a href="#cb2-30"></a><span class="co"># 3     3   3 17  1  1  1  3  3      Basel 28161  50349  53734 34314           3</span></span>
+<span id="cb2-31"><a href="#cb2-31"></a><span class="co"># 4     4   2 17  2  3  1  3  3       Bern 19399  44263  39397 25575           2</span></span>
+<span id="cb2-32"><a href="#cb2-32"></a><span class="co"># 5     5   1 17  2  2  1  3  2   Lausanne 24291  44202  35421 21000           1</span></span>
+<span id="cb2-33"><a href="#cb2-33"></a><span class="co"># 6     6   4 16  3  3  1  3  3 Winterthur 18942  28958  27696 14887           4</span></span>
+<span id="cb2-34"><a href="#cb2-34"></a></span>
+<span id="cb2-35"><a href="#cb2-35"></a><span class="co"># Optimisation step ------------------------------------------------------------</span></span>
+<span id="cb2-36"><a href="#cb2-36"></a>solution &lt;-<span class="st"> </span><span class="kw"><a href="reference/optimStrata.html">optimStrata</a></span> (</span>
+<span id="cb2-37"><a href="#cb2-37"></a>  <span class="dt">method =</span> <span class="st">"atomic"</span>,</span>
+<span id="cb2-38"><a href="#cb2-38"></a>    <span class="dt">errors =</span> swisserrors,</span>
+<span id="cb2-39"><a href="#cb2-39"></a>    <span class="dt">strata =</span> swissstrata,</span>
+<span id="cb2-40"><a href="#cb2-40"></a>  <span class="dt">showPlot =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb2-41"><a href="#cb2-41"></a></span>
+<span id="cb2-42"><a href="#cb2-42"></a><span class="co"># update sampling strata with new strata labels --------------------------------</span></span>
+<span id="cb2-43"><a href="#cb2-43"></a>newstrata &lt;-<span class="st"> </span><span class="kw"><a href="reference/updateStrata.html">updateStrata</a></span>(swissstrata, </span>
+<span id="cb2-44"><a href="#cb2-44"></a>                          solution, </span>
+<span id="cb2-45"><a href="#cb2-45"></a>                          <span class="dt">writeFiles =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb2-46"><a href="#cb2-46"></a></span>
+<span id="cb2-47"><a href="#cb2-47"></a><span class="co"># update sampling frame with new strata labels ---------------------------------</span></span>
+<span id="cb2-48"><a href="#cb2-48"></a>framenew &lt;-<span class="st"> </span><span class="kw"><a href="reference/updateFrame.html">updateFrame</a></span>(<span class="dt">frame=</span>swissframe,</span>
+<span id="cb2-49"><a href="#cb2-49"></a>                        <span class="dt">newstrata=</span>newstrata,</span>
+<span id="cb2-50"><a href="#cb2-50"></a>                        <span class="dt">writeFile=</span><span class="ot">FALSE</span>)</span>
+<span id="cb2-51"><a href="#cb2-51"></a></span>
+<span id="cb2-52"><a href="#cb2-52"></a><span class="co"># evaluate the current solution ------------------------------------------------</span></span>
+<span id="cb2-53"><a href="#cb2-53"></a>eval &lt;-<span class="st"> </span><span class="kw"><a href="reference/evalSolution.html">evalSolution</a></span>(<span class="dt">frame =</span> framenew, </span>
+<span id="cb2-54"><a href="#cb2-54"></a>                     <span class="dt">outstrata =</span>solution<span class="op">$</span>aggr_strata, </span>
+<span id="cb2-55"><a href="#cb2-55"></a>                     <span class="dt">nsampl =</span> <span class="dv">500</span>, </span>
+<span id="cb2-56"><a href="#cb2-56"></a>                     <span class="dt">cens =</span> <span class="ot">NULL</span>, </span>
+<span id="cb2-57"><a href="#cb2-57"></a>                     <span class="dt">writeFiles =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb2-58"><a href="#cb2-58"></a>eval<span class="op">$</span>coeff_var</span>
+<span id="cb2-59"><a href="#cb2-59"></a><span class="co">#      CV1    CV2    CV3    CV4  dom</span></span>
+<span id="cb2-60"><a href="#cb2-60"></a><span class="co"># 1 0.0800 0.0789 0.0811 0.0817 DOM1</span></span>
+<span id="cb2-61"><a href="#cb2-61"></a><span class="co"># 2 0.0767 0.0842 0.0780 0.0858 DOM2</span></span>
+<span id="cb2-62"><a href="#cb2-62"></a><span class="co"># 3 0.0746 0.0753 0.0750 0.0779 DOM3</span></span>
+<span id="cb2-63"><a href="#cb2-63"></a><span class="co"># 4 0.0785 0.0738 0.0777 0.0748 DOM4</span></span>
+<span id="cb2-64"><a href="#cb2-64"></a><span class="co"># 5 0.0810 0.0806 0.0809 0.0801 DOM5</span></span>
+<span id="cb2-65"><a href="#cb2-65"></a><span class="co"># 6 0.0781 0.0763 0.0782 0.0808 DOM6</span></span>
+<span id="cb2-66"><a href="#cb2-66"></a><span class="co"># 7 0.0680 0.0719 0.0719 0.0808 DOM7</span></span>
+<span id="cb2-67"><a href="#cb2-67"></a></span>
+<span id="cb2-68"><a href="#cb2-68"></a><span class="co"># Select a sample --------------------------------------------------------------</span></span>
+<span id="cb2-69"><a href="#cb2-69"></a>s &lt;-<span class="st"> </span><span class="kw"><a href="reference/selectSample.html">selectSample</a></span>(<span class="dt">frame =</span> framenew, <span class="dt">outstrata =</span> solution<span class="op">$</span>aggr_strata)</span>
+<span id="cb2-70"><a href="#cb2-70"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(s)</span>
+<span id="cb2-71"><a href="#cb2-71"></a><span class="co">#   DOMAINVALUE STRATO      STRATUM PROGR REG X1 X2 X3 X4 X5 X6                   ID   Y1   Y2   Y3   Y4 LABEL   WEIGHTS        FPC</span></span>
+<span id="cb2-72"><a href="#cb2-72"></a><span class="co"># 1           1      1  1*1*1*1*1*1  2132   1  1  1  1  1  1  1            Bremblens   89   90  138   43     1 97.500000 0.01025641</span></span>
+<span id="cb2-73"><a href="#cb2-73"></a><span class="co"># 2           1      1  3*1*2*1*1*1  1227   1  3  1  2  1  1  1 Granges-pres-Marnand  331  289  350  176     1 97.500000 0.01025641</span></span>
+<span id="cb2-74"><a href="#cb2-74"></a><span class="co"># 3           1     10 11*1*1*1*2*2   119   1 11  1  1  1  2  2        Ecublens (VD) 2320 3548 3309 1050    10  3.428571 0.29166667</span></span>
+<span id="cb2-75"><a href="#cb2-75"></a><span class="co"># 4           1     10  7*3*2*2*2*1   362   1  7  3  2  2  2  1            Le Chenit  993 1054 1340  910    10  3.428571 0.29166667</span></span>
+<span id="cb2-76"><a href="#cb2-76"></a><span class="co"># 5           1     10 12*1*1*1*2*2    70   1 12  1  1  1  2  2               Morges 2940 4388 4408 2418    10  3.428571 0.29166667</span></span>
+<span id="cb2-77"><a href="#cb2-77"></a><span class="co"># 6           1     10  2*1*1*2*1*1  2041   1  2  1  1  2  1  1             Grimentz  121   96  125   62    10  3.428571 0.29166667</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -204,9 +201,7 @@
 </ul>
 </div>
 
-
-      </div>
-
+  </div>
 </div>
 
 
@@ -215,12 +210,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
