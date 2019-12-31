@@ -355,7 +355,7 @@ optimizeStrata2 <-
                              cens = cens, 
                              strcens = flagcens, 
                              model,
-                             ncuts = (nStrata[i] - 1),
+                             ncuts = (nStrata - 1),
                              dominio = i, 
                              minnumstr, 
                              iter, 
