@@ -401,17 +401,20 @@ optimizeStrata2 <-
     framenew <- merge(frame,vettsoldf,by=c("ID"))
     # if (strcens == TRUE & !is.null(censi)) {
     if (strcens == TRUE) {
+      framecens$STRATO <- nStrata[i] + 1
+      framecens$LABEL <- nStrata[i] + 1
       if (alldomains == FALSE) {
         # colnames(framecens) <- toupper(colnames(framecens))
         # colnames(framecensold) <- toupper(colnames(framecensold))
         framecens <- framecens[framecens$DOMAINVALUE == dom,]
         framecensold <- framecensold[framecensold$DOMAINVALUE == dom,]
+        framecens$STRATO <- nStrata + 1
+        framecens$LABEL <- nStrata + 1
       }
       for (i in (1:nvarX)) {
         eval(parse(text=paste("framecens$X",i," <- framecensold$X",i,sep="")))
       }
-      framecens$STRATO <- nStrata[i] + 1
-      framecens$LABEL <- nStrata[i] + 1
+
       colnames(framecens) <- toupper(colnames(framecens))
       framenew <- rbind(framenew,framecens)
       censtot$SOLUZ <- censtot$N
