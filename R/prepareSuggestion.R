@@ -5,7 +5,7 @@
 prepareSuggestion <- function(kmean=kmean,
                               frame=frame,
                               nstrat=nstrat) {
-  kmean$id <- row.names(kmean)
+  # kmean$id <- row.names(kmean)
   frame1 <- frame
   nvarX <- sum(grepl("X",colnames(frame1)))
   for (i in (1:nvarX)) {
