@@ -16,6 +16,7 @@ KmeansSolution2 <- function(frame,
   }
   suggestions <- NULL
   domainvalue <- NULL
+  id <- NULL
   ndom <- length(unique(frame$DOMAINVALUE))
   solution <- NULL
   best <- NULL
@@ -70,8 +71,11 @@ KmeansSolution2 <- function(frame,
         cat("\nSample size ",sum(v))
       }
     }
+    bestsolution <- as.factor(bestsolution)
+    levels(bestsolution) <- c(1:length(levels(bestsolution)))
     suggestions <- c(suggestions,bestsolution)
     domainvalue <- c(domainvalue,rep(k,nrow(framecorr)))
+    id <- c(id,as.character(frame$ID[frame$DOMAINVALUE == k]))
   }
   cat("\n-----------------")
   cat("\n Kmeans solution ")
@@ -81,6 +85,6 @@ KmeansSolution2 <- function(frame,
     cat("\n Number of strata: ",best_num_strata[i])
     cat("\n Sample size     : ",best[i])
   }
-  solutionKmean <- as.data.frame(cbind(id=frame$ID, suggestions,domainvalue))
+  solutionKmean <- as.data.frame(cbind(id,suggestions,domainvalue))
   return(solutionKmean)
 }
