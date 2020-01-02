@@ -167,12 +167,12 @@ optimizeStrataSpatial <-
               flagcens = FALSE
             }
             if (!is.null(suggestions) & alldomains == TRUE) {
-              suggest <- matrix(0, nrow = 2, ncol = ncuts*nvarX)
+              suggest <- matrix(0, nrow = 2, ncol = (nStrata[i]-1)*nvarX)
               suggest[1, ] <- suggestdom[[i]]$suggestions1
               suggest[2, ] <- suggestdom[[i]]$suggestions2
             }
             if (!is.null(suggestions) & alldomains == FALSE) {
-              suggest <- matrix(0, nrow = 2, ncol = ncuts*nvarX)
+              suggest <- matrix(0, nrow = 2, ncol = (nStrata[i]-1)*nvarX)
               suggest[1, ] <- suggestdom[[i]]$suggestions1
               suggest[2, ] <- suggestdom[[i]]$suggestions2
             }
@@ -269,12 +269,12 @@ optimizeStrataSpatial <-
             flagcens = FALSE
           }
           if (!is.null(suggestions) & alldomains == TRUE) {
-            suggest <- matrix(0, nrow = 2, ncol = ncuts*nvarX)
+            suggest <- matrix(0, nrow = 2, ncol = (nStrata[i]-1)*nvarX)
             suggest[1, ] <- suggestdom[[i]]$suggestions1
             suggest[2, ] <- suggestdom[[i]]$suggestions2
           }
           if (!is.null(suggestions) & alldomains == FALSE) {
-            suggest <- matrix(0, nrow = 2, ncol = ncuts*nvarX)
+            suggest <- matrix(0, nrow = 2, ncol = (nStrata[i]-1)*nvarX)
             suggest[1, ] <- suggestdom[[i]]$suggestions1
             suggest[2, ] <- suggestdom[[i]]$suggestions2
           }
@@ -352,11 +352,11 @@ optimizeStrataSpatial <-
         }
       }
       if (!is.null(suggestions) & alldomains == TRUE) {
-        suggest <- matrix(0, nrow = 1, ncol = ncuts*nvarX)
+        suggest <- matrix(0, nrow = 1, ncol = (nStrata[i]-1)*nvarX)
         suggest[1, ] <- suggestdom[[i]]$suggestions
       }
       if (!is.null(suggestions) & alldomains == FALSE) {
-        suggest <- matrix(0, nrow = 1, ncol = ncuts*nvarX)
+        suggest <- matrix(0, nrow = 1, ncol = (nStrata[i]-1)*nvarX)
         suggest[1, ] <- suggestions$suggestions
       }
       if (is.null(suggestions)) {
