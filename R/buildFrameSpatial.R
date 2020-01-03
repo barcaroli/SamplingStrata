@@ -46,8 +46,9 @@ buildFrameSpatial <- function(df,id,X,Y,variance,lon,lat,domainvalue) {
   eval(parse(text=target))
   target <- paste("dframe$lat <- df$",as.character(lat),sep="")
   eval(parse(text=target))
-  stmt <- paste("dframe$domainvalue <- df$",as.numeric(domainvalue),sep="")
+  stmt <- paste("dframe$domainvalue <- df$",as.character(domainvalue),sep="")
   eval(parse(text=stmt))
   dframe <- as.data.frame(dframe)
+  dframe$domainvalue <- as.numeric(dframe$domainvalue)
   return(dframe)
 }
