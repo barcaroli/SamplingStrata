@@ -28,7 +28,7 @@ buildFrameDF <- function(df,id,X,Y,domainvalue) {
     target <- paste("dframe$Y",i," <- df$",as.character(Y[i]),sep="")
     eval(parse(text=target))
   }
-  stmt <- paste("dframe$domainvalue <- df$",as.character(domainvalue),sep="")
+  stmt <- paste("dframe$domainvalue <- df$",as.numeric(domainvalue),sep="")
   eval(parse(text=stmt))
   dframe <- as.data.frame(dframe)
   return(dframe)
