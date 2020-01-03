@@ -97,6 +97,7 @@ KmeansSolutionSpatial <- function (frame,
     cat("\n Number of strata: ", best_num_strata[i])
     cat("\n Sample size     : ", best[i])
   }
-  solutionKmean <- as.data.frame(cbind(id,suggestions,as.numeric(domainvalue)))
+  solutionKmean <- as.data.frame(cbind(id,suggestions,domainvalue))
+  solutionKmean$domainvalue <- as.integer(solutionKmean$domainvalue)
   return(solutionKmean)
 }
