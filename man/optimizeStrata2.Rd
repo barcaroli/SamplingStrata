@@ -125,54 +125,39 @@ Giulio Barcaroli
 
 \examples{
 \dontrun{
-data("swissmunicipalities")
+library(SamplingStrata)
+data(swissmunicipalities)
 swissmunicipalities$id <- c(1:nrow(swissmunicipalities))
-swissmunicipalities$dom <- 1
-frame <- buildFrameDF(swissmunicipalities,
+frame <- buildFrameDF(df = swissmunicipalities,
                       id = "id",
                       domainvalue = "REG",
-                      X = c("Surfacesbois","Surfacescult"),
-                      Y = c("Pop020", "Pop2040")
-)
-# choice of units to be selected in any case (census units)
-framecens <- frame[frame$X1 > 2500 
-                   | frame$X2 > 1500,]
-# remaining units 
-framesamp <- frame[!(frame$id \%in\% framecens$id),]
-# precision constraints
-errors <- NULL
-errors$DOM <- "DOM1"
-errors$CV1 <- 0.1
-errors$CV2 <- 0.1
-errors <- as.data.frame(errors)
-errors <- errors[rep(row.names(errors),7),]
-errors$domainvalue <- c(1:7)
-errors
-
-solution <- optimizeStrata2 (
-  errors, 
-  framesamp,
-  framecens = framecens, 
-  strcens = TRUE, 
-  alldomains = FALSE,
-  dom = 4,
-  iter = 50,
-  pops = 20,
-  nStrata = 5,
-  writeFiles = FALSE,
-  showPlot = FALSE,
-  parallel = TRUE
-)
-sum(round(solution$aggr_strata$SOLUZ))
-expected_CV(solution$aggr_strata)
-outstrata <- plotStrata2d(
-                  solution$framenew, 
-                  solution$aggr_strata,
-                  domain = 4, 
-                  vars = c("X1","X2"),
-                  labels =     c("Surfacesbois","Surfacescult")
-                  )
-outstrata
+                      X = c("POPTOT","HApoly"),
+                      Y = c("Surfacesbois", "Airind"))
+ndom <- length(unique(frame$domainvalue))
+cv <- as.data.frame(list(DOM = rep("DOM1",ndom),
+                         CV1 = rep(0.1,ndom),
+                         CV2 = rep(0.1,ndom),
+                         domainvalue = c(1:ndom)))
+################################
+# Example of "continuous" method
+################################
+kmean <- KmeansSolution2(frame = frame, 
+                         errors = cv, 
+                         maxclusters = 10)
+nstrat <- tapply(kmean$suggestions, kmean$domainvalue,
+                 FUN=function(x) length(unique(x)))
+sugg <- prepareSuggestion(kmean = kmean, 
+                          frame = frame, 
+                          nstrat = nstrat)
+solution <- optimizeStrata2(framesamp = frame,
+                        errors = cv,
+                        nStrata = nstrat,
+                        iter = 50,
+                        pops = 10,
+                        suggestions = sugg)
+framenew <- solution$framenew
+outstrata <- solution$aggr_strata
+s <- selectSample(framenew,outstrata)
 }
 }
 \keyword{ survey }

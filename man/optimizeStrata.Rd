@@ -123,29 +123,35 @@ Giulio Barcaroli
 \examples{
 \dontrun{
 library(SamplingStrata)
-data(swissframe)
-data(swisserrors)
-data(swissstrata)
-# optimisation of sampling strata
-solution <- optimizeStrata ( 
-    errors = swisserrors, 
-    strata = swissstrata, 
-    cens = NULL,
-    strcens = FALSE,
-    initialStrata = NA,
-    addStrataFactor = 0.01,    
-    minnumstr = 2,
-    iter = 60,
-    pops = 20,
-    mut_chance = NA,
-    elitism_rate = 0.2,
-    highvalue = 100000000,
-    suggestions = NULL,
-	realAllocation = TRUE,
-	writeFiles = FALSE,
-	showPlot = TRUE)
-sum(ceiling(solution$aggr_strata$SOLUZ))
-head(solution$aggr_strata)
+############################
+# Example of "atomic" method
+############################
+data(swissmunicipalities)
+swissmunicipalities$id <- c(1:nrow(swissmunicipalities))
+frame <- buildFrameDF(df = swissmunicipalities,
+                      id = "id",
+                      domainvalue = "REG",
+                      X = c("POPTOT","HApoly"),
+                      Y = c("Surfacesbois", "Airind"))
+ndom <- length(unique(frame$domainvalue))
+cv <- as.data.frame(list(DOM = rep("DOM1",ndom),
+                         CV1 = rep(0.1,ndom),
+                         CV2 = rep(0.1,ndom),
+                         domainvalue = c(1:ndom)))
+strata <- buildStrataDF(frame)
+kmean <- KmeansSolution(strata,cv,maxclusters=30)
+nstrat <- tapply(kmean$suggestions, kmean$domainvalue,
+                 FUN=function(x) length(unique(x)))
+solution <- optimizeStrata(strata = strata,
+                        errors = cv,
+                        initialStrata = nstrat,
+                        suggestions = kmean,
+                        iter = 50,
+                        pops = 10)
+outstrata <- solution$aggr_strata
+newstrata <- updateStrata(strata,solution)
+framenew <- updateFrame(frame, newstrata)
+s <- selectSample(framenew, outstrata)
 }
 }
 \keyword{ survey }

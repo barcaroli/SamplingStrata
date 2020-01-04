@@ -132,89 +132,59 @@ Giulio Barcaroli
 
 \examples{
 \dontrun{
+#############################
+# Example of "spatial" method
+#############################
 library(sp)
-library(gstat)
-library(automap)
-library(SamplingStrata)
-#################
-# data
-#################
-# locations (155 observed points)
 data("meuse")
-# grid of points (3103)
 data("meuse.grid")
 meuse.grid$id <- c(1:nrow(meuse.grid))
-coordinates(meuse)<-c("x","y")
-coordinates(meuse.grid)<-c("x","y")
-#################
-# kriging
-#################
-v <- variogram(lead ~ dist + soil, data=meuse)
-fit.vgm <- autofitVariogram(lead ~ elev + soil, meuse, model = "Exp")
-plot(v, fit.vgm$var_model)
-fit.vgm$var_model
-# model    psill    range
-# 1   Nug 1524.895   0.0000
-# 2   Exp 8275.431 458.3303
-g <- NULL
-g <- gstat(g, "Pb", lead ~ dist + soil, meuse)
-g
-vm <- variogram(g)
-vm.fit <- fit.lmc(vm, g, vgm(psill=fit.vgm$var_model$psill[2], 
-                             model="Exp", range=fit.vgm$var_model$range[2], 
-                             nugget=fit.vgm$var_model$psill[1]))
-# Prediction on the whole grid
-preds <- predict(vm.fit, meuse.grid)
-names(preds)
-# [1] "Pb.pred" "Pb.var"
-preds$Pb.pred <- ifelse(preds$Pb.pred < 0,0,preds$Pb.pred)
-df <- NULL
-df$id <- meuse.grid$id
-df$Pb.pred <- preds@data$Pb.pred
-df$Pb.var <- preds@data$Pb.var
-df$lon <- meuse.grid$x
-df$lat <- meuse.grid$y
-df$dom1 <- 1
-df <- as.data.frame(df)
-#################
-# Optimization
-#################
-frame <- buildFrameSpatial(df=df,
-                      id="id",
-                      X=c("Pb.pred"),
-                      Y=c("Pb.pred"),
-                      variance=c("Pb.var"),
-                      lon="lon",
-                      lat="lat",
-                      domainvalue = "dom1")
-cv <- as.data.frame(list(DOM=rep("DOM1",1),
-                         CV1=rep(0.05,1),
-                         domainvalue=c(1:1) ))
-set.seed(1234)
-solution <- optimizeStrataSpatial (
-  errors=cv, 
-  framesamp=frame,
-  iter = 50,
-  pops = 10,
-  nStrata = 3,
-  fitting = 1,
-  range = fit.vgm$var_model$range[2],
-  kappa=1,
-  writeFiles = FALSE,
-  showPlot = TRUE,
-  parallel = FALSE)
+coordinates(meuse) <- c('x','y')
+coordinates(meuse.grid) <- c('x','y')
+library(gstat)
+library(automap)
+v <- variogram(lead ~ dist + soil, data = meuse)
+fit.vgm.lead <- autofitVariogram(lead ~ dist + soil,
+                                 meuse,
+                                 model = "Exp")
+plot(v, fit.vgm.lead$var_model)
+lead.kr <- krige(lead ~ dist + soil, meuse, meuse.grid,
+                model = fit.vgm.lead$var_model)
+lead.pred <- ifelse(lead.kr[1]$var1.pred < 0,0, lead.kr[1]$var1.pred)
+lead.var <- ifelse(lead.kr[2]$var1.var < 0, 0, lead.kr[2]$var1.var)
+df <- as.data.frame(list(dom = rep(1,nrow(meuse.grid)),
+                         lead.pred = lead.pred,
+                         lead.var = lead.var,
+                         lon = meuse.grid$x,
+                         lat = meuse.grid$y,
+                         id = c(1:nrow(meuse.grid))))
+frame <-buildFrameSpatial(df = df,
+                          id = "id",
+                          X = c("lead.pred"),
+                          Y = c("lead.pred"),
+                          variance = c("lead.var"),
+                          lon = "lon",
+                          lat = "lat",
+                          domainvalue = "dom")
+cv <- as.data.frame(list(DOM = rep("DOM1",1),
+                          CV1 = rep(0.05,1),
+                          domainvalue = c(1:1) ))
+solution <- optimizeStrataSpatial(errors = cv, 
+                        framesamp = frame, 
+                        iter = 25,
+                        pops = 10,
+                        nStrata = 5, 
+                        fitting = 1, 
+                        kappa = 1,
+                        range = fit.vgm.lead$var_model$range[2])
 framenew <- solution$framenew
 outstrata <- solution$aggr_strata
-############################
-# Analysis and visualization
-############################
-sum(round(outstrata$SOLUZ))
-expected_CV(outstrata)
-ss <- summaryStrata(framenew,outstrata)
-frameres <- SpatialPointsDataFrame(data=framenew, coords=cbind(framenew$LON,framenew$LAT) )
-frameres2 <- SpatialPixelsDataFrame(points=frameres[c("LON","LAT")], data=framenew)
-frameres2$LABEL <- as.factor(frameres2$LABEL)
-spplot(frameres2,c("LABEL"), col.regions=bpy.colors(5))
+frameres <- SpatialPixelsDataFrame(points = framenew[c("LON","LAT")],
+                                   data = framenew)
+frameres$LABEL <- as.factor(frameres$LABEL)
+spplot(frameres,c("LABEL"), col.regions=bpy.colors(5))
+s <- selectSample(framenew,outstrata)
+
 }
 }
 \keyword{ survey }
