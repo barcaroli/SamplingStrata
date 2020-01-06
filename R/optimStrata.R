@@ -84,7 +84,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 	    )	
     newstrata <- updateStrata(strata, solut)
     framenew <- updateFrame(frame=framesamp,newstrata=newstrata)
-    solution <- list(framenew=framenew,aggr_strata=solut$aggr_strata)
+    solution <- list(indices = solut$indices, framenew=framenew,aggr_strata=solut$aggr_strata)
   }
   # Method 'continuous'
   if (method == "continuous") {

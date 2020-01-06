@@ -181,15 +181,14 @@ kmean <- KmeansSolution(strata,cv,maxclusters=30)
 nstrat <- tapply(kmean$suggestions, kmean$domainvalue,
                  FUN=function(x) length(unique(x)))
 solution <- optimStrata(method ="atomic",
-                        strata = strata,
+                        framesamp = frame,
                         errors = cv,
-                        initialStrata = nstrat,
+                        nStrata = nstrat,
                         suggestions = kmean,
                         iter = 50,
                         pops = 10)
 outstrata <- solution$aggr_strata
-newstrata <- updateStrata(strata,solution)
-framenew <- updateFrame(frame, newstrata)
+framenew <- solution$framenew
 s <- selectSample(framenew, outstrata)
 ################################
 # Example of "continuous" method
@@ -229,7 +228,7 @@ fit.vgm.lead <- autofitVariogram(lead ~ dist + soil,
                                  model = "Exp")
 plot(v, fit.vgm.lead$var_model)
 lead.kr <- krige(lead ~ dist + soil, meuse, meuse.grid,
-                model = fit.vgm.lead$var_model)
+                 model = fit.vgm.lead$var_model)
 lead.pred <- ifelse(lead.kr[1]$var1.pred < 0,0, lead.kr[1]$var1.pred)
 lead.var <- ifelse(lead.kr[2]$var1.var < 0, 0, lead.kr[2]$var1.var)
 df <- as.data.frame(list(dom = rep(1,nrow(meuse.grid)),
@@ -247,8 +246,8 @@ frame <-buildFrameSpatial(df = df,
                           lat = "lat",
                           domainvalue = "dom")
 cv <- as.data.frame(list(DOM = rep("DOM1",1),
-                          CV1 = rep(0.05,1),
-                          domainvalue = c(1:1) ))
+                         CV1 = rep(0.05,1),
+                         domainvalue = c(1:1) ))
 solution <- optimStrata(method = "spatial",
                         errors = cv, 
                         framesamp = frame, 
