@@ -52,6 +52,10 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
       cens <- buildStrataDF(framecens,model=model,progress = FALSE)
       strcens <- TRUE
     }
+    if (is.null(framecens)) {
+      cens <- NULL
+      strcens <- FALSE
+    }
     if (!is.na(nstrat)) {
       initialStrata <- nStrata
       addStrataFactor <- 0.0
