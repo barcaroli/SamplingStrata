@@ -2,14 +2,19 @@
 \Rdversion{1.5}
 \alias{optimStrata}
 \title{
-Best stratification of a sampling frame for multipurpose surveys 
+Optimization of the stratification of a sampling frame given a sample survey 
 }
 \description{
-Wrapper function to call the different optimization functions: (i) optimizeStrata (method = "atomic"); (ii) optimizeStrata2 (method = "continuous"); (iii) optimizeStrata (method = "spatial").
+Wrapper function to call the different optimization functions: (i) optimizeStrata (method = "atomic"); (ii) optimizeStrata2 (method = "continuous"); (iii) optimizeStrataSpatial (method = "spatial").
+For continuity reasons, these functions are still available to be used standalone.
 }
 \usage{
 optimStrata <- function(method=c("atomic","continuous","spatial"),
                         # common parameters
+                        framesamp,
+                        framecens=NULL,
+                        model=NULL,
+                        nStrata=5,
                         errors,
                         alldomains=TRUE,
                         dom=NULL,
@@ -24,16 +29,6 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         showPlot=TRUE,
                         parallel=TRUE,
                         cores,
-                        # parameters only for method = "atomic"
-                        strata=NULL,
-                        initialStrata=NA,
-                        addStrataFactor=NA,
-						            cens=NULL,
-                        # parameters only for method = "continuous" or "spatial"
-                        framesamp=NULL,
-                        framecens=NULL,
-                        model=NULL,
-                        nStrata=5,
                         # parameters only for method = "spatial"
                         fitting=NA,
                         range=NA,
@@ -99,22 +94,6 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
   If the analysis is run in parallel, how many cores should be used.
   If not specified n-1 of total available cores are used OR if number of domains < (n-1) cores, then number of cores equal to number of domains are used.
 }
-  \item{strata}{
-  This is the (mandatory) dataframe containing the information related to "atomic" strata, i.e. the strata obtained by 
-  the Cartesian product of all auxiliary variables X's. Information concerns the identifiability of strata
-  (values of X's) and variability of Y's (for each Y, mean and standard error in strata).
-}
-  \item{initialStrata}{
-  This is the initial limit on the number of strata in the different domains for each solution. Default is NA, and in this case it is set equal to the
-  number of atomic strata in each domain.
-}
-  \item{addStrataFactor}{
-  This parameter indicates the probability that at each mutation the number of strata may increase with 
-  respect to the current value. Default is 0.0.
-}
-  \item{cens}{
-  This the dataframe containing the takeall strata, those strata whose units must be selected in whatever sample. It has same structure than "strata" dataframe.
-}
   \item{framesamp}{
   This is the dataframe containing the information related to the sampling frame.
 }
@@ -122,7 +101,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
   This the dataframe containing the units to be selected in any case. It has same structure than "framesamp" dataframe.
 }
   \item{nStrata}{
-  Indicates the number of strata for each variable.
+  Indicates the number of strata to be obtained in the final solution.
 }
   \item{model}{
   In case the Y variables are not directly observed, but are estimated by means of other explicative variables, in order
@@ -144,11 +123,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 }
 
 \value{
-In case of method = "atomic" a list containing 
-(1) the vector of the solution, 
-(2) the optimal aggregated strata,
-
-In case of method = "continuous" or "spatial" a list containing 
+List containing 
 (1) the vector of the solution, 
 (2) the optimal aggregated strata,
 (3) the total sampling frame with the label of aggregated strata
