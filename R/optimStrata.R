@@ -62,6 +62,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
     }
     if (is.na(nStrata)) {
       initialStrata <- NA
+      addStrataFactor <- 0.0
     }
 	  solut <- optimizeStrata(
     	errors = errors, 
