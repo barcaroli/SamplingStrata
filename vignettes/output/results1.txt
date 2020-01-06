@@ -5,11 +5,10 @@ Optimal stratification with Genetic Algorithm
  *** Parameters ***
 ---------------------------
 Domain:  1
-Maximum number of strata:  79
+Maximum number of strata:  9
 Minimum number of units per stratum:  2
-Take-all strata (TRUE/FALSE):  TRUE
-number of take-all strata :  40
-number of sampling strata :  79
+Take-all strata (TRUE/FALSE):  FALSE
+number of sampling strata :  119
 Number of target variables:  4
 Number of domains:  1
 Number of GA iterations:  50
@@ -18,8 +17,8 @@ Mutation chance in GA generation:  NA
 Elitism rate in GA generation:  0.2
 Chance to add strata to maximum:  0
 Allocation with real numbers instead of integers:  TRUE
- *** Sample cost:  30.27774
- *** Number of strata:  8
- *** Sample cost:  30.27774
- *** Number of strata:  8
-...written output to C:/Users/UTENTE/Google Drive/Sampling/SamplingStrata 1.5/SamplingStrata/vignettes/output/outstrata1.txt
+ *** Sample cost:  18
+ *** Number of strata:  9
+ *** Sample cost:  18
+ *** Number of strata:  9
+...written output to C:/Users/Giulio/Google Drive/Sampling/SamplingStrata 1.5/SamplingStrata/vignettes/output/outstrata1.txt

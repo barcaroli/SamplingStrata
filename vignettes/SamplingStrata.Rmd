@@ -45,7 +45,7 @@ The methodology is fully described in @ballin:2013, and a complete illustration 
 a comparison with the *stratification* package, is in @barcarol:2013.
 Also a complete application in a case of network data is reported in @ballin:2016.
 The implementation of the genetic algorithm is based on a modification of the functions in the *genalg* package [see @willighagen:2005].
-In particular, the crossover operator ha been modified on the basis of the indications given by @oluing:2017.
+In particular, the crossover operator ha been modified on the basis of the indications given by @oluing:2019.
 
 # Procedural steps
 
@@ -428,7 +428,7 @@ head(solutionKmeans1)
 This solution can be given as argument to the parameter *suggestion* in the *optimizeStrata* function, together with the indication of which is the suitable number of strata to be obtained in each domain in the final solution, calculated as:
 
 ```{r, eval=TRUE, echo=TRUE, warning=FALSE}
-nstrat <- tapply(kmean$suggestions, kmean$domainvalue,
+nstrat <- tapply(solutionKmeans1$suggestions, solutionKmeans1$domainvalue,
                  FUN=function(x) length(unique(x)))
 nstrat
 ```
@@ -838,7 +838,7 @@ head(strata)
 We proceed with the optimization
 
 ```{r, eval = T}
-kmean <- KmeansSolution(strata,cv,model=model,maxclusters=10,showPlot=FALSE)
+kmean <- KmeansSolution(strata,cv,maxclusters=10,showPlot=FALSE)
 nstrat <- tapply(kmean$suggestions, kmean$domainvalue,
                  FUN=function(x) length(unique(x)))
 solution <- optimStrata(
@@ -912,7 +912,7 @@ Now the execution of the optimization step (for the domain 4) using *optimizeStr
 ```{r, eval = T}
 solution <- optimStrata (
   method = "continuous",
-  errors, 
+  errors = errors, 
   framesamp = framesamp,
   framecens = framecens, 
   strcens = TRUE, 
