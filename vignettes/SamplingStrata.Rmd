@@ -367,7 +367,7 @@ In the case of the Swiss municipalities, we choose the "*atomic*" method and mak
 solution <- optimStrata(
   method = "atomic",
 	errors = swisserrors, 
-	strata = swissframe,
+	framesamp = swissframe,
 	parallel = TRUE,
 	writeFiles = FALSE,
 	showPlot = FALSE)
