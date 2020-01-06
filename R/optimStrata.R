@@ -10,6 +10,10 @@
 
 optimStrata <- function(method=c("atomic","continuous","spatial"),
                         # common parameters
+                        framesamp,
+                        framecens=NULL,
+                        model=NULL,
+                        nStrata=c(5),
                         errors,
                         alldomains=TRUE,
                         dom=NULL,
@@ -24,16 +28,6 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         showPlot=TRUE,
                         parallel=TRUE,
                         cores=NA,
-                        # parameters only for optimizeStrata
-                        strata=NULL,
-                        initialStrata=NA,
-                        addStrataFactor=NA,
-						            cens=NULL,
-                        # parameters only for optimizeStrata2 and optimizeStrataSpatial
-                        framesamp=NULL,
-                        framecens=NULL,
-                        model=NULL,
-                        nStrata=5,
                         # parameters only for optimizeStrataSpatial
                         fitting=NA,
                         range=NA,
@@ -48,10 +42,21 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
   # Method 'atomic'
   if (method == "atomic") {
 	  if (is.null(errors)) stop("The 'precision constraints' (errors) dataframe is missing")
-    checkInput(errors, strata)
-	  if (!is.null(cens) & is.null(strcens)) stop("Takeall strata presence indicated (strcens=TRUE), but no related strata dataframe (cens) is given")
-	  if (is.na(addStrataFactor)) addStrataFactor <- 0.0
-    solution <- optimizeStrata(
+    if (is.null(framesamp)) stop("The 'sampling frame' (framesamp) dataframe is missing")
+    if (!is.null(framesamp)) checkInput(errors, sampframe=framesamp)
+    if (!is.null(framecens)) checkInput(errors, sampframe=framecens)
+#     checkInput(errors, strata)
+# 	  if (!is.null(cens) & is.null(strcens)) stop("Takeall strata presence indicated (strcens=TRUE), but no related strata dataframe (cens) is given")
+    strata <- buildStrataDF(framesamp,model=model,progress = FALSE)
+    if (!is.null(framecens)) {
+      cens <- buildStrataDF(framecens,model=model,progress = FALSE)
+      strcens <- TRUE
+    }
+    if (!is.na(nstrat)) {
+      initialStrata <- nStrata
+      addStrataFactor <- 0.0
+    }
+	  solut <- optimizeStrata(
     	errors = errors, 
     	strata = strata, 
     	cens = cens, 
@@ -72,21 +77,25 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
     	showPlot = showPlot, 
     	parallel = parallel,
     	cores = cores
-	)	
+	    )	
+    newstrata <- updateStrata(strata, solut)
+    framenew <- updateFrame(frame=framesamp,newstrata=newstrata)
+    solution <- list(framenew,aggr_strata=solut$aggr_strata)
   }
   # Method 'continuous'
   if (method == "continuous") {
 	  if (is.null(errors)) stop("The 'precision constraints' (errors) dataframe is missing")
-	  if (!is.null(strata)) stop("Strata dataframe is not required with this method")
-	  if (!is.na(initialStrata)) stop("Initial number of strata is not required with this method")
-	  if (!is.na(addStrataFactor)) stop("'addStrataFactor' is not required with this method")
-	  if (!is.null(cens)) stop("Takeall strata dataframe is not required with this method")
+	  # if (!is.null(strata)) stop("Strata dataframe is not required with this method")
+	  # if (!is.na(initialStrata)) stop("Initial number of strata is not required with this method")
+	  # if (!is.na(addStrataFactor)) stop("'addStrataFactor' is not required with this method")
+	  # if (!is.null(cens)) stop("Takeall strata dataframe is not required with this method")
+    if (is.null(framesamp)) stop("The 'sampling frame' (framesamp) dataframe is missing")
     checkInput(errors, sampframe=framesamp)
+    if (!is.null(framecens)) checkInput(errors, sampframe=framecens) 
     if (!is.null(framecens)) checkInput(errors, sampframe=framecens)
 	  if (!is.na(fitting)) stop("Fitting value(s) not required with this method")
 	  if (!is.na(range)) stop("Range value(s) not required with this method")
-	  if (!is.na(range)) stop("Kappa value not required with this method")
-	  if (!is.null(framecens)) checkInput(errors, sampframe=framecens) 
+	  if (!is.na(kappa)) stop("Kappa value not required with this method")
 	  solution <- optimizeStrata2(
       errors = errors, 
       framesamp = framesamp,
@@ -113,6 +122,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
   # Method 'spatial'
   if (method=="spatial") {
     checkInput(errors, sampframe=framesamp)
+    if (!is.null(framecens)) checkInput(errors, sampframe=framecens)
 	  nvarY <- length(grep("Y", names(framesamp)))
 	  if (is.na(fitting)) stop("Fitting values of spatial models must be given")
 	  if (is.na(range)) stop("Range values of spatial models must be given")
