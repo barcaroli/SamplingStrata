@@ -207,8 +207,12 @@ number of atomic strata divided by 2.</p></td>
 
 <span class='co'># Solution with kmean clustering </span>
 <span class='no'>kmean</span> <span class='kw'>&lt;-</span> <span class='fu'>KmeansSolution2</span>(<span class='no'>frame</span>,<span class='kw'>model</span><span class='kw'>=</span><span class='kw'>NULL</span>,<span class='kw'>errors</span><span class='kw'>=</span><span class='no'>cv</span>,<span class='kw'>nstrata</span><span class='kw'>=</span><span class='fl'>NA</span>,<span class='kw'>maxclusters</span><span class='kw'>=</span><span class='fl'>4</span>)
+<span class='co'># number of strata to be obtained in each domain in final solution	</span>
+<span class='no'>nstrat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tapply'>tapply</a></span>(<span class='no'>solutionKmean</span>$<span class='no'>suggestions</span>,
+                 <span class='no'>solutionKmean</span>$<span class='no'>domainvalue</span>,
+                 <span class='kw'>FUN</span><span class='kw'>=</span><span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>x</span>)))
 <span class='co'># Prepare suggestion for optimization</span>
-<span class='no'>sugg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSuggestion.html'>prepareSuggestion</a></span>(<span class='no'>kmean</span>,<span class='no'>frame</span>)
+<span class='no'>sugg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSuggestion.html'>prepareSuggestion</a></span>(<span class='no'>kmean</span>,<span class='no'>frame</span>,<span class='no'>nstrat</span>)
 <span class='co'># Optimization</span>
 <span class='co'># Attention: number of strata must be the same than in kmeans</span>
 <span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimStrata.html'>optimStrata</a></span> (
@@ -217,7 +221,7 @@ number of atomic strata divided by 2.</p></td>
   <span class='kw'>framesamp</span><span class='kw'>=</span><span class='no'>frame</span>,
   <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>50</span>,
   <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='kw'>nStrata</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>nStrata</span> <span class='kw'>=</span> <span class='no'>nstrat</span>,
   <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='no'>sugg</span>,
   <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>showPlot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -240,7 +244,7 @@ number of atomic strata divided by 2.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Giulio Barcaroli, Marco Ballin, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
+  <p>Developed by Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
 </div>
 
 <div class="pkgdown">

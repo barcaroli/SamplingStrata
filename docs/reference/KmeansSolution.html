@@ -186,11 +186,17 @@ number of atomic strata divided by 2.</p></td>
                                                                 <span class='kw'>nstrata</span><span class='kw'>=</span><span class='fl'>NA</span>,
                                                                 <span class='kw'>showPlot</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 
+<span class='co'># number of strata to be obtained in each domain in final solution								</span>
+<span class='no'>nstrat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tapply'>tapply</a></span>(<span class='no'>solutionKmean</span>$<span class='no'>suggestions</span>,
+                 <span class='no'>solutionKmean</span>$<span class='no'>domainvalue</span>,
+                 <span class='kw'>FUN</span><span class='kw'>=</span><span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>x</span>)))
+
 <span class='co'># optimisation of sampling strata</span>
 <span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimStrata.html'>optimStrata</a></span> (
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"atomic"</span>,
   <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>swisserrors</span>,
   <span class='kw'>strata</span> <span class='kw'>=</span> <span class='no'>swissstrata</span>,
+  <span class='kw'>nStrata</span> <span class='kw'>=</span> <span class='no'>nstrat</span>,
   <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='no'>solutionKmean</span>
 )
 <span class='co'># }</span></pre>
@@ -210,7 +216,7 @@ number of atomic strata divided by 2.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Giulio Barcaroli, Marco Ballin, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
+  <p>Developed by Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
 </div>
 
 <div class="pkgdown">
