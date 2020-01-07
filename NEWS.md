@@ -5,48 +5,48 @@
 
 ## Major changes
 
-  - A new ‘optimStrata’ function is available: this function is a
+  - A new *optimStrata* function is available: this function is a
     wrapper that allows to execute the three different optimization
     functions: (i) optimizeStrata (method = “atomic”); (ii)
     optimizeStrata (method = “continuous”); (iii) optimizeStrata (method
     = “spatial”).
 
-  - A new ‘optimizeStrataSpatial’ function is available: this function
+  - A new *optimizeStrataSpatial* function is available: this function
     optimizes the frame stratification taking into account also spatial
     correlation of frame units in a territorial context. As for
-    ‘optimizeStrata2’, this function can be used only on continuous
+    *optimizeStrata2*, this function can be used only on continuous
     stratification variables.
 
-  - A new ‘kMeansSolutionSpatial’ function has been added: this function
-    is the same than ‘KmeansSolution’, but operates in the case of
+  - A new *kMeansSolutionSpatial* function has been added: this function
+    is the same than *KmeansSolution*, but operates in the case of
     optimization with only continuous stratification variables and has
-    to be used only in conjunction with ‘optimizeStrataSpatial’.
+    to be used only in conjunction with *optimizeStrataSpatial*.
 
-  - A new ‘KmeansSolution2’ function has been added: this function is
-    the same than ‘KmeansSolution’, but operates in the case of
+  - A new *KmeansSolution2* function has been added: this function is
+    the same than *KmeansSolution*, but operates in the case of
     optimization with only continuous stratification variables and has
-    to be used only in conjunction with ‘optimizeStrata2’.
+    to be used only in conjunction with *optimizeStrata2*.
 
-  - A new ‘prepareSuggestion’ function has been added: this function
-    operates on the result of ‘kMeanSolution2’ or ‘kMeanSolutionSpatial’
+  - A new *prepareSuggestion* function has been added: this function
+    operates on the result of *kMeanSolution2* or *kMeanSolutionSpatial*
     order to prepare the suggestions for the optimization with only
     continuous stratification variables.
 
-  - A new ‘computeGamma’ function has been added: this function allows
+  - A new *computeGamma* function has been added: this function allows
     to calculate a heteroscedasticity index, to be passed to
-    optimization step as a ‘model’ parameter in order to correctly
+    optimization step as a *model* parameter in order to correctly
     evaluate the variance in the strata.
 
 # SamplingStrata 1.4-1
 
 ## Major changes
 
-  - A new ‘summaryStrata’ function has been added, enabling to get
+  - A new *summaryStrata* function has been added, enabling to get
     structured information regarding the strata produced by the
-    ‘optimizeStrata2’ function (operating on only continuous
+    *optimizeStrata2* function (operating on only continuous
     stratification variables).
 
-  - A new ‘assignStrataLabel’ function has been added, enabling to
+  - A new *assignStrataLabel* function has been added, enabling to
     assign the optimized strata label to new units to be added in the
     sampling frame.
 
@@ -56,8 +56,8 @@
 
 ## Major changes
 
-  - A new function ‘optimizeStrata2’ is available. This function
-    performs the same task than ‘optimizeStrata’, but with a different
+  - A new function *optimizeStrata2* is available. This function
+    performs the same task than *optimizeStrata*, but with a different
     Genetic Algorithm, operating on real values genome, instead of an
     integer one. This pemits to operate directly on the boundaries of
     the strata, instead of aggregating the initial atomic strata. In
@@ -66,9 +66,9 @@
     stratification variables, that are required to be all continuous
     (though categorical ordinal could be handled).
 
-  - A new function ‘expected\_CV’ has been added to calculate CV’s on
+  - A new function *expected\_CV* has been added to calculate CVs on
     target variables in different domains that may be expected from a
-    given solution, output of the ‘optimizeStrata’ execution.
+    given solution, output of the *optimizeStrata* execution.
 
   - Fixed a bug in the optimization step when considering also take-all
     strata
@@ -78,21 +78,21 @@
 ## New functions
 
   - The optimization of population frame is run in parallel if different
-    domains are considered. To this end, the parameter ‘parallel’ can be
-    set to TRUE in the ‘optimizeStrata’ function. If not specified, n-1
+    domains are considered. To this end, the parameter *parallel* can be
+    set to TRUE in the *optimizeStrata* function. If not specified, n-1
     of total available cores are used OR if number of domains \< (n-1)
     cores, then number of cores equal to number of domains are used.
 
-  - A new function ‘KmeansSolution’ produces an initial solution using
+  - A new function *KmeansSolution* produces an initial solution using
     the kmeans algorithm by clustering atomic strata considering the
     values of the means of target variables in them. Also, if the
-    parameter ‘nstrata’ is not indicated, the optimal number of clusters
+    parameter *nstrata* is not indicated, the optimal number of clusters
     is determined inside each domain, and the overall solution is
     obtained by concatenating optimal clusters obtained in domains. By
     indicating this solution as a suggestion to the optimization step,
     this may greatly speed the convergence to the optimal solution.
 
-  - A new function ‘selectSampleSystematic’ has been added. It allows to
+  - A new function *selectSampleSystematic* has been added. It allows to
     select a stratified sample with the systematic method, that is a
     selection that begins selecting the first unit by an initial
     randomly chosen starting point, and proceeding in selecting other
@@ -105,7 +105,7 @@
     model linking a proxy variable whose values are available for all
     units in the sampling frame, with the target variable whose values
     are not available. In this implementation only linear model can be
-    chosen. When calling the ‘buildStrataDF’ function, a dataframe is
+    chosen. When calling the *buildStrataDF* function, a dataframe is
     given, containing three parameters (beta, sigma2 and gamma) for each
     couple target / proxy. On the basis of these parameters, means and
     standard deviations in sampling strata are calculated accordingly to
@@ -125,19 +125,19 @@
     completely at random). In many cases this can greatly speed the
     convergence to an optimal solution.
 
-  - A new function ‘adjustSize’ has been added. It allows to adjust the
+  - A new function *adjustSize* has been added. It allows to adjust the
     sample size and related allocation in strata on the basis of an
     externally indicated overall sample size. The adjustment of the
     sample size is perfomed by increasing or decreasing it
     proportionally in each optimized stratum.
 
-  - A new function ‘buildFrameDF’ has been added. It allows to create a
-    ‘sampling frame’ dataframe by indicating the dataset in which the
+  - A new function *buildFrameDF* has been added. It allows to create a
+    *sampling frame* dataframe by indicating the dataset in which the
     information on all the units are contained, the identifier, the X
     variables, the Y variable and the variable that indicates the
     domains of interest.
 
-  - In function ‘optimizeStrata’ now the ‘initialStrata’ parameter is a
+  - In function *optimizeStrata* now the *initialStrata* parameter is a
     vector, whose length is equal to the number of strata in the
     different domains.
 
@@ -147,11 +147,11 @@
 
 ## Major changes
 
-  - Function ‘memoise’ from the same package (now required) is applied
+  - Function *memoise* from the same package (now required) is applied
     before each evaluation in order to save processing time. This may
     largely increase the efficiency of the algorithm.
 
-  - A ‘recode’ function is applied on every generated solution in order
+  - A *recode* function is applied on every generated solution in order
     to recode a genotype of n genes with k\<=n distinct alleles 1, 2, …,
     k in such a way that the distinct alleles of the recoded genotype
     appear in the natural order 1, 2, …, k. This avoids to consider as
@@ -197,9 +197,9 @@
 
 ## Major changes
 
-  - Two new functions: (i) ‘evalSolution’, to evaluate the found
+  - Two new functions: (i) *evalSolution*, to evaluate the found
     solution in terms of expected target variables precision and bias
     obtainable by samples drawn from the otpimized frame; (ii)
-    ‘tuneParameters’, to determine the best combination of values to
+    *tuneParameters*, to determine the best combination of values to
     assign to the parameters necessary for the execution of the genetic
     algorithm used for the optimization of the frame stratification.
