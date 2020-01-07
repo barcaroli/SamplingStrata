@@ -87,8 +87,12 @@ cv
 
 # Solution with kmean clustering 
 kmean <- KmeansSolution2(frame,model=NULL,errors=cv,nstrata=NA,maxclusters=4)
+# number of strata to be obtained in each domain in final solution	
+nstrat <- tapply(solutionKmean$suggestions,
+                 solutionKmean$domainvalue,
+                 FUN=function(x) length(unique(x)))
 # Prepare suggestion for optimization
-sugg <- prepareSuggestion(kmean,frame)
+sugg <- prepareSuggestion(kmean,frame,nstrat)
 # Optimization
 # Attention: number of strata must be the same than in kmeans
 solution <- optimStrata (
@@ -97,7 +101,7 @@ solution <- optimStrata (
   framesamp=frame,
   iter = 50,
   pops = 20,
-  nStrata = 4,
+  nStrata = nstrat,
   suggestions = sugg,
   writeFiles = FALSE,
   showPlot = FALSE,

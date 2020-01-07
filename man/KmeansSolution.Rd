@@ -69,11 +69,17 @@ solutionKmean <- KmeansSolution(strata=swissstrata,
 								nstrata=NA,
 								showPlot=TRUE)
 
+# number of strata to be obtained in each domain in final solution								
+nstrat <- tapply(solutionKmean$suggestions,
+                 solutionKmean$domainvalue,
+                 FUN=function(x) length(unique(x)))
+
 # optimisation of sampling strata
 solution <- optimStrata ( 
   method = "atomic",
   errors = swisserrors, 
-  strata = swissstrata, 
+  strata = swissstrata,
+  nStrata = nstrat,
   suggestions = solutionKmean
 )
 }
