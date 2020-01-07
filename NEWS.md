@@ -7,9 +7,9 @@
 
   - A new *optimStrata* function is available: this function is a
     wrapper that allows to execute the three different optimization
-    functions: (i) optimizeStrata (method = “atomic”); (ii)
-    optimizeStrata (method = “continuous”); (iii) optimizeStrata (method
-    = “spatial”).
+    functions: (i) optimizeStrata (method = *atomic*); (ii)
+    optimizeStrata (method = *continuous*); (iii) optimizeStrata (method
+    = *spatial*).
 
   - A new *optimizeStrataSpatial* function is available: this function
     optimizes the frame stratification taking into account also spatial
@@ -101,7 +101,7 @@
     a particular ordering of the selection frame, where the ordering
     variable(s) can be considered as additional stratum variable(s).
 
-  - It is now possible to handle “anticipated variance” by introducing a
+  - It is now possible to handle *anticipated variance* by introducing a
     model linking a proxy variable whose values are available for all
     units in the sampling frame, with the target variable whose values
     are not available. In this implementation only linear model can be
@@ -116,7 +116,7 @@
 ## Major changes
 
   - The crossover function in the genetic algorithm has been modified by
-    considering the “grouping” version of this algorithm: instead of
+    considering the *grouping* version of this algorithm: instead of
     mixing chromosomes in an indifferentiate way, groups of them in one
     parent (representing already aggregated strata) are attributed to
     the other parent when generating a child, preserving their
@@ -183,7 +183,7 @@
 
 ## Major changes
 
-  - The object returned by function “optimizeStrata” is no more a
+  - The object returned by function *optimizeStrata* is no more a
     dataframe but a list: (i) the first element of the list is the
     solution vector
     (solution\(indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution\)aggr\_strata).
@@ -191,7 +191,7 @@
   - In all the functions that previously produced .csv files and .pdf
     plots in the working directory, as a default this is no more the
     current behaviour. To write these files, it is now necessary to set
-    the “writeFiles” flag to TRUE.
+    the *writeFiles* flag to TRUE.
 
 # SamplingStrata 1.0
 

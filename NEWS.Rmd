@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 ## Major changes
 
-* A new *optimStrata* function is available: this function is a wrapper that allows to execute the three different optimization functions: (i) optimizeStrata (method = "atomic"); (ii) optimizeStrata (method = "continuous"); (iii)         optimizeStrata (method = "spatial").	
+* A new *optimStrata* function is available: this function is a wrapper that allows to execute the three different optimization functions: (i) optimizeStrata (method = *atomic*); (ii) optimizeStrata (method = *continuous*); (iii)         optimizeStrata (method = *spatial*).	
 
 * A new *optimizeStrataSpatial* function is available: this function optimizes the frame stratification taking into account also spatial correlation of frame units in a territorial context. As for *optimizeStrata2*, this function can be used only on continuous stratification variables.	
   
@@ -60,14 +60,14 @@ knitr::opts_chunk$set(
 
 * A new function *selectSampleSystematic* has been added. It allows to select a stratified sample with the systematic method, that is a selection that begins selecting the first unit by an initial randomly chosen  starting point, and proceeding in selecting other units by adding an interval that is the inverse of the sampling rate in the stratum. This selection method can be useful if associated to a particular ordering of the selection frame, where the ordering variable(s) can be considered as additional stratum variable(s). 
   
-* It is now possible to handle "anticipated variance" by introducing a model linking a proxy variable whose values are available for all units in the sampling frame, with the target variable whose values are not available. In this implementation only linear model can be chosen. When calling the *buildStrataDF* function, a dataframe is given, containing three parameters (beta, sigma2 and gamma) for each couple target / proxy. On the basis of these parameters, means and standard deviations in sampling strata are calculated accordingly to given formulas.
+* It is now possible to handle *anticipated variance* by introducing a model linking a proxy variable whose values are available for all units in the sampling frame, with the target variable whose values are not available. In this implementation only linear model can be chosen. When calling the *buildStrataDF* function, a dataframe is given, containing three parameters (beta, sigma2 and gamma) for each couple target / proxy. On the basis of these parameters, means and standard deviations in sampling strata are calculated accordingly to given formulas.
 
 
 # SamplingStrata 1.2
 
 ## Major changes
 
-* The crossover function in the genetic algorithm has been modified by considering the "grouping" version of this algorithm: instead of mixing chromosomes in an indifferentiate way, groups of them in one parent (representing already aggregated strata) are attributed to the other parent when generating a child, preserving their composition. Moreover, parents are selected with a probability proportional to their fitness (in the previous version selection was completely at random). In many cases this can greatly speed the convergence to an optimal solution.
+* The crossover function in the genetic algorithm has been modified by considering the *grouping* version of this algorithm: instead of mixing chromosomes in an indifferentiate way, groups of them in one parent (representing already aggregated strata) are attributed to the other parent when generating a child, preserving their composition. Moreover, parents are selected with a probability proportional to their fitness (in the previous version selection was completely at random). In many cases this can greatly speed the convergence to an optimal solution.
 
 * A new function *adjustSize* has been added. It allows to adjust the sample size and related allocation in strata on the basis of an externally indicated overall sample size. The adjustment of the sample size is perfomed by increasing or decreasing it proportionally in each optimized stratum.
   
@@ -109,9 +109,9 @@ knitr::opts_chunk$set(
 
 ## Major changes
 
-* The object returned by function "optimizeStrata" is no more a dataframe but a list: (i) the first element of the list is the solution vector (solution$indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution$aggr_strata).
+* The object returned by function *optimizeStrata* is no more a dataframe but a list: (i) the first element of the list is the solution vector (solution$indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution$aggr_strata).
 
-* In all the functions that previously produced .csv files and .pdf plots in the working directory, as a default this is no more the current behaviour. To write these files, it is now necessary to set the "writeFiles" flag to TRUE.
+* In all the functions that previously produced .csv files and .pdf plots in the working directory, as a default this is no more the current behaviour. To write these files, it is now necessary to set the *writeFiles* flag to TRUE.
 
 
 # SamplingStrata 1.0
