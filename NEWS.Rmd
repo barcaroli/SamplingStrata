@@ -15,7 +15,9 @@ knitr::opts_chunk$set(
 
 # Changes in Version 1.5
 
-  o A new 'optimStrata' function is available: this function is a wrapper that allows to execute the three different         optimization functions: (i) optimizeStrata (method = "atomic"); (ii) optimizeStrata (method = "continuous"); (iii)         optimizeStrata (method = "spatial").	
+## New functions
+
+  o A new 'optimStrata' function is available: this function is a wrapper that allows to execute the three different optimization functions: (i) optimizeStrata (method = "atomic"); (ii) optimizeStrata (method = "continuous"); (iii)         optimizeStrata (method = "spatial").	
 
   o A new 'optimizeStrataSpatial' function is available: this function optimizes the frame stratification
   taking into account also spatial correlation of frame units in a territorial context. As for 'optimizeStrata2',
@@ -38,6 +40,8 @@ knitr::opts_chunk$set(
 
 # Changes in Version 1.4-1
 
+## New functions
+
   o A new 'summaryStrata' function has been added, enabling to get structured information regarding 
   the strata produced by the 'optimizeStrata2' function (operating on only continuous stratification 
   variables)
@@ -48,6 +52,8 @@ knitr::opts_chunk$set(
   o Fixed a bug in the optimization step for continuous variables
 
 # Changes in Version 1.4
+
+## New functions
 
 o A new function 'optimizeStrata2' is available. This function performs the same task 
   than 'optimizeStrata', but with a different Genetic Algorithm, operating on real values 
@@ -67,6 +73,8 @@ o A new function 'optimizeStrata2' is available. This function performs the same
 
 
 # Changes in Version 1.3
+
+## New functions
 
   o The optimization of population frame is run in parallel if different
   domains are considered. To this end, the parameter 'parallel' can be set
@@ -105,6 +113,8 @@ o A new function 'optimizeStrata2' is available. This function performs the same
 
 # Changes in Version 1.2
 
+## New functions and changes
+
   o The crossover function in the genetic algorithm has been modified by
   considering the "grouping" version of this algorithm: instead of mixing
   chromosomes in an indifferentiate way, groups of them in one parent
@@ -134,6 +144,8 @@ o A new function 'optimizeStrata2' is available. This function performs the same
   
 # Changes in Version 1.1
 
+## New functions and changes
+
   o Function 'memoise' from the same package (now required) is applied
   before each evaluation in order to save processing time. This may largely
   increase the efficiency of the algorithm
@@ -148,9 +160,11 @@ o A new function 'optimizeStrata2' is available. This function performs the same
 
 # Changes in Version 1.0-4
 
-  o Bug fix for old releases
+## Bug fix for old releases
 
 Changes in Version 1.0-3
+
+## New functions and changes
 
   o Modified the output to the console or to the file of results: instead
   of all the solutions, only the optimal value for each generation is
@@ -164,12 +178,12 @@ Changes in Version 1.0-3
 
 # Changes in Version 1.0-2
 
-  o Bug fix for old releases.
+## Bug fix for old releases.
 
 
 # Changes in Version 1.0-1
 
-  o Bug fix for old releases.
+## Bug fix and changes
 
   o The object returned by function "optimizeStrata" is no more a dataframe
   but a list:
@@ -185,9 +199,9 @@ Changes in Version 1.0-3
 
 # Changes in Version 1.0
 
-  o Bug fix for old releases.
+## New functions and changes
 
-  o Two new functions:
+o Two new functions:
     * "evalSolution", to evaluate the found solution in terms of expected
     target variables precision and bias obtainable by samples drawn from
     the otpimized frame;
@@ -195,7 +209,7 @@ Changes in Version 1.0-3
     assign to the parameters necessary for the execution of the genetic
     algorithm used for the optimization of the frame stratification.
 
-  o A demonstration on the use of  the "tuneParameters" function is in the
+o A demonstration on the use of  the "tuneParameters" function is in the
   vignette "tuneParameters.pdf" contained in the \inst\doc folder.
 
  
