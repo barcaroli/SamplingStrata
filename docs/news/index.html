@@ -106,12 +106,168 @@
       
     </div>
 
+    <div id="samplingstrata-15" class="section level1">
+<h1 class="page-header">
+<a href="#samplingstrata-15" class="anchor"></a>SamplingStrata 1.5<small> Unreleased </small>
+</h1>
+<div id="major-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#major-changes" class="anchor"></a>Major changes</h2>
+<ul>
+<li><p>A new ‘optimStrata’ function is available: this function is a wrapper that allows to execute the three different optimization functions: (i) optimizeStrata (method = “atomic”); (ii) optimizeStrata (method = “continuous”); (iii) optimizeStrata (method = “spatial”).</p></li>
+<li><p>A new ‘optimizeStrataSpatial’ function is available: this function optimizes the frame stratification taking into account also spatial correlation of frame units in a territorial context. As for ‘optimizeStrata2’, this function can be used only on continuous stratification variables.</p></li>
+<li><p>A new ‘kMeansSolutionSpatial’ function has been added: this function is the same than ‘KmeansSolution’, but operates in the case of optimization with only continuous stratification variables and has to be used only in conjunction with ‘optimizeStrataSpatial’.</p></li>
+<li><p>A new ‘KmeansSolution2’ function has been added: this function is the same than ‘KmeansSolution’, but operates in the case of optimization with only continuous stratification variables and has to be used only in conjunction with ‘optimizeStrata2’.</p></li>
+<li><p>A new ‘prepareSuggestion’ function has been added: this function operates on the result of ‘kMeanSolution2’ or ‘kMeanSolutionSpatial’ order to prepare the suggestions for the optimization with only continuous stratification variables.</p></li>
+<li><p>A new ‘computeGamma’ function has been added: this function allows to calculate a heteroscedasticity index, to be passed to optimization step as a ‘model’ parameter in order to correctly evaluate the variance in the strata.</p></li>
+</ul>
+</div>
+</div>
+    <div id="samplingstrata-14-1" class="section level1">
+<h1 class="page-header">
+<a href="#samplingstrata-14-1" class="anchor"></a>SamplingStrata 1.4-1<small> 2019-04-22 </small>
+</h1>
+<div id="major-changes-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#major-changes-1" class="anchor"></a>Major changes</h2>
+<ul>
+<li><p>A new ‘summaryStrata’ function has been added, enabling to get structured information regarding the strata produced by the ‘optimizeStrata2’ function (operating on only continuous stratification variables).</p></li>
+<li><p>A new ‘assignStrataLabel’ function has been added, enabling to assign the optimized strata label to new units to be added in the sampling frame.</p></li>
+<li><p>Fixed a bug in the optimization step for continuous variables</p></li>
+</ul>
+</div>
+</div>
+    <div id="samplingstrata-14" class="section level1">
+<h1 class="page-header">
+<a href="#samplingstrata-14" class="anchor"></a>SamplingStrata 1.4<small> 2019-01-02 </small>
+</h1>
+<div id="major-changes-2" class="section level2">
+<h2 class="hasAnchor">
+<a href="#major-changes-2" class="anchor"></a>Major changes</h2>
+<ul>
+<li><p>A new function ‘optimizeStrata2’ is available. This function performs the same task than ‘optimizeStrata’, but with a different Genetic Algorithm, operating on real values genome, instead of an integer one. This pemits to operate directly on the boundaries of the strata, instead of aggregating the initial atomic strata. In some situations (limited size of sampling frame) this new function is much more efficient. The limitation is in the nature of the stratification variables, that are required to be all continuous (though categorical ordinal could be handled).</p></li>
+<li><p>A new function ‘expected_CV’ has been added to calculate CV’s on target variables in different domains that may be expected from a given solution, output of the ‘optimizeStrata’ execution.</p></li>
+<li><p>Fixed a bug in the optimization step when considering also take-all strata</p></li>
+</ul>
+</div>
+</div>
+    <div id="samplingstrata-13" class="section level1">
+<h1 class="page-header">
+<a href="#samplingstrata-13" class="anchor"></a>SamplingStrata 1.3<small> 2018-10-07 </small>
+</h1>
+<div id="new-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-functions" class="anchor"></a>New functions</h2>
+<ul>
+<li><p>The optimization of population frame is run in parallel if different domains are considered. To this end, the parameter ‘parallel’ can be set to TRUE in the ‘optimizeStrata’ function. If not specified, n-1 of total available cores are used OR if number of domains &lt; (n-1) cores, then number of cores equal to number of domains are used.</p></li>
+<li><p>A new function ‘KmeansSolution’ produces an initial solution using the kmeans algorithm by clustering atomic strata considering the values of the means of target variables in them. Also, if the parameter ‘nstrata’ is not indicated, the optimal number of clusters is determined inside each domain, and the overall solution is obtained by concatenating optimal clusters obtained in domains. By indicating this solution as a suggestion to the optimization step, this may greatly speed the convergence to the optimal solution.</p></li>
+<li><p>A new function ‘selectSampleSystematic’ has been added. It allows to select a stratified sample with the systematic method, that is a selection that begins selecting the first unit by an initial randomly chosen starting point, and proceeding in selecting other units by adding an interval that is the inverse of the sampling rate in the stratum. This selection method can be useful if associated to a particular ordering of the selection frame, where the ordering variable(s) can be considered as additional stratum variable(s).</p></li>
+<li><p>It is now possible to handle “anticipated variance” by introducing a model linking a proxy variable whose values are available for all units in the sampling frame, with the target variable whose values are not available. In this implementation only linear model can be chosen. When calling the ‘buildStrataDF’ function, a dataframe is given, containing three parameters (beta, sigma2 and gamma) for each couple target / proxy. On the basis of these parameters, means and standard deviations in sampling strata are calculated accordingly to given formulas.</p></li>
+</ul>
+</div>
+</div>
+    <div id="samplingstrata-12" class="section level1">
+<h1 class="page-header">
+<a href="#samplingstrata-12" class="anchor"></a>SamplingStrata 1.2<small> 2018-02-18 </small>
+</h1>
+<div id="major-changes-3" class="section level2">
+<h2 class="hasAnchor">
+<a href="#major-changes-3" class="anchor"></a>Major changes</h2>
+<ul>
+<li><p>The crossover function in the genetic algorithm has been modified by considering the “grouping” version of this algorithm: instead of mixing chromosomes in an indifferentiate way, groups of them in one parent (representing already aggregated strata) are attributed to the other parent when generating a child, preserving their composition. Moreover, parents are selected with a probability proportional to their fitness (in the previous version selection was completely at random). In many cases this can greatly speed the convergence to an optimal solution.</p></li>
+<li><p>A new function ‘adjustSize’ has been added. It allows to adjust the sample size and related allocation in strata on the basis of an externally indicated overall sample size. The adjustment of the sample size is perfomed by increasing or decreasing it proportionally in each optimized stratum.</p></li>
+<li><p>A new function ‘buildFrameDF’ has been added. It allows to create a ‘sampling frame’ dataframe by indicating the dataset in which the information on all the units are contained, the identifier, the X variables, the Y variable and the variable that indicates the domains of interest.</p></li>
+<li><p>In function ‘optimizeStrata’ now the ‘initialStrata’ parameter is a vector, whose length is equal to the number of strata in the different domains.</p></li>
+<li><p>All outputs are written to an .subdirectory.</p></li>
+</ul>
+</div>
+</div>
+    <div id="samplingstrata-11" class="section level1">
+<h1 class="page-header">
+<a href="#samplingstrata-11" class="anchor"></a>SamplingStrata 1.1<small> 2016-01-13 </small>
+</h1>
+<div id="major-changes-4" class="section level2">
+<h2 class="hasAnchor">
+<a href="#major-changes-4" class="anchor"></a>Major changes</h2>
+<ul>
+<li><p>Function ‘memoise’ from the same package (now required) is applied before each evaluation in order to save processing time. This may largely increase the efficiency of the algorithm.</p></li>
+<li><p>A ‘recode’ function is applied on every generated solution in order to recode a genotype of n genes with k&lt;=n distinct alleles 1, 2, …, k in such a way that the distinct alleles of the recoded genotype appear in the natural order 1, 2, …, k. This avoids to consider as distinct two solutions that are equivalent but make use of a different coding.</p></li>
+</ul>
+</div>
+</div>
+    <div id="samplingstrata-10-4" class="section level1">
+<h1 class="page-header">
+<a href="#samplingstrata-10-4" class="anchor"></a>SamplingStrata 1.0-4<small> 2015-08-25 </small>
+</h1>
+<div id="bug-fix-for-old-releases" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fix-for-old-releases" class="anchor"></a>Bug fix for old releases</h2>
+</div>
+</div>
+    <div id="samplingstrata-10-3" class="section level1">
+<h1 class="page-header">
+<a href="#samplingstrata-10-3" class="anchor"></a>SamplingStrata 1.0-3<small> 2014-10-21 </small>
+</h1>
+<div id="new-functions-and-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-functions-and-changes" class="anchor"></a>New functions and changes</h2>
+<ul>
+<li><p>Modified the output to the console or to the file of results: of all the solutions, only the optimal value for each generation is visualised.</p></li>
+<li><p>Now the visualisation of the trend in the optimal and mean values is optional: the plot can be avoided by setting showPlot = FALSE when calling optimizeStrata. It can be advisable when the number of iterations is very high.</p></li>
+</ul>
+</div>
+</div>
+    <div id="samplingstrata-10-2" class="section level1">
+<h1 class="page-header">
+<a href="#samplingstrata-10-2" class="anchor"></a>SamplingStrata 1.0-2<small> 2014-03-04 </small>
+</h1>
+<div id="bug-fix-for-old-releases-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fix-for-old-releases-1" class="anchor"></a>Bug fix for old releases.</h2>
+</div>
+</div>
+    <div id="samplingstrata-10-1" class="section level1">
+<h1 class="page-header">
+<a href="#samplingstrata-10-1" class="anchor"></a>SamplingStrata 1.0-1<small> 2013-01-16 </small>
+</h1>
+<div id="major-changes-5" class="section level2">
+<h2 class="hasAnchor">
+<a href="#major-changes-5" class="anchor"></a>Major changes</h2>
+<ul>
+<li><p>The object returned by function “optimizeStrata” is no more a dataframe but a list: (i) the first element of the list is the solution vector (solution(indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution)aggr_strata).</p></li>
+<li><p>In all the functions that previously produced .csv files and .pdf plots in the working directory, as a default this is no more the current behaviour. To write these files, it is now necessary to set the “writeFiles” flag to TRUE.</p></li>
+</ul>
+</div>
+</div>
+    <div id="samplingstrata-10" class="section level1">
+<h1 class="page-header">
+<a href="#samplingstrata-10" class="anchor"></a>SamplingStrata 1.0<small> 2012-12-04 </small>
+</h1>
+<div id="major-changes-6" class="section level2">
+<h2 class="hasAnchor">
+<a href="#major-changes-6" class="anchor"></a>Major changes</h2>
+<ul>
+<li>Two new functions: (i) ‘evalSolution’, to evaluate the found solution in terms of expected target variables precision and bias obtainable by samples drawn from the otpimized frame; (ii) ‘tuneParameters’, to determine the best combination of values to assign to the parameters necessary for the execution of the genetic algorithm used for the optimization of the frame stratification.</li>
+</ul>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#samplingstrata-15">1.5</a></li>
+        <li><a href="#samplingstrata-14-1">1.4-1</a></li>
+        <li><a href="#samplingstrata-14">1.4</a></li>
+        <li><a href="#samplingstrata-13">1.3</a></li>
+        <li><a href="#samplingstrata-12">1.2</a></li>
+        <li><a href="#samplingstrata-11">1.1</a></li>
+        <li><a href="#samplingstrata-10-4">1.0-4</a></li>
+        <li><a href="#samplingstrata-10-3">1.0-3</a></li>
+        <li><a href="#samplingstrata-10-2">1.0-2</a></li>
+        <li><a href="#samplingstrata-10-1">1.0-1</a></li>
+        <li><a href="#samplingstrata-10">1.0</a></li>
       </ul>
     </div>
   </div>
