@@ -25,8 +25,7 @@ Functions for the execution of the genetic algorithm are a modified
 version of the functions in the ‘genalg’ package.
 
 A complete illustration of all features and functions can be found at
-the
-link:
+the link:
 
 <https://barcaroli.github.io/SamplingStrata/articles/SamplingStrata.html>
 
@@ -43,7 +42,7 @@ devtools::install_github("barcaroli/SamplingStrata")
 
 This is a basic example which shows you how to solve a common problem:
 
-``` r
+```` r
 library(SamplingStrata)
 
 # Data ----------------------------------------------------------------------
@@ -78,29 +77,32 @@ head(swissframe)
 # 5     5   1 17  2  2  1  3  2   Lausanne 24291  44202  35421 21000           1
 # 6     6   4 16  3  3  1  3  3 Winterthur 18942  28958  27696 14887           4
 
+
+# Starting solution with kmeans clustering -------------------------------------
+kmean <- KmeansSolution(swissstrata, swisserrors, maxclusters = 10)
+# number of strata to be obtained in each domain in final solution  
+nstrat <- tapply(kmean$suggestions, kmean$domainvalue,
+                 FUN=function(x) length(unique(x)))
+nstrat
+# 1 2 3 4 5 6 7 
+# 9 9 7 6 7 7 8 
+
 # Optimisation step ------------------------------------------------------------
 solution <- optimStrata (
   method = "atomic",
-    errors = swisserrors,
-    strata = swissstrata,
-  showPlot = FALSE)
+  errors = swisserrors,
+  framesamp = swissframe,
+  nStrata = nstrat,
+  suggestions = kmean)
 
-# update sampling strata with new strata labels --------------------------------
-newstrata <- updateStrata(swissstrata, 
-                          solution, 
-                          writeFiles = FALSE)
+# optimized sampling strata with allocated units -------------------------------
+outstrata <- solution$aggr_strata
 
-# update sampling frame with new strata labels ---------------------------------
-framenew <- updateFrame(frame=swissframe,
-                        newstrata=newstrata,
-                        writeFile=FALSE)
+# sampling frame with optimized strata labels ----------------------------------
+framenew <- solution$framenew
 
 # evaluate the current solution ------------------------------------------------
-eval <- evalSolution(frame = framenew, 
-                     outstrata =solution$aggr_strata, 
-                     nsampl = 500, 
-                     cens = NULL, 
-                     writeFiles = FALSE)
+eval <- evalSolution(framenew, outstrata)
 eval$coeff_var
 #      CV1    CV2    CV3    CV4  dom
 # 1 0.0800 0.0789 0.0811 0.0817 DOM1
@@ -112,7 +114,13 @@ eval$coeff_var
 # 7 0.0680 0.0719 0.0719 0.0808 DOM7
 
 # Select a sample --------------------------------------------------------------
-s <- selectSample(frame = framenew, outstrata = solution$aggr_strata)
+s <- selectSample(framenew, outstrata)
+# *** Sample has been drawn successfully ***
+#   99  units have been selected from  50  strata
+# 
+# ==> There have been  6  take-all strata 
+# from which have been selected  7 units
+
 head(s)
 #   DOMAINVALUE STRATO      STRATUM PROGR REG X1 X2 X3 X4 X5 X6                   ID   Y1   Y2   Y3   Y4 LABEL   WEIGHTS        FPC
 # 1           1      1  1*1*1*1*1*1  2132   1  1  1  1  1  1  1            Bremblens   89   90  138   43     1 97.500000 0.01025641
@@ -120,5 +128,5 @@ head(s)
 # 3           1     10 11*1*1*1*2*2   119   1 11  1  1  1  2  2        Ecublens (VD) 2320 3548 3309 1050    10  3.428571 0.29166667
 # 4           1     10  7*3*2*2*2*1   362   1  7  3  2  2  2  1            Le Chenit  993 1054 1340  910    10  3.428571 0.29166667
 # 5           1     10 12*1*1*1*2*2    70   1 12  1  1  1  2  2               Morges 2940 4388 4408 2418    10  3.428571 0.29166667
-# 6           1     10  2*1*1*2*1*1  2041   1  2  1  1  2  1  1             Grimentz  121   96  125   62    10  3.428571 0.29166667
-```
+# 6           1     10  2*1*1*2*1*1  2041   1  2  1  1  2  1  1             Grimentz  121   96  125   62    10  3.428571 0.29166667```
+````
