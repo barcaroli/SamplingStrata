@@ -90,8 +90,8 @@ head(frame)
 # Define precision constraints ------------------------------------------------------------
 ndom <- length(unique(frame$domainvalue))
 cv <- as.data.frame(list(DOM = rep("DOM1",ndom),
-                         CV1 = rep(0.10,ndom),      # precision (cv=10\%) for 'Surfacesbois'
-                         CV2 = rep(0.10,ndom),      # precision (cv=10\%) for 'Airind'
+                         CV1 = rep(0.10,ndom),      # precision (cv=10%) for 'Surfacesbois'
+                         CV2 = rep(0.10,ndom),      # precision (cv=10%) for 'Airind'
                          domainvalue= c(1:ndom)))   # same precision constraints for all domains
 cv
 #    DOM CV1 CV2 domainvalue
