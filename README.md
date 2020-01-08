@@ -55,29 +55,29 @@ library(SamplingStrata)
 
 # Load data ---------------------------------------------------------------------------------
 data("swissmunicipalities")
-head(swissmunicipalities[,c(2:7,10,22)])
-#   REG  COM        Nom HApoly Surfacesbois Surfacescult Airind POPTOT
-# 1   4  261     Zurich   8781         2326          967    260 363273
-# 2   1 6621     Geneve   1593           67           31     60 177964
-# 3   3 2701      Basel   2391           97           93    213 166558
-# 4   2  351       Bern   5162         1726         1041    212 128634
-# 5   1 5586   Lausanne   4136         1635          714     64 124914
-# 6   4  230 Winterthur   6787         2807         1827    238  90483
+head(swissmunicipalities[,c(2:6,9,22)])
+#   REG  COM        Nom HApoly Surfacesbois Airbat POPTOT
+# 1   4  261     Zurich   8781         2326   2884 363273
+# 2   1 6621     Geneve   1593           67    773 177964
+# 3   3 2701      Basel   2391           97   1023 166558
+# 4   2  351       Bern   5162         1726   1070 128634
+# 5   1 5586   Lausanne   4136         1635    856 124914
+# 6   4  230 Winterthur   6787         2807    972  90483
 
 # Define the sampling frame -----------------------------------------------------------------
 frame <-buildFrameDF(df= swissmunicipalities,
                      id = "COM",                    # unique identifier of sampling units
                      domainvalue= "REG",            # domain variable (region)
                      X = c("POPTOT","HApoly"),      # stratification variables
-                     Y =c("Surfacesbois","Airind")) # target variables
+                     Y =c("Surfacesbois","Airbat")) # target variables
 head(frame)
-#     id     X1   X2   Y1  Y2 domainvalue
-# 1  261 363273 8781 2326 260           4
-# 2 6621 177964 1593   67  60           1
-# 3 2701 166558 2391   97 213           3
-# 4  351 128634 5162 1726 212           2
-# 5 5586 124914 4136 1635  64           1
-# 6  230  90483 6787 2807 238           4
+#     id     X1   X2   Y1   Y2 domainvalue
+# 1  261 363273 8781 2326 2884           4
+# 2 6621 177964 1593   67  773           1
+# 3 2701 166558 2391   97 1023           3
+# 4  351 128634 5162 1726 1070           2
+# 5 5586 124914 4136 1635  856           1
+# 6  230  90483 6787 2807  972           4
 
 # Define precision constraints ------------------------------------------------------------
 ndom <- length(unique(frame$domainvalue))
@@ -117,10 +117,10 @@ nstrat <- tapply(solutionKmean$suggestions, solutionKmean$domainvalue,
                  FUN=function(x) length(unique(x)))
 nstrat
 # 1  2  3  4  5  6  7 
-# 9 10  9  8 10  8  7 
+# 9  8 10  9 10  9 10
 
 # Optimization step ------------------------------------------------------------------------
-solution <- optimStrata(method = "atomic",            # method
+solution <- optimStrata(method = "atomic",          # method
                         framesamp = frame,            # sampling frame
                         errors = cv,                  # precision constraints
                         nStrata = nstrat,             # strata to be obtained in the final stratification
@@ -132,32 +132,32 @@ solution <- optimStrata(method = "atomic",            # method
 #  *** Starting parallel optimization for  7  domains using  5  cores
 #   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=20s  
 # 
-# *** Sample size :  990
-# *** Number of strata :  53
+# *** Sample size :  362
+# *** Number of strata :  59
 
 head(solution$aggr_strata)
-# STRATO       M1        M2       S1        S2   N DOM1 COST CENS      SOLUZ
-# 1      1 143.7857 29.857143 152.8819 45.077484  14    1    1    0  14.000000
-# 2      2 379.6769  5.600000 734.8116 15.324490  65    1    1    0  34.089876
-# 3      3 413.6063  6.196850 546.5235 15.803687 254    1    1    0 137.360990
-# 4      4 574.6667  7.190476 454.4968 11.639911  21    1    1    0   8.364819
-# 5      5 403.2778  1.944444 843.3638  3.135322  18    1    1    0   2.000000
-# 6      6 358.1860  3.412791 716.8800  7.659047 172    1    1    0  45.117978
+#   STRATO         M1        M2        S1        S2   N DOM1 COST CENS     SOLUZ
+# 1      1   61.07407  17.37778  41.87780  13.22224 270    1    1    0  9.141966
+# 2      2 1114.66667  64.80392 555.75540  53.48631  51    1    1    0  6.985276
+# 3      3   57.05128 110.12821  50.51679  35.55146  39    1    1    0  3.550527
+# 4      4  477.31472  33.92386 351.59986  37.68313 197    1    1    0 19.010081
+# 5      5 3226.14286 184.00000 540.04720  80.64561   7    1    1    0  2.000000
+# 6      6 1805.21429 150.28571 256.07733 210.69830  14    1    1    0  7.553702
 
 # Sample selection --------------------------------------------------------------------------
 s <- selectSample(frame = solution$framenew,        # frame with the indication of optimized strata
                   outstrata = solution$aggr_strata) # optimized strata with sampling units allocation 
 # *** Sample has been drawn successfully ***
-#   990  units have been selected from  53  strata
+#   362  units have been selected from  59  strata
 # 
 # ==> There have been  6  take-all strata 
-# from which have been selected  60 units
+# from which have been selected  9 units
 head(s)
-# DOMAINVALUE STRATO    STRATUM   ID    X1   X2  Y1  Y2 LABEL WEIGHTS FPC
-# 1           1      1    277*495 5669   277  495  74   0     1       1   1
-# 2           1      1    322*269 5858   322  269  34   2     1       1   1
-# 3           1      1 27171*2562 6266 27171 2562 277 126     1       1   1
-# 4           1      1    151*345 5674   151  345  58   0     1       1   1
-# 5           1      1    288*312 5513   288  312  56   4     1       1   1
-# 6           1      1    172*193 5801   172  193  14   1     1       1   1
+#   DOMAINVALUE STRATO  STRATUM   ID   X1  X2 Y1 Y2 LABEL WEIGHTS        FPC
+# 1           1      1  195*201 5534  195 201 37 10     1      30 0.03333333
+# 2           1      1  172*193 5801  172 193 14  4     1      30 0.03333333
+# 3           1      1  349*398 5499  349 398 19 15     1      30 0.03333333
+# 4           1      1 2939*460 5582 2939 460 67 50     1      30 0.03333333
+# 5           1      1  186*309 5663  186 309 65 10     1      30 0.03333333
+# 6           1      1  290*421 5463  290 421 11 14     1      30 0.03333333
 ```
