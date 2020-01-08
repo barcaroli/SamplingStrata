@@ -45,99 +45,128 @@ https://barcaroli.github.io/SamplingStrata/articles/SamplingStrata.html
 You can install SamplingStrata from github with:
 
 ```{r gh-installation, eval = FALSE}
-# install.packages("devtools")
+install.packages("devtools")
 devtools::install_github("barcaroli/SamplingStrata")
 ```
 
-## Example
+## Three different methods for the optimization step
 
-This is a basic example which shows you how to solve a common problem:
+The optimization can be run by indicating three different methods, on the basis of the following:
+A. if stratification variables are categorical (or reduced to) then the method is the "atomic";
+B. if stratification variables are continuous, then the method is the "continuous";
+C. if stratification variables are continuous, and there is spatial correlation among units in the sampling frame, then the required method is the "spatial".
+
+## Example with the "atomic" method
 
 ```{r, eval=FALSE, echo=TRUE}
 library(SamplingStrata)
 
-# Data ----------------------------------------------------------------------
-data(swisserrors)
-swisserrors
-#    DOM  CV1  CV2  CV3  CV4 domainvalue
-# 1 DOM1 0.08 0.12 0.08 0.12           1
-# 2 DOM1 0.08 0.12 0.08 0.12           2
-# 3 DOM1 0.08 0.12 0.08 0.12           3
-# 4 DOM1 0.08 0.12 0.08 0.12           4
-# 5 DOM1 0.08 0.12 0.08 0.12           5
-# 6 DOM1 0.08 0.12 0.08 0.12           6
-# 7 DOM1 0.08 0.12 0.08 0.12           7
+# Load data ---------------------------------------------------------------------------------
+data("swissmunicipalities")
+head(swissmunicipalities[,c(2:7,10,22)])
+#   REG  COM        Nom HApoly Surfacesbois Surfacescult Airind POPTOT
+# 1   4  261     Zurich   8781         2326          967    260 363273
+# 2   1 6621     Geneve   1593           67           31     60 177964
+# 3   3 2701      Basel   2391           97           93    213 166558
+# 4   2  351       Bern   5162         1726         1041    212 128634
+# 5   1 5586   Lausanne   4136         1635          714     64 124914
+# 6   4  230 Winterthur   6787         2807         1827    238  90483
 
-data(swissstrata)
-head(swissstrata)
-#        STRATO   N       M1        M2        M3       M4        S1       S2        S3       S4 cost cens DOM1 X1 X2 X3 X4 X5 X6
-# 1 1*1*1*1*1*1 184 48.31522  49.40217  61.44022 28.40761 26.888529 28.57606 32.719652 14.67916    1    0    1  1  1  1  1  1  1
-# 2 1*1*1*1*1*2   1 98.00000 106.00000 116.00000 43.00000  0.000000  0.00000  0.000000  0.00000    1    0    1  1  1  1  1  1  2
-# 3 1*1*1*2*1*1   2 57.00000  64.00000  70.00000 50.00000  5.656854  0.00000  1.414214 21.21320    1    0    1  1  1  1  2  1  1
-# 4 1*1*2*1*1*1  11 77.72727  81.18182  92.36364 47.00000 15.994317 19.61029 17.862098 11.67048    1    0    1  1  1  2  1  1  1
-# 5 1*2*1*1*1*1   9 58.22222  61.55556  66.77778 36.22222 27.008229 21.50065 26.409173 16.43759    1    0    1  1  2  1  1  1  1
-# 6 1*2*1*2*1*1   8 61.00000  68.00000  84.62500 58.37500 26.262412 20.82581 28.172618 28.38982    1    0    1  1  2  1  2  1  1
+# Define the sampling frame -----------------------------------------------------------------
+frame <-buildFrameDF(df= swissmunicipalities,
+                     id = "COM",                    # unique identifier of sampling units
+                     domainvalue= "REG",            # domain variable (region)
+                     X = c("POPTOT","HApoly"),      # stratification variables
+                     Y =c("Surfacesbois","Airind")) # target variables
+head(frame)
+#     id     X1   X2   Y1  Y2 domainvalue
+# 1  261 363273 8781 2326 260           4
+# 2 6621 177964 1593   67  60           1
+# 3 2701 166558 2391   97 213           3
+# 4  351 128634 5162 1726 212           2
+# 5 5586 124914 4136 1635  64           1
+# 6  230  90483 6787 2807 238           4
 
-data(swissframe)
-head(swissframe)
-#   progr REG X1 X2 X3 X4 X5 X6         id    Y1     Y2     Y3    Y4 domainvalue
-# 1     1   4 18  3  2  1  3  3     Zurich 57324 131422 108178 66349           4
-# 2     2   1 17  1  1  1  3  2     Geneve 32429  60074  57063 28398           1
-# 3     3   3 17  1  1  1  3  3      Basel 28161  50349  53734 34314           3
-# 4     4   2 17  2  3  1  3  3       Bern 19399  44263  39397 25575           2
-# 5     5   1 17  2  2  1  3  2   Lausanne 24291  44202  35421 21000           1
-# 6     6   4 16  3  3  1  3  3 Winterthur 18942  28958  27696 14887           4
+# Define precision constraints ------------------------------------------------------------
+ndom <- length(unique(frame$domainvalue))
+cv <- as.data.frame(list(DOM = rep("DOM1",ndom),
+                         CV1 = rep(0.10,ndom),      # precision (cv=10\%) for 'Surfacesbois'
+                         CV2 = rep(0.10,ndom),      # precision (cv=10\%) for 'Airind'
+                         domainvalue= c(1:ndom)))   # same precision constraints for all domains
+cv
+#    DOM CV1 CV2 domainvalue
+# 1 DOM1 0.1 0.1           1
+# 2 DOM1 0.1 0.1           2
+# 3 DOM1 0.1 0.1           3
+# 4 DOM1 0.1 0.1           4
+# 5 DOM1 0.1 0.1           5
+# 6 DOM1 0.1 0.1           6
+# 7 DOM1 0.1 0.1           7
 
+# Build atomic strata ---------------------------------------------------------------------
+strata <- buildStrataDF(frame)
+# Number of strata:  2895
+# ... of which with only one unit:  2894> head(strata)
+head(strata)
+#              STRATO N   M1 M2 S1 S2 COST CENS DOM1    X1   X2
+# 100*305     100*305 1   59  0  0  0    1    0    1   100  305
+# 1010*1661 1010*1661 1  983  0  0  0    1    0    1  1010 1661
+# 102*306     102*306 1   65  0  0  0    1    0    1   102  306
+# 1020*5351 1020*5351 1 1375  2  0  0    1    0    1  1020 5351
+# 10227*571 10227*571 1   73 48  0  0    1    0    1 10227  571
+# 10230*330 10230*330 1   15  2  0  0    1    0    1 10230  330
 
-# Starting solution with kmeans clustering -------------------------------------
-kmean <- KmeansSolution(swissstrata, swisserrors, maxclusters = 10)
-# number of strata to be obtained in each domain in final solution	
-nstrat <- tapply(kmean$suggestions, kmean$domainvalue,
+# Find an initial solution and a suitable number of final strata in each domain -----------
+solutionKmean <- KmeansSolution(strata = strata,    # atomic strata
+                                errors = cv,        # precision constraints
+                                maxclusters = 10)   # max number of strata to be evaluated 
+# number of strata to be obtained in each domain in final solution:								
+nstrat <- tapply(solutionKmean$suggestions, solutionKmean$domainvalue,
                  FUN=function(x) length(unique(x)))
 nstrat
-# 1 2 3 4 5 6 7 
-# 9 9 7 6 7 7 8 
+# 1  2  3  4  5  6  7 
+# 9 10  9  8 10  8  7 
 
-# Optimisation step ------------------------------------------------------------
-solution <- optimStrata (
-  method = "atomic",
-  errors = swisserrors,
-  framesamp = swissframe,
-  nStrata = nstrat,
-  suggestions = kmean)
+# Optimization step ------------------------------------------------------------------------
+solution <- optimStrata(method = "atomic",            # method
+                        framesamp = frame,            # sampling frame
+                        errors = cv,                  # precision constraints
+                        nStrata = nstrat,             # strata to be obtained in the final stratification
+                        suggestions = solutionKmean,  # initial solution
+                        iter = 50,                    # number of iterations
+                        pops = 10)                    # number of stratifications evaluated at each iteration
+# Number of strata:  2895
+# ... of which with only one unit:  2894
+#  *** Starting parallel optimization for  7  domains using  5  cores
+#   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=20s  
+# 
+# *** Sample size :  990
+# *** Number of strata :  53
 
-# optimized sampling strata with allocated units -------------------------------
-outstrata <- solution$aggr_strata
+head(solution$aggr_strata)
+# STRATO       M1        M2       S1        S2   N DOM1 COST CENS      SOLUZ
+# 1      1 143.7857 29.857143 152.8819 45.077484  14    1    1    0  14.000000
+# 2      2 379.6769  5.600000 734.8116 15.324490  65    1    1    0  34.089876
+# 3      3 413.6063  6.196850 546.5235 15.803687 254    1    1    0 137.360990
+# 4      4 574.6667  7.190476 454.4968 11.639911  21    1    1    0   8.364819
+# 5      5 403.2778  1.944444 843.3638  3.135322  18    1    1    0   2.000000
+# 6      6 358.1860  3.412791 716.8800  7.659047 172    1    1    0  45.117978
 
-# sampling frame with optimized strata labels ----------------------------------
-framenew <- solution$framenew
-
-# evaluate the current solution ------------------------------------------------
-eval <- evalSolution(framenew, outstrata)
-eval$coeff_var
-#      CV1    CV2    CV3    CV4  dom
-# 1 0.0800 0.0789 0.0811 0.0817 DOM1
-# 2 0.0767 0.0842 0.0780 0.0858 DOM2
-# 3 0.0746 0.0753 0.0750 0.0779 DOM3
-# 4 0.0785 0.0738 0.0777 0.0748 DOM4
-# 5 0.0810 0.0806 0.0809 0.0801 DOM5
-# 6 0.0781 0.0763 0.0782 0.0808 DOM6
-# 7 0.0680 0.0719 0.0719 0.0808 DOM7
-
-# Select a sample --------------------------------------------------------------
-s <- selectSample(framenew, outstrata)
+# Sample selection --------------------------------------------------------------------------
+s <- selectSample(frame = solution$framenew,        # frame with the indication of optimized strata
+                  outstrata = solution$aggr_strata) # optimized strata with sampling units allocation 
 # *** Sample has been drawn successfully ***
-#   99  units have been selected from  50  strata
+#   990  units have been selected from  53  strata
 # 
 # ==> There have been  6  take-all strata 
-# from which have been selected  7 units
-
+# from which have been selected  60 units
 head(s)
-#   DOMAINVALUE STRATO      STRATUM PROGR REG X1 X2 X3 X4 X5 X6                   ID   Y1   Y2   Y3   Y4 LABEL   WEIGHTS        FPC
-# 1           1      1  1*1*1*1*1*1  2132   1  1  1  1  1  1  1            Bremblens   89   90  138   43     1 97.500000 0.01025641
-# 2           1      1  3*1*2*1*1*1  1227   1  3  1  2  1  1  1 Granges-pres-Marnand  331  289  350  176     1 97.500000 0.01025641
-# 3           1     10 11*1*1*1*2*2   119   1 11  1  1  1  2  2        Ecublens (VD) 2320 3548 3309 1050    10  3.428571 0.29166667
-# 4           1     10  7*3*2*2*2*1   362   1  7  3  2  2  2  1            Le Chenit  993 1054 1340  910    10  3.428571 0.29166667
-# 5           1     10 12*1*1*1*2*2    70   1 12  1  1  1  2  2               Morges 2940 4388 4408 2418    10  3.428571 0.29166667
-# 6           1     10  2*1*1*2*1*1  2041   1  2  1  1  2  1  1             Grimentz  121   96  125   62    10  3.428571 0.29166667```
+# DOMAINVALUE STRATO    STRATUM   ID    X1   X2  Y1  Y2 LABEL WEIGHTS FPC
+# 1           1      1    277*495 5669   277  495  74   0     1       1   1
+# 2           1      1    322*269 5858   322  269  34   2     1       1   1
+# 3           1      1 27171*2562 6266 27171 2562 277 126     1       1   1
+# 4           1      1    151*345 5674   151  345  58   0     1       1   1
+# 5           1      1    288*312 5513   288  312  56   4     1       1   1
+# 6           1      1    172*193 5801   172  193  14   1     1       1   1
 
+```
