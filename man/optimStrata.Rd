@@ -28,7 +28,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         writeFiles=FALSE,
                         showPlot=TRUE,
                         parallel=TRUE,
-                        cores,
+                        cores=NA,
                         # parameters only for method = "spatial"
                         fitting=NA,
                         range=NA,
