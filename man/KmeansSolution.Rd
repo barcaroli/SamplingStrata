@@ -69,7 +69,7 @@ solutionKmean <- KmeansSolution(strata=swissstrata,
 								nstrata=NA,
 								showPlot=TRUE)
 
-# number of strata to be obtained in each domain in final solution								
+# number of strata to be obtained in each domain		
 nstrat <- tapply(solutionKmean$suggestions,
                  solutionKmean$domainvalue,
                  FUN=function(x) length(unique(x)))

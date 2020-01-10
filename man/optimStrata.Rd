@@ -32,8 +32,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         # parameters only for method = "spatial"
                         fitting=NA,
                         range=NA,
-                        kappa=NA
-                        ) 
+                        kappa=NA) 
 }
 \arguments{
   \item{method}{

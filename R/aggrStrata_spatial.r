@@ -55,6 +55,8 @@ aggrStrataSpatial <- function(dataset,
     strato$CENS <- 0
     strato$DOM1 <- dominio
     strato <- as.data.frame((strato))
+    rng <- NULL
+    fit <- NULL
     zz <- NULL
     for (i in 1:nvarY) {
       stmt <- paste("var <- dataset$VAR",i,sep="")

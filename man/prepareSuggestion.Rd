@@ -13,7 +13,7 @@ of continuous variables (i.e. with with "optimStrata"
 when method = "continuous" or method = "spatial").
 }
 \usage{
-prepareSuggestion(kmean,frame,nstrata)
+prepareSuggestion(kmean = kmean, frame = frame, nstrat = nstrat)
 }
 \arguments{
   \item{kmean}{
@@ -22,7 +22,7 @@ prepareSuggestion(kmean,frame,nstrata)
   \item{frame}{
   The dataframe containing the information related to each unit in the sampling frame.
   }
-    \item{nstrata}{
+    \item{nstrat}{
   The vector of number of strata identified as the best for each domain.
   }
 }

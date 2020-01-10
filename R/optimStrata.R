@@ -31,8 +31,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
                         # parameters only for optimizeStrataSpatial
                         fitting=NA,
                         range=NA,
-                        kappa=NA
-                        ) 
+                        kappa=NA) 
 {
   # Control of method
   if(!(method %in% c("atomic","continuous","spatial"))) stop("Method should be one in 'atomic','continuous','spatial'")
