@@ -9,30 +9,30 @@ Wrapper function to call the different optimization functions: (i) optimizeStrat
 For continuity reasons, these functions are still available to be used standalone.
 }
 \usage{
-optimStrata <- function(method=c("atomic","continuous","spatial"),
-                        # common parameters
-                        framesamp,
-                        framecens=NULL,
-                        model=NULL,
-                        nStrata=5,
-                        errors,
-                        alldomains=TRUE,
-                        dom=NULL,
-                        strcens=FALSE,
-                        minnumstr=2,
-                        iter=50,
-                        pops=20,
-                        mut_chance=NA,
-                        elitism_rate=0.2,
-                        suggestions=NULL,
-                        writeFiles=FALSE,
-                        showPlot=TRUE,
-                        parallel=TRUE,
-                        cores=NA,
-                        # parameters only for method = "spatial"
-                        fitting=NA,
-                        range=NA,
-                        kappa=NA) 
+optimStrata(method=c("atomic","continuous","spatial"),
+            # common parameters
+            framesamp,
+            framecens=NULL,
+            model=NULL,
+            nStrata=NA,
+            errors,
+            alldomains=TRUE,
+            dom=NULL,
+            strcens=FALSE,
+            minnumstr=2,
+            iter=50,
+            pops=20,
+            mut_chance=NA,
+            elitism_rate=0.2,
+            suggestions=NULL,
+            writeFiles=FALSE,
+            showPlot=TRUE,
+            parallel=TRUE,
+            cores=NA,
+            # parameters only for optimizeStrataSpatial
+            fitting=NA,
+            range=NA,
+            kappa=NA) 
 }
 \arguments{
   \item{method}{
@@ -41,6 +41,22 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
   \item{errors}{
   This is the (mandatory) dataframe containing the precision levels expressed in terms of maximum expected value of the Coefficients of Variation
   related to target variables of the survey.
+}
+  \item{framesamp}{
+  This is the dataframe containing the information related to the sampling frame.
+}
+  \item{framecens}{
+  This the dataframe containing the units to be selected in any case. It has same structure than "framesamp" dataframe.
+}
+  \item{nStrata}{
+  Indicates the number of strata to be obtained in the final solution.
+}
+  \item{model}{
+  In case the Y variables are not directly observed, but are estimated by means of other explicative variables, in order
+  to compute the anticipated variance, information on models are given by a dataframe "model" with as many rows as the
+  target variables. Each row contains the indication if the model is linear o loglinear, and the values of the model parameters 
+  beta, sig2, gamma (> 1 in case of heteroscedasticity). 
+  Default is NULL.
 }
   \item{alldomains}{
   Flag (TRUE/FALSE) to indicate if the optimization must be carried out on all domains (default is TRUE). If it is set to FALSE,
@@ -92,22 +108,6 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
   \item{cores}{
   If the analysis is run in parallel, how many cores should be used.
   If not specified n-1 of total available cores are used OR if number of domains < (n-1) cores, then number of cores equal to number of domains are used.
-}
-  \item{framesamp}{
-  This is the dataframe containing the information related to the sampling frame.
-}
-  \item{framecens}{
-  This the dataframe containing the units to be selected in any case. It has same structure than "framesamp" dataframe.
-}
-  \item{nStrata}{
-  Indicates the number of strata to be obtained in the final solution.
-}
-  \item{model}{
-  In case the Y variables are not directly observed, but are estimated by means of other explicative variables, in order
-  to compute the anticipated variance, information on models are given by a dataframe "model" with as many rows as the
-  target variables. Each row contains the indication if the model is linear o loglinear, and the values of the model parameters 
-  beta, sig2, gamma (> 1 in case of heteroscedasticity). 
-  Default is NULL.
 }
 \item{fitting}{
 	Fitting of the model(s) (in terms of R squared). It is a vector with as many elements as the number of target variables Y.
