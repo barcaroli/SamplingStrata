@@ -16,7 +16,7 @@ This function runs a set of other functions to optimise the stratification of a 
             model = NULL, 
             alldomains = TRUE, 
             dom = NULL, 
-            nStrata = 5, 
+            nStrata = c(5), 
             minnumstr = 2, 
             iter = 50, 
             pops = 20, 
@@ -28,7 +28,7 @@ This function runs a set of other functions to optimise the stratification of a 
             writeFiles = FALSE, 
             showPlot = TRUE, 
             parallel = TRUE, 
-            cores
+            cores = NA
 	)
 }
 \arguments{

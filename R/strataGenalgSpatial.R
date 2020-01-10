@@ -6,7 +6,6 @@ strataGenalgSpatial <- function (
     fitting,
     range,
     kappa,
-    gamma,
     ncuts,
     dominio, 
     minnumstr, 
@@ -31,7 +30,6 @@ evaluate <- function(dataset,
                      fitting,
                      range,
                      kappa,
-                     gamma,
                      minnumstr,
                      errors,
                      string=c(),
@@ -71,7 +69,6 @@ evaluate <- function(dataset,
                                  fitting=fitting,
                                  range=range,
                                  kappa=kappa,
-                                 gamma=gamma,
                                  progress=FALSE,
                                  verbose=FALSE)
   if (strcens == TRUE) {
@@ -115,7 +112,6 @@ rbga.results = rbgaSpatial(
                     fitting,
                     range,
                     kappa,
-                    gamma,
                     minnumstr,
                     errors,
                     ncuts,
@@ -170,8 +166,8 @@ strata <- buildStrataDFSpatial(dataset=frame,
                                fitting=fitting,
                                range=range,
                                kappa=kappa,
-                               gamma=gamma,
-                               progress=FALSE,verbose=FALSE)
+                               progress=FALSE,
+                               verbose=FALSE)
 if (strcens == TRUE) {
   stratatot <- rbind(strata,cens)
   soluz <- bethel(stratatot, 

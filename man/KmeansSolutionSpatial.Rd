@@ -21,7 +21,7 @@ the second the domains.
 \usage{
 KmeansSolutionSpatial(frame, 
                     fitting = 1, 
-                    range = 1, 
+                    range = c(0), 
                     kappa = 3, 
                     errors, 
                     nstrata = NA, 

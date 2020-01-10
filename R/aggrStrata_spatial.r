@@ -10,7 +10,6 @@ aggrStrataSpatial <- function(dataset,
                               fitting=c(1),
                               range=c(0),
                               kappa=3, 
-                              gamma=0,
                               vett, 
                               dominio) {
 

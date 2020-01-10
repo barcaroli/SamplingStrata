@@ -27,8 +27,8 @@ used as an input by the function "optimizeStrata".
 }
 \usage{
 buildStrataDFSpatial(dataset,
-                     fitting=1,
-                     range=1,
+                     fitting=c(1),
+                     range=c(0),
                      kappa=3,
                      progress=FALSE,
                      verbose=FALSE)

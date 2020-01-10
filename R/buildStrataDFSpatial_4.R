@@ -12,7 +12,6 @@ buildStrataDFSpatial <- function(dataset,
                                   fitting=c(1),
                                   range=c(0),
                                   kappa=3,
-                                  gamma=0,
                                   progress=FALSE,
                                   verbose=FALSE) {
 #---------------------------------------------
@@ -24,7 +23,7 @@ buildStrataDFSpatial <- function(dataset,
   # dist <- sqrt((outer(dataset$LON,dataset$LON,"-"))^2+(outer(dataset$LAT,dataset$LAT,"-"))^2)
   #---------------------------------------------
 # standard deviation calculated with distances
-  stdev <- function(dataset, i, fitting, range, kappa, gamma) {
+  stdev <- function(dataset, i, fitting, range, kappa) {
     z_z <- NULL
     var <- NULL
     dist <- sqrt((outer(dataset$LON,dataset$LON,"-"))^2+(outer(dataset$LAT,dataset$LAT,"-"))^2)
@@ -133,7 +132,7 @@ buildStrataDFSpatial <- function(dataset,
         # stmt <- paste("zz <- outer(dataset$Y",i,",dataset$Y",i,",'-')^2",sep="")
         # eval(parse(text = stmt))
         l.split <- split(dataset, dataset$STRATO, drop = TRUE)
-        sd <- sapply(l.split, function(df) stdev(df,i,fitting,range,kappa,gamma))
+        sd <- sapply(l.split, function(df) stdev(df,i,fitting,range,kappa))
         stmt <- paste("S", i, " <- sd ", sep = "")
         eval(parse(text = stmt))
         # for (j in (1:length(levels(STRATO)))) {
