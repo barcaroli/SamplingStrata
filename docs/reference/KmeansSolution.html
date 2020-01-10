@@ -186,7 +186,7 @@ number of atomic strata divided by 2.</p></td>
                                                                 <span class='kw'>nstrata</span><span class='kw'>=</span><span class='fl'>NA</span>,
                                                                 <span class='kw'>showPlot</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 
-<span class='co'># number of strata to be obtained in each domain in final solution								</span>
+<span class='co'># number of strata to be obtained in each domain		</span>
 <span class='no'>nstrat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tapply'>tapply</a></span>(<span class='no'>solutionKmean</span>$<span class='no'>suggestions</span>,
                  <span class='no'>solutionKmean</span>$<span class='no'>domainvalue</span>,
                  <span class='kw'>FUN</span><span class='kw'>=</span><span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>x</span>)))

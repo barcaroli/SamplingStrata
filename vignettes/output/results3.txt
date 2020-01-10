@@ -5,7 +5,7 @@ Optimal stratification with Genetic Algorithm
  *** Parameters ***
 ---------------------------
 Domain:  3
-Maximum number of strata:  7
+Maximum number of strata:  8
 Minimum number of units per stratum:  2
 Take-all strata (TRUE/FALSE):  FALSE
 number of sampling strata :  61

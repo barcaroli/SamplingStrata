@@ -115,31 +115,30 @@ For continuity reasons, these functions are still available to be used standalon
 For continuity reasons, these functions are still available to be used standalone.</p>
     </div>
 
-    <pre class="usage">optimStrata <- function(method=c("atomic","continuous","spatial"),
-                        # common parameters
-                        framesamp,
-                        framecens=NULL,
-                        model=NULL,
-                        nStrata=5,
-                        errors,
-                        alldomains=TRUE,
-                        dom=NULL,
-                        strcens=FALSE,
-                        minnumstr=2,
-                        iter=50,
-                        pops=20,
-                        mut_chance=NA,
-                        elitism_rate=0.2,
-                        suggestions=NULL,
-                        writeFiles=FALSE,
-                        showPlot=TRUE,
-                        parallel=TRUE,
-                        cores,
-                        # parameters only for method = "spatial"
-                        fitting=NA,
-                        range=NA,
-                        kappa=NA
-                        )</pre>
+    <pre class="usage"><span class='fu'>optimStrata</span>(<span class='kw'>method</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"atomic"</span>,<span class='st'>"continuous"</span>,<span class='st'>"spatial"</span>),
+            <span class='co'># common parameters</span>
+            <span class='no'>framesamp</span>,
+            <span class='kw'>framecens</span><span class='kw'>=</span><span class='kw'>NULL</span>,
+            <span class='kw'>model</span><span class='kw'>=</span><span class='kw'>NULL</span>,
+            <span class='kw'>nStrata</span><span class='kw'>=</span><span class='fl'>NA</span>,
+            <span class='no'>errors</span>,
+            <span class='kw'>alldomains</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
+            <span class='kw'>dom</span><span class='kw'>=</span><span class='kw'>NULL</span>,
+            <span class='kw'>strcens</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
+            <span class='kw'>minnumstr</span><span class='kw'>=</span><span class='fl'>2</span>,
+            <span class='kw'>iter</span><span class='kw'>=</span><span class='fl'>50</span>,
+            <span class='kw'>pops</span><span class='kw'>=</span><span class='fl'>20</span>,
+            <span class='kw'>mut_chance</span><span class='kw'>=</span><span class='fl'>NA</span>,
+            <span class='kw'>elitism_rate</span><span class='kw'>=</span><span class='fl'>0.2</span>,
+            <span class='kw'>suggestions</span><span class='kw'>=</span><span class='kw'>NULL</span>,
+            <span class='kw'>writeFiles</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
+            <span class='kw'>showPlot</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
+            <span class='kw'>parallel</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
+            <span class='kw'>cores</span><span class='kw'>=</span><span class='fl'>NA</span>,
+            <span class='co'># parameters only for optimizeStrataSpatial</span>
+            <span class='kw'>fitting</span><span class='kw'>=</span><span class='fl'>NA</span>,
+            <span class='kw'>range</span><span class='kw'>=</span><span class='fl'>NA</span>,
+            <span class='kw'>kappa</span><span class='kw'>=</span><span class='fl'>NA</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,6 +151,26 @@ For continuity reasons, these functions are still available to be used standalon
       <th>errors</th>
       <td><p>This is the (mandatory) dataframe containing the precision levels expressed in terms of maximum expected value of the Coefficients of Variation
   related to target variables of the survey.</p></td>
+    </tr>
+    <tr>
+      <th>framesamp</th>
+      <td><p>This is the dataframe containing the information related to the sampling frame.</p></td>
+    </tr>
+    <tr>
+      <th>framecens</th>
+      <td><p>This the dataframe containing the units to be selected in any case. It has same structure than "framesamp" dataframe.</p></td>
+    </tr>
+    <tr>
+      <th>nStrata</th>
+      <td><p>Indicates the number of strata to be obtained in the final solution.</p></td>
+    </tr>
+    <tr>
+      <th>model</th>
+      <td><p>In case the Y variables are not directly observed, but are estimated by means of other explicative variables, in order
+  to compute the anticipated variance, information on models are given by a dataframe "model" with as many rows as the
+  target variables. Each row contains the indication if the model is linear o loglinear, and the values of the model parameters 
+  beta, sig2, gamma (&gt; 1 in case of heteroscedasticity). 
+  Default is NULL.</p></td>
     </tr>
     <tr>
       <th>alldomains</th>
@@ -216,26 +235,6 @@ For continuity reasons, these functions are still available to be used standalon
       <th>cores</th>
       <td><p>If the analysis is run in parallel, how many cores should be used.
   If not specified n-1 of total available cores are used OR if number of domains &lt; (n-1) cores, then number of cores equal to number of domains are used.</p></td>
-    </tr>
-    <tr>
-      <th>framesamp</th>
-      <td><p>This is the dataframe containing the information related to the sampling frame.</p></td>
-    </tr>
-    <tr>
-      <th>framecens</th>
-      <td><p>This the dataframe containing the units to be selected in any case. It has same structure than "framesamp" dataframe.</p></td>
-    </tr>
-    <tr>
-      <th>nStrata</th>
-      <td><p>Indicates the number of strata to be obtained in the final solution.</p></td>
-    </tr>
-    <tr>
-      <th>model</th>
-      <td><p>In case the Y variables are not directly observed, but are estimated by means of other explicative variables, in order
-  to compute the anticipated variance, information on models are given by a dataframe "model" with as many rows as the
-  target variables. Each row contains the indication if the model is linear o loglinear, and the values of the model parameters 
-  beta, sig2, gamma (&gt; 1 in case of heteroscedasticity). 
-  Default is NULL.</p></td>
     </tr>
     <tr>
       <th>fitting</th>
