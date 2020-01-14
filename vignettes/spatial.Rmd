@@ -3,6 +3,7 @@ title: "Spatial sampling with SamplingStrata"
 author: "Giulio Barcaroli"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+bibliography: SamplingStrata.bib
 vignette: >
   %\VignetteIndexEntry{Spatial sampling with SamplingStrata}
   %\VignetteEngine{knitr::rmarkdown}
@@ -12,7 +13,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 options(width = 999)
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=6)
 ```
 
 # Optimization with the *spatial* method
@@ -28,9 +29,9 @@ data("meuse.grid")
 meuse.grid$id <- c(1:nrow(meuse.grid))
 coordinates(meuse)<-c("x","y")
 coordinates(meuse.grid)<-c("x","y")
-lm_lead <- lm(lead~dist,data=meuse)
+lm_lead <- lm(log(lead) ~ dist,data=meuse)
 summary(lm_lead)
-lm_zinc <- lm(zinc~dist,data=meuse)
+lm_zinc <- lm(log(zinc) ~ dist,data=meuse)
 summary(lm_zinc)
 ```
 
@@ -47,9 +48,9 @@ We analyse the territorial distribution of the *lead* and *zinc* concentration, 
 
 ```{r, eval = T,echo=TRUE}
 library(automap)
-kriging_lead = autoKrige(lead~dist, meuse, meuse.grid)
+kriging_lead = autoKrige(log(lead) ~ dist, meuse, meuse.grid)
 plot(kriging_lead,sp.layout = NULL, justPosition = TRUE)
-kriging_zinc = autoKrige(zinc~dist, meuse, meuse.grid)
+kriging_zinc = autoKrige(log(zinc) ~ dist, meuse, meuse.grid)
 plot(kriging_zinc, sp.layout = list(pts = list("sp.points", meuse)))
 ```
 
@@ -66,10 +67,6 @@ df$lon <- meuse.grid$x
 df$lat <- meuse.grid$y
 df$dom1 <- 1
 df <- as.data.frame(df)
-df$lead.pred <- ifelse(df$lead.pred < 0, 0, df$lead.pred)
-df$zinc.pred <- ifelse(df$zinc.pred < 0, 0, df$zinc.pred)
-df$lead.var <- ifelse(df$lead.var < 0, 0, df$lead.var)
-df$zinc.var <- ifelse(df$zinc.var < 0, 0, df$zinc.var)
 head(df)
 ```
 
@@ -131,7 +128,7 @@ s <- selectSample(framenew,outstrata,writeFiles=FALSE)
 
 whose units are so distributed in the territory:
 
-```{r, eval = T,echo=FALSE}
+```{r, eval = T,echo=FALSE,message=FALSE}
 plot(s$LON[s$LABEL==1],s$LAT[s$LABEL==1],col="black",
      xlab="longitude",ylab="latitude",
      xlim=c(min(s$LON),max(s$LON)),
@@ -140,11 +137,11 @@ text(s$LON[s$LABEL==1],s$LAT[s$LABEL==1], labels = row.names(s[s$LABEL == 1,]), 
 points(s$LON[s$LABEL==2],s$LAT[s$LABEL==2],col="blue")
 text(s$LON[s$LABEL==2],s$LAT[s$LABEL==2], labels = row.names(s[s$LABEL == 2,]), pos = 4, cex=0.6, col="blue")
 points(s$LON[s$LABEL==3],s$LAT[s$LABEL==3],col="magenta")
-text(s$LON[s$LABEL==3],s$LAT[s$LABEL==3], labels = row.names(s[s$LABEL == 3,]), pos = 3, cex=0.6, col="magenta")
-points(s$LON[s$LABEL==4],s$LAT[s$LABEL==4],col="darkgreen")
-text(s$LON[s$LABEL==4],s$LAT[s$LABEL==4], labels = row.names(s[s$LABEL == 4,]), pos = 1, cex=0.6, col="darkorange")
-points(s$LON[s$LABEL==5],s$LAT[s$LABEL==5],col="red")
-text(s$LON[s$LABEL==5],s$LAT[s$LABEL==5], labels = row.names(s[s$LABEL == 5,]), pos = 4, cex=0.6, col="red")
+text(s$LON[s$LABEL==3],s$LAT[s$LABEL==3], labels = row.names(s[s$LABEL == 3,]), pos = 3, cex=0.6, col="darkorange")
+points(s$LON[s$LABEL==4],s$LAT[s$LABEL==4],col="darkorange")
+text(s$LON[s$LABEL==4],s$LAT[s$LABEL==4], labels = row.names(s[s$LABEL == 4,]), pos = 1, cex=0.6, col="yellow")
+# points(s$LON[s$LABEL==5],s$LAT[s$LABEL==5],col="red")
+# text(s$LON[s$LABEL==5],s$LAT[s$LABEL==5], labels = row.names(s[s$LABEL == 5,]), pos = 4, cex=0.6, col="red")
 title("Selected units")
 
 ```
