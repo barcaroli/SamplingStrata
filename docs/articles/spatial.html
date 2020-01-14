@@ -81,7 +81,7 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Spatial sampling with SamplingStrata</h1>
-                        <h4 class="author">Giulio Barcaroli</h4>
+                        <h4 class="author">Marco Ballin, Giulio Barcaroli</h4>
             
             <h4 class="date">2020-01-14</h4>
       
@@ -137,17 +137,17 @@ D_{ij}^{2} = \dfrac{(\tilde{y}_{i}-\tilde{y}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 <span id="cb1-10"><a href="#cb1-10"></a><span class="co"># summary(lm_lead)</span></span>
 <span id="cb1-11"><a href="#cb1-11"></a>lm_zinc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(zinc) <span class="op">~</span><span class="st"> </span>dist,<span class="dt">data=</span>meuse)</span>
 <span id="cb1-12"><a href="#cb1-12"></a><span class="co"># summary(lm_zinc)</span></span></code></pre></div>
-<p><img src="spatial_files/figure-html/unnamed-chunk-2-1.png" width="768"></p>
+<p><img src="spatial_files/figure-html/unnamed-chunk-2-1.png" width="576"></p>
 <p>We analyse the territorial distribution of the <em>lead</em> and <em>zinc</em> concentration, and model (by using the <em>universal kriging</em>) its relations with distance from the river, using the subset of 155 points on which these values have been jointly observed:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(automap)</span>
 <span id="cb2-2"><a href="#cb2-2"></a>kriging_lead =<span class="st"> </span><span class="kw">autoKrige</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(lead) <span class="op">~</span><span class="st"> </span>dist, meuse, meuse.grid)</span></code></pre></div>
 <pre><code>## [using universal kriging]</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(kriging_lead,<span class="dt">sp.layout =</span> <span class="ot">NULL</span>, <span class="dt">justPosition =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
-<p><img src="spatial_files/figure-html/unnamed-chunk-3-1.png" width="768"></p>
+<p><img src="spatial_files/figure-html/unnamed-chunk-3-1.png" width="576"></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>kriging_zinc =<span class="st"> </span><span class="kw">autoKrige</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(zinc) <span class="op">~</span><span class="st"> </span>dist, meuse, meuse.grid)</span></code></pre></div>
 <pre><code>## [using universal kriging]</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(kriging_zinc, <span class="dt">sp.layout =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">pts =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"sp.points"</span>, meuse)))</span></code></pre></div>
-<p><img src="spatial_files/figure-html/unnamed-chunk-3-2.png" width="768"></p>
+<p><img src="spatial_files/figure-html/unnamed-chunk-3-2.png" width="576"></p>
 <p>Using this kriging model, we are able to predict the values of lead concentration on the totality of the 3,103 points in the Meuse territory:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>df &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>df<span class="op">$</span>id &lt;-<span class="st"> </span>meuse.grid<span class="op">$</span>id</span>
@@ -187,7 +187,7 @@ D_{ij}^{2} = \dfrac{(\tilde{y}_{i}-\tilde{y}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 <span id="cb11-3"><a href="#cb11-3"></a>  <span class="dt">method =</span> <span class="st">"spatial"</span>,</span>
 <span id="cb11-4"><a href="#cb11-4"></a>  <span class="dt">errors=</span>cv, </span>
 <span id="cb11-5"><a href="#cb11-5"></a>  <span class="dt">framesamp=</span>frame,</span>
-<span id="cb11-6"><a href="#cb11-6"></a>  <span class="dt">iter =</span> <span class="dv">5</span>,</span>
+<span id="cb11-6"><a href="#cb11-6"></a>  <span class="dt">iter =</span> <span class="dv">25</span>,</span>
 <span id="cb11-7"><a href="#cb11-7"></a>  <span class="dt">pops =</span> <span class="dv">10</span>,</span>
 <span id="cb11-8"><a href="#cb11-8"></a>  <span class="dt">nStrata =</span> <span class="dv">5</span>,</span>
 <span id="cb11-9"><a href="#cb11-9"></a>  <span class="dt">fitting =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(lm_lead)<span class="op">$</span>r.square,<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(lm_zinc)<span class="op">$</span>r.square),</span>
@@ -201,11 +201,11 @@ D_{ij}^{2} = \dfrac{(\tilde{y}_{i}-\tilde{y}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 ## Sequential optimization as parallel = FALSE, defaulting number of cores = 1
 ##  *** Domain :  1   1
 ##  Number of strata :  3103
-##  *** Sample cost:  59.57928
+##  *** Sample cost:  59.32339
 ##  *** Number of strata:  4</code></pre>
-<p><img src="spatial_files/figure-html/unnamed-chunk-6-1.png" width="768"></p>
+<p><img src="spatial_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
 <pre><code>## 
-##  *** Sample size :  59
+##  *** Sample size :  60
 ##  *** Number of strata :  4
 ## ---------------------------</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>framenew &lt;-<span class="st"> </span>solution<span class="op">$</span>framenew</span>
@@ -213,7 +213,7 @@ D_{ij}^{2} = \dfrac{(\tilde{y}_{i}-\tilde{y}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 <p>obtaining the following optimized strata:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="../reference/plotStrata2d.html">plotStrata2d</a></span>(framenew,outstrata,<span class="dt">domain=</span><span class="dv">1</span>,<span class="dt">vars=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"X1"</span>,<span class="st">"X2"</span>),</span>
 <span id="cb15-2"><a href="#cb15-2"></a>             <span class="dt">labels=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Lead"</span>,<span class="st">"Zinc"</span>))</span></code></pre></div>
-<img src="spatial_files/figure-html/unnamed-chunk-7-1.png" width="768"><table class="table table table-condensed">
+<img src="spatial_files/figure-html/unnamed-chunk-7-1.png" width="576"><table class="table table table-condensed">
 <thead><tr>
 <th style="text-align:right;">
 Stratum
@@ -240,19 +240,19 @@ Bounds Zinc
 1
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">250</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">448</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">3</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">7</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 59.54%">0.01290108</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 66.92%">0.01451424</span>
 </td>
 <td style="text-align:right;">
-3.3146468764848-3.99088319174053
+3.3146468764848-4.06742488200863
 </td>
 <td style="text-align:right;">
-4.06901686494286-4.90403811974311
+4.06901686494286-5.05032393651128
 </td>
 </tr>
 <tr>
@@ -260,19 +260,19 @@ Bounds Zinc
 2
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">1258</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">1189</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">23</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">22</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 84.27%">0.01826023</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 85.71%">0.01858814</span>
 </td>
 <td style="text-align:right;">
-3.80234738325218-4.56628578657951
+3.93768665105216-4.63537007773586
 </td>
 <td style="text-align:right;">
-4.9068176076216-5.68105465810089
+4.99181734948747-5.83418589133431
 </td>
 </tr>
 <tr>
@@ -280,19 +280,19 @@ Bounds Zinc
 3
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #9cdcb7">854</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #a6e0bf">822</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #91d7af">17</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #95d9b2">17</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 93.62%">0.02028755</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 93.97%">0.02038060</span>
 </td>
 <td style="text-align:right;">
-4.51075449434296-5.26600727214482
+4.60159647183526-5.33308379610959
 </td>
 <td style="text-align:right;">
-5.28263892738927-6.22421378893523
+5.4349363030154-6.29701396493421
 </td>
 </tr>
 <tr>
@@ -300,19 +300,19 @@ Bounds Zinc
 4
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #a8e1c1">741</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #c1ebd3">644</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #97d9b3">16</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #abe2c2">14</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 100.00%">0.02166946</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 100.00%">0.02168767</span>
 </td>
 <td style="text-align:right;">
-4.83281864156491-6.16276083528614
+4.91892537093519-6.16276083528614
 </td>
 <td style="text-align:right;">
-6.22619751326312-7.33803658123577
+6.29894213691231-7.33803658123577
 </td>
 </tr>
 </tbody>
@@ -322,14 +322,14 @@ Bounds Zinc
 <span id="cb16-2"><a href="#cb16-2"></a>frameres2 &lt;-<span class="st"> </span><span class="kw">SpatialPixelsDataFrame</span>(<span class="dt">points=</span>frameres[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"LON"</span>,<span class="st">"LAT"</span>)], <span class="dt">data=</span>framenew)</span>
 <span id="cb16-3"><a href="#cb16-3"></a>frameres2<span class="op">$</span>LABEL &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">as.factor</a></span>(frameres2<span class="op">$</span>LABEL)</span>
 <span id="cb16-4"><a href="#cb16-4"></a><span class="kw">spplot</span>(frameres2,<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"LABEL"</span>), <span class="dt">col.regions=</span><span class="kw">bpy.colors</span>(<span class="dv">5</span>))</span></code></pre></div>
-<p><img src="spatial_files/figure-html/unnamed-chunk-8-1.png" width="768"></p>
+<p><img src="spatial_files/figure-html/unnamed-chunk-8-1.png" width="576"></p>
 <p>We can now proceed with the selection of the sample:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>s &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selectSample.html">selectSample</a></span>(framenew,outstrata,<span class="dt">writeFiles=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 <pre><code>## 
 ## *** Sample has been drawn successfully ***
-##  59  units have been selected from  4  strata</code></pre>
+##  60  units have been selected from  4  strata</code></pre>
 <p>whose units are so distributed in the territory:</p>
-<p><img src="spatial_files/figure-html/unnamed-chunk-10-1.png" width="768"></p>
+<p><img src="spatial_files/figure-html/unnamed-chunk-10-1.png" width="576"></p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
