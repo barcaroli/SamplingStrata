@@ -97,14 +97,14 @@
 <a href="#handling-anticipated-variance" class="anchor"></a>Handling Anticipated Variance</h1>
 <p>When optimizing the stratification of a sampling frame, values of the target variables Y’s are supposed to be available for the generality of the units in the frame, or at least for a sample of them by means of which it is possible to estimate means and standard deviation of Y’s in atomic strata. Of course, this assumption is seldom expected to hold. The situation in which some proxy variables are available in the frame is much more likely to happen. In these situations, instead of directly indicating the real target variables, proxy ones are named as Y’s. By so doing, there is no guarantee that the final stratification and allocation can ensure the compliance to the set of precision constraints.<br>
 In order to take into account this problem, and to limit the risk of overestimating the expected precision levels of the optimized solution, it is possible to carry out the optimization by considering, instead of the expected coefficients of variation related to proxy variables, the anticipated coefficients of variation (ACV) that depend on the model that is possile to fit on couples of real target variables and proxy ones. In the current implementation, only models linking continuous variables can be considered. The definition and the use of these models is the same that has been implemented in the package <em>stratification</em> <span class="citation">(see Baillargeon and Rivest 2014)</span>. In particular, the reference here is to two different models, the linear model with heteroscedasticity:</p>
-<p><span class="math display">\[Y=beta\times X + epsilon\]</span></p>
+<p><span class="math display">\[Y=\beta\times X + \epsilon\]</span></p>
 <p>where</p>
-<p><span class="math display">\[epsilon \sim N(0,sig2 X^{gamma})\]</span></p>
-<p>(in case gamma = 0, then the model is homoscedastic)</p>
+<p><span class="math display">\[\epsilon \sim N(0,\sigma^{2\gamma})\]</span></p>
+<p>(in case <span class="math inline">\(\gamma = 0\)</span>, then the model is homoscedastic)</p>
 <p>and the loglinear model:</p>
-<p><span class="math display">\[Y= \exp (beta \times log(X) + epsilon)\]</span></p>
+<p><span class="math display">\[Y= \exp (\beta \times log(X) + \epsilon)\]</span></p>
 <p>where</p>
-<p><span class="math display">\[epsilon \sim N(0,sig2)\]</span></p>
+<p><span class="math display">\[\epsilon \sim N(0,\sigma^{2})\]</span></p>
 <p>In order to make evident the importance of the above, consider the following example, based on the dataset <em>swissmunicipalities</em> available in the package.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SamplingStrata)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"swissmunicipalities"</span>)</span>
@@ -160,14 +160,14 @@ In order to take into account this problem, and to limit the risk of overestimat
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>airind &lt;-<span class="st"> </span><span class="kw"><a href="../reference/computeGamma.html">computeGamma</a></span>(mod_Airind_POPTOT<span class="op">$</span>residuals,</span>
 <span id="cb7-2"><a href="#cb7-2"></a>             swiss_sample<span class="op">$</span>POPTOT,</span>
 <span id="cb7-3"><a href="#cb7-3"></a>             <span class="dt">nbins =</span> <span class="dv">10</span>)</span></code></pre></div>
-<p><img src="models_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
+<p><img src="models_files/figure-html/unnamed-chunk-5-1.png" width="576"></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>airind</span></code></pre></div>
 <pre><code>##      gamma      sigma   r.square 
 ## 0.79952447 0.01229547 0.99476123</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>airbat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/computeGamma.html">computeGamma</a></span>(mod_Airbat_POPTOT<span class="op">$</span>residuals,</span>
 <span id="cb10-2"><a href="#cb10-2"></a>             swiss_sample<span class="op">$</span>POPTOT,</span>
 <span id="cb10-3"><a href="#cb10-3"></a>             <span class="dt">nbins =</span> <span class="dv">10</span>)</span></code></pre></div>
-<p><img src="models_files/figure-html/unnamed-chunk-6-1.png" width="768"></p>
+<p><img src="models_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>airbat</span></code></pre></div>
 <pre><code>##     gamma     sigma  r.square 
 ## 0.6419641 0.1220129 0.9535845</code></pre>
@@ -268,7 +268,7 @@ In order to take into account this problem, and to limit the risk of overestimat
 ## Allocation with real numbers instead of integers:  TRUE
 ##  *** Sample cost:  104.2297
 ##  *** Number of strata:  10</code></pre>
-<p><img src="models_files/figure-html/unnamed-chunk-11-1.png" width="768"></p>
+<p><img src="models_files/figure-html/unnamed-chunk-11-1.png" width="576"></p>
 <pre><code>## 
 ##  *** Sample size :  105
 ##  *** Number of strata :  10

@@ -18,9 +18,52 @@ knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=6)
 
 # Optimization with the *spatial* method
 
+As indicated by @degruijter2016 and @degruijter2019, in case $Y$ is the target variable, omitting as negligible the *fpc* factor, the sampling variance of its estimated mean is:
+
+\begin{equation} \label{eq1}
+V(\hat{\bar{Y}}) = \sum_{h=1}^{H}(N_{h}/N)^{2} S_{h}^{2}/n_{h}
+\end{equation}
+
+We can write the variance in each stratum $h$ as:
+
+\begin{equation} \label{eq2}
+S_{h}^{2} = \dfrac{1}{N_{h}^{2}} \sum_{i=1}^{N_{h-1}}\sum_{j=i+1}^{N_{h}}(y_{i}-y_{j})^{2}
+\end{equation} 
+
+The optimal determination of strata is obtained by minimizing the quantity $O$:
+
+\begin{equation} \label{eq3}
+O = \sum_{h=1}^{H} \dfrac{1}{N_{h}^{2}} \{ \sum_{i=1}^{N_{h-1}}  \sum_{j=i+1}^{N_{h}} (y_{i}-y_{j})^{2}\}^{1/2}
+\end{equation}
+
+Obviously, values $y$ are not known, but only their predictions, obtained by means of a regression model. So, in Equation \ref{eq3} we can substitute $(z_{i}-z_{j})^{2}$ with 
+
+\begin{equation} \label{eq5}
+D_{ij}^{2} = \dfrac{(\tilde{y}_{i}-\tilde{y}_{j})^{2}}{R^{2}} + V(e_{i}) + V(e_{j}) - 2Cov(e_{i},e_{j})
+\end{equation}
+
+where $R^{2}$ is the squared correlation coefficient indicating the fitting of the regression model, and $V(e_{i})$, $V(e_{j})$ are the model variances of the residuals. The spatial auto-correlation component is contained in the term $Cov(e_{i},e_{j})$.
+\\
+
+In particular, the quantity $D_{ij}$ is calculated in this way:
+
+\begin{equation} \label{eq6}
+D_{ij}^{2} = \dfrac{(\tilde{y}_{i}-\tilde{y}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{j}^{2}) - 2 s_{i}  s_{j}  e^{-k (d_{ij}/range)}
+\end{equation}
+
+where $ d_{ij} $ is the Euclidean distance between two units i and j in the frame (calculated using their geographical coordinates), and $s_{i}^{2}$ is an estimate of the prediction variance in the single point and \textit{range} is the maximum distance below which spatial auto-correlation can be observed among points. The value of \textit{range} can be determined by an analysis of the spatial \textit{variogram}.
+\\
+
+To summarize, when frame units can be geo-referenced, the proposed procedure is the following:
+
+* acquire coordinates of the geographic location of the units in the population of interest;
+*	fit a \textit{Kriging} model (or any other spatial model) on data for each $Y$;
+* obtain predicted values together with prediction errors for each $Y$ and associate them to each unit in the frame;
+* perform the optimization step.
+
 In order to illustrate the "*spatial*" method, we make use of a dataset generally employed as an example of spatially correlated phenomena (in this case, the concentration of four heavy metals in a portion of the river Meuse). This dataset comes with the library "*sp*":
 
-```{r, eval = T,echo=TRUE}
+```{r, eval = T,echo=TRUE, message=FALSE}
 library(sp)
 # locations (155 observed points)
 data("meuse")
@@ -30,9 +73,9 @@ meuse.grid$id <- c(1:nrow(meuse.grid))
 coordinates(meuse)<-c("x","y")
 coordinates(meuse.grid)<-c("x","y")
 lm_lead <- lm(log(lead) ~ dist,data=meuse)
-summary(lm_lead)
+# summary(lm_lead)
 lm_zinc <- lm(log(zinc) ~ dist,data=meuse)
-summary(lm_zinc)
+# summary(lm_zinc)
 ```
 
 ```{r, eval = T,echo=FALSE}
@@ -46,7 +89,7 @@ par(mfrow=c(1,1))
 
 We analyse the territorial distribution of the *lead* and *zinc* concentration, and model (by using the *universal kriging*) its relations with distance from the river, using the subset of 155 points on which these values have been jointly observed: 
 
-```{r, eval = T,echo=TRUE}
+```{r, eval = T,echo=TRUE,message=FALSE}
 library(automap)
 kriging_lead = autoKrige(log(lead) ~ dist, meuse, meuse.grid)
 plot(kriging_lead,sp.layout = NULL, justPosition = TRUE)
@@ -86,12 +129,17 @@ cv <- as.data.frame(list(DOM=rep("DOM1",1),
                          CV1=rep(0.05,1),
                          CV2=rep(0.05,1),
                          domainvalue=c(1:1) ))
+```
+
+To this aim, we carry out the optimization step by indicating the method *spatial*:
+
+```{r, eval = T,echo=TRUE, message=FALSE, warning=FALSE}
 set.seed(1234)
 solution <- optimStrata (
   method = "spatial",
   errors=cv, 
   framesamp=frame,
-  iter = 25,
+  iter = 5,
   pops = 10,
   nStrata = 5,
   fitting = c(summary(lm_lead)$r.square,summary(lm_zinc)$r.square),
@@ -104,7 +152,7 @@ framenew <- solution$framenew
 outstrata <- solution$aggr_strata
 ```
 
-This is the structure of the obtained strata:
+obtaining the following optimized strata:
 
 ```{r, eval = T,echo=TRUE}
 plotStrata2d(framenew,outstrata,domain=1,vars=c("X1","X2"),
@@ -145,3 +193,5 @@ text(s$LON[s$LABEL==4],s$LAT[s$LABEL==4], labels = row.names(s[s$LABEL == 4,]), 
 title("Selected units")
 
 ```
+
+# References

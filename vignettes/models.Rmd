@@ -13,7 +13,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 options(width = 999)
-knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=6)
+knitr::opts_chunk$set(echo = TRUE, fig.width=6, fig.height=4)
 
 ```
 
@@ -29,21 +29,21 @@ In the current implementation, only models linking continuous variables can be c
 The definition and the use of these models is the same that has been implemented in the package *stratification* [see @baillargeon:2014]. 
 In particular, the reference here is to two different models, the linear model with heteroscedasticity: 
 
-$$Y=beta\times X + epsilon$$
+$$Y=\beta\times X + \epsilon$$
 
 where 
 
-$$epsilon \sim N(0,sig2 X^{gamma})$$
+$$\epsilon \sim N(0,\sigma^{2\gamma})$$
 
-(in case gamma = 0, then the model is homoscedastic)
+(in case $\gamma = 0$, then the model is homoscedastic)
 
 and the loglinear model: 
 
-$$Y= \exp (beta \times log(X) + epsilon)$$
+$$Y= \exp (\beta \times log(X) + \epsilon)$$
 
 where
 
-$$epsilon \sim N(0,sig2)$$
+$$\epsilon \sim N(0,\sigma^{2})$$
 
 In order to make evident the importance of the above, consider the following example, based on the dataset *swissmunicipalities* available in the package.
 
