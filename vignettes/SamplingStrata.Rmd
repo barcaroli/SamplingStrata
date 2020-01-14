@@ -1,6 +1,6 @@
 ---
 title: "Optimization of sampling strata with the SamplingStrata package"
-author: "Giulio Barcaroli"
+author: "Marco Ballin, Giulio Barcaroli"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: SamplingStrata.bib

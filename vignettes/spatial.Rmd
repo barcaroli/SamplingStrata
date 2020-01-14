@@ -1,6 +1,6 @@
 ---
 title: "Spatial sampling with SamplingStrata"
-author: "Giulio Barcaroli"
+author: "Marco Ballin, Giulio Barcaroli"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: SamplingStrata.bib
@@ -13,7 +13,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 options(width = 999)
-knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=6)
+knitr::opts_chunk$set(echo = TRUE, fig.width=6, fig.height=4)
 ```
 
 # Optimization with the *spatial* method
@@ -89,7 +89,7 @@ par(mfrow=c(1,1))
 
 We analyse the territorial distribution of the *lead* and *zinc* concentration, and model (by using the *universal kriging*) its relations with distance from the river, using the subset of 155 points on which these values have been jointly observed: 
 
-```{r, eval = T,echo=TRUE,message=FALSE}
+```{r, eval = T,echo=TRUE,message=FALSE,fig.width=6,fig.height=8}
 library(automap)
 kriging_lead = autoKrige(log(lead) ~ dist, meuse, meuse.grid)
 plot(kriging_lead,sp.layout = NULL, justPosition = TRUE)
@@ -176,7 +176,7 @@ s <- selectSample(framenew,outstrata,writeFiles=FALSE)
 
 whose units are so distributed in the territory:
 
-```{r, eval = T,echo=FALSE,message=FALSE}
+```{r, eval = T,echo=FALSE,message=FALSE,fig.width=6, fig.height=6}
 plot(s$LON[s$LABEL==1],s$LAT[s$LABEL==1],col="black",
      xlab="longitude",ylab="latitude",
      xlim=c(min(s$LON),max(s$LON)),
