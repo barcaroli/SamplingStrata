@@ -1,6 +1,13 @@
 ---
 title: "Spatial sampling with SamplingStrata"
-output: html_document
+author: "Giulio Barcaroli"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Spatial sampling with SamplingStrata}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include=FALSE}
