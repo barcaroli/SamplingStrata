@@ -139,7 +139,7 @@ solution <- optimStrata (
   method = "spatial",
   errors=cv, 
   framesamp=frame,
-  iter = 5,
+  iter = 25,
   pops = 10,
   nStrata = 5,
   fitting = c(summary(lm_lead)$r.square,summary(lm_zinc)$r.square),
@@ -176,7 +176,7 @@ s <- selectSample(framenew,outstrata,writeFiles=FALSE)
 
 whose units are so distributed in the territory:
 
-```{r, eval = T,echo=FALSE,message=FALSE,fig.width=6, fig.height=6}
+```{r, eval = T,echo=FALSE,message=FALSE,fig.width=6, fig.height=8}
 plot(s$LON[s$LABEL==1],s$LAT[s$LABEL==1],col="black",
      xlab="longitude",ylab="latitude",
      xlim=c(min(s$LON),max(s$LON)),
