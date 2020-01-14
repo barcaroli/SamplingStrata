@@ -1,0 +1,143 @@
+---
+title: "Spatial sampling with SamplingStrata"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+options(width = 999)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Optimization with the *spatial* method
+
+In order to illustrate the "*spatial*" method, we make use of a dataset generally employed as an example of spatially correlated phenomena (in this case, the concentration of four heavy metals in a portion of the river Meuse). This dataset comes with the library "*sp*":
+
+```{r, eval = T,echo=TRUE}
+library(sp)
+# locations (155 observed points)
+data("meuse")
+# grid of points (3103)
+data("meuse.grid")
+meuse.grid$id <- c(1:nrow(meuse.grid))
+coordinates(meuse)<-c("x","y")
+coordinates(meuse.grid)<-c("x","y")
+lm_lead <- lm(lead~dist,data=meuse)
+summary(lm_lead)
+lm_zinc <- lm(zinc~dist,data=meuse)
+summary(lm_zinc)
+```
+
+```{r, eval = T,echo=FALSE}
+par(mfrow=c(1,2))
+plot(meuse.grid)
+title("Meuse territory (3103 points)",sub="with observed distance and soil values",cex.main=0.8,cex.sub=0.8)
+plot(meuse)
+title("Subset of 155 points",sub="with observed metals concentration",cex.main=0.8,cex.sub=0.8)
+par(mfrow=c(1,1))
+```
+
+We analyse the territorial distribution of the *lead* and *zinc* concentration, and model (by using the *universal kriging*) its relations with distance from the river, using the subset of 155 points on which these values have been jointly observed: 
+
+```{r, eval = T,echo=TRUE}
+library(automap)
+kriging_lead = autoKrige(lead~dist, meuse, meuse.grid)
+plot(kriging_lead,sp.layout = NULL, justPosition = TRUE)
+kriging_zinc = autoKrige(zinc~dist, meuse, meuse.grid)
+plot(kriging_zinc, sp.layout = list(pts = list("sp.points", meuse)))
+```
+
+Using this kriging model, we are able to predict the values of lead concentration on the totality of the 3,103 points in the Meuse territory:
+
+```{r, eval = T,echo=TRUE}
+df <- NULL
+df$id <- meuse.grid$id
+df$lead.pred <- kriging_lead$krige_output@data$var1.pred
+df$lead.var <- kriging_lead$krige_output@data$var1.pred
+df$zinc.pred <- kriging_zinc$krige_output@data$var1.pred
+df$zinc.var <- kriging_zinc$krige_output@data$var1.pred
+df$lon <- meuse.grid$x
+df$lat <- meuse.grid$y
+df$dom1 <- 1
+df <- as.data.frame(df)
+df$lead.pred <- ifelse(df$lead.pred < 0, 0, df$lead.pred)
+df$zinc.pred <- ifelse(df$zinc.pred < 0, 0, df$zinc.pred)
+df$lead.var <- ifelse(df$lead.var < 0, 0, df$lead.var)
+df$zinc.var <- ifelse(df$zinc.var < 0, 0, df$zinc.var)
+head(df)
+```
+
+The aim is now to produce the optimal stratification of the 3,103 points under a precision constraint of 5\% on the target estimates of the mean lead  and zinc concentrations:
+
+```{r, eval = T,echo=TRUE, message=FALSE, warning=FALSE}
+library(SamplingStrata)
+frame <- buildFrameSpatial(df=df,
+                      id="id",
+                      X=c("lead.pred","zinc.pred"),
+                      Y=c("lead.pred","zinc.pred"),
+                      variance=c("lead.var","zinc.var"),
+                      lon="lon",
+                      lat="lat",
+                      domainvalue = "dom1")
+cv <- as.data.frame(list(DOM=rep("DOM1",1),
+                         CV1=rep(0.05,1),
+                         CV2=rep(0.05,1),
+                         domainvalue=c(1:1) ))
+set.seed(1234)
+solution <- optimStrata (
+  method = "spatial",
+  errors=cv, 
+  framesamp=frame,
+  iter = 25,
+  pops = 10,
+  nStrata = 5,
+  fitting = c(summary(lm_lead)$r.square,summary(lm_zinc)$r.square),
+  range = c(kriging_lead$var_model$range[2],kriging_zinc$var_model$range[2]),
+  kappa=1,
+  writeFiles = FALSE,
+  showPlot = FALSE,
+  parallel = FALSE)
+framenew <- solution$framenew
+outstrata <- solution$aggr_strata
+```
+
+This is the structure of the obtained strata:
+
+```{r, eval = T,echo=TRUE}
+plotStrata2d(framenew,outstrata,domain=1,vars=c("X1","X2"),
+             labels=c("Lead","Zinc"))
+```
+
+that can be visualised in this way:
+
+```{r, eval = T,echo=TRUE}
+frameres <- SpatialPointsDataFrame(data=framenew, coords=cbind(framenew$LON,framenew$LAT) )
+frameres2 <- SpatialPixelsDataFrame(points=frameres[c("LON","LAT")], data=framenew)
+frameres2$LABEL <- as.factor(frameres2$LABEL)
+spplot(frameres2,c("LABEL"), col.regions=bpy.colors(5))
+```
+
+We can now proceed with the selection of the sample:
+
+```{r, eval = T,echo=TRUE}
+s <- selectSample(framenew,outstrata,writeFiles=FALSE)
+```
+
+whose units are so distributed in the territory:
+
+```{r, eval = T,echo=FALSE}
+plot(s$LON[s$LABEL==1],s$LAT[s$LABEL==1],col="black",
+     xlab="longitude",ylab="latitude",
+     xlim=c(min(s$LON),max(s$LON)),
+     ylim=c(min(s$LAT),max(s$LAT)))
+text(s$LON[s$LABEL==1],s$LAT[s$LABEL==1], labels = row.names(s[s$LABEL == 1,]), pos = 2, cex=0.6)
+points(s$LON[s$LABEL==2],s$LAT[s$LABEL==2],col="blue")
+text(s$LON[s$LABEL==2],s$LAT[s$LABEL==2], labels = row.names(s[s$LABEL == 2,]), pos = 4, cex=0.6, col="blue")
+points(s$LON[s$LABEL==3],s$LAT[s$LABEL==3],col="magenta")
+text(s$LON[s$LABEL==3],s$LAT[s$LABEL==3], labels = row.names(s[s$LABEL == 3,]), pos = 3, cex=0.6, col="magenta")
+points(s$LON[s$LABEL==4],s$LAT[s$LABEL==4],col="darkgreen")
+text(s$LON[s$LABEL==4],s$LAT[s$LABEL==4], labels = row.names(s[s$LABEL == 4,]), pos = 1, cex=0.6, col="darkorange")
+points(s$LON[s$LABEL==5],s$LAT[s$LABEL==5],col="red")
+text(s$LON[s$LABEL==5],s$LAT[s$LABEL==5], labels = row.names(s[s$LABEL == 5,]), pos = 4, cex=0.6, col="red")
+title("Selected units")
+
+```
