@@ -1,6 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit README.Rmd file -->
 
+``` r
+knitr::include_graphics("./inst/figures/SamplingStrata.png")
+```
+
+<img src="./inst/figures/SamplingStrata.png" title="right aligned" alt="right aligned" width="15%" style="display: block; margin: auto 0 auto auto;" />
+
 # SamplingStrata
 
 This package offers an approach for the determination of the best
