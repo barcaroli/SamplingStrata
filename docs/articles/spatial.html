@@ -83,7 +83,7 @@
       <h1>Spatial sampling with SamplingStrata</h1>
                         <h4 class="author">Marco Ballin, Giulio Barcaroli</h4>
             
-            <h4 class="date">2020-01-14</h4>
+            <h4 class="date">2020-01-15</h4>
       
       
       <div class="hidden name"><code>spatial.Rmd</code></div>
@@ -116,11 +116,11 @@ D_{ij}^{2} = \dfrac{(\tilde{y}_{i}-\tilde{y}_{j})^{2}}{R^{2}} + V(e_{i}) + V(e_{
 <p><span class="math display">\[\begin{equation} \label{eq6}
 D_{ij}^{2} = \dfrac{(\tilde{y}_{i}-\tilde{y}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{j}^{2}) - 2 s_{i}  s_{j}  e^{-k (d_{ij}/range)}
 \end{equation}\]</span></p>
-<p>where $ d_{ij} $ is the Euclidean distance between two units i and j in the frame (calculated using their geographical coordinates), and <span class="math inline">\(s_{i}^{2}\)</span> is an estimate of the prediction variance in the single point and  is the maximum distance below which spatial auto-correlation can be observed among points. The value of  can be determined by an analysis of the spatial . \</p>
+<p>where <span class="math inline">\(d_{ij}\)</span> is the Euclidean distance between two units i and j in the frame (calculated using their geographical coordinates), the <span class="math inline">\(s_{i}\)</span> and <span class="math inline">\(s_{j}\)</span> are estimates of the prediction errors in the single points and <em>range</em> is the maximum distance below which spatial auto-correlation can be observed among points. The value of <em>range</em> can be determined by an analysis of the spatial <em>variogram.</em> \</p>
 <p>To summarize, when frame units can be geo-referenced, the proposed procedure is the following:</p>
 <ul>
 <li>acquire coordinates of the geographic location of the units in the population of interest;</li>
-<li>fit a  model (or any other spatial model) on data for each <span class="math inline">\(Y\)</span>;</li>
+<li>fit a <em>Kriging</em> model (or any other spatial model) on data for each <span class="math inline">\(Y\)</span>;</li>
 <li>obtain predicted values together with prediction errors for each <span class="math inline">\(Y\)</span> and associate them to each unit in the frame;</li>
 <li>perform the optimization step.</li>
 </ul>
