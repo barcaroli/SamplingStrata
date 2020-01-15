@@ -51,13 +51,13 @@ In particular, the quantity $D_{ij}$ is calculated in this way:
 D_{ij}^{2} = \dfrac{(\tilde{y}_{i}-\tilde{y}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{j}^{2}) - 2 s_{i}  s_{j}  e^{-k (d_{ij}/range)}
 \end{equation}
 
-where $ d_{ij} $ is the Euclidean distance between two units i and j in the frame (calculated using their geographical coordinates), and $s_{i}^{2}$ is an estimate of the prediction variance in the single point and \textit{range} is the maximum distance below which spatial auto-correlation can be observed among points. The value of \textit{range} can be determined by an analysis of the spatial \textit{variogram}.
+where $d_{ij}$ is the Euclidean distance between two units i and j in the frame (calculated using their geographical coordinates), the $s_{i}$ and $s_{j}$ are estimates of the prediction errors in the single points and *range* is the maximum distance below which spatial auto-correlation can be observed among points. The value of *range* can be determined by an analysis of the spatial *variogram.*
 \\
 
 To summarize, when frame units can be geo-referenced, the proposed procedure is the following:
 
 * acquire coordinates of the geographic location of the units in the population of interest;
-*	fit a \textit{Kriging} model (or any other spatial model) on data for each $Y$;
+*	fit a *Kriging* model (or any other spatial model) on data for each $Y$;
 * obtain predicted values together with prediction errors for each $Y$ and associate them to each unit in the frame;
 * perform the optimization step.
 
