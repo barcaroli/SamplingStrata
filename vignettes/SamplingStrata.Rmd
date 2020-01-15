@@ -17,6 +17,8 @@ knitr::opts_chunk$set(fig.width=6, fig.height=4,
   comment = "#>"
 )
 ```
+# <img src="./docs/apple-touch-icon-152x152.png" align="right" />
+
 
 # Introduction
 
