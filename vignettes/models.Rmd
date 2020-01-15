@@ -25,11 +25,18 @@ The situation in which some proxy variables are available in the frame is much m
 of directly indicating the real target variables, proxy ones are named as Y's.
 By so doing, there is no guarantee that the final stratification and allocation can ensure the compliance to the set of precision constraints.  
 In order to take into account this problem, and to limit the risk of overestimating the expected precision levels of the optimized solution, it is possible to carry out the optimization by  considering, instead of the expected coefficients of variation related to proxy variables, the anticipated coefficients of variation (ACV) that depend on the model that is possile to fit on couples of real target variables and proxy ones.
-In the current implementation, only models linking continuous variables can be considered. 
-The definition and the use of these models is the same that has been implemented in the package *stratification* [see @baillargeon:2014]. 
-In particular, the reference here is to two different models, the linear model with heteroscedasticity: 
 
-$$Y=\beta\times X + \epsilon$$
+In the current implementation, the following restrictions hold:
+
+* only models linking continuous variables can be considered;
+* only *linear* or *loglinear* models;
+* only one explanatory variable for each target variable.
+
+The definition and the use of these models is the same that has been implemented in the package *stratification* [see @baillargeon:2014]. 
+
+In particular, the reference here is to two different models, the *linear model* with heteroscedasticity: 
+
+$$Z=\beta Y + \epsilon$$
 
 where 
 
@@ -37,15 +44,59 @@ $$\epsilon \sim N(0,\sigma^{2\gamma})$$
 
 (in case $\gamma = 0$, then the model is homoscedastic)
 
-and the loglinear model: 
+and the *loglinear model*: 
 
-$$Y= \exp (\beta \times log(X) + \epsilon)$$
+$$Z= \exp (\beta log(Y) + \epsilon)$$
 
 where
 
 $$\epsilon \sim N(0,\sigma^{2})$$
 
-In order to make evident the importance of the above, consider the following example, based on the dataset *swissmunicipalities* available in the package.
+In *SamplingStrata*, the use of models to calculate the anticipated variance implies the execution of the following steps:
+
+* for each couple *target variable Z* and *available variable in the frame Y* fit a model (linear or loglinear) using available data;
+* in case of linear model, evaluate the heteroscedasticity of residuals (with the function *computeGamma*);
+* with the above, define the *model* dataframe that is given as argument to the *optimStrata* function.
+
+The *model* dataframe must contain a number of rows equal to the number of the Y variables.The coupling is positional: the first row refers to the Y1, the second row to Y2 and so on.
+
+This is the structure of the *model* dataframe:
+
+
+| Variable name |  Description                                                        |
+| ------------- |:--------------------------------------------------------------------|
+| *type*        | Can assume one of the two values: *linear* or *loglinear*           |
+| *beta*        | Contains the value of the *beta* coefficient in the fitted model    |
+| *sig2*        | Contains the value of the *model variance*.                         |
+|               | It can be the squared value of sigma2 in the fitted model, or (only |
+|               | for linear models) in case of heteroscedasticity it can be          |
+|               | calculated with the *computeGamma* function                         |
+| *gamma*       | Only for linear model: contains the value of the heteroscedasticity |          
+|               | index (calculated with the *computeGamma* function)                 |
+
+# Handling heteroscedasticity in linear models
+
+When dealing with linear models, an evaluation of the quantity of heteroscedasticity in the residuals is of the utmost importance in order to correctly evaluate the anticipated variance (see @henry2006 and @knaub2019).
+To this aim, a dedicated function has been developed: *computeGamma*. 
+This function accepts as arguments the following:
+
+* vector *e* of *residuals*;
+* vector *x* of the *values* of the explanatory variable;
+* number *nbins*  of groups of residuals/values with which to fit a model.
+
+The function produces a vector of 3 values:
+
+* the heteroscedasticity index;
+* the model standard deviation be used together with the heteroscedasticity index;
+* the $R^{2}$ of the fitted model used to estimate the two above values.
+
+A suitable number to be given to the *nbins* parameter can be found by trying set of them and choosing the one with which the value of the $R^{2}$ is the highest.
+
+
+
+# Example
+
+Consider the following example, based on the dataset *swissmunicipalities* available in the package.
 
 
 ```{r, eval = T, message=F}
@@ -53,46 +104,66 @@ library(SamplingStrata)
 data("swissmunicipalities")
 swissmunicipalities$id <- c(1:nrow(swissmunicipalities))
 swissmunicipalities$dom <- 1
+head(swissmunicipalities[,c(3,4,5,6,9,22)])
 ```
 
-Let us assume that in the sampling frame only variable *total population* is available for all municipalities, while *industrial area* and *buildings area* are available only on a sample of 500 municipalities.
+Let us assume that in the sampling frame only variables *total population* (*POPTOT*) and 
+*total area* (*HApoly*) is available for all municipalities, while *buildings area* (*Airbat*)
+and *woods area* (*Surfacesbois*) are available only on a sample of 500 municipalities.
 
 ```{r, eval = T}
 set.seed(1234)
 swiss_sample <- swissmunicipalities[sample(c(1:nrow(swissmunicipalities)),500),]
 ```
 
+
 In this subset we can fit models between POPTOT and the two variables that we assume are the target of our survey.
 
-One model for *industrial area* and *total population*:
-
-```{r, eval = T}
-mod_Airind_POPTOT <- lm(swiss_sample$Airind ~ swiss_sample$POPTOT)
-summary(mod_Airind_POPTOT)
-```
-
-and one model for *buildings area* and *total population*:
+One model for *buildings area* and *total population*:
 
 ```{r, eval = T}
 mod_Airbat_POPTOT <- lm(swiss_sample$Airbat ~ swiss_sample$POPTOT)
 summary(mod_Airbat_POPTOT)
 ```
 
+and one model for *woods area* and *total area*:
+
+```{r, eval = T}
+mod_Surfacesbois_HApoly <- lm(swiss_sample$Surfacesbois ~ swiss_sample$HApoly)
+summary(mod_Surfacesbois_HApoly)
+```
+
 We calculate the heteroscedasticity index and associated prediction standard error for both models:
 
 ```{r, eval = T}
-airind <- computeGamma(mod_Airind_POPTOT$residuals,
+Airbat <- computeGamma(mod_Airbat_POPTOT$residuals,
              swiss_sample$POPTOT,
              nbins = 10)
-airind
+Airbat
 ```
 
 
 ```{r, eval = T}
-airbat <- computeGamma(mod_Airbat_POPTOT$residuals,
-             swiss_sample$POPTOT,
+Surfacesbois <- computeGamma(mod_Surfacesbois_HApoly$residuals,
+             swiss_sample$HApoly,
              nbins = 10)
-airbat
+Surfacesbois
+```
+
+We now proceed in building the *model* dataframe using the above models:
+
+```{r, eval = T}
+model <- NULL
+model$beta[1] <- mod_Airbat_POPTOT$coefficients[2]
+model$sig2[1] <- Airbat[2]^2
+model$type[1] <- "linear"
+model$gamma[1] <- Airbat[1]
+model$beta[2] <- mod_Surfacesbois_HApoly$coefficients[2]
+model$sig2[2] <- Surfacesbois[2]^2
+model$type[2] <- "linear"
+model$gamma[2] <- Surfacesbois[1] 
+model <- as.data.frame(model)
+model
 ```
 
 
@@ -101,81 +172,95 @@ We define the *sampling frame* in this way:
 
 ```{r, eval = T}
 frame <- buildFrameDF(swissmunicipalities,
-                      id="id",
-                      X="id",
-                      Y=c("POPTOT","POPTOT"),
-                      domainvalue = "dom")
+                      id = "COM",
+                      domainvalue = "dom",
+                      X = c("POPTOT", "HApoly"),
+                      Y = c("POPTOT", "HApoly"))
+frame$Airbat <- swissmunicipalities$Airbat
+frame$Surfacesbois <- swissmunicipalities$Surfacesbois
 ```
 
-that is, we replicate twice the variable *GDP* because it will be used once for *infant mortality* and once for *contraception*. 
+Note that the explanatory variables in the models have been set both as target variables Y and stratification variables. We have also associated to each unit the values of the real target variables that will be useful when evaluating the results.
 
-We set 10% and 5% precision constraints on these variables:
+We set 5% precision constraint on both variables:
 
 ```{r, eval = T}
 cv <- as.data.frame(list(DOM=rep("DOM1",1),
-                         CV1=rep(0.10,1),
+                         CV1=rep(0.05,1),
                          CV2=rep(0.05,1),
                          domainvalue=c(1:1)
                     ))
 cv
 ```
 
-We now proceed in building the *strata* dataframe using the models:
+
+We proceed now with the optimization step:
 
 ```{r, eval = T}
-model <- NULL
-model$beta[1] <- mod_Airind_POPTOT$coefficients[2]
-model$sig2[1] <- airind[2]^2
-model$type[1] <- "linear"
-model$gamma[1] <- airind[1]
-model$beta[2] <- mod_Airbat_POPTOT$coefficients[2]
-model$sig2[2] <- airbat[2]^2
-model$type[2] <- "linear"
-model$gamma[2] <- airbat[1] 
-model <- as.data.frame(model)
-model
-```
-
-```{r, eval = T}
-strata <- buildStrataDF(frame, model = model, progress = FALSE)
-head(strata)
-```
-
-We proceed with the optimization
-
-```{r, eval = T}
-kmean <- KmeansSolution(strata,cv,maxclusters=10,showPlot=FALSE)
-nstrat <- tapply(kmean$suggestions, kmean$domainvalue,
-                 FUN=function(x) length(unique(x)))
+set.seed(1234)
 solution <- optimStrata(
-    method = "atomic",
+    method = "continuous",
     errors = cv , 
     framesamp = frame, 
     model = model,
     iter = 50, 
     pops = 20, 
     parallel = FALSE,
-    suggestions = kmean,
-    nStrata = nstrat,
+    nStrata = 5,
     showPlot = FALSE,
     writeFiles = FALSE)
 ```
 
 
-What about the expected CV's?
+What about the expected CV's? We attribute the real values of Airbat and Surfacesbois to the Ys of obtained *framenew* and run the simulation:
 
 
 ```{r, eval = T}
-newstrata <- updateStrata(strata,solution)
-framenew <- updateFrame(frame,newstrata)
-framenew <- framenew[order(framenew$ID),]
-framenew$Y1 <- swissmunicipalities$Airind
-framenew$Y2 <- swissmunicipalities$Airbat
-results <- evalSolution(framenew, solution$aggr_strata, 200, progress = FALSE)
+outstrata <- solution$aggr_strata
+framenew <- solution$framenew
+framenew$Y1 <- framenew$AIRBAT
+framenew$Y2 <- framenew$SURFACESBOIS
+results <- evalSolution(framenew, outstrata, 500, progress = FALSE)
 results$coeff_var
 ```
 
-These two CV's regard respectively *industrial area* and *building area*: they are more than compliant with the precision constraints (10\% and 5\%).
+These two CV's regard respectively *buildings area* and *wood area*: they are more than compliant with the precision constraint of 5%.
+
+What if we did not use the information contained in models?
+We run the same optimization step without indication of *model* parameter:
+
+```{r, eval = T}
+set.seed(1234)
+solution <- optimStrata(
+    method = "continuous",
+    errors = cv , 
+    framesamp = frame, 
+    model = NULL,
+    iter = 50, 
+    pops = 20, 
+    parallel = FALSE,
+    nStrata = 5,
+    showPlot = FALSE,
+    writeFiles = FALSE)
+```
+
+
+We obtain a solution that requires a much lower sample size to satisfy the precision constraints on the Ys. But as we did not consider the anticipated variance on the real target variables, we pay a price in terms of expected CVs on them:
+
+
+```{r, eval = T}
+outstrata <- solution$aggr_strata
+framenew <- solution$framenew
+framenew$Y1 <- framenew$AIRBAT
+framenew$Y2 <- framenew$SURFACESBOIS
+results <- evalSolution(framenew, outstrata, 500, progress = FALSE)
+results$coeff_var
+```
+
+that are no more compliant with precision constraints.
+
+
+
 
 # References
 
