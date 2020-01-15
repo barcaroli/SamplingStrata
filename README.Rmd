@@ -13,11 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r fig.align="right",  out.width = "15%", fig.cap="right aligned", echo = FALSE}
-knitr::include_graphics("./inst/figures/SamplingStrata.png")
-```
-
-
+# <img src="./docs/apple-touch-icon-152x152.png" align="right" />
 
 # SamplingStrata
 

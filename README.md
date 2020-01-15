@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit README.Rmd file -->
 
-<img src="./inst/figures/SamplingStrata.png" title="right aligned" alt="right aligned" width="15%" style="display: block; margin: auto 0 auto auto;" />
+# <img src="./docs/apple-touch-icon-152x152.png" align="right" />
 
 # SamplingStrata
 
