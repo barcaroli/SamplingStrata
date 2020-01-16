@@ -16,7 +16,7 @@ options(width = 999)
 knitr::opts_chunk$set(echo = TRUE, fig.width=6, fig.height=4)
 
 ```
-# <img src="apple-touch-icon-152x152.png" align="right" />
+
 
 # Handling Anticipated Variance
 
