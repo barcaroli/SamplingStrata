@@ -19,7 +19,6 @@ knitr::opts_chunk$set(fig.width=6, fig.height=4,
 ```
 # <img src="apple-touch-icon-152x152.png" align="right" />
 
-
 # Introduction
 
 Let us suppose we need to design a sample survey, having a complete frame containing information on the target population 
