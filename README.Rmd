@@ -173,6 +173,3 @@ head(s)
 
 ```
 
-  <!-- badges: start -->
-  [![CRAN status](https://www.r-pkg.org/badges/version/SamplingStrata)](https://cran.r-project.org/package=SamplingStrata)
-  <!-- badges: end -->
