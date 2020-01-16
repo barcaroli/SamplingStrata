@@ -163,3 +163,7 @@ head(s)
 # 5           1      1  186*309 5663  186 309 65 10     1      30 0.03333333
 # 6           1      1  290*421 5463  290 421 11 14     1      30 0.03333333
 ```
+
+<!-- badges: start --> [![CRAN
+status](https://www.r-pkg.org/badges/version/SamplingStrata)](https://cran.r-project.org/package=SamplingStrata)
+<!-- badges: end -->
