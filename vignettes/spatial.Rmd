@@ -19,47 +19,50 @@ knitr::opts_chunk$set(echo = TRUE, fig.width=6, fig.height=4)
 
 # Optimization with the *spatial* method
 
-As indicated by @degruijter2016 and @degruijter2019, in case $Y$ is the target variable, omitting as negligible the *fpc* factor, the sampling variance of its estimated mean is:
+Let us suppose we want to design a sample survey with $k$ $Z$ target variables, each one of them correlated to one or more of the available $Y$ frame variables. 
+
+When frame units are georeferenced or geocoded, the presence of spatial auto-correlation can be investigated. This can be done by executing for instance the Moran test on the target variables: if the null hypothesis is rejected (i.e. the hypothesis of the presence of spatial auto-correlation is accepted) then we should take into account also this variance component.
+
+As indicated by @degruijter2016 and @degruijter2019, in case $Z$ is the target variable, omitting as negligible the *fpc* factor, the sampling variance of its estimated mean is:
 
 \begin{equation} \label{eq1}
-V(\hat{\bar{Y}}) = \sum_{h=1}^{H}(N_{h}/N)^{2} S_{h}^{2}/n_{h}
+V(\hat{\bar{Z}}) = \sum_{h=1}^{H}(N_{h}/N)^{2} S_{h}^{2}/n_{h}
 \end{equation}
 
 We can write the variance in each stratum $h$ as:
 
 \begin{equation} \label{eq2}
-S_{h}^{2} = \dfrac{1}{N_{h}^{2}} \sum_{i=1}^{N_{h-1}}\sum_{j=i+1}^{N_{h}}(y_{i}-y_{j})^{2}
+S_{h}^{2} = \dfrac{1}{N_{h}^{2}} \sum_{i=1}^{N_{h-1}}\sum_{j=i+1}^{N_{h}}(z_{i}-z_{j})^{2}
 \end{equation} 
 
 The optimal determination of strata is obtained by minimizing the quantity $O$:
 
 \begin{equation} \label{eq3}
-O = \sum_{h=1}^{H} \dfrac{1}{N_{h}^{2}} \{ \sum_{i=1}^{N_{h-1}}  \sum_{j=i+1}^{N_{h}} (y_{i}-y_{j})^{2}\}^{1/2}
+O = \sum_{h=1}^{H} \dfrac{1}{N_{h}^{2}} \{ \sum_{i=1}^{N_{h-1}}  \sum_{j=i+1}^{N_{h}} (z_{i}-z_{j})^{2}\}^{1/2}
 \end{equation}
 
-Obviously, values $y$ are not known, but only their predictions, obtained by means of a regression model. So, in Equation \ref{eq3} we can substitute $(z_{i}-z_{j})^{2}$ with 
+Obviously, values $z$ are not known, but only their predictions, obtained by means of a regression model. So, in Equation \ref{eq3} we can substitute $(z_{i}-z_{j})^{2}$ with 
 
 \begin{equation} \label{eq5}
-D_{ij}^{2} = \dfrac{(\tilde{y}_{i}-\tilde{y}_{j})^{2}}{R^{2}} + V(e_{i}) + V(e_{j}) - 2Cov(e_{i},e_{j})
+D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + V(e_{i}) + V(e_{j}) - 2Cov(e_{i},e_{j})
 \end{equation}
 
 where $R^{2}$ is the squared correlation coefficient indicating the fitting of the regression model, and $V(e_{i})$, $V(e_{j})$ are the model variances of the residuals. The spatial auto-correlation component is contained in the term $Cov(e_{i},e_{j})$.
-\\
 
 In particular, the quantity $D_{ij}$ is calculated in this way:
 
 \begin{equation} \label{eq6}
-D_{ij}^{2} = \dfrac{(\tilde{y}_{i}-\tilde{y}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{j}^{2}) - 2 s_{i}  s_{j}  e^{-k (d_{ij}/range)}
+D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{j}^{2}) - 2 s_{i}  s_{j}  e^{-k (d_{ij}/range)}
 \end{equation}
 
-where $d_{ij}$ is the Euclidean distance between two units i and j in the frame (calculated using their geographical coordinates), the $s_{i}$ and $s_{j}$ are estimates of the prediction errors in the single points and *range* is the maximum distance below which spatial auto-correlation can be observed among points. The value of *range* can be determined by an analysis of the spatial *variogram.*
-\\
+where $d_{ij}$ is the Euclidean distance between two units i and j in the frame (calculated using their geographical coordinates, that must be expressed in meters), the $s_{i}$ and $s_{j}$ are estimates of the prediction errors in the single points and *range* is the maximum distance below which spatial auto-correlation can be observed among points. The value of *range* can be determined by an analysis of the spatial *variogram*.
+
 
 To summarize, when frame units can be geo-referenced, the proposed procedure is the following:
 
 * acquire coordinates of the geographic location of the units in the population of interest;
-*	fit a *Kriging* model (or any other spatial model) on data for each $Y$;
-* obtain predicted values together with prediction errors for each $Y$ and associate them to each unit in the frame;
+*	fit a *Kriging* model (or any other spatial model) on data for each $Z$;
+* obtain predicted values together with prediction errors for each $Z$ and associate them to each unit in the frame;
 * perform the optimization step.
 
 In order to illustrate the "*spatial*" method, we make use of a dataset generally employed as an example of spatially correlated phenomena (in this case, the concentration of four heavy metals in a portion of the river Meuse). This dataset comes with the library "*sp*":
@@ -82,9 +85,9 @@ lm_zinc <- lm(log(zinc) ~ dist,data=meuse)
 ```{r, eval = T,echo=FALSE}
 par(mfrow=c(1,2))
 plot(meuse.grid)
-title("Meuse territory (3103 points)",sub="with observed distance and soil values",cex.main=0.8,cex.sub=0.8)
+title("Meuse territory (3103 points)",sub="with reported distance from the river",cex.main=0.8,cex.sub=0.8)
 plot(meuse)
-title("Subset of 155 points",sub="with observed metals concentration",cex.main=0.8,cex.sub=0.8)
+title("Subset of 155 points",sub="with also observed metals concentration",cex.main=0.8,cex.sub=0.8)
 par(mfrow=c(1,1))
 ```
 
@@ -114,7 +117,7 @@ df <- as.data.frame(df)
 head(df)
 ```
 
-The aim is now to produce the optimal stratification of the 3,103 points under a precision constraint of 5\% on the target estimates of the mean lead  and zinc concentrations:
+The aim is now to produce the optimal stratification of the 3,103 points under a precision constraint of 5\% on the target estimates of the mean *lead*  and *zinc* concentrations:
 
 ```{r, eval = T,echo=TRUE, message=FALSE, warning=FALSE}
 library(SamplingStrata)

@@ -41,7 +41,7 @@ $$Z=\beta Y + \epsilon$$
 
 where 
 
-$$\epsilon \sim N(0,\sigma^{2\gamma})$$
+$$\epsilon \sim N(0,\sigma^2 Y^\gamma)$$
 
 (in case $\gamma = 0$, then the model is homoscedastic)
 
@@ -91,7 +91,7 @@ The function produces a vector of 3 values:
 * the model standard deviation be used together with the heteroscedasticity index;
 * the $R^{2}$ of the fitted model used to estimate the two above values.
 
-A suitable number to be given to the *nbins* parameter can be found by trying set of them and choosing the one with which the value of the $R^{2}$ is the highest.
+A suitable number to be given to the *nbins* parameter can be found by trying different values and choosing the one with which the value of the $R^{2}$ is the highest. Experience shows that a choice of *nbins* ranging between 10 to 16 works quite well.
 
 
 
@@ -181,7 +181,9 @@ frame$Airbat <- swissmunicipalities$Airbat
 frame$Surfacesbois <- swissmunicipalities$Surfacesbois
 ```
 
-Note that the explanatory variables in the models have been set both as target variables Y and stratification variables. We have also associated to each unit the values of the real target variables that will be useful when evaluating the results.
+Note that the explanatory variables in the models have been set as both target variables Y and stratification variables X. 
+
+(Since in this exercise the true values of the variables of interest are known for each unit of the population, they have been included in the frame in order to allow a performance evaluation in the next step. It is quite clear that this knowledge is not available in real cases.)
 
 We set 5% precision constraint on both variables:
 
@@ -195,7 +197,7 @@ cv
 ```
 
 
-We proceed now with the optimization step:
+We can now proceed with the optimization step:
 
 ```{r, eval = T}
 set.seed(1234)
@@ -219,13 +221,14 @@ What about the expected CV's? We attribute the real values of Airbat and Surface
 ```{r, eval = T}
 outstrata <- solution$aggr_strata
 framenew <- solution$framenew
-framenew$Y1 <- framenew$AIRBAT
-framenew$Y2 <- framenew$SURFACESBOIS
+framenew$Y3 <- framenew$AIRBAT
+framenew$Y4 <- framenew$SURFACESBOIS
 results <- evalSolution(framenew, outstrata, 500, progress = FALSE)
 results$coeff_var
 ```
 
-These two CV's regard respectively *buildings area* and *wood area*: they are more than compliant with the precision constraint of 5%.
+The first two CVs pertain to the proxy available variables, namely *total population* and *total area*, while the last two
+regard respectively *buildings area* and *woods area*: they are more than compliant with the precision constraint of 5%.
 
 What if we did not use the information contained in models?
 We run the same optimization step without indication of *model* parameter:
@@ -252,13 +255,13 @@ We obtain a solution that requires a much lower sample size to satisfy the preci
 ```{r, eval = T}
 outstrata <- solution$aggr_strata
 framenew <- solution$framenew
-framenew$Y1 <- framenew$AIRBAT
-framenew$Y2 <- framenew$SURFACESBOIS
+framenew$Y3 <- framenew$AIRBAT
+framenew$Y4 <- framenew$SURFACESBOIS
 results <- evalSolution(framenew, outstrata, 500, progress = FALSE)
 results$coeff_var
 ```
 
-that are no more compliant with precision constraints.
+Precision levels of *buildings area* and *woods area* are no longer compliant with constraints: the importance of using models is therefore verified.
 
 
 
