@@ -21,4 +21,4 @@ Allocation with real numbers instead of integers:  TRUE
  *** Number of strata:  9
  *** Sample cost:  18
  *** Number of strata:  9
-...written output to C:/Users/Giulio/Google Drive/Sampling/SamplingStrata 1.5/SamplingStrata/vignettes/output/outstrata1.txt
+...written output to C:/Users/UTENTE/Google Drive/Sampling/SamplingStrata 1.5/SamplingStrata/vignettes/output/outstrata1.txt
