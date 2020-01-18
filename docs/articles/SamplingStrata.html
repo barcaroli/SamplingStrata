@@ -574,8 +574,8 @@
 <span id="cb16-15"><a href="#cb16-15"></a><span class="co">#&gt;  *** Starting parallel optimization for  7  domains using  3  cores</span></span></code></pre></div>
 <p><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-1.png" width="576"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-2.png" width="576"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-3.png" width="576"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-4.png" width="576"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-5.png" width="576"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-6.png" width="576"><img src="SamplingStrata_files/figure-html/unnamed-chunk-16-7.png" width="576"></p>
 <pre><code>#&gt; 
-#&gt;  *** Sample size :  356
-#&gt;  *** Number of strata :  106
+#&gt;  *** Sample size :  357
+#&gt;  *** Number of strata :  137
 #&gt; ---------------------------</code></pre>
 <p>Note that by so doing the <em>nStrata</em> parameter is set equal to the number of atomic strata in each domain . Another possibility is to set a pre-determined value for each domain, for instance equal in each domain, as c(5,5,5,5,5,5,5,5).</p>
 <p>The execution of <em>optimStrata</em> produces the solution of 7 different optimization problems, one for each domain.</p>
@@ -591,13 +591,13 @@
 <p>We can calculate the expected CV’s by executing the function:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw"><a href="../reference/expected_CV.html">expected_CV</a></span>(solution<span class="op">$</span>aggr_strata)</span>
 <span id="cb18-2"><a href="#cb18-2"></a><span class="co">#&gt;      cv(Y1) cv(Y2) cv(Y3) cv(Y4)</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="co">#&gt; DOM1  0.079  0.077  0.077  0.076</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a><span class="co">#&gt; DOM2  0.075  0.079  0.077  0.085</span></span>
-<span id="cb18-5"><a href="#cb18-5"></a><span class="co">#&gt; DOM3  0.077  0.076  0.078  0.078</span></span>
-<span id="cb18-6"><a href="#cb18-6"></a><span class="co">#&gt; DOM4  0.076  0.074  0.078  0.075</span></span>
-<span id="cb18-7"><a href="#cb18-7"></a><span class="co">#&gt; DOM5  0.078  0.077  0.076  0.075</span></span>
-<span id="cb18-8"><a href="#cb18-8"></a><span class="co">#&gt; DOM6  0.071  0.075  0.079  0.077</span></span>
-<span id="cb18-9"><a href="#cb18-9"></a><span class="co">#&gt; DOM7  0.072  0.071  0.072  0.079</span></span></code></pre></div>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="co">#&gt; DOM1  0.079  0.077  0.077  0.078</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="co">#&gt; DOM2  0.074  0.081  0.074  0.077</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a><span class="co">#&gt; DOM3  0.077  0.076  0.077  0.079</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a><span class="co">#&gt; DOM4  0.078  0.074  0.078  0.074</span></span>
+<span id="cb18-7"><a href="#cb18-7"></a><span class="co">#&gt; DOM5  0.078  0.076  0.077  0.077</span></span>
+<span id="cb18-8"><a href="#cb18-8"></a><span class="co">#&gt; DOM6  0.077  0.075  0.078  0.079</span></span>
+<span id="cb18-9"><a href="#cb18-9"></a><span class="co">#&gt; DOM7  0.071  0.071  0.069  0.082</span></span></code></pre></div>
 <p>and compare them to the set of precision constraints in order to verify the compliance:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>swisserrors</span>
 <span id="cb19-2"><a href="#cb19-2"></a><span class="co">#&gt;    DOM  CV1  CV2  CV3  CV4 domainvalue</span></span>
@@ -643,8 +643,8 @@
 <span id="cb20-15"><a href="#cb20-15"></a><span class="co">#&gt;  Number of strata:  9</span></span>
 <span id="cb20-16"><a href="#cb20-16"></a><span class="co">#&gt;  Sample size     :  17</span></span>
 <span id="cb20-17"><a href="#cb20-17"></a><span class="co">#&gt;  *** Domain:  3  ***</span></span>
-<span id="cb20-18"><a href="#cb20-18"></a><span class="co">#&gt;  Number of strata:  8</span></span>
-<span id="cb20-19"><a href="#cb20-19"></a><span class="co">#&gt;  Sample size     :  15</span></span>
+<span id="cb20-18"><a href="#cb20-18"></a><span class="co">#&gt;  Number of strata:  7</span></span>
+<span id="cb20-19"><a href="#cb20-19"></a><span class="co">#&gt;  Sample size     :  13</span></span>
 <span id="cb20-20"><a href="#cb20-20"></a><span class="co">#&gt;  *** Domain:  4  ***</span></span>
 <span id="cb20-21"><a href="#cb20-21"></a><span class="co">#&gt;  Number of strata:  6</span></span>
 <span id="cb20-22"><a href="#cb20-22"></a><span class="co">#&gt;  Sample size     :  10</span></span>
@@ -652,25 +652,25 @@
 <span id="cb20-24"><a href="#cb20-24"></a><span class="co">#&gt;  Number of strata:  7</span></span>
 <span id="cb20-25"><a href="#cb20-25"></a><span class="co">#&gt;  Sample size     :  13</span></span>
 <span id="cb20-26"><a href="#cb20-26"></a><span class="co">#&gt;  *** Domain:  6  ***</span></span>
-<span id="cb20-27"><a href="#cb20-27"></a><span class="co">#&gt;  Number of strata:  8</span></span>
-<span id="cb20-28"><a href="#cb20-28"></a><span class="co">#&gt;  Sample size     :  15</span></span>
+<span id="cb20-27"><a href="#cb20-27"></a><span class="co">#&gt;  Number of strata:  7</span></span>
+<span id="cb20-28"><a href="#cb20-28"></a><span class="co">#&gt;  Sample size     :  13</span></span>
 <span id="cb20-29"><a href="#cb20-29"></a><span class="co">#&gt;  *** Domain:  7  ***</span></span>
-<span id="cb20-30"><a href="#cb20-30"></a><span class="co">#&gt;  Number of strata:  8</span></span>
+<span id="cb20-30"><a href="#cb20-30"></a><span class="co">#&gt;  Number of strata:  6</span></span>
 <span id="cb20-31"><a href="#cb20-31"></a><span class="co">#&gt;  Sample size     :  16</span></span>
 <span id="cb20-32"><a href="#cb20-32"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(solutionKmeans1)</span>
 <span id="cb20-33"><a href="#cb20-33"></a><span class="co">#&gt;   suggestions domainvalue</span></span>
-<span id="cb20-34"><a href="#cb20-34"></a><span class="co">#&gt; 1           4           1</span></span>
-<span id="cb20-35"><a href="#cb20-35"></a><span class="co">#&gt; 2           4           1</span></span>
-<span id="cb20-36"><a href="#cb20-36"></a><span class="co">#&gt; 3           4           1</span></span>
-<span id="cb20-37"><a href="#cb20-37"></a><span class="co">#&gt; 4           4           1</span></span>
-<span id="cb20-38"><a href="#cb20-38"></a><span class="co">#&gt; 5           4           1</span></span>
-<span id="cb20-39"><a href="#cb20-39"></a><span class="co">#&gt; 6           4           1</span></span></code></pre></div>
+<span id="cb20-34"><a href="#cb20-34"></a><span class="co">#&gt; 1           9           1</span></span>
+<span id="cb20-35"><a href="#cb20-35"></a><span class="co">#&gt; 2           9           1</span></span>
+<span id="cb20-36"><a href="#cb20-36"></a><span class="co">#&gt; 3           9           1</span></span>
+<span id="cb20-37"><a href="#cb20-37"></a><span class="co">#&gt; 4           9           1</span></span>
+<span id="cb20-38"><a href="#cb20-38"></a><span class="co">#&gt; 5           9           1</span></span>
+<span id="cb20-39"><a href="#cb20-39"></a><span class="co">#&gt; 6           9           1</span></span></code></pre></div>
 <p>This solution can be given as argument to the parameter <em>suggestion</em> in the <em>optimizeStrata</em> function, together with the indication of which is the suitable number of strata to be obtained in each domain in the final solution, calculated as:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>nstrat &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>(solutionKmeans1<span class="op">$</span>suggestions, solutionKmeans1<span class="op">$</span>domainvalue,</span>
 <span id="cb21-2"><a href="#cb21-2"></a>                 <span class="dt">FUN=</span><span class="cf">function</span>(x) <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(x)))</span>
 <span id="cb21-3"><a href="#cb21-3"></a>nstrat</span>
 <span id="cb21-4"><a href="#cb21-4"></a><span class="co">#&gt; 1 2 3 4 5 6 7 </span></span>
-<span id="cb21-5"><a href="#cb21-5"></a><span class="co">#&gt; 9 9 8 6 7 8 8</span></span></code></pre></div>
+<span id="cb21-5"><a href="#cb21-5"></a><span class="co">#&gt; 9 9 7 6 7 7 6</span></span></code></pre></div>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>solution_with_kmeans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/optimStrata.html">optimStrata</a></span>(</span>
 <span id="cb22-2"><a href="#cb22-2"></a>  <span class="dt">method =</span> <span class="st">"atomic"</span>,</span>
 <span id="cb22-3"><a href="#cb22-3"></a>    <span class="dt">errors =</span> swisserrors,</span>
@@ -689,12 +689,12 @@
 <span id="cb22-16"><a href="#cb22-16"></a><span class="co">#&gt; ... of which with only one unit:  389</span></span>
 <span id="cb22-17"><a href="#cb22-17"></a><span class="co">#&gt;  *** Starting parallel optimization for  7  domains using  3  cores</span></span>
 <span id="cb22-18"><a href="#cb22-18"></a><span class="co">#&gt; </span></span>
-<span id="cb22-19"><a href="#cb22-19"></a><span class="co">#&gt;  *** Sample size :  104</span></span>
-<span id="cb22-20"><a href="#cb22-20"></a><span class="co">#&gt;  *** Number of strata :  53</span></span>
+<span id="cb22-19"><a href="#cb22-19"></a><span class="co">#&gt;  *** Sample size :  99</span></span>
+<span id="cb22-20"><a href="#cb22-20"></a><span class="co">#&gt;  *** Number of strata :  51</span></span>
 <span id="cb22-21"><a href="#cb22-21"></a><span class="co">#&gt; ---------------------------</span></span>
 <span id="cb22-22"><a href="#cb22-22"></a><span class="co">#&gt; ...written output to  C:/Users/UTENTE/Google Drive/Sampling/SamplingStrata 1.5/SamplingStrata/vignettes/output /outstrata.txt</span></span></code></pre></div>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/Round.html">ceiling</a></span>(solution_with_kmeans<span class="op">$</span>aggr_strata<span class="op">$</span>SOLUZ))</span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="co">#&gt; [1] 105</span></span></code></pre></div>
+<span id="cb23-2"><a href="#cb23-2"></a><span class="co">#&gt; [1] 100</span></span></code></pre></div>
 <p>thus obtaining a much more conventient solution than the one without the kmeans suggestion, with the same number of iterations.</p>
 </div>
 <div id="adjustment-of-the-final-sampling-size" class="section level1">
@@ -709,32 +709,22 @@
 <p>In the first case, no action is required. In the second case, it is necessary to reduce the number of units, by equally applying the same reduction rate in each stratum. In the third case, we could either to set more tight precision constraints, or proceed to increase the sample size by applying the same increase rate in each stratum. This increase/reduction process is iterative, as by applying the same rate we could find that in some strata there are not enough units to increase or to reduce. The function <em>adjustSize</em> permits to obtain the desired final sample size. Let us suppose that the obtained sample size is not affordable. We can reduce it by executing the following code:</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>adjustedStrata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/adjustSize.html">adjustSize</a></span>(<span class="dt">size=</span><span class="dv">280</span>,<span class="dt">strata=</span>solution<span class="op">$</span>aggr_strata,<span class="dt">cens=</span><span class="ot">NULL</span>)</span>
 <span id="cb24-2"><a href="#cb24-2"></a><span class="co">#&gt; </span></span>
-<span id="cb24-3"><a href="#cb24-3"></a><span class="co">#&gt;  302</span></span>
-<span id="cb24-4"><a href="#cb24-4"></a><span class="co">#&gt;  298</span></span>
-<span id="cb24-5"><a href="#cb24-5"></a><span class="co">#&gt;  296</span></span>
-<span id="cb24-6"><a href="#cb24-6"></a><span class="co">#&gt;  295</span></span>
-<span id="cb24-7"><a href="#cb24-7"></a><span class="co">#&gt;  294</span></span>
-<span id="cb24-8"><a href="#cb24-8"></a><span class="co">#&gt;  293</span></span>
-<span id="cb24-9"><a href="#cb24-9"></a><span class="co">#&gt;  292</span></span>
-<span id="cb24-10"><a href="#cb24-10"></a><span class="co">#&gt;  292</span></span>
-<span id="cb24-11"><a href="#cb24-11"></a><span class="co">#&gt;  Final adjusted size:  292</span></span>
-<span id="cb24-12"><a href="#cb24-12"></a><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(adjustedStrata<span class="op">$</span>SOLUZ)</span>
-<span id="cb24-13"><a href="#cb24-13"></a><span class="co">#&gt; [1] 292</span></span></code></pre></div>
+<span id="cb24-3"><a href="#cb24-3"></a><span class="co">#&gt;  315</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a><span class="co">#&gt;  305</span></span>
+<span id="cb24-5"><a href="#cb24-5"></a><span class="co">#&gt;  303</span></span>
+<span id="cb24-6"><a href="#cb24-6"></a><span class="co">#&gt;  301</span></span>
+<span id="cb24-7"><a href="#cb24-7"></a><span class="co">#&gt;  301</span></span>
+<span id="cb24-8"><a href="#cb24-8"></a><span class="co">#&gt;  Final adjusted size:  301</span></span>
+<span id="cb24-9"><a href="#cb24-9"></a><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(adjustedStrata<span class="op">$</span>SOLUZ)</span>
+<span id="cb24-10"><a href="#cb24-10"></a><span class="co">#&gt; [1] 301</span></span></code></pre></div>
 <p>Instead, if we want to increase the size because the budget allows to do this, then this is the code:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>adjustedStrata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/adjustSize.html">adjustSize</a></span>(<span class="dt">size=</span><span class="dv">400</span>,<span class="dt">strata=</span>solution<span class="op">$</span>aggr_strata,<span class="dt">cens=</span><span class="ot">NULL</span>)</span>
 <span id="cb25-2"><a href="#cb25-2"></a><span class="co">#&gt; </span></span>
-<span id="cb25-3"><a href="#cb25-3"></a><span class="co">#&gt;  385</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a><span class="co">#&gt;  386</span></span>
-<span id="cb25-5"><a href="#cb25-5"></a><span class="co">#&gt;  387</span></span>
-<span id="cb25-6"><a href="#cb25-6"></a><span class="co">#&gt;  388</span></span>
-<span id="cb25-7"><a href="#cb25-7"></a><span class="co">#&gt;  389</span></span>
-<span id="cb25-8"><a href="#cb25-8"></a><span class="co">#&gt;  390</span></span>
-<span id="cb25-9"><a href="#cb25-9"></a><span class="co">#&gt;  391</span></span>
-<span id="cb25-10"><a href="#cb25-10"></a><span class="co">#&gt;  392</span></span>
-<span id="cb25-11"><a href="#cb25-11"></a><span class="co">#&gt;  392</span></span>
-<span id="cb25-12"><a href="#cb25-12"></a><span class="co">#&gt;  Final adjusted size:  392</span></span>
-<span id="cb25-13"><a href="#cb25-13"></a><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(adjustedStrata<span class="op">$</span>SOLUZ)</span>
-<span id="cb25-14"><a href="#cb25-14"></a><span class="co">#&gt; [1] 392</span></span></code></pre></div>
+<span id="cb25-3"><a href="#cb25-3"></a><span class="co">#&gt;  381</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a><span class="co">#&gt;  381</span></span>
+<span id="cb25-5"><a href="#cb25-5"></a><span class="co">#&gt;  Final adjusted size:  381</span></span>
+<span id="cb25-6"><a href="#cb25-6"></a><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(adjustedStrata<span class="op">$</span>SOLUZ)</span>
+<span id="cb25-7"><a href="#cb25-7"></a><span class="co">#&gt; [1] 381</span></span></code></pre></div>
 <p>The difference between the desired sample size and the actual adjusted size depends on the number of strata in the optimized solution. Consider that the adjustment is performed in each stratum by taking into account the relative difference between the current sample size and the desired one: this produces an allocation that is expressed by a real number, that must be rounded, while taking into account the requirement of the minimum number of units in the strata. The higher the number of strata, the higher the impact on the final adjusted sample size.</p>
 </div>
 <div id="analysis-of-results" class="section level1">
@@ -759,11 +749,11 @@
 <span id="cb27-2"><a href="#cb27-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(strata_aggregation)</span>
 <span id="cb27-3"><a href="#cb27-3"></a><span class="co">#&gt;   DOM1 AGGR_STRATUM X1 X2 X3 X4 X5 X6</span></span>
 <span id="cb27-4"><a href="#cb27-4"></a><span class="co">#&gt; 1    1            1  1  1  1  1  1  1</span></span>
-<span id="cb27-5"><a href="#cb27-5"></a><span class="co">#&gt; 2    1            1  4  1  2  1  1  1</span></span>
-<span id="cb27-6"><a href="#cb27-6"></a><span class="co">#&gt; 3    1            1  4  3  1  1  1  1</span></span>
-<span id="cb27-7"><a href="#cb27-7"></a><span class="co">#&gt; 4    1            1  5  1  3  1  1  2</span></span>
+<span id="cb27-5"><a href="#cb27-5"></a><span class="co">#&gt; 2    1            1  2  1  1  1  1  1</span></span>
+<span id="cb27-6"><a href="#cb27-6"></a><span class="co">#&gt; 3    1            1  2  2  2  1  1  1</span></span>
+<span id="cb27-7"><a href="#cb27-7"></a><span class="co">#&gt; 4    1            1  4  1  1  1  1  2</span></span>
 <span id="cb27-8"><a href="#cb27-8"></a><span class="co">#&gt; 5    1            1  5  2  1  1  1  1</span></span>
-<span id="cb27-9"><a href="#cb27-9"></a><span class="co">#&gt; 6    1            1  7  1  2  1  1  2</span></span></code></pre></div>
+<span id="cb27-9"><a href="#cb27-9"></a><span class="co">#&gt; 6    1            1  5  2  2  1  2  1</span></span></code></pre></div>
 <p>In this structure, for each aggregate stratum the values of the X’s variables in each contributing atomic stratum are reported. It is then possible to understand the meaning of each aggregate stratum produced by the optimization.</p>
 </div>
 <div id="selection-of-the-sample" class="section level1">
@@ -775,10 +765,10 @@
 <span id="cb28-3"><a href="#cb28-3"></a>sample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selectSample.html">selectSample</a></span>(framenew, outstrata, <span class="dt">writeFiles=</span><span class="ot">FALSE</span>)</span>
 <span id="cb28-4"><a href="#cb28-4"></a><span class="co">#&gt; </span></span>
 <span id="cb28-5"><a href="#cb28-5"></a><span class="co">#&gt; *** Sample has been drawn successfully ***</span></span>
-<span id="cb28-6"><a href="#cb28-6"></a><span class="co">#&gt;  356  units have been selected from  106  strata</span></span>
+<span id="cb28-6"><a href="#cb28-6"></a><span class="co">#&gt;  357  units have been selected from  137  strata</span></span>
 <span id="cb28-7"><a href="#cb28-7"></a><span class="co">#&gt; </span></span>
-<span id="cb28-8"><a href="#cb28-8"></a><span class="co">#&gt; ==&gt; There have been  27  take-all strata </span></span>
-<span id="cb28-9"><a href="#cb28-9"></a><span class="co">#&gt; from which have been selected  71 units</span></span></code></pre></div>
+<span id="cb28-8"><a href="#cb28-8"></a><span class="co">#&gt; ==&gt; There have been  42  take-all strata </span></span>
+<span id="cb28-9"><a href="#cb28-9"></a><span class="co">#&gt; from which have been selected  78 units</span></span></code></pre></div>
 <p>When the option <em>writeFiles</em> is set to TRUE, it produces two .csv files:</p>
 <ul>
 <li>
@@ -804,19 +794,19 @@
 <span id="cb29-8"><a href="#cb29-8"></a>                                 <span class="dt">sortvariable =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"POPTOT"</span>))</span>
 <span id="cb29-9"><a href="#cb29-9"></a><span class="co">#&gt; </span></span>
 <span id="cb29-10"><a href="#cb29-10"></a><span class="co">#&gt; *** Sample has been drawn successfully ***</span></span>
-<span id="cb29-11"><a href="#cb29-11"></a><span class="co">#&gt;  356  units have been selected from  106  strata</span></span>
+<span id="cb29-11"><a href="#cb29-11"></a><span class="co">#&gt;  357  units have been selected from  137  strata</span></span>
 <span id="cb29-12"><a href="#cb29-12"></a><span class="co">#&gt; </span></span>
-<span id="cb29-13"><a href="#cb29-13"></a><span class="co">#&gt; ==&gt; There have been  27  take-all strata </span></span>
-<span id="cb29-14"><a href="#cb29-14"></a><span class="co">#&gt; from which have been selected  71 units</span></span>
+<span id="cb29-13"><a href="#cb29-13"></a><span class="co">#&gt; ==&gt; There have been  42  take-all strata </span></span>
+<span id="cb29-14"><a href="#cb29-14"></a><span class="co">#&gt; from which have been selected  78 units</span></span>
 <span id="cb29-15"><a href="#cb29-15"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(sample,<span class="dv">3</span>)</span>
-<span id="cb29-16"><a href="#cb29-16"></a><span class="co">#&gt;   DOMAINVALUE STRATO REG                    ID     STRATUM PROGR X1 X2 X3 X4 X5</span></span>
-<span id="cb29-17"><a href="#cb29-17"></a><span class="co">#&gt; 1           1      1   1           Champmartin 1*1*1*1*1*1  2886  1  1  1  1  1</span></span>
-<span id="cb29-18"><a href="#cb29-18"></a><span class="co">#&gt; 2           1      1   1                Cuarny 1*1*1*1*1*1  2568  1  1  1  1  1</span></span>
-<span id="cb29-19"><a href="#cb29-19"></a><span class="co">#&gt; 3           1      1   1 Essert-sous-Champvent 1*1*1*1*1*1  2660  1  1  1  1  1</span></span>
-<span id="cb29-20"><a href="#cb29-20"></a><span class="co">#&gt;   X6 Y1 Y2 Y3 Y4 LABEL POPTOT  WEIGHTS        FPC</span></span>
-<span id="cb29-21"><a href="#cb29-21"></a><span class="co">#&gt; 1  1  5  5 14  9     1     33 14.42857 0.06930693</span></span>
-<span id="cb29-22"><a href="#cb29-22"></a><span class="co">#&gt; 2  1 49 47 60 15     1    171 14.42857 0.06930693</span></span>
-<span id="cb29-23"><a href="#cb29-23"></a><span class="co">#&gt; 3  1 29 57 30 16     1    132 14.42857 0.06930693</span></span></code></pre></div>
+<span id="cb29-16"><a href="#cb29-16"></a><span class="co">#&gt;   DOMAINVALUE STRATO REG             ID     STRATUM PROGR X1 X2 X3 X4 X5 X6  Y1</span></span>
+<span id="cb29-17"><a href="#cb29-17"></a><span class="co">#&gt; 1           1      1   1 Arnex-sur-Nyon 1*1*1*1*1*1  2653  1  1  1  1  1  1  39</span></span>
+<span id="cb29-18"><a href="#cb29-18"></a><span class="co">#&gt; 2           1      1   1        Bratsch 2*1*1*1*1*1  1949  2  1  1  1  1  1 106</span></span>
+<span id="cb29-19"><a href="#cb29-19"></a><span class="co">#&gt; 3           1      1   1     La Rogivue 1*1*1*1*1*1  2798  1  1  1  1  1  1  18</span></span>
+<span id="cb29-20"><a href="#cb29-20"></a><span class="co">#&gt;    Y2  Y3 Y4 LABEL POPTOT  WEIGHTS        FPC</span></span>
+<span id="cb29-21"><a href="#cb29-21"></a><span class="co">#&gt; 1  28  57 12     1    136 37.14286 0.02692308</span></span>
+<span id="cb29-22"><a href="#cb29-22"></a><span class="co">#&gt; 2 148 145 65     1    464 37.14286 0.02692308</span></span>
+<span id="cb29-23"><a href="#cb29-23"></a><span class="co">#&gt; 3  21  23 10     1     72 37.14286 0.02692308</span></span></code></pre></div>
 </div>
 <div id="evaluation-of-the-found-solution" class="section level1">
 <h1 class="hasAnchor">
@@ -831,13 +821,13 @@
 <p>For each drawn sample, the estimates related to the Y’s are calculated. Their mean and standard deviation are also computed, in order to produce the CV related to each variable in every domain. These CV’s can be inspected and compared to the constraints:</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>eval<span class="op">$</span>coeff_var</span>
 <span id="cb31-2"><a href="#cb31-2"></a><span class="co">#&gt;      CV1    CV2    CV3    CV4  dom</span></span>
-<span id="cb31-3"><a href="#cb31-3"></a><span class="co">#&gt; 1 0.0749 0.0724 0.0735 0.0730 DOM1</span></span>
-<span id="cb31-4"><a href="#cb31-4"></a><span class="co">#&gt; 2 0.0753 0.0823 0.0821 0.0909 DOM2</span></span>
-<span id="cb31-5"><a href="#cb31-5"></a><span class="co">#&gt; 3 0.0861 0.0861 0.0876 0.0885 DOM3</span></span>
-<span id="cb31-6"><a href="#cb31-6"></a><span class="co">#&gt; 4 0.0662 0.0637 0.0687 0.0713 DOM4</span></span>
-<span id="cb31-7"><a href="#cb31-7"></a><span class="co">#&gt; 5 0.0837 0.0839 0.0850 0.0833 DOM5</span></span>
-<span id="cb31-8"><a href="#cb31-8"></a><span class="co">#&gt; 6 0.0701 0.0738 0.0774 0.0775 DOM6</span></span>
-<span id="cb31-9"><a href="#cb31-9"></a><span class="co">#&gt; 7 0.0753 0.0738 0.0737 0.0825 DOM7</span></span>
+<span id="cb31-3"><a href="#cb31-3"></a><span class="co">#&gt; 1 0.0828 0.0792 0.0804 0.0858 DOM1</span></span>
+<span id="cb31-4"><a href="#cb31-4"></a><span class="co">#&gt; 2 0.0700 0.0791 0.0691 0.0748 DOM2</span></span>
+<span id="cb31-5"><a href="#cb31-5"></a><span class="co">#&gt; 3 0.0894 0.0878 0.0874 0.0901 DOM3</span></span>
+<span id="cb31-6"><a href="#cb31-6"></a><span class="co">#&gt; 4 0.0815 0.0771 0.0812 0.0795 DOM4</span></span>
+<span id="cb31-7"><a href="#cb31-7"></a><span class="co">#&gt; 5 0.0736 0.0747 0.0765 0.0752 DOM5</span></span>
+<span id="cb31-8"><a href="#cb31-8"></a><span class="co">#&gt; 6 0.0821 0.0837 0.0870 0.0850 DOM6</span></span>
+<span id="cb31-9"><a href="#cb31-9"></a><span class="co">#&gt; 7 0.0737 0.0746 0.0708 0.0864 DOM7</span></span>
 <span id="cb31-10"><a href="#cb31-10"></a>swisserrors</span>
 <span id="cb31-11"><a href="#cb31-11"></a><span class="co">#&gt;    DOM  CV1  CV2  CV3  CV4 domainvalue</span></span>
 <span id="cb31-12"><a href="#cb31-12"></a><span class="co">#&gt; 1 DOM1 0.08 0.12 0.08 0.12           1</span></span>
@@ -851,13 +841,13 @@
 <p>We can also inspect the relative bias:</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>eval<span class="op">$</span>rel_bias</span>
 <span id="cb32-2"><a href="#cb32-2"></a><span class="co">#&gt;        y1      y2      y3      y4  dom</span></span>
-<span id="cb32-3"><a href="#cb32-3"></a><span class="co">#&gt; 1 -0.0047 -0.0058 -0.0039 -0.0021 DOM1</span></span>
-<span id="cb32-4"><a href="#cb32-4"></a><span class="co">#&gt; 2  0.0024  0.0036  0.0002 -0.0008 DOM2</span></span>
-<span id="cb32-5"><a href="#cb32-5"></a><span class="co">#&gt; 3  0.0020  0.0009  0.0025 -0.0009 DOM3</span></span>
-<span id="cb32-6"><a href="#cb32-6"></a><span class="co">#&gt; 4 -0.0028 -0.0023 -0.0037 -0.0061 DOM4</span></span>
-<span id="cb32-7"><a href="#cb32-7"></a><span class="co">#&gt; 5 -0.0080 -0.0120 -0.0110 -0.0060 DOM5</span></span>
-<span id="cb32-8"><a href="#cb32-8"></a><span class="co">#&gt; 6 -0.0016 -0.0055 -0.0055 -0.0068 DOM6</span></span>
-<span id="cb32-9"><a href="#cb32-9"></a><span class="co">#&gt; 7  0.0032  0.0072  0.0068  0.0081 DOM7</span></span></code></pre></div>
+<span id="cb32-3"><a href="#cb32-3"></a><span class="co">#&gt; 1 -0.0029 -0.0015 -0.0011  0.0016 DOM1</span></span>
+<span id="cb32-4"><a href="#cb32-4"></a><span class="co">#&gt; 2  0.0007  0.0026 -0.0011 -0.0025 DOM2</span></span>
+<span id="cb32-5"><a href="#cb32-5"></a><span class="co">#&gt; 3 -0.0019 -0.0010 -0.0007  0.0020 DOM3</span></span>
+<span id="cb32-6"><a href="#cb32-6"></a><span class="co">#&gt; 4 -0.0151 -0.0124 -0.0135 -0.0105 DOM4</span></span>
+<span id="cb32-7"><a href="#cb32-7"></a><span class="co">#&gt; 5 -0.0012  0.0000  0.0007 -0.0021 DOM5</span></span>
+<span id="cb32-8"><a href="#cb32-8"></a><span class="co">#&gt; 6 -0.0063 -0.0070 -0.0060 -0.0042 DOM6</span></span>
+<span id="cb32-9"><a href="#cb32-9"></a><span class="co">#&gt; 7 -0.0037 -0.0039 -0.0028 -0.0036 DOM7</span></span></code></pre></div>
 <p>It is also possible to analyse the sampling distribution of the estimates for each variable of interest in a selected domain:</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>dom =<span class="st"> </span><span class="dv">1</span></span>
 <span id="cb33-2"><a href="#cb33-2"></a><span class="kw"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span>(eval<span class="op">$</span>est<span class="op">$</span>Y1[eval<span class="op">$</span>est<span class="op">$</span>dom <span class="op">==</span><span class="st"> </span>dom], <span class="dt">col =</span> <span class="st">"grey"</span>, <span class="dt">border =</span> <span class="st">"white"</span>,</span>
@@ -941,17 +931,17 @@
 <span id="cb37-21"><a href="#cb37-21"></a><span class="co">#&gt;  *** Starting parallel optimization for  7  domains using  3  cores</span></span></code></pre></div>
 <p><img src="SamplingStrata_files/figure-html/unnamed-chunk-36-1.png" width="576"><img src="SamplingStrata_files/figure-html/unnamed-chunk-36-2.png" width="576"><img src="SamplingStrata_files/figure-html/unnamed-chunk-36-3.png" width="576"><img src="SamplingStrata_files/figure-html/unnamed-chunk-36-4.png" width="576"><img src="SamplingStrata_files/figure-html/unnamed-chunk-36-5.png" width="576"><img src="SamplingStrata_files/figure-html/unnamed-chunk-36-6.png" width="576"><img src="SamplingStrata_files/figure-html/unnamed-chunk-36-7.png" width="576"></p>
 <pre><code>#&gt; 
-#&gt;  *** Sample size :  173
-#&gt;  *** Number of strata :  50
+#&gt;  *** Sample size :  171
+#&gt;  *** Number of strata :  55
 #&gt; ---------------------------</code></pre>
 <p>Once the optimized solution has been produced, the next steps are executed by considering only the sampling part of the frame:</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># selection of sample from sampling strata</span></span>
 <span id="cb39-2"><a href="#cb39-2"></a>sample &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selectSample.html">selectSample</a></span>(<span class="dt">frame=</span>solution<span class="op">$</span>framenew,<span class="dt">outstrata=</span>solution<span class="op">$</span>aggr_strata)</span>
 <span id="cb39-3"><a href="#cb39-3"></a><span class="co">#&gt; </span></span>
 <span id="cb39-4"><a href="#cb39-4"></a><span class="co">#&gt; *** Sample has been drawn successfully ***</span></span>
-<span id="cb39-5"><a href="#cb39-5"></a><span class="co">#&gt;  173  units have been selected from  50  strata</span></span>
+<span id="cb39-5"><a href="#cb39-5"></a><span class="co">#&gt;  171  units have been selected from  55  strata</span></span>
 <span id="cb39-6"><a href="#cb39-6"></a><span class="co">#&gt; </span></span>
-<span id="cb39-7"><a href="#cb39-7"></a><span class="co">#&gt; ==&gt; There have been  4  take-all strata </span></span>
+<span id="cb39-7"><a href="#cb39-7"></a><span class="co">#&gt; ==&gt; There have been  5  take-all strata </span></span>
 <span id="cb39-8"><a href="#cb39-8"></a><span class="co">#&gt; from which have been selected  6 units</span></span></code></pre></div>
 <p>Finally, the units in the ‘take-all’ strata can be added to sampled ones. First, the census frame needs to be made homogeneous to the sample frame in order to permit the ‘rbind’ step:</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="co"># addition of necessary variables to </span></span>
@@ -969,20 +959,20 @@
 <span id="cb42-2"><a href="#cb42-2"></a><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(survey<span class="op">$</span>cens)</span>
 <span id="cb42-3"><a href="#cb42-3"></a><span class="co">#&gt; </span></span>
 <span id="cb42-4"><a href="#cb42-4"></a><span class="co">#&gt;   0   1 </span></span>
-<span id="cb42-5"><a href="#cb42-5"></a><span class="co">#&gt; 173 302</span></span></code></pre></div>
+<span id="cb42-5"><a href="#cb42-5"></a><span class="co">#&gt; 171 302</span></span></code></pre></div>
 <p>In order to verify compliance to the precision constraint, we perform the following:</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>cens2 &lt;-<span class="st"> </span>cens[,<span class="op">-</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">14</span><span class="op">:</span><span class="dv">19</span>)]</span>
 <span id="cb43-2"><a href="#cb43-2"></a>cens2<span class="op">$</span>SOLUZ &lt;-<span class="st"> </span>cens2<span class="op">$</span>N</span>
 <span id="cb43-3"><a href="#cb43-3"></a>stratatot &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(solution<span class="op">$</span>aggr_strata,cens2)</span>
 <span id="cb43-4"><a href="#cb43-4"></a><span class="kw"><a href="../reference/expected_CV.html">expected_CV</a></span>(stratatot)</span>
 <span id="cb43-5"><a href="#cb43-5"></a><span class="co">#&gt;      cv(Y1) cv(Y2) cv(Y3) cv(Y4)</span></span>
-<span id="cb43-6"><a href="#cb43-6"></a><span class="co">#&gt; DOM1  0.076  0.069  0.074  0.075</span></span>
-<span id="cb43-7"><a href="#cb43-7"></a><span class="co">#&gt; DOM2  0.080  0.078  0.080  0.084</span></span>
-<span id="cb43-8"><a href="#cb43-8"></a><span class="co">#&gt; DOM3  0.079  0.075  0.076  0.073</span></span>
-<span id="cb43-9"><a href="#cb43-9"></a><span class="co">#&gt; DOM4  0.075  0.068  0.078  0.094</span></span>
-<span id="cb43-10"><a href="#cb43-10"></a><span class="co">#&gt; DOM5  0.079  0.078  0.079  0.073</span></span>
-<span id="cb43-11"><a href="#cb43-11"></a><span class="co">#&gt; DOM6  0.073  0.073  0.080  0.074</span></span>
-<span id="cb43-12"><a href="#cb43-12"></a><span class="co">#&gt; DOM7  0.075  0.078  0.077  0.082</span></span></code></pre></div>
+<span id="cb43-6"><a href="#cb43-6"></a><span class="co">#&gt; DOM1  0.080  0.074  0.077  0.079</span></span>
+<span id="cb43-7"><a href="#cb43-7"></a><span class="co">#&gt; DOM2  0.077  0.076  0.076  0.079</span></span>
+<span id="cb43-8"><a href="#cb43-8"></a><span class="co">#&gt; DOM3  0.078  0.077  0.077  0.078</span></span>
+<span id="cb43-9"><a href="#cb43-9"></a><span class="co">#&gt; DOM4  0.078  0.070  0.075  0.075</span></span>
+<span id="cb43-10"><a href="#cb43-10"></a><span class="co">#&gt; DOM5  0.080  0.079  0.080  0.079</span></span>
+<span id="cb43-11"><a href="#cb43-11"></a><span class="co">#&gt; DOM6  0.075  0.077  0.079  0.077</span></span>
+<span id="cb43-12"><a href="#cb43-12"></a><span class="co">#&gt; DOM7  0.076  0.079  0.079  0.086</span></span></code></pre></div>
 </div>
 <div id="optimization-with-the-continuous-method" class="section level1">
 <h1 class="hasAnchor">
@@ -1045,42 +1035,40 @@
 <span id="cb45-20"><a href="#cb45-20"></a><span class="co">#&gt; </span></span>
 <span id="cb45-21"><a href="#cb45-21"></a><span class="co">#&gt; Input data have been checked and are compliant with requirements</span></span>
 <span id="cb45-22"><a href="#cb45-22"></a><span class="co">#&gt; Sequential optimization as parallel = FALSE, defaulting number of cores = 1</span></span>
-<span id="cb45-23"><a href="#cb45-23"></a><span class="co">#&gt;  *** Sample cost:  33.37651</span></span>
-<span id="cb45-24"><a href="#cb45-24"></a><span class="co">#&gt;  *** Number of strata:  5</span></span></code></pre></div>
+<span id="cb45-23"><a href="#cb45-23"></a><span class="co">#&gt;  *** Sample cost:  33.794</span></span>
+<span id="cb45-24"><a href="#cb45-24"></a><span class="co">#&gt;  *** Number of strata:  4</span></span></code></pre></div>
 <p><img src="SamplingStrata_files/figure-html/unnamed-chunk-43-1.png" width="576"></p>
 <pre><code>#&gt; 
-#&gt;  *** Sample size :  27
-#&gt;  *** Number of strata :  5
+#&gt;  *** Sample size :  28
+#&gt;  *** Number of strata :  4
 #&gt; ---------------------------</code></pre>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(solution<span class="op">$</span>aggr_strata<span class="op">$</span>SOLUZ))</span>
-<span id="cb47-2"><a href="#cb47-2"></a><span class="co">#&gt; [1] 33</span></span>
+<span id="cb47-2"><a href="#cb47-2"></a><span class="co">#&gt; [1] 34</span></span>
 <span id="cb47-3"><a href="#cb47-3"></a><span class="kw"><a href="../reference/expected_CV.html">expected_CV</a></span>(solution<span class="op">$</span>aggr_strata)</span>
 <span id="cb47-4"><a href="#cb47-4"></a><span class="co">#&gt;      cv(Y1) cv(Y2)</span></span>
-<span id="cb47-5"><a href="#cb47-5"></a><span class="co">#&gt; DOM1  0.099  0.099</span></span></code></pre></div>
+<span id="cb47-5"><a href="#cb47-5"></a><span class="co">#&gt; DOM1    0.1    0.1</span></span></code></pre></div>
 <p>This function also outputs the new version of the overall frame (sampling plus census), already provided with the labels indicating to which stratum each unit belongs:</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a>framenew &lt;-<span class="st"> </span>solution<span class="op">$</span>framenew</span>
 <span id="cb48-2"><a href="#cb48-2"></a><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(framenew<span class="op">$</span>LABEL)</span>
 <span id="cb48-3"><a href="#cb48-3"></a><span class="co">#&gt; </span></span>
-<span id="cb48-4"><a href="#cb48-4"></a><span class="co">#&gt;  1  2  3  4  5  6 </span></span>
-<span id="cb48-5"><a href="#cb48-5"></a><span class="co">#&gt; 49 27 58 28  3  6</span></span></code></pre></div>
+<span id="cb48-4"><a href="#cb48-4"></a><span class="co">#&gt;  1  2  3  4  6 </span></span>
+<span id="cb48-5"><a href="#cb48-5"></a><span class="co">#&gt; 40 36 86  3  6</span></span></code></pre></div>
 <p>The first 5 strata are the ones pertaining to sampling units, the 6th is the one with censused units.</p>
 <p>To inspect the structure of the strata, the function <em>summaryStrata</em> is available:</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a>strataStructure &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summaryStrata.html">summaryStrata</a></span>(solution<span class="op">$</span>framenew,solution<span class="op">$</span>aggr_strata,<span class="dt">progress=</span><span class="ot">FALSE</span>)</span>
 <span id="cb49-2"><a href="#cb49-2"></a>strataStructure</span>
 <span id="cb49-3"><a href="#cb49-3"></a><span class="co">#&gt;   Domain Stratum Population Allocation SamplingRate Lower_X1 Upper_X1 Lower_X2</span></span>
-<span id="cb49-4"><a href="#cb49-4"></a><span class="co">#&gt; 1      4       1         49          8     0.162049        5      421       40</span></span>
-<span id="cb49-5"><a href="#cb49-5"></a><span class="co">#&gt; 2      4       2         27          2     0.074074       64      509      239</span></span>
-<span id="cb49-6"><a href="#cb49-6"></a><span class="co">#&gt; 3      4       3         58          9     0.159860       33      634      368</span></span>
-<span id="cb49-7"><a href="#cb49-7"></a><span class="co">#&gt; 4      4       4         28          5     0.184437      125     1911      585</span></span>
-<span id="cb49-8"><a href="#cb49-8"></a><span class="co">#&gt; 5      4       5          3          3     1.000000      168     2326      967</span></span>
-<span id="cb49-9"><a href="#cb49-9"></a><span class="co">#&gt; 6      4       6          6          6     1.000000      261     2807     1204</span></span>
-<span id="cb49-10"><a href="#cb49-10"></a><span class="co">#&gt;   Upper_X2</span></span>
-<span id="cb49-11"><a href="#cb49-11"></a><span class="co">#&gt; 1      252</span></span>
-<span id="cb49-12"><a href="#cb49-12"></a><span class="co">#&gt; 2      356</span></span>
-<span id="cb49-13"><a href="#cb49-13"></a><span class="co">#&gt; 3      597</span></span>
-<span id="cb49-14"><a href="#cb49-14"></a><span class="co">#&gt; 4      890</span></span>
-<span id="cb49-15"><a href="#cb49-15"></a><span class="co">#&gt; 5     1142</span></span>
-<span id="cb49-16"><a href="#cb49-16"></a><span class="co">#&gt; 6     1827</span></span></code></pre></div>
+<span id="cb49-4"><a href="#cb49-4"></a><span class="co">#&gt; 1      4       1         40          7     0.170115        5      297       40</span></span>
+<span id="cb49-5"><a href="#cb49-5"></a><span class="co">#&gt; 2      4       2         36          3     0.082351       21      509      202</span></span>
+<span id="cb49-6"><a href="#cb49-6"></a><span class="co">#&gt; 3      4       3         86         15     0.174706       33     1911      368</span></span>
+<span id="cb49-7"><a href="#cb49-7"></a><span class="co">#&gt; 4      4       4          3          3     1.000000      168     2326      967</span></span>
+<span id="cb49-8"><a href="#cb49-8"></a><span class="co">#&gt; 5      4       6          6          6     1.000000      261     2807     1204</span></span>
+<span id="cb49-9"><a href="#cb49-9"></a><span class="co">#&gt;   Upper_X2</span></span>
+<span id="cb49-10"><a href="#cb49-10"></a><span class="co">#&gt; 1      187</span></span>
+<span id="cb49-11"><a href="#cb49-11"></a><span class="co">#&gt; 2      356</span></span>
+<span id="cb49-12"><a href="#cb49-12"></a><span class="co">#&gt; 3      890</span></span>
+<span id="cb49-13"><a href="#cb49-13"></a><span class="co">#&gt; 4     1142</span></span>
+<span id="cb49-14"><a href="#cb49-14"></a><span class="co">#&gt; 5     1827</span></span></code></pre></div>
 <p>It is also possible to visually investigate the distribution of population units in the strata by using the function <em>plotStrata2d</em>:</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a>outstrata &lt;-<span class="st"> </span><span class="kw"><a href="../reference/plotStrata2d.html">plotStrata2d</a></span>(</span>
 <span id="cb50-2"><a href="#cb50-2"></a>                  solution<span class="op">$</span>framenew, </span>
@@ -1119,19 +1107,19 @@ Bounds Surfacescult
 1
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #82d1a4">49</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ade2c4">40</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #80d0a2">8</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #b9e8cd">7</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 16.20%">0.16204930</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 17.01%">0.17011527</span>
 </td>
 <td style="text-align:right;">
-5-421
+5-297
 </td>
 <td style="text-align:right;">
-40-252
+40-187
 </td>
 </tr>
 <tr>
@@ -1139,19 +1127,19 @@ Bounds Surfacescult
 2
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #aee3c5">27</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #b2e5c8">36</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">2</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">3</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 7.41%">0.07407407</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 8.24%">0.08235101</span>
 </td>
 <td style="text-align:right;">
-64-509
+21-509
 </td>
 <td style="text-align:right;">
-239-356
+202-356
 </td>
 </tr>
 <tr>
@@ -1159,19 +1147,19 @@ Bounds Surfacescult
 3
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">58</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">86</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">9</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">15</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 15.99%">0.15985964</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 17.47%">0.17470643</span>
 </td>
 <td style="text-align:right;">
-33-634
+33-1911
 </td>
 <td style="text-align:right;">
-368-597
+368-890
 </td>
 </tr>
 <tr>
@@ -1179,30 +1167,10 @@ Bounds Surfacescult
 4
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ace2c3">28</span>
-</td>
-<td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #afe3c5">5</span>
-</td>
-<td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 18.44%">0.18443704</span>
-</td>
-<td style="text-align:right;">
-125-1911
-</td>
-<td style="text-align:right;">
-585-890
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
 <span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">3</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #cef0dd">3</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">3</span>
 </td>
 <td style="text-align:right;">
 <span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 100.00%">1.00000000</span>
@@ -1219,10 +1187,10 @@ Bounds Surfacescult
 6
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d8f4e4">6</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #daf5e6">6</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #9fddba">6</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #c2ebd4">6</span>
 </td>
 <td style="text-align:right;">
 <span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 100.00%">1.00000000</span>
@@ -1240,7 +1208,7 @@ Bounds Surfacescult
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a>samp &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selectSample.html">selectSample</a></span>(solution<span class="op">$</span>framenew,solution<span class="op">$</span>aggr_strata)</span>
 <span id="cb52-2"><a href="#cb52-2"></a><span class="co">#&gt; </span></span>
 <span id="cb52-3"><a href="#cb52-3"></a><span class="co">#&gt; *** Sample has been drawn successfully ***</span></span>
-<span id="cb52-4"><a href="#cb52-4"></a><span class="co">#&gt;  33  units have been selected from  6  strata</span></span>
+<span id="cb52-4"><a href="#cb52-4"></a><span class="co">#&gt;  34  units have been selected from  5  strata</span></span>
 <span id="cb52-5"><a href="#cb52-5"></a><span class="co">#&gt; </span></span>
 <span id="cb52-6"><a href="#cb52-6"></a><span class="co">#&gt; ==&gt; There have been  2  take-all strata </span></span>
 <span id="cb52-7"><a href="#cb52-7"></a><span class="co">#&gt; from which have been selected  9 units</span></span></code></pre></div>
