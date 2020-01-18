@@ -2,8 +2,8 @@ title: SamplingStrata
 url: http://barcaroli.github.io/SamplingStrata
 template:
   params:
-    bootswatch: United
-    ganalytics: UA-84499524-2
+    bootswatch: Italy
+    ganalytics: UA-156503236-1
 
 navbar:
   type: inverse
@@ -39,4 +39,4 @@ navbar:
       href: reference/index.html
     - icon: fa-github fa-lg
       text: "github"
-      href: https://github.com/lbusett/SamplingStrata/
+      href: https://github.com/barcaroli/SamplingStrata/
