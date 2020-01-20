@@ -99,7 +99,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
     if (is.null(framesamp)) stop("The 'sampling frame' (framesamp) dataframe is missing")
     checkInput(errors, sampframe=framesamp)
     if (!is.null(framecens)) checkInput(errors, sampframe=framecens) 
-    if (!is.null(framecens)) checkInput(errors, sampframe=framecens)
+    if (!is.null(framecens)) strcens <- TRUE
 	  if (!is.na(fitting)) stop("Fitting value(s) not required with this method")
 	  if (!is.na(range)) stop("Range value(s) not required with this method")
 	  if (!is.na(kappa)) stop("Kappa value not required with this method")
