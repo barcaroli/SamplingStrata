@@ -75,6 +75,6 @@ checkInput <- function (errors = NULL, strata = NULL, sampframe = NULL)
   }
   if (!is.null(strata) || !is.null(sampframe) || !is.null(errors)) 
     cat("\nInput data have been checked and are compliant with requirements\n")
-  if (is.null(strata) & is.null(sampframe) & is.null(errors)) 
-    cat("\nNo input data indicated\n")
+  # if (is.null(strata) & is.null(sampframe) & is.null(errors)) 
+  #   cat("\nNo input data indicated\n")
 }
