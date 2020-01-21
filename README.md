@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit README.Rmd file -->
 
-# <img src="./docs/apple-touch-icon-152x152.png" align="right" />
+# <img src="apple-touch-icon-152x152.png" align="right" />
 
 # SamplingStrata
 
