@@ -20,7 +20,7 @@ prepareSuggestion <- function(kmean=kmean,
   framenew <- frame
   framenew <- merge(framenew,kmean[,c("id","suggestions")],by=c("id"))
   framenew$LABEL <- frame1$suggestions
-  ss <- summaryStrata(framenew,strataKm)
+  ss <- summaryStrata(framenew,strataKm,progress=FALSE)
   ndom <- length(unique(ss$Domain))
   nvarX <- length(grep("X",colnames(ss)))/2
   ss <- ss[order(ss$Lower_X1),]

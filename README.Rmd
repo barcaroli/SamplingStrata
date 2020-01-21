@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# <img src="./docs/apple-touch-icon-152x152.png" align="right" />
+# <img src="apple-touch-icon-152x152.png" align="right" />
 
 # SamplingStrata
 
@@ -40,7 +40,7 @@ version of the functions in the 'genalg' package.
 
 A complete illustration of all features and functions can be found at the link:
 
-https://barcaroli.github.io/SamplingStrata/articles/SamplingStrata.html
+https://barcaroli.github.io/SamplingStrata/
 
 ## Installation
 
