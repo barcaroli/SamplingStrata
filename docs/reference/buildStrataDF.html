@@ -26,15 +26,13 @@ distributions in the different strata, starting from sample data or from a frame
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -81,7 +79,6 @@ used as an input by the function &quot;optimizeStrata&quot;." />
 <![endif]-->
 
 
-
   </head>
 
   <body>
@@ -106,7 +103,7 @@ used as an input by the function &quot;optimizeStrata&quot;." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -138,7 +135,7 @@ used as an input by the function &quot;optimizeStrata&quot;." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/barcaroli/SamplingStrata">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -149,7 +146,6 @@ used as an input by the function &quot;optimizeStrata&quot;." />
 </div><!--/.navbar -->
 
       
-
       </header>
 
 <div class="row">
@@ -222,48 +218,48 @@ used as an input by the function "optimizeStrata".</p>
     <p>A dataframe containing strata</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='co'># Plain example without model</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swissframe</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>swissframe</span>)
 <span class='no'>strata</span> <span class='kw'>&lt;-</span> <span class='fu'>buildStrataDF</span>(<span class='kw'>dataset</span><span class='kw'>=</span><span class='no'>swissframe</span>,<span class='kw'>model</span><span class='kw'>=</span><span class='kw'>NULL</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>strata</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>strata</span>)
 
 <span class='co'># More complex example with models</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>SamplingStrata</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swissmunicipalities</span>)
-<span class='no'>swiss</span> <span class='kw'>&lt;-</span> <span class='no'>swissmunicipalities</span>[,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"HApoly"</span>,<span class='st'>"Surfacesbois"</span>,<span class='st'>"Airind"</span>,<span class='st'>"POPTOT"</span>)]
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>SamplingStrata</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>swissmunicipalities</span>)
+<span class='no'>swiss</span> <span class='kw'>&lt;-</span> <span class='no'>swissmunicipalities</span>[,<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"HApoly"</span>,<span class='st'>"Surfacesbois"</span>,<span class='st'>"Airind"</span>,<span class='st'>"POPTOT"</span>)]
 <span class='no'>Y1</span> <span class='kw'>=</span> <span class='no'>swiss</span>$<span class='no'>Surfacesbois</span>
 <span class='no'>X1</span> <span class='kw'>=</span> <span class='no'>swiss</span>$<span class='no'>HApoly</span>
-<span class='no'>mod1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>( <span class='no'>Y1</span> ~ <span class='no'>X1</span> )
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod1</span>)
+<span class='no'>mod1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>( <span class='no'>Y1</span> ~ <span class='no'>X1</span> )
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mod1</span>)
 <span class='no'>mod1</span>$<span class='no'>coefficients</span>[<span class='fl'>2</span>]
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod1</span>)$<span class='no'>sigma</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mod1</span>)$<span class='no'>sigma</span>
 
 <span class='no'>Y2</span> <span class='kw'>=</span> <span class='no'>swiss</span>$<span class='no'>Airind</span>
 <span class='no'>X2</span> <span class='kw'>=</span> <span class='no'>swiss</span>$<span class='no'>POPTOT</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>X2</span>[<span class='no'>X2</span><span class='kw'>&gt;</span><span class='fl'>0</span>]),<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Y2</span>[<span class='no'>X2</span><span class='kw'>&gt;</span><span class='fl'>0</span>]))
-<span class='no'>mod2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>( <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>Y2</span>[<span class='no'>X2</span> <span class='kw'>&gt;</span> <span class='fl'>0</span> <span class='kw'>&amp;</span> <span class='no'>Y2</span><span class='kw'>&gt;</span><span class='fl'>0</span>]) ~ <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>X2</span>[<span class='no'>X2</span> <span class='kw'>&gt;</span> <span class='fl'>0</span> <span class='kw'>&amp;</span> <span class='no'>Y2</span><span class='kw'>&gt;</span><span class='fl'>0</span>]) )
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod2</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>X2</span>[<span class='no'>X2</span><span class='kw'>&gt;</span><span class='fl'>0</span>]),<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>Y2</span>[<span class='no'>X2</span><span class='kw'>&gt;</span><span class='fl'>0</span>]))
+<span class='no'>mod2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>( <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>Y2</span>[<span class='no'>X2</span> <span class='kw'>&gt;</span> <span class='fl'>0</span> <span class='kw'>&amp;</span> <span class='no'>Y2</span><span class='kw'>&gt;</span><span class='fl'>0</span>]) ~ <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>X2</span>[<span class='no'>X2</span> <span class='kw'>&gt;</span> <span class='fl'>0</span> <span class='kw'>&amp;</span> <span class='no'>Y2</span><span class='kw'>&gt;</span><span class='fl'>0</span>]) )
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mod2</span>)
 <span class='no'>mod2</span>$<span class='no'>coefficients</span>[<span class='fl'>2</span>]
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod2</span>)$<span class='no'>sigma</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mod2</span>)$<span class='no'>sigma</span>
 
-<span class='no'>swiss</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>swiss</span>))
+<span class='no'>swiss</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>swiss</span>))
 <span class='no'>swiss</span>$<span class='no'>dom</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>
-<span class='no'>frame</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildFrameDF.html'>buildFrameDF</a></span>(<span class='no'>swiss</span>,<span class='kw'>id</span><span class='kw'>=</span><span class='st'>"id"</span>,<span class='kw'>X</span><span class='kw'>=</span><span class='st'>"id"</span>,<span class='kw'>Y</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"HApoly"</span>,<span class='st'>"POPTOT"</span>),<span class='kw'>domainvalue</span><span class='kw'>=</span><span class='st'>"dom"</span>)
+<span class='no'>frame</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildFrameDF.html'>buildFrameDF</a></span>(<span class='no'>swiss</span>,<span class='kw'>id</span><span class='kw'>=</span><span class='st'>"id"</span>,<span class='kw'>X</span><span class='kw'>=</span><span class='st'>"id"</span>,<span class='kw'>Y</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"HApoly"</span>,<span class='st'>"POPTOT"</span>),<span class='kw'>domainvalue</span><span class='kw'>=</span><span class='st'>"dom"</span>)
 
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='kw'>NULL</span>
 <span class='no'>model</span>$<span class='no'>type</span>[<span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='st'>"linear"</span>
 <span class='no'>model</span>$<span class='no'>beta</span>[<span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='no'>mod1</span>$<span class='no'>coefficients</span>[<span class='fl'>2</span>]
-<span class='no'>model</span>$<span class='no'>sig2</span>[<span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod1</span>)$<span class='no'>sigma</span>
+<span class='no'>model</span>$<span class='no'>sig2</span>[<span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mod1</span>)$<span class='no'>sigma</span>
 <span class='no'>model</span>$<span class='no'>gamma</span>[<span class='fl'>1</span>] <span class='kw'>=</span> <span class='fl'>2</span>
 <span class='no'>model</span>$<span class='no'>type</span>[<span class='fl'>2</span>] <span class='kw'>&lt;-</span> <span class='st'>"loglinear"</span>
 <span class='no'>model</span>$<span class='no'>beta</span>[<span class='fl'>2</span>] <span class='kw'>&lt;-</span> <span class='no'>mod2</span>$<span class='no'>coefficients</span>[<span class='fl'>2</span>]
-<span class='no'>model</span>$<span class='no'>sig2</span>[<span class='fl'>2</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod2</span>)$<span class='no'>sigma</span>
+<span class='no'>model</span>$<span class='no'>sig2</span>[<span class='fl'>2</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mod2</span>)$<span class='no'>sigma</span>
 <span class='no'>model</span>$<span class='no'>gamma</span>[<span class='fl'>2</span>] <span class='kw'>=</span> <span class='fl'>NA</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>model</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>model</span>)
 
 <span class='no'>strata</span> <span class='kw'>&lt;-</span> <span class='fu'>buildStrataDF</span>(<span class='kw'>dataset</span><span class='kw'>=</span><span class='no'>frame</span>, <span class='kw'>model</span><span class='kw'>=</span><span class='no'>model</span>)
-}</div></pre>
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -278,23 +274,19 @@ used as an input by the function "optimizeStrata".</p>
   </div>
 </div>
 
-
       <footer>
       <div class="copyright">
   <p>Developed by Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
-
       </footer>
    </div>
 
   
 
-
   </body>
 </html>
-
 

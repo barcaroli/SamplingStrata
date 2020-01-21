@@ -13,12 +13,11 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="Optimal Stratification of Sampling Frames for Multipurpose Sampling Surveys">
-<meta property="og:description" content="In the field of stratified sampling design, this package offers an approach for the determination of the best stratification of a sampling frame, the one that ensures the minimum sample cost under the condition to satisfy precision constraints in a multivariate and multidomain case. This approach is based on the use of the genetic algorithm: each solution (i.e. a particular partition in strata of the sampling frame) is considered as an individual in a population; the fitness of all individuals is evaluated applying the Bethel-Chromy algorithm to calculate the sampling size satisfying precision constraints on the target estimates. Functions in the package allows to: (a) analyse the obtained results of the optimisation step; (b) assign the new strata labels to the sampling frame; (c) select a sample from the new frame accordingly to the best allocation. Functions for the execution of the genetic algorithm are a modified version of the functions in the genalg package.  ">
+<meta property="og:description" content="In the field of stratified sampling design, this package offers an approach for the determination of the best stratification of a sampling frame, the one that ensures the minimum sample cost under the condition to satisfy precision constraints in a multivariate and multidomain case. This approach is based on the use of the genetic algorithm: each solution (i.e. a particular partition in strata of the sampling frame) is considered as an individual in a population; the fitness of all individuals is evaluated applying the Bethel-Chromy algorithm to calculate the sampling size satisfying precision constraints on the target estimates. Functions in the package allows to: (a) analyse the obtained results of the optimisation step; (b) assign the new strata labels to the sampling frame; (c) select a sample from the new frame accordingly to the best allocation. Functions for the execution of the genetic algorithm are a modified version of the functions in the 'genalg' package.  ">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -27,7 +26,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-home">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -47,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -79,7 +78,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/barcaroli/SamplingStrata">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -92,13 +91,16 @@
 <!--/.navbar -->
 
       
+      </header><script src="index_files/jquery-1.11.3/jquery.min.js"></script><script src="index_files/elevate-section-attrs-2.0/elevate-section-attrs.js"></script><div class="row">
+  <div class="col-md-9 contents">
+    
 
-      </header><div class="row">
-  <div class="contents col-md-9">
-
+    
+    
+<!-- README.md is generated from README.Rmd. Please edit README.Rmd file -->
 <div id="section" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#section" class="anchor"></a><img src="./docs/apple-touch-icon-152x152.png" align="right">
+<a href="#section" class="anchor"></a><img src="../../../../Google%20Drive/Sampling/SamplingStrata%201.5/SamplingStrata/apple-touch-icon-152x152.png" align="right">
 </h1></div>
 </div>
 <div id="samplingstrata" class="section level1">
@@ -114,13 +116,13 @@
 </ul>
 <p>Functions for the execution of the genetic algorithm are a modified version of the functions in the ‘genalg’ package.</p>
 <p>A complete illustration of all features and functions can be found at the link:</p>
-<p><a href="https://barcaroli.github.io/SamplingStrata/articles/SamplingStrata.html" class="uri">https://barcaroli.github.io/SamplingStrata/articles/SamplingStrata.html</a></p>
+<p><a href="https://barcaroli.github.io/SamplingStrata/" class="uri">https://barcaroli.github.io/SamplingStrata/</a></p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install SamplingStrata from github with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"barcaroli/SamplingStrata"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"barcaroli/SamplingStrata"</span>)</span></code></pre></div>
 </div>
 <div id="three-different-methods-for-the-optimization-step" class="section level2">
 <h2 class="hasAnchor">
@@ -130,11 +132,11 @@
 <div id="example-with-the-atomic-method" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-with-the-atomic-method" class="anchor"></a>Example with the “atomic” method</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(SamplingStrata)</span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SamplingStrata)</span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="co"># Load data ---------------------------------------------------------------------------------</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"swissmunicipalities"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(swissmunicipalities[,<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span><span class="op">:</span><span class="dv">6</span>,<span class="dv">9</span>,<span class="dv">22</span>)])</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"swissmunicipalities"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(swissmunicipalities[,<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">2</span><span class="op">:</span><span class="dv">6</span>,<span class="dv">9</span>,<span class="dv">22</span>)])</span>
 <span id="cb2-6"><a href="#cb2-6"></a><span class="co">#   REG  COM        Nom HApoly Surfacesbois Airbat POPTOT</span></span>
 <span id="cb2-7"><a href="#cb2-7"></a><span class="co"># 1   4  261     Zurich   8781         2326   2884 363273</span></span>
 <span id="cb2-8"><a href="#cb2-8"></a><span class="co"># 2   1 6621     Geneve   1593           67    773 177964</span></span>
@@ -147,9 +149,9 @@
 <span id="cb2-15"><a href="#cb2-15"></a>frame &lt;-<span class="kw"><a href="reference/buildFrameDF.html">buildFrameDF</a></span>(<span class="dt">df=</span> swissmunicipalities,</span>
 <span id="cb2-16"><a href="#cb2-16"></a>                     <span class="dt">id =</span> <span class="st">"COM"</span>,                    <span class="co"># unique identifier of sampling units</span></span>
 <span id="cb2-17"><a href="#cb2-17"></a>                     <span class="dt">domainvalue=</span> <span class="st">"REG"</span>,            <span class="co"># domain variable (region)</span></span>
-<span id="cb2-18"><a href="#cb2-18"></a>                     <span class="dt">X =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"POPTOT"</span>,<span class="st">"HApoly"</span>),      <span class="co"># stratification variables</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a>                     <span class="dt">Y =</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Surfacesbois"</span>,<span class="st">"Airbat"</span>)) <span class="co"># target variables</span></span>
-<span id="cb2-20"><a href="#cb2-20"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(frame)</span>
+<span id="cb2-18"><a href="#cb2-18"></a>                     <span class="dt">X =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"POPTOT"</span>,<span class="st">"HApoly"</span>),      <span class="co"># stratification variables</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a>                     <span class="dt">Y =</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Surfacesbois"</span>,<span class="st">"Airbat"</span>)) <span class="co"># target variables</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(frame)</span>
 <span id="cb2-21"><a href="#cb2-21"></a><span class="co">#     id     X1   X2   Y1   Y2 domainvalue</span></span>
 <span id="cb2-22"><a href="#cb2-22"></a><span class="co"># 1  261 363273 8781 2326 2884           4</span></span>
 <span id="cb2-23"><a href="#cb2-23"></a><span class="co"># 2 6621 177964 1593   67  773           1</span></span>
@@ -159,11 +161,11 @@
 <span id="cb2-27"><a href="#cb2-27"></a><span class="co"># 6  230  90483 6787 2807  972           4</span></span>
 <span id="cb2-28"><a href="#cb2-28"></a></span>
 <span id="cb2-29"><a href="#cb2-29"></a><span class="co"># Define precision constraints ------------------------------------------------------------</span></span>
-<span id="cb2-30"><a href="#cb2-30"></a>ndom &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(frame<span class="op">$</span>domainvalue))</span>
-<span id="cb2-31"><a href="#cb2-31"></a>cv &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">DOM =</span> <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"DOM1"</span>,ndom),</span>
-<span id="cb2-32"><a href="#cb2-32"></a>                         <span class="dt">CV1 =</span> <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.10</span>,ndom),      <span class="co"># precision (cv=10%) for 'Surfacesbois'</span></span>
-<span id="cb2-33"><a href="#cb2-33"></a>                         <span class="dt">CV2 =</span> <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.10</span>,ndom),      <span class="co"># precision (cv=10%) for 'Airind'</span></span>
-<span id="cb2-34"><a href="#cb2-34"></a>                         <span class="dt">domainvalue=</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span><span class="op">:</span>ndom)))   <span class="co"># same precision constraints for all domains</span></span>
+<span id="cb2-30"><a href="#cb2-30"></a>ndom &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique</a></span>(frame<span class="op">$</span>domainvalue))</span>
+<span id="cb2-31"><a href="#cb2-31"></a>cv &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">DOM =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="st">"DOM1"</span>,ndom),</span>
+<span id="cb2-32"><a href="#cb2-32"></a>                         <span class="dt">CV1 =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">0.10</span>,ndom),      <span class="co"># precision (cv=10%) for 'Surfacesbois'</span></span>
+<span id="cb2-33"><a href="#cb2-33"></a>                         <span class="dt">CV2 =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">0.10</span>,ndom),      <span class="co"># precision (cv=10%) for 'Airind'</span></span>
+<span id="cb2-34"><a href="#cb2-34"></a>                         <span class="dt">domainvalue=</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">:</span>ndom)))   <span class="co"># same precision constraints for all domains</span></span>
 <span id="cb2-35"><a href="#cb2-35"></a>cv</span>
 <span id="cb2-36"><a href="#cb2-36"></a><span class="co">#    DOM CV1 CV2 domainvalue</span></span>
 <span id="cb2-37"><a href="#cb2-37"></a><span class="co"># 1 DOM1 0.1 0.1           1</span></span>
@@ -178,7 +180,7 @@
 <span id="cb2-46"><a href="#cb2-46"></a>strata &lt;-<span class="st"> </span><span class="kw"><a href="reference/buildStrataDF.html">buildStrataDF</a></span>(frame)</span>
 <span id="cb2-47"><a href="#cb2-47"></a><span class="co"># Number of strata:  2895</span></span>
 <span id="cb2-48"><a href="#cb2-48"></a><span class="co"># ... of which with only one unit:  2894&gt; head(strata)</span></span>
-<span id="cb2-49"><a href="#cb2-49"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(strata)</span>
+<span id="cb2-49"><a href="#cb2-49"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(strata)</span>
 <span id="cb2-50"><a href="#cb2-50"></a><span class="co">#              STRATO N   M1 M2 S1 S2 COST CENS DOM1    X1   X2</span></span>
 <span id="cb2-51"><a href="#cb2-51"></a><span class="co"># 100*305     100*305 1   59  0  0  0    1    0    1   100  305</span></span>
 <span id="cb2-52"><a href="#cb2-52"></a><span class="co"># 1010*1661 1010*1661 1  983  0  0  0    1    0    1  1010 1661</span></span>
@@ -192,8 +194,8 @@
 <span id="cb2-60"><a href="#cb2-60"></a>                                <span class="dt">errors =</span> cv,        <span class="co"># precision constraints</span></span>
 <span id="cb2-61"><a href="#cb2-61"></a>                                <span class="dt">maxclusters =</span> <span class="dv">10</span>)   <span class="co"># max number of strata to be evaluated </span></span>
 <span id="cb2-62"><a href="#cb2-62"></a><span class="co"># number of strata to be obtained in each domain in final solution:                             </span></span>
-<span id="cb2-63"><a href="#cb2-63"></a>nstrat &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>(solutionKmean<span class="op">$</span>suggestions, solutionKmean<span class="op">$</span>domainvalue,</span>
-<span id="cb2-64"><a href="#cb2-64"></a>                 <span class="dt">FUN=</span><span class="cf">function</span>(x) <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(x)))</span>
+<span id="cb2-63"><a href="#cb2-63"></a>nstrat &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tapply">tapply</a></span>(solutionKmean<span class="op">$</span>suggestions, solutionKmean<span class="op">$</span>domainvalue,</span>
+<span id="cb2-64"><a href="#cb2-64"></a>                 <span class="dt">FUN=</span><span class="cf">function</span>(x) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique</a></span>(x)))</span>
 <span id="cb2-65"><a href="#cb2-65"></a>nstrat</span>
 <span id="cb2-66"><a href="#cb2-66"></a><span class="co"># 1  2  3  4  5  6  7 </span></span>
 <span id="cb2-67"><a href="#cb2-67"></a><span class="co"># 9  8 10  9 10  9 10</span></span>
@@ -214,7 +216,7 @@
 <span id="cb2-82"><a href="#cb2-82"></a><span class="co"># *** Sample size :  362</span></span>
 <span id="cb2-83"><a href="#cb2-83"></a><span class="co"># *** Number of strata :  59</span></span>
 <span id="cb2-84"><a href="#cb2-84"></a></span>
-<span id="cb2-85"><a href="#cb2-85"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(solution<span class="op">$</span>aggr_strata)</span>
+<span id="cb2-85"><a href="#cb2-85"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(solution<span class="op">$</span>aggr_strata)</span>
 <span id="cb2-86"><a href="#cb2-86"></a><span class="co">#   STRATO         M1        M2        S1        S2   N DOM1 COST CENS     SOLUZ</span></span>
 <span id="cb2-87"><a href="#cb2-87"></a><span class="co"># 1      1   61.07407  17.37778  41.87780  13.22224 270    1    1    0  9.141966</span></span>
 <span id="cb2-88"><a href="#cb2-88"></a><span class="co"># 2      2 1114.66667  64.80392 555.75540  53.48631  51    1    1    0  6.985276</span></span>
@@ -231,7 +233,7 @@
 <span id="cb2-99"><a href="#cb2-99"></a><span class="co"># </span></span>
 <span id="cb2-100"><a href="#cb2-100"></a><span class="co"># ==&gt; There have been  6  take-all strata </span></span>
 <span id="cb2-101"><a href="#cb2-101"></a><span class="co"># from which have been selected  9 units</span></span>
-<span id="cb2-102"><a href="#cb2-102"></a><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(s)</span>
+<span id="cb2-102"><a href="#cb2-102"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(s)</span>
 <span id="cb2-103"><a href="#cb2-103"></a><span class="co">#   DOMAINVALUE STRATO  STRATUM   ID   X1  X2 Y1 Y2 LABEL WEIGHTS        FPC</span></span>
 <span id="cb2-104"><a href="#cb2-104"></a><span class="co"># 1           1      1  195*201 5534  195 201 37 10     1      30 0.03333333</span></span>
 <span id="cb2-105"><a href="#cb2-105"></a><span class="co"># 2           1      1  172*193 5801  172 193 14  4     1      30 0.03333333</span></span>
@@ -241,7 +243,6 @@
 <span id="cb2-109"><a href="#cb2-109"></a><span class="co"># 6           1      1  290*421 5463  290 421 11 14     1      30 0.03333333</span></span></code></pre></div>
 </div>
 </div>
-
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -280,7 +281,9 @@
 </ul>
 </div>
 
-  </div>
+
+      </div>
+
 </div>
 
 
@@ -289,14 +292,12 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
-
       </footer>
 </div>
 
   
-
 
   </body>
 </html>

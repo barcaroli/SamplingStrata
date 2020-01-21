@@ -25,15 +25,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -63,7 +61,6 @@ For continuity reasons, these functions are still available to be used standalon
 <![endif]-->
 
 
-
   </head>
 
   <body>
@@ -88,7 +85,7 @@ For continuity reasons, these functions are still available to be used standalon
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -120,7 +117,7 @@ For continuity reasons, these functions are still available to be used standalon
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/barcaroli/SamplingStrata">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -131,7 +128,6 @@ For continuity reasons, these functions are still available to be used standalon
 </div><!--/.navbar -->
 
       
-
       </header>
 
 <div class="row">
@@ -147,7 +143,7 @@ For continuity reasons, these functions are still available to be used standalon
 For continuity reasons, these functions are still available to be used standalone.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>optimStrata</span>(<span class='kw'>method</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"atomic"</span>,<span class='st'>"continuous"</span>,<span class='st'>"spatial"</span>),
+    <pre class="usage"><span class='fu'>optimStrata</span>(<span class='kw'>method</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"atomic"</span>,<span class='st'>"continuous"</span>,<span class='st'>"spatial"</span>),
             <span class='co'># common parameters</span>
             <span class='no'>framesamp</span>,
             <span class='kw'>framecens</span><span class='kw'>=</span><span class='kw'>NULL</span>,
@@ -290,27 +286,27 @@ For continuity reasons, these functions are still available to be used standalon
 (3) the total sampling frame with the label of aggregated strata</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>SamplingStrata</span>)
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>SamplingStrata</span>)
 <span class='co'>############################</span>
 <span class='co'># Example of "atomic" method</span>
 <span class='co'>############################</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swissmunicipalities</span>)
-<span class='no'>swissmunicipalities</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>swissmunicipalities</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>swissmunicipalities</span>)
+<span class='no'>swissmunicipalities</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>swissmunicipalities</span>))
 <span class='no'>frame</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildFrameDF.html'>buildFrameDF</a></span>(<span class='kw'>df</span> <span class='kw'>=</span> <span class='no'>swissmunicipalities</span>,
                       <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
                       <span class='kw'>domainvalue</span> <span class='kw'>=</span> <span class='st'>"REG"</span>,
-                      <span class='kw'>X</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"POPTOT"</span>,<span class='st'>"HApoly"</span>),
-                      <span class='kw'>Y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Surfacesbois"</span>, <span class='st'>"Airind"</span>))
-<span class='no'>ndom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>frame</span>$<span class='no'>domainvalue</span>))
-<span class='no'>cv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>DOM</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>"DOM1"</span>,<span class='no'>ndom</span>),
-                         <span class='kw'>CV1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.1</span>,<span class='no'>ndom</span>),
-                         <span class='kw'>CV2</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.1</span>,<span class='no'>ndom</span>),
-                         <span class='kw'>domainvalue</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='no'>ndom</span>)))
+                      <span class='kw'>X</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"POPTOT"</span>,<span class='st'>"HApoly"</span>),
+                      <span class='kw'>Y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Surfacesbois"</span>, <span class='st'>"Airind"</span>))
+<span class='no'>ndom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>frame</span>$<span class='no'>domainvalue</span>))
+<span class='no'>cv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>DOM</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"DOM1"</span>,<span class='no'>ndom</span>),
+                         <span class='kw'>CV1</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>0.1</span>,<span class='no'>ndom</span>),
+                         <span class='kw'>CV2</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>0.1</span>,<span class='no'>ndom</span>),
+                         <span class='kw'>domainvalue</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='no'>ndom</span>)))
 <span class='no'>strata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildStrataDF.html'>buildStrataDF</a></span>(<span class='no'>frame</span>)
 <span class='no'>kmean</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='KmeansSolution.html'>KmeansSolution</a></span>(<span class='no'>strata</span>,<span class='no'>cv</span>,<span class='kw'>maxclusters</span><span class='kw'>=</span><span class='fl'>30</span>)
-<span class='no'>nstrat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tapply.html'>tapply</a></span>(<span class='no'>kmean</span>$<span class='no'>suggestions</span>, <span class='no'>kmean</span>$<span class='no'>domainvalue</span>,
-                 <span class='kw'>FUN</span><span class='kw'>=</span><span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>x</span>)))
+<span class='no'>nstrat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tapply'>tapply</a></span>(<span class='no'>kmean</span>$<span class='no'>suggestions</span>, <span class='no'>kmean</span>$<span class='no'>domainvalue</span>,
+                 <span class='kw'>FUN</span><span class='kw'>=</span><span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>x</span>)))
 <span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'>optimStrata</span>(<span class='kw'>method</span> <span class='kw'>=</span><span class='st'>"atomic"</span>,
                         <span class='kw'>framesamp</span> <span class='kw'>=</span> <span class='no'>frame</span>,
                         <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>cv</span>,
@@ -327,8 +323,8 @@ For continuity reasons, these functions are still available to be used standalon
 <span class='no'>kmean</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='KmeansSolution2.html'>KmeansSolution2</a></span>(<span class='kw'>frame</span> <span class='kw'>=</span> <span class='no'>frame</span>,
                          <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>cv</span>,
                          <span class='kw'>maxclusters</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-<span class='no'>nstrat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tapply.html'>tapply</a></span>(<span class='no'>kmean</span>$<span class='no'>suggestions</span>, <span class='no'>kmean</span>$<span class='no'>domainvalue</span>,
-                 <span class='kw'>FUN</span><span class='kw'>=</span><span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>x</span>)))
+<span class='no'>nstrat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tapply'>tapply</a></span>(<span class='no'>kmean</span>$<span class='no'>suggestions</span>, <span class='no'>kmean</span>$<span class='no'>domainvalue</span>,
+                 <span class='kw'>FUN</span><span class='kw'>=</span><span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>x</span>)))
 <span class='no'>sugg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='prepareSuggestion.html'>prepareSuggestion</a></span>(<span class='kw'>kmean</span> <span class='kw'>=</span> <span class='no'>kmean</span>,
                           <span class='kw'>frame</span> <span class='kw'>=</span> <span class='no'>frame</span>,
                           <span class='kw'>nstrat</span> <span class='kw'>=</span> <span class='no'>nstrat</span>)
@@ -345,40 +341,40 @@ For continuity reasons, these functions are still available to be used standalon
 <span class='co'>#############################</span>
 <span class='co'># Example of "spatial" method</span>
 <span class='co'>#############################</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sp</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"meuse"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"meuse.grid"</span>)
-<span class='no'>meuse.grid</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>meuse.grid</span>))
-<span class='fu'><a href='https://rdrr.io/pkg/sp/man/coordinates.html'>coordinates</a></span>(<span class='no'>meuse</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'x'</span>,<span class='st'>'y'</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/sp/man/coordinates.html'>coordinates</a></span>(<span class='no'>meuse.grid</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'x'</span>,<span class='st'>'y'</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>gstat</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>automap</span>)
-<span class='no'>v</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/gstat/man/variogram.html'>variogram</a></span>(<span class='no'>lead</span> ~ <span class='no'>dist</span> + <span class='no'>soil</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>meuse</span>)
-<span class='no'>fit.vgm.lead</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/automap/man/autofitVariogram.html'>autofitVariogram</a></span>(<span class='no'>lead</span> ~ <span class='no'>dist</span> + <span class='no'>soil</span>,
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sp</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"meuse"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"meuse.grid"</span>)
+<span class='no'>meuse.grid</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>meuse.grid</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sp/topics/coordinates'>coordinates</a></span>(<span class='no'>meuse</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>'x'</span>,<span class='st'>'y'</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sp/topics/coordinates'>coordinates</a></span>(<span class='no'>meuse.grid</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>'x'</span>,<span class='st'>'y'</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>gstat</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>automap</span>)
+<span class='no'>v</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/gstat/topics/variogram'>variogram</a></span>(<span class='no'>lead</span> ~ <span class='no'>dist</span> + <span class='no'>soil</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>meuse</span>)
+<span class='no'>fit.vgm.lead</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/automap/topics/autofitVariogram'>autofitVariogram</a></span>(<span class='no'>lead</span> ~ <span class='no'>dist</span> + <span class='no'>soil</span>,
                                  <span class='no'>meuse</span>,
                                  <span class='kw'>model</span> <span class='kw'>=</span> <span class='st'>"Exp"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>v</span>, <span class='no'>fit.vgm.lead</span>$<span class='no'>var_model</span>)
-<span class='no'>lead.kr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/gstat/man/krige.html'>krige</a></span>(<span class='no'>lead</span> ~ <span class='no'>dist</span> + <span class='no'>soil</span>, <span class='no'>meuse</span>, <span class='no'>meuse.grid</span>,
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>v</span>, <span class='no'>fit.vgm.lead</span>$<span class='no'>var_model</span>)
+<span class='no'>lead.kr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/gstat/topics/krige'>krige</a></span>(<span class='no'>lead</span> ~ <span class='no'>dist</span> + <span class='no'>soil</span>, <span class='no'>meuse</span>, <span class='no'>meuse.grid</span>,
                  <span class='kw'>model</span> <span class='kw'>=</span> <span class='no'>fit.vgm.lead</span>$<span class='no'>var_model</span>)
-<span class='no'>lead.pred</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>lead.kr</span>[<span class='fl'>1</span>]$<span class='no'>var1.pred</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>,<span class='fl'>0</span>, <span class='no'>lead.kr</span>[<span class='fl'>1</span>]$<span class='no'>var1.pred</span>)
-<span class='no'>lead.var</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>lead.kr</span>[<span class='fl'>2</span>]$<span class='no'>var1.var</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='no'>lead.kr</span>[<span class='fl'>2</span>]$<span class='no'>var1.var</span>)
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>dom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>meuse.grid</span>)),
+<span class='no'>lead.pred</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ifelse'>ifelse</a></span>(<span class='no'>lead.kr</span>[<span class='fl'>1</span>]$<span class='no'>var1.pred</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>,<span class='fl'>0</span>, <span class='no'>lead.kr</span>[<span class='fl'>1</span>]$<span class='no'>var1.pred</span>)
+<span class='no'>lead.var</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ifelse'>ifelse</a></span>(<span class='no'>lead.kr</span>[<span class='fl'>2</span>]$<span class='no'>var1.var</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='no'>lead.kr</span>[<span class='fl'>2</span>]$<span class='no'>var1.var</span>)
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>dom</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>meuse.grid</span>)),
                          <span class='kw'>lead.pred</span> <span class='kw'>=</span> <span class='no'>lead.pred</span>,
                          <span class='kw'>lead.var</span> <span class='kw'>=</span> <span class='no'>lead.var</span>,
                          <span class='kw'>lon</span> <span class='kw'>=</span> <span class='no'>meuse.grid</span>$<span class='no'>x</span>,
                          <span class='kw'>lat</span> <span class='kw'>=</span> <span class='no'>meuse.grid</span>$<span class='no'>y</span>,
-                         <span class='kw'>id</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>meuse.grid</span>))))
+                         <span class='kw'>id</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>meuse.grid</span>))))
 <span class='no'>frame</span> <span class='kw'>&lt;-</span><span class='fu'><a href='buildFrameSpatial.html'>buildFrameSpatial</a></span>(<span class='kw'>df</span> <span class='kw'>=</span> <span class='no'>df</span>,
                           <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
-                          <span class='kw'>X</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lead.pred"</span>),
-                          <span class='kw'>Y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lead.pred"</span>),
-                          <span class='kw'>variance</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lead.var"</span>),
+                          <span class='kw'>X</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"lead.pred"</span>),
+                          <span class='kw'>Y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"lead.pred"</span>),
+                          <span class='kw'>variance</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"lead.var"</span>),
                           <span class='kw'>lon</span> <span class='kw'>=</span> <span class='st'>"lon"</span>,
                           <span class='kw'>lat</span> <span class='kw'>=</span> <span class='st'>"lat"</span>,
                           <span class='kw'>domainvalue</span> <span class='kw'>=</span> <span class='st'>"dom"</span>)
-<span class='no'>cv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>DOM</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>"DOM1"</span>,<span class='fl'>1</span>),
-                         <span class='kw'>CV1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.05</span>,<span class='fl'>1</span>),
-                         <span class='kw'>domainvalue</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>1</span>) ))
+<span class='no'>cv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>DOM</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"DOM1"</span>,<span class='fl'>1</span>),
+                         <span class='kw'>CV1</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>0.05</span>,<span class='fl'>1</span>),
+                         <span class='kw'>domainvalue</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>1</span>) ))
 <span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'>optimStrata</span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"spatial"</span>,
                         <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>cv</span>,
                         <span class='kw'>framesamp</span> <span class='kw'>=</span> <span class='no'>frame</span>,
@@ -390,12 +386,12 @@ For continuity reasons, these functions are still available to be used standalon
                         <span class='kw'>range</span> <span class='kw'>=</span> <span class='no'>fit.vgm.lead</span>$<span class='no'>var_model</span>$<span class='no'>range</span>[<span class='fl'>2</span>])
 <span class='no'>framenew</span> <span class='kw'>&lt;-</span> <span class='no'>solution</span>$<span class='no'>framenew</span>
 <span class='no'>outstrata</span> <span class='kw'>&lt;-</span> <span class='no'>solution</span>$<span class='no'>aggr_strata</span>
-<span class='no'>frameres</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sp/man/SpatialGridDataFrame.html'>SpatialPixelsDataFrame</a></span>(<span class='kw'>points</span> <span class='kw'>=</span> <span class='no'>framenew</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"LON"</span>,<span class='st'>"LAT"</span>)],
+<span class='no'>frameres</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sp/topics/SpatialGridDataFrame'>SpatialPixelsDataFrame</a></span>(<span class='kw'>points</span> <span class='kw'>=</span> <span class='no'>framenew</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"LON"</span>,<span class='st'>"LAT"</span>)],
                                    <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>framenew</span>)
-<span class='no'>frameres</span>$<span class='no'>LABEL</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='no'>frameres</span>$<span class='no'>LABEL</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/sp/man/spplot.html'>spplot</a></span>(<span class='no'>frameres</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"LABEL"</span>), <span class='kw'>col.regions</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/pkg/sp/man/bpy.colors.html'>bpy.colors</a></span>(<span class='fl'>5</span>))
+<span class='no'>frameres</span>$<span class='no'>LABEL</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>as.factor</a></span>(<span class='no'>frameres</span>$<span class='no'>LABEL</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sp/topics/spplot'>spplot</a></span>(<span class='no'>frameres</span>,<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"LABEL"</span>), <span class='kw'>col.regions</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sp/topics/bpy.colors'>bpy.colors</a></span>(<span class='fl'>5</span>))
 <span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='selectSample.html'>selectSample</a></span>(<span class='no'>framenew</span>,<span class='no'>outstrata</span>)
-}</div></pre>
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -410,23 +406,19 @@ For continuity reasons, these functions are still available to be used standalon
   </div>
 </div>
 
-
       <footer>
       <div class="copyright">
   <p>Developed by Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
-
       </footer>
    </div>
 
   
 
-
   </body>
 </html>
-
 
