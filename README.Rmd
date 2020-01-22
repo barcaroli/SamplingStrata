@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# <img src="apple-touch-icon-152x152.png" align="right" />
+# <img src="man/figures/apple-touch-icon-152x152.png" align="right" />
 
 # SamplingStrata
 

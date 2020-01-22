@@ -240,7 +240,7 @@ solution1 <- optimStrata(method = "atomic",
                         showPlot = FALSE)
 ```
 
-![](figures/solution1.png)
+![](solution1.png)
 
 This is the total size of the sample required to satisfy precision constraint, obtained as sum of the allocation in the optimized strata:
 
@@ -292,7 +292,7 @@ initial_solution2 <- KmeansSolution(strata = strata2,
                            showPlot = FALSE)  
 ```
 
-![](figures/init_sol2.png)
+![](init_sol2.png)
 
 The overall solution is obtained by concatenating optimal clusters obtained in domains. The result is a dataframe with two columns: the first indicates the clusters, the second the domains. On the basis of these, we can calculate the most convenient number of final strata for each domain:
 
@@ -319,7 +319,7 @@ solution2 <- optimStrata(method = "atomic",
                         showPlot = FALSE)
 ```
 
-![](figures/solution2.png)
+![](solution2.png)
 
 ```{r optim2a, eval=TRUE, echo=TRUE}
 outstrata2 <- solution2$aggr_strata
@@ -387,7 +387,7 @@ solution3 <- optimStrata(method = "continuous",
                         showPlot = FALSE)
 ```
 
-![](figures/solution3.png)
+![](solution3.png)
 
 ```{r optim3a, eval=TRUE, echo=TRUE, warning=FALSE, }
 outstrata3 <- solution3$aggr_strata
@@ -561,7 +561,7 @@ solution4 <- optimStrata(method = "continuous",
                         showPlot = FALSE)
 ```
 
-![](figures/solution4.png)
+![](solution4.png)
 
 ```{r optim4a, eval=TRUE, echo=TRUE, warning=FALSE }
 outstrata4 <- solution4$aggr_strata

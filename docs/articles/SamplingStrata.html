@@ -23,7 +23,13 @@
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]--><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-156503236-1"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-156503236-1');
+</script>
 </head>
 <body>
     <div class="container template-article">
@@ -97,7 +103,7 @@
       <h1>Optimization of sampling strata with the SamplingStrata package</h1>
                         <h4 class="author">Marco Ballin, Giulio Barcaroli</h4>
             
-            <h4 class="date">2020-01-21</h4>
+            <h4 class="date">2020-01-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/SamplingStrata.Rmd"><code>vignettes/SamplingStrata.Rmd</code></a></small>
       <div class="hidden name"><code>SamplingStrata.Rmd</code></div>
@@ -361,7 +367,7 @@
 <span id="cb9-8"><a href="#cb9-8"></a>                        <span class="dt">parallel =</span> <span class="ot">TRUE</span>,</span>
 <span id="cb9-9"><a href="#cb9-9"></a>                        <span class="dt">writeFiles =</span> <span class="ot">FALSE</span>,</span>
 <span id="cb9-10"><a href="#cb9-10"></a>                        <span class="dt">showPlot =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
-<p><img src="../../../../../Google%20Drive/Sampling/SamplingStrata%201.5/SamplingStrata/vignettes/figures/solution1.png"></p>
+<p><img src="../../../../../Google%20Drive/Sampling/SamplingStrata%201.5/SamplingStrata/vignettes/solution1.png"></p>
 <p>This is the total size of the sample required to satisfy precision constraint, obtained as sum of the allocation in the optimized strata:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(solution1<span class="op">$</span>aggr_strata<span class="op">$</span>SOLUZ))</span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="co">#&gt; [1] 504</span></span></code></pre></div>
@@ -403,7 +409,7 @@
 <span id="cb13-3"><a href="#cb13-3"></a>                           <span class="dt">errors =</span> cv,</span>
 <span id="cb13-4"><a href="#cb13-4"></a>                           <span class="dt">maxclusters =</span> <span class="dv">10</span>,</span>
 <span id="cb13-5"><a href="#cb13-5"></a>                           <span class="dt">showPlot =</span> <span class="ot">FALSE</span>)  </span></code></pre></div>
-<p><img src="../../../../../Google%20Drive/Sampling/SamplingStrata%201.5/SamplingStrata/vignettes/figures/init_sol2.png"></p>
+<p><img src="../../../../../Google%20Drive/Sampling/SamplingStrata%201.5/SamplingStrata/vignettes/init_sol2.png"></p>
 <p>The overall solution is obtained by concatenating optimal clusters obtained in domains. The result is a dataframe with two columns: the first indicates the clusters, the second the domains. On the basis of these, we can calculate the most convenient number of final strata for each domain:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>nstrata2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tapply">tapply</a></span>(initial_solution2<span class="op">$</span>suggestions,</span>
 <span id="cb14-2"><a href="#cb14-2"></a>                 initial_solution2<span class="op">$</span>domainvalue,</span>
@@ -423,7 +429,7 @@
 <span id="cb15-9"><a href="#cb15-9"></a>                        <span class="dt">parallel =</span> <span class="ot">TRUE</span>,</span>
 <span id="cb15-10"><a href="#cb15-10"></a>                        <span class="dt">writeFiles =</span> <span class="ot">FALSE</span>,</span>
 <span id="cb15-11"><a href="#cb15-11"></a>                        <span class="dt">showPlot =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
-<p><img src="../../../../../Google%20Drive/Sampling/SamplingStrata%201.5/SamplingStrata/vignettes/figures/solution2.png"></p>
+<p><img src="../../../../../Google%20Drive/Sampling/SamplingStrata%201.5/SamplingStrata/vignettes/solution2.png"></p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>outstrata2 &lt;-<span class="st"> </span>solution2<span class="op">$</span>aggr_strata</span>
 <span id="cb16-2"><a href="#cb16-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(outstrata2<span class="op">$</span>SOLUZ))</span>
 <span id="cb16-3"><a href="#cb16-3"></a><span class="co">#&gt; [1] 374</span></span>
@@ -488,7 +494,7 @@
 <span id="cb20-9"><a href="#cb20-9"></a>                        <span class="dt">parallel =</span> <span class="ot">TRUE</span>,</span>
 <span id="cb20-10"><a href="#cb20-10"></a>                        <span class="dt">writeFiles =</span> <span class="ot">FALSE</span>,</span>
 <span id="cb20-11"><a href="#cb20-11"></a>                        <span class="dt">showPlot =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
-<p><img src="../../../../../Google%20Drive/Sampling/SamplingStrata%201.5/SamplingStrata/vignettes/figures/solution3.png"></p>
+<p><img src="../../../../../Google%20Drive/Sampling/SamplingStrata%201.5/SamplingStrata/vignettes/solution3.png"></p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>outstrata3 &lt;-<span class="st"> </span>solution3<span class="op">$</span>aggr_strata</span>
 <span id="cb21-2"><a href="#cb21-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(outstrata3<span class="op">$</span>SOLUZ))</span>
 <span id="cb21-3"><a href="#cb21-3"></a><span class="co">#&gt; [1] 208</span></span>
@@ -819,7 +825,7 @@ Bounds Total Area
 <span id="cb32-10"><a href="#cb32-10"></a>                        <span class="dt">parallel =</span> <span class="ot">TRUE</span>,</span>
 <span id="cb32-11"><a href="#cb32-11"></a>                        <span class="dt">writeFiles =</span> <span class="ot">FALSE</span>,</span>
 <span id="cb32-12"><a href="#cb32-12"></a>                        <span class="dt">showPlot =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
-<p><img src="../../../../../Google%20Drive/Sampling/SamplingStrata%201.5/SamplingStrata/vignettes/figures/solution4.png"></p>
+<p><img src="../../../../../Google%20Drive/Sampling/SamplingStrata%201.5/SamplingStrata/vignettes/solution4.png"></p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>outstrata4 &lt;-<span class="st"> </span>solution4<span class="op">$</span>aggr_strata</span>
 <span id="cb33-2"><a href="#cb33-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(outstrata4<span class="op">$</span>SOLUZ)</span>
 <span id="cb33-3"><a href="#cb33-3"></a><span class="co">#&gt; [1] 275.3879</span></span>
