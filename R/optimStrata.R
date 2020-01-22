@@ -55,11 +55,11 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
       cens <- NULL
       strcens <- FALSE
     }
-    if (!is.na(nStrata)) {
+    if (!is.na(nStrata[1])) {
       initialStrata <- nStrata
       addStrataFactor <- 0.0
     }
-    if (is.na(nStrata)) {
+    if (is.na(nStrata[1])) {
       initialStrata <- NA
       addStrataFactor <- 0.0
     }
