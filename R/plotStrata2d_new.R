@@ -89,7 +89,10 @@ plotStrata2d <- function (x,
   stringa <- paste("plot(x$",vars[1],",x$",vars[2],",type='n',cex=0.01,xlab=labels[1],ylab=labels[2])",sep="")
   eval(parse(text=stringa)) 
   # plot(x$1,x$2,type="n",cex=0.01,xlab=labels[1],ylab=labels[2])
-  cl <- c("yellow","red","salmon","green","orange")
+  cl <- c("orange","coral","sandybrown","cyan2","darkturquoise",
+          "green","yellow","orange","coral","sandybrown","cyan2","darkturquoise",
+          "green","yellow","orange","coral","sandybrown","cyan2","darkturquoise",
+          "green","yellow")
   # cl <- gray(c(1:(nstrata+1)/(nstrata+1),alpha=NULL))
   for (i in (1:nstrata)) {
     j = i - 1
