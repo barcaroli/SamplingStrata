@@ -29,7 +29,7 @@ version of the functions in the ‘genalg’ package.
 A complete illustration of all features and functions can be found at
 the link:
 
-<https://barcaroli.github.io/SamplingStrata/articles/SamplingStrata.html>
+<https://barcaroli.github.io/SamplingStrata/>
 
 ## Installation
 

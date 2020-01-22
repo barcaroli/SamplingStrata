@@ -8,12 +8,11 @@ keep_md: TRUE
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
+  comment = "#>"
 )
 ```
 
-# <img src="man/figures/apple-touch-icon-152x152.png" align="right" />
+# <img src="apple-touch-icon-152x152.png" align="right" />
 
 # SamplingStrata
 

@@ -318,7 +318,7 @@ In order to take into account this problem, and to limit the risk of overestimat
 <span id="cb19-4"><a href="#cb19-4"></a>    <span class="dt">errors =</span> cv , </span>
 <span id="cb19-5"><a href="#cb19-5"></a>    <span class="dt">framesamp =</span> frame, </span>
 <span id="cb19-6"><a href="#cb19-6"></a>    <span class="dt">model =</span> model,</span>
-<span id="cb19-7"><a href="#cb19-7"></a>    <span class="dt">iter =</span> <span class="dv">50</span>, </span>
+<span id="cb19-7"><a href="#cb19-7"></a>    <span class="dt">iter =</span> <span class="dv">25</span>, </span>
 <span id="cb19-8"><a href="#cb19-8"></a>    <span class="dt">pops =</span> <span class="dv">20</span>, </span>
 <span id="cb19-9"><a href="#cb19-9"></a>    <span class="dt">parallel =</span> <span class="ot">FALSE</span>,</span>
 <span id="cb19-10"><a href="#cb19-10"></a>    <span class="dt">nStrata =</span> <span class="dv">5</span>,</span>
@@ -344,7 +344,7 @@ In order to take into account this problem, and to limit the risk of overestimat
 <span id="cb22-5"><a href="#cb22-5"></a>results &lt;-<span class="st"> </span><span class="kw"><a href="../reference/evalSolution.html">evalSolution</a></span>(framenew, outstrata, <span class="dv">500</span>, <span class="dt">progress =</span> <span class="ot">FALSE</span>)</span>
 <span id="cb22-6"><a href="#cb22-6"></a>results<span class="op">$</span>coeff_var</span></code></pre></div>
 <pre><code>##      CV1    CV2    CV3    CV4  dom
-## 1 0.0372 0.0244 0.0354 0.0366 DOM1</code></pre>
+## 1 0.0369 0.0241 0.0352 0.0366 DOM1</code></pre>
 <p>The first two CVs pertain to the proxy available variables, namely <em>total population</em> and <em>total area</em>, while the last two regard respectively <em>buildings area</em> and <em>woods area</em>: they are more than compliant with the precision constraint of 5%.</p>
 <p>What if we did not use the information contained in models? We run the same optimization step without indication of <em>model</em> parameter:</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1234</span>)</span>
@@ -353,7 +353,7 @@ In order to take into account this problem, and to limit the risk of overestimat
 <span id="cb24-4"><a href="#cb24-4"></a>    <span class="dt">errors =</span> cv , </span>
 <span id="cb24-5"><a href="#cb24-5"></a>    <span class="dt">framesamp =</span> frame, </span>
 <span id="cb24-6"><a href="#cb24-6"></a>    <span class="dt">model =</span> <span class="ot">NULL</span>,</span>
-<span id="cb24-7"><a href="#cb24-7"></a>    <span class="dt">iter =</span> <span class="dv">50</span>, </span>
+<span id="cb24-7"><a href="#cb24-7"></a>    <span class="dt">iter =</span> <span class="dv">25</span>, </span>
 <span id="cb24-8"><a href="#cb24-8"></a>    <span class="dt">pops =</span> <span class="dv">20</span>, </span>
 <span id="cb24-9"><a href="#cb24-9"></a>    <span class="dt">parallel =</span> <span class="ot">FALSE</span>,</span>
 <span id="cb24-10"><a href="#cb24-10"></a>    <span class="dt">nStrata =</span> <span class="dv">5</span>,</span>
@@ -364,11 +364,11 @@ In order to take into account this problem, and to limit the risk of overestimat
 ## 
 ##  *** Domain :  1   1
 ##  Number of strata :  2896
-##  *** Sample cost:  151.0221
+##  *** Sample cost:  151.9848
 ##  *** Number of strata:  5</code></pre>
 <p><img src="models_files/figure-html/unnamed-chunk-12-1.png" width="576"></p>
 <pre><code>## 
-##  *** Sample size :  151
+##  *** Sample size :  152
 ##  *** Number of strata :  5
 ## ---------------------------</code></pre>
 <p>We obtain a solution that requires a much lower sample size to satisfy the precision constraints on the Ys. But as we did not consider the anticipated variance on the real target variables, we pay a price in terms of expected CVs on them:</p>
@@ -378,8 +378,8 @@ In order to take into account this problem, and to limit the risk of overestimat
 <span id="cb27-4"><a href="#cb27-4"></a>framenew<span class="op">$</span>Y4 &lt;-<span class="st"> </span>framenew<span class="op">$</span>SURFACESBOIS</span>
 <span id="cb27-5"><a href="#cb27-5"></a>results &lt;-<span class="st"> </span><span class="kw"><a href="../reference/evalSolution.html">evalSolution</a></span>(framenew, outstrata, <span class="dv">500</span>, <span class="dt">progress =</span> <span class="ot">FALSE</span>)</span>
 <span id="cb27-6"><a href="#cb27-6"></a>results<span class="op">$</span>coeff_var</span></code></pre></div>
-<pre><code>##      CV1    CV2   CV3  CV4  dom
-## 1 0.0502 0.0472 0.052 0.07 DOM1</code></pre>
+<pre><code>##      CV1    CV2    CV3    CV4  dom
+## 1 0.0501 0.0491 0.0502 0.0686 DOM1</code></pre>
 <p>Precision levels of <em>buildings area</em> and <em>woods area</em> are no longer compliant with constraints: the importance of using models is therefore verified.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
