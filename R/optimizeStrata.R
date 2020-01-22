@@ -21,7 +21,7 @@ optimizeStrata <-
       Sys.sleep(0.314)
     }
       
-    if (is.na(initialStrata)) 
+    if (is.na(initialStrata[1])) 
       initialStrata <- as.numeric(table(strata$DOM1))
     nstrata = initialStrata
     colnames(errors) <- toupper(colnames(errors))
