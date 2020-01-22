@@ -48,13 +48,13 @@ plotStrata2d <- function (x,
   cuts <- list(x1_max,x2_max)
   m <- length(cuts[[1]])
 
-  stringa <- paste("x1.min <- min(x$",vars[1],", na.rm = TRUE)",sep="")
+  stringa <- paste("x1.min <- round(min(x$",vars[1],", na.rm = TRUE),2)",sep="")
   eval(parse(text=stringa)) 
-  stringa <- paste("x1.max <- max(x$",vars[1],", na.rm = TRUE)",sep="")
+  stringa <- paste("x1.max <- round(max(x$",vars[1],", na.rm = TRUE),2)",sep="")
   eval(parse(text=stringa)) 
-  stringa <- paste("x2.min <- min(x$",vars[2],", na.rm = TRUE)",sep="")
+  stringa <- paste("x2.min <- round(min(x$",vars[2],", na.rm = TRUE),2)",sep="")
   eval(parse(text=stringa)) 
-  stringa <- paste("x2.max <- max(x$",vars[2],", na.rm = TRUE)",sep="")
+  stringa <- paste("x2.max <- round(max(x$",vars[2],", na.rm = TRUE),2)",sep="")
   eval(parse(text=stringa)) 
   cols <- rainbow(m + 1, alpha = 0.3)
   xcuts <- cuts[[1]]
