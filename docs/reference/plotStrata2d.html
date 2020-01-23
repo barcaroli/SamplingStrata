@@ -188,11 +188,6 @@
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"swissmunicipalities"</span>)
 <span class='no'>swissmunicipalities</span> <span class='kw'>=</span> <span class='no'>swissmunicipalities</span>[<span class='no'>swissmunicipalities</span>$<span class='no'>REG</span><span class='kw'>==</span><span class='fl'>1</span>,]
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"errors"</span>)
-<span class='no'>errors</span>$<span class='no'>CV1</span> <span class='kw'>&lt;-</span> <span class='fl'>0.1</span>
-<span class='no'>errors</span>$<span class='no'>CV2</span> <span class='kw'>&lt;-</span> <span class='fl'>0.1</span>
-<span class='no'>errors</span> <span class='kw'>&lt;-</span> <span class='no'>errors</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/row.names'>row.names</a></span>(<span class='no'>errors</span>),<span class='fl'>7</span>),]
-<span class='no'>errors</span>$<span class='no'>domainvalue</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>7</span>)
-<span class='no'>errors</span>
 <span class='no'>swissmunicipalities</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>swissmunicipalities</span>))
 <span class='no'>swissmunicipalities</span>$<span class='no'>domain</span> <span class='kw'>=</span> <span class='fl'>1</span>
 <span class='no'>frame</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildFrameDF.html'>buildFrameDF</a></span>(<span class='no'>swissmunicipalities</span>,
@@ -201,28 +196,15 @@
                       <span class='kw'>X</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Surfacesbois"</span>,<span class='st'>"Surfacescult"</span>),
                       <span class='kw'>Y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Pop020"</span>, <span class='st'>"Pop2040"</span>)
 )
-<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimizeStrata2.html'>optimizeStrata2</a></span> (
-            <span class='no'>errors</span>,
-            <span class='no'>frame</span>,
-            <span class='kw'>framecens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-            <span class='kw'>strcens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-            <span class='kw'>alldomains</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-            <span class='kw'>dom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-            <span class='kw'>nStrata</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-            <span class='kw'>minnumstr</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-            <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-            <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-            <span class='kw'>mut_chance</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-            <span class='kw'>elitism_rate</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
-            <span class='kw'>highvalue</span> <span class='kw'>=</span> <span class='fl'>1e+08</span>,
-            <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-            <span class='kw'>realAllocation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-            <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-            <span class='kw'>showPlot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-            <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimStrata.html'>optimStrata</a></span> (<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"continuous"</span>,
+                        <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>errors</span>,,
+                        <span class='kw'>framesamp</span> <span class='kw'>=</span> <span class='no'>frame</span>,
+                        <span class='kw'>nStrata</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+                        <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>25</span>,
+                        <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>plotStrata2d</span>(<span class='no'>solution</span>$<span class='no'>framenew</span>,
                   <span class='no'>solution</span>$<span class='no'>aggr_strata</span>,
-                  <span class='kw'>domain</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+                  <span class='kw'>domain</span> <span class='kw'>=</span> <span class='fl'>1</span>,
                   <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"X1"</span>,<span class='st'>"X2"</span>),
                   <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Surfacesbois"</span>,<span class='st'>"Surfacescult"</span>))
 <span class='no'>p</span>

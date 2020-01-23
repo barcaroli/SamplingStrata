@@ -103,7 +103,7 @@
       <h1>Spatial sampling with SamplingStrata</h1>
                         <h4 class="author">Marco Ballin, Giulio Barcaroli</h4>
             
-            <h4 class="date">2020-01-22</h4>
+            <h4 class="date">2020-01-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/spatial.Rmd"><code>vignettes/spatial.Rmd</code></a></small>
       <div class="hidden name"><code>spatial.Rmd</code></div>
@@ -142,7 +142,7 @@ D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 <p>To summarize, when frame units can be geo-referenced, the proposed procedure is the following:</p>
 <ul>
 <li>acquire coordinates of the geographic location of the units in the population of interest;</li>
-<li>fit a <em>Kriging</em> model (or any other spatial model) on data for each <span class="math inline">\(Z\)</span>;</li>
+<li>fit a <em>kriging</em> model (or any other spatial model) on data for each <span class="math inline">\(Z\)</span>;</li>
 <li>obtain predicted values together with prediction errors for each <span class="math inline">\(Z\)</span> and associate them to each unit in the frame;</li>
 <li>perform the optimization step.</li>
 </ul>
@@ -160,7 +160,7 @@ D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 <span id="cb1-11"><a href="#cb1-11"></a>lm_zinc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(zinc) <span class="op">~</span><span class="st"> </span>dist,<span class="dt">data=</span>meuse)</span>
 <span id="cb1-12"><a href="#cb1-12"></a><span class="co"># summary(lm_zinc)</span></span></code></pre></div>
 <p><img src="spatial_files/figure-html/unnamed-chunk-2-1.png" width="576"></p>
-<p>We analyse the territorial distribution of the <em>lead</em> and <em>zinc</em> concentration, and model (by using the <em>universal kriging</em>) its relations with distance from the river, using the subset of 155 points on which these values have been jointly observed:</p>
+<p>We analyse the territorial distribution of the <em>lead</em> and <em>zinc</em> concentration, and model (by using the <em>universal kriging</em>) their relations with distance from the river, using the subset of 155 points on which these values have been jointly observed:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(automap)</span>
 <span id="cb2-2"><a href="#cb2-2"></a>kriging_lead =<span class="st"> </span><span class="kw">autoKrige</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(lead) <span class="op">~</span><span class="st"> </span>dist, meuse, meuse.grid)</span></code></pre></div>
 <pre><code>## [using universal kriging]</code></pre>
@@ -170,26 +170,26 @@ D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 <pre><code>## [using universal kriging]</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(kriging_zinc, <span class="dt">sp.layout =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">pts =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"sp.points"</span>, meuse)))</span></code></pre></div>
 <p><img src="spatial_files/figure-html/unnamed-chunk-3-2.png" width="576"></p>
-<p>Using this kriging model, we are able to predict the values of lead concentration on the totality of the 3,103 points in the Meuse territory:</p>
+<p>Using these <em>kriging</em> models, we are able to predict the values of lead and zinc concentration on the totality of the 3,103 points in the Meuse territory:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>df &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>df<span class="op">$</span>id &lt;-<span class="st"> </span>meuse.grid<span class="op">$</span>id</span>
 <span id="cb8-3"><a href="#cb8-3"></a>df<span class="op">$</span>lead.pred &lt;-<span class="st"> </span>kriging_lead<span class="op">$</span>krige_output<span class="op">@</span>data<span class="op">$</span>var1.pred</span>
-<span id="cb8-4"><a href="#cb8-4"></a>df<span class="op">$</span>lead.var &lt;-<span class="st"> </span>kriging_lead<span class="op">$</span>krige_output<span class="op">@</span>data<span class="op">$</span>var1.pred</span>
+<span id="cb8-4"><a href="#cb8-4"></a>df<span class="op">$</span>lead.var &lt;-<span class="st"> </span>kriging_lead<span class="op">$</span>krige_output<span class="op">@</span>data<span class="op">$</span>var1.var</span>
 <span id="cb8-5"><a href="#cb8-5"></a>df<span class="op">$</span>zinc.pred &lt;-<span class="st"> </span>kriging_zinc<span class="op">$</span>krige_output<span class="op">@</span>data<span class="op">$</span>var1.pred</span>
-<span id="cb8-6"><a href="#cb8-6"></a>df<span class="op">$</span>zinc.var &lt;-<span class="st"> </span>kriging_zinc<span class="op">$</span>krige_output<span class="op">@</span>data<span class="op">$</span>var1.pred</span>
+<span id="cb8-6"><a href="#cb8-6"></a>df<span class="op">$</span>zinc.var &lt;-<span class="st"> </span>kriging_zinc<span class="op">$</span>krige_output<span class="op">@</span>data<span class="op">$</span>var1.var</span>
 <span id="cb8-7"><a href="#cb8-7"></a>df<span class="op">$</span>lon &lt;-<span class="st"> </span>meuse.grid<span class="op">$</span>x</span>
 <span id="cb8-8"><a href="#cb8-8"></a>df<span class="op">$</span>lat &lt;-<span class="st"> </span>meuse.grid<span class="op">$</span>y</span>
 <span id="cb8-9"><a href="#cb8-9"></a>df<span class="op">$</span>dom1 &lt;-<span class="st"> </span><span class="dv">1</span></span>
 <span id="cb8-10"><a href="#cb8-10"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>(df)</span>
 <span id="cb8-11"><a href="#cb8-11"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(df)</span></code></pre></div>
-<pre><code>##   id lead.pred lead.var zinc.pred zinc.var    lon    lat dom1
-## 1  1  5.509360 5.509360  6.736502 6.736502 181180 333740    1
-## 2  2  5.546006 5.546006  6.785460 6.785460 181140 333700    1
-## 3  3  5.488913 5.488913  6.698883 6.698883 181180 333700    1
-## 4  4  5.388320 5.388320  6.558216 6.558216 181220 333700    1
-## 5  5  5.584415 5.584415  6.841612 6.841612 181100 333660    1
-## 6  6  5.525538 5.525538  6.749216 6.749216 181140 333660    1</code></pre>
-<p>The aim is now to produce the optimal stratification of the 3,103 points under a precision constraint of 5% on the target estimates of the mean <em>lead</em> and <em>zinc</em> concentrations:</p>
+<pre><code>##   id lead.pred  lead.var zinc.pred  zinc.var    lon    lat dom1
+## 1  1  5.509360 0.1954937  6.736502 0.2007150 181180 333740    1
+## 2  2  5.546006 0.1716895  6.785460 0.1749260 181140 333700    1
+## 3  3  5.488913 0.1784052  6.698883 0.1826314 181180 333700    1
+## 4  4  5.388320 0.1855561  6.558216 0.1906426 181220 333700    1
+## 5  5  5.584415 0.1463018  6.841612 0.1465346 181100 333660    1
+## 6  6  5.525538 0.1533757  6.749216 0.1549663 181140 333660    1</code></pre>
+<p>The aim is now to produce the optimal stratification of the 3,103 points under a precision constraint of 1% on the target estimates of the mean <em>lead</em> and <em>zinc</em> concentrations:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SamplingStrata)</span>
 <span id="cb10-2"><a href="#cb10-2"></a>frame &lt;-<span class="st"> </span><span class="kw"><a href="../reference/buildFrameSpatial.html">buildFrameSpatial</a></span>(<span class="dt">df=</span>df,</span>
 <span id="cb10-3"><a href="#cb10-3"></a>                      <span class="dt">id=</span><span class="st">"id"</span>,</span>
@@ -200,8 +200,8 @@ D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 <span id="cb10-8"><a href="#cb10-8"></a>                      <span class="dt">lat=</span><span class="st">"lat"</span>,</span>
 <span id="cb10-9"><a href="#cb10-9"></a>                      <span class="dt">domainvalue =</span> <span class="st">"dom1"</span>)</span>
 <span id="cb10-10"><a href="#cb10-10"></a>cv &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">DOM=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="st">"DOM1"</span>,<span class="dv">1</span>),</span>
-<span id="cb10-11"><a href="#cb10-11"></a>                         <span class="dt">CV1=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">0.05</span>,<span class="dv">1</span>),</span>
-<span id="cb10-12"><a href="#cb10-12"></a>                         <span class="dt">CV2=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">0.05</span>,<span class="dv">1</span>),</span>
+<span id="cb10-11"><a href="#cb10-11"></a>                         <span class="dt">CV1=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">0.01</span>,<span class="dv">1</span>),</span>
+<span id="cb10-12"><a href="#cb10-12"></a>                         <span class="dt">CV2=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">0.01</span>,<span class="dv">1</span>),</span>
 <span id="cb10-13"><a href="#cb10-13"></a>                         <span class="dt">domainvalue=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">1</span>) ))</span></code></pre></div>
 <p>To this aim, we carry out the optimization step by indicating the method <em>spatial</em>:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1234</span>)</span>
@@ -209,7 +209,7 @@ D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 <span id="cb11-3"><a href="#cb11-3"></a>  <span class="dt">method =</span> <span class="st">"spatial"</span>,</span>
 <span id="cb11-4"><a href="#cb11-4"></a>  <span class="dt">errors=</span>cv, </span>
 <span id="cb11-5"><a href="#cb11-5"></a>  <span class="dt">framesamp=</span>frame,</span>
-<span id="cb11-6"><a href="#cb11-6"></a>  <span class="dt">iter =</span> <span class="dv">10</span>,</span>
+<span id="cb11-6"><a href="#cb11-6"></a>  <span class="dt">iter =</span> <span class="dv">15</span>,</span>
 <span id="cb11-7"><a href="#cb11-7"></a>  <span class="dt">pops =</span> <span class="dv">10</span>,</span>
 <span id="cb11-8"><a href="#cb11-8"></a>  <span class="dt">nStrata =</span> <span class="dv">5</span>,</span>
 <span id="cb11-9"><a href="#cb11-9"></a>  <span class="dt">fitting =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(lm_lead)<span class="op">$</span>r.square,<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(lm_zinc)<span class="op">$</span>r.square),</span>
@@ -223,11 +223,11 @@ D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 ## Sequential optimization as parallel = FALSE, defaulting number of cores = 1
 ##  *** Domain :  1   1
 ##  Number of strata :  3103
-##  *** Sample cost:  59.37747
+##  *** Sample cost:  79.87774
 ##  *** Number of strata:  4</code></pre>
 <p><img src="spatial_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
 <pre><code>## 
-##  *** Sample size :  60
+##  *** Sample size :  80
 ##  *** Number of strata :  4
 ## ---------------------------</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>framenew &lt;-<span class="st"> </span>solution<span class="op">$</span>framenew</span>
@@ -262,19 +262,19 @@ Bounds Zinc
 1
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">402</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">468</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">6</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">11</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 65.77%">0.01422835</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 79.54%">0.02296896</span>
 </td>
 <td style="text-align:right;">
-3.3146468764848-3.99896449785631
+3.3146468764848-4.19255285819977
 </td>
 <td style="text-align:right;">
-4.06901686494286-5.05032393651128
+4.06901686494286-5.05063630598842
 </td>
 </tr>
 <tr>
@@ -282,19 +282,19 @@ Bounds Zinc
 2
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">1115</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">1118</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">21</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">28</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 85.01%">0.01839170</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 86.25%">0.02490570</span>
 </td>
 <td style="text-align:right;">
-3.93768665105216-4.56628578657951
+3.93768665105216-4.7764979731549
 </td>
 <td style="text-align:right;">
-4.92159183484837-5.76933298474682
+5.05229397991744-5.61689510336853
 </td>
 </tr>
 <tr>
@@ -302,19 +302,19 @@ Bounds Zinc
 3
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #9adbb6">845</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #aae1c2">776</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #8ed6ac">17</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #a4dfbd">20</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 93.66%">0.02026091</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 88.75%">0.02562715</span>
 </td>
 <td style="text-align:right;">
-4.56672119598573-5.26600727214482
+4.44641346310962-5.26600727214482
 </td>
 <td style="text-align:right;">
-5.28263892738927-6.22421378893523
+5.61793458171105-6.22421378893523
 </td>
 </tr>
 <tr>
@@ -322,13 +322,13 @@ Bounds Zinc
 4
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #aae1c2">741</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #b0e4c6">741</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #95d9b2">16</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #9ddcb8">21</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 100.00%">0.02163355</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 100.00%">0.02887588</span>
 </td>
 <td style="text-align:right;">
 4.83281864156491-6.16276083528614
@@ -349,7 +349,7 @@ Bounds Zinc
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>s &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selectSample.html">selectSample</a></span>(framenew,outstrata,<span class="dt">writeFiles=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 <pre><code>## 
 ## *** Sample has been drawn successfully ***
-##  60  units have been selected from  4  strata</code></pre>
+##  80  units have been selected from  4  strata</code></pre>
 <p>whose units are so distributed in the territory:</p>
 <p><img src="spatial_files/figure-html/unnamed-chunk-10-1.png" width="576"></p>
 </div>

@@ -103,7 +103,7 @@
       <h1>Use of models in SamplingStrata</h1>
                         <h4 class="author">Marco Ballin, Giulio Barcaroli</h4>
             
-            <h4 class="date">2020-01-22</h4>
+            <h4 class="date">2020-01-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/models.Rmd"><code>vignettes/models.Rmd</code></a></small>
       <div class="hidden name"><code>models.Rmd</code></div>
@@ -186,7 +186,7 @@ In order to take into account this problem, and to limit the risk of overestimat
 <div id="handling-heteroscedasticity-in-linear-models" class="section level1">
 <h1 class="hasAnchor">
 <a href="#handling-heteroscedasticity-in-linear-models" class="anchor"></a>Handling heteroscedasticity in linear models</h1>
-<p>When dealing with linear models, an evaluation of the quantity of heteroscedasticity in the residuals is of the utmost importance in order to correctly evaluate the anticipated variance (see <span class="citation">Henry and Valliant (2006)</span> and <span class="citation">Knaub (2019)</span>). To this aim, a dedicated function has been developed: <em>computeGamma</em>. This function accepts as arguments the following:</p>
+<p>When dealing with <em>linear</em> models, an evaluation of the quantity of heteroscedasticity in the residuals is of the utmost importance in order to correctly evaluate the anticipated variance (see <span class="citation">Henry and Valliant (2006)</span> and <span class="citation">Knaub (2019)</span>). To this aim, a dedicated function has been developed: <em>computeGamma</em>. This function accepts as arguments the following:</p>
 <ul>
 <li>vector <em>e</em> of <em>residuals</em>;</li>
 <li>vector <em>x</em> of the <em>values</em> of the explanatory variable;</li>
@@ -380,7 +380,7 @@ In order to take into account this problem, and to limit the risk of overestimat
 <span id="cb27-6"><a href="#cb27-6"></a>results<span class="op">$</span>coeff_var</span></code></pre></div>
 <pre><code>##      CV1    CV2    CV3    CV4  dom
 ## 1 0.0501 0.0491 0.0502 0.0686 DOM1</code></pre>
-<p>Precision levels of <em>buildings area</em> and <em>woods area</em> are no longer compliant with constraints: the importance of using models is therefore verified.</p>
+<p>Norwithstanding the non inclusion of the models in the optimization step, the CV related to <em>buildings area</em> is still inside the limit of the 5%: this is most likely due to the high correlation between <em>buildings area</em> and <em>total population</em>. While the lower correlation between the <em>total area</em> and <em>woods area</em> determines the non compliance of the expected CV of <em>woods area</em> that was instead guaranted using the related model.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">

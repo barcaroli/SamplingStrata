@@ -334,6 +334,7 @@ head(frame3)
 Also in this case we want to produce an initial solution:
 
 ```{r init_sol3, eval=TRUE, echo=TRUE, results= FALSE, warning=FALSE}
+set.seed(1234)
 init_sol3 <- KmeansSolution2(frame=frame3,
                              errors=cv,
                              maxclusters = 10)  
@@ -394,7 +395,7 @@ If the stratification variables are in a limited number, as in our case, it is p
 ```{r plot2d, eval=TRUE}
 plotStrata2d(solution3$framenew, 
              solution3$aggr_strata,
-             domain = 1, 
+             domain = 3, 
              vars = c("X1","X2"),
              labels = c("Total Population","Total Area"))
 ```
@@ -421,11 +422,11 @@ It is also possible to analyse the sampling distribution of the estimates for ea
 
 ```{r distrib, eval=T}
 dom = 1
-hist(eval3$est$Y1[eval$est$dom == dom], col = "grey", border = "white",
+hist(eval3$est$Y1[eval3$est$dom == dom], col = "grey", border = "white",
      xlab = expression(hat(Y)[1]),
      freq = FALSE, 
      main = paste("Variable Y1 Domain ",dom,sep=""))
-abline(v = mean(eval3$est$Y1[eval$est$dom == dom]), col = "blue", lwd = 2)
+abline(v = mean(eval3$est$Y1[eval3$est$dom == dom]), col = "blue", lwd = 2)
 abline(v = mean(frame3$Y1[frame3$domainvalue==dom]), col = "red")
 legend("topright", c("distribution mean", "true value"),
        lty = 1, col = c("blue", "red"), box.col = NA, cex = 0.8)
