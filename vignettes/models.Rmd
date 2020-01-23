@@ -77,7 +77,7 @@ This is the structure of the *model* dataframe:
 
 # Handling heteroscedasticity in linear models
 
-When dealing with linear models, an evaluation of the quantity of heteroscedasticity in the residuals is of the utmost importance in order to correctly evaluate the anticipated variance (see @henry2006 and @knaub2019).
+When dealing with *linear* models, an evaluation of the quantity of heteroscedasticity in the residuals is of the utmost importance in order to correctly evaluate the anticipated variance (see @henry2006 and @knaub2019).
 To this aim, a dedicated function has been developed: *computeGamma*. 
 This function accepts as arguments the following:
 
@@ -261,7 +261,7 @@ results <- evalSolution(framenew, outstrata, 500, progress = FALSE)
 results$coeff_var
 ```
 
-Precision levels of *buildings area* and *woods area* are no longer compliant with constraints: the importance of using models is therefore verified.
+Norwithstanding the non inclusion of the models in the optimization step, the CV related to *buildings area* is still inside the limit of the 5%: this is most likely due to the high correlation between *buildings area* and *total population*. While the lower correlation between the *total area* and *woods area* determines the non compliance of the expected CV of *woods area* that was instead guaranted using the related model.
 
 
 

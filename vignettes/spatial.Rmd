@@ -61,13 +61,13 @@ where $d_{ij}$ is the Euclidean distance between two units i and j in the frame 
 To summarize, when frame units can be geo-referenced, the proposed procedure is the following:
 
 * acquire coordinates of the geographic location of the units in the population of interest;
-*	fit a *Kriging* model (or any other spatial model) on data for each $Z$;
+*	fit a *kriging* model (or any other spatial model) on data for each $Z$;
 * obtain predicted values together with prediction errors for each $Z$ and associate them to each unit in the frame;
 * perform the optimization step.
 
 In order to illustrate the "*spatial*" method, we make use of a dataset generally employed as an example of spatially correlated phenomena (in this case, the concentration of four heavy metals in a portion of the river Meuse). This dataset comes with the library "*sp*":
 
-```{r, eval = T,echo=TRUE, message=FALSE}
+```{r, eval = T, echo=TRUE, message=FALSE}
 library(sp)
 # locations (155 observed points)
 data("meuse")
@@ -91,7 +91,7 @@ title("Subset of 155 points",sub="with also observed metals concentration",cex.m
 par(mfrow=c(1,1))
 ```
 
-We analyse the territorial distribution of the *lead* and *zinc* concentration, and model (by using the *universal kriging*) its relations with distance from the river, using the subset of 155 points on which these values have been jointly observed: 
+We analyse the territorial distribution of the *lead* and *zinc* concentration, and model (by using the *universal kriging*) their relations with distance from the river, using the subset of 155 points on which these values have been jointly observed: 
 
 ```{r, eval = T,echo=TRUE,message=FALSE,fig.width=6,fig.height=8}
 library(automap)
@@ -101,15 +101,15 @@ kriging_zinc = autoKrige(log(zinc) ~ dist, meuse, meuse.grid)
 plot(kriging_zinc, sp.layout = list(pts = list("sp.points", meuse)))
 ```
 
-Using this kriging model, we are able to predict the values of lead concentration on the totality of the 3,103 points in the Meuse territory:
+Using these *kriging* models, we are able to predict the values of lead and zinc concentration on the totality of the 3,103 points in the Meuse territory:
 
 ```{r, eval = T,echo=TRUE}
 df <- NULL
 df$id <- meuse.grid$id
 df$lead.pred <- kriging_lead$krige_output@data$var1.pred
-df$lead.var <- kriging_lead$krige_output@data$var1.pred
+df$lead.var <- kriging_lead$krige_output@data$var1.var
 df$zinc.pred <- kriging_zinc$krige_output@data$var1.pred
-df$zinc.var <- kriging_zinc$krige_output@data$var1.pred
+df$zinc.var <- kriging_zinc$krige_output@data$var1.var
 df$lon <- meuse.grid$x
 df$lat <- meuse.grid$y
 df$dom1 <- 1
@@ -117,7 +117,7 @@ df <- as.data.frame(df)
 head(df)
 ```
 
-The aim is now to produce the optimal stratification of the 3,103 points under a precision constraint of 5\% on the target estimates of the mean *lead*  and *zinc* concentrations:
+The aim is now to produce the optimal stratification of the 3,103 points under a precision constraint of 1% on the target estimates of the mean *lead*  and *zinc* concentrations:
 
 ```{r, eval = T,echo=TRUE, message=FALSE, warning=FALSE}
 library(SamplingStrata)
@@ -130,8 +130,8 @@ frame <- buildFrameSpatial(df=df,
                       lat="lat",
                       domainvalue = "dom1")
 cv <- as.data.frame(list(DOM=rep("DOM1",1),
-                         CV1=rep(0.05,1),
-                         CV2=rep(0.05,1),
+                         CV1=rep(0.01,1),
+                         CV2=rep(0.01,1),
                          domainvalue=c(1:1) ))
 ```
 
@@ -143,7 +143,7 @@ solution <- optimStrata (
   method = "spatial",
   errors=cv, 
   framesamp=frame,
-  iter = 10,
+  iter = 15,
   pops = 10,
   nStrata = 5,
   fitting = c(summary(lm_lead)$r.square,summary(lm_zinc)$r.square),

@@ -100,8 +100,8 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
     checkInput(errors, sampframe=framesamp)
     if (!is.null(framecens)) checkInput(errors, sampframe=framecens) 
     if (!is.null(framecens)) strcens <- TRUE
-	  if (!is.na(fitting)) stop("Fitting value(s) not required with this method")
-	  if (!is.na(range)) stop("Range value(s) not required with this method")
+	  if (!is.na(fitting[1])) stop("Fitting value(s) not required with this method")
+	  if (!is.na(range[1])) stop("Range value(s) not required with this method")
 	  if (!is.na(kappa)) stop("Kappa value not required with this method")
 	  solution <- optimizeStrata2(
       errors = errors, 
@@ -131,8 +131,8 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
     checkInput(errors, sampframe=framesamp)
     if (!is.null(framecens)) checkInput(errors, sampframe=framecens)
 	  nvarY <- length(grep("Y", names(framesamp)))
-	  if (is.na(fitting)) stop("Fitting values of spatial models must be given")
-	  if (is.na(range)) stop("Range values of spatial models must be given")
+	  if (is.na(fitting[1])) stop("Fitting values of spatial models must be given")
+	  if (is.na(range[1])) stop("Range values of spatial models must be given")
 	  if (is.na(kappa)) kappa <- 3
 	  if (nvarY != length(as.numeric(fitting))) stop("Fitting values must be equal to the number of Y's")
 	  if (nvarY != length(as.numeric(range))) stop("Range values must be equal to the number of Y's")
