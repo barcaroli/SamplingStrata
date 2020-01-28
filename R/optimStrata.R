@@ -87,6 +87,25 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 	    )	
     newstrata <- updateStrata(strata, solut)
     framenew <- updateFrame(frame=framesamp,newstrata=newstrata)
+    if (!is.null(framecens)) {
+      colnames(framecens) <- toupper(colnames(framecens))
+      framenew$STRATUM <- as.character(framenew$STRATUM)
+      framecens$LABEL <- 99999
+      framecens$STRATUM <- "99999"
+      framenew <- rbind(framenew,framecens)
+      framenew$STRATUM <- as.numeric(framenew$LABEL)
+      nvarX <- length(grep("X",colnames(framecens)))
+      for (i in c(1:nvarX)) {
+        st <- paste("framecens$X",i," <- NULL",sep="")
+        eval(parse(text=st))
+      }
+      framecens$X1 <- 99999
+      cens <- buildStrataDF(framecens)
+      cens$X1 <- NULL
+      cens$SOLUZ <- cens$N
+      cens$CENS <- 1
+      solut$aggr_strata <- rbind(solut$aggr_strata,cens)
+    }
     solution <- list(indices = solut$indices, framenew=framenew,aggr_strata=solut$aggr_strata)
   }
   # Method 'continuous'
