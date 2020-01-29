@@ -50,6 +50,12 @@ install.packages("devtools")
 devtools::install_github("barcaroli/SamplingStrata")
 ```
 
+
+## SamplingStrata cheatsheet
+
+# <img src="cheat_sheet_page1.png" />
+# <img src="cheat_sheet_page2.png" />
+
 ## Three different methods for the optimization step
 
 The optimization can be run by indicating three different methods, on the basis of the following:
