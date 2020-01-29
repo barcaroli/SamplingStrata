@@ -51,8 +51,6 @@ devtools::install_github("barcaroli/SamplingStrata")
 ```
 
 
-## SamplingStrata cheatsheet
-
 # <img src="cheat_sheet_page1.png" />
 # <img src="cheat_sheet_page2.png" />
 
