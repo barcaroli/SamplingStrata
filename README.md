@@ -3,7 +3,7 @@
 
 [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html)
 [![CRAN](http://www.r-pkg.org/badges/version/SamplingStrata)](https://cran.r-project.org/package=SamplingStrata)
-[![Downloads](http://cranlogs.r-pkg.org/badges/sf?color=brightgreen)](http://www.r-pkg.org/pkg/SamplingStrata)
+[![Downloads](http://cranlogs.r-pkg.org/badges/SamplingStrata?color=brightgreen)](http://www.r-pkg.org/pkg/SamplingStrata)
 
 # SamplingStrata <img src="pkgdown/favicon/apple-touch-icon-152x152.png" align="right" />
 
