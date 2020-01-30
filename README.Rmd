@@ -12,9 +12,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-# <img src="apple-touch-icon-152x152.png" align="right" />
+[![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html)
+[![CRAN](http://www.r-pkg.org/badges/version/SamplingStrata)](https://cran.r-project.org/package=SamplingStrata)
+[![Downloads](http://cranlogs.r-pkg.org/badges/sf?color=brightgreen)](http://www.r-pkg.org/pkg/SamplingStrata)
 
-# SamplingStrata
+
+# SamplingStrata <img src="pkgdown/favicon/apple-touch-icon-152x152.png" align="right" />
 
 This package offers an approach for the determination of the best 
 stratification of a sampling frame, the one that ensures the 
@@ -51,8 +54,8 @@ devtools::install_github("barcaroli/SamplingStrata")
 ```
 
 
-# <img src="cheat_sheet_page1.png" />
-# <img src="cheat_sheet_page2.png" />
+<img src="cheat_sheet_page1.png" />
+<img src="cheat_sheet_page2.png" />
 
 ## Three different methods for the optimization step
 
