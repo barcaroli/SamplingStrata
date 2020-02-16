@@ -148,7 +148,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
   # Method 'spatial'
   if (method=="spatial") {
     checkInput(errors, sampframe=framesamp)
-    if (!is.null(framecens)) checkInput(errors, sampframe=framecens)
+    # if (!is.null(framecens)) checkInput(errors, sampframe=framecens)
 	  nvarY <- length(grep("Y", names(framesamp)))
 	  if (is.na(fitting[1])) stop("Fitting values of spatial models must be given")
 	  if (is.na(range[1])) stop("Range values of spatial models must be given")
@@ -164,6 +164,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
 	  
 	  if (!is.null(framecens)) {
 	    checkInput(errors, sampframe=framecens)
+	    strcens <- TRUE
 	    nvars <- length(grep("var", names(framecens)))
 	    if (nvarY != nvars) stop("Variances in the 'framecens' dataframe must be given (one for each Y)")
 	    for (i in (1:nvars)) {
