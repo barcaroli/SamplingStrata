@@ -60,7 +60,7 @@ optimizeStrataSpatial <-
             eval(parse(text=paste("framecens$X",i," <- NULL",sep="")))
           }
         }  
-        cens <- buildStrataDFSpatial(dataset=frame,
+        cens <- buildStrataDFSpatial(dataset=framecens,
                                      fitting=fitting,
                                      range=range,
                                      kappa=kappa,
