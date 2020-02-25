@@ -132,7 +132,8 @@ buildStrataDFSpatial <- function(dataset,
         # stmt <- paste("zz <- outer(dataset$Y",i,",dataset$Y",i,",'-')^2",sep="")
         # eval(parse(text = stmt))
         l.split <- split(dataset, dataset$STRATO, drop = TRUE)
-        sd <- sapply(l.split, function(df) stdev(df,i,fitting,range,kappa))
+        # sd <- sapply(l.split, function(df) stdev(df,i,fitting,range,kappa))
+        sd <- as.numeric(mclapply(l.split, function(df) stdev(df,i,fitting,range,kappa)))
         stmt <- paste("S", i, " <- sd ", sep = "")
         eval(parse(text = stmt))
         # for (j in (1:length(levels(STRATO)))) {
