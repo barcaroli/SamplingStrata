@@ -76,10 +76,6 @@ data("meuse.grid")
 meuse.grid$id <- c(1:nrow(meuse.grid))
 coordinates(meuse)<-c("x","y")
 coordinates(meuse.grid)<-c("x","y")
-lm_lead <- lm(log(lead) ~ dist,data=meuse)
-# summary(lm_lead)
-lm_zinc <- lm(log(zinc) ~ dist,data=meuse)
-# summary(lm_zinc)
 ```
 
 ```{r, eval = T,echo=FALSE}
@@ -100,6 +96,16 @@ plot(kriging_lead,sp.layout = NULL, justPosition = TRUE)
 kriging_zinc = autoKrige(log(zinc) ~ dist, meuse, meuse.grid)
 plot(kriging_zinc, sp.layout = list(pts = list("sp.points", meuse)))
 ```
+
+It is possible to calculate the fitting of the two models in this way:
+
+```{r, eval = T,echo=TRUE,message=FALSE}
+r2_lead <- 1 - kriging_lead$sserr/sum((log(meuse$lead)-mean(log(meuse$lead)))^2)
+r2_lead
+r2_zinc <- 1 - kriging_zinc$sserr/sum((log(meuse$zinc)-mean(log(meuse$zinc)))^2)
+r2_zinc
+```
+
 
 Using these *kriging* models, we are able to predict the values of lead and zinc concentration on the totality of the 3,103 points in the Meuse territory:
 
@@ -146,7 +152,7 @@ solution <- optimStrata (
   iter = 15,
   pops = 10,
   nStrata = 5,
-  fitting = c(summary(lm_lead)$r.square,summary(lm_zinc)$r.square),
+  fitting = c(r2_lead,r2_zinc),
   range = c(kriging_lead$var_model$range[2],kriging_zinc$var_model$range[2]),
   kappa=1,
   writeFiles = FALSE,
