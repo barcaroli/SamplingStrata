@@ -310,7 +310,7 @@ bethel <- function(stratif, errors, minnumstrat = 2, maxiter = 200,
                 sens <- calcola_sensibilita()
                 
                 domcard <- c(rep(0, ndom))
-                dom <- as.data.frame(dom)
+                dom <- as.data.frame(dom,stringsAsFactors = TRUE)
                 for (i in 1:ndom) domcard <- c(domcard, nlevels(dom[, 
                   i]))
                 

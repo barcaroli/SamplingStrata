@@ -33,7 +33,7 @@ prepareSuggestion <- function(kmean=kmean,
   sugg$domainvalue <- rep(NA,nr)
   sugg$suggestions1 <- rep(NA,nr)
   sugg$suggestions2 <- rep(NA,nr)
-  sugg <- as.data.frame(sugg)
+  sugg <- as.data.frame(sugg,stringsAsFactors = TRUE)
   for (d in (1:length(unique(ss$Domain)))) {
     jmin <- min(which(is.na(sugg$suggestions1)))
     jmax <- jmin - 1 + (nstrat[d] - 1) * nvarX

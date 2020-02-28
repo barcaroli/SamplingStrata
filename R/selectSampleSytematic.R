@@ -63,12 +63,12 @@ selectSampleSystematic <- function(frame,
 			listaord <- lista[order(as.numeric(lista$STRATO)), ]
 			s <- strata.sample.systematic(listaord, c("STRATO"), strataord$SOLUZ, 
 				sortvariable, repl = FALSE)
-			samp <- data.frame(listaord[listaord$ID %in% s, ], WEIGHTS = attr(s, "WEIGHTS"))
+			samp <- data.frame(listaord[listaord$ID %in% s, ], WEIGHTS = attr(s, "WEIGHTS"), stringsAsFactors = TRUE)
 			samptot <- rbind(samptot, samp)
 			chk <- data.frame(DOMAINVALUE = d, STRATO = strataord$STRATO, 
 				Nh_frame = as.vector(table(listaord$STRATO)), Nh_strata = strataord$N, 
 				planned_units = strataord$SOLUZ, selected_units = as.vector(table(samp$STRATO)), 
-				sum_of_wgts = tapply(samp$WEIGHTS, samp$STRATO, sum))
+				sum_of_wgts = tapply(samp$WEIGHTS, samp$STRATO, sum), stringsAsFactors = TRUE)
 			chktot <- rbind(chktot, chk)
 		}  # end domain cycle
 	}
@@ -81,12 +81,12 @@ selectSampleSystematic <- function(frame,
 		listaord <- lista[order(lista$STRATO), ]
 		s <- strata.sample.systematic(listaord, c("STRATO"), strataord$SOLUZ, 
 				sortvariable, repl = FALSE)
-		samp <- data.frame(listaord[listaord$ID %in% s, ], WEIGHTS = attr(s, "WEIGHTS"))
+		samp <- data.frame(listaord[listaord$ID %in% s, ], WEIGHTS = attr(s, "WEIGHTS"), stringsAsFactors = TRUE)
 		samptot <- rbind(samptot, samp)
 		chk <- data.frame(DOMAINVALUE = strataord$DOM1, STRATO = strataord$STRATO, 
 				Nh_frame = as.vector(table(listaord$STRATO)), Nh_strata = strataord$N, 
 				planned_units = strataord$SOLUZ, selected_units = as.vector(table(samp$STRATO)), 
-				sum_of_wgts = tapply(samp$WEIGHTS, samp$STRATO, sum))
+				sum_of_wgts = tapply(samp$WEIGHTS, samp$STRATO, sum), stringsAsFactors = TRUE)
 		chktot <- rbind(chktot, chk)
 	}
     colnames(samptot) <- toupper(colnames(samptot))

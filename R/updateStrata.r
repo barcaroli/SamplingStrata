@@ -28,7 +28,7 @@ updateStrata <- function (strata, solution, writeFiles = FALSE)
             stmt2 <- paste(stmt2, "'X", i, "',", sep = "")
             stmt3 <- paste(stmt3, "matstrata$X", i, ",", sep = "")
         }
-        stmt <- paste(stmt, "newstrata$X", nvarX, "))", sep = "")
+        stmt <- paste(stmt, "newstrata$X", nvarX, "), stringsAsFactors = TRUE)", sep = "")
         eval(parse(text = stmt))
         stmt2 <- paste(stmt2, "'X", nvarX, "')", sep = "")
         eval(parse(text = stmt2))
@@ -38,7 +38,7 @@ updateStrata <- function (strata, solution, writeFiles = FALSE)
         eval(parse(text = statement))
     }
     if (nvarX == 1) {
-		matstrata <- as.data.frame(cbind(newstrata$DOM1,newstrata$AGGR_STRATUM,newstrata$X1))
+		matstrata <- as.data.frame(cbind(newstrata$DOM1,newstrata$AGGR_STRATUM,newstrata$X1),stringsAsFactors = TRUE)
 		colnames(matstrata) <- c('DOM1','AGGR_STRATUM','X1')
         matstrord <- matstrata[order(matstrata$DOM1, matstrata$AGGR_STRATUM, 
             matstrata$X1), ]

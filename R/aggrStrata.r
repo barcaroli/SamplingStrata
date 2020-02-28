@@ -49,7 +49,7 @@ aggrStrata <- function(strata,
     strwrkagg <- NULL
     strcor <- NULL
     statement <- paste("strwrk <- data.frame(gruppo=vett,", string2, 
-        string3, "N,CN)", sep = "")
+        string3, "N,CN, stringsAsFactors = TRUE)", sep = "")
     eval(parse(text = statement))
     statement <- paste("strwrk2 <- aggregate(strwrk[,c(", string5, 
         "'N','CN')],by=list(vett),FUN=sum)", sep = "")
@@ -91,7 +91,7 @@ aggrStrata <- function(strata,
         by = list(strwrk$gruppo), FUN = sum)
     CENS <- c(rep(censiti, nrow(strwrkagg)))
     statement <- paste("strcor <- data.frame(strato,", string10, 
-        string11, "N,DOM1,COST$x,CENS)", sep = "")
+        string11, "N,DOM1,COST$x,CENS, stringsAsFactors = TRUE)", sep = "")
     eval(parse(text = statement))
     colnames(strcor) <- toupper(colnames(strcor))
     colnames(strcor)[colnames(strcor) == "COST.X"] <- c("COST")

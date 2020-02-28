@@ -17,7 +17,7 @@ summaryStrata <- function (x,
   out$Allocation <- round(outstrata$SOLUZ)
   out$"Sampling rate" <- round(outstrata$SOLUZ/outstrata$N, 
                                6)
-  out <- as.data.frame(out)
+  out <- as.data.frame(out,stringsAsFactors = TRUE)
   colnames(out) <- c("Domain", "Stratum", "Population", "Allocation", 
                      "SamplingRate")
   for (i in 1:nvars) {

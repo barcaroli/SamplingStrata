@@ -30,7 +30,7 @@ buildFrameDF <- function(df,id,X,Y,domainvalue) {
   }
   stmt <- paste("dframe$domainvalue <- df$",as.character(domainvalue),sep="")
   eval(parse(text=stmt))
-  dframe <- as.data.frame(dframe)
+  dframe <- as.data.frame(dframe,stringsAsFactors = TRUE)
   dframe$domainvalue <- as.integer(dframe$domainvalue)
   return(dframe)
 }

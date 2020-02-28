@@ -193,8 +193,8 @@ optimizeStrata2 <-
                                     solut <- list(c(1), 
                                                   stcamp[[i]][c(1:grep("DOMAINVALUE", 
                                                   colnames(stcamp[[i]])))])
-                                    error <- data.frame(erro[[i]])
-                                    strat <- data.frame(solut[[2]])
+                                    error <- data.frame(erro[[i]],stringsAsFactors = TRUE)
+                                    strat <- data.frame(solut[[2]],stringsAsFactors = TRUE)
                                     solut[[2]]$SOLUZ <- sum(bethel(strat, error, 
                                                                    realAllocation = T))
                                     if (solut[[2]]$SOLUZ > solut[[2]]$N) 
@@ -291,8 +291,8 @@ optimizeStrata2 <-
             if (nrow(stcamp[[i]]) == 1) {
               solut <- list(c(1), stcamp[[i]][c(1:grep("DOMAINVALUE", 
                                                        colnames(stcamp[[i]])))])
-              error <- data.frame(erro[[i]])
-              strat <- data.frame(solut[[2]])
+              error <- data.frame(erro[[i]],stringsAsFactors = TRUE)
+              strat <- data.frame(solut[[2]],stringsAsFactors = TRUE)
               solut[[2]]$SOLUZ <- sum(bethel(strat, error, 
                                              realAllocation = T))
               if (solut[[2]]$SOLUZ > solut[[2]]$N) 
@@ -395,7 +395,7 @@ optimizeStrata2 <-
                   row.names = FALSE, col.names = TRUE, quote = FALSE)
       cat("\n...written output to ", direnew,"/outstrata.txt\n")
     }
-    vettsoldf <- as.data.frame(vettsol)
+    vettsoldf <- as.data.frame(vettsol,stringsAsFactors = TRUE)
     colnames(vettsoldf) <- c("ID","LABEL")
     vettsoldf$STRATO <- vettsoldf$LABEL
     framenew <- merge(frame,vettsoldf,by=c("ID"))

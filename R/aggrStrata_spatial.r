@@ -54,7 +54,7 @@ aggrStrataSpatial <- function(dataset,
     strato$COST <- 1
     strato$CENS <- 0
     strato$DOM1 <- dominio
-    strato <- as.data.frame((strato))
+    strato <- as.data.frame(strato, stringsAsFactors = TRUE)
     rng <- NULL
     fit <- NULL
     zz <- NULL

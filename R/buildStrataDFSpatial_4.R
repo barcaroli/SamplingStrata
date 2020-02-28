@@ -132,8 +132,8 @@ buildStrataDFSpatial <- function(dataset,
         # stmt <- paste("zz <- outer(dataset$Y",i,",dataset$Y",i,",'-')^2",sep="")
         # eval(parse(text = stmt))
         l.split <- split(dataset, dataset$STRATO, drop = TRUE)
-        # sd <- sapply(l.split, function(df) stdev(df,i,fitting,range,kappa))  
-        sd <- as.numeric(mclapply(l.split, function(df) stdev(df,i,fitting,range,kappa)))
+        sd <- sapply(l.split, function(df) stdev(df,i,fitting,range,kappa))
+        # sd <- as.numeric(mclapply(l.split, function(df) stdev(df,i,fitting,range,kappa)))
         stmt <- paste("S", i, " <- sd ", sep = "")
         eval(parse(text = stmt))
         # for (j in (1:length(levels(STRATO)))) {
@@ -148,9 +148,9 @@ buildStrataDFSpatial <- function(dataset,
         stmt <- paste("stratirid <- unlist(attr(M", i, ",'dimnames'))", 
             sep = "")
         eval(parse(text = stmt))
-        strati <- data.frame(X1 = levels(domain$STRATO))
+        strati <- data.frame(X1 = levels(domain$STRATO), stringsAsFactors = TRUE)
         stmt <- paste("m <- data.frame(cbind(X1=stratirid,X2=M", 
-            i, "))", sep = "")
+            i, "), stringsAsFactors = TRUE)", sep = "")
         eval(parse(text = stmt))
         m <- merge(strati, m, by = c("X1"), all = TRUE)
         m$X2 <- as.character(m$X2)
@@ -159,7 +159,7 @@ buildStrataDFSpatial <- function(dataset,
         stmt <- paste("M", i, " <- m$X2", sep = "")
         eval(parse(text = stmt))
         stmt <- paste("s <- data.frame(cbind(X1=stratirid,X2=S", 
-            i, "))", sep = "")
+            i, "), stringsAsFactors = TRUE)", sep = "")
         eval(parse(text = stmt))
         s <- merge(strati, s, by = c("X1"), all = TRUE)
         s$X2 <- as.character(s$X2)
@@ -174,7 +174,7 @@ buildStrataDFSpatial <- function(dataset,
         CENS <- rep(0, length(levels(domain$STRATO)))
         DOM1 <- rep(as.character(dom), length(levels(domain$STRATO)))
         stmt <- paste("strata <- as.data.frame(cbind(STRATO=levels(STRATO),N,", 
-            listM, listS, "COST,CENS,DOM1))")
+            listM, listS, "COST,CENS,DOM1), stringsAsFactors = TRUE)")
         eval(parse(text = stmt))
         for (i in 1:nvarX) {
             stmt <- paste("strata$X", i, " <- rep(0, length(levels(domain$STRATO)))", 

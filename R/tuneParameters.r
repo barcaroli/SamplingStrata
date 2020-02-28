@@ -58,7 +58,7 @@ tuneParameters <- function (noptim, nsampl, frame, errors = errors, strata = str
     stmt <- paste("simula <- list(nsimul=nsimul,nstrati=nstrata,cost=cost,", 
         est, ")", sep = "")
     eval(parse(text = stmt))
-    simula <- as.data.frame(simula)
+    simula <- as.data.frame(simula,stringsAsFactors = TRUE)
     nopt <- rep(0, (noptim * nsampl))
     nsamp <- rep(0, (noptim * nsampl))
     for (i in 1:numY) {
@@ -79,7 +79,7 @@ tuneParameters <- function (noptim, nsampl, frame, errors = errors, strata = str
     stmt <- paste("differ <- list(nopt=nopt,nsamp=nsamp,", est, 
         ")", sep = "")
     eval(parse(text = stmt))
-    differ <- as.data.frame(differ)
+    differ <- as.data.frame(differ,stringsAsFactors = TRUE)
     file.remove("iteration.txt")
     file.remove("tuning.txt")
     for (i in (1:noptim)) {

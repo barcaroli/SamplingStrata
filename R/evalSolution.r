@@ -55,7 +55,7 @@ evalSolution <- function (frame,
 #      bias[i, k] <- mean(differ[i, , k]/mean(estim[i, , k]))
     }
   }
-  cv <- as.data.frame(cv)
+  cv <- as.data.frame(cv,stringsAsFactors = TRUE)
   for (i in 1:numY) {
     stmt <- paste("colnames(cv)[", i, "] <- c('CV", i, "')", 
                   sep = "")
@@ -69,7 +69,7 @@ evalSolution <- function (frame,
   cv1$domainvalue <- rep((1:numdom), numY)
   cv1$cv <- rep(0, (numY * numdom))
   cv1$val <- rep(0, (numY * numdom))
-  cv1 <- as.data.frame(cv1)
+  cv1 <- as.data.frame(cv1,stringsAsFactors = TRUE)
   for (k in (1:numY)) {
     for (j in (1:numdom)) {
       cv1$cv[(k - 1) * numdom + j] <- k
@@ -115,7 +115,7 @@ evalSolution <- function (frame,
                   sep = "")
     eval(parse(text = stmt))
   }
-  diff <- as.data.frame(diff)
+  diff <- as.data.frame(diff,stringsAsFactors = TRUE)
   for (i in (1:numdom)) {
     for (j in (1:nsampl)) {
       diff$dom[(i - 1) * nsampl + j] <- i
@@ -138,7 +138,7 @@ evalSolution <- function (frame,
     eval(parse(text=stmt))
   } 
   bias$dom <- paste("DOM", c(1:numdom), sep = "")
-  bias <- as.data.frame(bias)
+  bias <- as.data.frame(bias,stringsAsFactors = TRUE)
   Y <- aggregate(frame[,grep("Y",colnames(frame))],by=list(frame$DOMAINVALUE),mean)
   numY <- sum(grepl("Y",colnames(frame)))
   bias[,c(1:numY)] <- round(bias[,c(1:numY)]/Y[,c(2:(numY+1))],4)
@@ -188,7 +188,7 @@ evalSolution <- function (frame,
   #   dev.off()
   # results <- list(coeff_var = cv1, bias = bias1)
   est <- matrix(NA,nrow=numdom*nsampl,ncol=numY)
-  est <- as.data.frame(est) 
+  est <- as.data.frame(est,stringsAsFactors = TRUE) 
   colnames(est) <- c(paste("Y",c(1:numY),sep=""))
   est$dom <- rep(c(1:numdom),each=nsampl)
   for (i in (1:numdom)) {

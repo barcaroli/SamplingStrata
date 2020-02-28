@@ -37,7 +37,7 @@ plotStrata2d <- function (x,
   #                        ,sep="-")
   out$bounds_X1 <- paste(x1_min,x1_max,sep="-")
   out$bounds_X2 <- paste(x2_min,x2_max,sep="-")
-  out <- as.data.frame(out) 
+  out <- as.data.frame(out,stringsAsFactors = TRUE) 
   lab1 <- paste("Bounds",labels[1])
   lab2 <- paste("Bounds",labels[2])
   colnames(out) <- c("Stratum","Population",
@@ -84,7 +84,7 @@ plotStrata2d <- function (x,
     }
   }
   poly <- data.frame(id = as.factor(id), value = as.factor(value), 
-                     x = xs, y = ys)
+                     x = xs, y = ys, stringsAsFactors = TRUE)
 
   stringa <- paste("plot(x$",vars[1],",x$",vars[2],",type='n',cex=0.01,xlab=labels[1],ylab=labels[2])",sep="")
   eval(parse(text=stringa)) 

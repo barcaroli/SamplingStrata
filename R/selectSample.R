@@ -42,12 +42,12 @@ selectSample <- function(frame, outstrata, writeFiles = FALSE,verbatim=TRUE) {
 			listaord <- lista[order(as.numeric(lista$STRATO)), ]
 			s <- strata.sample(listaord, c("STRATO"), strataord$SOLUZ, 
 				repl = FALSE)
-			samp <- data.frame(listaord[s, ], WEIGHTS = attr(s, "WEIGHTS"))
+			samp <- data.frame(listaord[s, ], WEIGHTS = attr(s, "WEIGHTS"), stringsAsFactors = TRUE)
 			samptot <- rbind(samptot, samp)
 			chk <- data.frame(DOMAINVALUE = d, STRATO = strataord$STRATO, 
 				Nh_frame = as.vector(table(listaord$STRATO)), Nh_strata = strataord$N, 
 				planned_units = strataord$SOLUZ, selected_units = as.vector(table(samp$STRATO)), 
-				sum_of_wgts = tapply(samp$WEIGHTS, samp$STRATO, sum))
+				sum_of_wgts = tapply(samp$WEIGHTS, samp$STRATO, sum), stringsAsFactors = TRUE)
 			chktot <- rbind(chktot, chk)
 		}  # end domain cycle
 	}
@@ -60,12 +60,12 @@ selectSample <- function(frame, outstrata, writeFiles = FALSE,verbatim=TRUE) {
 		listaord <- lista[order(lista$STRATO), ]
 		s <- strata.sample(listaord, c("STRATO"), strataord$SOLUZ, 
 				repl = FALSE)
-		samp <- data.frame(listaord[s, ], WEIGHTS = attr(s, "WEIGHTS"))
+		samp <- data.frame(listaord[s, ], WEIGHTS = attr(s, "WEIGHTS"), stringsAsFactors = TRUE)
 		samptot <- rbind(samptot, samp)
 		chk <- data.frame(DOMAINVALUE = strataord$DOM1, STRATO = strataord$STRATO, 
 				Nh_frame = as.vector(table(listaord$STRATO)), Nh_strata = strataord$N, 
 				planned_units = strataord$SOLUZ, selected_units = as.vector(table(samp$STRATO)), 
-				sum_of_wgts = tapply(samp$WEIGHTS, samp$STRATO, sum))
+				sum_of_wgts = tapply(samp$WEIGHTS, samp$STRATO, sum), stringsAsFactors = TRUE)
 		chktot <- rbind(chktot, chk)
 	}
     colnames(samptot) <- toupper(colnames(samptot))

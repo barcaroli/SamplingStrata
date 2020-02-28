@@ -7,7 +7,7 @@
 
 computeGamma <- function (e, x, nbins = 6, showPlot = TRUE) 
 {
-  dataset <- as.data.frame(list(e = e, x = x))
+  dataset <- as.data.frame(list(e = e, x = x), stringsAsFactors = TRUE)
   colnames(dataset)
   require(SamplingStrata)
   ris_gamma <- NULL

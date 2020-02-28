@@ -64,7 +64,7 @@ KmeansSolution <- function(strata,
       suggestions <- c(suggestions,bestsolution)
       domainvalue <- c(domainvalue,rep(k,nrow(stratacorr)))
   }
-  solutionKmean <- as.data.frame(cbind(suggestions,domainvalue))
+  solutionKmean <- as.data.frame(cbind(suggestions,domainvalue),stringsAsFactors = TRUE)
   solutionKmean$domainvalue <- as.integer(solutionKmean$domainvalue)
   cat("\n-----------------")
   cat("\n Kmeans solution ")
