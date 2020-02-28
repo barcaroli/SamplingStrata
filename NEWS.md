@@ -1,6 +1,17 @@
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit NEWS.Rmd file -->
 
+# SamplingStrata 1.5-1
+
+## Major changes
+
+  - As starting from R 4.0.0 ‘stringsAsFactors = FALSE’ becomes a
+    default, in all calls to data.frame the parameter ‘stringAsFactors =
+    TRUE’ has been indicated, in order to ensure the same results
+
+  - Fixed some bugs related to handling take-all strata for ‘atomic’ and
+    ‘spatial’ methods
+
 # SamplingStrata 1.5
 
 ## Major changes
