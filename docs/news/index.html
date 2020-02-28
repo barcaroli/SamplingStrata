@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -149,13 +149,26 @@
       <small>Source: <a href='https://github.com/barcaroli/SamplingStrata/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="samplingstrata-15" class="section level1">
+    <div id="samplingstrata-15-1" class="section level1">
 <h1 class="page-header">
-<a href="#samplingstrata-15" class="anchor"></a>SamplingStrata 1.5<small> 2020-01-23 </small>
+<a href="#samplingstrata-15-1" class="anchor"></a>SamplingStrata 1.5-1<small> Unreleased </small>
 </h1>
 <div id="major-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#major-changes" class="anchor"></a>Major changes</h2>
+<ul>
+<li><p>As starting from R 4.0.0 ‘stringsAsFactors = FALSE’ becomes a default, in all calls to data.frame the parameter ‘stringAsFactors = TRUE’ has been indicated, in order to ensure the same results</p></li>
+<li><p>Fixed some bugs related to handling take-all strata for ‘atomic’ and ‘spatial’ methods</p></li>
+</ul>
+</div>
+</div>
+    <div id="samplingstrata-15" class="section level1">
+<h1 class="page-header">
+<a href="#samplingstrata-15" class="anchor"></a>SamplingStrata 1.5<small> 2020-01-23 </small>
+</h1>
+<div id="major-changes-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#major-changes-1" class="anchor"></a>Major changes</h2>
 <ul>
 <li><p>A new <em>optimStrata</em> function is available: this function is a wrapper that allows to execute the three different optimization functions: (i) optimizeStrata (method = <em>atomic</em>); (ii) optimizeStrata (method = <em>continuous</em>); (iii) optimizeStrata (method = <em>spatial</em>).</p></li>
 <li><p>A new <em>optimizeStrataSpatial</em> function is available: this function optimizes the frame stratification taking into account also spatial correlation of frame units in a territorial context. As for <em>optimizeStrata2</em>, this function can be used only on continuous stratification variables.</p></li>
@@ -170,9 +183,9 @@
 <h1 class="page-header">
 <a href="#samplingstrata-14-1" class="anchor"></a>SamplingStrata 1.4-1<small> 2019-04-22 </small>
 </h1>
-<div id="major-changes-1" class="section level2">
+<div id="major-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-1" class="anchor"></a>Major changes</h2>
+<a href="#major-changes-2" class="anchor"></a>Major changes</h2>
 <ul>
 <li><p>A new <em>summaryStrata</em> function has been added, enabling to get structured information regarding the strata produced by the <em>optimizeStrata2</em> function (operating on only continuous stratification variables).</p></li>
 <li><p>A new <em>assignStrataLabel</em> function has been added, enabling to assign the optimized strata label to new units to be added in the sampling frame.</p></li>
@@ -184,9 +197,9 @@
 <h1 class="page-header">
 <a href="#samplingstrata-14" class="anchor"></a>SamplingStrata 1.4<small> 2019-01-02 </small>
 </h1>
-<div id="major-changes-2" class="section level2">
+<div id="major-changes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-2" class="anchor"></a>Major changes</h2>
+<a href="#major-changes-3" class="anchor"></a>Major changes</h2>
 <ul>
 <li><p>A new function <em>optimizeStrata2</em> is available. This function performs the same task than <em>optimizeStrata</em>, but with a different Genetic Algorithm, operating on real values genome, instead of an integer one. This pemits to operate directly on the boundaries of the strata, instead of aggregating the initial atomic strata. In some situations (limited size of sampling frame) this new function is much more efficient. The limitation is in the nature of the stratification variables, that are required to be all continuous (though categorical ordinal could be handled).</p></li>
 <li><p>A new function <em>expected_CV</em> has been added to calculate CVs on target variables in different domains that may be expected from a given solution, output of the <em>optimizeStrata</em> execution.</p></li>
@@ -213,9 +226,9 @@
 <h1 class="page-header">
 <a href="#samplingstrata-12" class="anchor"></a>SamplingStrata 1.2<small> 2018-02-18 </small>
 </h1>
-<div id="major-changes-3" class="section level2">
+<div id="major-changes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-3" class="anchor"></a>Major changes</h2>
+<a href="#major-changes-4" class="anchor"></a>Major changes</h2>
 <ul>
 <li><p>The crossover function in the genetic algorithm has been modified by considering the <em>grouping</em> version of this algorithm: instead of mixing chromosomes in an indifferentiate way, groups of them in one parent (representing already aggregated strata) are attributed to the other parent when generating a child, preserving their composition. Moreover, parents are selected with a probability proportional to their fitness (in the previous version selection was completely at random). In many cases this can greatly speed the convergence to an optimal solution.</p></li>
 <li><p>A new function <em>adjustSize</em> has been added. It allows to adjust the sample size and related allocation in strata on the basis of an externally indicated overall sample size. The adjustment of the sample size is perfomed by increasing or decreasing it proportionally in each optimized stratum.</p></li>
@@ -229,9 +242,9 @@
 <h1 class="page-header">
 <a href="#samplingstrata-11" class="anchor"></a>SamplingStrata 1.1<small> 2016-01-13 </small>
 </h1>
-<div id="major-changes-4" class="section level2">
+<div id="major-changes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-4" class="anchor"></a>Major changes</h2>
+<a href="#major-changes-5" class="anchor"></a>Major changes</h2>
 <ul>
 <li><p>Function <em>memoise</em> from the same package (now required) is applied before each evaluation in order to save processing time. This may largely increase the efficiency of the algorithm.</p></li>
 <li><p>A <em>recode</em> function is applied on every generated solution in order to recode a genotype of n genes with k&lt;=n distinct alleles 1, 2, …, k in such a way that the distinct alleles of the recoded genotype appear in the natural order 1, 2, …, k. This avoids to consider as distinct two solutions that are equivalent but make use of a different coding.</p></li>
@@ -273,9 +286,9 @@
 <h1 class="page-header">
 <a href="#samplingstrata-10-1" class="anchor"></a>SamplingStrata 1.0-1<small> 2013-01-16 </small>
 </h1>
-<div id="major-changes-5" class="section level2">
+<div id="major-changes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-5" class="anchor"></a>Major changes</h2>
+<a href="#major-changes-6" class="anchor"></a>Major changes</h2>
 <ul>
 <li><p>The object returned by function <em>optimizeStrata</em> is no more a dataframe but a list: (i) the first element of the list is the solution vector (solution(indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution)aggr_strata).</p></li>
 <li><p>In all the functions that previously produced .csv files and .pdf plots in the working directory, as a default this is no more the current behaviour. To write these files, it is now necessary to set the <em>writeFiles</em> flag to TRUE.</p></li>
@@ -286,9 +299,9 @@
 <h1 class="page-header">
 <a href="#samplingstrata-10" class="anchor"></a>SamplingStrata 1.0<small> 2012-12-04 </small>
 </h1>
-<div id="major-changes-6" class="section level2">
+<div id="major-changes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes-6" class="anchor"></a>Major changes</h2>
+<a href="#major-changes-7" class="anchor"></a>Major changes</h2>
 <ul>
 <li>Two new functions: (i) <em>evalSolution</em>, to evaluate the found solution in terms of expected target variables precision and bias obtainable by samples drawn from the otpimized frame; (ii) <em>tuneParameters</em>, to determine the best combination of values to assign to the parameters necessary for the execution of the genetic algorithm used for the optimization of the frame stratification.</li>
 </ul>
@@ -300,6 +313,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#samplingstrata-15-1">1.5-1</a></li>
         <li><a href="#samplingstrata-15">1.5</a></li>
         <li><a href="#samplingstrata-14-1">1.4-1</a></li>
         <li><a href="#samplingstrata-14">1.4</a></li>
