@@ -1,5 +1,19 @@
 citHeader("To cite SamplingStrata in publications use:")
 
+citEntry(entry = "Misc",
+  title        = "SamplingStrata: Optimal Stratification of Sampling Frames for Multipurpose Sampling Surveys",
+  author       = "G. Barcaroli, M. Ballin, H. Odendaal, D. Pagliuca, E. Willighagen, D. Zardetto",
+  year         = "2020",
+  note = "R package version 1.5-1",
+  url          = "https://cran.r-project.org/web/packages/SamplingStrata/index.html",
+
+  textVersion  =
+  paste("G. Barcaroli, M. Ballin, H. Odendaal, D. Pagliuca, E. Willighagen, D. Zardetto (2020).",
+        "SamplingStrata: Optimal Stratification of Sampling Frames for Multipurpose Sampling Surveys.",
+		"R package version 1.5-1",
+        "URL https://cran.r-project.org/web/packages/SamplingStrata/index.html.")
+)
+
 citEntry(entry = "Article",
   title        = "{SamplingStrata}: An {R} Package for the Optimization of Stratified Sampling",
   author       = personList(as.person("Giulio Barcaroli")),
