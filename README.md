@@ -56,7 +56,7 @@ stratification variables are continuous, then the method is the
 is spatial correlation among units in the sampling frame, then the
 required method is the “spatial”.
 
-## Example with the “atomic” method
+## Example with the “continuous” method
 
 ``` r
 library(SamplingStrata)
@@ -103,69 +103,59 @@ cv
 # 6 DOM1 0.1 0.1           6
 # 7 DOM1 0.1 0.1           7
 
-# Build atomic strata ---------------------------------------------------------------------
-strata <- buildStrataDF(frame)
-# Number of strata:  2895
-# ... of which with only one unit:  2894> head(strata)
-head(strata)
-#              STRATO N   M1 M2 S1 S2 COST CENS DOM1    X1   X2
-# 100*305     100*305 1   59  0  0  0    1    0    1   100  305
-# 1010*1661 1010*1661 1  983  0  0  0    1    0    1  1010 1661
-# 102*306     102*306 1   65  0  0  0    1    0    1   102  306
-# 1020*5351 1020*5351 1 1375  2  0  0    1    0    1  1020 5351
-# 10227*571 10227*571 1   73 48  0  0    1    0    1 10227  571
-# 10230*330 10230*330 1   15  2  0  0    1    0    1 10230  330
 
 # Find an initial solution and a suitable number of final strata in each domain -----------
-solutionKmean <- KmeansSolution(strata = strata,    # atomic strata
-                                errors = cv,        # precision constraints
-                                maxclusters = 10)   # max number of strata to be evaluated 
+solutionKmean <- KmeansSolution2(frame = frame,      # sampling frame
+                                 errors = cv,        # precision constraints
+                                 maxclusters = 10)   # max number of strata to be evaluated 
 # number of strata to be obtained in each domain in final solution:                             
 nstrat <- tapply(solutionKmean$suggestions, solutionKmean$domainvalue,
                  FUN=function(x) length(unique(x)))
 nstrat
 # 1  2  3  4  5  6  7 
-# 9  8 10  9 10  9 10
+# 10 10  7 10 10  8 10 
 
 # Optimization step ------------------------------------------------------------------------
-solution <- optimStrata(method = "atomic",          # method
+solution <- optimStrata(method = "continuous",        # method
                         framesamp = frame,            # sampling frame
                         errors = cv,                  # precision constraints
                         nStrata = nstrat,             # strata to be obtained in the final stratification
-                        suggestions = solutionKmean,  # initial solution
                         iter = 50,                    # number of iterations
                         pops = 10)                    # number of stratifications evaluated at each iteration
-# Number of strata:  2895
-# ... of which with only one unit:  2894
-#  *** Starting parallel optimization for  7  domains using  5  cores
-#   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=20s  
+# Input data have been checked and are compliant with requirements
 # 
-# *** Sample size :  362
-# *** Number of strata :  59
+# *** Starting parallel optimization for  7  domains using  5  cores
+# |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=19s  
+# 
+# *** Sample size :  209
+# *** Number of strata :  55
+# ---------------------------
 
-head(solution$aggr_strata)
-#   STRATO         M1        M2        S1        S2   N DOM1 COST CENS     SOLUZ
-# 1      1   61.07407  17.37778  41.87780  13.22224 270    1    1    0  9.141966
-# 2      2 1114.66667  64.80392 555.75540  53.48631  51    1    1    0  6.985276
-# 3      3   57.05128 110.12821  50.51679  35.55146  39    1    1    0  3.550527
-# 4      4  477.31472  33.92386 351.59986  37.68313 197    1    1    0 19.010081
-# 5      5 3226.14286 184.00000 540.04720  80.64561   7    1    1    0  2.000000
-# 6      6 1805.21429 150.28571 256.07733 210.69830  14    1    1    0  7.553702
+strataStructure <- summaryStrata(solution$framenew, 
+                                 solution$aggr_strata)
+head(strataStructure)
+# Domain Stratum Population Allocation SamplingRate Lower_X1 Upper_X1 Lower_X2 Upper_X2
+# 1      1       1        318          9     0.027928       27     1048       32     1166
+# 2      1       2         91          7     0.077012       99     7516       48     1202
+# 3      1       3         82          8     0.091802       95     8114      436     2635
+# 4      1       4         26          3     0.125069      286    29559      219     2792
+# 5      1       5         49          9     0.176848      130    22454     2864     7093
+# 6      1       6          8          2     0.250000       78     6261     8460     9082
 
 # Sample selection --------------------------------------------------------------------------
 s <- selectSample(frame = solution$framenew,        # frame with the indication of optimized strata
                   outstrata = solution$aggr_strata) # optimized strata with sampling units allocation 
 # *** Sample has been drawn successfully ***
-#   362  units have been selected from  59  strata
+#   209  units have been selected from  55  strata
 # 
-# ==> There have been  6  take-all strata 
-# from which have been selected  9 units
+# ==> There have been  8  take-all strata 
+# from which have been selected  11 units
 head(s)
-#   DOMAINVALUE STRATO  STRATUM   ID   X1  X2 Y1 Y2 LABEL WEIGHTS        FPC
-# 1           1      1  195*201 5534  195 201 37 10     1      30 0.03333333
-# 2           1      1  172*193 5801  172 193 14  4     1      30 0.03333333
-# 3           1      1  349*398 5499  349 398 19 15     1      30 0.03333333
-# 4           1      1 2939*460 5582 2939 460 67 50     1      30 0.03333333
-# 5           1      1  186*309 5663  186 309 65 10     1      30 0.03333333
-# 6           1      1  290*421 5463  290 421 11 14     1      30 0.03333333
+# DOMAINVALUE STRATO   ID  X1  X2  Y1 Y2 LABEL  WEIGHTS        FPC
+# 1           1      1 5432 439 497 230 11     1 35.33333 0.02830189
+# 2           1      1 5928  87 235  47  5     1 35.33333 0.02830189
+# 3           1      1 5785 412 794 335 20     1 35.33333 0.02830189
+# 4           1      1 5608 300 137  13  9     1 35.33333 0.02830189
+# 5           1      1 5652 560 306  54  8     1 35.33333 0.02830189
+# 6           1      1 5462 339 237  55 19     1 35.33333 0.02830189
 ```

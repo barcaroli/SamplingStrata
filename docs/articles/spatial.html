@@ -12,14 +12,15 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Spatial sampling with SamplingStrata">
-<meta property="og:description" content="">
+<meta property="og:description" content="SamplingStrata">
 <meta property="og:image" content="/logo.png">
-<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -31,7 +32,7 @@
   gtag('config', 'UA-156503236-1');
 </script>
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -44,7 +45,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-1</span>
       </span>
     </div>
 
@@ -52,7 +53,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -83,8 +84,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/barcaroli/SamplingStrata">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/barcaroli/SamplingStrata/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -97,13 +98,14 @@
 <!--/.navbar -->
 
       
-      </header><script src="spatial_files/jquery-1.11.3/jquery.min.js"></script><script src="spatial_files/elevate-section-attrs-2.0/elevate-section-attrs.js"></script><div class="row">
+
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Spatial sampling with SamplingStrata</h1>
+      <h1 data-toc-skip>Spatial sampling with SamplingStrata</h1>
                         <h4 class="author">Marco Ballin, Giulio Barcaroli</h4>
             
-            <h4 class="date">2020-03-08</h4>
+            <h4 class="date">2020-05-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/spatial.Rmd"><code>vignettes/spatial.Rmd</code></a></small>
       <div class="hidden name"><code>spatial.Rmd</code></div>
@@ -147,44 +149,44 @@ D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 <li>perform the optimization step.</li>
 </ul>
 <p>In order to illustrate the “<em>spatial</em>” method, we make use of a dataset generally employed as an example of spatially correlated phenomena (in this case, the concentration of four heavy metals in a portion of the river Meuse). This dataset comes with the library “<em>sp</em>”:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sp)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># locations (155 observed points)</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"meuse"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># grid of points (3103)</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"meuse.grid"</span>)</span>
-<span id="cb1-6"><a href="#cb1-6"></a>meuse.grid<span class="op">$</span>id &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(meuse.grid))</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">coordinates</span>(meuse)&lt;-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"x"</span>,<span class="st">"y"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">coordinates</span>(meuse.grid)&lt;-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"x"</span>,<span class="st">"y"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sp</span>)
+<span class="co"># locations (155 observed points)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"meuse"</span>)
+<span class="co"># grid of points (3103)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"meuse.grid"</span>)
+<span class="no">meuse.grid</span>$<span class="no">id</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">meuse.grid</span>))
+<span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html">coordinates</a></span>(<span class="no">meuse</span>)<span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x"</span>,<span class="st">"y"</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html">coordinates</a></span>(<span class="no">meuse.grid</span>)<span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x"</span>,<span class="st">"y"</span>)</pre></body></html></div>
 <p><img src="spatial_files/figure-html/unnamed-chunk-2-1.png" width="576"></p>
 <p>We analyse the territorial distribution of the <em>lead</em> and <em>zinc</em> concentration, and model (by using the <em>universal kriging</em>) their relations with distance from the river, using the subset of 155 points on which these values have been jointly observed:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(automap)</span>
-<span id="cb2-2"><a href="#cb2-2"></a>kriging_lead =<span class="st"> </span><span class="kw">autoKrige</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(lead) <span class="op">~</span><span class="st"> </span>dist, meuse, meuse.grid)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">automap</span>)
+<span class="no">kriging_lead</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/automap/man/autoKrige.html">autoKrige</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">lead</span>) ~ <span class="no">dist</span>, <span class="no">meuse</span>, <span class="no">meuse.grid</span>)</pre></body></html></div>
 <pre><code>## [using universal kriging]</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(kriging_lead,<span class="dt">sp.layout =</span> <span class="ot">NULL</span>, <span class="dt">justPosition =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">kriging_lead</span>,<span class="kw">sp.layout</span> <span class="kw">=</span> <span class="kw">NULL</span>, <span class="kw">justPosition</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <p><img src="spatial_files/figure-html/unnamed-chunk-3-1.png" width="576"></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>kriging_zinc =<span class="st"> </span><span class="kw">autoKrige</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(zinc) <span class="op">~</span><span class="st"> </span>dist, meuse, meuse.grid)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">kriging_zinc</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/automap/man/autoKrige.html">autoKrige</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">zinc</span>) ~ <span class="no">dist</span>, <span class="no">meuse</span>, <span class="no">meuse.grid</span>)</pre></body></html></div>
 <pre><code>## [using universal kriging]</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(kriging_zinc, <span class="dt">sp.layout =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">pts =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"sp.points"</span>, meuse)))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">kriging_zinc</span>, <span class="kw">sp.layout</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">pts</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"sp.points"</span>, <span class="no">meuse</span>)))</pre></body></html></div>
 <p><img src="spatial_files/figure-html/unnamed-chunk-3-2.png" width="576"></p>
 <p>It is possible to calculate the fitting of the two models in this way:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>r2_lead &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>kriging_lead<span class="op">$</span>sserr<span class="op">/</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>((<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(meuse<span class="op">$</span>lead)<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(meuse<span class="op">$</span>lead)))<span class="op">^</span><span class="dv">2</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a>r2_lead</span></code></pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">r2_lead</span> <span class="kw">&lt;-</span> <span class="fl">1</span> - <span class="no">kriging_lead</span>$<span class="no">sserr</span>/<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>((<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">meuse</span>$<span class="no">lead</span>)-<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">meuse</span>$<span class="no">lead</span>)))^<span class="fl">2</span>)
+<span class="no">r2_lead</span></pre></body></html></div>
 <pre><code>## [1] 0.9999997</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>r2_zinc &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>kriging_zinc<span class="op">$</span>sserr<span class="op">/</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>((<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(meuse<span class="op">$</span>zinc)<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(meuse<span class="op">$</span>zinc)))<span class="op">^</span><span class="dv">2</span>)</span>
-<span id="cb10-2"><a href="#cb10-2"></a>r2_zinc</span></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">r2_zinc</span> <span class="kw">&lt;-</span> <span class="fl">1</span> - <span class="no">kriging_zinc</span>$<span class="no">sserr</span>/<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>((<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">meuse</span>$<span class="no">zinc</span>)-<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">meuse</span>$<span class="no">zinc</span>)))^<span class="fl">2</span>)
+<span class="no">r2_zinc</span></pre></body></html></div>
 <pre><code>## [1] 0.9999999</code></pre>
 <p>Using these <em>kriging</em> models, we are able to predict the values of lead and zinc concentration on the totality of the 3,103 points in the Meuse territory:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>df &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a>df<span class="op">$</span>id &lt;-<span class="st"> </span>meuse.grid<span class="op">$</span>id</span>
-<span id="cb12-3"><a href="#cb12-3"></a>df<span class="op">$</span>lead.pred &lt;-<span class="st"> </span>kriging_lead<span class="op">$</span>krige_output<span class="op">@</span>data<span class="op">$</span>var1.pred</span>
-<span id="cb12-4"><a href="#cb12-4"></a>df<span class="op">$</span>lead.var &lt;-<span class="st"> </span>kriging_lead<span class="op">$</span>krige_output<span class="op">@</span>data<span class="op">$</span>var1.var</span>
-<span id="cb12-5"><a href="#cb12-5"></a>df<span class="op">$</span>zinc.pred &lt;-<span class="st"> </span>kriging_zinc<span class="op">$</span>krige_output<span class="op">@</span>data<span class="op">$</span>var1.pred</span>
-<span id="cb12-6"><a href="#cb12-6"></a>df<span class="op">$</span>zinc.var &lt;-<span class="st"> </span>kriging_zinc<span class="op">$</span>krige_output<span class="op">@</span>data<span class="op">$</span>var1.var</span>
-<span id="cb12-7"><a href="#cb12-7"></a>df<span class="op">$</span>lon &lt;-<span class="st"> </span>meuse.grid<span class="op">$</span>x</span>
-<span id="cb12-8"><a href="#cb12-8"></a>df<span class="op">$</span>lat &lt;-<span class="st"> </span>meuse.grid<span class="op">$</span>y</span>
-<span id="cb12-9"><a href="#cb12-9"></a>df<span class="op">$</span>dom1 &lt;-<span class="st"> </span><span class="dv">1</span></span>
-<span id="cb12-10"><a href="#cb12-10"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>(df)</span>
-<span id="cb12-11"><a href="#cb12-11"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(df)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span>
+<span class="no">df</span>$<span class="no">id</span> <span class="kw">&lt;-</span> <span class="no">meuse.grid</span>$<span class="no">id</span>
+<span class="no">df</span>$<span class="no">lead.pred</span> <span class="kw">&lt;-</span> <span class="no">kriging_lead</span>$<span class="no">krige_output</span>@<span class="kw">data</span>$<span class="no">var1.pred</span>
+<span class="no">df</span>$<span class="no">lead.var</span> <span class="kw">&lt;-</span> <span class="no">kriging_lead</span>$<span class="no">krige_output</span>@<span class="kw">data</span>$<span class="no">var1.var</span>
+<span class="no">df</span>$<span class="no">zinc.pred</span> <span class="kw">&lt;-</span> <span class="no">kriging_zinc</span>$<span class="no">krige_output</span>@<span class="kw">data</span>$<span class="no">var1.pred</span>
+<span class="no">df</span>$<span class="no">zinc.var</span> <span class="kw">&lt;-</span> <span class="no">kriging_zinc</span>$<span class="no">krige_output</span>@<span class="kw">data</span>$<span class="no">var1.var</span>
+<span class="no">df</span>$<span class="no">lon</span> <span class="kw">&lt;-</span> <span class="no">meuse.grid</span>$<span class="no">x</span>
+<span class="no">df</span>$<span class="no">lat</span> <span class="kw">&lt;-</span> <span class="no">meuse.grid</span>$<span class="no">y</span>
+<span class="no">df</span>$<span class="no">dom1</span> <span class="kw">&lt;-</span> <span class="fl">1</span>
+<span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="no">df</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">df</span>)</pre></body></html></div>
 <pre><code>##   id lead.pred  lead.var zinc.pred  zinc.var    lon    lat dom1
 ## 1  1  5.509360 0.1954937  6.736502 0.2007150 181180 333740    1
 ## 2  2  5.546006 0.1716895  6.785460 0.1749260 181140 333700    1
@@ -193,34 +195,34 @@ D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 ## 5  5  5.584415 0.1463018  6.841612 0.1465346 181100 333660    1
 ## 6  6  5.525538 0.1533757  6.749216 0.1549663 181140 333660    1</code></pre>
 <p>The aim is now to produce the optimal stratification of the 3,103 points under a precision constraint of 1% on the target estimates of the mean <em>lead</em> and <em>zinc</em> concentrations:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SamplingStrata)</span>
-<span id="cb14-2"><a href="#cb14-2"></a>frame &lt;-<span class="st"> </span><span class="kw"><a href="../reference/buildFrameSpatial.html">buildFrameSpatial</a></span>(<span class="dt">df=</span>df,</span>
-<span id="cb14-3"><a href="#cb14-3"></a>                      <span class="dt">id=</span><span class="st">"id"</span>,</span>
-<span id="cb14-4"><a href="#cb14-4"></a>                      <span class="dt">X=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"lead.pred"</span>,<span class="st">"zinc.pred"</span>),</span>
-<span id="cb14-5"><a href="#cb14-5"></a>                      <span class="dt">Y=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"lead.pred"</span>,<span class="st">"zinc.pred"</span>),</span>
-<span id="cb14-6"><a href="#cb14-6"></a>                      <span class="dt">variance=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"lead.var"</span>,<span class="st">"zinc.var"</span>),</span>
-<span id="cb14-7"><a href="#cb14-7"></a>                      <span class="dt">lon=</span><span class="st">"lon"</span>,</span>
-<span id="cb14-8"><a href="#cb14-8"></a>                      <span class="dt">lat=</span><span class="st">"lat"</span>,</span>
-<span id="cb14-9"><a href="#cb14-9"></a>                      <span class="dt">domainvalue =</span> <span class="st">"dom1"</span>)</span>
-<span id="cb14-10"><a href="#cb14-10"></a>cv &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">DOM=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="st">"DOM1"</span>,<span class="dv">1</span>),</span>
-<span id="cb14-11"><a href="#cb14-11"></a>                         <span class="dt">CV1=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">0.01</span>,<span class="dv">1</span>),</span>
-<span id="cb14-12"><a href="#cb14-12"></a>                         <span class="dt">CV2=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">0.01</span>,<span class="dv">1</span>),</span>
-<span id="cb14-13"><a href="#cb14-13"></a>                         <span class="dt">domainvalue=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">1</span>) ))</span></code></pre></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">SamplingStrata</span>)
+<span class="no">frame</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/buildFrameSpatial.html">buildFrameSpatial</a></span>(<span class="kw">df</span><span class="kw">=</span><span class="no">df</span>,
+                      <span class="kw">id</span><span class="kw">=</span><span class="st">"id"</span>,
+                      <span class="kw">X</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lead.pred"</span>,<span class="st">"zinc.pred"</span>),
+                      <span class="kw">Y</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lead.pred"</span>,<span class="st">"zinc.pred"</span>),
+                      <span class="kw">variance</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lead.var"</span>,<span class="st">"zinc.var"</span>),
+                      <span class="kw">lon</span><span class="kw">=</span><span class="st">"lon"</span>,
+                      <span class="kw">lat</span><span class="kw">=</span><span class="st">"lat"</span>,
+                      <span class="kw">domainvalue</span> <span class="kw">=</span> <span class="st">"dom1"</span>)
+<span class="no">cv</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">DOM</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"DOM1"</span>,<span class="fl">1</span>),
+                         <span class="kw">CV1</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.01</span>,<span class="fl">1</span>),
+                         <span class="kw">CV2</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.01</span>,<span class="fl">1</span>),
+                         <span class="kw">domainvalue</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fl">1</span>) ))</pre></body></html></div>
 <p>To this aim, we carry out the optimization step by indicating the method <em>spatial</em>:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1234</span>)</span>
-<span id="cb15-2"><a href="#cb15-2"></a>solution &lt;-<span class="st"> </span><span class="kw"><a href="../reference/optimStrata.html">optimStrata</a></span> (</span>
-<span id="cb15-3"><a href="#cb15-3"></a>  <span class="dt">method =</span> <span class="st">"spatial"</span>,</span>
-<span id="cb15-4"><a href="#cb15-4"></a>  <span class="dt">errors=</span>cv, </span>
-<span id="cb15-5"><a href="#cb15-5"></a>  <span class="dt">framesamp=</span>frame,</span>
-<span id="cb15-6"><a href="#cb15-6"></a>  <span class="dt">iter =</span> <span class="dv">15</span>,</span>
-<span id="cb15-7"><a href="#cb15-7"></a>  <span class="dt">pops =</span> <span class="dv">10</span>,</span>
-<span id="cb15-8"><a href="#cb15-8"></a>  <span class="dt">nStrata =</span> <span class="dv">5</span>,</span>
-<span id="cb15-9"><a href="#cb15-9"></a>  <span class="dt">fitting =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(r2_lead,r2_zinc),</span>
-<span id="cb15-10"><a href="#cb15-10"></a>  <span class="dt">range =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(kriging_lead<span class="op">$</span>var_model<span class="op">$</span>range[<span class="dv">2</span>],kriging_zinc<span class="op">$</span>var_model<span class="op">$</span>range[<span class="dv">2</span>]),</span>
-<span id="cb15-11"><a href="#cb15-11"></a>  <span class="dt">kappa=</span><span class="dv">1</span>,</span>
-<span id="cb15-12"><a href="#cb15-12"></a>  <span class="dt">writeFiles =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb15-13"><a href="#cb15-13"></a>  <span class="dt">showPlot =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb15-14"><a href="#cb15-14"></a>  <span class="dt">parallel =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1234</span>)
+<span class="no">solution</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span> (
+  <span class="kw">method</span> <span class="kw">=</span> <span class="st">"spatial"</span>,
+  <span class="kw">errors</span><span class="kw">=</span><span class="no">cv</span>,
+  <span class="kw">framesamp</span><span class="kw">=</span><span class="no">frame</span>,
+  <span class="kw">iter</span> <span class="kw">=</span> <span class="fl">15</span>,
+  <span class="kw">pops</span> <span class="kw">=</span> <span class="fl">10</span>,
+  <span class="kw">nStrata</span> <span class="kw">=</span> <span class="fl">5</span>,
+  <span class="kw">fitting</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">r2_lead</span>,<span class="no">r2_zinc</span>),
+  <span class="kw">range</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">kriging_lead</span>$<span class="no">var_model</span>$<span class="no">range</span>[<span class="fl">2</span>],<span class="no">kriging_zinc</span>$<span class="no">var_model</span>$<span class="no">range</span>[<span class="fl">2</span>]),
+  <span class="kw">kappa</span><span class="kw">=</span><span class="fl">1</span>,
+  <span class="kw">writeFiles</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
+  <span class="kw">showPlot</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
+  <span class="kw">parallel</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
 <pre><code>## 
 ## Input data have been checked and are compliant with requirements
 ## Sequential optimization as parallel = FALSE, defaulting number of cores = 1
@@ -233,11 +235,11 @@ D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 ##  *** Sample size :  62
 ##  *** Number of strata :  4
 ## ---------------------------</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>framenew &lt;-<span class="st"> </span>solution<span class="op">$</span>framenew</span>
-<span id="cb18-2"><a href="#cb18-2"></a>outstrata &lt;-<span class="st"> </span>solution<span class="op">$</span>aggr_strata</span></code></pre></div>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">framenew</span> <span class="kw">&lt;-</span> <span class="no">solution</span>$<span class="no">framenew</span>
+<span class="no">outstrata</span> <span class="kw">&lt;-</span> <span class="no">solution</span>$<span class="no">aggr_strata</span></pre></body></html></div>
 <p>obtaining the following optimized strata:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw"><a href="../reference/plotStrata2d.html">plotStrata2d</a></span>(framenew,outstrata,<span class="dt">domain=</span><span class="dv">1</span>,<span class="dt">vars=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"X1"</span>,<span class="st">"X2"</span>),</span>
-<span id="cb19-2"><a href="#cb19-2"></a>             <span class="dt">labels=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Lead"</span>,<span class="st">"Zinc"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="../reference/plotStrata2d.html">plotStrata2d</a></span>(<span class="no">framenew</span>,<span class="no">outstrata</span>,<span class="kw">domain</span><span class="kw">=</span><span class="fl">1</span>,<span class="kw">vars</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"X1"</span>,<span class="st">"X2"</span>),
+             <span class="kw">labels</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Lead"</span>,<span class="st">"Zinc"</span>))</pre></body></html></div>
 <img src="spatial_files/figure-html/unnamed-chunk-8-1.png" width="576"><table class="table table table-condensed">
 <thead><tr>
 <th style="text-align:right;">
@@ -343,13 +345,13 @@ Bounds Zinc
 </tbody>
 </table>
 <p>that can be visualised in this way:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>frameres &lt;-<span class="st"> </span><span class="kw">SpatialPointsDataFrame</span>(<span class="dt">data=</span>framenew, <span class="dt">coords=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(framenew<span class="op">$</span>LON,framenew<span class="op">$</span>LAT) )</span>
-<span id="cb20-2"><a href="#cb20-2"></a>frameres2 &lt;-<span class="st"> </span><span class="kw">SpatialPixelsDataFrame</span>(<span class="dt">points=</span>frameres[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"LON"</span>,<span class="st">"LAT"</span>)], <span class="dt">data=</span>framenew)</span>
-<span id="cb20-3"><a href="#cb20-3"></a>frameres2<span class="op">$</span>LABEL &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">as.factor</a></span>(frameres2<span class="op">$</span>LABEL)</span>
-<span id="cb20-4"><a href="#cb20-4"></a><span class="kw">spplot</span>(frameres2,<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"LABEL"</span>), <span class="dt">col.regions=</span><span class="kw">bpy.colors</span>(<span class="dv">5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">frameres</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPoints.html">SpatialPointsDataFrame</a></span>(<span class="kw">data</span><span class="kw">=</span><span class="no">framenew</span>, <span class="kw">coords</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">framenew</span>$<span class="no">LON</span>,<span class="no">framenew</span>$<span class="no">LAT</span>) )
+<span class="no">frameres2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialGridDataFrame.html">SpatialPixelsDataFrame</a></span>(<span class="kw">points</span><span class="kw">=</span><span class="no">frameres</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"LON"</span>,<span class="st">"LAT"</span>)], <span class="kw">data</span><span class="kw">=</span><span class="no">framenew</span>)
+<span class="no">frameres2</span>$<span class="no">LABEL</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">frameres2</span>$<span class="no">LABEL</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/sp/man/spplot.html">spplot</a></span>(<span class="no">frameres2</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"LABEL"</span>), <span class="kw">col.regions</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/bpy.colors.html">bpy.colors</a></span>(<span class="fl">5</span>))</pre></body></html></div>
 <p><img src="spatial_files/figure-html/unnamed-chunk-9-1.png" width="576"></p>
 <p>We can now proceed with the selection of the sample:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>s &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selectSample.html">selectSample</a></span>(framenew,outstrata,<span class="dt">writeFiles=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">s</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/selectSample.html">selectSample</a></span>(<span class="no">framenew</span>,<span class="no">outstrata</span>,<span class="kw">writeFiles</span><span class="kw">=</span><span class="fl">FALSE</span>)</pre></body></html></div>
 <pre><code>## 
 ## *** Sample has been drawn successfully ***
 ##  62  units have been selected from  4  strata</code></pre>
@@ -359,7 +361,7 @@ Bounds Zinc
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references hanging-indent">
+<div id="refs" class="references">
 <div id="ref-degruijter2016">
 <p>deGruijter, J. J., A. B. McBratney, B. Minasny, I. Wheeler, B. P. Malone, and U. Stockmann. 2016. “Farm-Scale Soil Carbon Auditing.” <em>Geoderma</em>, no. 265: 12–130.</p>
 </div>
@@ -370,19 +372,14 @@ Bounds Zinc
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#optimization-with-the-spatial-method">Optimization with the <em>spatial</em> method</a></li>
-      <li><a href="#references">References</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
+
 
 
       <footer><div class="copyright">
@@ -390,12 +387,14 @@ Bounds Zinc
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
