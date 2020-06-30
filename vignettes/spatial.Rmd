@@ -78,6 +78,9 @@ To summarize, when frame units can be geo-referenced, the proposed procedure is 
 * obtain predicted values together with prediction errors for each $Z$ and associate them to each unit in the frame;
 * perform the optimization step.
 
+
+# Example
+
 In order to illustrate the "*spatial*" method, we make use of a dataset generally employed as an example of spatially correlated phenomena (in this case, the concentration of four heavy metals in a portion of the river Meuse). This dataset comes with the library "*sp*":
 
 ```{r, eval = T, echo=TRUE, message=FALSE}
