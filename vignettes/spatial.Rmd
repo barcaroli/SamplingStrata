@@ -2,7 +2,20 @@
 title: "Spatial sampling with SamplingStrata"
 author: "Marco Ballin, Giulio Barcaroli"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+# output: rmarkdown::html_vignette
+output: 
+  bookdown::html_document2:
+    df_print: kable
+    highlight: tango
+    number_sections: yes
+    theme: flatly
+    toc: yes
+    toc_depth: 2
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+    toc_title: spsur vs spse
+    # code_folding: hide
 bibliography: SamplingStrata.bib
 vignette: >
   %\VignetteIndexEntry{Spatial sampling with SamplingStrata}
