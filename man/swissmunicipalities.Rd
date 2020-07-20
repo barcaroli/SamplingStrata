@@ -31,6 +31,8 @@ in 2003.
     \item{H00P03}{number of households with 3 persons.}
     \item{H00P04}{number of households with 4 persons.}
     \item{POPTOT}{total population.}
+    \item{lat}{latitude.}
+    \item{long}{longitude.}
   }
 }
 \source{Swiss Federal Statistical Office.

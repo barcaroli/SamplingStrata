@@ -59,6 +59,7 @@ buildStrataDFSpatial <- function(dataset,
     # sum(2*spatial_cov) / (2*nrow(dataset)^2)
     # sqrt((sum(z_z))/(2*nrow(dataset)^2))
     sd1 <- sqrt((sum(z_z)) / (2*nrow(dataset)^2))
+    # spatial_cov <- ifelse(is.nan(spatial_cov),0,spatial_cov)
     sd2 <- sqrt(sum(somma_coppie_var -2*spatial_cov) / (2*nrow(dataset)^2))
     # var_strato <- sum(D2) / (2*nrow(dataset)^2)
     var_strato <- sd1^2/fitting[i] + sd2^2
