@@ -71,6 +71,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
+    </li>
+    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -99,13 +102,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="models_files/header-attrs-2.3/header-attrs.js"></script><script src="models_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Use of models in SamplingStrata</h1>
                         <h4 class="author">Marco Ballin, Giulio Barcaroli</h4>
             
-            <h4 class="date">2020-06-30</h4>
+            <h4 class="date">2020-08-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/models.Rmd"><code>vignettes/models.Rmd</code></a></small>
       <div class="hidden name"><code>models.Rmd</code></div>
@@ -211,13 +214,13 @@ In order to take into account this problem, and to limit the risk of overestimat
 <span class="no">swissmunicipalities</span>$<span class="no">id</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">swissmunicipalities</span>))
 <span class="no">swissmunicipalities</span>$<span class="no">dom</span> <span class="kw">&lt;-</span> <span class="fl">1</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">swissmunicipalities</span>[,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">9</span>,<span class="fl">22</span>)])</pre></body></html></div>
-<pre><code>##    COM        Nom HApoly Surfacesbois Airbat POPTOT
-## 1  261     Zurich   8781         2326   2884 363273
-## 2 6621     Geneve   1593           67    773 177964
-## 3 2701      Basel   2391           97   1023 166558
-## 4  351       Bern   5162         1726   1070 128634
-## 5 5586   Lausanne   4136         1635    856 124914
-## 6  230 Winterthur   6787         2807    972  90483</code></pre>
+<pre><code>##   REG  COM        Nom HApoly Alp H00P04
+## 1   4  261     Zurich   8781   0  19468
+## 2   1 6621     Geneve   1593   0   9952
+## 3   3 2701      Basel   2391   0   9174
+## 4   2  351       Bern   5162   0   6053
+## 5   1 5586   Lausanne   4136   0   7416
+## 6   4  230 Winterthur   6787   0   6758</code></pre>
 <p>Let us assume that in the sampling frame only variables <em>total population</em> (<em>POPTOT</em>) and <em>total area</em> (<em>HApoly</em>) is available for all municipalities, while <em>buildings area</em> (<em>Airbat</em>) and <em>woods area</em> (<em>Surfacesbois</em>) are available only on a sample of 500 municipalities.</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1234</span>)
 <span class="no">swiss_sample</span> <span class="kw">&lt;-</span> <span class="no">swissmunicipalities</span>[<span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">swissmunicipalities</span>)),<span class="fl">500</span>),]</pre></body></html></div>
@@ -387,7 +390,7 @@ In order to take into account this problem, and to limit the risk of overestimat
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 <div id="ref-henry2006">
 <p>Henry, K., and R. Valliant. 2006. “Comparing Strategies to Estimate a Measure of Heteroscedasticity.”</p>
 </div>

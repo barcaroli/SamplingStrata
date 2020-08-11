@@ -71,6 +71,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
+    </li>
+    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -99,13 +102,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="spatial_files/header-attrs-2.3/header-attrs.js"></script><script src="spatial_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Spatial sampling with SamplingStrata</h1>
                         <h4 class="author">Marco Ballin, Giulio Barcaroli</h4>
             
-            <h4 class="date">2020-06-30</h4>
+            <h4 class="date">2020-08-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/spatial.Rmd"><code>vignettes/spatial.Rmd</code></a></small>
       <div class="hidden name"><code>spatial.Rmd</code></div>
@@ -148,6 +151,10 @@ D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 <li>obtain predicted values together with prediction errors for each <span class="math inline">\(Z\)</span> and associate them to each unit in the frame;</li>
 <li>perform the optimization step.</li>
 </ul>
+</div>
+<div id="example" class="section level1">
+<h1 class="hasAnchor">
+<a href="#example" class="anchor"></a>Example</h1>
 <p>In order to illustrate the “<em>spatial</em>” method, we make use of a dataset generally employed as an example of spatially correlated phenomena (in this case, the concentration of four heavy metals in a portion of the river Meuse). This dataset comes with the library “<em>sp</em>”:</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sp</span>)
 <span class="co"># locations (155 observed points)</span>
@@ -361,7 +368,7 @@ Bounds Zinc
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 <div id="ref-degruijter2016">
 <p>deGruijter, J. J., A. B. McBratney, B. Minasny, I. Wheeler, B. P. Malone, and U. Stockmann. 2016. “Farm-Scale Soil Carbon Auditing.” <em>Geoderma</em>, no. 265: 12–130.</p>
 </div>
