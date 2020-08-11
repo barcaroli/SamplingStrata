@@ -117,7 +117,7 @@ plan <- drake_plan(
 We have just defined this plan:
 
 ```{r list_plan}
-plan
+print(plan)
 ```
 
 visualised in this way:
