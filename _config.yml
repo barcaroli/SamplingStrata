@@ -1,4 +1,4 @@
-theme: jekyll-theme-cayman
+theme: jekyll-theme-minimal
 title: SamplingStrata
 description: R package for Optimal Stratification of Sampling Frames for Multipurpose Sampling Surveys
 url: https://github.com/barcaroli/SamplingStrata
