@@ -45,7 +45,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-2</span>
       </span>
     </div>
 
@@ -108,7 +108,7 @@
       <h1 data-toc-skip>Use of models in SamplingStrata</h1>
                         <h4 class="author">Marco Ballin, Giulio Barcaroli</h4>
             
-            <h4 class="date">2020-09-10</h4>
+            <h4 class="date">2020-09-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/models.Rmd"><code>vignettes/models.Rmd</code></a></small>
       <div class="hidden name"><code>models.Rmd</code></div>
@@ -209,11 +209,13 @@ In order to take into account this problem, and to limit the risk of overestimat
 <h1 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h1>
 <p>Consider the following example, based on the dataset <em>swissmunicipalities</em> available in the package.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">SamplingStrata</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://barcaroli.github.io/SamplingStrata">SamplingStrata</a></span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"swissmunicipalities"</span>)
-<span class="no">swissmunicipalities</span>$<span class="no">id</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">swissmunicipalities</span>))
-<span class="no">swissmunicipalities</span>$<span class="no">dom</span> <span class="kw">&lt;-</span> <span class="fl">1</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">swissmunicipalities</span>[,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">9</span>,<span class="fl">22</span>)])</pre></body></html></div>
+<span class="kw">swissmunicipalities</span><span class="op">$</span><span class="kw">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">swissmunicipalities</span>))
+<span class="kw">swissmunicipalities</span><span class="op">$</span><span class="kw">dom</span> <span class="op">&lt;-</span> <span class="fl">1</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">swissmunicipalities</span>[,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">9</span>,<span class="fl">22</span>)])
+</pre></div>
 <pre><code>##   REG  COM        Nom HApoly Alp H00P04
 ## 1   4  261     Zurich   8781   0  19468
 ## 2   1 6621     Geneve   1593   0   9952
@@ -222,12 +224,16 @@ In order to take into account this problem, and to limit the risk of overestimat
 ## 5   1 5586   Lausanne   4136   0   7416
 ## 6   4  230 Winterthur   6787   0   6758</code></pre>
 <p>Let us assume that in the sampling frame only variables <em>total population</em> (<em>POPTOT</em>) and <em>total area</em> (<em>HApoly</em>) is available for all municipalities, while <em>buildings area</em> (<em>Airbat</em>) and <em>woods area</em> (<em>Surfacesbois</em>) are available only on a sample of 500 municipalities.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1234</span>)
-<span class="no">swiss_sample</span> <span class="kw">&lt;-</span> <span class="no">swissmunicipalities</span>[<span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">swissmunicipalities</span>)),<span class="fl">500</span>),]</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1234</span>)
+<span class="kw">swiss_sample</span> <span class="op">&lt;-</span> <span class="kw">swissmunicipalities</span>[<span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">swissmunicipalities</span>)),<span class="fl">500</span>),]
+</pre></div>
 <p>In this subset we can fit models between POPTOT and the two variables that we assume are the target of our survey.</p>
 <p>One model for <em>buildings area</em> and <em>total population</em>:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">mod_Airbat_POPTOT</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">swiss_sample</span>$<span class="no">Airbat</span> ~ <span class="no">swiss_sample</span>$<span class="no">POPTOT</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">mod_Airbat_POPTOT</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="kw">mod_Airbat_POPTOT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="kw">swiss_sample</span><span class="op">$</span><span class="kw">Airbat</span> <span class="op">~</span> <span class="kw">swiss_sample</span><span class="op">$</span><span class="kw">POPTOT</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">mod_Airbat_POPTOT</span>)
+</pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = swiss_sample$Airbat ~ swiss_sample$POPTOT)
@@ -247,8 +253,10 @@ In order to take into account this problem, and to limit the risk of overestimat
 ## Multiple R-squared:  0.778,  Adjusted R-squared:  0.7776 
 ## F-statistic:  1745 on 1 and 498 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>and one model for <em>woods area</em> and <em>total area</em>:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">mod_Surfacesbois_HApoly</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">swiss_sample</span>$<span class="no">Surfacesbois</span> ~ <span class="no">swiss_sample</span>$<span class="no">HApoly</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">mod_Surfacesbois_HApoly</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="kw">mod_Surfacesbois_HApoly</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="kw">swiss_sample</span><span class="op">$</span><span class="kw">Surfacesbois</span> <span class="op">~</span> <span class="kw">swiss_sample</span><span class="op">$</span><span class="kw">HApoly</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">mod_Surfacesbois_HApoly</span>)
+</pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = swiss_sample$Surfacesbois ~ swiss_sample$HApoly)
@@ -268,67 +276,83 @@ In order to take into account this problem, and to limit the risk of overestimat
 ## Multiple R-squared:  0.5929, Adjusted R-squared:  0.5921 
 ## F-statistic: 725.4 on 1 and 498 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>We calculate the heteroscedasticity index and associated prediction standard error for both models:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">Airbat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/computeGamma.html">computeGamma</a></span>(<span class="no">mod_Airbat_POPTOT</span>$<span class="no">residuals</span>,
-             <span class="no">swiss_sample</span>$<span class="no">POPTOT</span>,
-             <span class="kw">nbins</span> <span class="kw">=</span> <span class="fl">10</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw">Airbat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/computeGamma.html">computeGamma</a></span>(<span class="kw">mod_Airbat_POPTOT</span><span class="op">$</span><span class="kw">residuals</span>,
+             <span class="kw">swiss_sample</span><span class="op">$</span><span class="kw">POPTOT</span>,
+             nbins = <span class="fl">10</span>)
+</pre></div>
 <p><img src="models_files/figure-html/unnamed-chunk-5-1.png" width="576"></p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">Airbat</span></pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="kw">Airbat</span>
+</pre></div>
 <pre><code>##     gamma     sigma  r.square 
 ## 0.6419641 0.1220129 0.9535845</code></pre>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">Surfacesbois</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/computeGamma.html">computeGamma</a></span>(<span class="no">mod_Surfacesbois_HApoly</span>$<span class="no">residuals</span>,
-             <span class="no">swiss_sample</span>$<span class="no">HApoly</span>,
-             <span class="kw">nbins</span> <span class="kw">=</span> <span class="fl">10</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="kw">Surfacesbois</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/computeGamma.html">computeGamma</a></span>(<span class="kw">mod_Surfacesbois_HApoly</span><span class="op">$</span><span class="kw">residuals</span>,
+             <span class="kw">swiss_sample</span><span class="op">$</span><span class="kw">HApoly</span>,
+             nbins = <span class="fl">10</span>)
+</pre></div>
 <p><img src="models_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">Surfacesbois</span></pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="kw">Surfacesbois</span>
+</pre></div>
 <pre><code>##     gamma     sigma  r.square 
 ## 0.8911053 0.3582789 0.9931305</code></pre>
 <p>We now proceed in building the <em>model</em> dataframe using the above models:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">model</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span>
-<span class="no">model</span>$<span class="no">beta</span>[<span class="fl">1</span>] <span class="kw">&lt;-</span> <span class="no">mod_Airbat_POPTOT</span>$<span class="no">coefficients</span>[<span class="fl">2</span>]
-<span class="no">model</span>$<span class="no">sig2</span>[<span class="fl">1</span>] <span class="kw">&lt;-</span> <span class="no">Airbat</span>[<span class="fl">2</span>]^<span class="fl">2</span>
-<span class="no">model</span>$<span class="no">type</span>[<span class="fl">1</span>] <span class="kw">&lt;-</span> <span class="st">"linear"</span>
-<span class="no">model</span>$<span class="no">gamma</span>[<span class="fl">1</span>] <span class="kw">&lt;-</span> <span class="no">Airbat</span>[<span class="fl">1</span>]
-<span class="no">model</span>$<span class="no">beta</span>[<span class="fl">2</span>] <span class="kw">&lt;-</span> <span class="no">mod_Surfacesbois_HApoly</span>$<span class="no">coefficients</span>[<span class="fl">2</span>]
-<span class="no">model</span>$<span class="no">sig2</span>[<span class="fl">2</span>] <span class="kw">&lt;-</span> <span class="no">Surfacesbois</span>[<span class="fl">2</span>]^<span class="fl">2</span>
-<span class="no">model</span>$<span class="no">type</span>[<span class="fl">2</span>] <span class="kw">&lt;-</span> <span class="st">"linear"</span>
-<span class="no">model</span>$<span class="no">gamma</span>[<span class="fl">2</span>] <span class="kw">&lt;-</span> <span class="no">Surfacesbois</span>[<span class="fl">1</span>]
-<span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="no">model</span>)
-<span class="no">model</span></pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="kw">model</span> <span class="op">&lt;-</span> <span class="kw">NULL</span>
+<span class="kw">model</span><span class="op">$</span><span class="kw">beta</span>[<span class="fl">1</span>] <span class="op">&lt;-</span> <span class="kw">mod_Airbat_POPTOT</span><span class="op">$</span><span class="kw">coefficients</span>[<span class="fl">2</span>]
+<span class="kw">model</span><span class="op">$</span><span class="kw">sig2</span>[<span class="fl">1</span>] <span class="op">&lt;-</span> <span class="kw">Airbat</span>[<span class="fl">2</span>]<span class="op">^</span><span class="fl">2</span>
+<span class="kw">model</span><span class="op">$</span><span class="kw">type</span>[<span class="fl">1</span>] <span class="op">&lt;-</span> <span class="st">"linear"</span>
+<span class="kw">model</span><span class="op">$</span><span class="kw">gamma</span>[<span class="fl">1</span>] <span class="op">&lt;-</span> <span class="kw">Airbat</span>[<span class="fl">1</span>]
+<span class="kw">model</span><span class="op">$</span><span class="kw">beta</span>[<span class="fl">2</span>] <span class="op">&lt;-</span> <span class="kw">mod_Surfacesbois_HApoly</span><span class="op">$</span><span class="kw">coefficients</span>[<span class="fl">2</span>]
+<span class="kw">model</span><span class="op">$</span><span class="kw">sig2</span>[<span class="fl">2</span>] <span class="op">&lt;-</span> <span class="kw">Surfacesbois</span>[<span class="fl">2</span>]<span class="op">^</span><span class="fl">2</span>
+<span class="kw">model</span><span class="op">$</span><span class="kw">type</span>[<span class="fl">2</span>] <span class="op">&lt;-</span> <span class="st">"linear"</span>
+<span class="kw">model</span><span class="op">$</span><span class="kw">gamma</span>[<span class="fl">2</span>] <span class="op">&lt;-</span> <span class="kw">Surfacesbois</span>[<span class="fl">1</span>] 
+<span class="kw">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="kw">model</span>)
+<span class="kw">model</span>
+</pre></div>
 <pre><code>##         beta       sig2   type     gamma
 ## 1 0.01192162 0.01488715 linear 0.6419641
 ## 2 0.19970325 0.12836378 linear 0.8911053</code></pre>
 <p>We define the <em>sampling frame</em> in this way:</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">frame</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/buildFrameDF.html">buildFrameDF</a></span>(<span class="no">swissmunicipalities</span>,
-                      <span class="kw">id</span> <span class="kw">=</span> <span class="st">"COM"</span>,
-                      <span class="kw">domainvalue</span> <span class="kw">=</span> <span class="st">"dom"</span>,
-                      <span class="kw">X</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"POPTOT"</span>, <span class="st">"HApoly"</span>),
-                      <span class="kw">Y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"POPTOT"</span>, <span class="st">"HApoly"</span>))
-<span class="no">frame</span>$<span class="no">Airbat</span> <span class="kw">&lt;-</span> <span class="no">swissmunicipalities</span>$<span class="no">Airbat</span>
-<span class="no">frame</span>$<span class="no">Surfacesbois</span> <span class="kw">&lt;-</span> <span class="no">swissmunicipalities</span>$<span class="no">Surfacesbois</span></pre></body></html></div>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="kw">frame</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/buildFrameDF.html">buildFrameDF</a></span>(<span class="kw">swissmunicipalities</span>,
+                      id = <span class="st">"COM"</span>,
+                      domainvalue = <span class="st">"dom"</span>,
+                      X = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"POPTOT"</span>, <span class="st">"HApoly"</span>),
+                      Y = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"POPTOT"</span>, <span class="st">"HApoly"</span>))
+<span class="kw">frame</span><span class="op">$</span><span class="kw">Airbat</span> <span class="op">&lt;-</span> <span class="kw">swissmunicipalities</span><span class="op">$</span><span class="kw">Airbat</span>
+<span class="kw">frame</span><span class="op">$</span><span class="kw">Surfacesbois</span> <span class="op">&lt;-</span> <span class="kw">swissmunicipalities</span><span class="op">$</span><span class="kw">Surfacesbois</span>
+</pre></div>
 <p>Note that the explanatory variables in the models have been set as both target variables Y and stratification variables X.</p>
 <p>(Since in this exercise the true values of the variables of interest are known for each unit of the population, they have been included in the frame in order to allow a performance evaluation in the next step. It is quite clear that this knowledge is not available in real cases.)</p>
 <p>We set 5% precision constraint on both variables:</p>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">cv</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">DOM</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"DOM1"</span>,<span class="fl">1</span>),
-                         <span class="kw">CV1</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.05</span>,<span class="fl">1</span>),
-                         <span class="kw">CV2</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.05</span>,<span class="fl">1</span>),
-                         <span class="kw">domainvalue</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fl">1</span>)
+<div class="sourceCode" id="cb17"><pre class="downlit">
+<span class="kw">cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(DOM=<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"DOM1"</span>,<span class="fl">1</span>),
+                         CV1=<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.05</span>,<span class="fl">1</span>),
+                         CV2=<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.05</span>,<span class="fl">1</span>),
+                         domainvalue=<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">1</span>)
                     ))
-<span class="no">cv</span></pre></body></html></div>
+<span class="kw">cv</span>
+</pre></div>
 <pre><code>##    DOM  CV1  CV2 domainvalue
 ## 1 DOM1 0.05 0.05           1</code></pre>
 <p>We can now proceed with the optimization step:</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1234</span>)
-<span class="no">solution</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span>(
-    <span class="kw">method</span> <span class="kw">=</span> <span class="st">"continuous"</span>,
-    <span class="kw">errors</span> <span class="kw">=</span> <span class="no">cv</span> ,
-    <span class="kw">framesamp</span> <span class="kw">=</span> <span class="no">frame</span>,
-    <span class="kw">model</span> <span class="kw">=</span> <span class="no">model</span>,
-    <span class="kw">iter</span> <span class="kw">=</span> <span class="fl">25</span>,
-    <span class="kw">pops</span> <span class="kw">=</span> <span class="fl">20</span>,
-    <span class="kw">parallel</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
-    <span class="kw">nStrata</span> <span class="kw">=</span> <span class="fl">5</span>,
-    <span class="kw">showPlot</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
-    <span class="kw">writeFiles</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb19"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1234</span>)
+<span class="kw">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span>(
+    method = <span class="st">"continuous"</span>,
+    errors = <span class="kw">cv</span> , 
+    framesamp = <span class="kw">frame</span>, 
+    model = <span class="kw">model</span>,
+    iter = <span class="fl">25</span>, 
+    pops = <span class="fl">20</span>, 
+    parallel = <span class="fl">FALSE</span>,
+    nStrata = <span class="fl">5</span>,
+    showPlot = <span class="fl">FALSE</span>,
+    writeFiles = <span class="fl">FALSE</span>)
+</pre></div>
 <pre><code>## 
 ## Input data have been checked and are compliant with requirements
 ## 
@@ -342,28 +366,32 @@ In order to take into account this problem, and to limit the risk of overestimat
 ##  *** Number of strata :  5
 ## ---------------------------</code></pre>
 <p>What about the expected CV’s? We attribute the real values of Airbat and Surfacesbois to the Ys of obtained <em>framenew</em> and run the simulation:</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">outstrata</span> <span class="kw">&lt;-</span> <span class="no">solution</span>$<span class="no">aggr_strata</span>
-<span class="no">framenew</span> <span class="kw">&lt;-</span> <span class="no">solution</span>$<span class="no">framenew</span>
-<span class="no">framenew</span>$<span class="no">Y3</span> <span class="kw">&lt;-</span> <span class="no">framenew</span>$<span class="no">AIRBAT</span>
-<span class="no">framenew</span>$<span class="no">Y4</span> <span class="kw">&lt;-</span> <span class="no">framenew</span>$<span class="no">SURFACESBOIS</span>
-<span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/evalSolution.html">evalSolution</a></span>(<span class="no">framenew</span>, <span class="no">outstrata</span>, <span class="fl">500</span>, <span class="kw">progress</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-<span class="no">results</span>$<span class="no">coeff_var</span></pre></body></html></div>
+<div class="sourceCode" id="cb22"><pre class="downlit">
+<span class="kw">outstrata</span> <span class="op">&lt;-</span> <span class="kw">solution</span><span class="op">$</span><span class="kw">aggr_strata</span>
+<span class="kw">framenew</span> <span class="op">&lt;-</span> <span class="kw">solution</span><span class="op">$</span><span class="kw">framenew</span>
+<span class="kw">framenew</span><span class="op">$</span><span class="kw">Y3</span> <span class="op">&lt;-</span> <span class="kw">framenew</span><span class="op">$</span><span class="kw">AIRBAT</span>
+<span class="kw">framenew</span><span class="op">$</span><span class="kw">Y4</span> <span class="op">&lt;-</span> <span class="kw">framenew</span><span class="op">$</span><span class="kw">SURFACESBOIS</span>
+<span class="kw">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/evalSolution.html">evalSolution</a></span>(<span class="kw">framenew</span>, <span class="kw">outstrata</span>, <span class="fl">500</span>, progress = <span class="fl">FALSE</span>)
+<span class="kw">results</span><span class="op">$</span><span class="kw">coeff_var</span>
+</pre></div>
 <pre><code>##      CV1    CV2    CV3    CV4  dom
 ## 1 0.0369 0.0241 0.0352 0.0366 DOM1</code></pre>
 <p>The first two CVs pertain to the proxy available variables, namely <em>total population</em> and <em>total area</em>, while the last two regard respectively <em>buildings area</em> and <em>woods area</em>: they are more than compliant with the precision constraint of 5%.</p>
 <p>What if we did not use the information contained in models? We run the same optimization step without indication of <em>model</em> parameter:</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1234</span>)
-<span class="no">solution</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span>(
-    <span class="kw">method</span> <span class="kw">=</span> <span class="st">"continuous"</span>,
-    <span class="kw">errors</span> <span class="kw">=</span> <span class="no">cv</span> ,
-    <span class="kw">framesamp</span> <span class="kw">=</span> <span class="no">frame</span>,
-    <span class="kw">model</span> <span class="kw">=</span> <span class="kw">NULL</span>,
-    <span class="kw">iter</span> <span class="kw">=</span> <span class="fl">25</span>,
-    <span class="kw">pops</span> <span class="kw">=</span> <span class="fl">20</span>,
-    <span class="kw">parallel</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
-    <span class="kw">nStrata</span> <span class="kw">=</span> <span class="fl">5</span>,
-    <span class="kw">showPlot</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
-    <span class="kw">writeFiles</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb24"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1234</span>)
+<span class="kw">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span>(
+    method = <span class="st">"continuous"</span>,
+    errors = <span class="kw">cv</span> , 
+    framesamp = <span class="kw">frame</span>, 
+    model = <span class="kw">NULL</span>,
+    iter = <span class="fl">25</span>, 
+    pops = <span class="fl">20</span>, 
+    parallel = <span class="fl">FALSE</span>,
+    nStrata = <span class="fl">5</span>,
+    showPlot = <span class="fl">FALSE</span>,
+    writeFiles = <span class="fl">FALSE</span>)
+</pre></div>
 <pre><code>## 
 ## Input data have been checked and are compliant with requirements
 ## 
@@ -377,12 +405,14 @@ In order to take into account this problem, and to limit the risk of overestimat
 ##  *** Number of strata :  5
 ## ---------------------------</code></pre>
 <p>We obtain a solution that requires a much lower sample size to satisfy the precision constraints on the Ys. But as we did not consider the anticipated variance on the real target variables, we pay a price in terms of expected CVs on them:</p>
-<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">outstrata</span> <span class="kw">&lt;-</span> <span class="no">solution</span>$<span class="no">aggr_strata</span>
-<span class="no">framenew</span> <span class="kw">&lt;-</span> <span class="no">solution</span>$<span class="no">framenew</span>
-<span class="no">framenew</span>$<span class="no">Y3</span> <span class="kw">&lt;-</span> <span class="no">framenew</span>$<span class="no">AIRBAT</span>
-<span class="no">framenew</span>$<span class="no">Y4</span> <span class="kw">&lt;-</span> <span class="no">framenew</span>$<span class="no">SURFACESBOIS</span>
-<span class="no">results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/evalSolution.html">evalSolution</a></span>(<span class="no">framenew</span>, <span class="no">outstrata</span>, <span class="fl">500</span>, <span class="kw">progress</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-<span class="no">results</span>$<span class="no">coeff_var</span></pre></body></html></div>
+<div class="sourceCode" id="cb27"><pre class="downlit">
+<span class="kw">outstrata</span> <span class="op">&lt;-</span> <span class="kw">solution</span><span class="op">$</span><span class="kw">aggr_strata</span>
+<span class="kw">framenew</span> <span class="op">&lt;-</span> <span class="kw">solution</span><span class="op">$</span><span class="kw">framenew</span>
+<span class="kw">framenew</span><span class="op">$</span><span class="kw">Y3</span> <span class="op">&lt;-</span> <span class="kw">framenew</span><span class="op">$</span><span class="kw">AIRBAT</span>
+<span class="kw">framenew</span><span class="op">$</span><span class="kw">Y4</span> <span class="op">&lt;-</span> <span class="kw">framenew</span><span class="op">$</span><span class="kw">SURFACESBOIS</span>
+<span class="kw">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/evalSolution.html">evalSolution</a></span>(<span class="kw">framenew</span>, <span class="kw">outstrata</span>, <span class="fl">500</span>, progress = <span class="fl">FALSE</span>)
+<span class="kw">results</span><span class="op">$</span><span class="kw">coeff_var</span>
+</pre></div>
 <pre><code>##      CV1    CV2    CV3    CV4  dom
 ## 1 0.0501 0.0491 0.0502 0.0686 DOM1</code></pre>
 <p>Norwithstanding the non inclusion of the models in the optimization step, the CV related to <em>buildings area</em> is still inside the limit of the 5%: this is most likely due to the high correlation between <em>buildings area</em> and <em>total population</em>. While the lower correlation between the <em>total area</em> and <em>woods area</em> determines the non compliance of the expected CV of <em>woods area</em> that was instead guaranted using the related model.</p>
@@ -416,7 +446,7 @@ In order to take into account this problem, and to limit the risk of overestimat
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -93,7 +93,7 @@ and also the correctness of the relationships among them." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-2</span>
       </span>
     </div>
 
@@ -163,7 +163,7 @@ and also the correctness of the relationships among them." />
 and also the correctness of the relationships among them.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>checkInput</span>(<span class='kw'>errors</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>strata</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>sampframe</span><span class='kw'>=</span><span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>checkInput</span>(errors=<span class='kw'>NULL</span>, strata=<span class='kw'>NULL</span>, sampframe=<span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,17 +184,21 @@ and also the correctness of the relationships among them.</p>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Giulio Barcaroli</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>SamplingStrata</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swisserrors</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swissstrata</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swissframe</span>)
-<span class='fu'>checkInput</span>(<span class='no'>swisserrors</span>,<span class='no'>swissstrata</span>,<span class='no'>swissframe</span>)
-<span class='fu'>checkInput</span>(<span class='kw'>strata</span><span class='kw'>=</span><span class='no'>swissstrata</span>,<span class='kw'>sampframe</span><span class='kw'>=</span><span class='no'>swissframe</span>)
-<span class='fu'>checkInput</span>(<span class='kw'>strata</span><span class='kw'>=</span><span class='no'>swissstrata</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://barcaroli.github.io/SamplingStrata'>SamplingStrata</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swisserrors</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swissstrata</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swissframe</span>)
+<span class='fu'>checkInput</span>(<span class='kw'>swisserrors</span>,<span class='kw'>swissstrata</span>,<span class='kw'>swissframe</span>)
+<span class='fu'>checkInput</span>(strata=<span class='kw'>swissstrata</span>,sampframe=<span class='kw'>swissframe</span>)
+<span class='fu'>checkInput</span>(strata=<span class='kw'>swissstrata</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -210,7 +214,7 @@ and also the correctness of the relationships among them.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

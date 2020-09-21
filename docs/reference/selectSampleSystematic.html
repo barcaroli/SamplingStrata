@@ -51,8 +51,8 @@
 <meta property="og:title" content="Selection of a stratified sample from the frame with systematic method — selectSampleSystematic" />
 <meta property="og:description" content="Once optimal stratification has been obtained, 
 and a new frame has been 
-built by assigning to the units of the old one the new stratum labels (by means of 
-&quot;updateFrame&quot; function), it is possible to select a stratified sample from the frame 
+built by assigning to the units of the old one the new stratum labels, it is possible to select 
+a stratified sample from the frame 
 with the systematic method, that is a selection that begins selecting the first 
 unit by an initial ramndomly chosen starting point, and proceeding in selecting other units 
 by adding an interval that is the inverse of the sampling rate in the stratum.
@@ -110,7 +110,7 @@ One more .csv file is produced (&quot;sampling_check&quot;), containing coeheren
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-2</span>
       </span>
     </div>
 
@@ -178,8 +178,8 @@ One more .csv file is produced (&quot;sampling_check&quot;), containing coeheren
     <div class="ref-description">
     <p>Once optimal stratification has been obtained, 
 and a new frame has been 
-built by assigning to the units of the old one the new stratum labels (by means of 
-"updateFrame" function), it is possible to select a stratified sample from the frame 
+built by assigning to the units of the old one the new stratum labels, it is possible to select 
+a stratified sample from the frame 
 with the systematic method, that is a selection that begins selecting the first 
 unit by an initial ramndomly chosen starting point, and proceeding in selecting other units 
 by adding an interval that is the inverse of the sampling rate in the stratum.</p>
@@ -197,11 +197,11 @@ One more .csv file is produced ("sampling_check"), containing coeherence checks 
 (e) sum of weights in each stratum</p>
     </div>
 
-    <pre class="usage"><span class='fu'>selectSampleSystematic</span>(<span class='no'>frame</span>,
-                      <span class='no'>outstrata</span>,
-                      <span class='kw'>sortvariable</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-                      <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-                      <span class='kw'>verbatim</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>selectSampleSystematic</span>(<span class='kw'>frame</span>, 
+                      <span class='kw'>outstrata</span>, 
+                      sortvariable = <span class='kw'>NULL</span>, 
+                      writeFiles = <span class='fl'>FALSE</span>,
+                      verbatim=<span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -237,34 +237,38 @@ One more .csv file is produced ("sampling_check"), containing coeherence checks 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A dataframe containing the sample</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Giulio Barcaroli with contribution from Diego Zardetto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>#</span>
 <span class='co'># The following example is realistic, but is time consuming</span>
 <span class='co'>#</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>SamplingStrata</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swisserrors</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swissstrata</span>)
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://barcaroli.github.io/SamplingStrata'>SamplingStrata</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swisserrors</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swissstrata</span>)
 <span class='co'># optimisation of sampling strata</span>
-<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> (
-    <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>swisserrors</span>,
-    <span class='kw'>strata</span> <span class='kw'>=</span> <span class='no'>swissstrata</span>)
+<span class='kw'>solution</span> <span class='op'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> ( 
+    errors = <span class='kw'>swisserrors</span>, 
+    strata = <span class='kw'>swissstrata</span>)
 <span class='co'># updating sampling strata with new strata labels</span>
-<span class='no'>newstrata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='updateStrata.html'>updateStrata</a></span>(<span class='no'>swissstrata</span>, <span class='no'>solution</span>)
+<span class='kw'>newstrata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='updateStrata.html'>updateStrata</a></span>(<span class='kw'>swissstrata</span>, <span class='kw'>solution</span>)
 <span class='co'># updating sampling frame with new strata labels</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swissframe</span>)
-<span class='no'>framenew</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='updateFrame.html'>updateFrame</a></span>(<span class='kw'>frame</span><span class='kw'>=</span><span class='no'>swissframe</span>,<span class='kw'>newstrata</span><span class='kw'>=</span><span class='no'>newstrata</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swissframe</span>)
+<span class='kw'>framenew</span> <span class='op'>&lt;-</span> <span class='fu'><a href='updateFrame.html'>updateFrame</a></span>(frame=<span class='kw'>swissframe</span>,newstrata=<span class='kw'>newstrata</span>)
 <span class='co'># adding variable "POPTOT" to framenew</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"swissmunicipalities"</span>)
-<span class='no'>framenew</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/merge.html'>merge</a></span>(<span class='no'>framenew</span>,<span class='no'>swissmunicipalities</span>[,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"REG"</span>,<span class='st'>"Nom"</span>,<span class='st'>"POPTOT"</span>)],
-                  <span class='kw'>by.x</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"REG"</span>,<span class='st'>"ID"</span>),<span class='kw'>by.y</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"REG"</span>,<span class='st'>"Nom"</span>))
+<span class='kw'>framenew</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sp/man/merge.html'>merge</a></span>(<span class='kw'>framenew</span>,<span class='kw'>swissmunicipalities</span>[,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"REG"</span>,<span class='st'>"Nom"</span>,<span class='st'>"POPTOT"</span>)],
+                  by.x=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"REG"</span>,<span class='st'>"ID"</span>),by.y=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"REG"</span>,<span class='st'>"Nom"</span>))
 <span class='co'># selection of sample with systematic method</span>
-<span class='no'>sample</span> <span class='kw'>&lt;-</span> <span class='fu'>selectSampleSystematic</span>(<span class='kw'>frame</span><span class='kw'>=</span><span class='no'>framenew</span>,
-                                                                <span class='kw'>outstrata</span><span class='kw'>=</span><span class='no'>solution</span>$<span class='no'>aggr_strata</span>,
-                                                                <span class='kw'>sortvariable</span><span class='kw'>=</span><span class='st'>"POPTOT"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>sample</span>)
-}</div></pre>
+<span class='kw'>sample</span> <span class='op'>&lt;-</span> <span class='fu'>selectSampleSystematic</span>(frame=<span class='kw'>framenew</span>,
+                outstrata=<span class='kw'>solution</span><span class='op'>$</span><span class='kw'>aggr_strata</span>,
+                sortvariable=<span class='st'>"POPTOT"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>sample</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -280,7 +284,7 @@ One more .csv file is produced ("sampling_check"), containing coeherence checks 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

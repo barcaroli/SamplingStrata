@@ -100,7 +100,7 @@ in the population ('differences.pdf')." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-2</span>
       </span>
     </div>
 
@@ -176,12 +176,12 @@ together with boxplot of the distributions of differences between estimates and 
 in the population ('differences.pdf').</p>
     </div>
 
-    <pre class="usage"><span class='fu'>evalSolution</span>(<span class='no'>frame</span>,
-                <span class='no'>outstrata</span>,
-                <span class='kw'>nsampl</span><span class='kw'>=</span><span class='fl'>100</span>,
-                <span class='kw'>cens</span><span class='kw'>=</span><span class='kw'>NULL</span>,
-                <span class='kw'>writeFiles</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
-                <span class='kw'>progress</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>evalSolution</span>(<span class='kw'>frame</span>,
+    <span class='kw'>outstrata</span>,
+    nsampl=<span class='fl'>100</span>,
+    cens=<span class='kw'>NULL</span>,
+    writeFiles=<span class='fl'>TRUE</span>,
+    progress=<span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -216,27 +216,31 @@ in the population ('differences.pdf').</p>
 
     <p>A list containing (i) the CV distribution in the domains, (ii) the bias distribution in the domains, (iii) the dataframe containing the sampling
 estimates by domain</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Giulio Barcaroli</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>SamplingStrata</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swisserrors</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swissstrata</span>)
-<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> (
-        <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>swisserrors</span>,
-        <span class='kw'>strata</span> <span class='kw'>=</span> <span class='no'>swissstrata</span>,
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://barcaroli.github.io/SamplingStrata'>SamplingStrata</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swisserrors</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swissstrata</span>)
+<span class='kw'>solution</span> <span class='op'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> (
+  errors = <span class='kw'>swisserrors</span>,
+  strata = <span class='kw'>swissstrata</span>,
 )
 <span class='co'># update sampling strata with new strata labels</span>
-<span class='no'>newstrata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='updateStrata.html'>updateStrata</a></span>(<span class='no'>swissstrata</span>, <span class='no'>solution</span>, <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='kw'>newstrata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='updateStrata.html'>updateStrata</a></span>(<span class='kw'>swissstrata</span>, <span class='kw'>solution</span>, writeFiles = <span class='fl'>TRUE</span>)
 <span class='co'># update sampling frame with new strata labels</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swissframe</span>)
-<span class='no'>framenew</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='updateFrame.html'>updateFrame</a></span>(<span class='kw'>frame</span><span class='kw'>=</span><span class='no'>swissframe</span>,<span class='kw'>newstrata</span><span class='kw'>=</span><span class='no'>newstrata</span>,<span class='kw'>writeFile</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>samp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='selectSample.html'>selectSample</a></span>(<span class='no'>framenew</span>,<span class='no'>solution</span>$<span class='no'>aggr_strata</span>,<span class='kw'>writeFiles</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swissframe</span>)
+<span class='kw'>framenew</span> <span class='op'>&lt;-</span> <span class='fu'><a href='updateFrame.html'>updateFrame</a></span>(frame=<span class='kw'>swissframe</span>,newstrata=<span class='kw'>newstrata</span>,writeFile=<span class='fl'>TRUE</span>)
+<span class='kw'>samp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='selectSample.html'>selectSample</a></span>(<span class='kw'>framenew</span>,<span class='kw'>solution</span><span class='op'>$</span><span class='kw'>aggr_strata</span>,writeFiles=<span class='fl'>TRUE</span>)
 <span class='co'># evaluate the current solution</span>
-<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>evalSolution</span>(<span class='no'>framenew</span>, <span class='no'>solution</span>$<span class='no'>aggr_strata</span>, <span class='fl'>10</span>, <span class='kw'>cens</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>results</span>$<span class='no'>coeff_var</span>
-<span class='no'>results</span>$<span class='no'>rel_bias</span>
-}</div></pre>
+<span class='kw'>results</span> <span class='op'>&lt;-</span> <span class='fu'>evalSolution</span>(<span class='kw'>framenew</span>, <span class='kw'>solution</span><span class='op'>$</span><span class='kw'>aggr_strata</span>, <span class='fl'>10</span>, cens=<span class='kw'>NULL</span>, writeFiles = <span class='fl'>TRUE</span>)
+<span class='kw'>results</span><span class='op'>$</span><span class='kw'>coeff_var</span>
+<span class='kw'>results</span><span class='op'>$</span><span class='kw'>rel_bias</span>
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -252,7 +256,7 @@ estimates by domain</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

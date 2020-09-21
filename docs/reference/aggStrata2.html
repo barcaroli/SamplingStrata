@@ -94,7 +94,7 @@ distributions in the different strata, starting from a frame — aggrStrata2" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-2</span>
       </span>
     </div>
 
@@ -164,10 +164,10 @@ distributions in the different strata, starting from a frame</h1>
     <p>This function builds the dataframe "strata" considering as input a given domain in the sampling frame. In case a dataframe "model" is given, the anticipated variance in the strata for each target variable is calculated</p>
     </div>
 
-    <pre class="usage"><span class='fu'>aggrStrata2</span>(<span class='no'>dataset</span>,
-            <span class='kw'>model</span><span class='kw'>=</span><span class='kw'>NULL</span>,
-            <span class='no'>vett</span>,
-            <span class='no'>dominio</span>)</pre>
+    <pre class="usage"><span class='fu'>aggrStrata2</span>(<span class='kw'>dataset</span>, 
+            model=<span class='kw'>NULL</span>, 
+            <span class='kw'>vett</span>,
+            <span class='kw'>dominio</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,14 +201,18 @@ distributions in the different strata, starting from a frame</h1>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A dataframe containing strata</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Giulio Barcaroli</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>strata</span> <span class='kw'>&lt;-</span> <span class='fu'>aggrStrata2</span>(<span class='kw'>dataset</span><span class='kw'>=</span><span class='no'>frame</span>,
-                      <span class='kw'>model</span><span class='kw'>=</span><span class='kw'>NULL</span>,
-                      <span class='no'>vett</span>,
-                      <span class='kw'>dominio</span><span class='kw'>=</span><span class='fl'>1</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>strata</span> <span class='op'>&lt;-</span> <span class='fu'>aggrStrata2</span>(dataset=<span class='kw'>frame</span>,
+                      model=<span class='kw'>NULL</span>,
+                      <span class='kw'>vett</span>,
+                      dominio=<span class='fl'>1</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -224,7 +228,7 @@ distributions in the different strata, starting from a frame</h1>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

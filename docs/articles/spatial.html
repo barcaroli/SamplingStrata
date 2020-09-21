@@ -45,7 +45,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-2</span>
       </span>
     </div>
 
@@ -108,7 +108,7 @@
       <h1 data-toc-skip>Spatial sampling with SamplingStrata</h1>
                         <h4 class="author">Marco Ballin, Giulio Barcaroli</h4>
             
-            <h4 class="date">2020-09-10</h4>
+            <h4 class="date">2020-09-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/spatial.Rmd"><code>vignettes/spatial.Rmd</code></a></small>
       <div class="hidden name"><code>spatial.Rmd</code></div>
@@ -156,44 +156,60 @@ D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 <h1 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h1>
 <p>In order to illustrate the “<em>spatial</em>” method, we make use of a dataset generally employed as an example of spatially correlated phenomena (in this case, the concentration of four heavy metals in a portion of the river Meuse). This dataset comes with the library “<em>sp</em>”:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sp</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/edzer/sp">sp</a></span>)
 <span class="co"># locations (155 observed points)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"meuse"</span>)
 <span class="co"># grid of points (3103)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"meuse.grid"</span>)
-<span class="no">meuse.grid</span>$<span class="no">id</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">meuse.grid</span>))
-<span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html">coordinates</a></span>(<span class="no">meuse</span>)<span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x"</span>,<span class="st">"y"</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html">coordinates</a></span>(<span class="no">meuse.grid</span>)<span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x"</span>,<span class="st">"y"</span>)</pre></body></html></div>
+<span class="kw">meuse.grid</span><span class="op">$</span><span class="kw">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">meuse.grid</span>))
+<span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html">coordinates</a></span>(<span class="kw">meuse</span>)<span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x"</span>,<span class="st">"y"</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html">coordinates</a></span>(<span class="kw">meuse.grid</span>)<span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x"</span>,<span class="st">"y"</span>)
+</pre></div>
 <p><img src="spatial_files/figure-html/unnamed-chunk-2-1.png" width="576"></p>
 <p>We analyse the territorial distribution of the <em>lead</em> and <em>zinc</em> concentration, and model (by using the <em>universal kriging</em>) their relations with distance from the river, using the subset of 155 points on which these values have been jointly observed:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">automap</span>)
-<span class="no">kriging_lead</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/automap/man/autoKrige.html">autoKrige</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">lead</span>) ~ <span class="no">dist</span>, <span class="no">meuse</span>, <span class="no">meuse.grid</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">automap</span>)
+<span class="kw">kriging_lead</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/automap/man/autoKrige.html">autoKrige</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="kw">lead</span>) <span class="op">~</span> <span class="kw">dist</span>, <span class="kw">meuse</span>, <span class="kw">meuse.grid</span>)
+</pre></div>
 <pre><code>## [using universal kriging]</code></pre>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">kriging_lead</span>,<span class="kw">sp.layout</span> <span class="kw">=</span> <span class="kw">NULL</span>, <span class="kw">justPosition</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">kriging_lead</span>,sp.layout = <span class="kw">NULL</span>, justPosition = <span class="fl">TRUE</span>)
+</pre></div>
 <p><img src="spatial_files/figure-html/unnamed-chunk-3-1.png" width="576"></p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">kriging_zinc</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/automap/man/autoKrige.html">autoKrige</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">zinc</span>) ~ <span class="no">dist</span>, <span class="no">meuse</span>, <span class="no">meuse.grid</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="kw">kriging_zinc</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/automap/man/autoKrige.html">autoKrige</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="kw">zinc</span>) <span class="op">~</span> <span class="kw">dist</span>, <span class="kw">meuse</span>, <span class="kw">meuse.grid</span>)
+</pre></div>
 <pre><code>## [using universal kriging]</code></pre>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">kriging_zinc</span>, <span class="kw">sp.layout</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">pts</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"sp.points"</span>, <span class="no">meuse</span>)))</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">kriging_zinc</span>, sp.layout = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(pts = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"sp.points"</span>, <span class="kw">meuse</span>)))
+</pre></div>
 <p><img src="spatial_files/figure-html/unnamed-chunk-3-2.png" width="576"></p>
 <p>It is possible to calculate the fitting of the two models in this way:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">r2_lead</span> <span class="kw">&lt;-</span> <span class="fl">1</span> - <span class="no">kriging_lead</span>$<span class="no">sserr</span>/<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>((<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">meuse</span>$<span class="no">lead</span>)-<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">meuse</span>$<span class="no">lead</span>)))^<span class="fl">2</span>)
-<span class="no">r2_lead</span></pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw">r2_lead</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="kw">kriging_lead</span><span class="op">$</span><span class="kw">sserr</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>((<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="kw">meuse</span><span class="op">$</span><span class="kw">lead</span>)<span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="kw">meuse</span><span class="op">$</span><span class="kw">lead</span>)))<span class="op">^</span><span class="fl">2</span>)
+<span class="kw">r2_lead</span>
+</pre></div>
 <pre><code>## [1] 0.9999997</code></pre>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">r2_zinc</span> <span class="kw">&lt;-</span> <span class="fl">1</span> - <span class="no">kriging_zinc</span>$<span class="no">sserr</span>/<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>((<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">meuse</span>$<span class="no">zinc</span>)-<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">meuse</span>$<span class="no">zinc</span>)))^<span class="fl">2</span>)
-<span class="no">r2_zinc</span></pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="kw">r2_zinc</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="kw">kriging_zinc</span><span class="op">$</span><span class="kw">sserr</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>((<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="kw">meuse</span><span class="op">$</span><span class="kw">zinc</span>)<span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="kw">meuse</span><span class="op">$</span><span class="kw">zinc</span>)))<span class="op">^</span><span class="fl">2</span>)
+<span class="kw">r2_zinc</span>
+</pre></div>
 <pre><code>## [1] 0.9999999</code></pre>
 <p>Using these <em>kriging</em> models, we are able to predict the values of lead and zinc concentration on the totality of the 3,103 points in the Meuse territory:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span>
-<span class="no">df</span>$<span class="no">id</span> <span class="kw">&lt;-</span> <span class="no">meuse.grid</span>$<span class="no">id</span>
-<span class="no">df</span>$<span class="no">lead.pred</span> <span class="kw">&lt;-</span> <span class="no">kriging_lead</span>$<span class="no">krige_output</span>@<span class="kw">data</span>$<span class="no">var1.pred</span>
-<span class="no">df</span>$<span class="no">lead.var</span> <span class="kw">&lt;-</span> <span class="no">kriging_lead</span>$<span class="no">krige_output</span>@<span class="kw">data</span>$<span class="no">var1.var</span>
-<span class="no">df</span>$<span class="no">zinc.pred</span> <span class="kw">&lt;-</span> <span class="no">kriging_zinc</span>$<span class="no">krige_output</span>@<span class="kw">data</span>$<span class="no">var1.pred</span>
-<span class="no">df</span>$<span class="no">zinc.var</span> <span class="kw">&lt;-</span> <span class="no">kriging_zinc</span>$<span class="no">krige_output</span>@<span class="kw">data</span>$<span class="no">var1.var</span>
-<span class="no">df</span>$<span class="no">lon</span> <span class="kw">&lt;-</span> <span class="no">meuse.grid</span>$<span class="no">x</span>
-<span class="no">df</span>$<span class="no">lat</span> <span class="kw">&lt;-</span> <span class="no">meuse.grid</span>$<span class="no">y</span>
-<span class="no">df</span>$<span class="no">dom1</span> <span class="kw">&lt;-</span> <span class="fl">1</span>
-<span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="no">df</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">df</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="kw">df</span> <span class="op">&lt;-</span> <span class="kw">NULL</span>
+<span class="kw">df</span><span class="op">$</span><span class="kw">id</span> <span class="op">&lt;-</span> <span class="kw">meuse.grid</span><span class="op">$</span><span class="kw">id</span>
+<span class="kw">df</span><span class="op">$</span><span class="kw">lead.pred</span> <span class="op">&lt;-</span> <span class="kw">kriging_lead</span><span class="op">$</span><span class="kw">krige_output</span><span class="op">@</span>data<span class="op">$</span><span class="kw">var1.pred</span>
+<span class="kw">df</span><span class="op">$</span><span class="kw">lead.var</span> <span class="op">&lt;-</span> <span class="kw">kriging_lead</span><span class="op">$</span><span class="kw">krige_output</span><span class="op">@</span>data<span class="op">$</span><span class="kw">var1.var</span>
+<span class="kw">df</span><span class="op">$</span><span class="kw">zinc.pred</span> <span class="op">&lt;-</span> <span class="kw">kriging_zinc</span><span class="op">$</span><span class="kw">krige_output</span><span class="op">@</span>data<span class="op">$</span><span class="kw">var1.pred</span>
+<span class="kw">df</span><span class="op">$</span><span class="kw">zinc.var</span> <span class="op">&lt;-</span> <span class="kw">kriging_zinc</span><span class="op">$</span><span class="kw">krige_output</span><span class="op">@</span>data<span class="op">$</span><span class="kw">var1.var</span>
+<span class="kw">df</span><span class="op">$</span><span class="kw">lon</span> <span class="op">&lt;-</span> <span class="kw">meuse.grid</span><span class="op">$</span><span class="kw">x</span>
+<span class="kw">df</span><span class="op">$</span><span class="kw">lat</span> <span class="op">&lt;-</span> <span class="kw">meuse.grid</span><span class="op">$</span><span class="kw">y</span>
+<span class="kw">df</span><span class="op">$</span><span class="kw">dom1</span> <span class="op">&lt;-</span> <span class="fl">1</span>
+<span class="kw">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="kw">df</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">df</span>)
+</pre></div>
 <pre><code>##   id lead.pred  lead.var zinc.pred  zinc.var    lon    lat dom1
 ## 1  1  5.509360 0.1954937  6.736502 0.2007150 181180 333740    1
 ## 2  2  5.546006 0.1716895  6.785460 0.1749260 181140 333700    1
@@ -202,34 +218,38 @@ D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 ## 5  5  5.584415 0.1463018  6.841612 0.1465346 181100 333660    1
 ## 6  6  5.525538 0.1533757  6.749216 0.1549663 181140 333660    1</code></pre>
 <p>The aim is now to produce the optimal stratification of the 3,103 points under a precision constraint of 1% on the target estimates of the mean <em>lead</em> and <em>zinc</em> concentrations:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">SamplingStrata</span>)
-<span class="no">frame</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/buildFrameSpatial.html">buildFrameSpatial</a></span>(<span class="kw">df</span><span class="kw">=</span><span class="no">df</span>,
-                      <span class="kw">id</span><span class="kw">=</span><span class="st">"id"</span>,
-                      <span class="kw">X</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lead.pred"</span>,<span class="st">"zinc.pred"</span>),
-                      <span class="kw">Y</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lead.pred"</span>,<span class="st">"zinc.pred"</span>),
-                      <span class="kw">variance</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lead.var"</span>,<span class="st">"zinc.var"</span>),
-                      <span class="kw">lon</span><span class="kw">=</span><span class="st">"lon"</span>,
-                      <span class="kw">lat</span><span class="kw">=</span><span class="st">"lat"</span>,
-                      <span class="kw">domainvalue</span> <span class="kw">=</span> <span class="st">"dom1"</span>)
-<span class="no">cv</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">DOM</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"DOM1"</span>,<span class="fl">1</span>),
-                         <span class="kw">CV1</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.01</span>,<span class="fl">1</span>),
-                         <span class="kw">CV2</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.01</span>,<span class="fl">1</span>),
-                         <span class="kw">domainvalue</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>:<span class="fl">1</span>) ))</pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://barcaroli.github.io/SamplingStrata">SamplingStrata</a></span>)
+<span class="kw">frame</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/buildFrameSpatial.html">buildFrameSpatial</a></span>(df=<span class="kw">df</span>,
+                      id=<span class="st">"id"</span>,
+                      X=<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lead.pred"</span>,<span class="st">"zinc.pred"</span>),
+                      Y=<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lead.pred"</span>,<span class="st">"zinc.pred"</span>),
+                      variance=<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lead.var"</span>,<span class="st">"zinc.var"</span>),
+                      lon=<span class="st">"lon"</span>,
+                      lat=<span class="st">"lat"</span>,
+                      domainvalue = <span class="st">"dom1"</span>)
+<span class="kw">cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(DOM=<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"DOM1"</span>,<span class="fl">1</span>),
+                         CV1=<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.01</span>,<span class="fl">1</span>),
+                         CV2=<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.01</span>,<span class="fl">1</span>),
+                         domainvalue=<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">1</span>) ))
+</pre></div>
 <p>To this aim, we carry out the optimization step by indicating the method <em>spatial</em>:</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1234</span>)
-<span class="no">solution</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span> (
-  <span class="kw">method</span> <span class="kw">=</span> <span class="st">"spatial"</span>,
-  <span class="kw">errors</span><span class="kw">=</span><span class="no">cv</span>,
-  <span class="kw">framesamp</span><span class="kw">=</span><span class="no">frame</span>,
-  <span class="kw">iter</span> <span class="kw">=</span> <span class="fl">15</span>,
-  <span class="kw">pops</span> <span class="kw">=</span> <span class="fl">10</span>,
-  <span class="kw">nStrata</span> <span class="kw">=</span> <span class="fl">5</span>,
-  <span class="kw">fitting</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">r2_lead</span>,<span class="no">r2_zinc</span>),
-  <span class="kw">range</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">kriging_lead</span>$<span class="no">var_model</span>$<span class="no">range</span>[<span class="fl">2</span>],<span class="no">kriging_zinc</span>$<span class="no">var_model</span>$<span class="no">range</span>[<span class="fl">2</span>]),
-  <span class="kw">kappa</span><span class="kw">=</span><span class="fl">1</span>,
-  <span class="kw">writeFiles</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
-  <span class="kw">showPlot</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
-  <span class="kw">parallel</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1234</span>)
+<span class="kw">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span> (
+  method = <span class="st">"spatial"</span>,
+  errors=<span class="kw">cv</span>, 
+  framesamp=<span class="kw">frame</span>,
+  iter = <span class="fl">15</span>,
+  pops = <span class="fl">10</span>,
+  nStrata = <span class="fl">5</span>,
+  fitting = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">r2_lead</span>,<span class="kw">r2_zinc</span>),
+  range = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">kriging_lead</span><span class="op">$</span><span class="kw">var_model</span><span class="op">$</span><span class="kw">range</span>[<span class="fl">2</span>],<span class="kw">kriging_zinc</span><span class="op">$</span><span class="kw">var_model</span><span class="op">$</span><span class="kw">range</span>[<span class="fl">2</span>]),
+  kappa=<span class="fl">1</span>,
+  writeFiles = <span class="fl">FALSE</span>,
+  showPlot = <span class="fl">FALSE</span>,
+  parallel = <span class="fl">FALSE</span>)
+</pre></div>
 <pre><code>## 
 ## Input data have been checked and are compliant with requirements
 ## Sequential optimization as parallel = FALSE, defaulting number of cores = 1
@@ -242,11 +262,15 @@ D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 ##  *** Sample size :  62
 ##  *** Number of strata :  4
 ## ---------------------------</code></pre>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">framenew</span> <span class="kw">&lt;-</span> <span class="no">solution</span>$<span class="no">framenew</span>
-<span class="no">outstrata</span> <span class="kw">&lt;-</span> <span class="no">solution</span>$<span class="no">aggr_strata</span></pre></body></html></div>
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="kw">framenew</span> <span class="op">&lt;-</span> <span class="kw">solution</span><span class="op">$</span><span class="kw">framenew</span>
+<span class="kw">outstrata</span> <span class="op">&lt;-</span> <span class="kw">solution</span><span class="op">$</span><span class="kw">aggr_strata</span>
+</pre></div>
 <p>obtaining the following optimized strata:</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="../reference/plotStrata2d.html">plotStrata2d</a></span>(<span class="no">framenew</span>,<span class="no">outstrata</span>,<span class="kw">domain</span><span class="kw">=</span><span class="fl">1</span>,<span class="kw">vars</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"X1"</span>,<span class="st">"X2"</span>),
-             <span class="kw">labels</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Lead"</span>,<span class="st">"Zinc"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb19"><pre class="downlit">
+<span class="fu"><a href="../reference/plotStrata2d.html">plotStrata2d</a></span>(<span class="kw">framenew</span>,<span class="kw">outstrata</span>,domain=<span class="fl">1</span>,vars=<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"X1"</span>,<span class="st">"X2"</span>),
+             labels=<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Lead"</span>,<span class="st">"Zinc"</span>))
+</pre></div>
 <img src="spatial_files/figure-html/unnamed-chunk-8-1.png" width="576"><table class="table table table-condensed">
 <thead><tr>
 <th style="text-align:right;">
@@ -352,13 +376,17 @@ Bounds Zinc
 </tbody>
 </table>
 <p>that can be visualised in this way:</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">frameres</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPoints.html">SpatialPointsDataFrame</a></span>(<span class="kw">data</span><span class="kw">=</span><span class="no">framenew</span>, <span class="kw">coords</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">framenew</span>$<span class="no">LON</span>,<span class="no">framenew</span>$<span class="no">LAT</span>) )
-<span class="no">frameres2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialGridDataFrame.html">SpatialPixelsDataFrame</a></span>(<span class="kw">points</span><span class="kw">=</span><span class="no">frameres</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"LON"</span>,<span class="st">"LAT"</span>)], <span class="kw">data</span><span class="kw">=</span><span class="no">framenew</span>)
-<span class="no">frameres2</span>$<span class="no">LABEL</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">frameres2</span>$<span class="no">LABEL</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/sp/man/spplot.html">spplot</a></span>(<span class="no">frameres2</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"LABEL"</span>), <span class="kw">col.regions</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/bpy.colors.html">bpy.colors</a></span>(<span class="fl">5</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb20"><pre class="downlit">
+<span class="kw">frameres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPoints.html">SpatialPointsDataFrame</a></span>(data=<span class="kw">framenew</span>, coords=<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="kw">framenew</span><span class="op">$</span><span class="kw">LON</span>,<span class="kw">framenew</span><span class="op">$</span><span class="kw">LAT</span>) )
+<span class="kw">frameres2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialGridDataFrame.html">SpatialPixelsDataFrame</a></span>(points=<span class="kw">frameres</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"LON"</span>,<span class="st">"LAT"</span>)], data=<span class="kw">framenew</span>)
+<span class="kw">frameres2</span><span class="op">$</span><span class="kw">LABEL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="kw">frameres2</span><span class="op">$</span><span class="kw">LABEL</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/sp/man/spplot.html">spplot</a></span>(<span class="kw">frameres2</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"LABEL"</span>), col.regions=<span class="fu"><a href="https://rdrr.io/pkg/sp/man/bpy.colors.html">bpy.colors</a></span>(<span class="fl">5</span>))
+</pre></div>
 <p><img src="spatial_files/figure-html/unnamed-chunk-9-1.png" width="576"></p>
 <p>We can now proceed with the selection of the sample:</p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">s</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/selectSample.html">selectSample</a></span>(<span class="no">framenew</span>,<span class="no">outstrata</span>,<span class="kw">writeFiles</span><span class="kw">=</span><span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb21"><pre class="downlit">
+<span class="kw">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/selectSample.html">selectSample</a></span>(<span class="kw">framenew</span>,<span class="kw">outstrata</span>,writeFiles=<span class="fl">FALSE</span>)
+</pre></div>
 <pre><code>## 
 ## *** Sample has been drawn successfully ***
 ##  62  units have been selected from  4  strata</code></pre>
@@ -394,7 +422,7 @@ Bounds Zinc
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

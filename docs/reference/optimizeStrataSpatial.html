@@ -93,7 +93,7 @@ a component of spatial autocorrelation in frame units." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-2</span>
       </span>
     </div>
 
@@ -164,29 +164,29 @@ a component of spatial autocorrelation in frame units.</p>
     </div>
 
     <pre class="usage"><span class='fu'>optimizeStrataSpatial</span>(
-            <span class='no'>errors</span>,
-            <span class='no'>framesamp</span>,
-            <span class='kw'>framecens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-            <span class='kw'>strcens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-            <span class='kw'>alldomains</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-            <span class='kw'>dom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-            <span class='kw'>nStrata</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>),
-            <span class='kw'>fitting</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>),
-            <span class='kw'>range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>),
-            <span class='kw'>kappa</span><span class='kw'>=</span><span class='fl'>3</span>,
-            <span class='kw'>minnumstr</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-            <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-            <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-            <span class='kw'>mut_chance</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-            <span class='kw'>elitism_rate</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
-            <span class='kw'>highvalue</span> <span class='kw'>=</span> <span class='fl'>1e+08</span>,
-            <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-            <span class='kw'>realAllocation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-            <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-            <span class='kw'>showPlot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-            <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-            <span class='no'>cores</span>
-        )</pre>
+            <span class='kw'>errors</span>, 
+            <span class='kw'>framesamp</span>,
+            framecens = <span class='kw'>NULL</span>, 
+            strcens = <span class='fl'>FALSE</span>, 
+            alldomains = <span class='fl'>TRUE</span>, 
+            dom = <span class='kw'>NULL</span>, 
+            nStrata = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>), 
+            fitting=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>),
+            range=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>),
+            kappa=<span class='fl'>3</span>,
+            minnumstr = <span class='fl'>2</span>, 
+            iter = <span class='fl'>50</span>, 
+            pops = <span class='fl'>20</span>, 
+            mut_chance = <span class='fl'>NA</span>, 
+            elitism_rate = <span class='fl'>0.2</span>, 
+            highvalue = <span class='fl'>1e+08</span>, 
+            suggestions = <span class='kw'>NULL</span>, 
+            realAllocation = <span class='fl'>TRUE</span>, 
+            writeFiles = <span class='fl'>FALSE</span>, 
+            showPlot = <span class='fl'>TRUE</span>, 
+            parallel = <span class='fl'>TRUE</span>, 
+            <span class='kw'>cores</span>
+  )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -303,63 +303,67 @@ a component of spatial autocorrelation in frame units.</p>
 (1) the vector of the solution, 
 (2) the optimal aggregated strata,
 (3) the total sampling frame with the label of aggregated strata</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Giulio Barcaroli</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>#############################</span>
 <span class='co'># Example of "spatial" method</span>
 <span class='co'>#############################</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sp</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/edzer/sp'>sp</a></span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"meuse"</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"meuse.grid"</span>)
-<span class='no'>meuse.grid</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>meuse.grid</span>))
-<span class='fu'><a href='https://rdrr.io/pkg/sp/man/coordinates.html'>coordinates</a></span>(<span class='no'>meuse</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'x'</span>,<span class='st'>'y'</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/sp/man/coordinates.html'>coordinates</a></span>(<span class='no'>meuse.grid</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'x'</span>,<span class='st'>'y'</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>gstat</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>automap</span>)
-<span class='no'>v</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/gstat/man/variogram.html'>variogram</a></span>(<span class='no'>lead</span> ~ <span class='no'>dist</span> + <span class='no'>soil</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>meuse</span>)
-<span class='no'>fit.vgm.lead</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/automap/man/autofitVariogram.html'>autofitVariogram</a></span>(<span class='no'>lead</span> ~ <span class='no'>dist</span> + <span class='no'>soil</span>,
-                                 <span class='no'>meuse</span>,
-                                 <span class='kw'>model</span> <span class='kw'>=</span> <span class='st'>"Exp"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>v</span>, <span class='no'>fit.vgm.lead</span>$<span class='no'>var_model</span>)
-<span class='no'>lead.kr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/gstat/man/krige.html'>krige</a></span>(<span class='no'>lead</span> ~ <span class='no'>dist</span> + <span class='no'>soil</span>, <span class='no'>meuse</span>, <span class='no'>meuse.grid</span>,
-                <span class='kw'>model</span> <span class='kw'>=</span> <span class='no'>fit.vgm.lead</span>$<span class='no'>var_model</span>)
-<span class='no'>lead.pred</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>lead.kr</span>[<span class='fl'>1</span>]$<span class='no'>var1.pred</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>,<span class='fl'>0</span>, <span class='no'>lead.kr</span>[<span class='fl'>1</span>]$<span class='no'>var1.pred</span>)
-<span class='no'>lead.var</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>lead.kr</span>[<span class='fl'>2</span>]$<span class='no'>var1.var</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='no'>lead.kr</span>[<span class='fl'>2</span>]$<span class='no'>var1.var</span>)
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>dom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>meuse.grid</span>)),
-                         <span class='kw'>lead.pred</span> <span class='kw'>=</span> <span class='no'>lead.pred</span>,
-                         <span class='kw'>lead.var</span> <span class='kw'>=</span> <span class='no'>lead.var</span>,
-                         <span class='kw'>lon</span> <span class='kw'>=</span> <span class='no'>meuse.grid</span>$<span class='no'>x</span>,
-                         <span class='kw'>lat</span> <span class='kw'>=</span> <span class='no'>meuse.grid</span>$<span class='no'>y</span>,
-                         <span class='kw'>id</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>meuse.grid</span>))))
-<span class='no'>frame</span> <span class='kw'>&lt;-</span><span class='fu'><a href='buildFrameSpatial.html'>buildFrameSpatial</a></span>(<span class='kw'>df</span> <span class='kw'>=</span> <span class='no'>df</span>,
-                          <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
-                          <span class='kw'>X</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lead.pred"</span>),
-                          <span class='kw'>Y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lead.pred"</span>),
-                          <span class='kw'>variance</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lead.var"</span>),
-                          <span class='kw'>lon</span> <span class='kw'>=</span> <span class='st'>"lon"</span>,
-                          <span class='kw'>lat</span> <span class='kw'>=</span> <span class='st'>"lat"</span>,
-                          <span class='kw'>domainvalue</span> <span class='kw'>=</span> <span class='st'>"dom"</span>)
-<span class='no'>cv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>DOM</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>"DOM1"</span>,<span class='fl'>1</span>),
-                          <span class='kw'>CV1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.05</span>,<span class='fl'>1</span>),
-                          <span class='kw'>domainvalue</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>1</span>) ))
-<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'>optimizeStrataSpatial</span>(<span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>cv</span>,
-                        <span class='kw'>framesamp</span> <span class='kw'>=</span> <span class='no'>frame</span>,
-                        <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>25</span>,
-                        <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-                        <span class='kw'>nStrata</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-                        <span class='kw'>fitting</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-                        <span class='kw'>kappa</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-                        <span class='kw'>range</span> <span class='kw'>=</span> <span class='no'>fit.vgm.lead</span>$<span class='no'>var_model</span>$<span class='no'>range</span>[<span class='fl'>2</span>])
-<span class='no'>framenew</span> <span class='kw'>&lt;-</span> <span class='no'>solution</span>$<span class='no'>framenew</span>
-<span class='no'>outstrata</span> <span class='kw'>&lt;-</span> <span class='no'>solution</span>$<span class='no'>aggr_strata</span>
-<span class='no'>frameres</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sp/man/SpatialGridDataFrame.html'>SpatialPixelsDataFrame</a></span>(<span class='kw'>points</span> <span class='kw'>=</span> <span class='no'>framenew</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"LON"</span>,<span class='st'>"LAT"</span>)],
-                                   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>framenew</span>)
-<span class='no'>frameres</span>$<span class='no'>LABEL</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='no'>frameres</span>$<span class='no'>LABEL</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/sp/man/spplot.html'>spplot</a></span>(<span class='no'>frameres</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"LABEL"</span>), <span class='kw'>col.regions</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/pkg/sp/man/bpy.colors.html'>bpy.colors</a></span>(<span class='fl'>5</span>))
-<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='selectSample.html'>selectSample</a></span>(<span class='no'>framenew</span>,<span class='no'>outstrata</span>)
+<span class='kw'>meuse.grid</span><span class='op'>$</span><span class='kw'>id</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>meuse.grid</span>))
+<span class='fu'><a href='https://rdrr.io/pkg/sp/man/coordinates.html'>coordinates</a></span>(<span class='kw'>meuse</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'x'</span>,<span class='st'>'y'</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/sp/man/coordinates.html'>coordinates</a></span>(<span class='kw'>meuse.grid</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'x'</span>,<span class='st'>'y'</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/r-spatial/gstat'>gstat</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>automap</span>)
+<span class='kw'>v</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/gstat/man/variogram.html'>variogram</a></span>(<span class='kw'>lead</span> <span class='op'>~</span> <span class='kw'>dist</span> <span class='op'>+</span> <span class='kw'>soil</span>, data = <span class='kw'>meuse</span>)
+<span class='kw'>fit.vgm.lead</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/automap/man/autofitVariogram.html'>autofitVariogram</a></span>(<span class='kw'>lead</span> <span class='op'>~</span> <span class='kw'>dist</span> <span class='op'>+</span> <span class='kw'>soil</span>,
+                                 <span class='kw'>meuse</span>,
+                                 model = <span class='st'>"Exp"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>v</span>, <span class='kw'>fit.vgm.lead</span><span class='op'>$</span><span class='kw'>var_model</span>)
+<span class='kw'>lead.kr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/gstat/man/krige.html'>krige</a></span>(<span class='kw'>lead</span> <span class='op'>~</span> <span class='kw'>dist</span> <span class='op'>+</span> <span class='kw'>soil</span>, <span class='kw'>meuse</span>, <span class='kw'>meuse.grid</span>,
+                model = <span class='kw'>fit.vgm.lead</span><span class='op'>$</span><span class='kw'>var_model</span>)
+<span class='kw'>lead.pred</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='kw'>lead.kr</span>[<span class='fl'>1</span>]<span class='op'>$</span><span class='kw'>var1.pred</span> <span class='op'>&lt;</span> <span class='fl'>0</span>,<span class='fl'>0</span>, <span class='kw'>lead.kr</span>[<span class='fl'>1</span>]<span class='op'>$</span><span class='kw'>var1.pred</span>)
+<span class='kw'>lead.var</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='kw'>lead.kr</span>[<span class='fl'>2</span>]<span class='op'>$</span><span class='kw'>var1.var</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='kw'>lead.kr</span>[<span class='fl'>2</span>]<span class='op'>$</span><span class='kw'>var1.var</span>)
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(dom = <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>meuse.grid</span>)),
+                         lead.pred = <span class='kw'>lead.pred</span>,
+                         lead.var = <span class='kw'>lead.var</span>,
+                         lon = <span class='kw'>meuse.grid</span><span class='op'>$</span><span class='kw'>x</span>,
+                         lat = <span class='kw'>meuse.grid</span><span class='op'>$</span><span class='kw'>y</span>,
+                         id = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>meuse.grid</span>))))
+<span class='kw'>frame</span> <span class='op'>&lt;-</span><span class='fu'><a href='buildFrameSpatial.html'>buildFrameSpatial</a></span>(df = <span class='kw'>df</span>,
+                          id = <span class='st'>"id"</span>,
+                          X = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lead.pred"</span>),
+                          Y = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lead.pred"</span>),
+                          variance = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lead.var"</span>),
+                          lon = <span class='st'>"lon"</span>,
+                          lat = <span class='st'>"lat"</span>,
+                          domainvalue = <span class='st'>"dom"</span>)
+<span class='kw'>cv</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(DOM = <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>"DOM1"</span>,<span class='fl'>1</span>),
+                          CV1 = <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.05</span>,<span class='fl'>1</span>),
+                          domainvalue = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>1</span>) ))
+<span class='kw'>solution</span> <span class='op'>&lt;-</span> <span class='fu'>optimizeStrataSpatial</span>(errors = <span class='kw'>cv</span>, 
+                        framesamp = <span class='kw'>frame</span>, 
+                        iter = <span class='fl'>25</span>,
+                        pops = <span class='fl'>10</span>,
+                        nStrata = <span class='fl'>5</span>, 
+                        fitting = <span class='fl'>1</span>, 
+                        kappa = <span class='fl'>1</span>,
+                        range = <span class='kw'>fit.vgm.lead</span><span class='op'>$</span><span class='kw'>var_model</span><span class='op'>$</span><span class='kw'>range</span>[<span class='fl'>2</span>])
+<span class='kw'>framenew</span> <span class='op'>&lt;-</span> <span class='kw'>solution</span><span class='op'>$</span><span class='kw'>framenew</span>
+<span class='kw'>outstrata</span> <span class='op'>&lt;-</span> <span class='kw'>solution</span><span class='op'>$</span><span class='kw'>aggr_strata</span>
+<span class='kw'>frameres</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sp/man/SpatialGridDataFrame.html'>SpatialPixelsDataFrame</a></span>(points = <span class='kw'>framenew</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"LON"</span>,<span class='st'>"LAT"</span>)],
+                                   data = <span class='kw'>framenew</span>)
+<span class='kw'>frameres</span><span class='op'>$</span><span class='kw'>LABEL</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='kw'>frameres</span><span class='op'>$</span><span class='kw'>LABEL</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/sp/man/spplot.html'>spplot</a></span>(<span class='kw'>frameres</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"LABEL"</span>), col.regions=<span class='fu'><a href='https://rdrr.io/pkg/sp/man/bpy.colors.html'>bpy.colors</a></span>(<span class='fl'>5</span>))
+<span class='kw'>s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='selectSample.html'>selectSample</a></span>(<span class='kw'>framenew</span>,<span class='kw'>outstrata</span>)
 
-}</div></pre>
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -375,7 +379,7 @@ a component of spatial autocorrelation in frame units.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

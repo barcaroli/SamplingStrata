@@ -105,7 +105,7 @@ As the optimal solution is stored for each run, after the evaluation it is possi
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-2</span>
       </span>
     </div>
 
@@ -188,24 +188,24 @@ As the optimal solution is stored for each run, after the evaluation it is possi
     </div>
 
     <pre class="usage"><span class='fu'>tuneParameters</span> (
-                <span class='no'>noptim</span>,
-                <span class='no'>nsampl</span>,
-                <span class='no'>frame</span>,
-                <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>errors</span>,
-                <span class='kw'>strata</span> <span class='kw'>=</span> <span class='no'>strata</span>,
-                <span class='kw'>cens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-                <span class='kw'>strcens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-                <span class='kw'>alldomains</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-                <span class='kw'>dom</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-                <span class='no'>initialStrata</span>,
-                <span class='no'>addStrataFactor</span>,
-                <span class='no'>minnumstr</span>,
-                <span class='no'>iter</span>,
-                <span class='no'>pops</span>,
-                <span class='no'>mut_chance</span>,
-                <span class='no'>elitism_rate</span>,
-                <span class='no'>writeFiles</span>
-                )</pre>
+    <span class='kw'>noptim</span>,
+    <span class='kw'>nsampl</span>,
+    <span class='kw'>frame</span>,
+    errors = <span class='kw'>errors</span>, 
+    strata = <span class='kw'>strata</span>, 
+    cens = <span class='kw'>NULL</span>, 
+    strcens = <span class='fl'>FALSE</span>,
+    alldomains = <span class='fl'>FALSE</span>,
+    dom = <span class='fl'>1</span>,      
+    <span class='kw'>initialStrata</span>, 
+    <span class='kw'>addStrataFactor</span>, 
+    <span class='kw'>minnumstr</span>, 
+    <span class='kw'>iter</span>, 
+    <span class='kw'>pops</span>, 
+    <span class='kw'>mut_chance</span>, 
+    <span class='kw'>elitism_rate</span>,
+    <span class='kw'>writeFiles</span>
+    )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -309,53 +309,57 @@ As the optimal solution is stored for each run, after the evaluation it is possi
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A dataframe containing for each iteration the number of strata, the cost of the solution and the values of the expected CV's</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Giulio Barcaroli</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>#</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>#------------------------------------------------------------</span>
 <span class='co'># data setting</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>SamplingStrata</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swissstrata</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swisserrors</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swissframe</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://barcaroli.github.io/SamplingStrata'>SamplingStrata</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swissstrata</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swisserrors</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swissframe</span>)
 <span class='co'># As this function can be applied only to a given domain per time,</span>
 <span class='co'># we select the first domain</span>
-<span class='no'>frame</span> <span class='kw'>&lt;-</span> <span class='no'>swissframe</span>[<span class='no'>swissframe</span>$<span class='no'>domainvalue</span> <span class='kw'>==</span> <span class='fl'>1</span>,]
-<span class='no'>strata</span> <span class='kw'>&lt;-</span> <span class='no'>swissstrata</span>[<span class='no'>swissstrata</span>$<span class='no'>DOM1</span> <span class='kw'>==</span> <span class='fl'>1</span>,]
-<span class='no'>errors</span> <span class='kw'>&lt;-</span> <span class='no'>swisserrors</span>[<span class='no'>swisserrors</span>$<span class='no'>domainvalue</span> <span class='kw'>==</span> <span class='fl'>1</span>,]
+<span class='kw'>frame</span> <span class='op'>&lt;-</span> <span class='kw'>swissframe</span>[<span class='kw'>swissframe</span><span class='op'>$</span><span class='kw'>domainvalue</span> <span class='op'>==</span> <span class='fl'>1</span>,]
+<span class='kw'>strata</span> <span class='op'>&lt;-</span> <span class='kw'>swissstrata</span>[<span class='kw'>swissstrata</span><span class='op'>$</span><span class='kw'>DOM1</span> <span class='op'>==</span> <span class='fl'>1</span>,]
+<span class='kw'>errors</span> <span class='op'>&lt;-</span> <span class='kw'>swisserrors</span>[<span class='kw'>swisserrors</span><span class='op'>$</span><span class='kw'>domainvalue</span> <span class='op'>==</span> <span class='fl'>1</span>,]
 <span class='co'>#------------------------------------------------------------</span>
 <span class='co'># parameters setting</span>
-<span class='no'>noptim</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span> <span class='co'># Number of runs</span>
-<span class='no'>nsampl</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span> <span class='co'># Number of samples to be drawn after each optimization</span>
-<span class='no'>initialStrata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>ceiling</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='no'>noptim</span>)*<span class='fl'>0.1</span>*(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>strata</span>))) <span class='co'># Number of initial strata</span>
-<span class='no'>addStrataFactor</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.01</span>,<span class='no'>noptim</span>) <span class='co'># Rate for increasing initial strata</span>
-<span class='no'>minnumstr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>2</span>,<span class='no'>noptim</span>) <span class='co'># Minimum number of units per stratum</span>
-<span class='no'>iter</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>200</span>,<span class='no'>noptim</span>) <span class='co'># Number of iterations for each optimization</span>
-<span class='no'>pops</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>20</span>,<span class='no'>noptim</span>) <span class='co'># Number of solutions for each iteration</span>
-<span class='no'>mut_chance</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.004</span>,<span class='no'>noptim</span>) <span class='co'># Mutation chance</span>
-<span class='no'>elitism_rate</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.2</span>,<span class='no'>noptim</span>) <span class='co'># Elitism rate</span>
+<span class='kw'>noptim</span> <span class='op'>&lt;-</span> <span class='fl'>10</span> <span class='co'># Number of runs</span>
+<span class='kw'>nsampl</span> <span class='op'>&lt;-</span> <span class='fl'>100</span> <span class='co'># Number of samples to be drawn after each optimization</span>
+<span class='kw'>initialStrata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>ceiling</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='kw'>noptim</span>)<span class='op'>*</span><span class='fl'>0.1</span><span class='op'>*</span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>strata</span>))) <span class='co'># Number of initial strata</span>
+<span class='kw'>addStrataFactor</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.01</span>,<span class='kw'>noptim</span>) <span class='co'># Rate for increasing initial strata</span>
+<span class='kw'>minnumstr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>2</span>,<span class='kw'>noptim</span>) <span class='co'># Minimum number of units per stratum</span>
+<span class='kw'>iter</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>200</span>,<span class='kw'>noptim</span>) <span class='co'># Number of iterations for each optimization</span>
+<span class='kw'>pops</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>20</span>,<span class='kw'>noptim</span>) <span class='co'># Number of solutions for each iteration</span>
+<span class='kw'>mut_chance</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.004</span>,<span class='kw'>noptim</span>) <span class='co'># Mutation chance</span>
+<span class='kw'>elitism_rate</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.2</span>,<span class='kw'>noptim</span>) <span class='co'># Elitism rate</span>
 <span class='co'>#------------------------------------------------------------</span>
-<span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>tuneParameters</span> (
-  <span class='no'>noptim</span>,
-  <span class='no'>nsampl</span>,
-  <span class='no'>frame</span>,
-  <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>errors</span>,
-  <span class='kw'>strata</span> <span class='kw'>=</span> <span class='no'>strata</span>,
-  <span class='kw'>cens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>strcens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>alldomains</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>dom</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='no'>initialStrata</span>,
-  <span class='no'>addStrataFactor</span>,
-  <span class='no'>minnumstr</span>,
-  <span class='no'>iter</span>,
-  <span class='no'>pops</span>,
-  <span class='no'>mut_chance</span>,
-  <span class='no'>elitism_rate</span>
+<span class='kw'>results</span> <span class='op'>&lt;-</span> <span class='fu'>tuneParameters</span> (
+  <span class='kw'>noptim</span>,
+  <span class='kw'>nsampl</span>,
+  <span class='kw'>frame</span>,
+  errors = <span class='kw'>errors</span>, 
+  strata = <span class='kw'>strata</span>,
+  cens = <span class='kw'>NULL</span>, 
+  strcens = <span class='fl'>FALSE</span>,
+  alldomains = <span class='fl'>FALSE</span>,
+  dom = <span class='fl'>1</span>,      
+  <span class='kw'>initialStrata</span>, 
+  <span class='kw'>addStrataFactor</span>, 
+  <span class='kw'>minnumstr</span>, 
+  <span class='kw'>iter</span>, 
+  <span class='kw'>pops</span>, 
+  <span class='kw'>mut_chance</span>, 
+  <span class='kw'>elitism_rate</span>
   )
-<span class='no'>results</span>
-}</div></pre>
+<span class='kw'>results</span>
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -371,7 +375,7 @@ As the optimal solution is stored for each run, after the evaluation it is possi
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

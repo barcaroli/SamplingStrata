@@ -1,10 +1,10 @@
 pandoc: 2.7.3
-pkgdown: 1.5.1
+pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   drake_continuous: drake_continuous.html
   models: models.html
   SamplingStrata: SamplingStrata.html
   spatial: spatial.html
-last_built: 2020-09-10T16:07Z
+last_built: 2020-09-21T20:46Z
 

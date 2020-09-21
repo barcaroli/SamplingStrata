@@ -92,7 +92,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-2</span>
       </span>
     </div>
 
@@ -162,27 +162,27 @@
     </div>
 
     <pre class="usage"><span class='fu'>optimizeStrata</span>(
-        <span class='no'>errors</span> ,
-        <span class='no'>strata</span> ,
-        <span class='kw'>cens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-        <span class='kw'>strcens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-        <span class='kw'>alldomains</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-        <span class='kw'>dom</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-        <span class='kw'>initialStrata</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-        <span class='kw'>addStrataFactor</span> <span class='kw'>=</span> <span class='fl'>0.0</span>,
-        <span class='kw'>minnumstr</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-        <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-        <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-        <span class='kw'>mut_chance</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-        <span class='kw'>elitism_rate</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
-        <span class='kw'>highvalue</span> <span class='kw'>=</span> <span class='fl'>1e+08</span>,
-        <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-        <span class='kw'>realAllocation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-        <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-        <span class='kw'>showPlot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-        <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-        <span class='no'>cores</span>
-        )</pre>
+  <span class='kw'>errors</span> , 
+  <span class='kw'>strata</span> , 
+  cens = <span class='kw'>NULL</span>, 
+  strcens = <span class='fl'>FALSE</span>,
+  alldomains = <span class='fl'>TRUE</span>,
+  dom = <span class='kw'>NULL</span>,  
+  initialStrata = <span class='fl'>NA</span>, 
+  addStrataFactor = <span class='fl'>0.0</span>, 
+  minnumstr = <span class='fl'>2</span>, 
+  iter = <span class='fl'>50</span>, 
+  pops = <span class='fl'>20</span>, 
+  mut_chance = <span class='fl'>NA</span>, 
+  elitism_rate = <span class='fl'>0.2</span>,
+  highvalue = <span class='fl'>1e+08</span>, 
+  suggestions = <span class='kw'>NULL</span>,
+  realAllocation = <span class='fl'>TRUE</span>,
+  writeFiles = <span class='fl'>FALSE</span>,
+  showPlot = <span class='fl'>TRUE</span>, 
+  parallel = <span class='fl'>TRUE</span>,
+  <span class='kw'>cores</span>
+  )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -290,40 +290,44 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list containing (1) the vector of the solution and (2) the optimal aggregated strata</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Giulio Barcaroli</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>SamplingStrata</span>)
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://barcaroli.github.io/SamplingStrata'>SamplingStrata</a></span>)
 <span class='co'>############################</span>
 <span class='co'># Example of "atomic" method</span>
 <span class='co'>############################</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swissmunicipalities</span>)
-<span class='no'>swissmunicipalities</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>swissmunicipalities</span>))
-<span class='no'>frame</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildFrameDF.html'>buildFrameDF</a></span>(<span class='kw'>df</span> <span class='kw'>=</span> <span class='no'>swissmunicipalities</span>,
-                      <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
-                      <span class='kw'>domainvalue</span> <span class='kw'>=</span> <span class='st'>"REG"</span>,
-                      <span class='kw'>X</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"POPTOT"</span>,<span class='st'>"HApoly"</span>),
-                      <span class='kw'>Y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Surfacesbois"</span>, <span class='st'>"Airind"</span>))
-<span class='no'>ndom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>frame</span>$<span class='no'>domainvalue</span>))
-<span class='no'>cv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>DOM</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>"DOM1"</span>,<span class='no'>ndom</span>),
-                         <span class='kw'>CV1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.1</span>,<span class='no'>ndom</span>),
-                         <span class='kw'>CV2</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.1</span>,<span class='no'>ndom</span>),
-                         <span class='kw'>domainvalue</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='no'>ndom</span>)))
-<span class='no'>strata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildStrataDF.html'>buildStrataDF</a></span>(<span class='no'>frame</span>)
-<span class='no'>kmean</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='KmeansSolution.html'>KmeansSolution</a></span>(<span class='no'>strata</span>,<span class='no'>cv</span>,<span class='kw'>maxclusters</span><span class='kw'>=</span><span class='fl'>30</span>)
-<span class='no'>nstrat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tapply.html'>tapply</a></span>(<span class='no'>kmean</span>$<span class='no'>suggestions</span>, <span class='no'>kmean</span>$<span class='no'>domainvalue</span>,
-                 <span class='kw'>FUN</span><span class='kw'>=</span><span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>x</span>)))
-<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'>optimizeStrata</span>(<span class='kw'>strata</span> <span class='kw'>=</span> <span class='no'>strata</span>,
-                        <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>cv</span>,
-                        <span class='kw'>initialStrata</span> <span class='kw'>=</span> <span class='no'>nstrat</span>,
-                        <span class='kw'>suggestions</span> <span class='kw'>=</span> <span class='no'>kmean</span>,
-                        <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-                        <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-<span class='no'>outstrata</span> <span class='kw'>&lt;-</span> <span class='no'>solution</span>$<span class='no'>aggr_strata</span>
-<span class='no'>newstrata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='updateStrata.html'>updateStrata</a></span>(<span class='no'>strata</span>,<span class='no'>solution</span>)
-<span class='no'>framenew</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='updateFrame.html'>updateFrame</a></span>(<span class='no'>frame</span>, <span class='no'>newstrata</span>)
-<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='selectSample.html'>selectSample</a></span>(<span class='no'>framenew</span>, <span class='no'>outstrata</span>)
-}</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swissmunicipalities</span>)
+<span class='kw'>swissmunicipalities</span><span class='op'>$</span><span class='kw'>id</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>swissmunicipalities</span>))
+<span class='kw'>frame</span> <span class='op'>&lt;-</span> <span class='fu'><a href='buildFrameDF.html'>buildFrameDF</a></span>(df = <span class='kw'>swissmunicipalities</span>,
+                      id = <span class='st'>"id"</span>,
+                      domainvalue = <span class='st'>"REG"</span>,
+                      X = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"POPTOT"</span>,<span class='st'>"HApoly"</span>),
+                      Y = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Surfacesbois"</span>, <span class='st'>"Airind"</span>))
+<span class='kw'>ndom</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='kw'>frame</span><span class='op'>$</span><span class='kw'>domainvalue</span>))
+<span class='kw'>cv</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(DOM = <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>"DOM1"</span>,<span class='kw'>ndom</span>),
+                         CV1 = <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.1</span>,<span class='kw'>ndom</span>),
+                         CV2 = <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.1</span>,<span class='kw'>ndom</span>),
+                         domainvalue = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='kw'>ndom</span>)))
+<span class='kw'>strata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='buildStrataDF.html'>buildStrataDF</a></span>(<span class='kw'>frame</span>)
+<span class='kw'>kmean</span> <span class='op'>&lt;-</span> <span class='fu'><a href='KmeansSolution.html'>KmeansSolution</a></span>(<span class='kw'>strata</span>,<span class='kw'>cv</span>,maxclusters=<span class='fl'>30</span>)
+<span class='kw'>nstrat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tapply.html'>tapply</a></span>(<span class='kw'>kmean</span><span class='op'>$</span><span class='kw'>suggestions</span>, <span class='kw'>kmean</span><span class='op'>$</span><span class='kw'>domainvalue</span>,
+                 FUN=<span class='fu'>function</span>(<span class='kw'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='kw'>x</span>)))
+<span class='kw'>solution</span> <span class='op'>&lt;-</span> <span class='fu'>optimizeStrata</span>(strata = <span class='kw'>strata</span>,
+                        errors = <span class='kw'>cv</span>,
+                        initialStrata = <span class='kw'>nstrat</span>,
+                        suggestions = <span class='kw'>kmean</span>,
+                        iter = <span class='fl'>50</span>,
+                        pops = <span class='fl'>10</span>)
+<span class='kw'>outstrata</span> <span class='op'>&lt;-</span> <span class='kw'>solution</span><span class='op'>$</span><span class='kw'>aggr_strata</span>
+<span class='kw'>newstrata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='updateStrata.html'>updateStrata</a></span>(<span class='kw'>strata</span>,<span class='kw'>solution</span>)
+<span class='kw'>framenew</span> <span class='op'>&lt;-</span> <span class='fu'><a href='updateFrame.html'>updateFrame</a></span>(<span class='kw'>frame</span>, <span class='kw'>newstrata</span>)
+<span class='kw'>s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='selectSample.html'>selectSample</a></span>(<span class='kw'>framenew</span>, <span class='kw'>outstrata</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -339,7 +343,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

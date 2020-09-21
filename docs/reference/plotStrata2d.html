@@ -92,7 +92,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-2</span>
       </span>
     </div>
 
@@ -161,7 +161,7 @@
     <p>Plots a 2d graph showing obtained strata</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotStrata2d</span> (<span class='no'>x</span>,<span class='no'>outstrata</span>,<span class='no'>domain</span>,<span class='no'>vars</span>,<span class='no'>labels</span>)</pre>
+    <pre class="usage"><span class='fu'>plotStrata2d</span> (<span class='kw'>x</span>,<span class='kw'>outstrata</span>,<span class='kw'>domain</span>,<span class='kw'>vars</span>,<span class='kw'>labels</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,32 +193,33 @@
     <p>A formatted output containing information on the strata in the given domain</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>SamplingStrata</span>)
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://barcaroli.github.io/SamplingStrata'>SamplingStrata</a></span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"swissmunicipalities"</span>)
-<span class='no'>swissmunicipalities</span> <span class='kw'>=</span> <span class='no'>swissmunicipalities</span>[<span class='no'>swissmunicipalities</span>$<span class='no'>REG</span><span class='kw'>==</span><span class='fl'>1</span>,]
+<span class='kw'>swissmunicipalities</span> <span class='op'>=</span> <span class='kw'>swissmunicipalities</span>[<span class='kw'>swissmunicipalities</span><span class='op'>$</span><span class='kw'>REG</span><span class='op'>==</span><span class='fl'>1</span>,]
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"errors"</span>)
-<span class='no'>swissmunicipalities</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>swissmunicipalities</span>))
-<span class='no'>swissmunicipalities</span>$<span class='no'>domain</span> <span class='kw'>=</span> <span class='fl'>1</span>
-<span class='no'>frame</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='buildFrameDF.html'>buildFrameDF</a></span>(<span class='no'>swissmunicipalities</span>,
-                      <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
-                      <span class='kw'>domainvalue</span> <span class='kw'>=</span> <span class='st'>"REG"</span>,
-                      <span class='kw'>X</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Surfacesbois"</span>,<span class='st'>"Surfacescult"</span>),
-                      <span class='kw'>Y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Pop020"</span>, <span class='st'>"Pop2040"</span>)
+<span class='kw'>swissmunicipalities</span><span class='op'>$</span><span class='kw'>id</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>swissmunicipalities</span>))
+<span class='kw'>swissmunicipalities</span><span class='op'>$</span><span class='kw'>domain</span> <span class='op'>=</span> <span class='fl'>1</span>
+<span class='kw'>frame</span> <span class='op'>&lt;-</span> <span class='fu'><a href='buildFrameDF.html'>buildFrameDF</a></span>(<span class='kw'>swissmunicipalities</span>,
+                      id = <span class='st'>"id"</span>,
+                      domainvalue = <span class='st'>"REG"</span>,
+                      X = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Surfacesbois"</span>,<span class='st'>"Surfacescult"</span>),
+                      Y = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Pop020"</span>, <span class='st'>"Pop2040"</span>)
 )
-<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimStrata.html'>optimStrata</a></span> (<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"continuous"</span>,
-                        <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>errors</span>,,
-                        <span class='kw'>framesamp</span> <span class='kw'>=</span> <span class='no'>frame</span>,
-                        <span class='kw'>nStrata</span> <span class='kw'>=</span> <span class='fl'>8</span>,
-                        <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>25</span>,
-                        <span class='kw'>pops</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-<span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>plotStrata2d</span>(<span class='no'>solution</span>$<span class='no'>framenew</span>,
-                  <span class='no'>solution</span>$<span class='no'>aggr_strata</span>,
-                  <span class='kw'>domain</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-                  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"X1"</span>,<span class='st'>"X2"</span>),
-                  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Surfacesbois"</span>,<span class='st'>"Surfacescult"</span>))
-<span class='no'>p</span>
-}</div></pre>
+<span class='kw'>solution</span> <span class='op'>&lt;-</span> <span class='fu'><a href='optimStrata.html'>optimStrata</a></span> (method = <span class='st'>"continuous"</span>,
+                        errors = <span class='kw'>errors</span>,, 
+                        framesamp = <span class='kw'>frame</span>,
+                        nStrata = <span class='fl'>8</span>, 
+                        iter = <span class='fl'>25</span>, 
+                        pops = <span class='fl'>10</span>) 
+<span class='kw'>p</span> <span class='op'>&lt;-</span> <span class='fu'>plotStrata2d</span>(<span class='kw'>solution</span><span class='op'>$</span><span class='kw'>framenew</span>, 
+                  <span class='kw'>solution</span><span class='op'>$</span><span class='kw'>aggr_strata</span>,
+                  domain = <span class='fl'>1</span>, 
+                  vars = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"X1"</span>,<span class='st'>"X2"</span>),
+                  labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Surfacesbois"</span>,<span class='st'>"Surfacescult"</span>))
+<span class='kw'>p</span>
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -234,7 +235,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

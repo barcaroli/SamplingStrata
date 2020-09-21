@@ -111,7 +111,7 @@ used as an input by the function &quot;optimizeStrata&quot;." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-2</span>
       </span>
     </div>
 
@@ -198,12 +198,12 @@ The dataframe "strata" is written to an external file (tab delimited, extension 
 used as an input by the function "optimizeStrata".</p>
     </div>
 
-    <pre class="usage"><span class='fu'>buildStrataDFSpatial</span>(<span class='no'>dataset</span>,
-                     <span class='kw'>fitting</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>),
-                     <span class='kw'>range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>),
-                     <span class='kw'>kappa</span><span class='kw'>=</span><span class='fl'>3</span>,
-                     <span class='kw'>progress</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
-                     <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>buildStrataDFSpatial</span>(<span class='kw'>dataset</span>,
+                     fitting=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>),
+                     range=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>),
+                     kappa=<span class='fl'>3</span>,
+                     progress=<span class='fl'>FALSE</span>,
+                     verbose=<span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -244,11 +244,15 @@ used as an input by the function "optimizeStrata".</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A dataframe containing strata</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Giulio Barcaroli</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>strata</span> <span class='kw'>&lt;-</span> <span class='fu'>buildStrataDFSpatial</span>(<span class='kw'>dataset</span><span class='kw'>=</span><span class='no'>frame</span>,<span class='kw'>range</span><span class='kw'>=</span><span class='fl'>800</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>strata</span> <span class='op'>&lt;-</span> <span class='fu'>buildStrataDFSpatial</span>(dataset=<span class='kw'>frame</span>,range=<span class='fl'>800</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -264,7 +268,7 @@ used as an input by the function "optimizeStrata".</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

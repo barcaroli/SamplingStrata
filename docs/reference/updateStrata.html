@@ -99,7 +99,7 @@ containing the indication of the relations bewteen atomic and aggregated strata.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-2</span>
       </span>
     </div>
 
@@ -175,7 +175,7 @@ Also a second delimited file ("strata_aggregation.txt") will be outputted,
 containing the indication of the relations bewteen atomic and aggregated strata.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>updateStrata</span>(<span class='no'>strata</span>, <span class='no'>solution</span>, <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>updateStrata</span>(<span class='kw'>strata</span>, <span class='kw'>solution</span>, writeFiles = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,20 +200,24 @@ containing the indication of the relations bewteen atomic and aggregated strata.
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A dataframe containing the strata</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Giulio Barcaroli</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>SamplingStrata</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swisserrors</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swissstrata</span>)
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://barcaroli.github.io/SamplingStrata'>SamplingStrata</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swisserrors</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swissstrata</span>)
 <span class='co'># optimisation of sampling strata</span>
-<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> (
-    <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>swisserrors</span>,
-    <span class='kw'>strata</span> <span class='kw'>=</span> <span class='no'>swissstrata</span>,
+<span class='kw'>solution</span> <span class='op'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> ( 
+    errors = <span class='kw'>swisserrors</span>, 
+    strata = <span class='kw'>swissstrata</span>, 
 )
 <span class='co'># updating sampling strata with new strata labels</span>
-<span class='no'>newstrata</span> <span class='kw'>&lt;-</span> <span class='fu'>updateStrata</span>(<span class='no'>swissstrata</span>, <span class='no'>solution</span>, <span class='kw'>writeFiles</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-}</div></pre>
+<span class='kw'>newstrata</span> <span class='op'>&lt;-</span> <span class='fu'>updateStrata</span>(<span class='kw'>swissstrata</span>, <span class='kw'>solution</span>, writeFiles = <span class='fl'>TRUE</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -229,7 +233,7 @@ containing the indication of the relations bewteen atomic and aggregated strata.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

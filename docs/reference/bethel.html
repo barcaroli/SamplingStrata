@@ -92,7 +92,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-2</span>
       </span>
     </div>
 
@@ -162,14 +162,14 @@
     </div>
 
     <pre class="usage"><span class='fu'>bethel</span>  (
-          <span class='no'>stratif</span>,
-          <span class='no'>errors</span>,
-          <span class='kw'>minnumstrat</span><span class='kw'>=</span><span class='fl'>2</span>,
-          <span class='kw'>maxiter</span><span class='kw'>=</span><span class='fl'>200</span>,
-          <span class='kw'>maxiter1</span><span class='kw'>=</span><span class='fl'>25</span>,
-          <span class='kw'>printa</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
-                  <span class='kw'>realAllocation</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
-          <span class='kw'>epsilon</span><span class='kw'>=</span><span class='fl'>1e-11</span>
+          <span class='kw'>stratif</span>,
+          <span class='kw'>errors</span>, 
+          minnumstrat=<span class='fl'>2</span>,          
+          maxiter=<span class='fl'>200</span>,
+          maxiter1=<span class='fl'>25</span>,
+          printa=<span class='fl'>FALSE</span>,
+      realAllocation=<span class='fl'>FALSE</span>,
+          epsilon=<span class='fl'>1e-11</span>
           )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -218,17 +218,21 @@ if it it is lower than "epsilon", then the procedure stops</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A vector containing the computed optimal allocation</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Daniela Pagliuca with contributions from Teresa Buglielli and Giulio Barcaroli</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>SamplingStrata</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>strata</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>errors</span>)
-<span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fu'>bethel</span>(<span class='no'>strata</span>, <span class='no'>errors</span>, <span class='kw'>printa</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>n</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/attributes.html'>attributes</a></span>(<span class='no'>n</span>)$<span class='no'>confr</span>
-<span class='fu'><a href='https://rdrr.io/r/base/attributes.html'>attributes</a></span>(<span class='no'>n</span>)$<span class='no'>outcv</span>
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://barcaroli.github.io/SamplingStrata'>SamplingStrata</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>strata</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>errors</span>)
+<span class='kw'>n</span> <span class='op'>&lt;-</span> <span class='fu'>bethel</span>(<span class='kw'>strata</span>, <span class='kw'>errors</span>, printa=<span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='kw'>n</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/attributes.html'>attributes</a></span>(<span class='kw'>n</span>)<span class='op'>$</span><span class='kw'>confr</span>
+<span class='fu'><a href='https://rdrr.io/r/base/attributes.html'>attributes</a></span>(<span class='kw'>n</span>)<span class='op'>$</span><span class='kw'>outcv</span>
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -244,7 +248,7 @@ if it it is lower than "epsilon", then the procedure stops</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

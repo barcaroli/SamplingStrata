@@ -94,7 +94,7 @@ different strata for each domain in the obtained solution." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-2</span>
       </span>
     </div>
 
@@ -165,7 +165,7 @@ possible to obtain the visualization of the proportion of sampling units in the
 different strata for each domain in the obtained solution.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotSamprate</span>(<span class='no'>solution</span>, <span class='no'>dom</span>)</pre>
+    <pre class="usage"><span class='fu'>plotSamprate</span>(<span class='kw'>solution</span>, <span class='kw'>dom</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,18 +185,19 @@ different strata for each domain in the obtained solution.</p>
     <p>Plot</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>SamplingStrata</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swisserrors</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>swissstrata</span>)
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://barcaroli.github.io/SamplingStrata'>SamplingStrata</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swisserrors</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swissstrata</span>)
 <span class='co'># optimisation of sampling strata</span>
-<span class='no'>solution</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> (
-    <span class='kw'>errors</span> <span class='kw'>=</span> <span class='no'>swisserrors</span>,
-    <span class='kw'>strata</span> <span class='kw'>=</span> <span class='no'>swissstrata</span>,
+<span class='kw'>solution</span> <span class='op'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> ( 
+    errors = <span class='kw'>swisserrors</span>, 
+    strata = <span class='kw'>swissstrata</span>, 
 )
 <span class='co'># plot of the sampling rates in strata </span>
-<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> (<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>swissstrata</span>$<span class='no'>DOM1</span>)))) <span class='fu'>plotSamprate</span>(<span class='no'>solution</span>, <span class='no'>i</span>)
-}</div></pre>
+<span class='co'>for</span> (<span class='kw'>i</span> <span class='co'>in</span> (<span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='kw'>swissstrata</span><span class='op'>$</span><span class='kw'>DOM1</span>)))) <span class='fu'>plotSamprate</span>(<span class='kw'>solution</span>, <span class='kw'>i</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -212,7 +213,7 @@ different strata for each domain in the obtained solution.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
