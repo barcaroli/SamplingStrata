@@ -2,7 +2,7 @@
 \Rdversion{1.5-2}
 \alias{selectSampleSpatial}
 \title{
-Selection of a geo-referenced points from the frame  
+Selection of geo-referenced points from the frame  
 }
 \description{
 Once optimal stratification has been obtained, and a new frame has been 
