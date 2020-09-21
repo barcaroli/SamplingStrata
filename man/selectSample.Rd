@@ -7,8 +7,8 @@ Selection of a stratified sample from the frame with srswor method
 \description{
 Once optimal stratification has been obtained, 
 and a new frame has been 
-built by assigning to the units of the old one the new strata labels (by means of 
-"updateFrame" function), it is possible to select a stratified sample from the frame 
+built by assigning to the units of the old one the new strata labels, it is possible to select 
+a stratified sample from the frame 
 with the simple random sampling without replacement (srswor) method. 
 The result of the execution of "selectSample" function is a dataframe containing the selected
 units, with their weights (inverse of the probabilities of inclusion).

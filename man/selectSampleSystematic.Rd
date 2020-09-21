@@ -7,8 +7,8 @@ Selection of a stratified sample from the frame with systematic method
 \description{
 Once optimal stratification has been obtained, 
 and a new frame has been 
-built by assigning to the units of the old one the new stratum labels (by means of 
-"updateFrame" function), it is possible to select a stratified sample from the frame 
+built by assigning to the units of the old one the new stratum labels, it is possible to select 
+a stratified sample from the frame 
 with the systematic method, that is a selection that begins selecting the first 
 unit by an initial ramndomly chosen starting point, and proceeding in selecting other units 
 by adding an interval that is the inverse of the sampling rate in the stratum.

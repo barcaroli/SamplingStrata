@@ -1,6 +1,16 @@
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit NEWS.Rmd file -->
 
+# SamplingStrata 1.5-2
+
+## Major changes
+
+  - A new function *selectSampleSpatial* has been added: if geographical
+    coordinates are available in the frame, in order to obtain spatially
+    distributed selected points this function makes use of the
+    lpm2\_kdtree function from the SamplingBigData package
+    (Tillé-Grafstrom).
+
 # SamplingStrata 1.5-1
 
 ## Major changes
