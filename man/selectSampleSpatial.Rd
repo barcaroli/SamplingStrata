@@ -13,7 +13,7 @@ this function makes use of the lpm2_kdtree function from the SamplingBigData pac
 
 }
 \usage{
-selectSample(frame, outstrata, coord_names)
+selectSampleSpatial(frame, outstrata, coord_names)
 }
 \arguments{
   \item{frame}{
