@@ -6,7 +6,7 @@
 #-----------------------------------------------------------
 
 selectSampleSpatial <- function(frame, outstrata, coord_names)  {
-  require(SamplingBigData)
+  if (!(coord_names %in% colnames(frame) )) stop("Coordinate names not in frame")
   samp <- NULL
   for (i in unique(frame$DOMAINVALUE)) {
     # cat("\n Domain",i)
