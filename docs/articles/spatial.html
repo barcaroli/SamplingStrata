@@ -102,13 +102,13 @@
 
       
 
-      </header><script src="spatial_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="spatial_files/header-attrs-2.3/header-attrs.js"></script><script src="spatial_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Spatial sampling with SamplingStrata</h1>
                         <h4 class="author">Marco Ballin, Giulio Barcaroli</h4>
             
-            <h4 class="date">2020-09-21</h4>
+            <h4 class="date">2020-10-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/spatial.Rmd"><code>vignettes/spatial.Rmd</code></a></small>
       <div class="hidden name"><code>spatial.Rmd</code></div>
@@ -383,9 +383,9 @@ Bounds Zinc
 <span class="fu"><a href="https://rdrr.io/pkg/sp/man/spplot.html">spplot</a></span>(<span class="kw">frameres2</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"LABEL"</span>), col.regions=<span class="fu"><a href="https://rdrr.io/pkg/sp/man/bpy.colors.html">bpy.colors</a></span>(<span class="fl">5</span>))
 </pre></div>
 <p><img src="spatial_files/figure-html/unnamed-chunk-9-1.png" width="576"></p>
-<p>We can now proceed with the selection of the sample:</p>
+<p>We can now proceed with the selection of the sample, using the function ‘selectSampleSpatial’ (which is a wrapper of function ‘lpm2_kdtree’ in package ‘SamplingBigData’, see <span class="citation">Lisic and Grafström (2018)</span>), in order to ensure a spatially balanced sample:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit">
-<span class="kw">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/selectSample.html">selectSample</a></span>(<span class="kw">framenew</span>,<span class="kw">outstrata</span>,writeFiles=<span class="fl">FALSE</span>)
+<span class="kw">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/selectSampleSpatial.html">selectSampleSpatial</a></span>(<span class="kw">framenew</span>,<span class="kw">outstrata</span>,coord_names=<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"LON"</span>,<span class="st">"LAT"</span>))
 </pre></div>
 <pre><code>## 
 ## *** Sample has been drawn successfully ***
@@ -396,12 +396,15 @@ Bounds Zinc
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 <div id="ref-degruijter2016">
 <p>deGruijter, J. J., A. B. McBratney, B. Minasny, I. Wheeler, B. P. Malone, and U. Stockmann. 2016. “Farm-Scale Soil Carbon Auditing.” <em>Geoderma</em>, no. 265: 12–130.</p>
 </div>
 <div id="ref-degruijter2019">
 <p>deGruijter, J. J., I. Wheeler, and B. P. Malone. 2019. “Using Model Predictions of Soil Carbon in Farm-Scale Auditing - a Sofwtare Tool.” <em>Agricultural Systems</em>, no. 169(C): 24–30.</p>
+</div>
+<div id="ref-lisic2018b">
+<p>Lisic, J., and A. Grafström. 2018. <em>SamplingBigData: Sampling Methods for Big Data</em>. <a href="https://cran.r-project.org/package=SamplingBigData">https://cran.r-project.org/package=SamplingBigData</a>.</p>
 </div>
 </div>
 </div>
