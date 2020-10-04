@@ -9,7 +9,7 @@ Once optimal stratification has been obtained, and a new frame has been
 built by assigning to the units of the old one the new strata labels, 
 it is possible to select a stratified sample from the frame. 
 If geographical coordinates are available in the frame, in order to obtain spatially distributed selected points
-this function makes use of the lpm2_kdtree function from the SamplingBigData package (Tillé-Grafstrom).
+this function makes use of the 'lpm2_kdtree' function from the' SamplingBigData' package (Lisic-Grafstrom).
 
 }
 \usage{

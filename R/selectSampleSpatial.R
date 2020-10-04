@@ -1,12 +1,13 @@
 #-----------------------------------------------------------
 # Function to select a sample using the lpm2_kdtree function
-#  from the SamplingBigData package (Tillé-Grafstrom)
+#  from the SamplingBigData package (Till?-Grafstrom)
 #  in order to spatially distribute selected points
 #  for any stratum
 #-----------------------------------------------------------
 
 selectSampleSpatial <- function(frame, outstrata, coord_names)  {
-  if (!(coord_names %in% colnames(frame) )) stop("Coordinate names not in frame")
+  if (!(coord_names[1] %in% colnames(frame) )) stop("Coordinate names not in frame")
+  if (!(coord_names[2] %in% colnames(frame) )) stop("Coordinate names not in frame")
   samp <- NULL
   for (i in unique(frame$DOMAINVALUE)) {
     # cat("\n Domain",i)
