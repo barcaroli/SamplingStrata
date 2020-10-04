@@ -194,7 +194,7 @@ frameres2$LABEL <- as.factor(frameres2$LABEL)
 spplot(frameres2,c("LABEL"), col.regions=bpy.colors(5))
 ```
 
-We can now proceed with the selection of the sample, using the function 'selectSampleSpatial' (which is a wrapping of function 'lpm2_kdtree' in package 'SamplingBigData', see @lisic2018b), in order to ensure a spatially balanced sample:
+We can now proceed with the selection of the sample, using the function 'selectSampleSpatial' (which is a wrapper of function 'lpm2_kdtree' in package 'SamplingBigData', see @lisic2018b), in order to ensure a spatially balanced sample:
 
 ```{r, eval = T,echo=TRUE}
 s <- selectSampleSpatial(framenew,outstrata,coord_names=c("LON","LAT"))
