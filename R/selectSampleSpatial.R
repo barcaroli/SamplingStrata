@@ -21,6 +21,7 @@ selectSampleSpatial <- function(frame, outstrata, coord_names)  {
       p <- rep( size / pop, nrow(X))
       s = lpm2_kdtree(p,X)
       s <- strato[s,]
+      s$WEIGHTS <- nrow(strato) / nrow(s)
       samp <- rbind(samp,s)
     }
   }
