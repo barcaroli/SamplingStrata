@@ -46,7 +46,7 @@ KmeansSolution <- function(strata,
       for (i in min:max) {
         stmt3 <- paste("],",i,")$cluster",sep="")
         stmt <- paste(stmt1,stmt2,stmt3,sep="")
-        eval(parse(text=stmt))
+        solution <- tryCatch(eval(parse(text = stmt)))
         aggr <- aggrStrata(strata=stratacorr,
                            nvar=nvariables,
                            censiti=0,
