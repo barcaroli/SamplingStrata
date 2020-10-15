@@ -27,6 +27,7 @@ vignette: >
 ```{r setup, include=FALSE}
 options(width = 999)
 knitr::opts_chunk$set(echo = TRUE, fig.width=6, fig.height=4)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
 ```
 
 
@@ -202,22 +203,13 @@ s <- selectSampleSpatial(framenew,outstrata,coord_names=c("LON","LAT"))
 
 whose units are so distributed in the territory:
 
-```{r, eval = T,echo=FALSE,message=FALSE,fig.width=6, fig.height=8}
-plot(s$LON[s$LABEL==1],s$LAT[s$LABEL==1],col="black",
-     xlab="longitude",ylab="latitude",
-     xlim=c(min(s$LON),max(s$LON)),
-     ylim=c(min(s$LAT),max(s$LAT)))
-text(s$LON[s$LABEL==1],s$LAT[s$LABEL==1], labels = row.names(s[s$LABEL == 1,]), pos = 2, cex=0.6)
-points(s$LON[s$LABEL==2],s$LAT[s$LABEL==2],col="blue")
-text(s$LON[s$LABEL==2],s$LAT[s$LABEL==2], labels = row.names(s[s$LABEL == 2,]), pos = 4, cex=0.6, col="blue")
-points(s$LON[s$LABEL==3],s$LAT[s$LABEL==3],col="magenta")
-text(s$LON[s$LABEL==3],s$LAT[s$LABEL==3], labels = row.names(s[s$LABEL == 3,]), pos = 3, cex=0.6, col="darkorange")
-points(s$LON[s$LABEL==4],s$LAT[s$LABEL==4],col="darkorange")
-text(s$LON[s$LABEL==4],s$LAT[s$LABEL==4], labels = row.names(s[s$LABEL == 4,]), pos = 1, cex=0.6, col="yellow")
-# points(s$LON[s$LABEL==5],s$LAT[s$LABEL==5],col="red")
-# text(s$LON[s$LABEL==5],s$LAT[s$LABEL==5], labels = row.names(s[s$LABEL == 5,]), pos = 4, cex=0.6, col="red")
-title("Selected units")
-
+```{r, eval = T,echo=TRUE,message=FALSE,fig.width=6, fig.height=8}
+s <- selectSampleSpatial(framenew,outstrata,coord_names = c("LON","LAT"))
+coordinates(s) <- ~LON+LAT
+proj4string(s) <- CRS("+init=epsg:28992")
+s$LABEL <- as.factor(s$LABEL)
+library(mapview)
+mapview(s,zcol="LABEL", map.types = c("OpenStreetMap"))
 ```
 
 
