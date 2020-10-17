@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 [![Downloads](http://cranlogs.r-pkg.org/badges/SamplingStrata?color=brightgreen)](http://www.r-pkg.org/pkg/SamplingStrata)
 [![Mentioned in Awesome Official Statistics](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficialstatistics.org)
 
-# SamplingStrata <img src="pkgdown/favicon/apple-touch-icon-152x152.png" align="right" />
+# SamplingStrata <img src="pkgdown/favicon/apple-touch-icon" align="right" />
 
 This package offers an approach for the determination of the best 
 stratification of a sampling frame, the one that ensures the 
@@ -43,6 +43,11 @@ version of the functions in the 'genalg' package.
 A complete illustration of all features and functions can be found at the link:
 
 https://barcaroli.github.io/SamplingStrata/
+
+Download the SamplingStrata cheatsheet from:
+
+https://rstudio.com/resources/cheatsheets/
+
 
 ## Installation
 
