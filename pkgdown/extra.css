@@ -38,13 +38,13 @@ a:hover, a:active{
 }
 /* Modify navbar */
 .navbar {
-	background-color: #fff;
+	background-color: #FFA500;
 }
 .navbar .navbar-toggle {
-	border-color: #fff;
+	border-color: #FFA500;
 }
 .navbar .navbar-toggle .icon-bar {
-	background-color: #fff;
+	background-color: #FFA500;
 }
 
 /* Navbar brand */
