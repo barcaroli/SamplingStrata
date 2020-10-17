@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 [![Downloads](http://cranlogs.r-pkg.org/badges/SamplingStrata?color=brightgreen)](http://www.r-pkg.org/pkg/SamplingStrata)
 [![Mentioned in Awesome Official Statistics](https://awesome.re/mentioned-badge.svg)](http://www.awesomeofficialstatistics.org)
 
-# SamplingStrata <img src="pkgdown/favicon/apple-touch-icon" align="right" />
+# SamplingStrata <img src="man/figures/apple-touch-icon-152x152.png" align="right" alt="" />
 
 This package offers an approach for the determination of the best 
 stratification of a sampling frame, the one that ensures the 
