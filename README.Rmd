@@ -30,10 +30,10 @@ fitness of all individuals is evaluated applying the
 Bethel-Chromy algorithm to calculate the sampling size 
 satisfying precision constraints on the target estimates. 
 
-Functions in the package allows to: 
+Functions in the package allow to: 
 
 * support in the preparation of required input data;
-* execute the optimisation step;
+* execute the optimization step;
 * analyse the obtained results of the optimisation step; 
 * select a sample from the new frame accordingly to the best allocation. 
 

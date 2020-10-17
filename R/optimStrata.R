@@ -46,6 +46,12 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
     if (!is.null(framecens)) checkInput(errors, sampframe=framecens)
 #     checkInput(errors, strata)
 # 	  if (!is.null(cens) & is.null(strcens)) stop("Takeall strata presence indicated (strcens=TRUE), but no related strata dataframe (cens) is given")
+    nvarX <- length(grep("X",colnames(framesamp)))
+    for (i in (1:nvarX)) {
+      st <- paste0("if (!is.numeric(frame$X",i,")) stop('Stratification variable(s) must be numeric - Transform them to numeric from factor or character before run optimization')"
+)
+      eval(parse(text=st))
+    }
     strata <- buildStrataDF(framesamp,model=model,progress = FALSE)
     if (!is.null(framecens)) {
       cens <- buildStrataDF(framecens,model=model,progress = FALSE)
