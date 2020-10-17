@@ -1,10 +1,98 @@
-.fl      {color: blue;}
-.fu      {color: blue;} /* function */
-.ch,.st  {color: orange;} /* string */
-.kw      {color: black;} /* keyword */
-.co      {color: green;} /* comment */
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Mono&family=Noto+Serif&family=Roboto&display=swap');
 
-.message { color: gray;   font-weight: bolder;}
-.error   { color: red;  font-weight: bolder;}
-.warning { color: purple; font-weight: bolder;}
+/* General typography of Bootstrap 4 */
+body {
+	font-family: 'Noto Serif', serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Headings on serif - Noto Serif */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote,
+.copyright,
+.pkgdown {
+	font-family: 'Noto Serif', serif;
+}
+.section-desc + p{
+	font-family: 'Noto Serif', serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Code on Source Code Pro */
+code,
+pre,
+.ref-arguments th,
+dt{
+	font-family: 'Fira Mono', monospace;
+}
+/* Links */
+a{
+  color: #0085b2;
+}
+a:hover, a:active{
+  color: #cdcd00;
+}
+/* Modify navbar */
+.navbar {
+	background-color: #fff;
+}
+.navbar .navbar-toggle {
+	border-color: #fff;
+}
+.navbar .navbar-toggle .icon-bar {
+	background-color: #fff;
+}
+
+/* Navbar brand */
+.navbar .navbar-brand {
+	margin-right: 1em;
+	font-family: 'Noto Serif', serif;
+}
+.navbar .navbar-brand .navbar-link {
+	color: #cdcd00;	
+	background-color: #00688b;
+}
+.navbar .navbar-brand .label-default {
+	color: #cdcd00;
+	background-color: #00688b;
+}
+/* Active link */
+.navbar .navbar-nav>.active>a {
+	color: #cdcd00;
+	background-color: #00688b;
+}
+/* Hovers */
+.navbar .navbar-toggle:hover,
+.navbar .navbar-toggle:focus {
+	color: #cdcd00;
+	background-color: #00688b;
+}
+.navbar .navbar-toggle:hover span,
+.navbar .navbar-toggle:focus span {
+	color: #cdcd00;
+	background-color: #00688b;
+}
+.navbar .navbar-nav>li>a:hover,
+.navbar .navbar-nav>li>a:focus,
+.navbar .navbar-nav>.active>a:hover,
+.navbar .navbar-nav>.active>a:focus {
+	color: #cdcd00;
+	background-color: #00688b;
+}
+© 2020 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
 
