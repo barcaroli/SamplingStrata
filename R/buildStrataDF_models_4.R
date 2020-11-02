@@ -336,5 +336,10 @@ buildStrataDF <- function(dataset,
       cat("\nNumber of strata: ",nrow(stratatot))
       cat("\n... of which with only one unit: ",sum(stratatot$N==1))
     }
+    # Eliminate rare cases
+    # for (i in (1:nvarY)) {
+    #   st <- paste0("stratatot$S",i," <- ifelse(stratatot$M",i," < 0.01,0,stratatot$S",i,")")
+    #   eval(parse(text=st))
+    # }
     return(stratatot)
 }

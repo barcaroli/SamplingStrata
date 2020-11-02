@@ -106,7 +106,7 @@ optimStrata <- function(method=c("atomic","continuous","spatial"),
         eval(parse(text=st))
       }
       framecens$X1 <- 99999
-      cens <- buildStrataDF(framecens)
+      cens <- buildStrataDF(framecens,progress=FALSE)
       cens$X1 <- NULL
       cens$SOLUZ <- cens$N
       cens$CENS <- 1
