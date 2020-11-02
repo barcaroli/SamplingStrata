@@ -5,7 +5,7 @@
 Procedure to apply Bethel algorithm and select sample from given strata
 }
 \description{
-This procedure allows to (i) apply the Bethel algorithm to determine the optimal allocation in given strata, and (ii) directly select the sample from the sampling frame.
+This procedure allows to (i) apply the Bethel algorithm to determine the optimal allocation in given strata (with no optimization), and (ii) directly select the sample from the sampling frame.
 }
 \usage{
 procBethel(framesamp,
