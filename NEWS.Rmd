@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 * A new function *selectSampleSpatial* has been added: if geographical coordinates are available in the frame, in order to obtain spatially distributed selected points this function makes use of the lpm2_kdtree function from the SamplingBigData package (Tillé-Grafstrom). 
 
-* A new function *bethelProc* has been added: this function allows to execute a complete procedure from the Bethel optimal allocation to the selection of a sample, without having to optimized the strata, that are supposed to be given and fixed.
+* A new function *bethelProc* has been added: this function allows to execute a complete procedure from the Bethel optimal allocation to the selection of a sample, without having to optimize the strata, that are supposed to be given and fixed.
 
 # SamplingStrata 1.5-1
 

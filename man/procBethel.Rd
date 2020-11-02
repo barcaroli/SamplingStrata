@@ -2,10 +2,10 @@
 \Rdversion{1.5}
 \alias{procBethel}
 \title{
-Procedure to apply Bethel algorithm and select sample from given strata
+Procedure to apply Bethel algorithm and select a sample from given strata
 }
 \description{
-This procedure allows to (i) apply the Bethel algorithm to determine the optimal allocation in given strata (with no optimization), and (ii) directly select the sample from the sampling frame.
+This function allows to execute a complete procedure from the Bethel optimal allocation to the selection of a sample, without having to optimize the strata, that are supposed to be given and fixed.
 }
 \usage{
 procBethel(framesamp,

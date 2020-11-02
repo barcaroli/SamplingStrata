@@ -13,7 +13,7 @@
 
   - A new function *bethelProc* has been added: this function allows to
     execute a complete procedure from the Bethel optimal allocation to
-    the selection of a sample, without having to optimized the strata,
+    the selection of a sample, without having to optimize the strata,
     that are supposed to be given and fixed.
 
 # SamplingStrata 1.5-1
