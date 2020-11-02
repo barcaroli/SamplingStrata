@@ -11,6 +11,11 @@
     lpm2\_kdtree function from the SamplingBigData package
     (Tillé-Grafstrom).
 
+  - A new function *bethelProc* has been added: this function allows to
+    execute a complete procedure from the Bethel optimal allocation to
+    the selection of a sample, without having to optimized the strata,
+    that are supposed to be given and fixed.
+
 # SamplingStrata 1.5-1
 
 ## Major changes
