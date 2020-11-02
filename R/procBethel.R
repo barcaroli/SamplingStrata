@@ -31,10 +31,10 @@ procBethel <- function(framesamp,
   eval(parse(text=st2))
   strata$STRATO <- as.numeric(as.factor(strata$STRATUM))
   # Eliminate rare cases
-  for (i in (1:nvarY)) {
-    st <- paste0("strata$S",i," <- ifelse(strata$M",i," < 0.01,0,strata$S",i,")")
-    eval(parse(text=st))
-  }
+  # for (i in (1:nvarY)) {
+  #   st <- paste0("strata$S",i," <- ifelse(strata$M",i," < 0.01,0,strata$S",i,")")
+  #   eval(parse(text=st))
+  # }
 
   # Take-all strata ----------------------------------------------------
   if (!is.null(framecens)) {
