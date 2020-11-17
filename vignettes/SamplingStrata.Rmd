@@ -558,6 +558,7 @@ solution4 <- optimStrata(method = "continuous",
 
 
 ```{r optim4a, eval=TRUE, echo=TRUE, warning=FALSE }
+framenew4 <- solution4$framenew
 outstrata4 <- solution4$aggr_strata
 sum(outstrata4$SOLUZ)
 expected_CV(outstrata4)
@@ -567,8 +568,8 @@ expected_CV(outstrata4)
 Once the optimized solution has been produced, we select the sample:
 
 ```{r select2, eval=TRUE}
-sample <- selectSample(frame=solution4$framenew,
-                       outstrata=solution4$aggr_strata)
+sample <- selectSample(frame=framenew4,
+                       outstrata=outstrata4)
 ```
 
 and we control that all take-all units are included in the sample:
