@@ -414,7 +414,11 @@ optimizeStrata2 <-
       for (i in (1:nvarX)) {
         eval(parse(text=paste("framecens$X",i," <- framecensold$X",i,sep="")))
       }
-
+      #----------------------- mod 17/11/2020
+      framecens$STRATO <- outstrata$STRATO + 1
+      framecens$LABEL <- outstrata$STRATO + 1
+      censtot$STRATO <- outstrata$STRATO + 1
+      #-----------------------
       colnames(framecens) <- toupper(colnames(framecens))
       framenew <- rbind(framenew,framecens)
       censtot$SOLUZ <- censtot$N
