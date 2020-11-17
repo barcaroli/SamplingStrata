@@ -415,9 +415,9 @@ optimizeStrata2 <-
         eval(parse(text=paste("framecens$X",i," <- framecensold$X",i,sep="")))
       }
       #----------------------- mod 17/11/2020
-      framecens$STRATO <- as.character(max(as.numeric(outstrata$STRATO[outstrata$DOM1==i])) + 1)
-      framecens$LABEL <- max(as.numeric(outstrata$STRATO[outstrata$DOM1==i])) + 1
-      censtot$STRATO <- as.character(max(as.numeric(outstrata$STRATO[outstrata$DOM1==i])) + 1)
+      framecens$STRATO <- as.character(max(as.numeric(outstrata$STRATO)) + 1)
+      framecens$LABEL <- max(as.numeric(outstrata$STRATO)) + 1
+      censtot$STRATO <- as.character(max(as.numeric(outstrata$STRATO)) + 1)
       #-----------------------
       colnames(framecens) <- toupper(colnames(framecens))
       framenew <- rbind(framenew,framecens)
