@@ -1,6 +1,8 @@
 adjustSize <- function (size, strata, cens=NULL, minnumstr = 2) 
 {
-  if (!is.null(cens)) size <- size - sum(cens$N)
+  cens <- strata[strata$CENS == 1,]
+  strata <- strata[strata$CENS == 0,]
+  if (nrow(cens) > 0) size <- size - sum(cens$N)
   
   diff <- size - sum(strata$SOLUZ)
   diffrel <- diff / size
@@ -34,6 +36,7 @@ adjustSize <- function (size, strata, cens=NULL, minnumstr = 2)
       cat("\n",sum(strata$SOLUZ))
     }
   }
+  if (nrow(cens) > 0) strata <- rbind(strata,cens)
   cat("\n Final adjusted size: ",sum(strata$SOLUZ))
   return(strata)
 }
