@@ -1,0 +1,432 @@
+[
+  {
+    "URL": "https://www.jstatsoft.org/article/view/v061i04",
+    "author": [
+      {
+        "family": "Barcaroli",
+        "given": "G."
+      }
+    ],
+    "container-title": "Journal of Statistical Software",
+    "id": "barcarol2014",
+    "issue": "4",
+    "issued": {
+      "date-parts": [
+        [
+          2014
+        ]
+      ]
+    },
+    "page": "1-24",
+    "title": "SamplingStrata: An R package for the optimization of stratified sampling",
+    "title-short": "SamplingStrata",
+    "type": "article-journal",
+    "volume": "61"
+  },
+  {
+    "author": [
+      {
+        "family": "Ballin",
+        "given": "M."
+      },
+      {
+        "family": "Barcaroli",
+        "given": "G."
+      }
+    ],
+    "container-title": "Survey Methodology",
+    "id": "ballin2013",
+    "issued": {
+      "date-parts": [
+        [
+          2013
+        ]
+      ]
+    },
+    "page": "369-393",
+    "title": "Joint determination of optimal stratification and sample allocation using genetic algorithm",
+    "type": "article-journal",
+    "volume": "39"
+  },
+  {
+    "author": [
+      {
+        "family": "Bethel",
+        "given": "J."
+      }
+    ],
+    "container-title": "Survey Methodology",
+    "id": "bethel1989",
+    "issued": {
+      "date-parts": [
+        [
+          1989
+        ]
+      ]
+    },
+    "page": "47-57",
+    "title": "Sample allocation in multivariate surveys",
+    "type": "article-journal",
+    "volume": "15"
+  },
+  {
+    "author": [
+      {
+        "family": "Hartigan",
+        "given": "J. A."
+      },
+      {
+        "family": "Wong",
+        "given": "M. A."
+      }
+    ],
+    "container-title": "Applied Statistics",
+    "id": "hartigan:1979",
+    "issued": {
+      "date-parts": [
+        [
+          1979
+        ]
+      ]
+    },
+    "page": "100-108",
+    "title": "A k-means clustering algorithm",
+    "type": "article-journal",
+    "volume": "28"
+  },
+  {
+    "URL": "https://CRAN.R-project.org/package=genalg",
+    "author": [
+      {
+        "family": "Willighagen",
+        "given": "E."
+      }
+    ],
+    "id": "willighagen2005",
+    "issued": {
+      "date-parts": [
+        [
+          2005
+        ]
+      ]
+    },
+    "note": "R package version 0.1.1",
+    "title": "Genalg: R based genetic algorithm",
+    "title-short": "Genalg",
+    "type": "book"
+  },
+  {
+    "URL": "https://CRAN.R-project.org/package=stratification",
+    "author": [
+      {
+        "family": "Baillargeon",
+        "given": "Sophie"
+      },
+      {
+        "family": "Rivest",
+        "given": "Louis-Paul"
+      }
+    ],
+    "id": "baillargeon2014",
+    "issued": {
+      "date-parts": [
+        [
+          2014
+        ]
+      ]
+    },
+    "note": "R package version 2.2-5",
+    "title": "Stratification: Univariate stratification of survey populations",
+    "title-short": "Stratification",
+    "type": "book"
+  },
+  {
+    "author": [
+      {
+        "family": "Ballin",
+        "given": "Marco"
+      },
+      {
+        "family": "Barcaroli",
+        "given": "Giulio"
+      }
+    ],
+    "container-title": "Computational Network Analysis with R: Applications in Biology, Medicine and Chemistry",
+    "id": "ballin2016",
+    "issued": {
+      "date-parts": [
+        [
+          2016
+        ]
+      ]
+    },
+    "publisher": "John Wiley & Sons",
+    "title": "Optimization of stratified sampling with the r package SamplingStrata: Applications to network data",
+    "title-short": "Optimization of stratified sampling with the r package SamplingStrata",
+    "type": "article-journal"
+  },
+  {
+    "author": [
+      {
+        "dropping-particle": "de",
+        "family": "Gruijter",
+        "given": "J. J."
+      },
+      {
+        "family": "Minasny",
+        "given": "B."
+      },
+      {
+        "family": "McBratney",
+        "given": "A. B."
+      }
+    ],
+    "container-title": "Journal of Survey Statistics and Methodology",
+    "id": "degruijter2015",
+    "issue": "3",
+    "issued": {
+      "date-parts": [
+        [
+          2015
+        ]
+      ]
+    },
+    "page": "19-42",
+    "title": "Optimizing stratification and allocation for design-based estimation of spatial means using predictions with error",
+    "type": "article-journal"
+  },
+  {
+    "author": [
+      {
+        "family": "Lisic",
+        "given": "J."
+      },
+      {
+        "family": "Sang",
+        "given": "H."
+      },
+      {
+        "family": "Zhu",
+        "given": "Z."
+      },
+      {
+        "family": "Zimmer",
+        "given": "S."
+      }
+    ],
+    "container-title": "Journal of Official Statistics",
+    "id": "lisic2018",
+    "issue": "1",
+    "issued": {
+      "date-parts": [
+        [
+          2018
+        ]
+      ]
+    },
+    "page": "121-148",
+    "title": "Optimal stratification and allocation for the june agricultural survey",
+    "type": "article-journal",
+    "volume": "34"
+  },
+  {
+    "author": [
+      {
+        "family": "O’Luing",
+        "given": "M."
+      },
+      {
+        "family": "Prestwich",
+        "given": "S."
+      },
+      {
+        "family": "Tarim",
+        "given": "S. Armagan"
+      }
+    ],
+    "container-title": "Survey Methodology",
+    "id": "oluing2019",
+    "issue": "3",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "page": "513-531",
+    "title": "A grouping genetic algorithm for joint stratification and sample allocation designs",
+    "type": "article-journal",
+    "volume": "45"
+  },
+  {
+    "author": [
+      {
+        "family": "deGruijter",
+        "given": "J. J."
+      },
+      {
+        "family": "Wheeler",
+        "given": "I."
+      },
+      {
+        "family": "Malone",
+        "given": "B. P."
+      }
+    ],
+    "container-title": "Agricultural Systems",
+    "id": "degruijter2019",
+    "issue": "169(C)",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "page": "24-30",
+    "title": "Using model predictions of soil carbon in farm-scale auditing - a sofwtare tool",
+    "type": "article-journal"
+  },
+  {
+    "author": [
+      {
+        "family": "deGruijter",
+        "given": "J. J."
+      },
+      {
+        "family": "McBratney",
+        "given": "A. B."
+      },
+      {
+        "family": "Minasny",
+        "given": "B."
+      },
+      {
+        "family": "Wheeler",
+        "given": "I."
+      },
+      {
+        "family": "Malone",
+        "given": "B. P."
+      },
+      {
+        "family": "Stockmann",
+        "given": "U."
+      }
+    ],
+    "container-title": "Geoderma",
+    "id": "degruijter2016",
+    "issue": "265",
+    "issued": {
+      "date-parts": [
+        [
+          2016
+        ]
+      ]
+    },
+    "page": "12-130",
+    "title": "Farm-scale soil carbon auditing",
+    "type": "article-journal"
+  },
+  {
+    "author": [
+      {
+        "family": "Henry",
+        "given": "K."
+      },
+      {
+        "family": "Valliant",
+        "given": "R."
+      }
+    ],
+    "id": "henry2006",
+    "issued": {
+      "date-parts": [
+        [
+          2006
+        ]
+      ]
+    },
+    "note": "<https://www.irs.gov/pub/irs-soi/06rppphenry.pdf>",
+    "title": "<span class=\"nocase\">Comparing Strategies to Estimate a Measure of Heteroscedasticity</span>",
+    "type": "article-journal"
+  },
+  {
+    "author": [
+      {
+        "family": "Knaub",
+        "given": "J. R."
+      }
+    ],
+    "id": "knaub2019",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "note": "<https://www.researchgate.net/profile/James_Knaub>",
+    "title": "<span class=\"nocase\">Estimating the Coefficient of Heteroscedasticity</span>",
+    "type": "article-journal"
+  },
+  {
+    "URL": "https://CRAN.R-project.org/package=spsur",
+    "author": [
+      {
+        "family": "Minguez",
+        "given": "R."
+      },
+      {
+        "family": "Angulo",
+        "given": "A."
+      },
+      {
+        "family": "Lopez",
+        "given": "F. A."
+      },
+      {
+        "family": "Mur",
+        "given": "J."
+      }
+    ],
+    "id": "minguez2020",
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    },
+    "note": "R package version 1.0.1.3",
+    "title": "Spsur: Spatial seemingly unrelated regression models",
+    "title-short": "Spsur",
+    "type": "book"
+  },
+  {
+    "URL": "https://cran.r-project.org/package=SamplingBigData",
+    "author": [
+      {
+        "family": "Lisic",
+        "given": "J."
+      },
+      {
+        "family": "Grafström",
+        "given": "A."
+      }
+    ],
+    "id": "lisic2018b",
+    "issued": {
+      "date-parts": [
+        [
+          2018
+        ]
+      ]
+    },
+    "note": "R package version 1.0.0",
+    "title": "SamplingBigData: Sampling methods for big data",
+    "title-short": "SamplingBigData",
+    "type": "book"
+  }
+]

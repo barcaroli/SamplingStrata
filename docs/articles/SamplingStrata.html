@@ -102,13 +102,14 @@
 
       
 
-      </header><script src="SamplingStrata_files/header-attrs-2.3/header-attrs.js"></script><script src="SamplingStrata_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="SamplingStrata_files/header-attrs-2.5/header-attrs.js"></script><link href="SamplingStrata_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="SamplingStrata_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Optimization of sampling strata with the SamplingStrata package</h1>
                         <h4 class="author">Marco Ballin, Giulio Barcaroli</h4>
             
-            <h4 class="date">2020-11-02</h4>
+            <h4 class="date">2020-12-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/SamplingStrata.Rmd"><code>vignettes/SamplingStrata.Rmd</code></a></small>
       <div class="hidden name"><code>SamplingStrata.Rmd</code></div>
@@ -120,7 +121,7 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>Let us suppose we need to design a sample survey, having a complete frame containing information on the target population (identifiers plus auxiliary information). If our sample design is a stratified one, we need to choose how to form strata in the population, in order to get the maximum advantage by the available auxiliary information. In other words, we have to decide in which way to combine the values of the auxiliary variables (from now on, the ‘X’ variables) in order to determine a new variable, called ‘stratum’. To do so, we have to take into consideration the target variables of our sample survey (from now on, the ‘Y’ variables): if, to form strata, we choose the X variables most correlated to the Y’s, the efficiency of the samples drawn by the resulting stratified frame may be greatly increased. Every combination of values of each active variable determines a particular stratification of the target population, i.e.  a possible solution to the problem of ‘best’ stratification. Here, by best stratification, we mean the stratification that ensures the minimum sample cost, sufficient to satisfy precision constraints set on the accuracy of the estimates of the survey target variables Y’s (constraints expressed as maximum allowable coefficients of variation in the different domains of interest). When the cost of data collection is uniform over the strata, then the total cost is directly proportional to the overall sample size, and the convenience of a particular stratification can be measured by the associated size of the sample, whose estimates are expected to satisfy given accuracy levels. This minimum size can be determined by applying the Bethel algorithm, with its Chromy variant (<span class="citation">Bethel (1989)</span>). In general, the number of possible alternative stratifications for a given population may be very high, depending on the number of variables and on the number of their values, and in these cases it is not possible to enumerate them in order to assess the best one. A very convenient solution to this is the adoption of the evolutionary approach, consisting in applying a genetic algorithm that may converge towards a near-optimal solution after a finite number of iterations. The methodology is fully described in <span class="citation">Ballin and Barcaroli (2013)</span>, and a complete illustration of the package, together with a comparison with the <em>stratification</em> package (<span class="citation">Baillargeon and Rivest (2014)</span>), is in <span class="citation">Barcaroli (2014)</span>. Also a complete application in a case of network data is reported in <span class="citation">Ballin and Barcaroli (2016)</span>. The implementation of the genetic algorithm is based on a modification of the functions in the <em>genalg</em> package <span class="citation">(see Willighagen 2005)</span>. In particular, the crossover operator has been modified on the basis of the indications given by <span class="citation">O’Luing, Prestwich, and Tarim (2019)</span>.</p>
+<p>Let us suppose we need to design a sample survey, having a complete frame containing information on the target population (identifiers plus auxiliary information). If our sample design is a stratified one, we need to choose how to form strata in the population, in order to get the maximum advantage by the available auxiliary information. In other words, we have to decide in which way to combine the values of the auxiliary variables (from now on, the ‘X’ variables) in order to determine a new variable, called ‘stratum.’ To do so, we have to take into consideration the target variables of our sample survey (from now on, the ‘Y’ variables): if, to form strata, we choose the X variables most correlated to the Y’s, the efficiency of the samples drawn by the resulting stratified frame may be greatly increased. Every combination of values of each active variable determines a particular stratification of the target population, i.e.  a possible solution to the problem of ‘best’ stratification. Here, by best stratification, we mean the stratification that ensures the minimum sample cost, sufficient to satisfy precision constraints set on the accuracy of the estimates of the survey target variables Y’s (constraints expressed as maximum allowable coefficients of variation in the different domains of interest). When the cost of data collection is uniform over the strata, then the total cost is directly proportional to the overall sample size, and the convenience of a particular stratification can be measured by the associated size of the sample, whose estimates are expected to satisfy given accuracy levels. This minimum size can be determined by applying the Bethel algorithm, with its Chromy variant (<span class="citation">Bethel (1989)</span>). In general, the number of possible alternative stratifications for a given population may be very high, depending on the number of variables and on the number of their values, and in these cases it is not possible to enumerate them in order to assess the best one. A very convenient solution to this is the adoption of the evolutionary approach, consisting in applying a genetic algorithm that may converge towards a near-optimal solution after a finite number of iterations. The methodology is fully described in <span class="citation">M. Ballin and Barcaroli (2013)</span>, and a complete illustration of the package, together with a comparison with the <em>stratification</em> package (<span class="citation">Baillargeon and Rivest (2014)</span>), is in <span class="citation">Barcaroli (2014)</span>. Also a complete application in a case of network data is reported in <span class="citation">Marco Ballin and Barcaroli (2016)</span>. The implementation of the genetic algorithm is based on a modification of the functions in the <em>genalg</em> package <span class="citation">(see Willighagen 2005)</span>. In particular, the crossover operator has been modified on the basis of the indications given by <span class="citation">O’Luing, Prestwich, and Tarim (2019)</span>.</p>
 <p>Two more issues, not contained in this vignette, namely:</p>
 <ul>
 <li>the use of <em>models</em> to take into account the anticipated variance of target variables not directly available in the sampling frame,</li>
@@ -131,13 +132,13 @@
 <div id="procedural-steps" class="section level1">
 <h1 class="hasAnchor">
 <a href="#procedural-steps" class="anchor"></a>Procedural steps</h1>
-<p>The optimization of the sampling design starts by making the sampling frame available, defining the target estimates of the survey and establishing the precision constraints on them. Then, a choice has to be made with regard to what stratification variables to choose among those available in the frame, on the basis of an analysis of the correlation existing between the two sets of variables (stratification and target). When the chosen stratification variables are both categorical and continuous, in order to make them homogeneuous the continuous ones should be categorized (by using for instance a clustering k-means algorithm). Then, the optimization step making use of the ‘atomic’ method can be executed. If, conversely, the stratification variables are all of the continuous type the optimization step can be directly executed by making use of the method ‘continuous’. It is also possible to perform both kinds of optimization, compare the results and choose the more convenient.</p>
+<p>The optimization of the sampling design starts by making the sampling frame available, defining the target estimates of the survey and establishing the precision constraints on them. Then, a choice has to be made with regard to what stratification variables to choose among those available in the frame, on the basis of an analysis of the correlation existing between the two sets of variables (stratification and target). When the chosen stratification variables are both categorical and continuous, in order to make them homogeneuous the continuous ones should be categorized (by using for instance a clustering k-means algorithm). Then, the optimization step making use of the ‘atomic’ method can be executed. If, conversely, the stratification variables are all of the continuous type the optimization step can be directly executed by making use of the method ‘continuous.’ It is also possible to perform both kinds of optimization, compare the results and choose the more convenient.</p>
 <p>Prior to the optimization based on the use of the genetic algorithm, it is advisable to run a different quick optimization task based on the use of the k-means algorithm, with a twofold purpose:</p>
 <ul>
 <li>give a hint on a suitable number of final strata;</li>
 <li>get an initial ‘good’ solution to be given as a ‘suggestion’ to the genetic algorithm in order to speed its convergence to the final solution.</li>
 </ul>
-<p>In the optimization step it is possilble to indicate the set of sampling units that must be selected in any case (‘take-all’ strata). After the optimization, it is possible to evaluate the quality of the solution by simulating the selection of a high number of samples from the frame, and calculating sampling variance and bias for all the target variables. It is also possible to ‘adjust’ the sample size of the optimized solution on the basis of the available budget: if a higher size is allowable, sampling rates in strata are increased proportionally until the new total sample size is reached; the opposite is done in case we are obliged to reduce the sample size.</p>
+<p>In the optimization step it is possible to indicate the set of sampling units that must be selected in any case (‘take-all’ strata). After the optimization, it is possible to evaluate the quality of the solution by simulating the selection of a high number of samples from the frame, and calculating sampling variance and bias for all the target variables. It is also possible to ‘adjust’ the sample size of the optimized solution on the basis of the available budget: if a higher size is allowable, sampling rates in strata are increased proportionally until the new total sample size is reached; the opposite is done in case we are obliged to reduce the sample size.</p>
 <p>Finally, we proceed with the selection of the sample.</p>
 <p>In the following, each step will be illustrated starting from a real sampling frame, the one that comes with the R package <em>sampling</em> (the dataframe <em>swissmunicipalities</em>).</p>
 <div id="preparation-of-inputs-required-by-the-optimization-step" class="section level2">
@@ -164,7 +165,7 @@
 <span class="co">#&gt; 10   2  942      Thun   2158          425          694    523  40377</span>
 </pre></div>
 <p>In order to limit the processing time we have selected only the first 3 regions and only the variables of interest for our example. Each row in this dataset contains information on a swiss municipalities, identified by <em>COM</em> and <em>Nom</em>, and belonging to one of three selected regions (<em>REG</em>).</p>
-<p>Suppose we want to plan a sampling survey where the <em>target estimates Ys</em> are the totals of <em>woods area</em> (<em>Surfacesbois</em>) and <em>buildings area</em> (<em>Airbat</em>) for each of the 3 regions (<em>domains of interest</em>). Suppose also that in each municipalities are always updated the values of <em>total area</em> (<em>HApoly</em>) and <em>total population</em> (<em>POPTOT</em>). From the correlation matrix:</p>
+<p>Suppose we want to plan a sampling survey where the <em>target estimates Ys</em> are the totals of <em>wooded area</em> (<em>Surfacesbois</em>) and <em>buildings area</em> (<em>Airbat</em>) for each of the 3 regions (<em>domains of interest</em>). Suppose also that in each municipalities are always updated the values of <em>total area</em> (<em>HApoly</em>) and <em>total population</em> (<em>POPTOT</em>). From the correlation matrix:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span>(<span class="kw">swissmun</span>[,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">4</span><span class="op">:</span><span class="fl">8</span>)])
 <span class="co">#&gt;                  HApoly Surfacesbois Surfacescult    Airbat     POPTOT</span>
@@ -209,7 +210,7 @@
 <div id="strata" class="section level3">
 <h3 class="hasAnchor">
 <a href="#strata" class="anchor"></a>Strata</h3>
-<p>This dataframe is not explicitly required, as it is automatically produced from the <em>frame</em> dataframe by the <em>optimStrata</em> function. Norwithstanding, it is worth while to produce it in order to analyse the initial stratification of the frame, and what could be the associated sample size without optimization. The function <em>buildStrataDF</em> is the one to produce the <em>strata</em> dataframe:</p>
+<p>This dataframe is not explicitly required, as it is automatically produced from the <em>frame</em> dataframe by the <em>optimStrata</em> function. Notwithstanding, it is worthwhile to produce it in order to analyse the initial stratification of the frame, and what could be the associated sample size without optimization. The function <em>buildStrataDF</em> is the one to produce the <em>strata</em> dataframe:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
 <span class="kw">strata1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/buildStrataDF.html">buildStrataDF</a></span>(<span class="kw">frame1</span>, progress=<span class="kw">F</span>)
 <span class="co">#&gt; </span>
@@ -394,17 +395,17 @@
 </pre></div>
 <p><img src="SamplingStrata_files/figure-html/optim1-1.png" width="576"><img src="SamplingStrata_files/figure-html/optim1-2.png" width="576"><img src="SamplingStrata_files/figure-html/optim1-3.png" width="576"></p>
 <pre><code>#&gt; 
-#&gt;  *** Sample size :  286
-#&gt;  *** Number of strata :  25
+#&gt;  *** Sample size :  297
+#&gt;  *** Number of strata :  27
 #&gt; ---------------------------</code></pre>
 <p>The execution of <em>optimStrata</em> produces the solution of 3 different optimization problems, one for each domain. The graphs illustrate the convergence of the solution to the final one starting from the initial one (i.e. the one related to the atomic strata). Along the x-axis are reported the executed iterations, from 1 to the maximum, while on the y-axis are reported the size of the sample required to satisfy precision constraints. The upper (red) line represent the average sample size in each iteration, while the lower (black) line represents the best solution found until the i-th iteration.</p>
 <p>We can calculate (analytically) the expected CVs by executing the function:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="fu"><a href="../reference/expected_CV.html">expected_CV</a></span>(<span class="kw">solution1</span><span class="op">$</span><span class="kw">aggr_strata</span>)
 <span class="co">#&gt;      cv(Y1) cv(Y2)</span>
-<span class="co">#&gt; DOM1  0.100    0.1</span>
-<span class="co">#&gt; DOM2  0.099    0.1</span>
-<span class="co">#&gt; DOM3  0.099    0.1</span>
+<span class="co">#&gt; DOM1    0.1    0.1</span>
+<span class="co">#&gt; DOM2    0.1    0.1</span>
+<span class="co">#&gt; DOM3    0.1    0.1</span>
 </pre></div>
 <p>The obtained total size of the sample required to satisfy precision constraint is much lower than the one obtained with the simple application of the Bethel algorithm to the initial atomic stratification, but maybe not yet satisfactory.</p>
 <p>In order to explore other solutions we may want that each unit in the sampling frame be considered as an atomic stratum, and let to the optimization step to aggregate them on the basis of the values of the Y variables. In any case, as we have to indicate at least one X variable, we can use to this purpose a simple progressive number:</p>
@@ -465,15 +466,15 @@
 <p><img src="SamplingStrata_files/figure-html/optim2-1.png" width="576"><img src="SamplingStrata_files/figure-html/optim2-2.png" width="576"><img src="SamplingStrata_files/figure-html/optim2-3.png" width="576"></p>
 <pre><code>#&gt; 
 #&gt;  *** Sample size :  164
-#&gt;  *** Number of strata :  27
+#&gt;  *** Number of strata :  28
 #&gt; ---------------------------</code></pre>
 <p>Notice that the obtained solution in this run in terms of sample size (390) is significantly better than in the previous one.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit">
 <span class="kw">outstrata2</span> <span class="op">&lt;-</span> <span class="kw">solution2</span><span class="op">$</span><span class="kw">aggr_strata</span>
 <span class="fu"><a href="../reference/expected_CV.html">expected_CV</a></span>(<span class="kw">outstrata2</span>)
 <span class="co">#&gt;      cv(Y1) cv(Y2)</span>
-<span class="co">#&gt; DOM1  0.100  0.079</span>
-<span class="co">#&gt; DOM2  0.100  0.024</span>
+<span class="co">#&gt; DOM1  0.100  0.040</span>
+<span class="co">#&gt; DOM2  0.100  0.093</span>
 <span class="co">#&gt; DOM3  0.099  0.021</span>
 </pre></div>
 </div>
@@ -540,8 +541,8 @@
 </pre></div>
 <p><img src="SamplingStrata_files/figure-html/optim3-1.png" width="576"><img src="SamplingStrata_files/figure-html/optim3-2.png" width="576"><img src="SamplingStrata_files/figure-html/optim3-3.png" width="576"></p>
 <pre><code>#&gt; 
-#&gt;  *** Sample size :  95
-#&gt;  *** Number of strata :  28
+#&gt;  *** Sample size :  99
+#&gt;  *** Number of strata :  27
 #&gt; ---------------------------</code></pre>
 <p>This solution requires a total sample size that is by far the best among those we produced, so we decide to select this one.</p>
 </div>
@@ -553,7 +554,7 @@
 <div id="strata-structure" class="section level2">
 <h2 class="hasAnchor">
 <a href="#strata-structure" class="anchor"></a>Strata structure</h2>
-<p>The results of the execution are contained in the list ‘solution’, composed by three elements:</p>
+<p>The results of the execution are contained in the list ‘solution,’ composed by three elements:</p>
 <ol style="list-style-type: decimal">
 <li>
 <em>solution$indices</em>: the vector of the indices that indicates to what aggregated stratum each atomic stratum belongs (if the <em>atomic</em> method has been used) or to which aggregated stratum each unit in the frame belongs (in case the <em>continuous</em> method has been used);</li>
@@ -568,12 +569,12 @@
                                  progress=<span class="fl">FALSE</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">strataStructure</span>)
 <span class="co">#&gt;   Domain Stratum Population Allocation SamplingRate Lower_X1 Upper_X1 Lower_X2 Upper_X2</span>
-<span class="co">#&gt; 1      1       1        232          4     0.019272       27      942       32      550</span>
-<span class="co">#&gt; 2      1       2        135          7     0.050802       33     4281       48      872</span>
-<span class="co">#&gt; 3      1       3         91          7     0.079567       65     5182      367     1975</span>
-<span class="co">#&gt; 4      1       4         69         10     0.138438      130     6063      165     6723</span>
-<span class="co">#&gt; 5      1       5         33          5     0.145953     5341    18406      129     7093</span>
-<span class="co">#&gt; 6      1       6          8          2     0.250000      125    29559      477     8497</span>
+<span class="co">#&gt; 1      1       1        241          5     0.019262       27     1177       32      550</span>
+<span class="co">#&gt; 2      1       2         69          3     0.045151       33     3133       48      636</span>
+<span class="co">#&gt; 3      1       3         64          2     0.036221       65     3200      644     1004</span>
+<span class="co">#&gt; 4      1       4         79          6     0.070843       95     4281      185     1975</span>
+<span class="co">#&gt; 5      1       5         42          5     0.123796      176     5182      367     3384</span>
+<span class="co">#&gt; 6      1       6         53         14     0.265057       78     6804      165    11907</span>
 </pre></div>
 <p>For each otpimized stratum, total number of units together with allocations and sampling rates are reported. Also ranges of the stratification variables are listed, in order to characterize the strata.</p>
 <p>If the stratification variables are in a limited number, as in our case, it is possible to use the <em>plotStrata2d</em> function, that allows also to visualize strata by choosing couples of variables and one domain per time:</p>
@@ -611,19 +612,19 @@ Bounds Total Area
 1
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #9edcb9">56</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">134</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #c2ebd4">2</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #8cd5ab">4</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 3.57%">0.03571429</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 2.87%">0.02870873</span>
 </td>
 <td style="text-align:right;">
-109-960
+109-1316
 </td>
 <td style="text-align:right;">
-32-351
+32-693
 </td>
 </tr>
 <tr>
@@ -631,19 +632,19 @@ Bounds Total Area
 2
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #82d1a4">80</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #b9e7cd">46</span>
 </td>
 <td style="text-align:right;">
 <span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #c2ebd4">2</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 2.67%">0.02667867</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 4.35%">0.04347826</span>
 </td>
 <td style="text-align:right;">
-222-1618
+681-2603
 </td>
 <td style="text-align:right;">
-79-581
+155-711
 </td>
 </tr>
 <tr>
@@ -651,19 +652,19 @@ Bounds Total Area
 3
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">95</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #b7e7cc">48</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">5</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #a7e0c0">3</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 4.81%">0.04814749</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 5.55%">0.05554043</span>
 </td>
 <td style="text-align:right;">
-235-4645
+307-4764
 </td>
 <td style="text-align:right;">
-155-876
+211-848
 </td>
 </tr>
 <tr>
@@ -671,19 +672,19 @@ Bounds Total Area
 4
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ace2c3">44</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #c9eed9">26</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #8cd5ab">4</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #a7e0c0">3</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 8.19%">0.08187783</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 12.44%">0.12440025</span>
 </td>
 <td style="text-align:right;">
-744-10429
+927-18323
 </td>
 <td style="text-align:right;">
-252-1007
+252-876
 </td>
 </tr>
 <tr>
@@ -691,19 +692,19 @@ Bounds Total Area
 5
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #cef0dd">14</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d7f4e4">9</span>
 </td>
 <td style="text-align:right;">
 <span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #c2ebd4">2</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 16.85%">0.16846938</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 22.22%">0.22222222</span>
 </td>
 <td style="text-align:right;">
-1430-20370
+909-18131
 </td>
 <td style="text-align:right;">
-443-1086
+884-902
 </td>
 </tr>
 <tr>
@@ -711,19 +712,19 @@ Bounds Total Area
 6
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d3f2e1">10</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #c7edd7">29</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #c2ebd4">2</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">5</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 20.00%">0.20000000</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 15.95%">0.15954413</span>
 </td>
 <td style="text-align:right;">
-566-7568
+692-20370
 </td>
 <td style="text-align:right;">
-1093-1177
+925-1106
 </td>
 </tr>
 <tr>
@@ -731,19 +732,19 @@ Bounds Total Area
 7
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #c7edd8">20</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d9f5e5">6</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #a7e0c0">3</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #c2ebd4">2</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 15.21%">0.15210665</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 33.33%">0.33333333</span>
 </td>
 <td style="text-align:right;">
-721-16654
+566-7568
 </td>
 <td style="text-align:right;">
-1184-1878
+1119-1137
 </td>
 </tr>
 <tr>
@@ -751,19 +752,19 @@ Bounds Total Area
 8
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">1</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ccefdc">22</span>
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">1</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #8cd5ab">4</span>
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 100.00%">1.00000000</span>
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 17.46%">0.17461373</span>
 </td>
 <td style="text-align:right;">
-3282-3282
+721-16654
 </td>
 <td style="text-align:right;">
-2029-2029
+1177-2029
 </td>
 </tr>
 <tr>
@@ -802,14 +803,14 @@ Bounds Total Area
 <div class="sourceCode" id="cb27"><pre class="downlit">
 <span class="kw">eval3</span><span class="op">$</span><span class="kw">coeff_var</span>
 <span class="co">#&gt;      CV1    CV2  dom</span>
-<span class="co">#&gt; 1 0.1064 0.0966 DOM1</span>
-<span class="co">#&gt; 2 0.0907 0.0921 DOM2</span>
-<span class="co">#&gt; 3 0.1003 0.0968 DOM3</span>
+<span class="co">#&gt; 1 0.1010 0.1000 DOM1</span>
+<span class="co">#&gt; 2 0.0992 0.0987 DOM2</span>
+<span class="co">#&gt; 3 0.0960 0.0976 DOM3</span>
 <span class="kw">eval3</span><span class="op">$</span><span class="kw">rel_bias</span>
 <span class="co">#&gt;        y1      y2  dom</span>
-<span class="co">#&gt; 1 -0.0069 -0.0035 DOM1</span>
-<span class="co">#&gt; 2 -0.0108 -0.0050 DOM2</span>
-<span class="co">#&gt; 3 -0.0125 -0.0015 DOM3</span>
+<span class="co">#&gt; 1 -0.0043  0.0080 DOM1</span>
+<span class="co">#&gt; 2 -0.0083  0.0025 DOM2</span>
+<span class="co">#&gt; 3 -0.0052 -0.0124 DOM3</span>
 </pre></div>
 <p>It is also possible to analyse the sampling distribution of the estimates for each variable of interest in a selected domain:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit">
@@ -840,17 +841,17 @@ Bounds Total Area
 <div class="sourceCode" id="cb29"><pre class="downlit">
 <span class="kw">adjustedStrata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/adjustSize.html">adjustSize</a></span>(size=<span class="fl">75</span>,strata=<span class="kw">solution3</span><span class="op">$</span><span class="kw">aggr_strata</span>,cens=<span class="kw">NULL</span>)
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  79</span>
-<span class="co">#&gt;  79</span>
-<span class="co">#&gt;  Final adjusted size:  79</span>
+<span class="co">#&gt;  77</span>
+<span class="co">#&gt;  77</span>
+<span class="co">#&gt;  Final adjusted size:  77</span>
 </pre></div>
 <p>Instead, if we want to increase the size because the budget allows to do this, then this is the code:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit">
 <span class="kw">adjustedStrata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/adjustSize.html">adjustSize</a></span>(size=<span class="fl">150</span>,strata=<span class="kw">solution3</span><span class="op">$</span><span class="kw">aggr_strata</span>,cens=<span class="kw">NULL</span>)
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  149</span>
-<span class="co">#&gt;  149</span>
-<span class="co">#&gt;  Final adjusted size:  149</span>
+<span class="co">#&gt;  150</span>
+<span class="co">#&gt;  150</span>
+<span class="co">#&gt;  Final adjusted size:  150</span>
 </pre></div>
 <p>The difference between the desired sample size and the actual adjusted size depends on the number of strata in the optimized solution. Consider that the adjustment is performed in each stratum by taking into account the relative difference between the current sample size and the desired one: this produces an allocation that is expressed by a real number, that must be rounded, while taking into account the requirement of the minimum number of units in the strata (default is 2). The higher the number of strata, the higher the impact on the final adjusted sample size.</p>
 <p>Once increased (or reduced) the sample size we can check what are the new expected CVs. With the second adjustment, that produced a total sample size of 152, we obtain:</p>
@@ -875,10 +876,10 @@ Bounds Total Area
                        writeFiles = <span class="fl">TRUE</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; *** Sample has been drawn successfully ***</span>
-<span class="co">#&gt;  95  units have been selected from  28  strata</span>
+<span class="co">#&gt;  99  units have been selected from  27  strata</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ==&gt; There have been  2  take-all strata </span>
-<span class="co">#&gt; from which have been selected  2 units</span>
+<span class="co">#&gt; ==&gt; There have been  1  take-all strata </span>
+<span class="co">#&gt; from which have been selected  1 units</span>
 </pre></div>
 <p>When the option <em>writeFiles</em> is set to TRUE, it produces two .csv files:</p>
 <ul>
@@ -906,10 +907,10 @@ Bounds Total Area
                                  sortvariable = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Airind"</span>))
 <span class="co">#&gt; </span>
 <span class="co">#&gt; *** Sample has been drawn successfully ***</span>
-<span class="co">#&gt;  95  units have been selected from  28  strata</span>
+<span class="co">#&gt;  99  units have been selected from  27  strata</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ==&gt; There have been  2  take-all strata </span>
-<span class="co">#&gt; from which have been selected  2 units</span>
+<span class="co">#&gt; ==&gt; There have been  1  take-all strata </span>
+<span class="co">#&gt; from which have been selected  1 units</span>
 </pre></div>
 </div>
 <div id="handling-take-all-strata" class="section level2">
@@ -949,29 +950,30 @@ Bounds Total Area
 </pre></div>
 <p><img src="SamplingStrata_files/figure-html/optim4-1.png" width="576"><img src="SamplingStrata_files/figure-html/optim4-2.png" width="576"><img src="SamplingStrata_files/figure-html/optim4-3.png" width="576"></p>
 <pre><code>#&gt; 
-#&gt;  *** Sample size :  73
+#&gt;  *** Sample size :  75
 #&gt;  *** Number of strata :  26
 #&gt; ---------------------------</code></pre>
 <div class="sourceCode" id="cb37"><pre class="downlit">
+<span class="kw">framenew4</span> <span class="op">&lt;-</span> <span class="kw">solution4</span><span class="op">$</span><span class="kw">framenew</span>
 <span class="kw">outstrata4</span> <span class="op">&lt;-</span> <span class="kw">solution4</span><span class="op">$</span><span class="kw">aggr_strata</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">outstrata4</span><span class="op">$</span><span class="kw">SOLUZ</span>)
-<span class="co">#&gt; [1] 135.3514</span>
+<span class="co">#&gt; [1] 139.3448</span>
 <span class="fu"><a href="../reference/expected_CV.html">expected_CV</a></span>(<span class="kw">outstrata4</span>)
 <span class="co">#&gt;      cv(Y1) cv(Y2)</span>
 <span class="co">#&gt; DOM1  0.100  0.100</span>
-<span class="co">#&gt; DOM2  0.098  0.095</span>
-<span class="co">#&gt; DOM3  0.081  0.090</span>
+<span class="co">#&gt; DOM2  0.091  0.100</span>
+<span class="co">#&gt; DOM3  0.080  0.094</span>
 </pre></div>
 <p>Once the optimized solution has been produced, we select the sample:</p>
 <div class="sourceCode" id="cb38"><pre class="downlit">
-<span class="kw">sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/selectSample.html">selectSample</a></span>(frame=<span class="kw">solution4</span><span class="op">$</span><span class="kw">framenew</span>,
-                       outstrata=<span class="kw">solution4</span><span class="op">$</span><span class="kw">aggr_strata</span>)
+<span class="kw">sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/selectSample.html">selectSample</a></span>(frame=<span class="kw">framenew4</span>,
+                       outstrata=<span class="kw">outstrata4</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; *** Sample has been drawn successfully ***</span>
-<span class="co">#&gt;  136  units have been selected from  29  strata</span>
+<span class="co">#&gt;  138  units have been selected from  29  strata</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ==&gt; There have been  3  take-all strata </span>
-<span class="co">#&gt; from which have been selected  63 units</span>
+<span class="co">#&gt; ==&gt; There have been  4  take-all strata </span>
+<span class="co">#&gt; from which have been selected  65 units</span>
 </pre></div>
 <p>and we control that all take-all units are included in the sample:</p>
 <div class="sourceCode" id="cb39"><pre class="downlit">
@@ -1047,30 +1049,30 @@ CV(\hat{Y_{G}}) &lt; U_{G}\\
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references hanging-indent">
-<div id="ref-baillargeon2014">
-<p>Baillargeon, Sophie, and Louis-Paul Rivest. 2014. <em>Stratification: Univariate Stratification of Survey Populations</em>. <a href="https://CRAN.R-project.org/package=stratification">https://CRAN.R-project.org/package=stratification</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-baillargeon2014" class="csl-entry">
+Baillargeon, Sophie, and Louis-Paul Rivest. 2014. <em>Stratification: Univariate Stratification of Survey Populations</em>. <a href="https://CRAN.R-project.org/package=stratification">https://CRAN.R-project.org/package=stratification</a>.
 </div>
-<div id="ref-ballin2016">
-<p>Ballin, Marco, and Giulio Barcaroli. 2016. “Optimization of Stratified Sampling with the R Package SamplingStrata: Applications to Network Data.” <em>Computational Network Analysis with R: Applications in Biology, Medicine and Chemistry</em>.</p>
+<div id="ref-ballin2013" class="csl-entry">
+Ballin, M., and G. Barcaroli. 2013. <span>“Joint Determination of Optimal Stratification and Sample Allocation Using Genetic Algorithm.”</span> <em>Survey Methodology</em> 39: 369–93.
 </div>
-<div id="ref-ballin2013">
-<p>Ballin, M., and G. Barcaroli. 2013. “Joint Determination of Optimal Stratification and Sample Allocation Using Genetic Algorithm.” <em>Survey Methodology</em> 39: 369–93.</p>
+<div id="ref-ballin2016" class="csl-entry">
+Ballin, Marco, and Giulio Barcaroli. 2016. <span>“Optimization of Stratified Sampling with the r Package <span>SamplingStrata</span>: Applications to Network Data.”</span> <em>Computational Network Analysis with R: Applications in Biology, Medicine and Chemistry</em>.
 </div>
-<div id="ref-barcarol2014">
-<p>Barcaroli, G. 2014. “SamplingStrata: An R Package for the Optimization of Stratified Sampling.” <em>Journal of Statistical Software</em> 61 (4): 1–24. <a href="https://www.jstatsoft.org/article/view/v061i04">https://www.jstatsoft.org/article/view/v061i04</a>.</p>
+<div id="ref-barcarol2014" class="csl-entry">
+Barcaroli, G. 2014. <span>“<span>SamplingStrata</span>: An <span>R</span> Package for the Optimization of Stratified Sampling.”</span> <em>Journal of Statistical Software</em> 61 (4): 1–24. <a href="https://www.jstatsoft.org/article/view/v061i04">https://www.jstatsoft.org/article/view/v061i04</a>.
 </div>
-<div id="ref-bethel1989">
-<p>Bethel, J. 1989. “Sample Allocation in Multivariate Surveys.” <em>Survey Methodology</em> 15: 47–57.</p>
+<div id="ref-bethel1989" class="csl-entry">
+Bethel, J. 1989. <span>“Sample Allocation in Multivariate Surveys.”</span> <em>Survey Methodology</em> 15: 47–57.
 </div>
-<div id="ref-hartigan:1979">
-<p>Hartigan, J. A., and M. A. Wong. 1979. “A K-Means Clustering Algorithm.” <em>Applied Statistics</em> 28: 100–108.</p>
+<div id="ref-hartigan:1979" class="csl-entry">
+Hartigan, J. A., and M. A. Wong. 1979. <span>“A k-Means Clustering Algorithm.”</span> <em>Applied Statistics</em> 28: 100–108.
 </div>
-<div id="ref-oluing2019">
-<p>O’Luing, M., S. Prestwich, and S. Armagan Tarim. 2019. “A Grouping Genetic Algorithm for Joint Stratification and Sample Allocation Designs.” <em>Survey Methodology</em> 45 (3): 513–31.</p>
+<div id="ref-oluing2019" class="csl-entry">
+O’Luing, M., S. Prestwich, and S. Armagan Tarim. 2019. <span>“A Grouping Genetic Algorithm for Joint Stratification and Sample Allocation Designs.”</span> <em>Survey Methodology</em> 45 (3): 513–31.
 </div>
-<div id="ref-willighagen2005">
-<p>Willighagen, E. 2005. <em>Genalg: R Based Genetic Algorithm</em>. <a href="https://CRAN.R-project.org/package=genalg">https://CRAN.R-project.org/package=genalg</a>.</p>
+<div id="ref-willighagen2005" class="csl-entry">
+Willighagen, E. 2005. <em>Genalg: R Based Genetic Algorithm</em>. <a href="https://CRAN.R-project.org/package=genalg">https://CRAN.R-project.org/package=genalg</a>.
 </div>
 </div>
 </div>

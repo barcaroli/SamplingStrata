@@ -102,13 +102,14 @@
 
       
 
-      </header><script src="models_files/header-attrs-2.3/header-attrs.js"></script><script src="models_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="models_files/header-attrs-2.5/header-attrs.js"></script><link href="models_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="models_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Use of models in SamplingStrata</h1>
                         <h4 class="author">Marco Ballin, Giulio Barcaroli</h4>
             
-            <h4 class="date">2020-11-02</h4>
+            <h4 class="date">2020-12-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/models.Rmd"><code>vignettes/models.Rmd</code></a></small>
       <div class="hidden name"><code>models.Rmd</code></div>
@@ -121,14 +122,14 @@
 <h1 class="hasAnchor">
 <a href="#handling-anticipated-variance" class="anchor"></a>Handling Anticipated Variance</h1>
 <p>When optimizing the stratification of a sampling frame, values of the target variables Y’s are supposed to be available for the generality of the units in the frame, or at least for a sample of them by means of which it is possible to estimate means and standard deviation of Y’s in atomic strata. Of course, this assumption is seldom expected to hold. The situation in which some proxy variables are available in the frame is much more likely to happen. In these situations, instead of directly indicating the real target variables, proxy ones are named as Y’s. By so doing, there is no guarantee that the final stratification and allocation can ensure the compliance to the set of precision constraints.<br>
-In order to take into account this problem, and to limit the risk of overestimating the expected precision levels of the optimized solution, it is possible to carry out the optimization by considering, instead of the expected coefficients of variation related to proxy variables, the anticipated coefficients of variation (ACV) that depend on the model that is possile to fit on couples of real target variables and proxy ones.</p>
+In order to take into account this problem, and to limit the risk of overestimating the expected precision levels of the optimized solution, it is possible to carry out the optimization by considering, instead of the expected coefficients of variation related to proxy variables, the anticipated coefficients of variation (ACV) that depend on the model that is possible to fit on couples of real target variables and proxy ones.</p>
 <p>In the current implementation, the following restrictions hold:</p>
 <ul>
 <li>only models linking continuous variables can be considered;</li>
 <li>only <em>linear</em> or <em>loglinear</em> models;</li>
 <li>only one explanatory variable for each target variable.</li>
 </ul>
-<p>The definition and the use of these models is the same that has been implemented in the package <em>stratification</em> <span class="citation">(see <span class="citeproc-not-found" data-reference-id="baillargeon:2014"><strong>???</strong></span>)</span>.</p>
+<p>The definition and the use of these models is the same that has been implemented in the package <em>stratification</em> <span class="citation">(see Baillargeon and Rivest 2014)</span>.</p>
 <p>In particular, the reference here is to two different models, the <em>linear model</em> with heteroscedasticity:</p>
 <p><span class="math display">\[Z=\beta Y + \epsilon\]</span></p>
 <p>where</p>
@@ -223,7 +224,7 @@ In order to take into account this problem, and to limit the risk of overestimat
 ## 4   2  351       Bern   5162   0   6053
 ## 5   1 5586   Lausanne   4136   0   7416
 ## 6   4  230 Winterthur   6787   0   6758</code></pre>
-<p>Let us assume that in the sampling frame only variables <em>total population</em> (<em>POPTOT</em>) and <em>total area</em> (<em>HApoly</em>) is available for all municipalities, while <em>buildings area</em> (<em>Airbat</em>) and <em>woods area</em> (<em>Surfacesbois</em>) are available only on a sample of 500 municipalities.</p>
+<p>Let us assume that in the sampling frame only variables <em>total population</em> (<em>POPTOT</em>) and <em>total area</em> (<em>HApoly</em>) is available for all municipalities, while <em>buildings area</em> (<em>Airbat</em>) and <em>wooded area</em> (<em>Surfacesbois</em>) are available only on a sample of 500 municipalities.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1234</span>)
 <span class="kw">swiss_sample</span> <span class="op">&lt;-</span> <span class="kw">swissmunicipalities</span>[<span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">swissmunicipalities</span>)),<span class="fl">500</span>),]
@@ -377,7 +378,7 @@ In order to take into account this problem, and to limit the risk of overestimat
 <pre><code>##      CV1    CV2    CV3    CV4  dom
 ## 1 0.0369 0.0241 0.0352 0.0366 DOM1</code></pre>
 <p>The first two CVs pertain to the proxy available variables, namely <em>total population</em> and <em>total area</em>, while the last two regard respectively <em>buildings area</em> and <em>woods area</em>: they are more than compliant with the precision constraint of 5%.</p>
-<p>What if we did not use the information contained in models? We run the same optimization step without indication of <em>model</em> parameter:</p>
+<p>What if we did not use the information contained in models? We run the same optimization step without indicating any model parameter:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1234</span>)
 <span class="kw">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span>(
@@ -420,12 +421,15 @@ In order to take into account this problem, and to limit the risk of overestimat
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references hanging-indent">
-<div id="ref-henry2006">
-<p>Henry, K., and R. Valliant. 2006. “Comparing Strategies to Estimate a Measure of Heteroscedasticity.”</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-baillargeon2014" class="csl-entry">
+Baillargeon, Sophie, and Louis-Paul Rivest. 2014. <em>Stratification: Univariate Stratification of Survey Populations</em>. <a href="https://CRAN.R-project.org/package=stratification">https://CRAN.R-project.org/package=stratification</a>.
 </div>
-<div id="ref-knaub2019">
-<p>Knaub, J. R. 2019. “Estimating the Coefficient of Heteroscedasticity.”</p>
+<div id="ref-henry2006" class="csl-entry">
+Henry, K., and R. Valliant. 2006. <span>“<span class="nocase">Comparing Strategies to Estimate a Measure of Heteroscedasticity</span>.”</span>
+</div>
+<div id="ref-knaub2019" class="csl-entry">
+Knaub, J. R. 2019. <span>“<span class="nocase">Estimating the Coefficient of Heteroscedasticity</span>.”</span>
 </div>
 </div>
 </div>

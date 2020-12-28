@@ -87,7 +87,7 @@ Prior to the optimization based on the use of the genetic algorithm, it is advis
 * give a hint on a suitable number of final strata;
 * get an initial 'good' solution to be given as a 'suggestion' to the genetic algorithm in order to speed its convergence to the final solution.
 
-In the optimization step it is possilble to indicate the set of sampling units that must be selected in any case ('take-all' strata).
+In the optimization step it is possible to indicate the set of sampling units that must be selected in any case ('take-all' strata).
 After the optimization, it is possible to evaluate the quality of the solution by simulating the selection of a high number of samples from the frame, and calculating sampling variance and bias for all the target variables.
 It is also possible to 'adjust' the sample size of the optimized solution on the basis of the available budget: if a higher size is allowable, sampling rates in strata are increased proportionally until the new total sample size is reached; the opposite is done in case we are obliged to reduce the sample size.
 
@@ -114,7 +114,7 @@ head(swissmun)
 In order to limit the processing time we have selected only the first 3 regions and only the variables of interest for our example. 
 Each row in this dataset contains information on a swiss municipalities, identified by *COM* and *Nom*, and belonging to one of three selected regions (*REG*).
 
-Suppose we want to plan a sampling survey where the *target estimates Ys* are the totals of *woods area* (*Surfacesbois*) and *buildings area* (*Airbat*) for each of the 3 regions (*domains of interest*). Suppose also that in each municipalities are always updated the values of *total area* (*HApoly*) and *total population* (*POPTOT*). From the correlation matrix:
+Suppose we want to plan a sampling survey where the *target estimates Ys* are the totals of *wooded area* (*Surfacesbois*) and *buildings area* (*Airbat*) for each of the 3 regions (*domains of interest*). Suppose also that in each municipalities are always updated the values of *total area* (*HApoly*) and *total population* (*POPTOT*). From the correlation matrix:
 
 ```{r correlation}
 cor(swissmun[,c(4:8)])
@@ -145,7 +145,7 @@ head(frame1)
 
 ### Strata
   
-This dataframe is not explicitly required, as it is automatically produced from the *frame* dataframe by the *optimStrata* function. Norwithstanding, it is worth while to produce it in order to analyse the initial stratification of the frame, and what could be the associated sample size without optimization.
+This dataframe is not explicitly required, as it is automatically produced from the *frame* dataframe by the *optimStrata* function. Notwithstanding, it is worthwhile to produce it in order to analyse the initial stratification of the frame, and what could be the associated sample size without optimization.
 The function *buildStrataDF* is the one to produce the *strata* dataframe:
 
 ```{r buildstrata1, eval=TRUE, echo=TRUE}

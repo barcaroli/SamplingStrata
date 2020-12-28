@@ -38,7 +38,7 @@ Of course, this assumption is seldom expected to hold.
 The situation in which some proxy variables are available in the frame is much more likely to happen. In these situations, instead
 of directly indicating the real target variables, proxy ones are named as Y's.
 By so doing, there is no guarantee that the final stratification and allocation can ensure the compliance to the set of precision constraints.  
-In order to take into account this problem, and to limit the risk of overestimating the expected precision levels of the optimized solution, it is possible to carry out the optimization by  considering, instead of the expected coefficients of variation related to proxy variables, the anticipated coefficients of variation (ACV) that depend on the model that is possile to fit on couples of real target variables and proxy ones.
+In order to take into account this problem, and to limit the risk of overestimating the expected precision levels of the optimized solution, it is possible to carry out the optimization by  considering, instead of the expected coefficients of variation related to proxy variables, the anticipated coefficients of variation (ACV) that depend on the model that is possible to fit on couples of real target variables and proxy ones.
 
 In the current implementation, the following restrictions hold:
 
@@ -46,7 +46,7 @@ In the current implementation, the following restrictions hold:
 * only *linear* or *loglinear* models;
 * only one explanatory variable for each target variable.
 
-The definition and the use of these models is the same that has been implemented in the package *stratification* [see @baillargeon:2014]. 
+The definition and the use of these models is the same that has been implemented in the package *stratification* [see @baillargeon2014]. 
 
 In particular, the reference here is to two different models, the *linear model* with heteroscedasticity: 
 
@@ -123,7 +123,7 @@ head(swissmunicipalities[,c(3,4,5,6,9,22)])
 
 Let us assume that in the sampling frame only variables *total population* (*POPTOT*) and 
 *total area* (*HApoly*) is available for all municipalities, while *buildings area* (*Airbat*)
-and *woods area* (*Surfacesbois*) are available only on a sample of 500 municipalities.
+and *wooded area* (*Surfacesbois*) are available only on a sample of 500 municipalities.
 
 ```{r, eval = T}
 set.seed(1234)
@@ -244,7 +244,7 @@ The first two CVs pertain to the proxy available variables, namely *total popula
 regard respectively *buildings area* and *woods area*: they are more than compliant with the precision constraint of 5%.
 
 What if we did not use the information contained in models?
-We run the same optimization step without indication of *model* parameter:
+We run the same optimization step without indicating any model parameter:
 
 ```{r, eval = T}
 set.seed(1234)
