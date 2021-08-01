@@ -70,7 +70,7 @@ KmeansSolution <- function(strata,
   cat("\n-------------------")
   cat("\n  Kmeans solution ")
   cat("\n-------------------")
-  for (i in c(1:ndom)) {
+  for (i in (unique(strata$DOM1))) {
     cat("\n *** Domain: ", i, " ***")
     cat("\n Number of strata: ", best_num_strata[i])
     cat("\n Sample size     : ", best[i])

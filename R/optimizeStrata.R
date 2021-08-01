@@ -67,7 +67,7 @@ optimizeStrata <-
         showPlot <- FALSE
         
         par_ga_sol = pblapply(
-          cl = cl, X = 1:ndom, FUN = function(i)  {         
+          cl = cl, X = unique(strata$DOM1), FUN = function(i)  {         
                                 erro[[i]] <- erro[[i]][, -ncol(errors)]
                                 cens <- NULL
                                 flagcens <- strcens
@@ -130,7 +130,7 @@ optimizeStrata <-
         vettsol <- do.call(c, lapply(par_ga_sol, `[[`, 1))
         outstrata <- do.call(rbind, lapply(par_ga_sol, `[[`, 2))
         
-        for (i in (1:ndom)) {
+        for (i in (unique(strata$DOM1))) {
           rbga.object <- par_ga_sol[[i]]$rbga.results
           max <- max(rbga.object$best, rbga.object$mean)
           min <- min(rbga.object$best, rbga.object$mean)
@@ -150,7 +150,7 @@ optimizeStrata <-
         }
       }
       else {
-        for (i in 1:ndom) {
+        for (i in (unique(strata$DOM1))) {
           cat("\n *** Domain : ", i, " ", as.character(errors$DOMAINVALUE[i]))
           cat("\n Number of strata : ", nrow(stcamp[[i]]))
           erro[[i]] <- erro[[i]][, -ncol(errors)]

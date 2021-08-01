@@ -94,7 +94,7 @@ optimizeStrata2 <-
     # stcamp <- split(strata, list(strata$DOM1))
     stcamp <- split(frame, list(frame$DOMAINVALUE))
     if (!is.null(suggestions)) {
-      for (i in (1:ndom)) {
+      for (i in (unique(frame$DOMAINVALUE))) {
         # nStrataSuggested <- length(unique(suggestions$suggestions[suggestions$domainvalue==i]))
         # if (nStrataSuggested != nStrata[i]) stop("Number of strata in 'suggestions' is different from 'nStrata' value in domain ",i)
         nvalues <- nrow(suggestions[suggestions$domainvalue==i,])
@@ -139,7 +139,7 @@ optimizeStrata2 <-
         showPlot <- FALSE
         
         par_ga_sol = pblapply(
-          cl = cl, X = 1:ndom, FUN = function(i)  {         
+          cl = cl, X = unique(frame$DOMAINVALUE), FUN = function(i)  {         
                                 erro[[i]] <- erro[[i]][, -ncol(errors)]
                                 # cens <- NULL
                                 flagcens <- strcens
@@ -216,7 +216,7 @@ optimizeStrata2 <-
         outstrata <- do.call(rbind, lapply(par_ga_sol, `[[`, 2))
         results <- do.call(rbind, lapply(par_ga_sol, `[[`, 3))
         
-        for (i in (1:ndom)) {
+        for (i in (unique(frame$DOMAINVALUE))) {
           rbga.object <- par_ga_sol[[i]]$rbga.results
           max <- max(rbga.object$best, rbga.object$mean)
           min <- min(rbga.object$best, rbga.object$mean)
@@ -236,7 +236,7 @@ optimizeStrata2 <-
         }
       }
       else {
-        for (i in 1:ndom) {
+        for (i in (unique(frame$DOMAINVALUE))) {
           cat("\n *** Domain : ", i, " ", as.character(errors$DOMAINVALUE[i]))
           cat("\n Number of strata : ", nrow(stcamp[[i]]))
           erro[[i]] <- erro[[i]][, -ncol(errors)]

@@ -25,6 +25,6 @@ expected_CV <- function (strata) {
       cv[k,j] <- CV 
     }
   }
-  cv <- round(cv,3)
+  cv <- round(cv,7)
   cv
 }

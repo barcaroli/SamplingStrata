@@ -102,7 +102,7 @@ optimizeStrataSpatial <-
     if (!is.null(suggestions)) {
       # nStrataSuggested <- nrow(sugg[sugg$domainvalue==1,])
       # if (nStrataSuggested != nStrata) stop("Number of strata in 'suggestions' is different from 'nStrata' value")
-      for (i in (1:ndom)) {
+      for (i in (unique(frame$DOMAINVALUE))) {
         nvalues <- nrow(suggestions[suggestions$domainvalue==i,])
         if (nvalues != nvarX*(nStrata[i]-1)) stop("Number of values in suggestions not compatible with nStrata")
       }
@@ -144,7 +144,7 @@ optimizeStrataSpatial <-
         showPlot <- FALSE
         
         par_ga_sol = pblapply(
-          cl = cl, X = 1:ndom, FUN = function(i)  {         
+          cl = cl, X = unique(frame$DOMAINVALUE), FUN = function(i)  {         
             erro[[i]] <- erro[[i]][, -ncol(errors)]
             # cens <- NULL
             flagcens <- strcens
@@ -223,7 +223,7 @@ optimizeStrataSpatial <-
         outstrata <- do.call(rbind, lapply(par_ga_sol, `[[`, 2))
         results <- do.call(rbind, lapply(par_ga_sol, `[[`, 3))
         
-        for (i in (1:ndom)) {
+        for (i in (unique(frame$DOMAINVALUE))) {
           rbga.object <- par_ga_sol[[i]]$rbga.results
           max <- max(rbga.object$best, rbga.object$mean)
           min <- min(rbga.object$best, rbga.object$mean)
@@ -243,7 +243,7 @@ optimizeStrataSpatial <-
         }
       }
       else {
-        for (i in 1:ndom) {
+        for (i in (unique(frame$DOMAINVALUE))) {
           cat("\n *** Domain : ", i, " ", as.character(errors$DOMAINVALUE[i]))
           cat("\n Number of strata : ", nrow(stcamp[[i]]))
           erro[[i]] <- erro[[i]][, -ncol(errors)]
