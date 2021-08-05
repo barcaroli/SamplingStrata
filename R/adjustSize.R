@@ -1,5 +1,5 @@
 adjustSize <- function (size, strata, cens=NULL, minnumstr = 2) 
-{
+{ 
   cens <- strata[strata$CENS == 1,]
   strata <- strata[strata$CENS == 0,]
   if (nrow(cens) > 0) size <- size - sum(cens$N)
