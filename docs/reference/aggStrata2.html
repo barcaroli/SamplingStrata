@@ -102,7 +102,7 @@ distributions in the different strata, starting from a frame — aggrStrata2" />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -137,7 +137,7 @@ distributions in the different strata, starting from a frame — aggrStrata2" />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/barcaroli/SamplingStrata/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -164,10 +164,10 @@ distributions in the different strata, starting from a frame</h1>
     <p>This function builds the dataframe "strata" considering as input a given domain in the sampling frame. In case a dataframe "model" is given, the anticipated variance in the strata for each target variable is calculated</p>
     </div>
 
-    <pre class="usage"><span class='fu'>aggrStrata2</span>(<span class='kw'>dataset</span>, 
-            model=<span class='kw'>NULL</span>, 
-            <span class='kw'>vett</span>,
-            <span class='kw'>dominio</span>)</pre>
+    <pre class="usage"><span class='fu'>aggrStrata2</span><span class='op'>(</span><span class='va'>dataset</span>, 
+            model<span class='op'>=</span><span class='cn'>NULL</span>, 
+            <span class='va'>vett</span>,
+            <span class='va'>dominio</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -206,12 +206,12 @@ distributions in the different strata, starting from a frame</h1>
     <p>Giulio Barcaroli</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>strata</span> <span class='op'>&lt;-</span> <span class='fu'>aggrStrata2</span>(dataset=<span class='kw'>frame</span>,
-                      model=<span class='kw'>NULL</span>,
-                      <span class='kw'>vett</span>,
-                      dominio=<span class='fl'>1</span>)
-}
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>strata</span> <span class='op'>&lt;-</span> <span class='fu'>aggrStrata2</span><span class='op'>(</span>dataset<span class='op'>=</span><span class='va'>frame</span>,
+                      model<span class='op'>=</span><span class='cn'>NULL</span>,
+                      <span class='va'>vett</span>,
+                      dominio<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

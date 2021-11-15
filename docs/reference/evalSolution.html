@@ -108,7 +108,7 @@ in the population ('differences.pdf')." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -143,7 +143,7 @@ in the population ('differences.pdf')." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/barcaroli/SamplingStrata/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -176,12 +176,12 @@ together with boxplot of the distributions of differences between estimates and 
 in the population ('differences.pdf').</p>
     </div>
 
-    <pre class="usage"><span class='fu'>evalSolution</span>(<span class='kw'>frame</span>,
-    <span class='kw'>outstrata</span>,
-    nsampl=<span class='fl'>100</span>,
-    cens=<span class='kw'>NULL</span>,
-    writeFiles=<span class='fl'>TRUE</span>,
-    progress=<span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>evalSolution</span><span class='op'>(</span><span class='va'>frame</span>,
+    <span class='va'>outstrata</span>,
+    nsampl<span class='op'>=</span><span class='fl'>100</span>,
+    cens<span class='op'>=</span><span class='cn'>NULL</span>,
+    writeFiles<span class='op'>=</span><span class='cn'>TRUE</span>,
+    progress<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -221,25 +221,25 @@ estimates by domain</p>
     <p>Giulio Barcaroli</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://barcaroli.github.io/SamplingStrata'>SamplingStrata</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swisserrors</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swissstrata</span>)
-<span class='kw'>solution</span> <span class='op'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> (
-  errors = <span class='kw'>swisserrors</span>,
-  strata = <span class='kw'>swissstrata</span>,
-)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://barcaroli.github.io/SamplingStrata'>SamplingStrata</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>swisserrors</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>swissstrata</span><span class='op'>)</span>
+<span class='va'>solution</span> <span class='op'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> <span class='op'>(</span>
+  errors <span class='op'>=</span> <span class='va'>swisserrors</span>,
+  strata <span class='op'>=</span> <span class='va'>swissstrata</span>,
+<span class='op'>)</span>
 <span class='co'># update sampling strata with new strata labels</span>
-<span class='kw'>newstrata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='updateStrata.html'>updateStrata</a></span>(<span class='kw'>swissstrata</span>, <span class='kw'>solution</span>, writeFiles = <span class='fl'>TRUE</span>)
+<span class='va'>newstrata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='updateStrata.html'>updateStrata</a></span><span class='op'>(</span><span class='va'>swissstrata</span>, <span class='va'>solution</span>, writeFiles <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># update sampling frame with new strata labels</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swissframe</span>)
-<span class='kw'>framenew</span> <span class='op'>&lt;-</span> <span class='fu'><a href='updateFrame.html'>updateFrame</a></span>(frame=<span class='kw'>swissframe</span>,newstrata=<span class='kw'>newstrata</span>,writeFile=<span class='fl'>TRUE</span>)
-<span class='kw'>samp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='selectSample.html'>selectSample</a></span>(<span class='kw'>framenew</span>,<span class='kw'>solution</span><span class='op'>$</span><span class='kw'>aggr_strata</span>,writeFiles=<span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>swissframe</span><span class='op'>)</span>
+<span class='va'>framenew</span> <span class='op'>&lt;-</span> <span class='fu'><a href='updateFrame.html'>updateFrame</a></span><span class='op'>(</span>frame<span class='op'>=</span><span class='va'>swissframe</span>,newstrata<span class='op'>=</span><span class='va'>newstrata</span>,writeFile<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>samp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='selectSample.html'>selectSample</a></span><span class='op'>(</span><span class='va'>framenew</span>,<span class='va'>solution</span><span class='op'>$</span><span class='va'>aggr_strata</span>,writeFiles<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># evaluate the current solution</span>
-<span class='kw'>results</span> <span class='op'>&lt;-</span> <span class='fu'>evalSolution</span>(<span class='kw'>framenew</span>, <span class='kw'>solution</span><span class='op'>$</span><span class='kw'>aggr_strata</span>, <span class='fl'>10</span>, cens=<span class='kw'>NULL</span>, writeFiles = <span class='fl'>TRUE</span>)
-<span class='kw'>results</span><span class='op'>$</span><span class='kw'>coeff_var</span>
-<span class='kw'>results</span><span class='op'>$</span><span class='kw'>rel_bias</span>
-}
+<span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'>evalSolution</span><span class='op'>(</span><span class='va'>framenew</span>, <span class='va'>solution</span><span class='op'>$</span><span class='va'>aggr_strata</span>, <span class='fl'>10</span>, cens<span class='op'>=</span><span class='cn'>NULL</span>, writeFiles <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>results</span><span class='op'>$</span><span class='va'>coeff_var</span>
+<span class='va'>results</span><span class='op'>$</span><span class='va'>rel_bias</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

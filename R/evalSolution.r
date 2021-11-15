@@ -8,6 +8,7 @@ evalSolution <- function (frame,
   if (writeFiles == TRUE) {
     dire <- getwd()
     direnew <- paste(dire,"/simulation",sep="")
+	if(dir.exists(direnew)) shell( glue::glue("rmdir /s /q \"{direnew}\" ") )
     if(!dir.exists(direnew)) dir.create(direnew)
     setwd(direnew)
   }

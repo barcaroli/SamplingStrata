@@ -102,7 +102,7 @@ different strata for each domain in the obtained solution." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -137,7 +137,7 @@ different strata for each domain in the obtained solution." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/barcaroli/SamplingStrata/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -165,7 +165,7 @@ possible to obtain the visualization of the proportion of sampling units in the
 different strata for each domain in the obtained solution.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotSamprate</span>(<span class='kw'>solution</span>, <span class='kw'>dom</span>)</pre>
+    <pre class="usage"><span class='fu'>plotSamprate</span><span class='op'>(</span><span class='va'>solution</span>, <span class='va'>dom</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,18 +185,18 @@ different strata for each domain in the obtained solution.</p>
     <p>Plot</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://barcaroli.github.io/SamplingStrata'>SamplingStrata</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swisserrors</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>swissstrata</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://barcaroli.github.io/SamplingStrata'>SamplingStrata</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>swisserrors</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>swissstrata</span><span class='op'>)</span>
 <span class='co'># optimisation of sampling strata</span>
-<span class='kw'>solution</span> <span class='op'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> ( 
-    errors = <span class='kw'>swisserrors</span>, 
-    strata = <span class='kw'>swissstrata</span>, 
-)
+<span class='va'>solution</span> <span class='op'>&lt;-</span> <span class='fu'><a href='optimizeStrata.html'>optimizeStrata</a></span> <span class='op'>(</span> 
+    errors <span class='op'>=</span> <span class='va'>swisserrors</span>, 
+    strata <span class='op'>=</span> <span class='va'>swissstrata</span>, 
+<span class='op'>)</span>
 <span class='co'># plot of the sampling rates in strata </span>
-<span class='co'>for</span> (<span class='kw'>i</span> <span class='co'>in</span> (<span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='kw'>swissstrata</span><span class='op'>$</span><span class='kw'>DOM1</span>)))) <span class='fu'>plotSamprate</span>(<span class='kw'>solution</span>, <span class='kw'>i</span>)
-}
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>swissstrata</span><span class='op'>$</span><span class='va'>DOM1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='fu'>plotSamprate</span><span class='op'>(</span><span class='va'>solution</span>, <span class='va'>i</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
