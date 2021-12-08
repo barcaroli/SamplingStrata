@@ -315,7 +315,7 @@ solution2 <- optimStrata(method = "atomic",
 
 ```
 
-Notice that the obtained solution in this run in terms of sample size (390) is significantly better than in the previous one.
+Notice that the obtained solution in this run in terms of sample size is significantly better than in the previous one.
 
 
 ```{r optim2a, eval=TRUE, echo=TRUE}
