@@ -69,6 +69,10 @@ A. if stratification variables are categorical (or reduced to) then the method i
 B. if stratification variables are continuous, then the method is the "continuous";
 C. if stratification variables are continuous, and there is spatial correlation among units in the sampling frame, then the required method is the "spatial".
 
+## Complete example
+
+Jupyter notebook: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/barcaroli/SamplingStrata_binder/HEAD?filepath=SamplingStrata.ipynb)
+
 ## Example with the "atomic" method
 
 ```{r, eval=FALSE, echo=TRUE}
