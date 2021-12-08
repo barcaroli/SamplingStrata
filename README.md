@@ -21,10 +21,10 @@ precision constraints on the target estimates.
 
 Functions in the package allow to:
 
-  - support in the preparation of required input data;
-  - execute the optimization step;
-  - analyse the obtained results of the optimisation step;
-  - select a sample from the new frame accordingly to the best
+-   support in the preparation of required input data;
+-   execute the optimization step;
+-   analyse the obtained results of the optimisation step;
+-   select a sample from the new frame accordingly to the best
     allocation.
 
 Functions for the execution of the genetic algorithm are a modified
@@ -53,12 +53,22 @@ devtools::install_github("barcaroli/SamplingStrata")
 ## Three different methods for the optimization step
 
 The optimization can be run by indicating three different methods, on
-the basis of the following: A. if stratification variables are
-categorical (or reduced to) then the method is the “atomic”; B. if
-stratification variables are continuous, then the method is the
-“continuous”; C. if stratification variables are continuous, and there
-is spatial correlation among units in the sampling frame, then the
-required method is the “spatial”.
+the basis of the following:
+
+A. if stratification variables are categorical (or reduced to) then the
+method is the “atomic”;
+
+B. if stratification variables are continuous, then the method is the
+“continuous”;
+
+C. if stratification variables are continuous, and there is spatial
+correlation among units in the sampling frame, then the required method
+is the “spatial”.
+
+## Complete example
+
+Jupyter notebook:
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/barcaroli/SamplingStrata_binder/HEAD?filepath=SamplingStrata.ipynb)
 
 ## Example with the “atomic” method
 

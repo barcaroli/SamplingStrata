@@ -65,8 +65,11 @@ devtools::install_github("barcaroli/SamplingStrata")
 ## Three different methods for the optimization step
 
 The optimization can be run by indicating three different methods, on the basis of the following:
+
 A. if stratification variables are categorical (or reduced to) then the method is the "atomic";
+
 B. if stratification variables are continuous, then the method is the "continuous";
+
 C. if stratification variables are continuous, and there is spatial correlation among units in the sampling frame, then the required method is the "spatial".
 
 ## Complete example
