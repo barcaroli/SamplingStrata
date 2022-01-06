@@ -9,6 +9,7 @@ in 2003.
 \format{
   A data frame with 2896 observations on the following 22 variables:
   \describe{
+	\item{id}{Municipality unique identifier.}
     \item{CT}{Swiss canton.}
     \item{REG}{Swiss region.}
     \item{COM}{municipality number.}

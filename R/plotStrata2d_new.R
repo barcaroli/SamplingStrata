@@ -4,6 +4,9 @@ plotStrata2d <- function (x,
                           vars, 
                           labels = NULL) 
 { 
+  if ( !requireNamespace("formattable", quietly = TRUE) ){
+    install.packages("formattable")
+  }
   x1.max <- x1.min <- x1_max <- x1_min <- x2.max <- x2.min <- x2_max <- x2_min <- NULL
   colnames(x) <- toupper(colnames(x))
   if (!domain %in% levels(as.factor(x$DOMAINVALUE)))
@@ -116,12 +119,13 @@ plotStrata2d <- function (x,
   eval(parse(text=stringa))
   # points(x$X1,x$X2,cex=0.4)
   
-  t <- formattable(out,
-                   list(
-                     area(col = 2) ~ color_tile("#DeF7E9", "#71CA97"), 
-                     area(col = 3) ~ color_tile("#DeF7E9", "#71CA97"),
-                     'SamplingRate' = color_bar("#FA614B")))
-  
+  # t <- formattable::formattable(out,
+  #                  list(
+  #                    area(col = 2) ~ color_tile("#DeF7E9", "#71CA97"),
+  #                    area(col = 3) ~ color_tile("#DeF7E9", "#71CA97"),
+  #                    'SamplingRate' = color_bar("#FA614B")
+  #                    ))
+ t <- formattable::formattable(out)
   
   return(t)
   

@@ -5,13 +5,13 @@
 
 ## Major changes
 
-  - A new function *selectSampleSpatial* has been added: if geographical
+-   A new function *selectSampleSpatial* has been added: if geographical
     coordinates are available in the frame, in order to obtain spatially
     distributed selected points this function makes use of the
     lpm2\_kdtree function from the SamplingBigData package
     (Tillé-Grafstrom).
 
-  - A new function *bethelProc* has been added: this function allows to
+-   A new function *bethelProc* has been added: this function allows to
     execute a complete procedure from the Bethel optimal allocation to
     the selection of a sample, without having to optimize the strata,
     that are supposed to be given and fixed.
@@ -20,45 +20,45 @@
 
 ## Major changes
 
-  - As starting from R 4.0.0 ‘stringsAsFactors = FALSE’ becomes a
+-   As starting from R 4.0.0 ‘stringsAsFactors = FALSE’ becomes a
     default, in all calls to data.frame the parameter ‘stringAsFactors =
     TRUE’ has been indicated, in order to ensure the same results
 
-  - Fixed some bugs related to handling take-all strata for ‘atomic’ and
+-   Fixed some bugs related to handling take-all strata for ‘atomic’ and
     ‘spatial’ methods
 
 # SamplingStrata 1.5
 
 ## Major changes
 
-  - A new *optimStrata* function is available: this function is a
+-   A new *optimStrata* function is available: this function is a
     wrapper that allows to execute the three different optimization
     functions: (i) optimizeStrata (method = *atomic*); (ii)
     optimizeStrata (method = *continuous*); (iii) optimizeStrata (method
     = *spatial*).
 
-  - A new *optimizeStrataSpatial* function is available: this function
+-   A new *optimizeStrataSpatial* function is available: this function
     optimizes the frame stratification taking into account also spatial
     correlation of frame units in a territorial context. As for
     *optimizeStrata2*, this function can be used only on continuous
     stratification variables.
 
-  - A new *kMeansSolutionSpatial* function has been added: this function
+-   A new *kMeansSolutionSpatial* function has been added: this function
     is the same than *KmeansSolution*, but operates in the case of
     optimization with only continuous stratification variables and has
     to be used only in conjunction with *optimizeStrataSpatial*.
 
-  - A new *KmeansSolution2* function has been added: this function is
+-   A new *KmeansSolution2* function has been added: this function is
     the same than *KmeansSolution*, but operates in the case of
     optimization with only continuous stratification variables and has
     to be used only in conjunction with *optimizeStrata2*.
 
-  - A new *prepareSuggestion* function has been added: this function
+-   A new *prepareSuggestion* function has been added: this function
     operates on the result of *kMeanSolution2* or *kMeanSolutionSpatial*
     order to prepare the suggestions for the optimization with only
     continuous stratification variables.
 
-  - A new *computeGamma* function has been added: this function allows
+-   A new *computeGamma* function has been added: this function allows
     to calculate a heteroscedasticity index, to be passed to
     optimization step as a *model* parameter in order to correctly
     evaluate the variance in the strata.
@@ -67,22 +67,22 @@
 
 ## Major changes
 
-  - A new *summaryStrata* function has been added, enabling to get
+-   A new *summaryStrata* function has been added, enabling to get
     structured information regarding the strata produced by the
     *optimizeStrata2* function (operating on only continuous
     stratification variables).
 
-  - A new *assignStrataLabel* function has been added, enabling to
+-   A new *assignStrataLabel* function has been added, enabling to
     assign the optimized strata label to new units to be added in the
     sampling frame.
 
-  - Fixed a bug in the optimization step for continuous variables
+-   Fixed a bug in the optimization step for continuous variables
 
 # SamplingStrata 1.4
 
 ## Major changes
 
-  - A new function *optimizeStrata2* is available. This function
+-   A new function *optimizeStrata2* is available. This function
     performs the same task than *optimizeStrata*, but with a different
     Genetic Algorithm, operating on real values genome, instead of an
     integer one. This pemits to operate directly on the boundaries of
@@ -92,24 +92,24 @@
     stratification variables, that are required to be all continuous
     (though categorical ordinal could be handled).
 
-  - A new function *expected\_CV* has been added to calculate CVs on
+-   A new function *expected\_CV* has been added to calculate CVs on
     target variables in different domains that may be expected from a
     given solution, output of the *optimizeStrata* execution.
 
-  - Fixed a bug in the optimization step when considering also take-all
+-   Fixed a bug in the optimization step when considering also take-all
     strata
 
 # SamplingStrata 1.3
 
 ## New functions
 
-  - The optimization of population frame is run in parallel if different
+-   The optimization of population frame is run in parallel if different
     domains are considered. To this end, the parameter *parallel* can be
     set to TRUE in the *optimizeStrata* function. If not specified, n-1
-    of total available cores are used OR if number of domains \< (n-1)
+    of total available cores are used OR if number of domains &lt; (n-1)
     cores, then number of cores equal to number of domains are used.
 
-  - A new function *KmeansSolution* produces an initial solution using
+-   A new function *KmeansSolution* produces an initial solution using
     the kmeans algorithm by clustering atomic strata considering the
     values of the means of target variables in them. Also, if the
     parameter *nstrata* is not indicated, the optimal number of clusters
@@ -118,7 +118,7 @@
     indicating this solution as a suggestion to the optimization step,
     this may greatly speed the convergence to the optimal solution.
 
-  - A new function *selectSampleSystematic* has been added. It allows to
+-   A new function *selectSampleSystematic* has been added. It allows to
     select a stratified sample with the systematic method, that is a
     selection that begins selecting the first unit by an initial
     randomly chosen starting point, and proceeding in selecting other
@@ -127,7 +127,7 @@
     a particular ordering of the selection frame, where the ordering
     variable(s) can be considered as additional stratum variable(s).
 
-  - It is now possible to handle *anticipated variance* by introducing a
+-   It is now possible to handle *anticipated variance* by introducing a
     model linking a proxy variable whose values are available for all
     units in the sampling frame, with the target variable whose values
     are not available. In this implementation only linear model can be
@@ -141,7 +141,7 @@
 
 ## Major changes
 
-  - The crossover function in the genetic algorithm has been modified by
+-   The crossover function in the genetic algorithm has been modified by
     considering the *grouping* version of this algorithm: instead of
     mixing chromosomes in an indifferentiate way, groups of them in one
     parent (representing already aggregated strata) are attributed to
@@ -151,35 +151,35 @@
     completely at random). In many cases this can greatly speed the
     convergence to an optimal solution.
 
-  - A new function *adjustSize* has been added. It allows to adjust the
+-   A new function *adjustSize* has been added. It allows to adjust the
     sample size and related allocation in strata on the basis of an
     externally indicated overall sample size. The adjustment of the
     sample size is perfomed by increasing or decreasing it
     proportionally in each optimized stratum.
 
-  - A new function *buildFrameDF* has been added. It allows to create a
+-   A new function *buildFrameDF* has been added. It allows to create a
     *sampling frame* dataframe by indicating the dataset in which the
     information on all the units are contained, the identifier, the X
     variables, the Y variable and the variable that indicates the
     domains of interest.
 
-  - In function *optimizeStrata* now the *initialStrata* parameter is a
+-   In function *optimizeStrata* now the *initialStrata* parameter is a
     vector, whose length is equal to the number of strata in the
     different domains.
 
-  - All outputs are written to an .subdirectory.
+-   All outputs are written to an .subdirectory.
 
 # SamplingStrata 1.1
 
 ## Major changes
 
-  - Function *memoise* from the same package (now required) is applied
+-   Function *memoise* from the same package (now required) is applied
     before each evaluation in order to save processing time. This may
     largely increase the efficiency of the algorithm.
 
-  - A *recode* function is applied on every generated solution in order
-    to recode a genotype of n genes with k\<=n distinct alleles 1, 2, …,
-    k in such a way that the distinct alleles of the recoded genotype
+-   A *recode* function is applied on every generated solution in order
+    to recode a genotype of n genes with k&lt;=n distinct alleles 1, 2,
+    …, k in such a way that the distinct alleles of the recoded genotype
     appear in the natural order 1, 2, …, k. This avoids to consider as
     distinct two solutions that are equivalent but make use of a
     different coding.
@@ -192,11 +192,11 @@
 
 ## New functions and changes
 
-  - Modified the output to the console or to the file of results: of all
+-   Modified the output to the console or to the file of results: of all
     the solutions, only the optimal value for each generation is
     visualised.
 
-  - Now the visualisation of the trend in the optimal and mean values is
+-   Now the visualisation of the trend in the optimal and mean values is
     optional: the plot can be avoided by setting showPlot = FALSE when
     calling optimizeStrata. It can be advisable when the number of
     iterations is very high.
@@ -209,12 +209,12 @@
 
 ## Major changes
 
-  - The object returned by function *optimizeStrata* is no more a
+-   The object returned by function *optimizeStrata* is no more a
     dataframe but a list: (i) the first element of the list is the
     solution vector
-    (solution\(indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution\)aggr\_strata).
+    (solution*i**n**d**i**c**e**s*); (*i**i*)*t**h**e**s**e**c**o**n**d**e**l**e**m**e**n**t**o**f**t**h**e**l**i**s**t**i**s**t**h**e**d**a**t**a**f**r**a**m**e**c**o**n**t**a**i**n**i**n**g**a**g**g**r**e**g**a**t**e**d**s**t**r**a**t**a*(*s**o**l**u**t**i**o**n*aggr\_strata).
 
-  - In all the functions that previously produced .csv files and .pdf
+-   In all the functions that previously produced .csv files and .pdf
     plots in the working directory, as a default this is no more the
     current behaviour. To write these files, it is now necessary to set
     the *writeFiles* flag to TRUE.
@@ -223,7 +223,7 @@
 
 ## Major changes
 
-  - Two new functions: (i) *evalSolution*, to evaluate the found
+-   Two new functions: (i) *evalSolution*, to evaluate the found
     solution in terms of expected target variables precision and bias
     obtainable by samples drawn from the otpimized frame; (ii)
     *tuneParameters*, to determine the best combination of values to

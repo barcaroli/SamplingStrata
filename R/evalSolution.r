@@ -5,6 +5,9 @@ evalSolution <- function (frame,
                           writeFiles = TRUE,
                           progress = TRUE) 
 {
+  if ( !requireNamespace("formattable", quietly = TRUE) ){
+    install.packages("formattable")
+  }
   if (writeFiles == TRUE) {
     dire <- getwd()
     direnew <- paste(dire,"/simulation",sep="")
@@ -205,8 +208,8 @@ evalSolution <- function (frame,
   colnames(cv) <- c("domain",paste("cv(Y",c(1:numY),")",sep=""))
   bias <- cbind(c(1:nrow(bias)),bias)
   colnames(bias) <- c("domain",paste("bias(Y",c(1:numY),")",sep=""))
-  cv <- formattable(cv,list(area(col = 2:(numY+1)) ~ color_tile("#DeF7E9", "#71CA97")))
-  bias <- formattable(bias,list(area(col = 2:(numY+1)) ~ color_tile("#DeF7E9", "#71CA97")))
+  cv <- formattable::formattable(cv,list(area(col = 2:(numY+1)) ~ color_tile("#DeF7E9", "#71CA97")))
+  bias <- formattable::formattable(bias,list(area(col = 2:(numY+1)) ~ color_tile("#DeF7E9", "#71CA97")))
   if (writeFiles == TRUE) {
     setwd(dire)
   }
