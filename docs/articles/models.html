@@ -108,7 +108,7 @@
       <h1 data-toc-skip>Use of models in SamplingStrata</h1>
                         <h4 class="author">Marco Ballin, Giulio Barcaroli</h4>
             
-            <h4 class="date">2021-12-08</h4>
+            <h4 class="date">2022-02-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/models.Rmd"><code>vignettes/models.Rmd</code></a></small>
       <div class="hidden name"><code>models.Rmd</code></div>
@@ -210,7 +210,7 @@ In order to take into account this problem, and to limit the risk of overestimat
 <a href="#example" class="anchor"></a>Example</h1>
 <p>Consider the following example, based on the dataset <em>swissmunicipalities</em> available in the package.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://barcaroli.github.io/SamplingStrata">SamplingStrata</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://barcaroli.github.io/SamplingStrata/">SamplingStrata</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"swissmunicipalities"</span><span class="op">)</span>
 <span class="va">swissmunicipalities</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">swissmunicipalities</span><span class="op">)</span><span class="op">)</span>
 <span class="va">swissmunicipalities</span><span class="op">$</span><span class="va">dom</span> <span class="op">&lt;-</span> <span class="fl">1</span>

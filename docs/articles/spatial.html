@@ -114,7 +114,7 @@
       <h1 data-toc-skip>Spatial sampling with SamplingStrata</h1>
                         <h4 class="author">Marco Ballin, Giulio Barcaroli</h4>
             
-            <h4 class="date">2021-12-08</h4>
+            <h4 class="date">2022-02-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/spatial.Rmd"><code>vignettes/spatial.Rmd</code></a></small>
       <div class="hidden name"><code>spatial.Rmd</code></div>
@@ -217,7 +217,7 @@ D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{
 ## 6  6  5.525538 0.1533757  6.749216 0.1549663 181140 333660    1</code></pre>
 <p>The aim is now to produce the optimal stratification of the 3,103 points under a precision constraint of 1% on the target estimates of the mean <em>lead</em> and <em>zinc</em> concentrations:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://barcaroli.github.io/SamplingStrata">SamplingStrata</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://barcaroli.github.io/SamplingStrata/">SamplingStrata</a></span><span class="op">)</span>
 <span class="va">frame</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/buildFrameSpatial.html">buildFrameSpatial</a></span><span class="op">(</span>df<span class="op">=</span><span class="va">df</span>,
                       id<span class="op">=</span><span class="st">"id"</span>,
                       X<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lead.pred"</span>,<span class="st">"zinc.pred"</span><span class="op">)</span>,
@@ -292,13 +292,13 @@ Bounds Zinc
 1
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">468</span>
+468
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #def7e9">8</span>
+8
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 81.98%">0.01792501</span>
+0.01792501
 </td>
 <td style="text-align:right;">
 3.3146468764848-4.19255285819977
@@ -312,13 +312,13 @@ Bounds Zinc
 2
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">1118</span>
+1118
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #71ca97">22</span>
+22
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 88.99%">0.01945812</span>
+0.01945812
 </td>
 <td style="text-align:right;">
 3.93768665105216-4.7764979731549
@@ -332,13 +332,13 @@ Bounds Zinc
 3
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #aae1c2">776</span>
+776
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #9fddba">16</span>
+16
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 91.85%">0.02008296</span>
+0.02008296
 </td>
 <td style="text-align:right;">
 4.44641346310962-5.26600727214482
@@ -352,13 +352,13 @@ Bounds Zinc
 4
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #b0e4c6">741</span>
+741
 </td>
 <td style="text-align:right;">
-<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #9fddba">16</span>
+16
 </td>
 <td style="text-align:right;">
-<span style="display: inline-block; direction: rtl; unicode-bidi: plaintext; border-radius: 4px; padding-right: 2px; background-color: #FA614B; width: 100.00%">0.02186445</span>
+0.02186445
 </td>
 <td style="text-align:right;">
 4.83281864156491-6.16276083528614
