@@ -4,6 +4,12 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
                              highvalue = 100000000, suggestions = NULL, realAllocation = TRUE, 
                              writeFiles = FALSE, showPlot = TRUE, parallel = TRUE, cores = NA) 
 {
+  if (!is.null(framecens)) {
+    if (length(unique(framecens$domainvalue)) > length(unique(framesamp$domainvalue))) 
+      STOP("Number of domains in framecens > number of domains in framesamp - Make them coherent")
+    if (length(unique(framecens$domainvalue)) < length(unique(framesamp$domainvalue))) 
+      STOP("Number of domains in framecens < number of domains in framesamp - Make them coherent")
+  }
   if (strcens == FALSE) {
     cens = NULL
     censi = NULL
