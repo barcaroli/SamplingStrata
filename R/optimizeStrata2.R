@@ -87,7 +87,7 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
   }
   if (strcens == TRUE & !is.null(cens) > 0) {
     colnames(cens) <- toupper(colnames(cens))
-    k <- length(levels(as.factor(frame$DOMAINVALUE)))
+    k <- length(unique(framecens$DOMAINVALUE))
     stcens <- NULL
     for (i in (1:k)) {
       stcens[[i]] <- cens[cens$DOM1 == i, ]
@@ -207,7 +207,9 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
     }
     else {
       for (i in (unique(frame$DOMAINVALUE))) {
-        cat("\n *** Domain : ", i, " ", as.character(errors$DOMAINVALUE[i]))
+        cat("\n-------------------------------------------------------")
+        # cat("\n *** Domain : ", i, " ", as.character(errors$DOMAINVALUE[i]))
+        cat("\n *** Domain : ", i)
         if (nrow(stcamp[[i]]) > 0) cat("\n Number of strata : ", nrow(stcamp[[i]]))
         erro[[i]] <- erro[[i]][, -ncol(errors)]
         flagcens <- strcens
