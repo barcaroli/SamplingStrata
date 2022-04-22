@@ -6,9 +6,9 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
 {
   if (!is.null(framecens)) {
     if (length(unique(framecens$domainvalue)) > length(unique(framesamp$domainvalue))) 
-      STOP("Number of domains in framecens > number of domains in framesamp - Make them coherent")
+      stop("Number of domains in framecens > number of domains in framesamp \n Make them coherent")
     if (length(unique(framecens$domainvalue)) < length(unique(framesamp$domainvalue))) 
-      STOP("Number of domains in framecens < number of domains in framesamp - Make them coherent")
+      stop("Number of domains in framecens < number of domains in framesamp \n Make them coherent")
   }
   if (strcens == FALSE) {
     cens = NULL
