@@ -12,7 +12,7 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
   if (alldomains == TRUE) 
     dom <- NULL
   colnames(frame) <- toupper(colnames(frame))
-  ndom <- length(levels(as.factor(frame$DOMAINVALUE)))
+  ndom <- length(unique(frame$DOMAINVALUE))
   nvarX <- length(grep("X", names(frame)))
   if (alldomains == FALSE) {
     frame <- frame[frame$DOMAINVALUE == dom, ]
