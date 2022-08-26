@@ -169,7 +169,7 @@ strataGenalg <- function(errors, strata, cens, strcens,
     # --------------------------------------------------------------------------
     v <- floor(rbga.results$population[rbga.results$evaluations == 
         min(rbga.results$evaluations), ])
-    if ((class(v) == "matrix")[1]) v <- as.vector(v[1, ])
+    if ((class(v) == "matrix")[1]) v <- as.vector(v[1, ]) 
 	if (writeFiles == TRUE) {
 		stmt <- paste("write.table(v, file.path(direnew, 'solution", dominio, 
 					".txt'),row.names=FALSE,col.names=FALSE,sep='\t',quote=FALSE)", 
