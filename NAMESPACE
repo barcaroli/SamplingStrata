@@ -15,4 +15,5 @@ importFrom("graphics", "legend")
 importFrom("stats", "dnorm","cov","var")
 importFrom("SamplingBigData","lpm2_kdtree")
 importFrom("glue","glue")
+importFrom("methods", "is")
 
