@@ -7,7 +7,7 @@
 # ----------------------------------------------------
 var.bin <- function(x, bins = 3, iter.max = 100) {
     km <- kmeans(x, bins, iter.max = 100)
-    if (class(x) != "numeric" & class(x) != "integer") 
+    if (!is(x,"numeric") & !is(x,"integer")) 
         stop("Kmeans clustering not applicable")
     km$cluster2 <- as.factor(km$cluster)
     levels(km$cluster2) <- levels(km$cluster2)[rank(km$centers)]
