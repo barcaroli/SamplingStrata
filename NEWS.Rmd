@@ -13,6 +13,12 @@ knitr::opts_chunk$set(
 )
 ```
 
+# SamplingStrata 1.5-3
+
+## Major changes
+
+*	As in R 4.2.0 a matrix objects now also inherit from class "array", this invalidates code incorrectly assuming that class(matrix_obj)) has length one. 	So, changes have been done consequently in SamplingStrata functions where tests on class of an object were performed, otherwise causing errors.
+
 # SamplingStrata 1.5-2
 
 ## Major changes

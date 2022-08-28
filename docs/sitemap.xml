@@ -1,126 +1,159 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/index.html</loc>
+    <loc>/404.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/adjustSize.html</loc>
+    <loc>/articles/drake_continuous.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/aggStrata2.html</loc>
+    <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/aggStrataSpatial.html</loc>
+    <loc>/articles/models.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/assignStrataLabel.html</loc>
+    <loc>/articles/prova.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/bethel.html</loc>
+    <loc>/articles/SamplingStrata.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/buildFrameDF.html</loc>
+    <loc>/articles/spatial.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/buildFrameSpatial.html</loc>
+    <loc>/authors.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/buildStrataDF.html</loc>
+    <loc>/index.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/buildStrataDFSpatial.html</loc>
+    <loc>/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/checkInput.html</loc>
+    <loc>/news/index.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/computeGamma.html</loc>
+    <loc>/reference/adjustSize.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/errors.html</loc>
+    <loc>/reference/aggStrata2.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/evalSolution.html</loc>
+    <loc>/reference/aggStrataSpatial.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/expected_CV.html</loc>
+    <loc>/reference/assignStrataLabel.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/KmeansSolution.html</loc>
+    <loc>/reference/bethel.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/KmeansSolution2.html</loc>
+    <loc>/reference/buildFrameDF.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/KmeansSolutionSpatial.html</loc>
+    <loc>/reference/buildFrameSpatial.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/nations.html</loc>
+    <loc>/reference/buildStrataDF.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/optimizeStrata.html</loc>
+    <loc>/reference/buildStrataDF2.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/optimizeStrata2.html</loc>
+    <loc>/reference/buildStrataDFSpatial.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/optimizeStrataSpatial.html</loc>
+    <loc>/reference/checkInput.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/optimStrata.html</loc>
+    <loc>/reference/computeGamma.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/plotSamprate.html</loc>
+    <loc>/reference/errors.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/plotStrata2d.html</loc>
+    <loc>/reference/evalSolution.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/prepareSuggestion.html</loc>
+    <loc>/reference/expected_CV.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/selectSample.html</loc>
+    <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/selectSampleSystematic.html</loc>
+    <loc>/reference/KmeansSolution.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/strata.html</loc>
+    <loc>/reference/KmeansSolution2.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/summaryStrata.html</loc>
+    <loc>/reference/KmeansSolutionSpatial.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/swisserrors.html</loc>
+    <loc>/reference/nations.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/swissframe.html</loc>
+    <loc>/reference/optimizeStrata.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/swissmunicipalities.html</loc>
+    <loc>/reference/optimizeStrata2.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/swissstrata.html</loc>
+    <loc>/reference/optimizeStrataSpatial.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/tuneParameters.html</loc>
+    <loc>/reference/optimStrata.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/updateFrame.html</loc>
+    <loc>/reference/plotSamprate.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/updateStrata.html</loc>
+    <loc>/reference/plotStrata2d.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/reference/var.bin.html</loc>
+    <loc>/reference/prepareSuggestion.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/articles/models.html</loc>
+    <loc>/reference/procBethel.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/articles/SamplingStrata.html</loc>
+    <loc>/reference/selectSample.html</loc>
   </url>
   <url>
-    <loc>http://barcaroli.github.io/SamplingStrata/articles/spatial.html</loc>
+    <loc>/reference/selectSampleSpatial.html</loc>
+  </url>
+  <url>
+    <loc>/reference/selectSampleSystematic.html</loc>
+  </url>
+  <url>
+    <loc>/reference/strata.html</loc>
+  </url>
+  <url>
+    <loc>/reference/summaryStrata.html</loc>
+  </url>
+  <url>
+    <loc>/reference/swisserrors.html</loc>
+  </url>
+  <url>
+    <loc>/reference/swissframe.html</loc>
+  </url>
+  <url>
+    <loc>/reference/swissmunicipalities.html</loc>
+  </url>
+  <url>
+    <loc>/reference/swissstrata.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tuneParameters.html</loc>
+  </url>
+  <url>
+    <loc>/reference/updateFrame.html</loc>
+  </url>
+  <url>
+    <loc>/reference/updateStrata.html</loc>
+  </url>
+  <url>
+    <loc>/reference/var.bin.html</loc>
   </url>
 </urlset>

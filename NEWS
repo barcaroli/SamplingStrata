@@ -1,3 +1,40 @@
+# SamplingStrata 1.5-3
+
+## Major changes
+
+-	As in R 4.2.0 a matrix objects now also inherit from class "array", this 
+	invalidates code incorrectly assuming that class(matrix_obj)) has length one.
+	So, changes have been done consequently in SamplingStrata functions where
+	tests on class of an object were performed, otherwise causing errors.
+
+# SamplingStrata 1.5-2
+
+## Major changes
+
+-   A new function 'selectSampleSpatial' has been added: if geographical
+    coordinates are available in the frame, in order to obtain spatially
+    distributed selected points this function makes use of the
+    'lpm2\_kdtree' function from the SamplingBigData package
+    (Tillé-Grafstrom).
+
+-   A new function 'bethelProc' has been added: this function allows to
+    execute a complete procedure from the Bethel optimal allocation to
+    the selection of a sample, without having to optimize the strata,
+    that are supposed to be given and fixed.
+
+# SamplingStrata 1.5-1
+
+## Major changes
+
+-   As starting from R 4.0.0 ‘stringsAsFactors = FALSE’ becomes a
+    default, in all calls to data.frame the parameter ‘stringAsFactors =
+    TRUE’ has been indicated, in order to ensure the same results
+
+-   Fixed some bugs related to handling take-all strata for ‘atomic’ and
+    ‘spatial’ methods
+
+
+
 # SamplingStrata 1.5
 
 ## Major changes

@@ -1,6 +1,16 @@
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit NEWS.Rmd file -->
 
+# SamplingStrata 1.5-3
+
+## Major changes
+
+-   As in R 4.2.0 a matrix objects now also inherit from class “array”,
+    this invalidates code incorrectly assuming that class(matrix_obj))
+    has length one. So, changes have been done consequently in
+    SamplingStrata functions where tests on class of an object were
+    performed, otherwise causing errors.
+
 # SamplingStrata 1.5-2
 
 ## Major changes
@@ -8,7 +18,7 @@
 -   A new function *selectSampleSpatial* has been added: if geographical
     coordinates are available in the frame, in order to obtain spatially
     distributed selected points this function makes use of the
-    lpm2\_kdtree function from the SamplingBigData package
+    lpm2_kdtree function from the SamplingBigData package
     (Tillé-Grafstrom).
 
 -   A new function *bethelProc* has been added: this function allows to
@@ -92,7 +102,7 @@
     stratification variables, that are required to be all continuous
     (though categorical ordinal could be handled).
 
--   A new function *expected\_CV* has been added to calculate CVs on
+-   A new function *expected_CV* has been added to calculate CVs on
     target variables in different domains that may be expected from a
     given solution, output of the *optimizeStrata* execution.
 
@@ -106,7 +116,7 @@
 -   The optimization of population frame is run in parallel if different
     domains are considered. To this end, the parameter *parallel* can be
     set to TRUE in the *optimizeStrata* function. If not specified, n-1
-    of total available cores are used OR if number of domains &lt; (n-1)
+    of total available cores are used OR if number of domains \< (n-1)
     cores, then number of cores equal to number of domains are used.
 
 -   A new function *KmeansSolution* produces an initial solution using
@@ -178,8 +188,8 @@
     largely increase the efficiency of the algorithm.
 
 -   A *recode* function is applied on every generated solution in order
-    to recode a genotype of n genes with k&lt;=n distinct alleles 1, 2,
-    …, k in such a way that the distinct alleles of the recoded genotype
+    to recode a genotype of n genes with k\<=n distinct alleles 1, 2, …,
+    k in such a way that the distinct alleles of the recoded genotype
     appear in the natural order 1, 2, …, k. This avoids to consider as
     distinct two solutions that are equivalent but make use of a
     different coding.
@@ -212,7 +222,7 @@
 -   The object returned by function *optimizeStrata* is no more a
     dataframe but a list: (i) the first element of the list is the
     solution vector
-    (solution*i**n**d**i**c**e**s*); (*i**i*)*t**h**e**s**e**c**o**n**d**e**l**e**m**e**n**t**o**f**t**h**e**l**i**s**t**i**s**t**h**e**d**a**t**a**f**r**a**m**e**c**o**n**t**a**i**n**i**n**g**a**g**g**r**e**g**a**t**e**d**s**t**r**a**t**a*(*s**o**l**u**t**i**o**n*aggr\_strata).
+    (solution![indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;indices%29%3B%20%28ii%29%20the%20second%20element%20of%20the%20list%20is%20the%20dataframe%20containing%20aggregated%20strata%20%28solution "indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution")aggr_strata).
 
 -   In all the functions that previously produced .csv files and .pdf
     plots in the working directory, as a default this is no more the
