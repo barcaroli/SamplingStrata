@@ -4,5 +4,5 @@ url: http://barcaroli.github.io/SamplingStrata
 template:
   params:
     bootswatch: Italy
-
+    ganalytics: UA-156503236-1
 
