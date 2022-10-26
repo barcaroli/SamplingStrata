@@ -267,7 +267,7 @@ aggrStrata2 <- function(dataset,
         stmt <- paste("strata$M",i,"[j] <- ifelse(strata$M",i,"[j] == 0,0.000000000000001,strata$M",i,"[j])",sep="")
         eval(parse(text=stmt))
       }
-    cat("\nNumber of strata: ",nrow(strata))
-    cat("\n... of which with only one unit: ",sum(strata$N==1))
+    # cat("\nNumber of strata: ",nrow(strata))
+    # cat("\n... of which with only one unit: ",sum(strata$N==1))
     return(strata)
 }
