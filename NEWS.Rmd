@@ -13,6 +13,10 @@ knitr::opts_chunk$set(
 )
 ```
 
+# SamplingStrata 1.5-4
+
+* Minor changes due to the introduction of R 4.3.0
+
 # SamplingStrata 1.5-3
 
 ## Major changes

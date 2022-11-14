@@ -1,6 +1,10 @@
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit NEWS.Rmd file -->
 
+# SamplingStrata 1.5-4
+
+-   Minor changes due to the introduction of R 4.3.0
+
 # SamplingStrata 1.5-3
 
 ## Major changes
@@ -222,7 +226,7 @@
 -   The object returned by function *optimizeStrata* is no more a
     dataframe but a list: (i) the first element of the list is the
     solution vector
-    (solution![indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;indices%29%3B%20%28ii%29%20the%20second%20element%20of%20the%20list%20is%20the%20dataframe%20containing%20aggregated%20strata%20%28solution "indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution")aggr_strata).
+    (solution$indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution$aggr_strata).
 
 -   In all the functions that previously produced .csv files and .pdf
     plots in the working directory, as a default this is no more the
