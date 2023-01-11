@@ -3,17 +3,18 @@ evalSolution <- function (frame,
                           nsampl = 100, 
                           cens = NULL, 
                           writeFiles = TRUE,
+                          outputFolder = file.path(getwd(),"simulation"),
                           progress = TRUE) 
 {
   if ( !requireNamespace("formattable", quietly = TRUE) ){
     install.packages("formattable")
   }
   if (writeFiles == TRUE) {
-    dire <- getwd()
-    direnew <- paste(dire,"/simulation",sep="")
-	if(dir.exists(direnew)) shell( glue::glue("rmdir /s /q \"{direnew}\" ") )
-    if(!dir.exists(direnew)) dir.create(direnew)
-    setwd(direnew)
+  	if(dir.exists(outputFolder)){
+  	  warning("Folder ", outputFolder," exists and will be deleted.")
+  	  unlink(outputFolder)
+	  } 
+    if(!dir.exists(outputFolder)) dir.create(outputFolder)
   }
   colnames(frame) <- toupper(colnames(frame))
   numY <- length(grep("Y", toupper(colnames(frame))))
@@ -67,7 +68,7 @@ evalSolution <- function (frame,
   }
   cv$dom <- paste("DOM", c(1:numdom), sep = "")
   if (writeFiles == TRUE) 
-    write.table(cv, "expected_cv.csv", sep = ",", row.names = FALSE, 
+    write.table(cv, file.path(outputFolder, "expected_cv.csv"), sep = ",", row.names = FALSE, 
                 col.names = TRUE, quote = FALSE)
   cv1 <- NULL
   cv1$domainvalue <- rep((1:numdom), numY)
@@ -132,7 +133,7 @@ evalSolution <- function (frame,
     }
   }
   if (writeFiles == TRUE) 
-    write.table(diff, "differences.csv", sep = ",", row.names = FALSE, 
+    write.table(diff, file.path(outputFolder, "differences.csv"), sep = ",", row.names = FALSE, 
                 col.names = TRUE, quote = FALSE)
   ############################################   
 # New code for bias  
@@ -147,19 +148,19 @@ evalSolution <- function (frame,
   numY <- sum(grepl("Y",colnames(frame)))
   bias[,c(1:numY)] <- round(bias[,c(1:numY)]/Y[,c(2:(numY+1))],4)
   if (writeFiles == TRUE)
-    write.table(bias, "expected_rel_bias.csv", sep = ",",
+    write.table(bias, file.path(outputFolder, "expected_rel_bias.csv"), sep = ",",
                 row.names = FALSE, col.names = TRUE, quote = FALSE)
   if (numdom > 1) {
     if (writeFiles == TRUE) 
       # pdf("cv.pdf", width = 7, height = 5)
-      png("cv.png")
+      png(file.path(outputFolder,"cv.png"))
     boxplot(val ~ cv, data = cv1, col = "orange", main = "Distribution of CV's in the domains", 
             xlab = "Variables Y", ylab = "Value of CV")
     if (writeFiles == TRUE) 
       dev.off()
     if (writeFiles == TRUE) 
       # pdf("rel_bias.pdf", width = 7, height = 5)
-      png("rel_bias.png")
+      png(file.path(outputFolder,"rel_bias.png"))
     boxplot(bias[,-ncol(bias)], col = "orange", main = "Distribution of relative bias in the domains",
             xlab = "Variables Y", ylab = "Relative bias")
     # boxplot(bias, col = "orange", main = "Distribution of relative bias in the domains", 
@@ -199,7 +200,7 @@ evalSolution <- function (frame,
     est[est$dom == i,c(1:(numY))] <- estim[i,,]
   }
   if (writeFiles == TRUE) {
-    write.table(est,"estimates.csv",sep=",",row.names=F,col.names=F)
+    write.table(est,file.path(outputFolder,"estimates.csv"),sep=",",row.names=F,col.names=F)
   }
 
   cv[,c(1:numY)] <- round(cv[,c(1:numY)],4)
@@ -210,8 +211,5 @@ evalSolution <- function (frame,
   colnames(bias) <- c("domain",paste("bias(Y",c(1:numY),")",sep=""))
   cv <- formattable::formattable(cv,list(area(col = 2:(numY+1)) ~ color_tile("#DeF7E9", "#71CA97")))
   bias <- formattable::formattable(bias,list(area(col = 2:(numY+1)) ~ color_tile("#DeF7E9", "#71CA97")))
-  if (writeFiles == TRUE) {
-    setwd(dire)
-  }
   return(results)
 }

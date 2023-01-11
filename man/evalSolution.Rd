@@ -21,6 +21,7 @@ evalSolution(frame,
 		nsampl=100,
 		cens=NULL,
 		writeFiles=TRUE,
+		outputFolder = file.path(getwd(),"simulation"),
 		progress=TRUE)
 }
 \arguments{
@@ -37,7 +38,10 @@ The number of samples to be drawn from the frame.
 	A dataframe containing units to be selected in any cases.
 	}
   \item{writeFiles}{
-A flag to write in the work directory the outputs of the function. Default is TRUE.
+A flag to write in the output directory the outputs of the function. Default is TRUE.
+	}
+	\item{outputFolder}{
+A path to a directory ot be used for the outputs. It will be emptied beforehand!
 	}
 	\item{progress}{
   If set to TRUE, a progress bar is visualised during the execution. Default is TRUE.
