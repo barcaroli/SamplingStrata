@@ -5,9 +5,20 @@
 # Authors: Giulio Barcaroli 
 # with a contribution from Diego Zardetto
 # Date: 4 January 2012
-# Last updtae: 30 October 2018
+# Last update: 12 January 2023
 # --------------------------------------------------------------------------
-selectSample <- function(frame, outstrata, writeFiles = FALSE,verbatim=TRUE) {
+selectSample <- function(frame, 
+                         outstrata, 
+                         writeFiles = FALSE,
+                         verbatim=TRUE,
+                         outputFolder = file.path(getwd(),"output")) {
+  if (writeFiles == TRUE) {
+    # if(dir.exists(outputFolder)){
+    #   warning("Folder ", outputFolder," already existed and has been deleted.")
+    #   unlink(outputFolder)
+    # } 
+    if(!dir.exists(outputFolder)) dir.create(outputFolder)
+  }
     strata.sample <- function(frame, strata, nh, repl) {
         stratodist <- table(frame[, strata])
         stratocum <- c(0, cumsum(stratodist))
@@ -84,10 +95,10 @@ selectSample <- function(frame, outstrata, writeFiles = FALSE,verbatim=TRUE) {
 		}
 	}
     if (writeFiles == TRUE) 
-        write.table(samptot, "sample.csv", sep = ",", row.names = FALSE, 
+        write.table(samptot, file.path(outputFolder,"sample.csv"), sep = ",", row.names = FALSE, 
             col.names = TRUE, quote = FALSE)
     if (writeFiles == TRUE) 
-        write.table(chktot, "sampling_check.csv", sep = ",", 
+        write.table(chktot, file.path(outputFolder,"sampling_check.csv"), sep = ",", 
             row.names = FALSE, col.names = TRUE, quote = FALSE)
     outstrata$FPC <- outstrata$SOLUZ/outstrata$N
 	fpc <- outstrata[, c("DOM1","STRATO","FPC")]

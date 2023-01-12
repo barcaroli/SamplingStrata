@@ -16,7 +16,7 @@ If no domains have been defined, this variable will contains all 1's, but it mus
  
 }
 \usage{
-updateFrame(frame, newstrata, writeFiles = FALSE)
+updateFrame(frame, newstrata, writeFiles = FALSE, outputFolder = file.path(getwd(),"output"))
 }
 \arguments{
   \item{frame}{
@@ -31,6 +31,9 @@ updateFrame(frame, newstrata, writeFiles = FALSE)
   Flag to write or not the new sampling frame into the working directory.
   Default is "FALSE"
 }
+	\item{outputFolder}{
+A path to a directory ot be used for the outputs. Default is "output"
+	}
 }
 
 \value{

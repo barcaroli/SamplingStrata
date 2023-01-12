@@ -15,7 +15,7 @@ Also a second delimited file ("strata_aggregation.txt") will be outputted,
 containing the indication of the relations bewteen atomic and aggregated strata. 
 }
 \usage{
-updateStrata(strata, solution, writeFiles = FALSE)
+updateStrata(strata, solution, writeFiles = FALSE, outputFolder = file.path(getwd(),"output"))
 }
 \arguments{
   \item{strata}{
@@ -30,6 +30,9 @@ updateStrata(strata, solution, writeFiles = FALSE)
   Indicates if at the end of the processing the resulting strata will be outputted in a delimited file.
   Default is "FALSE".
 }
+	\item{outputFolder}{
+A path to a directory ot be used for the outputs. Default is "output"
+	}
 }
 
 \value{

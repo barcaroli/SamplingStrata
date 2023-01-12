@@ -22,7 +22,7 @@ One more .csv file is produced ("sampling_check"), containing coeherence checks 
 
 }
 \usage{
-selectSample(frame, outstrata, writeFiles = FALSE,verbatim=TRUE)
+selectSample(frame, outstrata, writeFiles = FALSE,outputFolder = file.path(getwd(),"output"), verbatim=TRUE)
 }
 \arguments{
   \item{frame}{
@@ -36,6 +36,9 @@ selectSample(frame, outstrata, writeFiles = FALSE,verbatim=TRUE)
   Indicates if at the end of the processing the resulting strata will be outputted in a delimited file.
   Default is "FALSE".
 }
+	\item{outputFolder}{
+A path to a directory ot be used for the outputs. Default is "output"
+	}
   \item{verbatim}{
   Indicates if information on the drawn sample must be printed or not.
   Default is "TRUE".

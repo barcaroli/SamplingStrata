@@ -11,7 +11,7 @@ evalSolution <- function (frame,
   }
   if (writeFiles == TRUE) {
   	if(dir.exists(outputFolder)){
-  	  warning("Folder ", outputFolder," exists and will be deleted.")
+  	  warning("Folder ", outputFolder," already existed and has been deleted.")
   	  unlink(outputFolder)
 	  } 
     if(!dir.exists(outputFolder)) dir.create(outputFolder)

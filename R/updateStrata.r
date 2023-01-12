@@ -4,15 +4,20 @@
 # aggregated strata
 # Author: Giulio Barcaroli
 # Date: 4 January 2012
+# Last update: 12 January 2023
 # ----------------------------------------------------
-updateStrata <- function (strata, solution, writeFiles = FALSE) 
+updateStrata <- function (strata, 
+                          solution, 
+                          writeFiles = FALSE,
+                          outputFolder = file.path(getwd(),"output"))
 {
-  # if (writeFiles == TRUE) {
-  #   dire <- getwd()
-  #   direnew <- paste(dire,"/output",sep="")
-  #   if(!dir.exists(direnew)) dir.create(direnew)
-  #   setwd(direnew)
-  # }
+  if (writeFiles == TRUE) {
+    # if(dir.exists(outputFolder)){
+    #   warning("Folder ", outputFolder," already existed and has been deleted.")
+    #   unlink(outputFolder)
+    # } 
+    if(!dir.exists(outputFolder)) dir.create(outputFolder)
+  }
     colnames(strata) <- toupper(colnames(strata))
     newstrata <- strata
     newstrata$AGGR_STRATUM <- solution[[1]]
