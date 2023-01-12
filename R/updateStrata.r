@@ -64,10 +64,10 @@ updateStrata <- function (strata,
     colnames(newstrata)[ncol(newstrata) - 1] <- c("LABEL")
     colnames(newstrata) <- toupper(colnames(newstrata))
     if (writeFiles == TRUE) 
-        write.table(newstrata, file = "newstrata.txt", sep = "\t", 
+        write.table(newstrata, file = file.path(outputFolder,"newstrata.txt"), sep = "\t", 
             row.names = FALSE, col.names = TRUE, quote = FALSE)
     if (writeFiles == TRUE) 
-        write.table(matstrord, file = "strata_aggregation.txt", 
+        write.table(matstrord, file = file.path(outputFolder,"strata_aggregation.txt"), 
             sep = "\t", row.names = FALSE, col.names = TRUE, 
             quote = FALSE)
     # if (writeFiles == TRUE) {

@@ -42,7 +42,7 @@ updateFrame <- function(frame,
 	framenew$LABEL <- as.integer(framenew$LABEL)
     colnames(framenew) <- toupper(colnames(framenew))
 	if (writeFiles == TRUE) {
-		write.table(framenew, "framenew.txt", row.names = FALSE, 
+		write.table(framenew, file.path(outputFolder,"framenew.txt"), row.names = FALSE, 
 			sep = "\t", quote = FALSE)
 	}
     # if (writeFiles == TRUE) {
