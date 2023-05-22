@@ -104,7 +104,7 @@ One more .csv file is produced ("sampling_check"), containing coeherence checks 
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">selectSample</span><span class="op">(</span><span class="va">frame</span>, <span class="va">outstrata</span>, writeFiles <span class="op">=</span> <span class="cn">FALSE</span>,verbatim<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">selectSample</span><span class="op">(</span><span class="va">frame</span>, <span class="va">outstrata</span>, writeFiles <span class="op">=</span> <span class="cn">FALSE</span>,outputFolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"output"</span><span class="op">)</span>, verbatim<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -119,6 +119,9 @@ One more .csv file is produced ("sampling_check"), containing coeherence checks 
   <dt>writeFiles</dt>
 <dd><p>Indicates if at the end of the processing the resulting strata will be outputted in a delimited file.
   Default is "FALSE".</p></dd>
+
+	<dt>outputFolder</dt>
+<dd><p>A path to a directory ot be used for the outputs. Default is "output"</p></dd>
 
   <dt>verbatim</dt>
 <dd><p>Indicates if information on the drawn sample must be printed or not.
@@ -170,7 +173,7 @@ One more .csv file is produced ("sampling_check"), containing coeherence checks 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -98,6 +98,7 @@ in the population ('differences.pdf').</p>
 <span>    nsampl<span class="op">=</span><span class="fl">100</span>,</span>
 <span>    cens<span class="op">=</span><span class="cn">NULL</span>,</span>
 <span>    writeFiles<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>    outputFolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"simulation"</span><span class="op">)</span>,</span>
 <span>    progress<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -116,7 +117,10 @@ in the population ('differences.pdf').</p>
 <dd><p>A dataframe containing units to be selected in any cases.</p></dd>
 
   <dt>writeFiles</dt>
-<dd><p>A flag to write in the work directory the outputs of the function. Default is TRUE.</p></dd>
+<dd><p>A flag to write in the output directory the outputs of the function. Default is TRUE.</p></dd>
+
+	<dt>outputFolder</dt>
+<dd><p>A path to a directory ot be used for the outputs. It will be emptied beforehand!</p></dd>
 
 	<dt>progress</dt>
 <dd><p>If set to TRUE, a progress bar is visualised during the execution. Default is TRUE.</p></dd>
@@ -169,7 +173,7 @@ estimates by domain</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
