@@ -63,7 +63,7 @@ checkInput <- function (errors = NULL, strata = NULL, sampframe = NULL)
     #                 In this case you should use a derived variable with shifted values')",sep="")
     #   eval(parse(text=stmt))
     # }
-    for (i in (1:(sum(grepl("Y", colnames(sampframe))))))
+    for (i in (1:(sum(grepl("Y", colnames(sampframe)))))) {
       eval(parse(text=paste0("y <- sampframe$Y",i)))
       result <- tryCatch({
         if (min(y) < 0) {
