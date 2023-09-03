@@ -85,13 +85,13 @@ checkInput <- function (errors = NULL, strata = NULL, sampframe = NULL)
     for (i in (1:(sum(grepl("X", colnames(sampframe)))))) {
       eval(parse(text=paste0("x <- sampframe$X",i)))
       result <- tryCatch({
-        if (min(y) < 0) {
+        if (min(x) < 0) {
           warning("")
         }
         # your function here
       }, warning = function(w) {
         message("*** Variable X",i," has negative values in sampframe ***
-    This can cause an incorrect optimization
+    This may cause an incorrect optimization
                 ")
       })
     } 
