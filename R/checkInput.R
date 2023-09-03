@@ -78,10 +78,23 @@ checkInput <- function (errors = NULL, strata = NULL, sampframe = NULL)
                 ")
       })
     }  
+    # for (i in (1:(sum(grepl("X", colnames(sampframe)))))) {
+    #   stmt <- paste("if (min(sampframe$X",i,") < 0) stop('Variable X",i," has negative values in sampframe')",sep="")
+    #   eval(parse(text=stmt))
+    # }
     for (i in (1:(sum(grepl("X", colnames(sampframe)))))) {
-      stmt <- paste("if (min(sampframe$X",i,") < 0) stop('Variable X",i," has negative values in sampframe')",sep="")
-      eval(parse(text=stmt))
-    }
+      eval(parse(text=paste0("x <- sampframe$X",i)))
+      result <- tryCatch({
+        if (min(y) < 0) {
+          warning("")
+        }
+        # your function here
+      }, warning = function(w) {
+        message("*** Variable X",i," has negative values in sampframe ***
+    This can cause an incorrect optimization
+                ")
+      })
+    } 
   }
   if (!is.null(sampframe) && !is.null(strata)) {
     if (sum(grepl("S+[0123456789]", toupper(colnames(strata)), 
