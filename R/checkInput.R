@@ -56,7 +56,11 @@ checkInput <- function (errors = NULL, strata = NULL, sampframe = NULL)
         1) 
       stop("In frame dataframe the indication of the domain (DOMAINVALUE) is missing")
     for (i in (1:(sum(grepl("Y", colnames(sampframe)))))) {
-      stmt <- paste("if (min(sampframe$Y",i,") < 0) warning('Variable Y",i," has negative values in sampframe')",sep="")
+      stmt <- paste("if (min(sampframe$Y",i,") < 0) warning('Variable Y",i," has negative values in sampframe
+                    /nThis can cause an incorrect optimization 
+                    /nif the mean of the variable is negative
+                    /nin one or more domains.
+                    /nIn this case you should use a derived variable with shifted values')",sep="")
       eval(parse(text=stmt))
     }
     for (i in (1:(sum(grepl("X", colnames(sampframe)))))) {
