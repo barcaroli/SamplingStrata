@@ -55,14 +55,29 @@ checkInput <- function (errors = NULL, strata = NULL, sampframe = NULL)
     if (sum(grepl("DOMAINVALUE", colnames(sampframe))) < 
         1) 
       stop("In frame dataframe the indication of the domain (DOMAINVALUE) is missing")
-    for (i in (1:(sum(grepl("Y", colnames(sampframe)))))) {
-      stmt <- paste("if (min(sampframe$Y",i,") < 0) warning('Variable Y",i," has negative values in sampframe
-                    /nThis can cause an incorrect optimization 
-                    /nif the mean of the variable is negative
-                    /nin one or more domains.
-                    /nIn this case you should use a derived variable with shifted values')",sep="")
-      eval(parse(text=stmt))
-    }
+    # for (i in (1:(sum(grepl("Y", colnames(sampframe)))))) {
+    #   stmt <- paste("if (min(sampframe$Y",i,") < 0) stop('Variable Y",i," has negative values in sampframe
+    #                 This can cause an incorrect optimization 
+    #                 if the mean of the variable is negative
+    #                 in one or more domains.
+    #                 In this case you should use a derived variable with shifted values')",sep="")
+    #   eval(parse(text=stmt))
+    # }
+    for (i in (1:(sum(grepl("Y", colnames(sampframe))))))
+      eval(parse(text=paste0("y <- sampframe$Y",i)))
+      result <- tryCatch({
+        if (min(y) < 0) {
+          warning("")
+        }
+        # your function here
+      }, warning = function(w) {
+        message("*** Variable Y",i," has negative values in sampframe ***
+    This can cause an incorrect optimization
+    if the mean of the variable is negative in one or more domains
+    In this case you should use a derived variable with shifted values
+                ")
+      })
+    }  
     for (i in (1:(sum(grepl("X", colnames(sampframe)))))) {
       stmt <- paste("if (min(sampframe$X",i,") < 0) stop('Variable X",i," has negative values in sampframe')",sep="")
       eval(parse(text=stmt))
