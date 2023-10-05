@@ -13,6 +13,7 @@ Mandatory variables are:
 (iii) a set of auxiliary variables X
 (iv) a set of target variables Y
 (v) the indicator of the domain to which the unit belongs
+A further optional parameter is the the name of the variable containing weights (in case instead of a frame we use a sampling survey)
 }
 \usage{
 buildFrameDF(df, id, X, Y, domainvalue)
@@ -36,6 +37,10 @@ buildFrameDF(df, id, X, Y, domainvalue)
   \item{domainvalue}{
   The name of the variable in the frame dataset that contains the 
   indication of the domains to which the units belong.
+	}
+	  \item{weight}{
+  The name of the variable in the frame dataset that contains the 
+  weights (in case we do not use a proper frame, but a sampling survey.
 	}
 }
 \value{

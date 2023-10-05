@@ -1,4 +1,4 @@
-buildFrameDF <- function(df,id,X,Y,domainvalue) {
+buildFrameDF <- function(df,id,X,Y,domainvalue,weight=NULL) {
   vars <- colnames(df)
   if (!id %in% vars) stop("Id name not in the frame variables")
   # if (!X %in% vars) stop("X names not in the frame variables")
@@ -32,5 +32,9 @@ buildFrameDF <- function(df,id,X,Y,domainvalue) {
   eval(parse(text=stmt))
   dframe <- as.data.frame(dframe,stringsAsFactors = TRUE)
   dframe$domainvalue <- as.integer(dframe$domainvalue)
+  if (!is.null(weight)) {
+    stmt <- paste("dframe$WEIGHT <- df$",as.character(weight),sep="")
+    eval(parse(text=stmt))
+  }
   return(dframe)
 }
