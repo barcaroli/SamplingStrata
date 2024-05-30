@@ -44,7 +44,7 @@ buildFrameDF <- function (df, id, X, Y, domainvalue, weight = NULL)
                   sep = "")
     eval(parse(text = stmt))
     dframe <- dframe[rep(1:nrow(dframe), round(dframe$WEIGHT)),]
+    dframe$WEIGHT <- NULL
   }
-  dframe$WEIGHT <- NULL
   return(dframe)
 }
