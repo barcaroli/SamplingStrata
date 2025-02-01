@@ -13,6 +13,11 @@ knitr::opts_chunk$set(
 )
 ```
 
+# SamplingStrata 1.5-5
+
+Implemented a new Rcpp version, much more performant, of the function buildStrataDFSpatial, to increase the efficiency of the "spatial" method in OptimStrata
+
+
 # SamplingStrata 1.5-4
 
 * Minor changes due to the introduction of R 4.3.0
