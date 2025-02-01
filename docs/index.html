@@ -33,8 +33,6 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -47,12 +45,18 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5-4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
 <li>
   <a href="articles/SamplingStrata.html">Get started</a>
 </li>
@@ -83,7 +87,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/barcaroli/SamplingStrata/" class="external-link">
+  <a href="https://github.com/barcaroli/SamplingStrata/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -102,53 +106,71 @@
   <div class="contents col-md-9">
 
 
-<div class="section level1">
-<div class="page-header"><h1 id="samplingstrata-">SamplingStrata <img src="reference/figures/apple-touch-icon-152x152.png" align="right" alt=""><a class="anchor" aria-label="anchor" href="#samplingstrata-"></a>
+<div id="samplingstrata-" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#samplingstrata-" class="anchor"></a>SamplingStrata
+<img src="reference/figures/apple-touch-icon-152x152.png" align="right" alt="">
 </h1></div>
-<p>This package offers an approach for the determination of the best stratification of a sampling frame, the one that ensures the minimum sample cost under the condition to satisfy precision constraints in a multivariate and multidomain case. This approach is based on the use of the genetic algorithm: each solution (i.e. a particular partition in strata of the sampling frame) is considered as an individual in a population; the fitness of all individuals is evaluated applying the Bethel-Chromy algorithm to calculate the sampling size satisfying precision constraints on the target estimates.</p>
+<p>This package offers an approach for the determination of the best
+stratification of a sampling frame, the one that ensures the minimum
+sample cost under the condition to satisfy precision constraints in a
+multivariate and multidomain case. This approach is based on the use of
+the genetic algorithm: each solution (i.e. a particular partition in
+strata of the sampling frame) is considered as an individual in a
+population; the fitness of all individuals is evaluated applying the
+Bethel-Chromy algorithm to calculate the sampling size satisfying
+precision constraints on the target estimates.</p>
 <p>Functions in the package allow to:</p>
 <ul>
 <li>support in the preparation of required input data;</li>
 <li>execute the optimization step;</li>
 <li>analyse the obtained results of the optimisation step;</li>
-<li>select a sample from the new frame accordingly to the best allocation.</li>
+<li>select a sample from the new frame accordingly to the best
+allocation.</li>
 </ul>
-<p>Functions for the execution of the genetic algorithm are a modified version of the functions in the ‘genalg’ package.</p>
-<p>A complete illustration of all features and functions can be found at the link:</p>
-<p><a href="https://barcaroli.github.io/SamplingStrata/" class="external-link uri">https://barcaroli.github.io/SamplingStrata/</a></p>
+<p>Functions for the execution of the genetic algorithm are a modified
+version of the functions in the ‘genalg’ package.</p>
+<p>A complete illustration of all features and functions can be found at
+the link:</p>
+<p><a href="https://barcaroli.github.io/SamplingStrata/" class="uri">https://barcaroli.github.io/SamplingStrata/</a></p>
 <p>Download the SamplingStrata cheatsheet from:</p>
-<p><a href="https://rstudio.com/resources/cheatsheets/" class="external-link uri">https://rstudio.com/resources/cheatsheets/</a></p>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
+<p><a href="https://rstudio.com/resources/cheatsheets/" class="uri">https://rstudio.com/resources/cheatsheets/</a></p>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install SamplingStrata from github with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"barcaroli/SamplingStrata"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"barcaroli/SamplingStrata"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="cheat_sheet_page1.png"><img src="cheat_sheet_page2.png"></p>
 </div>
-<div class="section level2">
-<h2 id="three-different-methods-for-the-optimization-step">Three different methods for the optimization step<a class="anchor" aria-label="anchor" href="#three-different-methods-for-the-optimization-step"></a>
-</h2>
-<p>The optimization can be run by indicating three different methods, on the basis of the following:</p>
-<p>A. if stratification variables are categorical (or reduced to) then the method is the “atomic”;</p>
-<p>B. if stratification variables are continuous, then the method is the “continuous”;</p>
-<p>C. if stratification variables are continuous, and there is spatial correlation among units in the sampling frame, then the required method is the “spatial”.</p>
+<div id="three-different-methods-for-the-optimization-step" class="section level2">
+<h2 class="hasAnchor">
+<a href="#three-different-methods-for-the-optimization-step" class="anchor"></a>Three different methods for the optimization step</h2>
+<p>The optimization can be run by indicating three different methods, on
+the basis of the following:</p>
+<p>A. if stratification variables are categorical (or reduced to) then
+the method is the “atomic”;</p>
+<p>B. if stratification variables are continuous, then the method is the
+“continuous”;</p>
+<p>C. if stratification variables are continuous, and there is spatial
+correlation among units in the sampling frame, then the required method
+is the “spatial”.</p>
 </div>
-<div class="section level2">
-<h2 id="complete-example">Complete example<a class="anchor" aria-label="anchor" href="#complete-example"></a>
-</h2>
-<p>Jupyter notebook: <a href="https://mybinder.org/v2/gh/barcaroli/SamplingStrata_binder/HEAD?filepath=SamplingStrata.ipynb" class="external-link"><img src="https://mybinder.org/badge_logo.svg" alt="Binder"></a></p>
+<div id="complete-example" class="section level2">
+<h2 class="hasAnchor">
+<a href="#complete-example" class="anchor"></a>Complete example</h2>
+<p>Jupyter notebook: <a href="https://mybinder.org/v2/gh/barcaroli/SamplingStrata_binder/HEAD?filepath=SamplingStrata.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder"></a></p>
 </div>
-<div class="section level2">
-<h2 id="example-with-the-atomic-method">Example with the “atomic” method<a class="anchor" aria-label="anchor" href="#example-with-the-atomic-method"></a>
-</h2>
+<div id="example-with-the-atomic-method" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example-with-the-atomic-method" class="anchor"></a>Example with the “atomic” method</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://barcaroli.github.io/SamplingStrata/" class="external-link">SamplingStrata</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://barcaroli.github.io/SamplingStrata/">SamplingStrata</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Load data ---------------------------------------------------------------------------------</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"swissmunicipalities"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">swissmunicipalities</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">6</span>,<span class="fl">9</span>,<span class="fl">22</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"swissmunicipalities"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">swissmunicipalities</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">6</span>,<span class="fl">9</span>,<span class="fl">22</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#   REG  COM        Nom HApoly Surfacesbois Airbat POPTOT</span></span>
 <span><span class="co"># 1   4  261     Zurich   8781         2326   2884 363273</span></span>
 <span><span class="co"># 2   1 6621     Geneve   1593           67    773 177964</span></span>
@@ -161,9 +183,9 @@
 <span><span class="va">frame</span> <span class="op">&lt;-</span><span class="fu"><a href="reference/buildFrameDF.html">buildFrameDF</a></span><span class="op">(</span>df<span class="op">=</span> <span class="va">swissmunicipalities</span>,</span>
 <span>                     id <span class="op">=</span> <span class="st">"COM"</span>,                    <span class="co"># unique identifier of sampling units</span></span>
 <span>                     domainvalue<span class="op">=</span> <span class="st">"REG"</span>,            <span class="co"># domain variable (region)</span></span>
-<span>                     X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"POPTOT"</span>,<span class="st">"HApoly"</span><span class="op">)</span>,      <span class="co"># stratification variables</span></span>
-<span>                     Y <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Surfacesbois"</span>,<span class="st">"Airbat"</span><span class="op">)</span><span class="op">)</span> <span class="co"># target variables</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">frame</span><span class="op">)</span></span>
+<span>                     X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"POPTOT"</span>,<span class="st">"HApoly"</span><span class="op">)</span>,      <span class="co"># stratification variables</span></span>
+<span>                     Y <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Surfacesbois"</span>,<span class="st">"Airbat"</span><span class="op">)</span><span class="op">)</span> <span class="co"># target variables</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">frame</span><span class="op">)</span></span>
 <span><span class="co">#     id     X1   X2   Y1   Y2 domainvalue</span></span>
 <span><span class="co"># 1  261 363273 8781 2326 2884           4</span></span>
 <span><span class="co"># 2 6621 177964 1593   67  773           1</span></span>
@@ -173,11 +195,11 @@
 <span><span class="co"># 6  230  90483 6787 2807  972           4</span></span>
 <span></span>
 <span><span class="co"># Define precision constraints ------------------------------------------------------------</span></span>
-<span><span class="va">ndom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">frame</span><span class="op">$</span><span class="va">domainvalue</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>DOM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"DOM1"</span>,<span class="va">ndom</span><span class="op">)</span>,</span>
-<span>                         CV1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.10</span>,<span class="va">ndom</span><span class="op">)</span>,      <span class="co"># precision (cv=10%) for 'Surfacesbois'</span></span>
-<span>                         CV2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.10</span>,<span class="va">ndom</span><span class="op">)</span>,      <span class="co"># precision (cv=10%) for 'Airind'</span></span>
-<span>                         domainvalue<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">ndom</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>   <span class="co"># same precision constraints for all domains</span></span>
+<span><span class="va">ndom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">frame</span><span class="op">$</span><span class="va">domainvalue</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>DOM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"DOM1"</span>,<span class="va">ndom</span><span class="op">)</span>,</span>
+<span>                         CV1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.10</span>,<span class="va">ndom</span><span class="op">)</span>,      <span class="co"># precision (cv=10%) for 'Surfacesbois'</span></span>
+<span>                         CV2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.10</span>,<span class="va">ndom</span><span class="op">)</span>,      <span class="co"># precision (cv=10%) for 'Airind'</span></span>
+<span>                         domainvalue<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">ndom</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>   <span class="co"># same precision constraints for all domains</span></span>
 <span><span class="va">cv</span></span>
 <span><span class="co">#    DOM CV1 CV2 domainvalue</span></span>
 <span><span class="co"># 1 DOM1 0.1 0.1           1</span></span>
@@ -192,7 +214,7 @@
 <span><span class="va">strata</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/buildStrataDF.html">buildStrataDF</a></span><span class="op">(</span><span class="va">frame</span><span class="op">)</span></span>
 <span><span class="co"># Number of strata:  2895</span></span>
 <span><span class="co"># ... of which with only one unit:  2894&gt; head(strata)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">strata</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">strata</span><span class="op">)</span></span>
 <span><span class="co">#              STRATO N   M1 M2 S1 S2 COST CENS DOM1    X1   X2</span></span>
 <span><span class="co"># 100*305     100*305 1   59  0  0  0    1    0    1   100  305</span></span>
 <span><span class="co"># 1010*1661 1010*1661 1  983  0  0  0    1    0    1  1010 1661</span></span>
@@ -206,8 +228,8 @@
 <span>                                errors <span class="op">=</span> <span class="va">cv</span>,        <span class="co"># precision constraints</span></span>
 <span>                                maxclusters <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>   <span class="co"># max number of strata to be evaluated </span></span>
 <span><span class="co"># number of strata to be obtained in each domain in final solution:                             </span></span>
-<span><span class="va">nstrat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="va">solutionKmean</span><span class="op">$</span><span class="va">suggestions</span>, <span class="va">solutionKmean</span><span class="op">$</span><span class="va">domainvalue</span>,</span>
-<span>                 FUN<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">nstrat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">solutionKmean</span><span class="op">$</span><span class="va">suggestions</span>, <span class="va">solutionKmean</span><span class="op">$</span><span class="va">domainvalue</span>,</span>
+<span>                 FUN<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">nstrat</span></span>
 <span><span class="co"># 1  2  3  4  5  6  7 </span></span>
 <span><span class="co"># 9  8 10  9 10  9 10</span></span>
@@ -228,7 +250,7 @@
 <span><span class="co"># *** Sample size :  362</span></span>
 <span><span class="co"># *** Number of strata :  59</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">solution</span><span class="op">$</span><span class="va">aggr_strata</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">solution</span><span class="op">$</span><span class="va">aggr_strata</span><span class="op">)</span></span>
 <span><span class="co">#   STRATO         M1        M2        S1        S2   N DOM1 COST CENS     SOLUZ</span></span>
 <span><span class="co"># 1      1   61.07407  17.37778  41.87780  13.22224 270    1    1    0  9.141966</span></span>
 <span><span class="co"># 2      2 1114.66667  64.80392 555.75540  53.48631  51    1    1    0  6.985276</span></span>
@@ -245,7 +267,7 @@
 <span><span class="co"># </span></span>
 <span><span class="co"># ==&gt; There have been  6  take-all strata </span></span>
 <span><span class="co"># from which have been selected  9 units</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span>
 <span><span class="co">#   DOMAINVALUE STRATO  STRATUM   ID   X1  X2 Y1 Y2 LABEL WEIGHTS        FPC</span></span>
 <span><span class="co"># 1           1      1  195*201 5534  195 201 37 10     1      30 0.03333333</span></span>
 <span><span class="co"># 2           1      1  172*193 5801  172 193 14  4     1      30 0.03333333</span></span>
@@ -260,31 +282,30 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2 data-toc-skip>Links</h2>
+<h2>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://cloud.r-project.org/package=SamplingStrata" class="external-link">View on CRAN</a></li>
-<li><a href="https://github.com/barcaroli/SamplingStrata/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/barcaroli/SamplingStrata/issues" class="external-link">Report a bug</a></li>
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=SamplingStrata">https://​cloud.r-project.org/​package=SamplingStrata</a>
+</li>
+<li>Browse source code at <br><a href="https://github.com/barcaroli/SamplingStrata/">https://​github.com/​barcaroli/​SamplingStrata/​</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/barcaroli/SamplingStrata/issues">https://​github.com/​barcaroli/​SamplingStrata/​issues</a>
+</li>
 </ul>
 </div>
-
 <div class="license">
-<h2 data-toc-skip>License</h2>
+<h2>License</h2>
 <ul class="list-unstyled">
 <li>GPL (&gt;= 2)</li>
 </ul>
 </div>
-
-
 <div class="citation">
-<h2 data-toc-skip>Citation</h2>
+<h2>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing SamplingStrata</a></li>
+<li><a href="authors.html">Citing SamplingStrata</a></li>
 </ul>
 </div>
-
 <div class="developers">
-<h2 data-toc-skip>Developers</h2>
+<h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Giulio Barcaroli <br><small class="roles"> Author, maintainer </small>  </li>
 <li>Marco Ballin <br><small class="roles"> Author </small>  </li>
@@ -295,28 +316,25 @@
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
+  <div class="dev-status">
+<h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="http://www.gnu.org/licenses/gpl-3.0.html" class="external-link"><img src="http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat" alt="License"></a></li>
-<li><a href="https://cran.r-project.org/package=SamplingStrata" class="external-link"><img src="http://www.r-pkg.org/badges/version/SamplingStrata" alt="CRAN"></a></li>
-<li><a href="http://www.r-pkg.org/pkg/SamplingStrata" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/SamplingStrata?color=brightgreen" alt="Downloads"></a></li>
-<li><a href="http://www.awesomeofficialstatistics.org" class="external-link"><img src="https://awesome.re/mentioned-badge.svg" alt="Mentioned in Awesome Official Statistics"></a></li>
+<li><a href="http://www.gnu.org/licenses/gpl-3.0.html"><img src="http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat" alt="License"></a></li>
+<li><a href="https://cran.r-project.org/package=SamplingStrata"><img src="http://www.r-pkg.org/badges/version/SamplingStrata" alt="CRAN"></a></li>
+<li><a href="http://www.r-pkg.org/pkg/SamplingStrata"><img src="http://cranlogs.r-pkg.org/badges/SamplingStrata?color=brightgreen" alt="Downloads"></a></li>
+<li><a href="http://www.awesomeofficialstatistics.org"><img src="https://awesome.re/mentioned-badge.svg" alt="Mentioned in Awesome Official Statistics"></a></li>
 </ul>
 </div>
-
-  </div>
+</div>
 </div>
 
 
       <footer><div class="copyright">
-  <p></p>
-<p>Developed by Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
+  <p>Developed by Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -324,8 +342,6 @@
 
   
 
-
-  
 
   </body>
 </html>

@@ -33,8 +33,6 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -47,12 +45,18 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5-4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
 <li>
   <a href="../articles/SamplingStrata.html">Get started</a>
 </li>
@@ -83,7 +87,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/barcaroli/SamplingStrata/" class="external-link">
+  <a href="https://github.com/barcaroli/SamplingStrata/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -98,39 +102,39 @@
 
       
 
-      </header><script src="drake_continuous_files/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="drake_continuous_files/vis-9.1.0/vis-network.min.css" rel="stylesheet">
+      </header><link href="drake_continuous_files/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="drake_continuous_files/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="drake_continuous_files/vis-9.1.0/vis-network.min.css" rel="stylesheet">
 <script src="drake_continuous_files/vis-9.1.0/vis-network.min.js"></script><script src="drake_continuous_files/visNetwork-binding-2.1.2/visNetwork.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>SamplingStrata workflow with drake</h1>
-            <h3 data-toc-skip class="subtitle">Continuous method</h3>
-                        <h4 data-toc-skip class="author">Giulio
-Barcaroli</h4>
+            <h3 class="subtitle">Continuous method</h3>
+                        <h4 class="author">Giulio Barcaroli</h4>
             
-            <h4 data-toc-skip class="date">2023-05-22</h4>
+            <h4 class="date">2025-02-01</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/vignettes/drake_continuous.Rmd" class="external-link"><code>vignettes/drake_continuous.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/drake_continuous.Rmd"><code>vignettes/drake_continuous.Rmd</code></a></small>
       <div class="hidden name"><code>drake_continuous.Rmd</code></div>
 
     </div>
 
     
     
-<div class="section level2">
-<h2 id="workflow-definition">Workflow definition<a class="anchor" aria-label="anchor" href="#workflow-definition"></a>
-</h2>
+<div id="workflow-definition" class="section level1">
+<h1 class="hasAnchor">
+<a href="#workflow-definition" class="anchor"></a>Workflow definition</h1>
 <p>First we define packages:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/drake" class="external-link">drake</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://barcaroli.github.io/SamplingStrata/" class="external-link">SamplingStrata</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/drake">drake</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://barcaroli.github.io/SamplingStrata/">SamplingStrata</a></span><span class="op">)</span></span></code></pre></div>
 <p>then ‘swissmunicipalities’ example data (with only 2 domains):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">swissmunicipalities</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">swissmunicipalities</span><span class="op">)</span></span>
 <span><span class="va">swissmun</span> <span class="op">&lt;-</span> <span class="va">swissmunicipalities</span><span class="op">[</span><span class="va">swissmunicipalities</span><span class="op">$</span><span class="va">REG</span> <span class="op">&lt;</span> <span class="fl">3</span>,</span>
-<span>                                <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REG"</span>,<span class="st">"COM"</span>,<span class="st">"Nom"</span>,<span class="st">"HApoly"</span>,</span>
+<span>                                <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"REG"</span>,<span class="st">"COM"</span>,<span class="st">"Nom"</span>,<span class="st">"HApoly"</span>,</span>
 <span>                                  <span class="st">"Surfacesbois"</span>,<span class="st">"Surfacescult"</span>,</span>
 <span>                                  <span class="st">"Airbat"</span>,<span class="st">"POPTOT"</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    REG  COM       Nom HApoly Surfacesbois Surfacescult Airbat POPTOT</span></span>
 <span><span class="co">#&gt; 2    1 6621    Geneve   1593           67           31    773 177964</span></span>
 <span><span class="co">#&gt; 4    2  351      Bern   5162         1726         1041   1070 128634</span></span>
@@ -140,28 +144,28 @@ Barcaroli</h4>
 <span><span class="co">#&gt; 11   2  355     Koniz   5099         1567         2621    515  37782</span></span></code></pre></div>
 <p>Finally, the plan:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/drake/reference/drake_plan.html" class="external-link">drake_plan</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/drake/reference/drake_plan.html">drake_plan</a></span><span class="op">(</span></span>
 <span>  <span class="co"># Definition of the sampling frame</span></span>
 <span>  frame <span class="op">=</span> <span class="fu"><a href="../reference/buildFrameDF.html">buildFrameDF</a></span><span class="op">(</span></span>
 <span>    df <span class="op">=</span> <span class="va">swissmun</span>,</span>
 <span>    id <span class="op">=</span> <span class="st">"COM"</span>,</span>
 <span>    domainvalue<span class="op">=</span> <span class="st">"REG"</span>,</span>
-<span>    X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HApoly"</span>,<span class="st">"POPTOT"</span><span class="op">)</span>,</span>
-<span>    Y <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Surfacesbois"</span>, <span class="st">"Airbat"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"HApoly"</span>,<span class="st">"POPTOT"</span><span class="op">)</span>,</span>
+<span>    Y <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Surfacesbois"</span>, <span class="st">"Airbat"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="co"># Definition of precision constraints</span></span>
-<span>  cv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    DOM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"DOM1"</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">REG</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    CV1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.10</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">REG</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    CV2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.10</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">REG</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    domainvalue<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">REG</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  cv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>    DOM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"DOM1"</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">REG</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    CV1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.10</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">REG</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    CV2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.10</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">REG</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    domainvalue<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">REG</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="co"># Solution with kmeans</span></span>
 <span>  kmean <span class="op">=</span> <span class="fu"><a href="../reference/KmeansSolution2.html">KmeansSolution2</a></span><span class="op">(</span>frame<span class="op">=</span><span class="va">frame</span>,</span>
 <span>                          errors<span class="op">=</span><span class="va">cv</span>,</span>
 <span>                          maxclusters<span class="op">=</span><span class="fl">5</span><span class="op">)</span>,</span>
 <span>  <span class="co"># Determination of number of strata for each domain</span></span>
-<span>  nstrat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="va">kmean</span><span class="op">$</span><span class="va">suggestions</span>,</span>
+<span>  nstrat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">kmean</span><span class="op">$</span><span class="va">suggestions</span>,</span>
 <span>                  <span class="va">kmean</span><span class="op">$</span><span class="va">domainvalue</span>,</span>
-<span>                  FUN<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                  FUN<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="co"># Initial solutions</span></span>
 <span>  sugg <span class="op">=</span> <span class="fu"><a href="../reference/prepareSuggestion.html">prepareSuggestion</a></span><span class="op">(</span>kmean<span class="op">=</span><span class="va">kmean</span>,</span>
 <span>                           frame<span class="op">=</span><span class="va">frame</span>,</span>
@@ -194,50 +198,50 @@ Barcaroli</h4>
 <span>  sample <span class="op">=</span> <span class="fu"><a href="../reference/selectSample.html">selectSample</a></span><span class="op">(</span><span class="va">solution</span><span class="op">$</span><span class="va">framenew</span>,<span class="va">adjustedStrata</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="execution-of-the-workflow">Execution of the workflow<a class="anchor" aria-label="anchor" href="#execution-of-the-workflow"></a>
-</h2>
+<div id="execution-of-the-workflow" class="section level1">
+<h1 class="hasAnchor">
+<a href="#execution-of-the-workflow" class="anchor"></a>Execution of the workflow</h1>
 <p>We have just defined this plan:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plan</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 13 × 2</span></span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">plan</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 13 × 2</span></span>
 <span><span class="co">#&gt;    target           command                                                                                                                                                                                                                        </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;expr_lst&gt;</span>                                                                                                                                                                                                                     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> frame            buildFrameDF(df = swissmun, id = "COM", domainvalue = "REG",      X = c("HApoly", "POPTOT"), Y = c("Surfacesbois", "Airbat"))                                                                                                  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> cv               as.data.frame(list(DOM = rep("DOM1", length(unique(swissmun$REG))),      CV1 = rep(0.1, length(unique(swissmun$REG))), CV2 = rep(0.1,          length(unique(swissmun$REG))), domainvalue = c(1:length(unique(swissmun$REG)))))</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> kmean            KmeansSolution2(frame = frame, errors = cv, maxclusters = 5)                                                                                                                                                                   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> nstrat           tapply(kmean$suggestions, kmean$domainvalue, FUN = function(x) length(unique(x)))                                                                                                                                              </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> sugg             prepareSuggestion(kmean = kmean, frame = frame, nstrat = nstrat)                                                                                                                                                               </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> solution         optimStrata(method = "continuous", framesamp = frame, errors = cv,      suggestions = sugg, nStrat = nstrat, iter = 25, pops = 10)                                                                                             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> strata_structure summaryStrata(solution$framenew, solution$aggr_strata, progress = FALSE)                                                                                                                                                       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> expected_CV1     expected_CV(solution$aggr_strata)                                                                                                                                                                                              </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> sample_size      150                                                                                                                                                                                                                            </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> adjustedStrata   adjustSize(size = sample_size, strata = solution$aggr_strata,      cens = NULL)                                                                                                                                                </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> expected_CV2     expected_CV(adjustedStrata)                                                                                                                                                                                                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> eval             evalSolution(frame = solution$framenew, outstrata = adjustedStrata,      nsampl = 500, progress = FALSE)                                                                                                                       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> sample           selectSample(solution$framenew, adjustedStrata)</span></span></code></pre></div>
+<span><span class="co">#&gt;    &lt;chr&gt;            &lt;expr_lst&gt;                                                                                                                                                                                                                     </span></span>
+<span><span class="co">#&gt;  1 frame            buildFrameDF(df = swissmun, id = "COM", domainvalue = "REG",      X = c("HApoly", "POPTOT"), Y = c("Surfacesbois", "Airbat"))                                                                                                  </span></span>
+<span><span class="co">#&gt;  2 cv               as.data.frame(list(DOM = rep("DOM1", length(unique(swissmun$REG))),      CV1 = rep(0.1, length(unique(swissmun$REG))), CV2 = rep(0.1,          length(unique(swissmun$REG))), domainvalue = c(1:length(unique(swissmun$REG)))))</span></span>
+<span><span class="co">#&gt;  3 kmean            KmeansSolution2(frame = frame, errors = cv, maxclusters = 5)                                                                                                                                                                   </span></span>
+<span><span class="co">#&gt;  4 nstrat           tapply(kmean$suggestions, kmean$domainvalue, FUN = function(x) length(unique(x)))                                                                                                                                              </span></span>
+<span><span class="co">#&gt;  5 sugg             prepareSuggestion(kmean = kmean, frame = frame, nstrat = nstrat)                                                                                                                                                               </span></span>
+<span><span class="co">#&gt;  6 solution         optimStrata(method = "continuous", framesamp = frame, errors = cv,      suggestions = sugg, nStrat = nstrat, iter = 25, pops = 10)                                                                                             </span></span>
+<span><span class="co">#&gt;  7 strata_structure summaryStrata(solution$framenew, solution$aggr_strata, progress = FALSE)                                                                                                                                                       </span></span>
+<span><span class="co">#&gt;  8 expected_CV1     expected_CV(solution$aggr_strata)                                                                                                                                                                                              </span></span>
+<span><span class="co">#&gt;  9 sample_size      150                                                                                                                                                                                                                            </span></span>
+<span><span class="co">#&gt; 10 adjustedStrata   adjustSize(size = sample_size, strata = solution$aggr_strata,      cens = NULL)                                                                                                                                                </span></span>
+<span><span class="co">#&gt; 11 expected_CV2     expected_CV(adjustedStrata)                                                                                                                                                                                                    </span></span>
+<span><span class="co">#&gt; 12 eval             evalSolution(frame = solution$framenew, outstrata = adjustedStrata,      nsampl = 500, progress = FALSE)                                                                                                                       </span></span>
+<span><span class="co">#&gt; 13 sample           selectSample(solution$framenew, adjustedStrata)</span></span></code></pre></div>
 <p>visualised in this way:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/vis_drake_graph.html" class="external-link">vis_drake_graph</a></span><span class="op">(</span><span class="va">plan</span>, ncol_legend <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/vis_drake_graph.html">vis_drake_graph</a></span><span class="op">(</span><span class="va">plan</span>, ncol_legend <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>                main<span class="op">=</span><span class="st">"Optimization with 'continuous' method"</span><span class="op">)</span></span></code></pre></div>
-<div class="visNetwork html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-0f2d5a424f18aa6994d6" style="width:576px;height:384px;"></div>
-<script type="application/json" data-for="htmlwidget-0f2d5a424f18aa6994d6">{"x":{"nodes":{"id":["sample_size","swissmun","frame","cv","kmean","nstrat","sugg","solution","adjustedStrata","strata_structure","expected_CV1","eval","expected_CV2","sample"],"imported":[false,true,false,false,false,false,false,false,false,false,false,false,false,false],"label":["sample_size\n0.04s","swissmun","frame\n0.03s","cv\n0.01s","kmean\n0.36s","nstrat\n0.02s","sugg\n0.1s","solution\n13.58s","adjustedStrata\n0.02s","strata_structure\n0.03s","expected_CV1\n0s","eval\n11.39s","expected_CV2\n0.02s","sample\n0.03s"],"status":["up to date","imported","up to date","up to date","up to date","up to date","up to date","up to date","up to date","up to date","up to date","up to date","up to date","up to date"],"type":["object","object","object","object","object","object","object","object","object","object","object","object","object","object"],"font.size":[20,20,20,20,20,20,20,20,20,20,20,20,20,20],"color":["#228B22","#1874CD","#228B22","#228B22","#228B22","#228B22","#228B22","#228B22","#228B22","#228B22","#228B22","#228B22","#228B22","#228B22"],"shape":["dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot"],"level":[1,1,2,2,3,4,5,6,7,7,7,8,8,8],"x":[-1,-1,-0.714285714285714,-0.714285714285714,-0.428571428571429,-0.142857142857143,0.142857142857143,0.428571428571429,0.714285714285714,0.714285714285714,0.714285714285714,1,1,1],"y":[-0.666666666666667,0.666666666666667,-0.666666666666667,0.666666666666667,0,0,0,0,-1,0,1,-1,0,1]},"edges":{"from":["sample_size","solution","solution","solution","solution","solution","swissmun","swissmun","kmean","kmean","adjustedStrata","adjustedStrata","adjustedStrata","frame","frame","frame","cv","cv","nstrat","nstrat","sugg"],"to":["adjustedStrata","adjustedStrata","strata_structure","expected_CV1","eval","sample","frame","cv","nstrat","sugg","eval","expected_CV2","sample","solution","kmean","sugg","solution","kmean","solution","sugg","solution"],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"interaction":{"navigationButtons":true,"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"Optimization with 'continuous' method","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":false,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><p>and now we execute:</p>
+<div class="visNetwork html-widget html-fill-item" id="htmlwidget-2b31a2272c2afc23627d" style="width:576px;height:384px;"></div>
+<script type="application/json" data-for="htmlwidget-2b31a2272c2afc23627d">{"x":{"nodes":{"id":["sample_size","swissmun","frame","cv","kmean","nstrat","sugg","solution","adjustedStrata","strata_structure","expected_CV1","eval","expected_CV2","sample"],"imported":[false,true,false,false,false,false,false,false,false,false,false,false,false,false],"label":["sample_size\n0.04s","swissmun","frame\n0.03s","cv\n0.01s","kmean\n0.36s","nstrat\n0.02s","sugg\n0.1s","solution\n13.58s","adjustedStrata\n0.02s","strata_structure\n0.03s","expected_CV1\n0s","eval\n11.39s","expected_CV2\n0.02s","sample\n0.03s"],"status":["up to date","imported","up to date","up to date","up to date","up to date","up to date","up to date","up to date","up to date","up to date","up to date","up to date","up to date"],"type":["object","object","object","object","object","object","object","object","object","object","object","object","object","object"],"font.size":[20,20,20,20,20,20,20,20,20,20,20,20,20,20],"color":["#228B22","#1874CD","#228B22","#228B22","#228B22","#228B22","#228B22","#228B22","#228B22","#228B22","#228B22","#228B22","#228B22","#228B22"],"shape":["dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot","dot"],"level":[1,1,2,2,3,4,5,6,7,7,7,8,8,8],"x":[-1,-1,-0.7142857142857143,-0.7142857142857143,-0.4285714285714286,-0.1428571428571429,0.1428571428571428,0.4285714285714286,0.7142857142857142,0.7142857142857142,0.7142857142857142,1,1,1],"y":[-0.6666666666666667,0.6666666666666665,-0.6666666666666667,0.6666666666666665,0,0,0,0,-1,0,1,-1,0,1]},"edges":{"from":["sample_size","solution","solution","solution","solution","solution","swissmun","swissmun","kmean","kmean","adjustedStrata","adjustedStrata","adjustedStrata","frame","frame","frame","cv","cv","nstrat","nstrat","sugg"],"to":["adjustedStrata","adjustedStrata","strata_structure","expected_CV1","eval","sample","frame","cv","nstrat","sugg","eval","expected_CV2","sample","solution","kmean","sugg","solution","kmean","solution","sugg","solution"],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"interaction":{"navigationButtons":true,"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"Optimization with 'continuous' method","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":false,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><p>and now we execute:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/make.html" class="external-link">make</a></span><span class="op">(</span><span class="va">plan</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> All targets are already up to date.</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/make.html">make</a></span><span class="op">(</span><span class="va">plan</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✔ All targets are already up to date.</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="output-inspection">Output inspection<a class="anchor" aria-label="anchor" href="#output-inspection"></a>
-</h2>
+<div id="output-inspection" class="section level1">
+<h1 class="hasAnchor">
+<a href="#output-inspection" class="anchor"></a>Output inspection</h1>
 <p>First of all, the total size of the optimized sample:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">999</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/readd.html" class="external-link">loadd</a></span><span class="op">(</span><span class="va">solution</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">solution</span><span class="op">$</span><span class="va">aggr_strata</span><span class="op">$</span><span class="va">SOLUZ</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">999</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/readd.html">loadd</a></span><span class="op">(</span><span class="va">solution</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">solution</span><span class="op">$</span><span class="va">aggr_strata</span><span class="op">$</span><span class="va">SOLUZ</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 87.42433</span></span></code></pre></div>
 <p>Then, the structure of the optimized strata:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/readd.html" class="external-link">loadd</a></span><span class="op">(</span><span class="va">strata_structure</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/readd.html">loadd</a></span><span class="op">(</span><span class="va">strata_structure</span><span class="op">)</span></span>
 <span><span class="va">strata_structure</span></span>
 <span><span class="co">#&gt;   Domain Stratum Population Allocation SamplingRate Lower_X1 Upper_X1 Lower_X2 Upper_X2</span></span>
 <span><span class="co">#&gt; 1      1       1        346         10     0.030101       32      935       27     2283</span></span>
@@ -251,7 +255,7 @@ Barcaroli</h4>
 <span><span class="co">#&gt; 9      2       4         54         13     0.249651      421    20079      272   128634</span></span></code></pre></div>
 <p>The expected CVs given the optimized strata:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/readd.html" class="external-link">loadd</a></span><span class="op">(</span><span class="va">expected_CV1</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/readd.html">loadd</a></span><span class="op">(</span><span class="va">expected_CV1</span><span class="op">)</span></span>
 <span><span class="va">expected_CV1</span></span>
 <span><span class="co">#&gt;      cv(Y1) cv(Y2)</span></span>
 <span><span class="co">#&gt; DOM1  0.099  0.099</span></span>
@@ -259,14 +263,14 @@ Barcaroli</h4>
 <p>and after the adjustment of the allocation in the strata based on the
 affordable sample size:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/readd.html" class="external-link">loadd</a></span><span class="op">(</span><span class="va">expected_CV2</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/readd.html">loadd</a></span><span class="op">(</span><span class="va">expected_CV2</span><span class="op">)</span></span>
 <span><span class="va">expected_CV2</span></span>
 <span><span class="co">#&gt;      cv(Y1) cv(Y2)</span></span>
 <span><span class="co">#&gt; DOM1  0.070  0.071</span></span>
 <span><span class="co">#&gt; DOM2  0.074  0.072</span></span></code></pre></div>
 <p>The results of simulation with the adjusted allocation:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/readd.html" class="external-link">loadd</a></span><span class="op">(</span><span class="va">eval</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/readd.html">loadd</a></span><span class="op">(</span><span class="va">eval</span><span class="op">)</span></span>
 <span><span class="va">eval</span><span class="op">$</span><span class="va">coeff_var</span></span>
 <span><span class="co">#&gt;      CV1    CV2  dom</span></span>
 <span><span class="co">#&gt; 1 0.0670 0.0743 DOM1</span></span>
@@ -277,8 +281,8 @@ affordable sample size:</p>
 <span><span class="co">#&gt; 2 -0.0002 -0.0014 DOM2</span></span></code></pre></div>
 <p>Finally, the selection of the sample from the adjusted strata:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/readd.html" class="external-link">loadd</a></span><span class="op">(</span><span class="va">sample</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sample</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/drake/reference/readd.html">loadd</a></span><span class="op">(</span><span class="va">sample</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">sample</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   DOMAINVALUE STRATO   ID  X1  X2  Y1 Y2 LABEL  WEIGHTS        FPC</span></span>
 <span><span class="co">#&gt; 1           1      1 5500 237 193  24  9     1 19.22222 0.05202312</span></span>
 <span><span class="co">#&gt; 2           1      1 5533 500 543 184 17     1 19.22222 0.05202312</span></span>
@@ -300,13 +304,11 @@ affordable sample size:</p>
 
 
       <footer><div class="copyright">
-  <p></p>
-<p>Developed by Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
+  <p>Developed by Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -314,8 +316,6 @@ affordable sample size:</p>
 
   
 
-
-  
 
   </body>
 </html>

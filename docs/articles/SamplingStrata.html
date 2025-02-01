@@ -33,8 +33,6 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -47,12 +45,18 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5-4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
 <li>
   <a href="../articles/SamplingStrata.html">Get started</a>
 </li>
@@ -83,7 +87,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/barcaroli/SamplingStrata/" class="external-link">
+  <a href="https://github.com/barcaroli/SamplingStrata/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -103,21 +107,21 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Optimization of sampling strata with the
 SamplingStrata package</h1>
-                        <h4 data-toc-skip class="author">Marco Ballin,
-Giulio Barcaroli</h4>
+                        <h4 class="author">Marco Ballin, Giulio
+Barcaroli</h4>
             
-            <h4 data-toc-skip class="date">2023-05-22</h4>
+            <h4 class="date">2025-02-01</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/vignettes/SamplingStrata.Rmd" class="external-link"><code>vignettes/SamplingStrata.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/SamplingStrata.Rmd"><code>vignettes/SamplingStrata.Rmd</code></a></small>
       <div class="hidden name"><code>SamplingStrata.Rmd</code></div>
 
     </div>
 
     
     
-<div class="section level2">
-<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h2>
+<div id="introduction" class="section level1">
+<h1 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h1>
 <p>Let us suppose we need to design a sample survey, having a complete
 frame containing information on the target population (identifiers plus
 auxiliary information). If our sample design is a stratified one, we
@@ -169,11 +173,11 @@ frame,</li>
 i.e. to optimize the stratification of geo-coded sampling frames,</li>
 </ul>
 <p>are the object of two dedicated vignettes in the section “Articles”
-in the website: <a href="https://barcaroli.github.io/SamplingStrata/" class="external-link uri">https://barcaroli.github.io/SamplingStrata/</a> .</p>
+in the website: <a href="https://barcaroli.github.io/SamplingStrata/" class="uri">https://barcaroli.github.io/SamplingStrata/</a> .</p>
 </div>
-<div class="section level2">
-<h2 id="procedural-steps">Procedural steps<a class="anchor" aria-label="anchor" href="#procedural-steps"></a>
-</h2>
+<div id="procedural-steps" class="section level1">
+<h1 class="hasAnchor">
+<a href="#procedural-steps" class="anchor"></a>Procedural steps</h1>
 <p>The optimization of the sampling design starts by making the sampling
 frame available, defining the target estimates of the survey and
 establishing the precision constraints on them. Then, a choice has to be
@@ -212,22 +216,22 @@ we are obliged to reduce the sample size.</p>
 <p>In the following, each step will be illustrated starting from a real
 sampling frame, the one that comes with the R package <em>sampling</em>
 (the dataframe <em>swissmunicipalities</em>).</p>
-<div class="section level3">
-<h3 id="preparation-of-inputs-required-by-the-optimization-step">Preparation of inputs required by the optimization step<a class="anchor" aria-label="anchor" href="#preparation-of-inputs-required-by-the-optimization-step"></a>
-</h3>
-<div class="section level4">
-<h4 id="frame">Frame<a class="anchor" aria-label="anchor" href="#frame"></a>
-</h4>
+<div id="preparation-of-inputs-required-by-the-optimization-step" class="section level2">
+<h2 class="hasAnchor">
+<a href="#preparation-of-inputs-required-by-the-optimization-step" class="anchor"></a>Preparation of inputs required by the optimization step</h2>
+<div id="frame" class="section level3">
+<h3 class="hasAnchor">
+<a href="#frame" class="anchor"></a>Frame</h3>
 <p>For sake of simplicity, let us consider a subset of the
 <em>swissmunicipalities</em> dataset:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://barcaroli.github.io/SamplingStrata/" class="external-link">SamplingStrata</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">swissmunicipalities</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://barcaroli.github.io/SamplingStrata/">SamplingStrata</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">swissmunicipalities</span><span class="op">)</span></span>
 <span><span class="va">swissmun</span> <span class="op">&lt;-</span> <span class="va">swissmunicipalities</span><span class="op">[</span><span class="va">swissmunicipalities</span><span class="op">$</span><span class="va">REG</span> <span class="op">&lt;</span> <span class="fl">4</span>,</span>
-<span>                                <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REG"</span>,<span class="st">"COM"</span>,<span class="st">"Nom"</span>,<span class="st">"HApoly"</span>,</span>
+<span>                                <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"REG"</span>,<span class="st">"COM"</span>,<span class="st">"Nom"</span>,<span class="st">"HApoly"</span>,</span>
 <span>                                  <span class="st">"Surfacesbois"</span>,<span class="st">"Surfacescult"</span>,</span>
 <span>                                  <span class="st">"Airbat"</span>,<span class="st">"POPTOT"</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    REG  COM       Nom HApoly Surfacesbois Surfacescult Airbat POPTOT</span></span>
 <span><span class="co">#&gt; 2    1 6621    Geneve   1593           67           31    773 177964</span></span>
 <span><span class="co">#&gt; 3    3 2701     Basel   2391           97           93   1023 166558</span></span>
@@ -248,7 +252,7 @@ that in each municipalities are always updated the values of <em>total
 area</em> (<em>HApoly</em>) and <em>total population</em>
 (<em>POPTOT</em>). From the correlation matrix:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                  HApoly Surfacesbois Surfacescult    Airbat     POPTOT</span></span>
 <span><span class="co">#&gt; HApoly       1.00000000   0.76920101    0.3398758 0.2602289 0.09940795</span></span>
 <span><span class="co">#&gt; Surfacesbois 0.76920101   1.00000000    0.4492188 0.2968918 0.09881328</span></span>
@@ -266,12 +270,12 @@ to apply a <em>k-means clustering</em> method <span class="citation">(see Hartig
 function <em>var.bin</em>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">swissmun</span><span class="op">$</span><span class="va">HApoly.cat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/var.bin.html">var.bin</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">HApoly</span>,<span class="fl">15</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">HApoly.cat</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">HApoly.cat</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15 </span></span>
 <span><span class="co">#&gt; 311 345 281 214 158 126 111  84  66  32  29  32  15  11   8</span></span>
 <span><span class="va">swissmun</span><span class="op">$</span><span class="va">POPTOT.cat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/var.bin.html">var.bin</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">POPTOT</span>,<span class="fl">15</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">POPTOT.cat</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">POPTOT.cat</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15 </span></span>
 <span><span class="co">#&gt; 452 388 266 193 124 109  79  59  42  33  35  28   5   6   4</span></span></code></pre></div>
@@ -281,11 +285,11 @@ data in a suitable mode for next processing:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">frame1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/buildFrameDF.html">buildFrameDF</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">swissmun</span>,</span>
 <span>                           id <span class="op">=</span> <span class="st">"COM"</span>,</span>
-<span>                           X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"POPTOT.cat"</span>,<span class="st">"HApoly.cat"</span><span class="op">)</span>,</span>
-<span>                           Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Airbat"</span>,<span class="st">"Surfacesbois"</span><span class="op">)</span>,</span>
+<span>                           X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"POPTOT.cat"</span>,<span class="st">"HApoly.cat"</span><span class="op">)</span>,</span>
+<span>                           Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Airbat"</span>,<span class="st">"Surfacesbois"</span><span class="op">)</span>,</span>
 <span>                           domainvalue <span class="op">=</span> <span class="st">"REG"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">frame1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">frame1</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     id X1 X2   Y1   Y2 domainvalue</span></span>
 <span><span class="co">#&gt; 1 6621 15  8  773   67           1</span></span>
 <span><span class="co">#&gt; 2 2701 15  9 1023   97           3</span></span>
@@ -294,9 +298,9 @@ data in a suitable mode for next processing:</p>
 <span><span class="co">#&gt; 5  371 14  9  463  976           2</span></span>
 <span><span class="co">#&gt; 6  942 14  9  523  425           2</span></span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="strata">Strata<a class="anchor" aria-label="anchor" href="#strata"></a>
-</h4>
+<div id="strata" class="section level3">
+<h3 class="hasAnchor">
+<a href="#strata" class="anchor"></a>Strata</h3>
 <p>This dataframe is not explicitly required, as it is automatically
 produced from the <em>frame</em> dataframe by the <em>optimStrata</em>
 function. Notwithstanding, it is worthwhile to produce it in order to
@@ -311,7 +315,7 @@ dataframe:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Number of strata:  350</span></span>
 <span><span class="co">#&gt; ... of which with only one unit:  130</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">strata1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">strata1</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      STRATO  N        M1         M2        S1        S2 COST CENS DOM1 X1 X2</span></span>
 <span><span class="co">#&gt; 1*1     1*1 64  5.359375   34.07812  2.846968  24.54161    1    0    1  1  1</span></span>
 <span><span class="co">#&gt; 1*10   1*10  3 17.333333  858.66667 13.299958 264.73928    1    0    1  1 10</span></span>
@@ -338,9 +342,9 @@ respectively ‘Mi’ and ‘Si’);</li>
 (‘DOM1’).</li>
 </ul>
 </div>
-<div class="section level4">
-<h4 id="precision-constraints">Precision constraints<a class="anchor" aria-label="anchor" href="#precision-constraints"></a>
-</h4>
+<div id="precision-constraints" class="section level3">
+<h3 class="hasAnchor">
+<a href="#precision-constraints" class="anchor"></a>Precision constraints</h3>
 <p>The <em>errors</em> dataframe contains the accuracy constraints that
 are set on target estimates. This means to define a maximum coefficient
 of variation for each target variable and for each domain value. Each
@@ -348,11 +352,11 @@ row of this frame is related to accuracy constraints in a particular
 subdomain of interest, identified by the <em>domainvalue</em> value. In
 our case, we have chosen to define the following constraints:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ndom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">REG</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>DOM<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"DOM1"</span>,<span class="va">ndom</span><span class="op">)</span>,</span>
-<span>                         CV1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.10</span>,<span class="va">ndom</span><span class="op">)</span>,</span>
-<span>                         CV2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.10</span>,<span class="va">ndom</span><span class="op">)</span>,</span>
-<span>                         domainvalue<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">ndom</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">ndom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">$</span><span class="va">REG</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>DOM<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"DOM1"</span>,<span class="va">ndom</span><span class="op">)</span>,</span>
+<span>                         CV1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.10</span>,<span class="va">ndom</span><span class="op">)</span>,</span>
+<span>                         CV2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.10</span>,<span class="va">ndom</span><span class="op">)</span>,</span>
+<span>                         domainvalue<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">ndom</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">cv</span></span>
 <span><span class="co">#&gt;    DOM CV1 CV2 domainvalue</span></span>
 <span><span class="co">#&gt; 1 DOM1 0.1 0.1           1</span></span>
@@ -384,16 +388,16 @@ related allocation, under the given strata, using the function
 <em>bethel</em> (<span class="citation">Bethel (1989)</span>):</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">allocation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bethel.html">bethel</a></span><span class="op">(</span><span class="va">strata1</span>,<span class="va">cv</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">allocation</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">allocation</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 570</span></span></code></pre></div>
 <p>This is the total sample size (570) required to satisfy precision
 constraints under the current stratification, before the
 optimization.</p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="optimization">Optimization<a class="anchor" aria-label="anchor" href="#optimization"></a>
-</h3>
+<div id="optimization" class="section level2">
+<h2 class="hasAnchor">
+<a href="#optimization" class="anchor"></a>Optimization</h2>
 <p>The function <em>optimStrata</em> is the one performing the
 optimization step. Actually, this function is a ‘wrapper’ that calls
 three different optimization functions:</p>
@@ -514,17 +518,17 @@ NULL).</td>
 </tr>
 </tbody>
 </table>
-<div class="section level4">
-<h4 id="method-atomic">Method ‘atomic’<a class="anchor" aria-label="anchor" href="#method-atomic"></a>
-</h4>
+<div id="method-atomic" class="section level3">
+<h3 class="hasAnchor">
+<a href="#method-atomic" class="anchor"></a>Method ‘atomic’</h3>
 <p>As a first run we execute the optimization step using the method
 <em>atomic</em> (required as the stratification variables are of the
 categorical type).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">solution1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"atomic"</span>,</span>
 <span>                        errors <span class="op">=</span> <span class="va">cv</span>, </span>
-<span>                        nStrata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">10</span>,<span class="va">ndom</span><span class="op">)</span>,</span>
+<span>                        nStrata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">10</span>,<span class="va">ndom</span><span class="op">)</span>,</span>
 <span>                        framesamp <span class="op">=</span> <span class="va">frame1</span>,</span>
 <span>                        iter <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>                        pops <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
@@ -537,10 +541,10 @@ categorical type).</p>
 <span><span class="co">#&gt; ... of which with only one unit:  130</span></span>
 <span><span class="co">#&gt;  *** Starting parallel optimization for  3  domains using  3  cores</span></span></code></pre></div>
 <p><img src="SamplingStrata_files/figure-html/optim1-1.png" width="576"><img src="SamplingStrata_files/figure-html/optim1-2.png" width="576"><img src="SamplingStrata_files/figure-html/optim1-3.png" width="576"></p>
-<pre><code><span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  *** Sample size :  302</span></span>
-<span><span class="co">#&gt;  *** Number of strata :  26</span></span>
-<span><span class="co">#&gt; ---------------------------</span></span></code></pre>
+<pre><code>#&gt; 
+#&gt;  *** Sample size :  313
+#&gt;  *** Number of strata :  27
+#&gt; ---------------------------</code></pre>
 <p>The execution of <em>optimStrata</em> produces the solution of 3
 different optimization problems, one for each domain. The graphs
 illustrate the convergence of the solution to the final one starting
@@ -555,9 +559,9 @@ function:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/expected_CV.html">expected_CV</a></span><span class="op">(</span><span class="va">solution1</span><span class="op">$</span><span class="va">aggr_strata</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         cv(Y1)    cv(Y2)</span></span>
-<span><span class="co">#&gt; DOM1 0.0992078 0.0995598</span></span>
-<span><span class="co">#&gt; DOM2 0.0992217 0.0999895</span></span>
-<span><span class="co">#&gt; DOM3 0.0981391 0.0909752</span></span></code></pre></div>
+<span><span class="co">#&gt; DOM1 0.1000000 0.1000000</span></span>
+<span><span class="co">#&gt; DOM2 0.0996221 0.0996482</span></span>
+<span><span class="co">#&gt; DOM3 0.0995789 0.0997475</span></span></code></pre></div>
 <p>The obtained total size of the sample required to satisfy precision
 constraint is much lower than the one obtained with the simple
 application of the Bethel algorithm to the initial atomic
@@ -568,13 +572,13 @@ optimization step to aggregate them on the basis of the values of the Y
 variables. In any case, as we have to indicate at least one X variable,
 we can use to this purpose a simple progressive number:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">swissmun</span><span class="op">$</span><span class="va">progr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">swissmun</span><span class="op">$</span><span class="va">progr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">swissmun</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">frame2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/buildFrameDF.html">buildFrameDF</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">swissmun</span>,</span>
 <span>                       id <span class="op">=</span> <span class="st">"COM"</span>,</span>
 <span>                       X <span class="op">=</span> <span class="st">"progr"</span>,</span>
-<span>                       Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Airbat"</span>,<span class="st">"Surfacesbois"</span><span class="op">)</span>,</span>
+<span>                       Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Airbat"</span>,<span class="st">"Surfacesbois"</span><span class="op">)</span>,</span>
 <span>                       domainvalue <span class="op">=</span> <span class="st">"REG"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">frame2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">frame2</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     id X1   Y1   Y2 domainvalue</span></span>
 <span><span class="co">#&gt; 1 6621  1  773   67           1</span></span>
 <span><span class="co">#&gt; 2 2701  2 1023   97           3</span></span>
@@ -610,16 +614,16 @@ first indicates the clusters, the second the domains. On the basis of
 these, we can calculate the most convenient number of final strata for
 each domain:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">nstrata2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="va">initial_solution2</span><span class="op">$</span><span class="va">suggestions</span>,</span>
+<code class="sourceCode R"><span><span class="va">nstrata2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">initial_solution2</span><span class="op">$</span><span class="va">suggestions</span>,</span>
 <span>                 <span class="va">initial_solution2</span><span class="op">$</span><span class="va">domainvalue</span>,</span>
-<span>                 FUN<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>                 FUN<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">nstrata2</span></span>
 <span><span class="co">#&gt;  1  2  3 </span></span>
 <span><span class="co">#&gt; 10  8 10</span></span></code></pre></div>
 <p>and we can supply both the <em>initial_solution</em> and the number
 of strata <em>nstrata</em> as inputs to the optimization step:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">solution2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"atomic"</span>,</span>
 <span>                        errors <span class="op">=</span> <span class="va">cv</span>, </span>
 <span>                        framesamp <span class="op">=</span> <span class="va">frame2</span>,</span>
@@ -636,34 +640,34 @@ of strata <em>nstrata</em> as inputs to the optimization step:</p>
 <span><span class="co">#&gt; ... of which with only one unit:  1823</span></span>
 <span><span class="co">#&gt;  *** Starting parallel optimization for  3  domains using  3  cores</span></span></code></pre></div>
 <p><img src="SamplingStrata_files/figure-html/optim2-1.png" width="576"><img src="SamplingStrata_files/figure-html/optim2-2.png" width="576"><img src="SamplingStrata_files/figure-html/optim2-3.png" width="576"></p>
-<pre><code><span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  *** Sample size :  160</span></span>
-<span><span class="co">#&gt;  *** Number of strata :  27</span></span>
-<span><span class="co">#&gt; ---------------------------</span></span></code></pre>
+<pre><code>#&gt; 
+#&gt;  *** Sample size :  159
+#&gt;  *** Number of strata :  26
+#&gt; ---------------------------</code></pre>
 <p>Notice that the obtained solution in this run in terms of sample size
 is significantly better than in the previous one.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outstrata2</span> <span class="op">&lt;-</span> <span class="va">solution2</span><span class="op">$</span><span class="va">aggr_strata</span></span>
 <span><span class="fu"><a href="../reference/expected_CV.html">expected_CV</a></span><span class="op">(</span><span class="va">outstrata2</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         cv(Y1)    cv(Y2)</span></span>
-<span><span class="co">#&gt; DOM1 0.0991185 0.0996762</span></span>
-<span><span class="co">#&gt; DOM2 0.0995089 0.0593968</span></span>
-<span><span class="co">#&gt; DOM3 0.0985103 0.0206549</span></span></code></pre></div>
+<span><span class="co">#&gt; DOM1 0.1000000 0.0983605</span></span>
+<span><span class="co">#&gt; DOM2 0.0998151 0.0286589</span></span>
+<span><span class="co">#&gt; DOM3 0.0985367 0.0236128</span></span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="method-continuous">Method ‘continuous’<a class="anchor" aria-label="anchor" href="#method-continuous"></a>
-</h4>
+<div id="method-continuous" class="section level3">
+<h3 class="hasAnchor">
+<a href="#method-continuous" class="anchor"></a>Method ‘continuous’</h3>
 <p>The last thing to do is to test also the <em>continuous</em>
 method.</p>
 <p>First, we have to redefine the frame dataframe in this way:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">frame3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/buildFrameDF.html">buildFrameDF</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">swissmun</span>,</span>
 <span>                           id <span class="op">=</span> <span class="st">"COM"</span>,</span>
-<span>                           X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"POPTOT"</span>,<span class="st">"HApoly"</span><span class="op">)</span>,</span>
-<span>                           Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Airbat"</span>,<span class="st">"Surfacesbois"</span><span class="op">)</span>,</span>
+<span>                           X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"POPTOT"</span>,<span class="st">"HApoly"</span><span class="op">)</span>,</span>
+<span>                           Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Airbat"</span>,<span class="st">"Surfacesbois"</span><span class="op">)</span>,</span>
 <span>                           domainvalue <span class="op">=</span> <span class="st">"REG"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">frame3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">frame3</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     id     X1   X2   Y1   Y2 domainvalue</span></span>
 <span><span class="co">#&gt; 1 6621 177964 1593  773   67           1</span></span>
 <span><span class="co">#&gt; 2 2701 166558 2391 1023   97           3</span></span>
@@ -673,15 +677,15 @@ method.</p>
 <span><span class="co">#&gt; 6  942  40377 2158  523  425           2</span></span></code></pre></div>
 <p>Also in this case we want to produce an initial solution:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">init_sol3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/KmeansSolution2.html">KmeansSolution2</a></span><span class="op">(</span>frame<span class="op">=</span><span class="va">frame3</span>,</span>
 <span>                             errors<span class="op">=</span><span class="va">cv</span>,</span>
 <span>                             maxclusters <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>  </span></code></pre></div>
 <p><img src="SamplingStrata_files/figure-html/init_sol3-1.png" width="576"><img src="SamplingStrata_files/figure-html/init_sol3-2.png" width="576"><img src="SamplingStrata_files/figure-html/init_sol3-3.png" width="576"></p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">nstrata3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="va">init_sol3</span><span class="op">$</span><span class="va">suggestions</span>,</span>
+<code class="sourceCode R"><span><span class="va">nstrata3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">init_sol3</span><span class="op">$</span><span class="va">suggestions</span>,</span>
 <span>                 <span class="va">init_sol3</span><span class="op">$</span><span class="va">domainvalue</span>,</span>
-<span>                 FUN<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>                 FUN<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">nstrata3</span></span>
 <span><span class="co">#  1  2  3 </span></span>
 <span><span class="co"># 10 10  9 </span></span></code></pre></div>
@@ -700,7 +704,7 @@ is the execution of the function <em>prepareSuggestion</em>.</p>
 <p>We are now able to perform the optimization step with the
 <em>continuous</em> method:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">solution3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"continuous"</span>,</span>
 <span>                        errors <span class="op">=</span> <span class="va">cv</span>, </span>
 <span>                        framesamp <span class="op">=</span> <span class="va">frame3</span>,</span>
@@ -713,21 +717,21 @@ is the execution of the function <em>prepareSuggestion</em>.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  *** Starting parallel optimization for  3  domains using  3  cores</span></span></code></pre></div>
 <p><img src="SamplingStrata_files/figure-html/optim3-1.png" width="576"><img src="SamplingStrata_files/figure-html/optim3-2.png" width="576"><img src="SamplingStrata_files/figure-html/optim3-3.png" width="576"></p>
-<pre><code><span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  *** Sample size :  95</span></span>
-<span><span class="co">#&gt;  *** Number of strata :  25</span></span>
-<span><span class="co">#&gt; ---------------------------</span></span></code></pre>
+<pre><code>#&gt; 
+#&gt;  *** Sample size :  119
+#&gt;  *** Number of strata :  27
+#&gt; ---------------------------</code></pre>
 <p>This solution requires a total sample size that is by far the best
 among those we produced, so we decide to select this one.</p>
 </div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="analysis-of-the-obtained-solution">Analysis of the obtained solution<a class="anchor" aria-label="anchor" href="#analysis-of-the-obtained-solution"></a>
-</h2>
-<div class="section level3">
-<h3 id="strata-structure">Strata structure<a class="anchor" aria-label="anchor" href="#strata-structure"></a>
-</h3>
+<div id="analysis-of-the-obtained-solution" class="section level1">
+<h1 class="hasAnchor">
+<a href="#analysis-of-the-obtained-solution" class="anchor"></a>Analysis of the obtained solution</h1>
+<div id="strata-structure" class="section level2">
+<h2 class="hasAnchor">
+<a href="#strata-structure" class="anchor"></a>Strata structure</h2>
 <p>The results of the execution are contained in the list ‘solution’,
 composed by three elements:</p>
 <ol style="list-style-type: decimal">
@@ -752,14 +756,14 @@ strata, for instance by using the function <em>summaryStrata</em>:</p>
 <code class="sourceCode R"><span><span class="va">strataStructure</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summaryStrata.html">summaryStrata</a></span><span class="op">(</span><span class="va">solution3</span><span class="op">$</span><span class="va">framenew</span>,</span>
 <span>                                 <span class="va">solution3</span><span class="op">$</span><span class="va">aggr_strata</span>,</span>
 <span>                                 progress<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">strataStructure</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">strataStructure</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   Domain Stratum Population Allocation SamplingRate Lower_X1 Upper_X1 Lower_X2 Upper_X2</span></span>
-<span><span class="co">#&gt; 1      1       1        312          8     0.026257       27     1227       32      959</span></span>
-<span><span class="co">#&gt; 2      1       2         78          5     0.058711       65     2289       48     1377</span></span>
-<span><span class="co">#&gt; 3      1       3         58          6     0.097813     2305    19548      129     1391</span></span>
-<span><span class="co">#&gt; 4      1       4         66          7     0.105318       95    14361     1418     2864</span></span>
-<span><span class="co">#&gt; 5      1       5         27          3     0.122832      130    11590     2984     4060</span></span>
-<span><span class="co">#&gt; 6      1       6         19          5     0.241210      221    25688      477     6153</span></span></code></pre></div>
+<span><span class="co">#&gt; 1      1       1        383         17     0.045440       27     2785       32     1140</span></span>
+<span><span class="co">#&gt; 2      1       2         84         10     0.118090       95     8270      129     1897</span></span>
+<span><span class="co">#&gt; 3      1       3         72         10     0.142533      130     7294     1929     6723</span></span>
+<span><span class="co">#&gt; 4      1       4         20          2     0.118460     8892    18406      219     3808</span></span>
+<span><span class="co">#&gt; 5      1       5          7          2     0.285714     5341    29559      477     7093</span></span>
+<span><span class="co">#&gt; 6      1       6         10          2     0.224448       78     6261     8460     9692</span></span></code></pre></div>
 <p>For each otpimized stratum, total number of units together with
 allocations and sampling rates are reported. Also ranges of the
 stratification variables are listed, in order to characterize the
@@ -772,8 +776,8 @@ domain per time:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotStrata2d.html">plotStrata2d</a></span><span class="op">(</span><span class="va">solution3</span><span class="op">$</span><span class="va">framenew</span>, </span>
 <span>             <span class="va">solution3</span><span class="op">$</span><span class="va">aggr_strata</span>,</span>
 <span>             domain <span class="op">=</span> <span class="fl">3</span>, </span>
-<span>             vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X1"</span>,<span class="st">"X2"</span><span class="op">)</span>,</span>
-<span>             labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Total Population"</span>,<span class="st">"Total Area"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>             vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"X1"</span>,<span class="st">"X2"</span><span class="op">)</span>,</span>
+<span>             labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Total Population"</span>,<span class="st">"Total Area"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <img src="SamplingStrata_files/figure-html/plot2d-1.png" width="576"><table class="table table table-condensed">
 <thead><tr>
 <th style="text-align:right;">
@@ -801,19 +805,19 @@ Bounds Total Area
 1
 </td>
 <td style="text-align:right;">
-89
+56
 </td>
 <td style="text-align:right;">
-4
+2
 </td>
 <td style="text-align:right;">
-0.04153329
+0.03942621
 </td>
 <td style="text-align:right;">
-109-753
+109-3195
 </td>
 <td style="text-align:right;">
-32-820
+32-290
 </td>
 </tr>
 <tr>
@@ -821,59 +825,59 @@ Bounds Total Area
 2
 </td>
 <td style="text-align:right;">
-148
-</td>
-<td style="text-align:right;">
-8
-</td>
-<td style="text-align:right;">
-0.05401713
-</td>
-<td style="text-align:right;">
-729-4764
-</td>
-<td style="text-align:right;">
-79-891
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-37
-</td>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-0.12587889
-</td>
-<td style="text-align:right;">
-784-18323
-</td>
-<td style="text-align:right;">
-252-969
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
 27
 </td>
 <td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.08172394
+</td>
+<td style="text-align:right;">
+137-10429
+</td>
+<td style="text-align:right;">
+252-336
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.05714286
+</td>
+<td style="text-align:right;">
+222-2969
+</td>
+<td style="text-align:right;">
+339-414
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
 4
 </td>
 <td style="text-align:right;">
-0.14687796
+16
 </td>
 <td style="text-align:right;">
-566-20370
+3
 </td>
 <td style="text-align:right;">
-979-1193
+0.18112536
+</td>
+<td style="text-align:right;">
+240-13977
+</td>
+<td style="text-align:right;">
+417-451
 </td>
 </tr>
 <tr>
@@ -881,24 +885,84 @@ Bounds Total Area
 5
 </td>
 <td style="text-align:right;">
-19
+76
 </td>
 <td style="text-align:right;">
-3
+6
 </td>
 <td style="text-align:right;">
-0.17686713
+0.08263963
 </td>
 <td style="text-align:right;">
-721-16654
+235-9143
 </td>
 <td style="text-align:right;">
-1227-2029
+452-689
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
 6
+</td>
+<td style="text-align:right;">
+73
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+0.17993153
+</td>
+<td style="text-align:right;">
+307-18323
+</td>
+<td style="text-align:right;">
+693-1023
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.27372498
+</td>
+<td style="text-align:right;">
+566-20370
+</td>
+<td style="text-align:right;">
+1058-1137
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.23012405
+</td>
+<td style="text-align:right;">
+721-16654
+</td>
+<td style="text-align:right;">
+1177-2029
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
 </td>
 <td style="text-align:right;">
 1
@@ -918,9 +982,9 @@ Bounds Total Area
 </tr>
 </tbody>
 </table>
-<div class="section level4">
-<h4 id="evaluation-by-simulation">Evaluation by simulation<a class="anchor" aria-label="anchor" href="#evaluation-by-simulation"></a>
-</h4>
+<div id="evaluation-by-simulation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#evaluation-by-simulation" class="anchor"></a>Evaluation by simulation</h3>
 <p>In order to be confident about the quality of the found solution, the
 function <em>evalSolution</em> allows to run a simulation, based on the
 selection of a desired number of samples from the frame to which the
@@ -940,32 +1004,32 @@ every domain.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">eval3</span><span class="op">$</span><span class="va">coeff_var</span></span>
 <span><span class="co">#&gt;      CV1    CV2  dom</span></span>
-<span><span class="co">#&gt; 1 0.1076 0.1076 DOM1</span></span>
-<span><span class="co">#&gt; 2 0.0985 0.0960 DOM2</span></span>
-<span><span class="co">#&gt; 3 0.0891 0.1004 DOM3</span></span>
+<span><span class="co">#&gt; 1 0.0951 0.1033 DOM1</span></span>
+<span><span class="co">#&gt; 2 0.1004 0.1065 DOM2</span></span>
+<span><span class="co">#&gt; 3 0.1026 0.0548 DOM3</span></span>
 <span><span class="va">eval3</span><span class="op">$</span><span class="va">rel_bias</span></span>
 <span><span class="co">#&gt;        y1      y2  dom</span></span>
-<span><span class="co">#&gt; 1 -0.0052  0.0023 DOM1</span></span>
-<span><span class="co">#&gt; 2 -0.0023  0.0113 DOM2</span></span>
-<span><span class="co">#&gt; 3 -0.0033 -0.0112 DOM3</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 -0.0077  0.0088 DOM1</span></span>
+<span><span class="co">#&gt; 2  0.0002  0.0019 DOM2</span></span>
+<span><span class="co">#&gt; 3 -0.0135 -0.0020 DOM3</span></span></code></pre></div>
 <p>It is also possible to analyse the sampling distribution of the
 estimates for each variable of interest in a selected domain:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dom</span> <span class="op">=</span> <span class="fl">1</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">eval3</span><span class="op">$</span><span class="va">est</span><span class="op">$</span><span class="va">Y1</span><span class="op">[</span><span class="va">eval3</span><span class="op">$</span><span class="va">est</span><span class="op">$</span><span class="va">dom</span> <span class="op">==</span> <span class="va">dom</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"grey"</span>, border <span class="op">=</span> <span class="st">"white"</span>,</span>
-<span>     xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">hat</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">eval3</span><span class="op">$</span><span class="va">est</span><span class="op">$</span><span class="va">Y1</span><span class="op">[</span><span class="va">eval3</span><span class="op">$</span><span class="va">est</span><span class="op">$</span><span class="va">dom</span> <span class="op">==</span> <span class="va">dom</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"grey"</span>, border <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/influence.measures.html">hat</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>     freq <span class="op">=</span> <span class="cn">FALSE</span>, </span>
-<span>     main <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Variable Y1 Domain "</span>,<span class="va">dom</span>,sep<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">eval3</span><span class="op">$</span><span class="va">est</span><span class="op">$</span><span class="va">Y1</span><span class="op">[</span><span class="va">eval3</span><span class="op">$</span><span class="va">est</span><span class="op">$</span><span class="va">dom</span> <span class="op">==</span> <span class="va">dom</span><span class="op">]</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"blue"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">frame3</span><span class="op">$</span><span class="va">Y1</span><span class="op">[</span><span class="va">frame3</span><span class="op">$</span><span class="va">domainvalue</span><span class="op">==</span><span class="va">dom</span><span class="op">]</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topright"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"distribution mean"</span>, <span class="st">"true value"</span><span class="op">)</span>,</span>
-<span>       lty <span class="op">=</span> <span class="fl">1</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"red"</span><span class="op">)</span>, box.col <span class="op">=</span> <span class="cn">NA</span>, cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
+<span>     main <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"Variable Y1 Domain "</span>,<span class="va">dom</span>,sep<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">eval3</span><span class="op">$</span><span class="va">est</span><span class="op">$</span><span class="va">Y1</span><span class="op">[</span><span class="va">eval3</span><span class="op">$</span><span class="va">est</span><span class="op">$</span><span class="va">dom</span> <span class="op">==</span> <span class="va">dom</span><span class="op">]</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"blue"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">frame3</span><span class="op">$</span><span class="va">Y1</span><span class="op">[</span><span class="va">frame3</span><span class="op">$</span><span class="va">domainvalue</span><span class="op">==</span><span class="va">dom</span><span class="op">]</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"topright"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"distribution mean"</span>, <span class="st">"true value"</span><span class="op">)</span>,</span>
+<span>       lty <span class="op">=</span> <span class="fl">1</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"red"</span><span class="op">)</span>, box.col <span class="op">=</span> <span class="cn">NA</span>, cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
 <p><img src="SamplingStrata_files/figure-html/distrib-1.png" width="576"></p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="adjustment-of-the-final-sampling-size">Adjustment of the final sampling size<a class="anchor" aria-label="anchor" href="#adjustment-of-the-final-sampling-size"></a>
-</h3>
+<div id="adjustment-of-the-final-sampling-size" class="section level2">
+<h2 class="hasAnchor">
+<a href="#adjustment-of-the-final-sampling-size" class="anchor"></a>Adjustment of the final sampling size</h2>
 <p>After the optimization step, the final sample size is the result of
 the allocation of units in final strata. This allocation is such that
 the precision constraints are expected to be satisfied. Actually, three
@@ -990,17 +1054,18 @@ affordable. We can reduce it by executing the following code:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">adjustedStrata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/adjustSize.html">adjustSize</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">75</span>,strata<span class="op">=</span><span class="va">solution3</span><span class="op">$</span><span class="va">aggr_strata</span>,cens<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  79</span></span>
-<span><span class="co">#&gt;  79</span></span>
-<span><span class="co">#&gt;  Final adjusted size:  79</span></span></code></pre></div>
+<span><span class="co">#&gt;  82</span></span>
+<span><span class="co">#&gt;  78</span></span>
+<span><span class="co">#&gt;  78</span></span>
+<span><span class="co">#&gt;  Final adjusted size:  78</span></span></code></pre></div>
 <p>Instead, if we want to increase the size because the budget allows to
 do this, then this is the code:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">adjustedStrata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/adjustSize.html">adjustSize</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">150</span>,strata<span class="op">=</span><span class="va">solution3</span><span class="op">$</span><span class="va">aggr_strata</span>,cens<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  145</span></span>
-<span><span class="co">#&gt;  145</span></span>
-<span><span class="co">#&gt;  Final adjusted size:  145</span></span></code></pre></div>
+<span><span class="co">#&gt;  151</span></span>
+<span><span class="co">#&gt;  151</span></span>
+<span><span class="co">#&gt;  Final adjusted size:  151</span></span></code></pre></div>
 <p>The difference between the desired sample size and the actual
 adjusted size depends on the number of strata in the optimized solution.
 Consider that the adjustment is performed in each stratum by taking into
@@ -1021,9 +1086,9 @@ sample size of 152, we obtain:</p>
 <span><span class="co"># DOM3  0.078  0.079</span></span></code></pre></div>
 <p>that is, an important reduction of expected CVs.</p>
 </div>
-<div class="section level3">
-<h3 id="sample-selection">Sample selection<a class="anchor" aria-label="anchor" href="#sample-selection"></a>
-</h3>
+<div id="sample-selection" class="section level2">
+<h2 class="hasAnchor">
+<a href="#sample-selection" class="anchor"></a>Sample selection</h2>
 <p>Once the optimal stratification has been obtained, using the function
 <em>selectSample</em> it is possible to select the sample from the
 optimized version of the frame, taking into account the optimal
@@ -1036,10 +1101,10 @@ stratification and allocation:</p>
 <span>                       writeFiles <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; *** Sample has been drawn successfully ***</span></span>
-<span><span class="co">#&gt;  95  units have been selected from  25  strata</span></span>
+<span><span class="co">#&gt;  119  units have been selected from  27  strata</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ==&gt; There have been  2  take-all strata </span></span>
-<span><span class="co">#&gt; from which have been selected  2 units</span></span></code></pre></div>
+<span><span class="co">#&gt; ==&gt; There have been  3  take-all strata </span></span>
+<span><span class="co">#&gt; from which have been selected  3 units</span></span></code></pre></div>
 <p>When the option <em>writeFiles</em> is set to TRUE, it produces two
 .csv files:</p>
 <ul>
@@ -1074,24 +1139,24 @@ area</em> (<em>Airind</em>) in municipalities when selecting units in
 strata. Here is the code:</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># adding POPTOT to framenew</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"swissmunicipalities"</span><span class="op">)</span></span>
-<span><span class="va">framenew</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">solution3</span><span class="op">$</span><span class="va">framenew</span>,</span>
-<span>                  <span class="va">swissmunicipalities</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"COM"</span>,<span class="st">"Airind"</span><span class="op">)</span><span class="op">]</span>,</span>
-<span>                  by.x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ID"</span><span class="op">)</span>,by.y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"COM"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"swissmunicipalities"</span><span class="op">)</span></span>
+<span><span class="va">framenew</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/merge.html">merge</a></span><span class="op">(</span><span class="va">solution3</span><span class="op">$</span><span class="va">framenew</span>,</span>
+<span>                  <span class="va">swissmunicipalities</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"COM"</span>,<span class="st">"Airind"</span><span class="op">)</span><span class="op">]</span>,</span>
+<span>                  by.x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ID"</span><span class="op">)</span>,by.y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"COM"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># selection of sample with systematic method</span></span>
 <span><span class="va">sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/selectSampleSystematic.html">selectSampleSystematic</a></span><span class="op">(</span>frame<span class="op">=</span><span class="va">framenew</span>,</span>
 <span>                                 outstrata<span class="op">=</span><span class="va">solution3</span><span class="op">$</span><span class="va">aggr_strata</span>,</span>
-<span>                                 sortvariable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Airind"</span><span class="op">)</span><span class="op">)</span></span>
+<span>                                 sortvariable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Airind"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; *** Sample has been drawn successfully ***</span></span>
-<span><span class="co">#&gt;  95  units have been selected from  25  strata</span></span>
+<span><span class="co">#&gt;  119  units have been selected from  27  strata</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ==&gt; There have been  2  take-all strata </span></span>
-<span><span class="co">#&gt; from which have been selected  2 units</span></span></code></pre></div>
+<span><span class="co">#&gt; ==&gt; There have been  3  take-all strata </span></span>
+<span><span class="co">#&gt; from which have been selected  3 units</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="handling-take-all-strata">Handling ‘take-all’ strata<a class="anchor" aria-label="anchor" href="#handling-take-all-strata"></a>
-</h3>
+<div id="handling-take-all-strata" class="section level2">
+<h2 class="hasAnchor">
+<a href="#handling-take-all-strata" class="anchor"></a>Handling ‘take-all’ strata</h2>
 <p>As input to the optimization step, together with proper sampling
 strata, it is also possible to provide take-all strata. These strata
 will not be subject to optimization as the proper strata, but they will
@@ -1107,14 +1172,14 @@ population is higher than 10,000 will be always included in the sample.
 So, we partition the sampling frame in this way:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#----Selection of units to be censused from the frame</span></span>
-<span><span class="va">ind_framecens</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">frame3</span><span class="op">$</span><span class="va">X1</span> <span class="op">&gt;</span> <span class="fl">10000</span><span class="op">)</span></span>
+<span><span class="va">ind_framecens</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">frame3</span><span class="op">$</span><span class="va">X1</span> <span class="op">&gt;</span> <span class="fl">10000</span><span class="op">)</span></span>
 <span><span class="va">framecens</span> <span class="op">&lt;-</span> <span class="va">frame3</span><span class="op">[</span><span class="va">ind_framecens</span>,<span class="op">]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">framecens</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">framecens</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 63</span></span>
 <span><span class="co">#----Selection of units to be sampled from the frame</span></span>
 <span><span class="co"># (complement to the previous)</span></span>
 <span><span class="va">framesamp</span> <span class="op">&lt;-</span> <span class="va">frame3</span><span class="op">[</span><span class="op">-</span><span class="va">ind_framecens</span>,<span class="op">]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">framesamp</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">framesamp</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1760</span></span></code></pre></div>
 <p>In this way, we have defined as to be censused all units with
 population greater than 10,000 (63). At the end of the process, the
@@ -1122,14 +1187,14 @@ sample will contain all these units.</p>
 <p>We now run the optimization step by including the indication of to be
 censused units:</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">solution4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"continuous"</span>,</span>
 <span>                        errors <span class="op">=</span> <span class="va">cv</span>, </span>
 <span>                        framesamp <span class="op">=</span> <span class="va">framesamp</span>,</span>
 <span>                        framecens <span class="op">=</span> <span class="va">framecens</span>,</span>
 <span>                        iter <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>                        pops <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>                        nStrata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">10</span>,<span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
+<span>                        nStrata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">10</span>,<span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Input data have been checked and are compliant with requirements</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -1137,20 +1202,20 @@ censused units:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  *** Starting parallel optimization for  3  domains using  3  cores</span></span></code></pre></div>
 <p><img src="SamplingStrata_files/figure-html/optim4-1.png" width="576"><img src="SamplingStrata_files/figure-html/optim4-2.png" width="576"><img src="SamplingStrata_files/figure-html/optim4-3.png" width="576"></p>
-<pre><code><span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  *** Sample size :  70</span></span>
-<span><span class="co">#&gt;  *** Number of strata :  27</span></span>
-<span><span class="co">#&gt; ---------------------------</span></span></code></pre>
+<pre><code>#&gt; 
+#&gt;  *** Sample size :  75
+#&gt;  *** Number of strata :  26
+#&gt; ---------------------------</code></pre>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">framenew4</span> <span class="op">&lt;-</span> <span class="va">solution4</span><span class="op">$</span><span class="va">framenew</span></span>
 <span><span class="va">outstrata4</span> <span class="op">&lt;-</span> <span class="va">solution4</span><span class="op">$</span><span class="va">aggr_strata</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">outstrata4</span><span class="op">$</span><span class="va">SOLUZ</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 133.9009</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">outstrata4</span><span class="op">$</span><span class="va">SOLUZ</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 137.4208</span></span>
 <span><span class="fu"><a href="../reference/expected_CV.html">expected_CV</a></span><span class="op">(</span><span class="va">outstrata4</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         cv(Y1)    cv(Y2)</span></span>
-<span><span class="co">#&gt; DOM1 0.0992558 0.0989872</span></span>
-<span><span class="co">#&gt; DOM2 0.0981924 0.0954219</span></span>
-<span><span class="co">#&gt; DOM3 0.0839212 0.0880251</span></span></code></pre></div>
+<span><span class="co">#&gt; DOM1 0.0999872 0.0999382</span></span>
+<span><span class="co">#&gt; DOM2 0.0979931 0.0975649</span></span>
+<span><span class="co">#&gt; DOM3 0.0824833 0.0890052</span></span></code></pre></div>
 <p>Once the optimized solution has been produced, we select the
 sample:</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
@@ -1158,20 +1223,20 @@ sample:</p>
 <span>                       outstrata<span class="op">=</span><span class="va">outstrata4</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; *** Sample has been drawn successfully ***</span></span>
-<span><span class="co">#&gt;  133  units have been selected from  30  strata</span></span>
+<span><span class="co">#&gt;  138  units have been selected from  29  strata</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ==&gt; There have been  3  take-all strata </span></span>
 <span><span class="co">#&gt; from which have been selected  63 units</span></span></code></pre></div>
 <p>and we control that all take-all units are included in the
 sample:</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">framecens</span><span class="op">$</span><span class="va">id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">sample</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">framecens</span><span class="op">$</span><span class="va">id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">sample</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 63</span></span></code></pre></div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="appendix---methodological-approach">Appendix - Methodological approach<a class="anchor" aria-label="anchor" href="#appendix---methodological-approach"></a>
-</h2>
+<div id="appendix---methodological-approach" class="section level1">
+<h1 class="hasAnchor">
+<a href="#appendix---methodological-approach" class="anchor"></a>Appendix - Methodological approach</h1>
 <p>In a stratified sampling design with one or more stages, a sample is
 selected from a frame containing the units of the population of
 interest, stratified according to the values of one or more auxiliary
@@ -1287,13 +1352,13 @@ higher fitness are favored</em>;</li>
 overall best fitness represents the optimal solution.</li>
 </ol>
 </div>
-<div class="section level2">
-<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="references" class="section level1 unnumbered">
+<h1 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-baillargeon2014" class="csl-entry">
 Baillargeon, Sophie, and Louis-Paul Rivest. 2014. <em>Stratification:
-Univariate Stratification of Survey Populations</em>. <a href="https://CRAN.R-project.org/package=stratification" class="external-link">https://CRAN.R-project.org/package=stratification</a>.
+Univariate Stratification of Survey Populations</em>. <a href="https://CRAN.R-project.org/package=stratification">https://CRAN.R-project.org/package=stratification</a>.
 </div>
 <div id="ref-ballin2016" class="csl-entry">
 Ballin, Marco, and Giulio Barcaroli. 2016. <span>“Optimization of
@@ -1309,7 +1374,7 @@ Algorithm.”</span> <em>Survey Methodology</em> 39: 369–93.
 <div id="ref-barcarol2014" class="csl-entry">
 Barcaroli, Giulio. 2014. <span>“SamplingStrata: An r Package for the
 Optimization of Stratified Sampling.”</span> <em>Journal of Statistical
-Software</em> 61 (4): 1–24. <a href="https://doi.org/10.18637/jss.v061.i04" class="external-link">https://doi.org/10.18637/jss.v061.i04</a>.
+Software</em> 61 (4): 1–24. <a href="https://doi.org/10.18637/jss.v061.i04">https://doi.org/10.18637/jss.v061.i04</a>.
 </div>
 <div id="ref-bethel1989" class="csl-entry">
 Bethel, J. 1989. <span>“Sample Allocation in Multivariate
@@ -1325,7 +1390,7 @@ Genetic Algorithm for Joint Stratification and Sample Allocation
 Designs.”</span> <em>Survey Methodology</em> 45 (3): 513–31.
 </div>
 <div id="ref-willighagen2005" class="csl-entry">
-Willighagen, E. 2005. <em>Genalg: R Based Genetic Algorithm</em>. <a href="https://CRAN.R-project.org/package=genalg" class="external-link">https://CRAN.R-project.org/package=genalg</a>.
+Willighagen, E. 2005. <em>Genalg: R Based Genetic Algorithm</em>. <a href="https://CRAN.R-project.org/package=genalg">https://CRAN.R-project.org/package=genalg</a>.
 </div>
 </div>
 </div>
@@ -1342,13 +1407,11 @@ Willighagen, E. 2005. <em>Genalg: R Based Genetic Algorithm</em>. <a href="https
 
 
       <footer><div class="copyright">
-  <p></p>
-<p>Developed by Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
+  <p>Developed by Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -1356,8 +1419,6 @@ Willighagen, E. 2005. <em>Genalg: R Based Genetic Algorithm</em>. <a href="https
 
   
 
-
-  
 
   </body>
 </html>
