@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -33,6 +33,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -45,18 +47,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.5-5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/SamplingStrata.html">Get started</a>
 </li>
@@ -87,7 +83,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/barcaroli/SamplingStrata/">
+  <a href="https://github.com/barcaroli/SamplingStrata/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -106,21 +102,21 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Use of models in SamplingStrata</h1>
-                        <h4 class="author">Marco Ballin, Giulio
-Barcaroli</h4>
+                        <h4 data-toc-skip class="author">Marco Ballin,
+Giulio Barcaroli</h4>
             
-            <h4 class="date">2025-02-01</h4>
+            <h4 data-toc-skip class="date">2025-02-24</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/master/vignettes/models.Rmd"><code>vignettes/models.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/vignettes/models.Rmd" class="external-link"><code>vignettes/models.Rmd</code></a></small>
       <div class="hidden name"><code>models.Rmd</code></div>
 
     </div>
 
     
     
-<div id="handling-anticipated-variance" class="section level1">
-<h1 class="hasAnchor">
-<a href="#handling-anticipated-variance" class="anchor"></a>Handling Anticipated Variance</h1>
+<div class="section level2">
+<h2 id="handling-anticipated-variance">Handling Anticipated Variance<a class="anchor" aria-label="anchor" href="#handling-anticipated-variance"></a>
+</h2>
 <p>When optimizing the stratification of a sampling frame, values of the
 target variables Y’s are supposed to be available for the generality of
 the units in the frame, or at least for a sample of them by means of
@@ -228,9 +224,9 @@ function)</td>
 </tbody>
 </table>
 </div>
-<div id="handling-heteroscedasticity-in-linear-models" class="section level1">
-<h1 class="hasAnchor">
-<a href="#handling-heteroscedasticity-in-linear-models" class="anchor"></a>Handling heteroscedasticity in linear models</h1>
+<div class="section level2">
+<h2 id="handling-heteroscedasticity-in-linear-models">Handling heteroscedasticity in linear models<a class="anchor" aria-label="anchor" href="#handling-heteroscedasticity-in-linear-models"></a>
+</h2>
 <p>When dealing with <em>linear</em> models, an evaluation of the
 quantity of heteroscedasticity in the residuals is of the utmost
 importance in order to correctly evaluate the anticipated variance (see
@@ -258,31 +254,31 @@ value of the <span class="math inline">\(R^{2}\)</span> is the highest.
 Experience shows that a choice of <em>nbins</em> ranging between 10 to
 16 works quite well.</p>
 </div>
-<div id="example" class="section level1">
-<h1 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h1>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <p>Consider the following example, based on the dataset
 <em>swissmunicipalities</em> available in the package.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://barcaroli.github.io/SamplingStrata/">SamplingStrata</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"swissmunicipalities"</span><span class="op">)</span></span>
-<span><span class="va">swissmunicipalities</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">swissmunicipalities</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://barcaroli.github.io/SamplingStrata/" class="external-link">SamplingStrata</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"swissmunicipalities"</span><span class="op">)</span></span>
+<span><span class="va">swissmunicipalities</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">swissmunicipalities</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">swissmunicipalities</span><span class="op">$</span><span class="va">dom</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">swissmunicipalities</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">10</span>,<span class="fl">23</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##   REG  COM        Nom HApoly Surfacesbois Airbat POPTOT
-## 1   4  261     Zurich   8781         2326   2884 363273
-## 2   1 6621     Geneve   1593           67    773 177964
-## 3   3 2701      Basel   2391           97   1023 166558
-## 4   2  351       Bern   5162         1726   1070 128634
-## 5   1 5586   Lausanne   4136         1635    856 124914
-## 6   4  230 Winterthur   6787         2807    972  90483</code></pre>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">swissmunicipalities</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">10</span>,<span class="fl">23</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##   REG  COM        Nom HApoly Surfacesbois Airbat POPTOT</span></span>
+<span><span class="co">## 1   4  261     Zurich   8781         2326   2884 363273</span></span>
+<span><span class="co">## 2   1 6621     Geneve   1593           67    773 177964</span></span>
+<span><span class="co">## 3   3 2701      Basel   2391           97   1023 166558</span></span>
+<span><span class="co">## 4   2  351       Bern   5162         1726   1070 128634</span></span>
+<span><span class="co">## 5   1 5586   Lausanne   4136         1635    856 124914</span></span>
+<span><span class="co">## 6   4  230 Winterthur   6787         2807    972  90483</span></span></code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">swissmunicipalities</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">10</span>,<span class="fl">23</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##                 HApoly Surfacesbois    Airbat    POPTOT
-## HApoly       1.0000000    0.8094731 0.2075253 0.1060809
-## Surfacesbois 0.8094731    1.0000000 0.2222185 0.1056776
-## Airbat       0.2075253    0.2222185 1.0000000 0.9270286
-## POPTOT       0.1060809    0.1056776 0.9270286 1.0000000</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">swissmunicipalities</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">10</span>,<span class="fl">23</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##                 HApoly Surfacesbois    Airbat    POPTOT</span></span>
+<span><span class="co">## HApoly       1.0000000    0.8094731 0.2075253 0.1060809</span></span>
+<span><span class="co">## Surfacesbois 0.8094731    1.0000000 0.2222185 0.1056776</span></span>
+<span><span class="co">## Airbat       0.2075253    0.2222185 1.0000000 0.9270286</span></span>
+<span><span class="co">## POPTOT       0.1060809    0.1056776 0.9270286 1.0000000</span></span></code></pre>
 <p>Let us assume that in the sampling frame only variables <em>total
 population</em> (<em>POPTOT</em>) and <em>total area</em>
 (<em>HApoly</em>) are available for all municipalities, while
@@ -290,55 +286,55 @@ population</em> (<em>POPTOT</em>) and <em>total area</em>
 (<em>Surfacesbois</em>) are available only on a sample of 500
 municipalities.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
-<span><span class="va">swiss_sample</span> <span class="op">&lt;-</span> <span class="va">swissmunicipalities</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">swissmunicipalities</span><span class="op">)</span><span class="op">)</span>,<span class="fl">500</span><span class="op">)</span>,<span class="op">]</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">swiss_sample</span> <span class="op">&lt;-</span> <span class="va">swissmunicipalities</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">swissmunicipalities</span><span class="op">)</span><span class="op">)</span>,<span class="fl">500</span><span class="op">)</span>,<span class="op">]</span></span></code></pre></div>
 <p>In this subset we can fit models between POPTOT and HAPOLY and the
 two variables that we assume are the target of our survey.</p>
 <p>One model for <em>buildings area</em> and <em>total
 population</em>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod_Airbat_POPTOT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">swiss_sample</span><span class="op">$</span><span class="va">Airbat</span> <span class="op">~</span> <span class="va">swiss_sample</span><span class="op">$</span><span class="va">POPTOT</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod_Airbat_POPTOT</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = swiss_sample$Airbat ~ swiss_sample$POPTOT)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -143.380  -12.223   -4.391    7.336  208.728 
-## 
-## Coefficients:
-##                      Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)         1.968e+01  1.320e+00   14.90   &lt;2e-16 ***
-## swiss_sample$POPTOT 1.192e-02  2.854e-04   41.78   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 25.49 on 498 degrees of freedom
-## Multiple R-squared:  0.778,  Adjusted R-squared:  0.7776 
-## F-statistic:  1745 on 1 and 498 DF,  p-value: &lt; 2.2e-16</code></pre>
+<code class="sourceCode R"><span><span class="va">mod_Airbat_POPTOT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">swiss_sample</span><span class="op">$</span><span class="va">Airbat</span> <span class="op">~</span> <span class="va">swiss_sample</span><span class="op">$</span><span class="va">POPTOT</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mod_Airbat_POPTOT</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Call:</span></span>
+<span><span class="co">## lm(formula = swiss_sample$Airbat ~ swiss_sample$POPTOT)</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Residuals:</span></span>
+<span><span class="co">##      Min       1Q   Median       3Q      Max </span></span>
+<span><span class="co">## -143.380  -12.223   -4.391    7.336  208.728 </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Coefficients:</span></span>
+<span><span class="co">##                      Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">## (Intercept)         1.968e+01  1.320e+00   14.90   &lt;2e-16 ***</span></span>
+<span><span class="co">## swiss_sample$POPTOT 1.192e-02  2.854e-04   41.78   &lt;2e-16 ***</span></span>
+<span><span class="co">## ---</span></span>
+<span><span class="co">## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Residual standard error: 25.49 on 498 degrees of freedom</span></span>
+<span><span class="co">## Multiple R-squared:  0.778,  Adjusted R-squared:  0.7776 </span></span>
+<span><span class="co">## F-statistic:  1745 on 1 and 498 DF,  p-value: &lt; 2.2e-16</span></span></code></pre>
 <p>and one model for <em>wooded area</em> and <em>total area</em>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod_Surfacesbois_HApoly</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">swiss_sample</span><span class="op">$</span><span class="va">Surfacesbois</span> <span class="op">~</span> <span class="va">swiss_sample</span><span class="op">$</span><span class="va">HApoly</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod_Surfacesbois_HApoly</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = swiss_sample$Surfacesbois ~ swiss_sample$HApoly)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3979.1  -152.5   -87.7    98.0  2107.3 
-## 
-## Coefficients:
-##                      Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)         1.545e+02  1.921e+01   8.043 6.46e-15 ***
-## swiss_sample$HApoly 1.997e-01  7.415e-03  26.932  &lt; 2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 371.1 on 498 degrees of freedom
-## Multiple R-squared:  0.5929, Adjusted R-squared:  0.5921 
-## F-statistic: 725.4 on 1 and 498 DF,  p-value: &lt; 2.2e-16</code></pre>
+<code class="sourceCode R"><span><span class="va">mod_Surfacesbois_HApoly</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">swiss_sample</span><span class="op">$</span><span class="va">Surfacesbois</span> <span class="op">~</span> <span class="va">swiss_sample</span><span class="op">$</span><span class="va">HApoly</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mod_Surfacesbois_HApoly</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Call:</span></span>
+<span><span class="co">## lm(formula = swiss_sample$Surfacesbois ~ swiss_sample$HApoly)</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Residuals:</span></span>
+<span><span class="co">##     Min      1Q  Median      3Q     Max </span></span>
+<span><span class="co">## -3979.1  -152.5   -87.7    98.0  2107.3 </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Coefficients:</span></span>
+<span><span class="co">##                      Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">## (Intercept)         1.545e+02  1.921e+01   8.043 6.46e-15 ***</span></span>
+<span><span class="co">## swiss_sample$HApoly 1.997e-01  7.415e-03  26.932  &lt; 2e-16 ***</span></span>
+<span><span class="co">## ---</span></span>
+<span><span class="co">## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Residual standard error: 371.1 on 498 degrees of freedom</span></span>
+<span><span class="co">## Multiple R-squared:  0.5929, Adjusted R-squared:  0.5921 </span></span>
+<span><span class="co">## F-statistic: 725.4 on 1 and 498 DF,  p-value: &lt; 2.2e-16</span></span></code></pre>
 <p>We calculate the heteroscedasticity index and associated prediction
 standard error for both models:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -348,8 +344,8 @@ standard error for both models:</p>
 <p><img src="models_files/figure-html/unnamed-chunk-5-1.png" width="576"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Airbat</span></span></code></pre></div>
-<pre><code>##     gamma     sigma  r.square 
-## 0.6419641 0.1220129 0.9535845</code></pre>
+<pre><code><span><span class="co">##     gamma     sigma  r.square </span></span>
+<span><span class="co">## 0.6419641 0.1220129 0.9535845</span></span></code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Surfacesbois</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/computeGamma.html">computeGamma</a></span><span class="op">(</span><span class="va">mod_Surfacesbois_HApoly</span><span class="op">$</span><span class="va">residuals</span>,</span>
 <span>             <span class="va">swiss_sample</span><span class="op">$</span><span class="va">HApoly</span>,</span>
@@ -357,8 +353,8 @@ standard error for both models:</p>
 <p><img src="models_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Surfacesbois</span></span></code></pre></div>
-<pre><code>##     gamma     sigma  r.square 
-## 0.8911053 0.3582789 0.9931305</code></pre>
+<pre><code><span><span class="co">##     gamma     sigma  r.square </span></span>
+<span><span class="co">## 0.8911053 0.3582789 0.9931305</span></span></code></pre>
 <p>We now proceed in building the <em>model</em> dataframe using the
 above models:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
@@ -371,18 +367,18 @@ above models:</p>
 <span><span class="va">model</span><span class="op">$</span><span class="va">sig2</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">Surfacesbois</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span></span>
 <span><span class="va">model</span><span class="op">$</span><span class="va">type</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"linear"</span></span>
 <span><span class="va">model</span><span class="op">$</span><span class="va">gamma</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">Surfacesbois</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> </span>
-<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
 <span><span class="va">model</span></span></code></pre></div>
-<pre><code>##         beta       sig2   type     gamma
-## 1 0.01192162 0.01488715 linear 0.6419641
-## 2 0.19970325 0.12836378 linear 0.8911053</code></pre>
+<pre><code><span><span class="co">##         beta       sig2   type     gamma</span></span>
+<span><span class="co">## 1 0.01192162 0.01488715 linear 0.6419641</span></span>
+<span><span class="co">## 2 0.19970325 0.12836378 linear 0.8911053</span></span></code></pre>
 <p>We define the <em>sampling frame</em> in this way:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">frame</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/buildFrameDF.html">buildFrameDF</a></span><span class="op">(</span><span class="va">swissmunicipalities</span>,</span>
 <span>                      id <span class="op">=</span> <span class="st">"COM"</span>,</span>
 <span>                      domainvalue <span class="op">=</span> <span class="st">"dom"</span>,</span>
-<span>                      X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"POPTOT"</span>, <span class="st">"HApoly"</span><span class="op">)</span>,</span>
-<span>                      Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"POPTOT"</span>, <span class="st">"HApoly"</span><span class="op">)</span><span class="op">)</span></span>
+<span>                      X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"POPTOT"</span>, <span class="st">"HApoly"</span><span class="op">)</span>,</span>
+<span>                      Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"POPTOT"</span>, <span class="st">"HApoly"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">frame</span><span class="op">$</span><span class="va">Airbat</span> <span class="op">&lt;-</span> <span class="va">swissmunicipalities</span><span class="op">$</span><span class="va">Airbat</span></span>
 <span><span class="va">frame</span><span class="op">$</span><span class="va">Surfacesbois</span> <span class="op">&lt;-</span> <span class="va">swissmunicipalities</span><span class="op">$</span><span class="va">Surfacesbois</span></span></code></pre></div>
 <p>Note that the explanatory variables in the models have been set as
@@ -394,17 +390,17 @@ It is quite clear that this knowledge is not available in real
 cases.)</p>
 <p>We set 5% precision constraint on both variables:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>DOM<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"DOM1"</span>,<span class="fl">1</span><span class="op">)</span>,</span>
-<span>                         CV1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">1</span><span class="op">)</span>,</span>
-<span>                         CV2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">1</span><span class="op">)</span>,</span>
-<span>                         domainvalue<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>DOM<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"DOM1"</span>,<span class="fl">1</span><span class="op">)</span>,</span>
+<span>                         CV1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">1</span><span class="op">)</span>,</span>
+<span>                         CV2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">1</span><span class="op">)</span>,</span>
+<span>                         domainvalue<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span></span>
 <span>                    <span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">cv</span></span></code></pre></div>
-<pre><code>##    DOM  CV1  CV2 domainvalue
-## 1 DOM1 0.05 0.05           1</code></pre>
+<pre><code><span><span class="co">##    DOM  CV1  CV2 domainvalue</span></span>
+<span><span class="co">## 1 DOM1 0.05 0.05           1</span></span></code></pre>
 <p>We can now proceed with the optimization step:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span><span class="op">(</span></span>
 <span>    method <span class="op">=</span> <span class="st">"continuous"</span>,</span>
 <span>    errors <span class="op">=</span> <span class="va">cv</span> , </span>
@@ -416,19 +412,19 @@ cases.)</p>
 <span>    nStrata <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>    showPlot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>    writeFiles <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## 
-## Input data have been checked and are compliant with requirements
-## 
-## -------------------------------------------------------
-##  *** Domain :  1
-##  Number of strata :  2896
-##  *** Sample cost:  295.1979
-##  *** Number of strata:  5</code></pre>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Input data have been checked and are compliant with requirements</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## -------------------------------------------------------</span></span>
+<span><span class="co">##  *** Domain :  1</span></span>
+<span><span class="co">##  Number of strata :  2896</span></span>
+<span><span class="co">##  *** Sample cost:  295.1979</span></span>
+<span><span class="co">##  *** Number of strata:  5</span></span></code></pre>
 <p><img src="models_files/figure-html/unnamed-chunk-10-1.png" width="576"></p>
-<pre><code>## 
-##  *** Sample size :  296
-##  *** Number of strata :  5
-## ---------------------------</code></pre>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  *** Sample size :  296</span></span>
+<span><span class="co">##  *** Number of strata :  5</span></span>
+<span><span class="co">## ---------------------------</span></span></code></pre>
 <p>What about the expected CV’s? We attribute the real values of Airbat
 and Surfacesbois to the Ys of obtained <em>framenew</em> and run the
 simulation:</p>
@@ -438,11 +434,11 @@ simulation:</p>
 <span><span class="va">framenew</span><span class="op">$</span><span class="va">Y3</span> <span class="op">&lt;-</span> <span class="va">framenew</span><span class="op">$</span><span class="va">AIRBAT</span></span>
 <span><span class="va">framenew</span><span class="op">$</span><span class="va">Y4</span> <span class="op">&lt;-</span> <span class="va">framenew</span><span class="op">$</span><span class="va">SURFACESBOIS</span></span>
 <span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/evalSolution.html">evalSolution</a></span><span class="op">(</span><span class="va">framenew</span>, <span class="va">outstrata</span>, <span class="fl">500</span>, progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## Warning in evalSolution(framenew, outstrata, 500, progress = FALSE): Folder D:/Google Drive/Sampling/SamplingStrata 1.5/SamplingStrata/vignettes/simulation already existed and has been deleted.</code></pre>
+<pre><code><span><span class="co">## Warning in evalSolution(framenew, outstrata, 500, progress = FALSE): Folder C:/Users/UTENTE/Google Drive/Sampling/SamplingStrata 1.5/SamplingStrata/vignettes/simulation already existed and has been deleted.</span></span></code></pre>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span><span class="op">$</span><span class="va">coeff_var</span></span></code></pre></div>
-<pre><code>##      CV1    CV2    CV3    CV4  dom
-## 1 0.0369 0.0241 0.0352 0.0366 DOM1</code></pre>
+<pre><code><span><span class="co">##      CV1    CV2    CV3    CV4  dom</span></span>
+<span><span class="co">## 1 0.0369 0.0241 0.0352 0.0366 DOM1</span></span></code></pre>
 <p>The first two CVs pertain to the proxy available variables, namely
 <em>total population</em> and <em>total area</em>, while the last two
 regard respectively <em>buildings area</em> and <em>wooded area</em>:
@@ -450,7 +446,7 @@ they are more than compliant with the precision constraint of 5%.</p>
 <p>What if we did not use the information contained in models? We run
 the same optimization step without indicating any model parameter:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span><span class="op">(</span></span>
 <span>    method <span class="op">=</span> <span class="st">"continuous"</span>,</span>
 <span>    errors <span class="op">=</span> <span class="va">cv</span> , </span>
@@ -462,19 +458,19 @@ the same optimization step without indicating any model parameter:</p>
 <span>    nStrata <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>    showPlot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>    writeFiles <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## 
-## Input data have been checked and are compliant with requirements
-## 
-## -------------------------------------------------------
-##  *** Domain :  1
-##  Number of strata :  2896
-##  *** Sample cost:  151.9848
-##  *** Number of strata:  5</code></pre>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Input data have been checked and are compliant with requirements</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## -------------------------------------------------------</span></span>
+<span><span class="co">##  *** Domain :  1</span></span>
+<span><span class="co">##  Number of strata :  2896</span></span>
+<span><span class="co">##  *** Sample cost:  151.9848</span></span>
+<span><span class="co">##  *** Number of strata:  5</span></span></code></pre>
 <p><img src="models_files/figure-html/unnamed-chunk-12-1.png" width="576"></p>
-<pre><code>## 
-##  *** Sample size :  152
-##  *** Number of strata :  5
-## ---------------------------</code></pre>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  *** Sample size :  152</span></span>
+<span><span class="co">##  *** Number of strata :  5</span></span>
+<span><span class="co">## ---------------------------</span></span></code></pre>
 <p>We obtain a solution that requires a much lower sample size to
 satisfy the precision constraints on the Ys. But as we did not consider
 the anticipated variance on the real target variables, we pay a price in
@@ -485,11 +481,11 @@ terms of expected CVs on them:</p>
 <span><span class="va">framenew</span><span class="op">$</span><span class="va">Y3</span> <span class="op">&lt;-</span> <span class="va">framenew</span><span class="op">$</span><span class="va">AIRBAT</span></span>
 <span><span class="va">framenew</span><span class="op">$</span><span class="va">Y4</span> <span class="op">&lt;-</span> <span class="va">framenew</span><span class="op">$</span><span class="va">SURFACESBOIS</span></span>
 <span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/evalSolution.html">evalSolution</a></span><span class="op">(</span><span class="va">framenew</span>, <span class="va">outstrata</span>, <span class="fl">500</span>, progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## Warning in evalSolution(framenew, outstrata, 500, progress = FALSE): Folder D:/Google Drive/Sampling/SamplingStrata 1.5/SamplingStrata/vignettes/simulation already existed and has been deleted.</code></pre>
+<pre><code><span><span class="co">## Warning in evalSolution(framenew, outstrata, 500, progress = FALSE): Folder C:/Users/UTENTE/Google Drive/Sampling/SamplingStrata 1.5/SamplingStrata/vignettes/simulation already existed and has been deleted.</span></span></code></pre>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results</span><span class="op">$</span><span class="va">coeff_var</span></span></code></pre></div>
-<pre><code>##      CV1    CV2    CV3    CV4  dom
-## 1 0.0501 0.0491 0.0502 0.0686 DOM1</code></pre>
+<pre><code><span><span class="co">##      CV1    CV2    CV3    CV4  dom</span></span>
+<span><span class="co">## 1 0.0501 0.0491 0.0502 0.0686 DOM1</span></span></code></pre>
 <p>Norwithstanding the non inclusion of the models in the optimization
 step, the CV related to <em>buildings area</em> is still inside the
 limit of the 5%: this is most likely due to the high correlation between
@@ -498,13 +494,13 @@ correlation between the <em>total area</em> and <em>woods area</em>
 determines the non compliance of the expected CV of <em>woods area</em>
 that was instead guaranted using the related model.</p>
 </div>
-<div id="references" class="section level1 unnumbered">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h1>
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-baillargeon2014" class="csl-entry">
 Baillargeon, Sophie, and Louis-Paul Rivest. 2014. <em>Stratification:
-Univariate Stratification of Survey Populations</em>. <a href="https://CRAN.R-project.org/package=stratification">https://CRAN.R-project.org/package=stratification</a>.
+Univariate Stratification of Survey Populations</em>. <a href="https://CRAN.R-project.org/package=stratification" class="external-link">https://CRAN.R-project.org/package=stratification</a>.
 </div>
 <div id="ref-henry2006" class="csl-entry">
 Henry, K., and R. Valliant. 2006. <span>“<span class="nocase">Comparing
@@ -529,11 +525,13 @@ Coefficient of Heteroscedasticity</span>.”</span>
 
 
       <footer><div class="copyright">
-  <p>Developed by Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
+  <p></p>
+<p>Developed by Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen, Diego Zardetto.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>
@@ -541,6 +539,8 @@ Coefficient of Heteroscedasticity</span>.”</span>
 
   
 
+
+  
 
   </body>
 </html>
