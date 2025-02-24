@@ -344,7 +344,7 @@ head(frame3)
 ```
 
 
-Also in this case we want to produce an initial solution:
+We want to get indications about a suitable number of optimizes strata in each domain:
 
 ```{r init_sol3, eval=TRUE, echo=TRUE, results= FALSE, warning=FALSE}
 set.seed(1234)
@@ -359,10 +359,6 @@ nstrata3
 # 10 10  9 
 ```
 
-```{r init_sol4, eval=TRUE, echo=TRUE, warning=FALSE}
-initial_solution3 <- prepareSuggestion(init_sol3,frame3,nstrata3)
-```
-
 Note that this time we call a different function (*KmeansSolution2*) that requires, instead of the *strata* dataframe, directly the *frame* dataframe. Moreover, we need an intermediate step to prepare the suggestion for the optimization, that is the execution of the function *prepareSuggestion*.
 
 We are now able to perform the optimization step with the *continuous* method:
@@ -374,8 +370,7 @@ solution3 <- optimStrata(method = "continuous",
                         framesamp = frame3,
                         iter = 50,
                         pops = 10,
-                        nStrata = nstrata3,
-                        suggestions = initial_solution3)
+                        nStrata = nstrata3)
 
 ```
 

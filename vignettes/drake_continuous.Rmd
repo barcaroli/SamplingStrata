@@ -79,15 +79,10 @@ plan <- drake_plan(
   nstrat = tapply(kmean$suggestions,
                   kmean$domainvalue,
                   FUN=function(x) length(unique(x))),
-  # Initial solutions
-  sugg = prepareSuggestion(kmean=kmean,
-                           frame=frame,
-                           nstrat=nstrat),
   # Optimisation
   solution = optimStrata(method="continuous",
                         framesamp=frame,
                         errors= cv,
-                        suggestions = sugg,
                         nStrat=nstrat,
                         iter = 25,
                         pops= 10),
