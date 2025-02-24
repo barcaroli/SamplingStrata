@@ -110,7 +110,7 @@ struct DomainResult {
   std::vector< std::vector<double> > S; // dimensione: nvarY
   std::vector<double> COST;
   std::vector<double> CENS;
-  std::vector<std::string> DOM1;
+  std::vector<int> DOM1;            // MODIFICA: ora è un vettore di int
   std::vector< std::vector<double> > X; // dimensione: nvarX
 };
 
@@ -393,7 +393,8 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
       }
       local.COST.push_back(cost_val);
       local.CENS.push_back(0.0);
-      local.DOM1.push_back(dom);
+      // MODIFICA: converte il dominio (stringa) in intero
+      local.DOM1.push_back(std::stoi(dom));
       // Estrae i valori X dal "strato" (split della stringa)
       std::istringstream iss(strata_id);
       std::string token;
@@ -423,7 +424,7 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
   std::vector< std::vector<double> > out_S(nvarY);
   std::vector<double> out_COST;
   std::vector<double> out_CENS;
-  std::vector<std::string> out_DOM1;
+  std::vector<int> out_DOM1;           // MODIFICA: vettore di int
   std::vector< std::vector<double> > out_X(nvarX);
   
   for (size_t d = 0; d < domain_results.size(); d++){
@@ -437,7 +438,7 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
       }
       out_COST.push_back(local.COST[i]);
       out_CENS.push_back(local.CENS[i]);
-      out_DOM1.push_back(local.DOM1[i]);
+      out_DOM1.push_back(local.DOM1[i]);  // MODIFICA: copia dei valori interi
       for (int j = 0; j < nvarX; j++){
         out_X[j].push_back(local.X[j][i]);
       }
@@ -457,7 +458,7 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
   }
   out["COST"] = out_COST;
   out["CENS"] = out_CENS;
-  out["DOM1"] = out_DOM1;
+  out["DOM1"] = out_DOM1;   // MODIFICA: ora sarà un vettore di interi
   for (int j = 0; j < nvarX; j++){
     std::string name = "X" + std::to_string(j+1);
     out[name] = out_X[j];
