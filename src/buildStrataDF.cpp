@@ -1,6 +1,5 @@
 // [[Rcpp::plugins(openmp)]]
 
-
 #include <Rcpp.h>
 #include <cmath>
 #include <string>
@@ -119,6 +118,14 @@ struct DomainResult {
 DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilValue, 
                              bool progress = true, bool verbose = true) {
   CharacterVector colNames = dataset.names();
+  // Convert all column names to uppercase
+  for (int i = 0; i < colNames.size(); i++){
+    std::string name = as<std::string>(colNames[i]);
+    std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+    colNames[i] = name;
+  }
+  dataset.attr("names") = colNames;
+  
   int nrows = dataset.nrows();
   
   // Conta le colonne che iniziano per X e Y
