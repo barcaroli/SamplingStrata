@@ -3,9 +3,12 @@
 
 # SamplingStrata 1.5-5
 
-Implemented a new Rcpp version, much more performant, of the function
-buildStrataDFSpatial, to increase the efficiency of the “spatial” method
-in OptimStrata
+Implemented a new Rcpp version, much more performant, of the functions
+
+- *buildStrataDF*, to increase the efficiency of the “atomic” and
+  “continuous” methods
+- *buildStrataDFSpatial*, to increase the efficiency of the “spatial”
+  method in OptimStrata
 
 # SamplingStrata 1.5-4
 

@@ -10,6 +10,20 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// buildStrataDF
+DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_, bool progress, bool verbose);
+RcppExport SEXP _SamplingStrata_buildStrataDF(SEXP datasetSEXP, SEXP model_SEXP, SEXP progressSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type dataset(datasetSEXP);
+    Rcpp::traits::input_parameter< Nullable<DataFrame> >::type model_(model_SEXP);
+    Rcpp::traits::input_parameter< bool >::type progress(progressSEXP);
+    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(buildStrataDF(dataset, model_, progress, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
 // buildStrataDFSpatial
 DataFrame buildStrataDFSpatial(DataFrame dataset, NumericVector fitting, NumericVector range, double kappa, bool progress, bool verbose);
 RcppExport SEXP _SamplingStrata_buildStrataDFSpatial(SEXP datasetSEXP, SEXP fittingSEXP, SEXP rangeSEXP, SEXP kappaSEXP, SEXP progressSEXP, SEXP verboseSEXP) {
@@ -28,6 +42,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_SamplingStrata_buildStrataDF", (DL_FUNC) &_SamplingStrata_buildStrataDF, 4},
     {"_SamplingStrata_buildStrataDFSpatial", (DL_FUNC) &_SamplingStrata_buildStrataDFSpatial, 6},
     {NULL, NULL, 0}
 };
