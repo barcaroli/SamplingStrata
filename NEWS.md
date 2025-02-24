@@ -10,6 +10,8 @@ Implemented a new Rcpp version, much more performant, of the functions
 - *buildStrataDFSpatial*, to increase the efficiency of the “spatial”
   method in OptimStrata
 
+Deleted function *prepareSuggestion*
+
 # SamplingStrata 1.5-4
 
 - Minor changes due to the introduction of R 4.3.0
