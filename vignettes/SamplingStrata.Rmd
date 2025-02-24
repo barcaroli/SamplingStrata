@@ -359,7 +359,7 @@ nstrata3
 # 10 10  9 
 ```
 
-Note that this time we call a different function (*KmeansSolution2*) that requires, instead of the *strata* dataframe, directly the *frame* dataframe. Moreover, we need an intermediate step to prepare the suggestion for the optimization, that is the execution of the function *prepareSuggestion*.
+Note that this time we call a different function (*KmeansSolution2*) that requires, instead of the *strata* dataframe, directly the *frame* dataframe. 
 
 We are now able to perform the optimization step with the *continuous* method:
 
