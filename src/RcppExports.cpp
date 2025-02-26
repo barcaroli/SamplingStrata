@@ -10,6 +10,140 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// select_variables
+NumericMatrix select_variables(DataFrame dati, std::string prefix, int nvar);
+RcppExport SEXP _SamplingStrata_select_variables(SEXP datiSEXP, SEXP prefixSEXP, SEXP nvarSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type dati(datiSEXP);
+    Rcpp::traits::input_parameter< std::string >::type prefix(prefixSEXP);
+    Rcpp::traits::input_parameter< int >::type nvar(nvarSEXP);
+    rcpp_result_gen = Rcpp::wrap(select_variables(dati, prefix, nvar));
+    return rcpp_result_gen;
+END_RCPP
+}
+// disjoint
+IntegerMatrix disjoint(const NumericVector& dom);
+RcppExport SEXP _SamplingStrata_disjoint(SEXP domSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type dom(domSEXP);
+    rcpp_result_gen = Rcpp::wrap(disjoint(dom));
+    return rcpp_result_gen;
+END_RCPP
+}
+// m_s
+NumericMatrix m_s(const IntegerMatrix& disj, const NumericMatrix& mat);
+RcppExport SEXP _SamplingStrata_m_s(SEXP disjSEXP, SEXP matSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const IntegerMatrix& >::type disj(disjSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type mat(matSEXP);
+    rcpp_result_gen = Rcpp::wrap(m_s(disj, mat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rowSums_Rcpp
+NumericVector rowSums_Rcpp(const NumericMatrix& x);
+RcppExport SEXP _SamplingStrata_rowSums_Rcpp(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(rowSums_Rcpp(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// colSums_Rcpp
+NumericVector colSums_Rcpp(const NumericMatrix& x);
+RcppExport SEXP _SamplingStrata_colSums_Rcpp(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(colSums_Rcpp(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cv_Rcpp
+NumericMatrix cv_Rcpp(DataFrame errors, int ndom, int nvar);
+RcppExport SEXP _SamplingStrata_cv_Rcpp(SEXP errorsSEXP, SEXP ndomSEXP, SEXP nvarSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type errors(errorsSEXP);
+    Rcpp::traits::input_parameter< int >::type ndom(ndomSEXP);
+    Rcpp::traits::input_parameter< int >::type nvar(nvarSEXP);
+    rcpp_result_gen = Rcpp::wrap(cv_Rcpp(errors, ndom, nvar));
+    return rcpp_result_gen;
+END_RCPP
+}
+// crea_a
+NumericMatrix crea_a(NumericMatrix& m, NumericMatrix& s, NumericVector& nocens, NumericVector& N, NumericVector& cv, double& epsilon);
+RcppExport SEXP _SamplingStrata_crea_a(SEXP mSEXP, SEXP sSEXP, SEXP nocensSEXP, SEXP NSEXP, SEXP cvSEXP, SEXP epsilonSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix& >::type m(mSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix& >::type s(sSEXP);
+    Rcpp::traits::input_parameter< NumericVector& >::type nocens(nocensSEXP);
+    Rcpp::traits::input_parameter< NumericVector& >::type N(NSEXP);
+    Rcpp::traits::input_parameter< NumericVector& >::type cv(cvSEXP);
+    Rcpp::traits::input_parameter< double& >::type epsilon(epsilonSEXP);
+    rcpp_result_gen = Rcpp::wrap(crea_a(m, s, nocens, N, cv, epsilon));
+    return rcpp_result_gen;
+END_RCPP
+}
+// chromy_Rcpp
+NumericVector chromy_Rcpp(NumericMatrix a, double alfatot, double diff, int iter, NumericVector alfa, NumericVector alfanext, NumericVector x, NumericVector cost, int nvar, bool realAllocation);
+RcppExport SEXP _SamplingStrata_chromy_Rcpp(SEXP aSEXP, SEXP alfatotSEXP, SEXP diffSEXP, SEXP iterSEXP, SEXP alfaSEXP, SEXP alfanextSEXP, SEXP xSEXP, SEXP costSEXP, SEXP nvarSEXP, SEXP realAllocationSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
+    Rcpp::traits::input_parameter< double >::type alfatot(alfatotSEXP);
+    Rcpp::traits::input_parameter< double >::type diff(diffSEXP);
+    Rcpp::traits::input_parameter< int >::type iter(iterSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type alfa(alfaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type alfanext(alfanextSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type cost(costSEXP);
+    Rcpp::traits::input_parameter< int >::type nvar(nvarSEXP);
+    Rcpp::traits::input_parameter< bool >::type realAllocation(realAllocationSEXP);
+    rcpp_result_gen = Rcpp::wrap(chromy_Rcpp(a, alfatot, diff, iter, alfa, alfanext, x, cost, nvar, realAllocation));
+    return rcpp_result_gen;
+END_RCPP
+}
+// check_n
+NumericVector check_n(NumericVector n, NumericVector N, int minnumstrat);
+RcppExport SEXP _SamplingStrata_check_n(SEXP nSEXP, SEXP NSEXP, SEXP minnumstratSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type n(nSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type N(NSEXP);
+    Rcpp::traits::input_parameter< int >::type minnumstrat(minnumstratSEXP);
+    rcpp_result_gen = Rcpp::wrap(check_n(n, N, minnumstrat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// bethel_cpp
+NumericVector bethel_cpp(DataFrame strata, DataFrame errors, int minnumstrat, bool realAllocation);
+RcppExport SEXP _SamplingStrata_bethel_cpp(SEXP strataSEXP, SEXP errorsSEXP, SEXP minnumstratSEXP, SEXP realAllocationSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type strata(strataSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type errors(errorsSEXP);
+    Rcpp::traits::input_parameter< int >::type minnumstrat(minnumstratSEXP);
+    Rcpp::traits::input_parameter< bool >::type realAllocation(realAllocationSEXP);
+    rcpp_result_gen = Rcpp::wrap(bethel_cpp(strata, errors, minnumstrat, realAllocation));
+    return rcpp_result_gen;
+END_RCPP
+}
 // buildStrataDF
 DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_, bool progress, bool verbose);
 RcppExport SEXP _SamplingStrata_buildStrataDF(SEXP datasetSEXP, SEXP model_SEXP, SEXP progressSEXP, SEXP verboseSEXP) {
@@ -42,6 +176,16 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_SamplingStrata_select_variables", (DL_FUNC) &_SamplingStrata_select_variables, 3},
+    {"_SamplingStrata_disjoint", (DL_FUNC) &_SamplingStrata_disjoint, 1},
+    {"_SamplingStrata_m_s", (DL_FUNC) &_SamplingStrata_m_s, 2},
+    {"_SamplingStrata_rowSums_Rcpp", (DL_FUNC) &_SamplingStrata_rowSums_Rcpp, 1},
+    {"_SamplingStrata_colSums_Rcpp", (DL_FUNC) &_SamplingStrata_colSums_Rcpp, 1},
+    {"_SamplingStrata_cv_Rcpp", (DL_FUNC) &_SamplingStrata_cv_Rcpp, 3},
+    {"_SamplingStrata_crea_a", (DL_FUNC) &_SamplingStrata_crea_a, 6},
+    {"_SamplingStrata_chromy_Rcpp", (DL_FUNC) &_SamplingStrata_chromy_Rcpp, 10},
+    {"_SamplingStrata_check_n", (DL_FUNC) &_SamplingStrata_check_n, 3},
+    {"_SamplingStrata_bethel_cpp", (DL_FUNC) &_SamplingStrata_bethel_cpp, 4},
     {"_SamplingStrata_buildStrataDF", (DL_FUNC) &_SamplingStrata_buildStrataDF, 4},
     {"_SamplingStrata_buildStrataDFSpatial", (DL_FUNC) &_SamplingStrata_buildStrataDFSpatial, 6},
     {NULL, NULL, 0}

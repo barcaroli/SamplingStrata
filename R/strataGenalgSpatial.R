@@ -73,14 +73,14 @@ evaluate <- function(dataset,
                                  verbose=FALSE)
   if (strcens == TRUE) {
     stratatot <- rbind(strata,cens)
-    soluz <- bethel(stratatot, 
+    soluz <- bethel_cpp(stratatot, 
                     errors, 
                     minnumstr, 
                     printa = FALSE,
                     realAllocation = realAllocation)
   }
   if (strcens == FALSE) {
-    soluz <- bethel(strata, 
+    soluz <- bethel_cpp(strata, 
                     errors, 
                     minnumstr, 
                     printa = FALSE,
@@ -170,7 +170,7 @@ strata <- buildStrataDFSpatial(dataset=frame,
                                verbose=FALSE)
 if (strcens == TRUE) {
   stratatot <- rbind(strata,cens)
-  soluz <- bethel(stratatot, 
+  soluz <- bethel_cpp(stratatot, 
                   errors, 
                   minnumstr, 
                   printa = FALSE,
@@ -179,7 +179,7 @@ if (strcens == TRUE) {
   colnames(risulta)[ncol(risulta)] <- "SOLUZ"
 }
 if (strcens == FALSE) {
-  soluz <- bethel(strata, 
+  soluz <- bethel_cpp(strata, 
                   errors, 
                   minnumstr, 
                   printa = FALSE,
