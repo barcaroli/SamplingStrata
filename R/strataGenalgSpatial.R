@@ -76,14 +76,12 @@ evaluate <- function(dataset,
     soluz <- bethel_cpp(stratatot, 
                     errors, 
                     minnumstr, 
-                    printa = FALSE,
                     realAllocation = realAllocation)
   }
   if (strcens == FALSE) {
     soluz <- bethel_cpp(strata, 
                     errors, 
                     minnumstr, 
-                    printa = FALSE,
                     realAllocation = realAllocation)
   }
   size <- sum(soluz)
@@ -173,7 +171,6 @@ if (strcens == TRUE) {
   soluz <- bethel_cpp(stratatot, 
                   errors, 
                   minnumstr, 
-                  printa = FALSE,
                   realAllocation = realAllocation)
   risulta <- cbind(strata, soluz[-length(soluz)])
   colnames(risulta)[ncol(risulta)] <- "SOLUZ"
@@ -182,7 +179,6 @@ if (strcens == FALSE) {
   soluz <- bethel_cpp(strata, 
                   errors, 
                   minnumstr, 
-                  printa = FALSE,
                   realAllocation = realAllocation)
   risulta <- cbind(strata, soluz)
 }
