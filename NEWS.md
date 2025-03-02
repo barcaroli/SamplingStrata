@@ -10,7 +10,11 @@ Implemented a new Rcpp version, much more performant, of the functions
 - *buildStrataDFSpatial*, to increase the efficiency of the “spatial”
   method in OptimStrata
 
-Deleted function *prepareSuggestion*
+Morevover, implemented an Rcpp version of the *bethel* function (namely,
+*bethel_cpp*), that is used internally in all the optimization
+functions, to speed up their execution.
+
+Function *prepareSuggestion* has been deleted.
 
 # SamplingStrata 1.5-4
 
