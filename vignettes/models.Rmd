@@ -110,7 +110,7 @@ Consider the following example, based on the dataset *swissmunicipalities* avail
 
 
 
-```r
+``` r
 library(SamplingStrata)
 data("swissmunicipalities")
 swissmunicipalities$id <- c(1:nrow(swissmunicipalities))
@@ -128,7 +128,7 @@ head(swissmunicipalities[,c(3,4,5,6,7,10,23)])
 ## 6   4  230 Winterthur   6787         2807    972  90483
 ```
 
-```r
+``` r
 cor(swissmunicipalities[,c(6,7,10,23)])
 ```
 
@@ -145,7 +145,7 @@ Let us assume that in the sampling frame only variables *total population* (*POP
 and *wooded area* (*Surfacesbois*) are available only on a sample of 500 municipalities.
 
 
-```r
+``` r
 set.seed(1234)
 swiss_sample <- swissmunicipalities[sample(c(1:nrow(swissmunicipalities)),500),]
 ```
@@ -156,7 +156,7 @@ In this subset we can fit models between POPTOT and HAPOLY and the two variables
 One model for *buildings area* and *total population*:
 
 
-```r
+``` r
 mod_Airbat_POPTOT <- lm(swiss_sample$Airbat ~ swiss_sample$POPTOT)
 summary(mod_Airbat_POPTOT)
 ```
@@ -185,7 +185,7 @@ summary(mod_Airbat_POPTOT)
 and one model for *wooded area* and *total area*:
 
 
-```r
+``` r
 mod_Surfacesbois_HApoly <- lm(swiss_sample$Surfacesbois ~ swiss_sample$HApoly)
 summary(mod_Surfacesbois_HApoly)
 ```
@@ -214,7 +214,7 @@ summary(mod_Surfacesbois_HApoly)
 We calculate the heteroscedasticity index and associated prediction standard error for both models:
 
 
-```r
+``` r
 Airbat <- computeGamma(mod_Airbat_POPTOT$residuals,
              swiss_sample$POPTOT,
              nbins = 10)
@@ -222,7 +222,7 @@ Airbat <- computeGamma(mod_Airbat_POPTOT$residuals,
 
 ![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png)
 
-```r
+``` r
 Airbat
 ```
 
@@ -233,7 +233,7 @@ Airbat
 
 
 
-```r
+``` r
 Surfacesbois <- computeGamma(mod_Surfacesbois_HApoly$residuals,
              swiss_sample$HApoly,
              nbins = 10)
@@ -241,7 +241,7 @@ Surfacesbois <- computeGamma(mod_Surfacesbois_HApoly$residuals,
 
 ![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png)
 
-```r
+``` r
 Surfacesbois
 ```
 
@@ -253,7 +253,7 @@ Surfacesbois
 We now proceed in building the *model* dataframe using the above models:
 
 
-```r
+``` r
 model <- NULL
 model$beta[1] <- mod_Airbat_POPTOT$coefficients[2]
 model$sig2[1] <- Airbat[2]^2
@@ -278,7 +278,7 @@ We define the *sampling frame* in this way:
 
 
 
-```r
+``` r
 frame <- buildFrameDF(swissmunicipalities,
                       id = "COM",
                       domainvalue = "dom",
@@ -295,7 +295,7 @@ Note that the explanatory variables in the models have been set as both target v
 We set 5% precision constraint on both variables:
 
 
-```r
+``` r
 cv <- as.data.frame(list(DOM=rep("DOM1",1),
                          CV1=rep(0.05,1),
                          CV2=rep(0.05,1),
@@ -313,7 +313,7 @@ cv
 We can now proceed with the optimization step:
 
 
-```r
+``` r
 set.seed(1234)
 solution <- optimStrata(
     method = "continuous",
@@ -353,19 +353,12 @@ What about the expected CV's? We attribute the real values of Airbat and Surface
 
 
 
-```r
+``` r
 outstrata <- solution$aggr_strata
 framenew <- solution$framenew
 framenew$Y3 <- framenew$AIRBAT
 framenew$Y4 <- framenew$SURFACESBOIS
 results <- evalSolution(framenew, outstrata, 500, progress = FALSE)
-```
-
-```
-## Warning in evalSolution(framenew, outstrata, 500, progress = FALSE): Folder C:/Users/UTENTE/Google Drive/Sampling/SamplingStrata 1.5/vignettes/simulation already existed and has been deleted.
-```
-
-```r
 results$coeff_var
 ```
 
@@ -381,7 +374,7 @@ What if we did not use the information contained in models?
 We run the same optimization step without indicating any model parameter:
 
 
-```r
+``` r
 set.seed(1234)
 solution <- optimStrata(
     method = "continuous",
@@ -421,19 +414,12 @@ We obtain a solution that requires a much lower sample size to satisfy the preci
 
 
 
-```r
+``` r
 outstrata <- solution$aggr_strata
 framenew <- solution$framenew
 framenew$Y3 <- framenew$AIRBAT
 framenew$Y4 <- framenew$SURFACESBOIS
 results <- evalSolution(framenew, outstrata, 500, progress = FALSE)
-```
-
-```
-## Warning in evalSolution(framenew, outstrata, 500, progress = FALSE): Folder C:/Users/UTENTE/Google Drive/Sampling/SamplingStrata 1.5/vignettes/simulation already existed and has been deleted.
-```
-
-```r
 results$coeff_var
 ```
 
