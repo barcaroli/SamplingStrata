@@ -1,7 +1,7 @@
 ---
 title: "Spatial sampling with SamplingStrata"
 author: "Marco Ballin, Giulio Barcaroli"
-date: "2025-03-02"
+date: "`r Sys.Date()`"
 # output: rmarkdown::html_vignette
 output: 
   bookdown::html_document2:
@@ -24,7 +24,11 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-
+```{r setup, include=FALSE}
+options(width = 999)
+knitr::opts_chunk$set(echo = TRUE, fig.width=6, fig.height=4)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
 
 
 # Optimization with the *spatial* method
@@ -80,8 +84,7 @@ To summarize, when frame units can be geo-referenced, the proposed procedure is 
 
 In order to illustrate the "*spatial*" method, we make use of a dataset generally employed as an example of spatially correlated phenomena (in this case, the concentration of four heavy metals in a portion of the river Meuse). This dataset comes with the library "*sp*":
 
-
-```r
+```{r, eval = T, echo=TRUE, message=FALSE}
 library(sp)
 # locations (155 observed points)
 data("meuse")
@@ -92,66 +95,38 @@ coordinates(meuse)<-c("x","y")
 coordinates(meuse.grid)<-c("x","y")
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png)
+```{r, eval = T,echo=FALSE}
+par(mfrow=c(1,2))
+plot(meuse.grid)
+title("Meuse territory (3103 points)",sub="with reported distance from the river",cex.main=0.8,cex.sub=0.8)
+plot(meuse)
+title("Subset of 155 points",sub="with also observed metals concentration",cex.main=0.8,cex.sub=0.8)
+par(mfrow=c(1,1))
+```
 
 We analyse the territorial distribution of the *lead* and *zinc* concentration, and model (by using the *universal kriging*) their relations with distance from the river, using the subset of 155 points on which these values have been jointly observed: 
 
-
-```r
+```{r, eval = T,echo=TRUE,message=FALSE,fig.width=6,fig.height=8}
 library(automap)
 kriging_lead = autoKrige(log(lead) ~ dist, meuse, meuse.grid)
-```
-
-```
-## [using universal kriging]
-```
-
-```r
 plot(kriging_lead,sp.layout = NULL, justPosition = TRUE)
-```
-
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
-
-```r
 kriging_zinc = autoKrige(log(zinc) ~ dist, meuse, meuse.grid)
-```
-
-```
-## [using universal kriging]
-```
-
-```r
 plot(kriging_zinc, sp.layout = list(pts = list("sp.points", meuse)))
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-2.png)
-
 It is possible to calculate the fitting of the two models in this way:
 
-
-```r
+```{r, eval = T,echo=TRUE,message=FALSE}
 r2_lead <- 1 - kriging_lead$sserr/sum((log(meuse$lead)-mean(log(meuse$lead)))^2)
 r2_lead
-```
-
-```
-## [1] 0.9999997
-```
-
-```r
 r2_zinc <- 1 - kriging_zinc$sserr/sum((log(meuse$zinc)-mean(log(meuse$zinc)))^2)
 r2_zinc
-```
-
-```
-## [1] 0.9999999
 ```
 
 
 Using these *kriging* models, we are able to predict the values of lead and zinc concentration on the totality of the 3,103 points in the Meuse territory:
 
-
-```r
+```{r, eval = T,echo=TRUE}
 df <- NULL
 df$id <- meuse.grid$id
 df$lead.pred <- kriging_lead$krige_output@data$var1.pred
@@ -165,20 +140,9 @@ df <- as.data.frame(df)
 head(df)
 ```
 
-```
-##   id lead.pred  lead.var zinc.pred  zinc.var    lon    lat dom1
-## 1  1  5.509360 0.1954937  6.736502 0.2007150 181180 333740    1
-## 2  2  5.546006 0.1716895  6.785460 0.1749260 181140 333700    1
-## 3  3  5.488913 0.1784052  6.698883 0.1826314 181180 333700    1
-## 4  4  5.388320 0.1855561  6.558216 0.1906426 181220 333700    1
-## 5  5  5.584415 0.1463018  6.841612 0.1465346 181100 333660    1
-## 6  6  5.525538 0.1533757  6.749216 0.1549663 181140 333660    1
-```
-
 The aim is now to produce the optimal stratification of the 3,103 points under a precision constraint of 1% on the target estimates of the mean *lead*  and *zinc* concentrations:
 
-
-```r
+```{r, eval = T,echo=TRUE, message=FALSE, warning=FALSE}
 library(SamplingStrata)
 frame <- buildFrameSpatial(df=df,
                       id="id",
@@ -196,8 +160,7 @@ cv <- as.data.frame(list(DOM=rep("DOM1",1),
 
 To this aim, we carry out the optimization step by indicating the method *spatial*:
 
-
-```r
+```{r, eval = T,echo=TRUE, message=FALSE, warning=FALSE}
 set.seed(1234)
 solution <- optimStrata (
   method = "spatial",
@@ -212,135 +175,42 @@ solution <- optimStrata (
   writeFiles = FALSE,
   showPlot = FALSE,
   parallel = FALSE)
-```
-
-```
-## 
-## Input data have been checked and are compliant with requirements
-## Sequential optimization as parallel = FALSE, defaulting number of cores = 1
-##  *** Domain :  1   1
-##  Number of strata :  3103
-##  *** Sample cost:  61.92901
-##  *** Number of strata:  4
-```
-
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png)
-
-```
-## 
-##  *** Sample size :  62
-##  *** Number of strata :  4
-## ---------------------------
-```
-
-```r
 framenew <- solution$framenew
 outstrata <- solution$aggr_strata
 ```
 
 obtaining the following optimized strata:
 
-
-```r
+```{r, eval = T,echo=TRUE}
 plotStrata2d(framenew,outstrata,domain=1,vars=c("X1","X2"),
              labels=c("Lead","Zinc"))
 ```
 
-![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-1.png)
-<table class="table table-condensed">
- <thead>
-  <tr>
-   <th style="text-align:right;"> Stratum </th>
-   <th style="text-align:right;"> Population </th>
-   <th style="text-align:right;"> Allocation </th>
-   <th style="text-align:right;"> SamplingRate </th>
-   <th style="text-align:right;"> Bounds Lead </th>
-   <th style="text-align:right;"> Bounds Zinc </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 468 </td>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 0.01792501 </td>
-   <td style="text-align:right;"> 3.3146468764848-4.19255285819977 </td>
-   <td style="text-align:right;"> 4.06901686494286-5.05063630598842 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 1118 </td>
-   <td style="text-align:right;"> 22 </td>
-   <td style="text-align:right;"> 0.01945812 </td>
-   <td style="text-align:right;"> 3.93768665105216-4.7764979731549 </td>
-   <td style="text-align:right;"> 5.05229397991744-5.61689510336853 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 776 </td>
-   <td style="text-align:right;"> 16 </td>
-   <td style="text-align:right;"> 0.02008296 </td>
-   <td style="text-align:right;"> 4.44641346310962-5.26600727214482 </td>
-   <td style="text-align:right;"> 5.61793458171105-6.22421378893523 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 741 </td>
-   <td style="text-align:right;"> 16 </td>
-   <td style="text-align:right;"> 0.02186445 </td>
-   <td style="text-align:right;"> 4.83281864156491-6.16276083528614 </td>
-   <td style="text-align:right;"> 6.22619751326312-7.33803658123577 </td>
-  </tr>
-</tbody>
-</table>
-
 that can be visualised in this way:
 
-
-```r
+```{r, eval = T,echo=TRUE}
 frameres <- SpatialPointsDataFrame(data=framenew, coords=cbind(framenew$LON,framenew$LAT) )
 frameres2 <- SpatialPixelsDataFrame(points=frameres[c("LON","LAT")], data=framenew)
 frameres2$LABEL <- as.factor(frameres2$LABEL)
 spplot(frameres2,c("LABEL"), col.regions=bpy.colors(5))
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png)
-
 We can now proceed with the selection of the sample, using the function 'selectSampleSpatial' (which is a wrapper of function 'lpm2_kdtree' in package 'SamplingBigData', see @lisic2018b), in order to ensure a spatially balanced sample:
 
-
-```r
+```{r, eval = T,echo=TRUE}
 s <- selectSampleSpatial(framenew,outstrata,coord_names=c("LON","LAT"))
-```
-
-```
-## 
-## *** Sample has been drawn successfully ***
-##  62  units have been selected from  4  strata
 ```
 
 whose units are so distributed in the territory:
 
-
-```r
+```{r, eval = T,echo=TRUE,message=FALSE,fig.width=6, fig.height=8}
 s <- selectSampleSpatial(framenew,outstrata,coord_names = c("LON","LAT"))
-```
-
-```
-## 
-## *** Sample has been drawn successfully ***
-##  62  units have been selected from  4  strata
-```
-
-```r
 coordinates(s) <- ~LON+LAT
 proj4string(s) <- CRS("+init=epsg:28992")
 s$LABEL <- as.factor(s$LABEL)
 library(mapview)
 mapview(s,zcol="LABEL", map.types = c("OpenStreetMap"))
 ```
-
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png)
 
 
 

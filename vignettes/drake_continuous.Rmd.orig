@@ -1,0 +1,179 @@
+---
+title: "SamplingStrata workflow with drake"
+subtitle: "Continuous method"
+author: "Giulio Barcaroli"
+date: "`r Sys.Date()`"
+# output: rmarkdown::html_vignette
+output: 
+  bookdown::html_document2:
+    df_print: kable
+    highlight: tango
+    number_sections: yes
+    theme: flatly
+    toc: yes
+    toc_depth: 2
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+    toc_title: spsur vs spse
+    # code_folding: hide
+vignette: >
+  %\VignetteIndexEntry{SamplingStrata workflow with drake}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include = FALSE}
+options(width = 999)
+options(warn=-1)
+knitr::opts_chunk$set(fig.width=6, fig.height=4,
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+# Workflow definition
+
+First we define packages:
+
+```{r packages, results='hide', message=FALSE, warning=FALSE}
+library(drake)
+library(SamplingStrata)
+```
+
+then 'swissmunicipalities' example data (with only 2 domains):
+
+```{r load_datasets}
+data(swissmunicipalities)
+swissmun <- swissmunicipalities[swissmunicipalities$REG < 3,
+                                c("REG","COM","Nom","HApoly",
+                                  "Surfacesbois","Surfacescult",
+                                  "Airbat","POPTOT")]
+head(swissmun)
+```
+
+Finally, the plan:
+
+```{r plan}
+plan <- drake_plan(
+  # Definition of the sampling frame
+  frame = buildFrameDF(
+    df = swissmun,
+    id = "COM",
+    domainvalue= "REG",
+    X = c("HApoly","POPTOT"),
+    Y =c("Surfacesbois", "Airbat")),
+  # Definition of precision constraints
+  cv = as.data.frame(list(
+    DOM = rep("DOM1",length(unique(swissmun$REG))),
+    CV1 = rep(0.10,length(unique(swissmun$REG))),
+    CV2 = rep(0.10,length(unique(swissmun$REG))),
+    domainvalue= c(1:length(unique(swissmun$REG))))),
+  # Solution with kmeans
+  kmean = KmeansSolution2(frame=frame,
+                          errors=cv,
+                          maxclusters=5),
+  # Determination of number of strata for each domain
+  nstrat = tapply(kmean$suggestions,
+                  kmean$domainvalue,
+                  FUN=function(x) length(unique(x))),
+  # Optimisation
+  solution = optimStrata(method="continuous",
+                        framesamp=frame,
+                        errors= cv,
+                        nStrat=nstrat,
+                        iter = 25,
+                        pops= 10),
+  # Optimal strata
+  strata_structure = summaryStrata(solution$framenew,
+                                   solution$aggr_strata,
+                                   progress=FALSE),
+  # Expected CVs with optimal strata
+  expected_CV1 = expected_CV(solution$aggr_strata),
+  # Adjust allocation with affordable sample size
+  sample_size = 150,
+  adjustedStrata = adjustSize(size=sample_size,strata=solution$aggr_strata,cens=NULL),
+  # New expected CVs
+  expected_CV2 = expected_CV(adjustedStrata),
+  # Evaluation by simulation
+  eval = evalSolution(frame = solution$framenew, 
+                     outstrata = adjustedStrata, 
+                     nsampl = 500,
+                     progress = FALSE), 
+  # Final selection of the sample
+  sample = selectSample(solution$framenew,adjustedStrata)
+)
+```
+
+# Execution of the workflow
+
+We have just defined this plan:
+
+```{r list_plan}
+print(plan)
+```
+
+visualised in this way:
+
+```{r graph}
+vis_drake_graph(plan, ncol_legend = NULL,
+                main="Optimization with 'continuous' method")
+```
+
+and now we execute:
+
+```{r execution}
+make(plan)
+```
+
+
+# Output inspection
+
+First of all, the total size of the optimized sample:
+
+```{r }
+options(width = 999)
+loadd(solution)
+sum(solution$aggr_strata$SOLUZ)
+```
+
+Then, the structure of the optimized strata:
+
+```{r }
+loadd(strata_structure)
+strata_structure
+
+```
+
+The expected CVs given the optimized strata:
+
+```{r }
+loadd(expected_CV1)
+expected_CV1
+```
+
+and after the adjustment of the allocation in the strata based on the affordable sample size:
+
+```{r }
+loadd(expected_CV2)
+expected_CV2
+```
+
+The results of simulation with the adjusted allocation:
+
+```{r }
+loadd(eval)
+eval$coeff_var
+eval$rel_bias
+```
+
+Finally, the selection of the sample from the adjusted strata:
+
+```{r }
+loadd(sample)
+head(sample)
+```
+
+

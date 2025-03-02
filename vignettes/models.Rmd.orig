@@ -1,7 +1,7 @@
 ---
 title: "Use of models in SamplingStrata"
 author: "Marco Ballin, Giulio Barcaroli"
-date: "2025-03-02"
+date: "`r Sys.Date()`"
 # output: rmarkdown::html_vignette
 output: 
   bookdown::html_document2:
@@ -24,7 +24,11 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
+```{r setup, include=FALSE}
+options(width = 999)
+knitr::opts_chunk$set(echo = TRUE, fig.width=6, fig.height=4)
 
+```
 
 
 # Handling Anticipated Variance
@@ -109,43 +113,20 @@ A suitable number to be given to the *nbins* parameter can be found by trying di
 Consider the following example, based on the dataset *swissmunicipalities* available in the package.
 
 
-
-```r
+```{r, eval = T, message=F}
 library(SamplingStrata)
 data("swissmunicipalities")
 swissmunicipalities$id <- c(1:nrow(swissmunicipalities))
 swissmunicipalities$dom <- 1
 head(swissmunicipalities[,c(3,4,5,6,7,10,23)])
-```
-
-```
-##   REG  COM        Nom HApoly Surfacesbois Airbat POPTOT
-## 1   4  261     Zurich   8781         2326   2884 363273
-## 2   1 6621     Geneve   1593           67    773 177964
-## 3   3 2701      Basel   2391           97   1023 166558
-## 4   2  351       Bern   5162         1726   1070 128634
-## 5   1 5586   Lausanne   4136         1635    856 124914
-## 6   4  230 Winterthur   6787         2807    972  90483
-```
-
-```r
 cor(swissmunicipalities[,c(6,7,10,23)])
-```
-
-```
-##                 HApoly Surfacesbois    Airbat    POPTOT
-## HApoly       1.0000000    0.8094731 0.2075253 0.1060809
-## Surfacesbois 0.8094731    1.0000000 0.2222185 0.1056776
-## Airbat       0.2075253    0.2222185 1.0000000 0.9270286
-## POPTOT       0.1060809    0.1056776 0.9270286 1.0000000
 ```
 
 Let us assume that in the sampling frame only variables *total population* (*POPTOT*) and 
 *total area* (*HApoly*) are available for all municipalities, while *buildings area* (*Airbat*)
 and *wooded area* (*Surfacesbois*) are available only on a sample of 500 municipalities.
 
-
-```r
+```{r, eval = T}
 set.seed(1234)
 swiss_sample <- swissmunicipalities[sample(c(1:nrow(swissmunicipalities)),500),]
 ```
@@ -155,105 +136,38 @@ In this subset we can fit models between POPTOT and HAPOLY and the two variables
 
 One model for *buildings area* and *total population*:
 
-
-```r
+```{r, eval = T}
 mod_Airbat_POPTOT <- lm(swiss_sample$Airbat ~ swiss_sample$POPTOT)
 summary(mod_Airbat_POPTOT)
 ```
 
-```
-## 
-## Call:
-## lm(formula = swiss_sample$Airbat ~ swiss_sample$POPTOT)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -143.380  -12.223   -4.391    7.336  208.728 
-## 
-## Coefficients:
-##                      Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)         1.968e+01  1.320e+00   14.90   <2e-16 ***
-## swiss_sample$POPTOT 1.192e-02  2.854e-04   41.78   <2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 25.49 on 498 degrees of freedom
-## Multiple R-squared:  0.778,	Adjusted R-squared:  0.7776 
-## F-statistic:  1745 on 1 and 498 DF,  p-value: < 2.2e-16
-```
-
 and one model for *wooded area* and *total area*:
 
-
-```r
+```{r, eval = T}
 mod_Surfacesbois_HApoly <- lm(swiss_sample$Surfacesbois ~ swiss_sample$HApoly)
 summary(mod_Surfacesbois_HApoly)
 ```
 
-```
-## 
-## Call:
-## lm(formula = swiss_sample$Surfacesbois ~ swiss_sample$HApoly)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3979.1  -152.5   -87.7    98.0  2107.3 
-## 
-## Coefficients:
-##                      Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)         1.545e+02  1.921e+01   8.043 6.46e-15 ***
-## swiss_sample$HApoly 1.997e-01  7.415e-03  26.932  < 2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 371.1 on 498 degrees of freedom
-## Multiple R-squared:  0.5929,	Adjusted R-squared:  0.5921 
-## F-statistic: 725.4 on 1 and 498 DF,  p-value: < 2.2e-16
-```
-
 We calculate the heteroscedasticity index and associated prediction standard error for both models:
 
-
-```r
+```{r, eval = T}
 Airbat <- computeGamma(mod_Airbat_POPTOT$residuals,
              swiss_sample$POPTOT,
              nbins = 10)
-```
-
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png)
-
-```r
 Airbat
 ```
 
-```
-##     gamma     sigma  r.square 
-## 0.6419641 0.1220129 0.9535845
-```
 
-
-
-```r
+```{r, eval = T}
 Surfacesbois <- computeGamma(mod_Surfacesbois_HApoly$residuals,
              swiss_sample$HApoly,
              nbins = 10)
-```
-
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png)
-
-```r
 Surfacesbois
-```
-
-```
-##     gamma     sigma  r.square 
-## 0.8911053 0.3582789 0.9931305
 ```
 
 We now proceed in building the *model* dataframe using the above models:
 
-
-```r
+```{r, eval = T}
 model <- NULL
 model$beta[1] <- mod_Airbat_POPTOT$coefficients[2]
 model$sig2[1] <- Airbat[2]^2
@@ -267,18 +181,11 @@ model <- as.data.frame(model)
 model
 ```
 
-```
-##         beta       sig2   type     gamma
-## 1 0.01192162 0.01488715 linear 0.6419641
-## 2 0.19970325 0.12836378 linear 0.8911053
-```
-
 
 We define the *sampling frame* in this way:
 
 
-
-```r
+```{r, eval = T}
 frame <- buildFrameDF(swissmunicipalities,
                       id = "COM",
                       domainvalue = "dom",
@@ -294,8 +201,7 @@ Note that the explanatory variables in the models have been set as both target v
 
 We set 5% precision constraint on both variables:
 
-
-```r
+```{r, eval = T}
 cv <- as.data.frame(list(DOM=rep("DOM1",1),
                          CV1=rep(0.05,1),
                          CV2=rep(0.05,1),
@@ -304,16 +210,10 @@ cv <- as.data.frame(list(DOM=rep("DOM1",1),
 cv
 ```
 
-```
-##    DOM  CV1  CV2 domainvalue
-## 1 DOM1 0.05 0.05           1
-```
-
 
 We can now proceed with the optimization step:
 
-
-```r
+```{r, eval = T}
 set.seed(1234)
 solution <- optimStrata(
     method = "continuous",
@@ -328,50 +228,17 @@ solution <- optimStrata(
     writeFiles = FALSE)
 ```
 
-```
-## 
-## Input data have been checked and are compliant with requirements
-## 
-## -------------------------------------------------------
-##  *** Domain :  1
-##  Number of strata :  2896
-##  *** Sample cost:  295.1979
-##  *** Number of strata:  5
-```
-
-![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10-1.png)
-
-```
-## 
-##  *** Sample size :  296
-##  *** Number of strata :  5
-## ---------------------------
-```
-
 
 What about the expected CV's? We attribute the real values of Airbat and Surfacesbois to the Ys of obtained *framenew* and run the simulation:
 
 
-
-```r
+```{r, eval = T}
 outstrata <- solution$aggr_strata
 framenew <- solution$framenew
 framenew$Y3 <- framenew$AIRBAT
 framenew$Y4 <- framenew$SURFACESBOIS
 results <- evalSolution(framenew, outstrata, 500, progress = FALSE)
-```
-
-```
-## Warning in evalSolution(framenew, outstrata, 500, progress = FALSE): Folder C:/Users/UTENTE/Google Drive/Sampling/SamplingStrata 1.5/vignettes/simulation already existed and has been deleted.
-```
-
-```r
 results$coeff_var
-```
-
-```
-##      CV1    CV2    CV3    CV4  dom
-## 1 0.0369 0.0241 0.0352 0.0366 DOM1
 ```
 
 The first two CVs pertain to the proxy available variables, namely *total population* and *total area*, while the last two
@@ -380,8 +247,7 @@ regard respectively *buildings area* and *wooded area*: they are more than compl
 What if we did not use the information contained in models?
 We run the same optimization step without indicating any model parameter:
 
-
-```r
+```{r, eval = T}
 set.seed(1234)
 solution <- optimStrata(
     method = "continuous",
@@ -396,50 +262,17 @@ solution <- optimStrata(
     writeFiles = FALSE)
 ```
 
-```
-## 
-## Input data have been checked and are compliant with requirements
-## 
-## -------------------------------------------------------
-##  *** Domain :  1
-##  Number of strata :  2896
-##  *** Sample cost:  151.9848
-##  *** Number of strata:  5
-```
-
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12-1.png)
-
-```
-## 
-##  *** Sample size :  152
-##  *** Number of strata :  5
-## ---------------------------
-```
-
 
 We obtain a solution that requires a much lower sample size to satisfy the precision constraints on the Ys. But as we did not consider the anticipated variance on the real target variables, we pay a price in terms of expected CVs on them:
 
 
-
-```r
+```{r, eval = T}
 outstrata <- solution$aggr_strata
 framenew <- solution$framenew
 framenew$Y3 <- framenew$AIRBAT
 framenew$Y4 <- framenew$SURFACESBOIS
 results <- evalSolution(framenew, outstrata, 500, progress = FALSE)
-```
-
-```
-## Warning in evalSolution(framenew, outstrata, 500, progress = FALSE): Folder C:/Users/UTENTE/Google Drive/Sampling/SamplingStrata 1.5/vignettes/simulation already existed and has been deleted.
-```
-
-```r
 results$coeff_var
-```
-
-```
-##      CV1    CV2    CV3    CV4  dom
-## 1 0.0501 0.0491 0.0502 0.0686 DOM1
 ```
 
 Norwithstanding the non inclusion of the models in the optimization step, the CV related to *buildings area* is still inside the limit of the 5%: this is most likely due to the high correlation between *buildings area* and *total population*. While the lower correlation between the *total area* and *woods area* determines the non compliance of the expected CV of *woods area* that was instead guaranted using the related model.

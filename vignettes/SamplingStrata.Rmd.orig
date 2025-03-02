@@ -1,7 +1,7 @@
 ---
 title: "Optimization of sampling strata with the SamplingStrata package"
 author: "Marco Ballin, Giulio Barcaroli"
-date: "2025-03-02"
+date: "`r Sys.Date()`"
 # output: rmarkdown::html_vignette
 output: 
   bookdown::html_document2:
@@ -24,9 +24,17 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
+```{r setup, include = FALSE}
+options(width = 999)
+knitr::opts_chunk$set(fig.width=6, fig.height=4,
+  collapse = TRUE,
+  comment = "#>"
+)
+```
 
-
-
+```{r load, eval=TRUE, echo=FALSE, include=FALSE}
+load("SamplingStrata_vignette.RData")
+```
 
 
 # Introduction
@@ -93,8 +101,7 @@ In the following, each step will be illustrated starting from a real sampling fr
 
 For sake of simplicity, let us consider a subset of the *swissmunicipalities* dataset:
 
-
-```r
+```{r swiss, message = FALSE}
 library(SamplingStrata)
 data(swissmunicipalities)
 swissmun <- swissmunicipalities[swissmunicipalities$REG < 4,
@@ -102,13 +109,6 @@ swissmun <- swissmunicipalities[swissmunicipalities$REG < 4,
                                   "Surfacesbois","Surfacescult",
                                   "Airbat","POPTOT")]
 head(swissmun)
-#>    REG  COM       Nom HApoly Surfacesbois Surfacescult Airbat POPTOT
-#> 2    1 6621    Geneve   1593           67           31    773 177964
-#> 3    3 2701     Basel   2391           97           93   1023 166558
-#> 4    2  351      Bern   5162         1726         1041   1070 128634
-#> 5    1 5586  Lausanne   4136         1635          714    856 124914
-#> 9    2  371 Biel (BE)   2123          976          196    463  48655
-#> 10   2  942      Thun   2158          425          694    523  40377
 ```
 
 In order to limit the processing time we have selected only the first 3 regions and only the variables of interest for our example. 
@@ -116,39 +116,24 @@ Each row in this dataset contains information on a swiss municipalities, identif
 
 Suppose we want to plan a sampling survey where the *target estimates Ys* are the totals of *wooded area* (*Surfacesbois*) and *buildings area* (*Airbat*) for each of the 3 regions (*domains of interest*). Suppose also that in each municipalities are always updated the values of *total area* (*HApoly*) and *total population* (*POPTOT*). From the correlation matrix:
 
-
-```r
+```{r correlation}
 cor(swissmun[,c(4:8)])
-#>                  HApoly Surfacesbois Surfacescult    Airbat     POPTOT
-#> HApoly       1.00000000   0.76920101    0.3398758 0.2602289 0.09940795
-#> Surfacesbois 0.76920101   1.00000000    0.4492188 0.2968918 0.09881328
-#> Surfacescult 0.33987579   0.44921881    1.0000000 0.3230496 0.11451750
-#> Airbat       0.26022890   0.29689183    0.3230496 1.0000000 0.86896631
-#> POPTOT       0.09940795   0.09881328    0.1145175 0.8689663 1.00000000
 ```
 
 we see that the correlations between *Surfacesbois* and *HApoly*, from one side, and between *Airbat* and *POPTOT* from the other side, are high (respectively 0.77 and 0.87), so we decide that both *HApoly* and *POPTOT* play the role of *stratification variables Xs* in our frame.
 
 In a first moment we decide to treat the stratification variables as categorical, so we have to categorize them. A suitable way to do so, is to apply a *k-means clustering* method [see @hartigan:1979] by using the function *var.bin*:
 
-
-```r
+```{r categorize}
 swissmun$HApoly.cat <- var.bin(swissmun$HApoly,15)
 table(swissmun$HApoly.cat)
-#> 
-#>   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15 
-#> 311 345 281 214 158 126 111  84  66  32  29  32  15  11   8
 swissmun$POPTOT.cat <- var.bin(swissmun$POPTOT,15)
 table(swissmun$POPTOT.cat)
-#> 
-#>   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15 
-#> 452 388 266 193 124 109  79  59  42  33  35  28   5   6   4
 ```
 
 We can now define the *frame* dataframe in the format required by SamplingStrata. Function *buildFrameDF* permits to organize data in a suitable mode for next processing:
   
-
-```r
+```{r buildframe1, eval=TRUE, echo=TRUE}
 frame1 <- buildFrameDF(df = swissmun,
                            id = "COM",
                            X = c("POPTOT.cat","HApoly.cat"),
@@ -156,13 +141,6 @@ frame1 <- buildFrameDF(df = swissmun,
                            domainvalue = "REG")
 
 head(frame1)
-#>     id X1 X2   Y1   Y2 domainvalue
-#> 1 6621 15  8  773   67           1
-#> 2 2701 15  9 1023   97           3
-#> 3  351 15 12 1070 1726           2
-#> 4 5586 15 11  856 1635           1
-#> 5  371 14  9  463  976           2
-#> 6  942 14  9  523  425           2
 ```
 
 ### Strata
@@ -170,20 +148,9 @@ head(frame1)
 This dataframe is not explicitly required, as it is automatically produced from the *frame* dataframe by the *optimStrata* function. Notwithstanding, it is worthwhile to produce it in order to analyse the initial stratification of the frame, and what could be the associated sample size without optimization.
 The function *buildStrataDF* is the one to produce the *strata* dataframe:
 
-
-```r
+```{r buildstrata1, eval=TRUE, echo=TRUE}
 strata1 <- buildStrataDF(frame1, progress=F)
-#> 
-#> Number of strata: 350
-#> ... of which with only one unit: 130
 head(strata1)
-#>   STRATO N     M1     M2       S1        S2 COST CENS DOM1 X1 X2
-#> 1    1*7 1   7.00  360.0 0.000000   0.00000    1    0    1  1  7
-#> 2    1*5 5  10.00  467.6 4.195235  79.79624    1    0    1  1  5
-#> 3   1*13 5  12.20 1085.4 3.187475 537.57924    1    0    1  1 13
-#> 4    1*8 4  16.25  734.5 3.418699 153.20003    1    0    1  1  8
-#> 5    1*9 2  15.50  530.0 1.500000  70.00000    1    0    1  1  9
-#> 6  10*15 1 258.00 3541.0 0.000000   0.00000    1    0    1 10 15
 ```
 
 Each row in this dataframe report information related to a given stratum (obtained by cross-classifying each unit with the values of the X variables) regarding:
@@ -204,18 +171,13 @@ Each row of this frame is related to accuracy constraints in a particular subdom
 In our case, we have chosen to define the following constraints:
 
 
-
-```r
+```{r cv, eval=TRUE, echo=TRUE}
 ndom <- length(unique(swissmun$REG))
 cv <- as.data.frame(list(DOM=rep("DOM1",ndom),
                          CV1=rep(0.10,ndom),
                          CV2=rep(0.10,ndom),
                          domainvalue=c(1:ndom) ))
 cv
-#>    DOM CV1 CV2 domainvalue
-#> 1 DOM1 0.1 0.1           1
-#> 2 DOM1 0.1 0.1           2
-#> 3 DOM1 0.1 0.1           3
 ```
 
 This example reports accuracy constraints (maximum CV allowable equal to 10%) on variables Y1 and Y2 that are the same for all the 3 different subdomains 
@@ -225,24 +187,19 @@ to the values of variable 'DOM1' in the strata dataframe.
 
 We check that the dataframes that we have defined so far are correct:
 
-
-```r
+```{r check, eval=TRUE, echo=TRUE}
 checkInput(errors = checkInput(errors = cv, 
                                strata = strata1, 
                                sampframe = frame1))
-#> 
-#> Input data have been checked and are compliant with requirements
 ```
 
 For instance, this function controls that the number of auxiliary variables is the same in the frame and in the strata dataframes; that the number of target variables indicated in the frame dataframe is the same than the number of means and standard deviations in the strata dataframe, and the same than the number of coefficient of variations indicated in the errors dataframe.
 
 So far so good. Now we want to determine the total sample size, and related allocation, under the given strata, using the function *bethel* (@bethel1989):
 
-
-```r
+```{r bethel, eval=TRUE, echo=TRUE}
 allocation <- bethel(strata1,cv[1,])
 sum(allocation)
-#> [1] 570
 ```
 
 This is the total sample size (570) required to satisfy precision constraints under the current stratification, before the optimization.
@@ -286,8 +243,7 @@ Here we report the most important parameters related to the three methods (for t
 
 As a first run we execute the optimization step using the method *atomic* (required as the stratification variables are of the categorical type). 
 
-
-```r
+```{r optim1, eval=TRUE, echo=TRUE, warning=FALSE}
 set.seed(1234)
 solution1 <- optimStrata(method = "atomic",
                         errors = cv, 
@@ -295,22 +251,6 @@ solution1 <- optimStrata(method = "atomic",
                         framesamp = frame1,
                         iter = 50,
                         pops = 10)
-#> 
-#> Input data have been checked and are compliant with requirements
-#> 
-#> Number of strata: 350
-#> ... of which with only one unit: 130
-#> 
-#>  *** Starting parallel optimization for  3  domains using  3  cores
-```
-
-![plot of chunk optim1](figure/optim1-1.png)![plot of chunk optim1](figure/optim1-2.png)![plot of chunk optim1](figure/optim1-3.png)
-
-```
-#> 
-#>  *** Sample size :  281
-#>  *** Number of strata :  22
-#> ---------------------------
 ```
 
 The execution of *optimStrata* produces the solution of 3 different optimization problems, one for each domain.
@@ -318,13 +258,8 @@ The graphs illustrate the convergence of the solution to the final one starting 
 
 We can calculate (analytically) the expected CVs by executing the function:
 
-
-```r
+```{r optim1b, eval=TRUE, echo=TRUE }
 expected_CV(solution1$aggr_strata)
-#>         cv(Y1)    cv(Y2)
-#> DOM1 0.0999918 0.0991177
-#> DOM2 0.0998998 0.1000010
-#> DOM3 0.1000000 0.0907580
 ```
 
 The obtained total size of the sample required to satisfy precision constraint is much lower than the one obtained with the simple application of the Bethel algorithm to the initial atomic stratification, but maybe not yet satisfactory. 
@@ -332,8 +267,7 @@ The obtained total size of the sample required to satisfy precision constraint i
 In order to explore other solutions we may want that each unit in the sampling frame be considered as an atomic stratum, and let to the optimization step to aggregate them on the basis of the values of the Y variables. 
 In any case, as we have to indicate at least one X variable, we can use to this purpose a simple progressive number:
 
-
-```r
+```{r frame2, eval=TRUE, echo=TRUE}
 swissmun$progr <- c(1:nrow(swissmun))
 frame2 <- buildFrameDF(df = swissmun,
                        id = "COM",
@@ -341,13 +275,6 @@ frame2 <- buildFrameDF(df = swissmun,
                        Y = c("Airbat","Surfacesbois"),
                        domainvalue = "REG")
 head(frame2)
-#>     id X1   Y1   Y2 domainvalue
-#> 1 6621  1  773   67           1
-#> 2 2701  2 1023   97           3
-#> 3  351  3 1070 1726           2
-#> 4 5586  4  856 1635           1
-#> 5  371  5  463  976           2
-#> 6  942  6  523  425           2
 ```
 
 We can use this approach because the number of units in the frame is small: it would not be possible to consider each unit as a stratum in case of real population registers or even with business registers.
@@ -358,32 +285,25 @@ In order to speed up the convergence towards the optimal solution, an initial on
 For any given number of clusters, the correspondent aggregation of atomic strata is considered as input to the function *bethel*. The number of clusters for which the value of the sample size necessary to fulfil precision constraints is the minimum one, is retained as the optimal one.
 Also, the optimal number of clusters is determined inside each domain. It is possible to indicate a maximum number of aggregated strata to be obtained by using the parameter *maxcluster*:
 
-
-```r
+```{r initsol, eval=TRUE, results= FALSE, echo=TRUE}
 strata2 <- buildStrataDF(frame2, progress=F)
 initial_solution2 <- KmeansSolution(strata = strata2,
                                     errors = cv,
                                     maxclusters = 10)  
 ```
 
-![plot of chunk initsol](figure/initsol-1.png)![plot of chunk initsol](figure/initsol-2.png)![plot of chunk initsol](figure/initsol-3.png)
-
 The overall solution is obtained by concatenating optimal clusters obtained in domains. The result is a dataframe with two columns: the first indicates the clusters, the second the domains. On the basis of these, we can calculate the most convenient number of final strata for each domain:
 
-
-```r
+```{r nstrata, eval=TRUE, echo=TRUE}
 nstrata2 <- tapply(initial_solution2$suggestions,
                  initial_solution2$domainvalue,
                  FUN=function(x) length(unique(x)))
 nstrata2
-#> 1 2 3 
-#> 7 8 9
 ```
 
 and we can supply both the *initial_solution* and the number of strata *nstrata* as inputs to the optimization step:
 
-
-```r
+```{r optim2, eval=TRUE, echo=TRUE, warning=FALSE}
 set.seed(1234)
 solution2 <- optimStrata(method = "atomic",
                         errors = cv, 
@@ -392,35 +312,15 @@ solution2 <- optimStrata(method = "atomic",
                         pops = 10,
                         nStrata = nstrata2,
                         suggestions = initial_solution2)
-#> 
-#> Input data have been checked and are compliant with requirements
-#> 
-#> Number of strata: 1823
-#> ... of which with only one unit: 1823
-#> 
-#>  *** Starting parallel optimization for  3  domains using  3  cores
-```
 
-![plot of chunk optim2](figure/optim2-1.png)![plot of chunk optim2](figure/optim2-2.png)![plot of chunk optim2](figure/optim2-3.png)
-
-```
-#> 
-#>  *** Sample size :  161
-#>  *** Number of strata :  23
-#> ---------------------------
 ```
 
 Notice that the obtained solution in this run in terms of sample size is significantly better than in the previous one.
 
 
-
-```r
+```{r optim2a, eval=TRUE, echo=TRUE}
 outstrata2 <- solution2$aggr_strata
 expected_CV(outstrata2)
-#>         cv(Y1)    cv(Y2)
-#> DOM1 0.0995009 0.0651465
-#> DOM2 0.0996311 0.0403613
-#> DOM3 0.0992532 0.0331673
 ```
 
 
@@ -433,8 +333,7 @@ The last thing to do is to test also the *continuous* method.
 First, we have to redefine the frame dataframe in this way:
 
   
-
-```r
+```{r buildframe3, eval=TRUE, echo=TRUE}
 frame3 <- buildFrameDF(df = swissmun,
                            id = "COM",
                            X = c("POPTOT","HApoly"),
@@ -442,29 +341,16 @@ frame3 <- buildFrameDF(df = swissmun,
                            domainvalue = "REG")
 
 head(frame3)
-#>     id     X1   X2   Y1   Y2 domainvalue
-#> 1 6621 177964 1593  773   67           1
-#> 2 2701 166558 2391 1023   97           3
-#> 3  351 128634 5162 1070 1726           2
-#> 4 5586 124914 4136  856 1635           1
-#> 5  371  48655 2123  463  976           2
-#> 6  942  40377 2158  523  425           2
 ```
 
 
 We want to get indications about a suitable number of optimizes strata in each domain:
 
-
-```r
+```{r init_sol3, eval=TRUE, echo=TRUE, results= FALSE, warning=FALSE}
 set.seed(1234)
 init_sol3 <- KmeansSolution2(frame=frame3,
                              errors=cv,
                              maxclusters = 10)  
-```
-
-![plot of chunk init_sol3](figure/init_sol3-1.png)![plot of chunk init_sol3](figure/init_sol3-2.png)![plot of chunk init_sol3](figure/init_sol3-3.png)
-
-```r
 nstrata3 <- tapply(init_sol3$suggestions,
                  init_sol3$domainvalue,
                  FUN=function(x) length(unique(x)))
@@ -477,8 +363,7 @@ Note that this time we call a different function (*KmeansSolution2*) that requir
 
 We are now able to perform the optimization step with the *continuous* method:
 
-
-```r
+```{r optim3, eval=TRUE, echo=TRUE, warning=FALSE, }
 set.seed(1234)
 solution3 <- optimStrata(method = "continuous",
                         errors = cv, 
@@ -486,19 +371,7 @@ solution3 <- optimStrata(method = "continuous",
                         iter = 50,
                         pops = 10,
                         nStrata = nstrata3)
-#> 
-#> Input data have been checked and are compliant with requirements
-#> 
-#>  *** Starting parallel optimization for  3  domains using  3  cores
-```
 
-![plot of chunk optim3](figure/optim3-1.png)![plot of chunk optim3](figure/optim3-2.png)![plot of chunk optim3](figure/optim3-3.png)
-
-```
-#> 
-#>  *** Sample size :  101
-#>  *** Number of strata :  23
-#> ---------------------------
 ```
 
 This solution requires a total sample size that is by far the best among those we produced, so we decide to select this one.
@@ -516,27 +389,18 @@ The results of the execution are contained in the list 'solution', composed by t
 
 When stratification variables are of the continuous type, and the *continuous* (or *spatial*) method has been used, it is possible to have detailed information on the structure of the optimized strata, for instance by using the function *summaryStrata*:
 
-
-```r
+```{r ss, eval=TRUE}
 strataStructure <- summaryStrata(solution3$framenew,
                                  solution3$aggr_strata,
                                  progress=FALSE)
 head(strataStructure)
-#>   Domain Stratum Population Allocation SamplingRate Lower_X1 Upper_X1 Lower_X2 Upper_X2
-#> 1      1       1        402         19     0.047288       27     3691       32     1281
-#> 2      1       2         86         10     0.117364       95     3567     1286     3805
-#> 3      1       3         38          6     0.146870      455    12141      129     3926
-#> 4      1       4         27          6     0.232000      130    14361      386     6723
-#> 5      1       5         13          2     0.157778     5341    29559      239     7093
-#> 6      1       6         16          6     0.393347       78     7515     8460    11907
 ```
 
 For each otpimized stratum, total number of units together with allocations and sampling rates are reported. Also ranges of the stratification variables are listed, in order to characterize the strata.
 
 If the stratification variables are in a limited number, as in our case, it is possible to use the *plotStrata2d* function, that allows also to visualize strata by choosing couples of variables and one domain per time:
 
-
-```r
+```{r plot2d, eval=TRUE}
 plotStrata2d(solution3$framenew, 
              solution3$aggr_strata,
              domain = 3, 
@@ -544,120 +408,27 @@ plotStrata2d(solution3$framenew,
              labels = c("Total Population","Total Area"))
 ```
 
-![plot of chunk plot2d](figure/plot2d-1.png)
-<table class="table table-condensed">
- <thead>
-  <tr>
-   <th style="text-align:right;"> Stratum </th>
-   <th style="text-align:right;"> Population </th>
-   <th style="text-align:right;"> Allocation </th>
-   <th style="text-align:right;"> SamplingRate </th>
-   <th style="text-align:right;"> Bounds Total Population </th>
-   <th style="text-align:right;"> Bounds Total Area </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 128 </td>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 0.02638695 </td>
-   <td style="text-align:right;"> 109-2055 </td>
-   <td style="text-align:right;"> 32-510 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 69 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0.03407425 </td>
-   <td style="text-align:right;"> 235-2319 </td>
-   <td style="text-align:right;"> 226-886 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 62 </td>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 0.06825565 </td>
-   <td style="text-align:right;"> 978-11702 </td>
-   <td style="text-align:right;"> 155-902 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 22 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0.09567947 </td>
-   <td style="text-align:right;"> 744-8647 </td>
-   <td style="text-align:right;"> 925-1065 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 11 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0.18181818 </td>
-   <td style="text-align:right;"> 566-13977 </td>
-   <td style="text-align:right;"> 443-1137 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 16 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0.13730442 </td>
-   <td style="text-align:right;"> 721-14904 </td>
-   <td style="text-align:right;"> 1070-1603 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 7 </td>
-   <td style="text-align:right;"> 12 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0.17325072 </td>
-   <td style="text-align:right;"> 2741-20370 </td>
-   <td style="text-align:right;"> 700-2029 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1.00000000 </td>
-   <td style="text-align:right;"> 166558-166558 </td>
-   <td style="text-align:right;"> 2391-2391 </td>
-  </tr>
-</tbody>
-</table>
-
-
 ### Evaluation by simulation
 
 In order to be confident about the quality of the found solution, the function *evalSolution* allows to run a simulation, based on the selection of a desired number of samples from the frame to which the stratification, identified as the best, has been applied. The user can invoke this function also indicating the number of samples to be drawn:
 
-
-```r
+```{r evaluate, eval=TRUE}
 eval3 <- evalSolution(frame = solution3$framenew, 
                      outstrata = solution3$aggr_strata, 
                      nsampl = 200,
                      progress = FALSE) 
-#> Warning in evalSolution(frame = solution3$framenew, outstrata = solution3$aggr_strata, : Folder C:/Users/UTENTE/Google Drive/Sampling/SamplingStrata 1.5/vignettes/simulation already existed and has been deleted.
 ```
 
 For each drawn sample, the estimates related to the Y’s are calculated. Their mean and standard deviation are also computed, in order to produce the CV and relative bias related to each variable in every domain. 
 
-
-```r
+```{r evaluate2, eval=T}
 eval3$coeff_var
-#>      CV1    CV2  dom
-#> 1 0.0939 0.1026 DOM1
-#> 2 0.1123 0.0960 DOM2
-#> 3 0.1080 0.1114 DOM3
 eval3$rel_bias
-#>        y1      y2  dom
-#> 1 -0.0106 -0.0061 DOM1
-#> 2  0.0090  0.0032 DOM2
-#> 3  0.0017 -0.0050 DOM3
 ```
 
 It is also possible to analyse the sampling distribution of the estimates for each variable of interest in a selected domain:
 
-
-```r
+```{r distrib, eval=T}
 dom = 1
 hist(eval3$est$Y1[eval3$est$dom == dom], col = "grey", border = "white",
      xlab = expression(hat(Y)[1]),
@@ -668,8 +439,6 @@ abline(v = mean(frame3$Y1[frame3$domainvalue==dom]), col = "red")
 legend("topright", c("distribution mean", "true value"),
        lty = 1, col = c("blue", "red"), box.col = NA, cex = 0.8)
 ```
-
-![plot of chunk distrib](figure/distrib-1.png)
 
 ## Adjustment of the final sampling size
 
@@ -684,35 +453,22 @@ In the first case, no action is required. In the second case, it is necessary to
 
 Let us suppose that the final obtained sample size (106) is not affordable. We can reduce it by executing the following code:
 
-
-```r
+```{r adjust1, eval=T}
 adjustedStrata <- adjustSize(size=75,strata=solution3$aggr_strata,cens=NULL)
-#> 
-#>  81
-#>  78
-#>  77
-#>  77
-#>  Final adjusted size:  77
 ```
 
 Instead, if we want to increase the size because the budget allows to do this, then this is the code:
 
 
-
-```r
+```{r adjust2, eval=T}
 adjustedStrata <- adjustSize(size=150,strata=solution3$aggr_strata,cens=NULL)
-#> 
-#>  149
-#>  149
-#>  Final adjusted size:  149
 ```
 
 The difference between the desired sample size and the actual adjusted size depends on the number of strata in the optimized solution. Consider that the adjustment is performed in each stratum by taking into account the relative difference between the current sample size and the desired one: this produces an allocation that is expressed by a real number, that must be rounded, while taking into account the requirement of the minimum number of units in the strata (default is 2). The higher the number of strata, the higher the impact on the final adjusted sample size.
 
 Once increased (or reduced) the sample size we can check what are the new expected CVs. With the second adjustment, that produced a total sample size of 152, we obtain:
 
-
-```r
+```{r checkCV, eval=F}
 expected_CV(adjustedStrata)
 #      cv(Y1) cv(Y2)
 # DOM1  0.079  0.079
@@ -727,19 +483,12 @@ that is, an important reduction of expected CVs.
 Once the optimal stratification has been obtained, using the function *selectSample* it is possible to select the sample from the optimized version of the frame, taking into account the optimal stratification and allocation:
 
 
-
-```r
+```{r selectSample, eval=T}
 framenew3 <- solution3$framenew
 outstrata3 <- solution3$aggr_strata
 sample <- selectSample(framenew3, 
                        outstrata3,
                        writeFiles = TRUE)
-#> 
-#> *** Sample has been drawn successfully ***
-#>  101  units have been selected from  23  strata
-#> 
-#> ==> There have been  2  take-all strata 
-#> from which have been selected  2 units
 ```
 
 When the option *writeFiles* is set to TRUE, it produces two .csv files:
@@ -757,8 +506,7 @@ a starting point is determined by selecting a value in this interval;
 
 This selection method can be useful if associated to a particular ordering of the selection frame, where the ordering variable(s) can be considered as additional stratum variable(s). For instance, we could decide that it could be important to consider the *industrial area* (*Airind*) in municipalities when selecting units in strata. Here is the code:
 
-
-```r
+```{r selectSystematic, eval=TRUE}
 # adding POPTOT to framenew
 data("swissmunicipalities")
 framenew <- merge(solution3$framenew,
@@ -768,12 +516,6 @@ framenew <- merge(solution3$framenew,
 sample <- selectSampleSystematic(frame=framenew,
                                  outstrata=solution3$aggr_strata,
                                  sortvariable = c("Airind"))
-#> 
-#> *** Sample has been drawn successfully ***
-#>  101  units have been selected from  23  strata
-#> 
-#> ==> There have been  2  take-all strata 
-#> from which have been selected  2 units
 ```
 
 
@@ -783,26 +525,22 @@ As input to the optimization step, together with proper sampling strata, it is a
 
 In order to correctly execute the optimization and further steps, it is necessary to perform a pre-processing of the overall input. The first step to be executed consists in the bi-partition of units to be censused and of units to be sampled, in order to build two different frames. As an example, we want to be sure that all municipalities whose total population is higher than 10,000 will be always included in the sample. So, we partition the sampling frame in this way:
 
-
-```r
+```{r takeall1, eval=T}
 #----Selection of units to be censused from the frame
 ind_framecens <- which(frame3$X1 > 10000)
 framecens <- frame3[ind_framecens,]
 nrow(framecens)
-#> [1] 63
 #----Selection of units to be sampled from the frame
 # (complement to the previous)
 framesamp <- frame3[-ind_framecens,]
 nrow(framesamp)
-#> [1] 1760
 ```
 
 In this way, we have defined as to be censused all units with population greater than 10,000 (63). At the end of the process, the sample will contain all these units.
 
 We now run the optimization step by including the indication of to be censused units:
 
-
-```r
+```{r optim4, eval=TRUE, echo=TRUE, warning=FALSE, }
 set.seed(1234)
 solution4 <- optimStrata(method = "continuous",
                         errors = cv, 
@@ -811,58 +549,28 @@ solution4 <- optimStrata(method = "continuous",
                         iter = 50,
                         pops = 10,
                         nStrata = c(10,10,10))
-#> 
-#> Input data have been checked and are compliant with requirements
-#> 
-#> Input data have been checked and are compliant with requirements
-#> 
-#>  *** Starting parallel optimization for  3  domains using  3  cores
-```
-
-![plot of chunk optim4](figure/optim4-1.png)![plot of chunk optim4](figure/optim4-2.png)![plot of chunk optim4](figure/optim4-3.png)
-
-```
-#> 
-#>  *** Sample size :  69
-#>  *** Number of strata :  26
-#> ---------------------------
 ```
 
 
-
-```r
+```{r optim4a, eval=TRUE, echo=TRUE, warning=FALSE }
 framenew4 <- solution4$framenew
 outstrata4 <- solution4$aggr_strata
 sum(outstrata4$SOLUZ)
-#> [1] 131.577
 expected_CV(outstrata4)
-#>         cv(Y1)    cv(Y2)
-#> DOM1 0.1000000 0.1000000
-#> DOM2 0.0955490 0.0941000
-#> DOM3 0.0910181 0.0906131
 ```
 
 
 Once the optimized solution has been produced, we select the sample:
 
-
-```r
+```{r select2, eval=TRUE}
 sample <- selectSample(frame=framenew4,
                        outstrata=outstrata4)
-#> 
-#> *** Sample has been drawn successfully ***
-#>  132  units have been selected from  29  strata
-#> 
-#> ==> There have been  3  take-all strata 
-#> from which have been selected  63 units
 ```
 
 and we control that all take-all units are included in the sample:
 
-
-```r
+```{r}
 sum(framecens$id %in% sample$ID)
-#> [1] 63
 ```
 
 
