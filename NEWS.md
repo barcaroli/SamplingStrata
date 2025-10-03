@@ -1,7 +1,7 @@
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit NEWS.Rmd file -->
 
-# SamplingStrata 1.5-5
+# SamplingStrata 1.5-6
 
 Implemented a new Rcpp version, much more performant, of the functions
 
@@ -15,6 +15,10 @@ Morevover, implemented an Rcpp version of the *bethel* function (namely,
 functions, to speed up their execution.
 
 Function *prepareSuggestion* has been deleted.
+
+# SamplingStrata 1.5-5
+
+- Minor changes due to fixing some bugs
 
 # SamplingStrata 1.5-4
 
@@ -238,7 +242,7 @@ Function *prepareSuggestion* has been deleted.
 - The object returned by function *optimizeStrata* is no more a
   dataframe but a list: (i) the first element of the list is the
   solution vector
-  (solution$indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution$aggr_strata).
+  (solution$`indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution`$aggr_strata).
 
 - In all the functions that previously produced .csv files and .pdf
   plots in the working directory, as a default this is no more the
