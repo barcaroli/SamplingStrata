@@ -32,7 +32,7 @@ vignette: >
 First we define packages:
 
 
-``` r
+```r
 library(drake)
 library(SamplingStrata)
 ```
@@ -40,7 +40,7 @@ library(SamplingStrata)
 then 'swissmunicipalities' example data (with only 2 domains):
 
 
-``` r
+```r
 data(swissmunicipalities)
 swissmun <- swissmunicipalities[swissmunicipalities$REG < 3,
                                 c("REG","COM","Nom","HApoly",
@@ -59,7 +59,7 @@ head(swissmun)
 Finally, the plan:
 
 
-``` r
+```r
 plan <- drake_plan(
   # Definition of the sampling frame
   frame = buildFrameDF(
@@ -115,7 +115,7 @@ plan <- drake_plan(
 We have just defined this plan:
 
 
-``` r
+```r
 print(plan)
 #> # A tibble: 12 × 2
 #>    target           command                                                                                                                                                                                                                        
@@ -137,18 +137,17 @@ print(plan)
 visualised in this way:
 
 
-``` r
+```r
 vis_drake_graph(plan, ncol_legend = NULL,
                 main="Optimization with 'continuous' method")
-#> ℹ unloading 3 targets from environment
+#> ℹ unloading 5 targets from environment
+#> Error in loadNamespace(name): non c'è alcun pacchetto chiamato 'webshot'
 ```
-
-![plot of chunk graph](figure/graph-1.png)
 
 and now we execute:
 
 
-``` r
+```r
 make(plan)
 #> ✔ All targets are already up to date.
 ```
@@ -159,7 +158,7 @@ make(plan)
 First of all, the total size of the optimized sample:
 
 
-``` r
+```r
 options(width = 999)
 loadd(solution)
 sum(solution$aggr_strata$SOLUZ)
@@ -169,7 +168,7 @@ sum(solution$aggr_strata$SOLUZ)
 Then, the structure of the optimized strata:
 
 
-``` r
+```r
 loadd(strata_structure)
 strata_structure
 #>   Domain Stratum Population Allocation SamplingRate Lower_X1 Upper_X1 Lower_X2 Upper_X2
@@ -187,7 +186,7 @@ strata_structure
 The expected CVs given the optimized strata:
 
 
-``` r
+```r
 loadd(expected_CV1)
 expected_CV1
 #>      cv(Y1) cv(Y2)
@@ -198,7 +197,7 @@ expected_CV1
 and after the adjustment of the allocation in the strata based on the affordable sample size:
 
 
-``` r
+```r
 loadd(expected_CV2)
 expected_CV2
 #>         cv(Y1)    cv(Y2)
@@ -209,7 +208,7 @@ expected_CV2
 The results of simulation with the adjusted allocation:
 
 
-``` r
+```r
 loadd(eval)
 eval$coeff_var
 #>      CV1    CV2  dom
@@ -224,7 +223,7 @@ eval$rel_bias
 Finally, the selection of the sample from the adjusted strata:
 
 
-``` r
+```r
 loadd(sample)
 head(sample)
 #>   DOMAINVALUE STRATO   ID   X1  X2  Y1 Y2 LABEL  WEIGHTS        FPC

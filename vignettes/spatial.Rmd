@@ -81,7 +81,7 @@ To summarize, when frame units can be geo-referenced, the proposed procedure is 
 In order to illustrate the "*spatial*" method, we make use of a dataset generally employed as an example of spatially correlated phenomena (in this case, the concentration of four heavy metals in a portion of the river Meuse). This dataset comes with the library "*sp*":
 
 
-``` r
+```r
 library(sp)
 # locations (155 observed points)
 data("meuse")
@@ -97,7 +97,7 @@ coordinates(meuse.grid)<-c("x","y")
 We analyse the territorial distribution of the *lead* and *zinc* concentration, and model (by using the *universal kriging*) their relations with distance from the river, using the subset of 155 points on which these values have been jointly observed: 
 
 
-``` r
+```r
 library(automap)
 kriging_lead = autoKrige(log(lead) ~ dist, meuse, meuse.grid)
 ```
@@ -106,13 +106,13 @@ kriging_lead = autoKrige(log(lead) ~ dist, meuse, meuse.grid)
 ## [using universal kriging]
 ```
 
-``` r
+```r
 plot(kriging_lead,sp.layout = NULL, justPosition = TRUE)
 ```
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
 
-``` r
+```r
 kriging_zinc = autoKrige(log(zinc) ~ dist, meuse, meuse.grid)
 ```
 
@@ -120,7 +120,7 @@ kriging_zinc = autoKrige(log(zinc) ~ dist, meuse, meuse.grid)
 ## [using universal kriging]
 ```
 
-``` r
+```r
 plot(kriging_zinc, sp.layout = list(pts = list("sp.points", meuse)))
 ```
 
@@ -129,7 +129,7 @@ plot(kriging_zinc, sp.layout = list(pts = list("sp.points", meuse)))
 It is possible to calculate the fitting of the two models in this way:
 
 
-``` r
+```r
 r2_lead <- 1 - kriging_lead$sserr/sum((log(meuse$lead)-mean(log(meuse$lead)))^2)
 r2_lead
 ```
@@ -138,7 +138,7 @@ r2_lead
 ## [1] 0.9999997
 ```
 
-``` r
+```r
 r2_zinc <- 1 - kriging_zinc$sserr/sum((log(meuse$zinc)-mean(log(meuse$zinc)))^2)
 r2_zinc
 ```
@@ -151,7 +151,7 @@ r2_zinc
 Using these *kriging* models, we are able to predict the values of lead and zinc concentration on the totality of the 3,103 points in the Meuse territory:
 
 
-``` r
+```r
 df <- NULL
 df$id <- meuse.grid$id
 df$lead.pred <- kriging_lead$krige_output@data$var1.pred
@@ -178,7 +178,7 @@ head(df)
 The aim is now to produce the optimal stratification of the 3,103 points under a precision constraint of 1% on the target estimates of the mean *lead*  and *zinc* concentrations:
 
 
-``` r
+```r
 library(SamplingStrata)
 frame <- buildFrameSpatial(df=df,
                       id="id",
@@ -197,7 +197,7 @@ cv <- as.data.frame(list(DOM=rep("DOM1",1),
 To this aim, we carry out the optimization step by indicating the method *spatial*:
 
 
-``` r
+```r
 set.seed(1234)
 solution <- optimStrata (
   method = "spatial",
@@ -233,7 +233,7 @@ solution <- optimStrata (
 ## ---------------------------
 ```
 
-``` r
+```r
 framenew <- solution$framenew
 outstrata <- solution$aggr_strata
 ```
@@ -241,7 +241,7 @@ outstrata <- solution$aggr_strata
 obtaining the following optimized strata:
 
 
-``` r
+```r
 plotStrata2d(framenew,outstrata,domain=1,vars=c("X1","X2"),
              labels=c("Lead","Zinc"))
 ```
@@ -297,7 +297,7 @@ plotStrata2d(framenew,outstrata,domain=1,vars=c("X1","X2"),
 that can be visualised in this way:
 
 
-``` r
+```r
 frameres <- SpatialPointsDataFrame(data=framenew, coords=cbind(framenew$LON,framenew$LAT) )
 frameres2 <- SpatialPixelsDataFrame(points=frameres[c("LON","LAT")], data=framenew)
 frameres2$LABEL <- as.factor(frameres2$LABEL)
@@ -309,7 +309,7 @@ spplot(frameres2,c("LABEL"), col.regions=bpy.colors(5))
 We can now proceed with the selection of the sample, using the function 'selectSampleSpatial' (which is a wrapper of function 'lpm2_kdtree' in package 'SamplingBigData', see @lisic2018b), in order to ensure a spatially balanced sample:
 
 
-``` r
+```r
 s <- selectSampleSpatial(framenew,outstrata,coord_names=c("LON","LAT"))
 ```
 
@@ -322,7 +322,7 @@ s <- selectSampleSpatial(framenew,outstrata,coord_names=c("LON","LAT"))
 whose units are so distributed in the territory:
 
 
-``` r
+```r
 s <- selectSampleSpatial(framenew,outstrata,coord_names = c("LON","LAT"))
 ```
 
@@ -332,7 +332,7 @@ s <- selectSampleSpatial(framenew,outstrata,coord_names = c("LON","LAT"))
 ##  62  units have been selected from  4  strata
 ```
 
-``` r
+```r
 coordinates(s) <- ~LON+LAT
 proj4string(s) <- CRS("+init=epsg:28992")
 s$LABEL <- as.factor(s$LABEL)

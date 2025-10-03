@@ -190,6 +190,7 @@ optimizeStrata <-
                                   minnumstr, iter, pops, mut_chance, elitism_rate, 
                                   addStrataFactor, highvalue, suggestions = suggest, 
                                   realAllocation, writeFiles, showPlot)
+            rbga.object <- solut[[3]]
             if (nrow(stcamp[[i]]) == 1) {
               solut <- list(c(1), stcamp[[i]][c(1:grep("DOM1", 
                                                        colnames(stcamp[[i]])))])
@@ -205,7 +206,7 @@ optimizeStrata <-
               colnames(outstrata) <- toupper(colnames(outstrata))
             colnames(solut[[2]]) <- toupper(colnames(solut[[2]]))
             outstrata <- rbind(outstrata, solut[[2]])
-            rbga.object <- solut[[3]]
+
             max <- max(rbga.object$best, rbga.object$mean)
             min <- min(rbga.object$best, rbga.object$mean)
             if (writeFiles == TRUE) {
