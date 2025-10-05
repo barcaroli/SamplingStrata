@@ -1,7 +1,7 @@
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit NEWS.Rmd file -->
 
-# SamplingStrata 1.5-6
+# SamplingStrata 1.6
 
 Implemented a new Rcpp version, much more performant, of the functions
 
