@@ -146,15 +146,11 @@ kmean <- KmeansSolution2(frame = frame,
                          maxclusters = 10)
 nstrat <- tapply(kmean$suggestions, kmean$domainvalue,
                  FUN=function(x) length(unique(x)))
-sugg <- prepareSuggestion(kmean = kmean, 
-                          frame = frame, 
-                          nstrat = nstrat)
 solution <- optimizeStrata2(framesamp = frame,
                         errors = cv,
                         nStrata = nstrat,
                         iter = 50,
-                        pops = 10,
-                        suggestions = sugg)
+                        pops = 10)
 framenew <- solution$framenew
 outstrata <- solution$aggr_strata
 s <- selectSample(framenew,outstrata)
