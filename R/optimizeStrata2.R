@@ -165,6 +165,7 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
                                                        minnumstr, iter, pops, mut_chance, elitism_rate, 
                                                        suggestions = suggest, realAllocation, 
                                                        writeFiles, showPlot)
+                                rbga.results <- solut[[3]]
                                 if (nrow(stcamp[[i]]) == 1) {
                                   solut <- list(c(1), stcamp[[i]][c(1:grep("DOMAINVALUE", 
                                                                            colnames(stcamp[[i]])))])
@@ -180,7 +181,7 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
                                   colnames(outstrata) <- toupper(colnames(outstrata))
                                 colnames(solut[[2]]) <- toupper(colnames(solut[[2]]))
                                 outstrata <- solut[[2]]
-                                rbga.results <- solut[[3]]
+
                                 list(vettsol = vettsol, outstrata = outstrata, 
                                      rbga.results = rbga.results)
                               }
