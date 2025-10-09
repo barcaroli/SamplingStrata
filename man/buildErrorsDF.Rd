@@ -29,6 +29,7 @@ buildErrorsDF(frame=NULL,
   beta, sig2, gamma (> 1 in case of heteroscedasticity). 
   Default is NULL.
 }
+}
 
 \value{
 A dataframe containing precision constraints on the target variables.
