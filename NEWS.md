@@ -3,6 +3,10 @@
 
 # SamplingStrata 1.6
 
+Implemented a new function *buildErrorsDF* that produces a template of
+the dataframe containing the precision constraints on the target
+variables of the sampling survey.
+
 Implemented a new Rcpp version, much more performant, of the functions
 
 - *buildStrataDF*, to increase the efficiency of the “atomic” and
