@@ -131,6 +131,7 @@ optimizeStrata <-
         outstrata <- do.call(rbind, lapply(par_ga_sol, `[[`, 2))
         
         for (i in (unique(strata$DOM1))) {
+        # for (i in (seq_along(unique(strata$DOM1)))) {
           rbga.object <- par_ga_sol[[i]]$rbga.results
           max <- max(rbga.object$best, rbga.object$mean)
           min <- min(rbga.object$best, rbga.object$mean)
@@ -150,7 +151,7 @@ optimizeStrata <-
         }
       }
       else {
-        for (i in (unique(strata$DOM1))) {
+        for (i in (seq_along(unique(strata$DOM1)))) {
           cat("\n *** Domain : ", i, " ", as.character(errors$DOMAINVALUE[i]))
           cat("\n Number of strata : ", nrow(stcamp[[i]]))
           erro[[i]] <- erro[[i]][, -ncol(errors)]
