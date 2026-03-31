@@ -1,159 +1,57 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/articles/drake_continuous.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/models.html</loc>
-  </url>
-  <url>
-    <loc>/articles/prova.html</loc>
-  </url>
-  <url>
-    <loc>/articles/SamplingStrata.html</loc>
-  </url>
-  <url>
-    <loc>/articles/spatial.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/adjustSize.html</loc>
-  </url>
-  <url>
-    <loc>/reference/aggStrata2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/aggStrataSpatial.html</loc>
-  </url>
-  <url>
-    <loc>/reference/assignStrataLabel.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bethel.html</loc>
-  </url>
-  <url>
-    <loc>/reference/buildFrameDF.html</loc>
-  </url>
-  <url>
-    <loc>/reference/buildFrameSpatial.html</loc>
-  </url>
-  <url>
-    <loc>/reference/buildStrataDF.html</loc>
-  </url>
-  <url>
-    <loc>/reference/buildStrataDF2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/buildStrataDFSpatial.html</loc>
-  </url>
-  <url>
-    <loc>/reference/checkInput.html</loc>
-  </url>
-  <url>
-    <loc>/reference/computeGamma.html</loc>
-  </url>
-  <url>
-    <loc>/reference/errors.html</loc>
-  </url>
-  <url>
-    <loc>/reference/evalSolution.html</loc>
-  </url>
-  <url>
-    <loc>/reference/expected_CV.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/KmeansSolution.html</loc>
-  </url>
-  <url>
-    <loc>/reference/KmeansSolution2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/KmeansSolutionSpatial.html</loc>
-  </url>
-  <url>
-    <loc>/reference/nations.html</loc>
-  </url>
-  <url>
-    <loc>/reference/optimizeStrata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/optimizeStrata2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/optimizeStrataSpatial.html</loc>
-  </url>
-  <url>
-    <loc>/reference/optimStrata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotSamprate.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotStrata2d.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prepareSuggestion.html</loc>
-  </url>
-  <url>
-    <loc>/reference/procBethel.html</loc>
-  </url>
-  <url>
-    <loc>/reference/selectSample.html</loc>
-  </url>
-  <url>
-    <loc>/reference/selectSampleSpatial.html</loc>
-  </url>
-  <url>
-    <loc>/reference/selectSampleSystematic.html</loc>
-  </url>
-  <url>
-    <loc>/reference/strata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summaryStrata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/swisserrors.html</loc>
-  </url>
-  <url>
-    <loc>/reference/swissframe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/swissmunicipalities.html</loc>
-  </url>
-  <url>
-    <loc>/reference/swissstrata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tuneParameters.html</loc>
-  </url>
-  <url>
-    <loc>/reference/updateFrame.html</loc>
-  </url>
-  <url>
-    <loc>/reference/updateStrata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/var.bin.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/articles/drake_continuous.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/models.html</loc></url>
+<url><loc>/articles/prova.html</loc></url>
+<url><loc>/articles/Sampling.html</loc></url>
+<url><loc>/articles/SamplingStrata.html</loc></url>
+<url><loc>/articles/spatial.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/adjustSize.html</loc></url>
+<url><loc>/reference/aggStrata2.html</loc></url>
+<url><loc>/reference/aggStrataSpatial.html</loc></url>
+<url><loc>/reference/assignStrataLabel.html</loc></url>
+<url><loc>/reference/bethel.html</loc></url>
+<url><loc>/reference/buildErrorsDF.html</loc></url>
+<url><loc>/reference/buildFrameDF.html</loc></url>
+<url><loc>/reference/buildFrameSpatial.html</loc></url>
+<url><loc>/reference/buildStrataDF.html</loc></url>
+<url><loc>/reference/buildStrataDF2.html</loc></url>
+<url><loc>/reference/buildStrataDFSpatial.html</loc></url>
+<url><loc>/reference/checkInput.html</loc></url>
+<url><loc>/reference/computeGamma.html</loc></url>
+<url><loc>/reference/errors.html</loc></url>
+<url><loc>/reference/evalSolution.html</loc></url>
+<url><loc>/reference/expected_CV.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/KmeansSolution.html</loc></url>
+<url><loc>/reference/KmeansSolution2.html</loc></url>
+<url><loc>/reference/KmeansSolutionSpatial.html</loc></url>
+<url><loc>/reference/nations.html</loc></url>
+<url><loc>/reference/optimizeStrata.html</loc></url>
+<url><loc>/reference/optimizeStrata2.html</loc></url>
+<url><loc>/reference/optimizeStrataSpatial.html</loc></url>
+<url><loc>/reference/optimStrata.html</loc></url>
+<url><loc>/reference/plotSamprate.html</loc></url>
+<url><loc>/reference/plotStrata2d.html</loc></url>
+<url><loc>/reference/prepareSuggestion.html</loc></url>
+<url><loc>/reference/procBethel.html</loc></url>
+<url><loc>/reference/selectSample.html</loc></url>
+<url><loc>/reference/selectSampleSpatial.html</loc></url>
+<url><loc>/reference/selectSampleSystematic.html</loc></url>
+<url><loc>/reference/strata.html</loc></url>
+<url><loc>/reference/summaryStrata.html</loc></url>
+<url><loc>/reference/swisserrors.html</loc></url>
+<url><loc>/reference/swissframe.html</loc></url>
+<url><loc>/reference/swissmunicipalities.html</loc></url>
+<url><loc>/reference/swissstrata.html</loc></url>
+<url><loc>/reference/tuneParameters.html</loc></url>
+<url><loc>/reference/updateFrame.html</loc></url>
+<url><loc>/reference/updateStrata.html</loc></url>
+<url><loc>/reference/var.bin.html</loc></url>
 </urlset>
+
