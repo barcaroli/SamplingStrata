@@ -21,11 +21,10 @@ precision constraints on the target estimates.
 
 Functions in the package allow to:
 
--   support in the preparation of required input data;
--   execute the optimization step;
--   analyse the obtained results of the optimisation step;
--   select a sample from the new frame accordingly to the best
-    allocation.
+- support in the preparation of required input data;
+- execute the optimization step;
+- analyse the obtained results of the optimisation step;
+- select a sample from the new frame accordingly to the best allocation.
 
 Functions for the execution of the genetic algorithm are a modified
 version of the functions in the ‘genalg’ package.
@@ -38,6 +37,10 @@ the link:
 Download the SamplingStrata cheatsheet from:
 
 <https://rstudio.com/resources/cheatsheets/>
+
+This shiny app allows to run a complete optimisation workflow:
+
+<https://giulio-barcaroli.shinyapps.io/SamplingStrata/>
 
 ## Installation
 
