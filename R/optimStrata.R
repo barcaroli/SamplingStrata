@@ -1,13 +1,24 @@
 optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesamp, 
-                                  framecens = NULL, model = NULL, nStrata = NA, errors, alldomains = TRUE, 
-                                  dom = NULL, strcens = FALSE, minnumstr = 2, iter = 50, pops = 20, 
-                                  mut_chance = NA, elitism_rate = 0.2, suggestions = NULL, 
-                                  writeFiles = FALSE, showPlot = TRUE, parallel = TRUE, cores = NA, 
-                                  fitting = NA, range = NA, kappa = NA) 
+                         framecens = NULL, model = NULL, nStrata = NA, errors, alldomains = TRUE, 
+                         dom = NULL, strcens = FALSE, minnumstr = 2, iter = 50, pops = 20, 
+                         mut_chance = NA, elitism_rate = 0.2, suggestions = NULL, 
+                         writeFiles = FALSE, showPlot = TRUE, parallel = TRUE, cores = NA, 
+                         fitting = NA, range = NA, kappa = NA) 
 {
+  check_consecutive_domainvalue <- function(df, df_name) {
+    colnames(df) <- toupper(colnames(df))
+    domain_ids <- sort(unique(as.integer(as.character(df$DOMAINVALUE))))
+    expected_domains <- seq_len(length(domain_ids))
+    if (length(domain_ids) == 0 || any(is.na(domain_ids)) || 
+        !identical(domain_ids, expected_domains)) {
+      stop(paste0("'", df_name, "$DOMAINVALUE' must contain consecutive integer values from 1 to N with no gaps. Found: ",
+                  paste(domain_ids, collapse = ", ")))
+    }
+  }
   if (!(method %in% c("atomic", "continuous", "spatial"))) 
     stop("Method should be one in 'atomic','continuous','spatial'")
-  if (any(nStrata < 2)) stop("There is at least one element in nStrata that is < 2")
+  if (any(nStrata < 2)) 
+    stop("There is at least one element in nStrata that is < 2")
   if (alldomains == TRUE & !is.null(dom)) 
     stop("Processing of all domains set TRUE, but a given domain has been indicated")
   if (method == "atomic") {
@@ -17,6 +28,8 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
       stop("The 'sampling frame' (framesamp) dataframe is missing")
     if (!is.null(framesamp)) 
       checkInput(errors, sampframe = framesamp)
+    check_consecutive_domainvalue(framesamp, "framesamp")
+    check_consecutive_domainvalue(errors, "errors")
     if (!is.null(framecens)) 
       checkInput(errors, sampframe = framecens)
     nvarX <- length(grep("X", colnames(framesamp)))
@@ -80,6 +93,8 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
     if (is.null(framesamp)) 
       stop("The 'sampling frame' (framesamp) dataframe is missing")
     checkInput(errors, sampframe = framesamp)
+    check_consecutive_domainvalue(framesamp, "framesamp")
+    check_consecutive_domainvalue(errors, "errors")
     if (!is.null(framecens)) 
       checkInput(errors, sampframe = framecens)
     if (!is.null(framecens)) 
@@ -101,6 +116,8 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
   }
   if (method == "spatial") {
     checkInput(errors, sampframe = framesamp)
+    check_consecutive_domainvalue(framesamp, "framesamp")
+    check_consecutive_domainvalue(errors, "errors")
     nvarY <- length(grep("Y", names(framesamp)))
     if (is.na(fitting[1])) 
       stop("Fitting values of spatial models must be given")
