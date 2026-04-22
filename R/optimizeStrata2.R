@@ -1,15 +1,9 @@
 optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALSE, 
                              model = NULL, alldomains = TRUE, dom = NULL, nStrata = c(5), 
                              minnumstr = 2, iter = 50, pops = 20, mut_chance = NA, elitism_rate = 0.2, 
-                             highvalue = 100000000, suggestions = NULL, realAllocation = TRUE, 
+                             highvalue = 1e+08, suggestions = NULL, realAllocation = TRUE, 
                              writeFiles = FALSE, showPlot = TRUE, parallel = TRUE, cores = NA) 
 {
-  # if (!is.null(framecens)) {
-  #   if (length(unique(framecens$domainvalue)) > length(unique(framesamp$domainvalue))) 
-  #     stop("Number of domains in framecens > number of domains in framesamp \n Make them coherent")
-  #   if (length(unique(framecens$domainvalue)) < length(unique(framesamp$domainvalue))) 
-  #     stop("Number of domains in framecens < number of domains in framesamp \n Make them coherent")
-  # }
   if (strcens == FALSE) {
     cens = NULL
     censi = NULL
@@ -82,6 +76,7 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
   errors$DOMAINVALUE <- as.factor(errors$DOMAINVALUE)
   erro <- split(errors, list(errors$DOMAINVALUE))
   stcamp <- split(frame, list(frame$DOMAINVALUE))
+  domain_ids <- unique(frame$DOMAINVALUE)
   if (!is.null(suggestions)) {
     for (i in (unique(frame$DOMAINVALUE))) {
       nvalues <- nrow(suggestions[suggestions$domainvalue == 
@@ -93,10 +88,10 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
   }
   if (strcens == TRUE & !is.null(cens) > 0) {
     colnames(cens) <- toupper(colnames(cens))
-    k <- length(unique(framecens$DOMAINVALUE))
-    stcens <- NULL
-    for (i in (1:k)) {
-      stcens[[i]] <- cens[cens$DOM1 == i, ]
+    stcens <- vector("list", length(domain_ids))
+    names(stcens) <- as.character(domain_ids)
+    for (domain_id in domain_ids) {
+      stcens[[as.character(domain_id)]] <- cens[cens$DOM1 == domain_id, , drop = FALSE]
     }
   }
   if (alldomains == TRUE) {
@@ -121,18 +116,22 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
       on.exit(parallel::stopCluster(cl))
       parallel::clusterExport(cl = cl, ls(), envir = environment())
       showPlot <- FALSE
-      par_ga_sol = pblapply(cl = cl, X = unique(frame$DOMAINVALUE), 
+      par_ga_sol = pblapply(cl = cl, X = domain_ids, 
                             FUN = function(i) {
                               erro[[i]] <- erro[[i]][, -ncol(errors)]
                               flagcens <- strcens
+                              cens_i <- NULL
+                              if (strcens == TRUE && exists("stcens")) {
+                                cens_i <- stcens[[as.character(i)]]
+                              }
                               if (strcens == TRUE) {
-                                if (nrow(stcens[[i]]) > 0) {
-                                  cens <- stcens[[i]]
+                                if (!is.null(cens_i) && nrow(cens_i) > 0) {
+                                  cens <- cens_i
                                   flagcens = TRUE
                                 }
                               }
                               if (strcens == TRUE) {
-                                if (nrow(stcens[[i]]) == 0) {
+                                if (is.null(cens_i) || nrow(cens_i) == 0) {
                                   cens <- NULL
                                   flagcens = FALSE
                                 }
@@ -172,7 +171,7 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
                                   error <- data.frame(erro[[i]], stringsAsFactors = TRUE)
                                   strat <- data.frame(solut[[2]], stringsAsFactors = TRUE)
                                   solut[[2]]$SOLUZ <- sum(bethel_cpp(strat, 
-                                                                 error, realAllocation = T))
+                                                                     error, realAllocation = T))
                                   if (solut[[2]]$SOLUZ > solut[[2]]$N) 
                                     solut[[2]]$SOLUZ <- solut[[2]]$N
                                 }
@@ -181,7 +180,6 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
                                   colnames(outstrata) <- toupper(colnames(outstrata))
                                 colnames(solut[[2]]) <- toupper(colnames(solut[[2]]))
                                 outstrata <- solut[[2]]
-
                                 list(vettsol = vettsol, outstrata = outstrata, 
                                      rbga.results = rbga.results)
                               }
@@ -192,7 +190,7 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
                                          2))
       results <- do.call(rbind, lapply(par_ga_sol, `[[`, 
                                        3))
-      for (i in (unique(frame$DOMAINVALUE))) {
+      for (i in domain_ids) {
         rbga.object <- par_ga_sol[[i]]$rbga.results
         max <- max(rbga.object$best, rbga.object$mean)
         min <- min(rbga.object$best, rbga.object$mean)
@@ -213,21 +211,25 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
       }
     }
     else {
-      for (i in (unique(frame$DOMAINVALUE))) {
+      for (i in domain_ids) {
         cat("\n-------------------------------------------------------")
-        # cat("\n *** Domain : ", i, " ", as.character(errors$DOMAINVALUE[i]))
         cat("\n *** Domain : ", i)
-        if (nrow(stcamp[[i]]) > 0) cat("\n Number of strata : ", nrow(stcamp[[i]]))
+        if (nrow(stcamp[[i]]) > 0) 
+          cat("\n Number of strata : ", nrow(stcamp[[i]]))
         erro[[i]] <- erro[[i]][, -ncol(errors)]
         flagcens <- strcens
+        cens_i <- NULL
+        if (strcens == TRUE && exists("stcens")) {
+          cens_i <- stcens[[as.character(i)]]
+        }
         if (strcens == TRUE) {
-          if (nrow(stcens[[i]]) > 0) {
-            cens <- stcens[[i]]
+          if (!is.null(cens_i) && nrow(cens_i) > 0) {
+            cens <- cens_i
             flagcens = TRUE
           }
         }
         if (strcens == TRUE) {
-          if (nrow(stcens[[i]]) == 0) {
+          if (is.null(cens_i) || nrow(cens_i) == 0) {
             cens <- NULL
             flagcens = FALSE
           }
@@ -263,8 +265,8 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
                                                      colnames(stcamp[[i]])))])
             error <- data.frame(erro[[i]], stringsAsFactors = TRUE)
             strat <- data.frame(solut[[2]], stringsAsFactors = TRUE)
-            solut[[2]]$SOLUZ <- sum(bethel_cpp(strat, error, 
-                                           realAllocation = T))
+            solut[[2]]$SOLUZ <- sum(bethel_cpp(strat, 
+                                               error, realAllocation = T))
             if (solut[[2]]$SOLUZ > solut[[2]]$N) 
               solut[[2]]$SOLUZ <- solut[[2]]$N
           }
