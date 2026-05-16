@@ -1,6 +1,6 @@
 //-------------------------------------------------------
 // C++ script implementing Bethel algorithm (optimized)
-// Author: Giulio Barcaroli (original), improvements by ...
+// Author: Giulio Barcaroli (original)
 // Comments in English
 //-------------------------------------------------------
 
