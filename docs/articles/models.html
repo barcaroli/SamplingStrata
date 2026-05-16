@@ -147,14 +147,14 @@ implemented in the package <em>stratification</em> <span class="citation">(see B
 <em>linear model</em> with heteroscedasticity:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Z</mi><mo>=</mo><mi>β</mi><mi>Y</mi><mo>+</mo><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">Z=\beta Y + \epsilon</annotation></semantics></math></p>
 <p>where</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>∼</mo><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><msup><mi>Y</mi><mi>γ</mi></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\epsilon \sim N(0,\sigma^2 Y^\gamma)</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>∼</mo><mi>N</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><msup><mi>Y</mi><mi>γ</mi></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\epsilon \sim N(0,\sigma^2 Y^\gamma)</annotation></semantics></math></p>
 <p>(in case
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\gamma = 0</annotation></semantics></math>,
 then the model is homoscedastic)</p>
 <p>and the <em>loglinear model</em>:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Z</mi><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>β</mi><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mi>ϵ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Z= \exp (\beta log(Y) + \epsilon)</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Z</mi><mo>=</mo><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>β</mi><mi>l</mi><mi>o</mi><mi>g</mi><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>ϵ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">Z= \exp (\beta log(Y) + \epsilon)</annotation></semantics></math></p>
 <p>where</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>∼</mo><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\epsilon \sim N(0,\sigma^{2})</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>∼</mo><mi>N</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\epsilon \sim N(0,\sigma^{2})</annotation></semantics></math></p>
 <p>In <em>SamplingStrata</em>, the use of models to calculate the
 anticipated variance implies the execution of the following steps:</p>
 <ul>
@@ -175,46 +175,46 @@ refers to the Y1, the second row to Y2 and so on.</p>
 <col width="15%">
 <col width="84%">
 </colgroup>
-<thead><tr>
+<thead><tr class="header">
 <th>Variable name</th>
 <th align="left">Description</th>
 </tr></thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><em>type</em></td>
 <td align="left">Can assume one of the two values: <em>linear</em> or
 <em>loglinear</em>
 </td>
 </tr>
-<tr>
+<tr class="even">
 <td><em>beta</em></td>
 <td align="left">Contains the value of the <em>beta</em> coefficient in
 the fitted model</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><em>sig2</em></td>
 <td align="left">Contains the value of the <em>model variance</em>.</td>
 </tr>
-<tr>
+<tr class="even">
 <td></td>
 <td align="left">It can be the squared value of sigma2 in the fitted
 model, or (only</td>
 </tr>
-<tr>
+<tr class="odd">
 <td></td>
 <td align="left">for linear models) in case of heteroscedasticity it can
 be</td>
 </tr>
-<tr>
+<tr class="even">
 <td></td>
 <td align="left">calculated with the <em>computeGamma</em> function</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><em>gamma</em></td>
 <td align="left">Only for linear model: contains the value of the
 heteroscedasticity</td>
 </tr>
-<tr>
+<tr class="even">
 <td></td>
 <td align="left">index (calculated with the <em>computeGamma</em>
 function)</td>
@@ -501,18 +501,18 @@ that was instead guaranted using the related model.</p>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-baillargeon2014" class="csl-entry">
 Baillargeon, Sophie, and Louis-Paul Rivest. 2014. <em>Stratification:
 Univariate Stratification of Survey Populations</em>. <a href="https://CRAN.R-project.org/package=stratification" class="external-link">https://CRAN.R-project.org/package=stratification</a>.
 </div>
 <div id="ref-henry2006" class="csl-entry">
-Henry, K., and R. Valliant. 2006. <span>“<span class="nocase">Comparing
-Strategies to Estimate a Measure of Heteroscedasticity</span>.”</span>
+Henry, K., and R. Valliant. 2006. <em><span class="nocase">Comparing
+Strategies to Estimate a Measure of Heteroscedasticity</span></em>.
 </div>
 <div id="ref-knaub2019" class="csl-entry">
-Knaub, J. R. 2019. <span>“<span class="nocase">Estimating the
-Coefficient of Heteroscedasticity</span>.”</span>
+Knaub, J. R. 2019. <em><span class="nocase">Estimating the Coefficient
+of Heteroscedasticity</span></em>.
 </div>
 </div>
 </div>
@@ -533,7 +533,7 @@ Coefficient of Heteroscedasticity</span>.”</span>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>

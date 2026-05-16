@@ -179,7 +179,7 @@ number of atomic strata divided by 2.</p></dd>
 <span class="r-in"><span>                 <span class="va">solutionKmean</span><span class="op">$</span><span class="va">domainvalue</span>,</span></span>
 <span class="r-in"><span>                 FUN<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Prepare suggestion for optimization</span></span></span>
-<span class="r-in"><span><span class="va">sugg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://barcaroli.github.io/SamplingStrata/reference/prepareSuggestion.html" class="external-link">prepareSuggestion</a></span><span class="op">(</span><span class="va">kmean</span>,<span class="va">frame</span>,<span class="va">nstrat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sugg</span> <span class="op">&lt;-</span> <span class="fu">prepareSuggestion</span><span class="op">(</span><span class="va">kmean</span>,<span class="va">frame</span>,<span class="va">nstrat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Optimization</span></span></span>
 <span class="r-in"><span><span class="co"># Attention: number of strata must be the same than in kmeans</span></span></span>
 <span class="r-in"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="optimStrata.html">optimStrata</a></span> <span class="op">(</span></span></span>
@@ -209,7 +209,7 @@ number of atomic strata divided by 2.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

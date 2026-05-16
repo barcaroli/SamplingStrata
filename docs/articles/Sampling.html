@@ -149,17 +149,16 @@ values, and in these cases it is not possible to enumerate them in order
 to assess the best one. A very convenient solution to this is the
 adoption of the evolutionary approach, consisting in applying a genetic
 algorithm that may converge towards a near-optimal solution after a
-finite number of iterations. The methodology is fully described in <span class="citation">M. Ballin and Barcaroli (2013)</span>, and a complete
+finite number of iterations. The methodology is fully described in <span class="citation">Ballin and Barcaroli (2013)</span>, and a complete
 illustration of the package, together with a comparison with the
 <em>stratification</em> package (<span class="citation">Baillargeon and
 Rivest (2014)</span>), is in <span class="citation">Barcaroli
 (2014)</span>. Also a complete application in a case of network data is
-reported in <span class="citation">Marco Ballin and Barcaroli
-(2016)</span>. The implementation of the genetic algorithm is based on a
-modification of the functions in the <em>genalg</em> package <span class="citation">(see Willighagen 2005)</span>. In particular, the
+reported in <span class="citation">Ballin and Barcaroli (2016)</span>.
+The implementation of the genetic algorithm is based on a modification
+of the functions in the <em>genalg</em> package <span class="citation">(see Willighagen 2005)</span>. In particular, the
 crossover operator has been modified on the basis of the indications
-given by <span class="citation">O’Luing, Prestwich, and Tarim
-(2019)</span>.</p>
+given by <span class="citation">O’Luing et al. (2019)</span>.</p>
 <p>Two more issues, not contained in this vignette, namely:</p>
 <ul>
 <li>the use of <em>models</em> to take into account the anticipated
@@ -414,98 +413,98 @@ methods (for the others see the help):</p>
 <col width="14%">
 <col width="85%">
 </colgroup>
-<thead><tr>
+<thead><tr class="header">
 <th>Parameter</th>
 <th align="left">Description</th>
 </tr></thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><em>framesamp</em></td>
 <td align="left">The name of the dataframe containing the information
 related to the</td>
 </tr>
-<tr>
+<tr class="even">
 <td></td>
 <td align="left">sampling frame.</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><em>framecens</em></td>
 <td align="left">The name of the dataframe containing the units to be
 selected in any case.</td>
 </tr>
-<tr>
+<tr class="even">
 <td></td>
 <td align="left">It has same structure than “framesamp” dataframe.</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><em>nStrata</em></td>
 <td align="left">The number of final optimized strata to be
 obtained.</td>
 </tr>
-<tr>
+<tr class="even">
 <td><em>model</em></td>
 <td align="left">In case the Y variables are not directly observed, but
 are estimated by</td>
 </tr>
-<tr>
+<tr class="odd">
 <td></td>
 <td align="left">means of other explicative variables, in order to
 compute the anticipated</td>
 </tr>
-<tr>
+<tr class="even">
 <td></td>
 <td align="left">variance, information on models are given by a
 dataframe “model” with as</td>
 </tr>
-<tr>
+<tr class="odd">
 <td></td>
 <td align="left">many rows as the target variables. Default is
 NULL.</td>
 </tr>
-<tr>
+<tr class="even">
 <td><em>errors</em></td>
 <td align="left">The dataframe containing the precision levels expressed
 in</td>
 </tr>
-<tr>
+<tr class="odd">
 <td></td>
 <td align="left">terms of maximum allowable coefficient of variation on
 a given estimate.</td>
 </tr>
-<tr>
+<tr class="even">
 <td><em>minnumstr</em></td>
 <td align="left">Minimum number of units that must be allocated in each
 stratum</td>
 </tr>
-<tr>
+<tr class="odd">
 <td></td>
 <td align="left">(default is 2).</td>
 </tr>
-<tr>
+<tr class="even">
 <td><em>iter</em></td>
 <td align="left">Maximum number of iterations (= generations) of the
 genetic algorithm</td>
 </tr>
-<tr>
+<tr class="odd">
 <td></td>
 <td align="left">(default is 50).</td>
 </tr>
-<tr>
+<tr class="even">
 <td><em>pops</em></td>
 <td align="left">The dimension of each generations in terms of
 individuals (default is 20).</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><em>suggestions</em></td>
 <td align="left">Optional parameter for genetic algorithm that indicates
 a suggested solution</td>
 </tr>
-<tr>
+<tr class="even">
 <td></td>
 <td align="left">to be introduced in the initial population. The most
 convenient is the</td>
 </tr>
-<tr>
+<tr class="odd">
 <td></td>
 <td align="left">one found by the function “KmeanSolution” (default is
 NULL).</td>
@@ -1225,17 +1224,17 @@ for the efficiency of the sample.</p>
 required to satisfy them may be significantly affected by the particular
 stratification chosen for the population of interest.</p>
 <p>Given G survey variables, their sampling variance is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><msub><mi>Y</mi><mi>g</mi></msub><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∑</mo><mrow><mi>h</mi><mo>=</mo><mn>1</mn></mrow><mi>H</mi></munderover><msubsup><mi>N</mi><mi>h</mi><mn>2</mn></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mfrac><msub><mi>n</mi><mi>h</mi></msub><msub><mi>N</mi><mi>h</mi></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><msubsup><mi>S</mi><mrow><mi>h</mi><mo>,</mo><mi>g</mi></mrow><mn>2</mn></msubsup><msub><mi>n</mi><mi>h</mi></msub></mfrac><mspace width="0.278em"></mspace><mspace width="0.278em"></mspace><mspace width="0.278em"></mspace><mi>g</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>G</mi></mrow><annotation encoding="application/x-tex">Var(\hat{Y_{g}})=\sum_{h=1}^{H}N_{h}^{2} (1- \frac{ 
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mo stretchy="false" form="prefix">(</mo><mover><msub><mi>Y</mi><mi>g</mi></msub><mo accent="true">̂</mo></mover><mo stretchy="false" form="postfix">)</mo><mo>=</mo><munderover><mo>∑</mo><mrow><mi>h</mi><mo>=</mo><mn>1</mn></mrow><mi>H</mi></munderover><msubsup><mi>N</mi><mi>h</mi><mn>2</mn></msubsup><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mfrac><msub><mi>n</mi><mi>h</mi></msub><msub><mi>N</mi><mi>h</mi></msub></mfrac><mo stretchy="false" form="postfix">)</mo><mfrac><msubsup><mi>S</mi><mrow><mi>h</mi><mo>,</mo><mi>g</mi></mrow><mn>2</mn></msubsup><msub><mi>n</mi><mi>h</mi></msub></mfrac><mspace width="0.278em"></mspace><mspace width="0.278em"></mspace><mspace width="0.278em"></mspace><mi>g</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>G</mi></mrow><annotation encoding="application/x-tex">Var(\hat{Y_{g}})=\sum_{h=1}^{H}N_{h}^{2} (1- \frac{ 
   n_{h}}
   {N_{h}}) \frac{ 
   S_{h,g}^{2}}
   {n_{h}} \;\;\;  g=1,...,G</annotation></semantics></math></p>
 <p>If we introduce the following cost function:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>n</mi><mn>1</mn></msub><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><msub><mi>n</mi><mi>H</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>C</mi><mn>0</mn></msub><mo>+</mo><munderover><mo>∑</mo><mrow><mi>h</mi><mo>=</mo><mn>1</mn></mrow><mi>H</mi></munderover><msub><mi>C</mi><mi>h</mi></msub><msub><mi>n</mi><mi>h</mi></msub></mrow><annotation encoding="application/x-tex">C(n_{1},...,n_{H})=C_{0}+\sum_{h=1}^{H}C_{h}n_{h} </annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>n</mi><mn>1</mn></msub><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><msub><mi>n</mi><mi>H</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>C</mi><mn>0</mn></msub><mo>+</mo><munderover><mo>∑</mo><mrow><mi>h</mi><mo>=</mo><mn>1</mn></mrow><mi>H</mi></munderover><msub><mi>C</mi><mi>h</mi></msub><msub><mi>n</mi><mi>h</mi></msub></mrow><annotation encoding="application/x-tex">C(n_{1},...,n_{H})=C_{0}+\sum_{h=1}^{H}C_{h}n_{h} </annotation></semantics></math></p>
 <p>the optimization problem can be formalized in this way:</p>
 <p><span class="math display">$$min= C_{0}+\sum_{h=1}^{H}C_{h}n_{h}\\
 $$</span> under the constraints
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="left" style="text-align: left"><mi>C</mi><mi>V</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><msub><mi>Y</mi><mn>1</mn></msub><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mo>&lt;</mo><msub><mi>U</mi><mn>1</mn></msub></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mi>C</mi><mi>V</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><msub><mi>Y</mi><mn>2</mn></msub><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mo>&lt;</mo><msub><mi>U</mi><mn>2</mn></msub></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mi>.</mi><mi>.</mi><mi>.</mi></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mi>C</mi><mi>V</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><msub><mi>Y</mi><mi>G</mi></msub><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mo>&lt;</mo><msub><mi>U</mi><mi>G</mi></msub></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"></mtd></mtr></mtable></mrow><annotation encoding="application/x-tex"> 
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="left" style="text-align: left"><mi>C</mi><mi>V</mi><mo stretchy="false" form="prefix">(</mo><mover><msub><mi>Y</mi><mn>1</mn></msub><mo accent="true">̂</mo></mover><mo stretchy="false" form="postfix">)</mo><mo>&lt;</mo><msub><mi>U</mi><mn>1</mn></msub></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mi>C</mi><mi>V</mi><mo stretchy="false" form="prefix">(</mo><mover><msub><mi>Y</mi><mn>2</mn></msub><mo accent="true">̂</mo></mover><mo stretchy="false" form="postfix">)</mo><mo>&lt;</mo><msub><mi>U</mi><mn>2</mn></msub></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mi>.</mi><mi>.</mi><mi>.</mi></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mi>C</mi><mi>V</mi><mo stretchy="false" form="prefix">(</mo><mover><msub><mi>Y</mi><mi>G</mi></msub><mo accent="true">̂</mo></mover><mo stretchy="false" form="postfix">)</mo><mo>&lt;</mo><msub><mi>U</mi><mi>G</mi></msub></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"></mtd></mtr></mtable></mrow><annotation encoding="application/x-tex"> 
 \begin{cases} 
 CV(\hat{Y_{1}}) &lt; U_{1}\\ 
 CV(\hat{Y_{2}}) &lt; U_{2}\\
@@ -1243,17 +1242,17 @@ CV(\hat{Y_{2}}) &lt; U_{2}\\
 CV(\hat{Y_{G}}) &lt; U_{G}\\
 \end{cases}
 </annotation></semantics></math> where
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>V</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><msub><mi>Y</mi><mi>g</mi></msub><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><msqrt><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><msub><mi>Y</mi><mi>g</mi></msub><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msqrt><mrow><mi>m</mi><mi>e</mi><mi>a</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><mover><msub><mi>Y</mi><mi>g</mi></msub><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex"> CV(\hat{Y_{g}}) = \frac{\sqrt{Var(\hat{Y_{g}})} } {mean(\hat{Y_{g}})}</annotation></semantics></math></p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>V</mi><mo stretchy="false" form="prefix">(</mo><mover><msub><mi>Y</mi><mi>g</mi></msub><mo accent="true">̂</mo></mover><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><msqrt><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mo stretchy="false" form="prefix">(</mo><mover><msub><mi>Y</mi><mi>g</mi></msub><mo accent="true">̂</mo></mover><mo stretchy="false" form="postfix">)</mo></mrow></msqrt><mrow><mi>m</mi><mi>e</mi><mi>a</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><mover><msub><mi>Y</mi><mi>g</mi></msub><mo accent="true">̂</mo></mover><mo stretchy="false" form="postfix">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex"> CV(\hat{Y_{g}}) = \frac{\sqrt{Var(\hat{Y_{g}})} } {mean(\hat{Y_{g}})}</annotation></semantics></math></p>
 <p>Given a population frame with m auxiliary variables
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>X</mi><mn>1</mn></msub><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><msub><mi>X</mi><mi>M</mi></msub></mrow><annotation encoding="application/x-tex">X_{1},..., X_{M}</annotation></semantics></math>
 we define as <em>atomic stratification</em> the one that can be obtained
 considering the cartesian product of the definition domains of the m
 variables.
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>l</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>l</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>l</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">L=\{(l_{1}),(l_{2}),...,(l_{k})\}</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>l</mi><mn>1</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>l</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>l</mi><mi>k</mi></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">L=\{(l_{1}),(l_{2}),...,(l_{k})\}</annotation></semantics></math>
 Starting from the atomic stratification, it is possible to generate all
 the different stratifications that belong to the universe of
 stratifications. For example:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><msub><mi>P</mi><mn>1</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>l</mi><mn>1</mn></msub><mo>,</mo><msub><mi>l</mi><mn>2</mn></msub><mo>,</mo><msub><mi>l</mi><mn>3</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">}</mo></mtd><mtd columnalign="right" style="text-align: right"><msub><mi>P</mi><mn>2</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>l</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>l</mi><mn>2</mn></msub><mo>,</mo><msub><mi>l</mi><mn>3</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">}</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><msub><mi>P</mi><mn>2</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>l</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>l</mi><mn>1</mn></msub><mo>,</mo><msub><mi>l</mi><mn>3</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">}</mo></mtd><mtd columnalign="right" style="text-align: right"><msub><mi>P</mi><mn>4</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>l</mi><mn>31</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>l</mi><mn>1</mn></msub><mo>,</mo><msub><mi>l</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">}</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><msub><mi>P</mi><mn>5</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>l</mi><mn>1</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>l</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>l</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">}</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><msub><mi>P</mi><mn>1</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>l</mi><mn>1</mn></msub><mo>,</mo><msub><mi>l</mi><mn>2</mn></msub><mo>,</mo><msub><mi>l</mi><mn>3</mn></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">}</mo></mtd><mtd columnalign="right" style="text-align: right"><msub><mi>P</mi><mn>2</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>l</mi><mn>1</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>l</mi><mn>2</mn></msub><mo>,</mo><msub><mi>l</mi><mn>3</mn></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">}</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><msub><mi>P</mi><mn>2</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>l</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>l</mi><mn>1</mn></msub><mo>,</mo><msub><mi>l</mi><mn>3</mn></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">}</mo></mtd><mtd columnalign="right" style="text-align: right"><msub><mi>P</mi><mn>4</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>l</mi><mn>31</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>l</mi><mn>1</mn></msub><mo>,</mo><msub><mi>l</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">}</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><msub><mi>P</mi><mn>5</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>l</mi><mn>1</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>l</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>l</mi><mi>k</mi></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">}</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">
 \begin{align*}
 &amp;P_{1}=\{(l_{1},l_{2},l_{3})\} &amp; P_{2}=\{(l_{1}),(l_{2},l_{3})\} \\
 &amp;P_{2}=\{(l_{2}),(l_{1},l_{3})\} &amp; P_{4}=\{(l_{31}),(l_{1},l_{2})\} \\
@@ -1322,7 +1321,7 @@ overall best fitness represents the optimal solution.</li>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-baillargeon2014" class="csl-entry">
 Baillargeon, Sophie, and Louis-Paul Rivest. 2014. <em>Stratification:
 Univariate Stratification of Survey Populations</em>. <a href="https://CRAN.R-project.org/package=stratification" class="external-link">https://CRAN.R-project.org/package=stratification</a>.
@@ -1378,7 +1377,7 @@ Willighagen, E. 2005. <em>Genalg: R Based Genetic Algorithm</em>. <a href="https
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>
