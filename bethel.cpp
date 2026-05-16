@@ -432,9 +432,7 @@ NumericVector bethel_cpp(DataFrame strata,
   
   // Other vectors from 'strata'
   NumericVector N = strata["N"];
-  // Clone CENS before modifying it. Rcpp vectors extracted from a DataFrame
-  // can alias the original column, while the R implementation works on a copy.
-  NumericVector cens = clone(as<NumericVector>(strata["CENS"]));
+  NumericVector cens = strata["CENS"];
   NumericVector nocens(nstrat);
   for (int i = 0; i < nstrat; i++) {
     nocens[i] = 1.0 - cens[i];
@@ -489,19 +487,6 @@ NumericVector bethel_cpp(DataFrame strata,
   while (contx > 0 && iter1 < maxiter1) {
     iter1++;
     a = crea_a(m, s, nocens, N, cv, epsilon);
-
-    // Match the R bethel() implementation: each re-run of Chromy after
-    // updating cens/nocens starts from fresh alpha and x values.
-    alfatot = 0.0;
-    diff = 999.0;
-    iter = 0;
-    alfa = NumericVector(nvar);
-    alfanext = NumericVector(nvar);
-    x = NumericVector(nstrat, 0.1);
-    for (int j = 0; j < nvar; j++) {
-      alfa[j] = 1.0 / nvar;
-    }
-
     n = chromy_Rcpp(a, alfatot, diff, iter, alfa, alfanext, x, cost, nvar, realAllocation);
     
     contx = 0;

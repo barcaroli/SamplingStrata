@@ -11,9 +11,89 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
     expected_domains <- seq_len(length(domain_ids))
     if (length(domain_ids) == 0 || any(is.na(domain_ids)) || 
         !identical(domain_ids, expected_domains)) {
-      stop(paste0("'", df_name, "$DOMAINVALUE' must contain consecutive integer values from 1 to N with no gaps. Found: ",
+      stop(paste0("'", df_name, "$DOMAINVALUE' must contain consecutive integer values from 1 to N with no gaps. Found: ", 
                   paste(domain_ids, collapse = ", ")))
     }
+  }
+  check_spatial_frame <- function(framesamp, errors, nStrata, minnumstr, df_name = "framesamp") {
+    if (is.null(framesamp)) {
+      stop(paste0("The spatial sampling frame (", df_name, ") dataframe is missing"))
+    }
+    if (is.null(errors)) {
+      stop("The 'precision constraints' (errors) dataframe is missing")
+    }
+
+    cols <- names(framesamp)
+    y_cols <- grep("^Y[0-9]+$", cols, value = TRUE)
+    x_cols <- grep("^X[0-9]+$", cols, value = TRUE)
+    var_cols <- grep("^var[0-9]+$", cols, value = TRUE)
+    lon_col <- intersect(c("lon", "LON"), cols)[1]
+    lat_col <- intersect(c("lat", "LAT"), cols)[1]
+
+    if (length(y_cols) == 0) {
+      stop(paste0("No Y* variables found in '", df_name, "'. Use buildFrameSpatial() before optimStrata(method = 'spatial')."))
+    }
+    if (length(x_cols) == 0) {
+      stop(paste0("No X* variables found in '", df_name, "'. Use buildFrameSpatial() before optimStrata(method = 'spatial')."))
+    }
+    if (length(var_cols) != length(y_cols)) {
+      stop(paste0("The number of var* columns in '", df_name, "' must match the number of Y* variables."))
+    }
+    if (is.na(lon_col) || is.na(lat_col)) {
+      stop(paste0("Coordinates lon/lat must be present in '", df_name, "'."))
+    }
+    if (!("domainvalue" %in% cols)) {
+      stop(paste0("Column domainvalue must be present in '", df_name, "'."))
+    }
+
+    numeric_cols <- c(x_cols, y_cols, var_cols, lon_col, lat_col)
+    not_numeric <- numeric_cols[!vapply(framesamp[numeric_cols], is.numeric, logical(1))]
+    if (length(not_numeric) > 0) {
+      stop(paste0("These spatial frame columns must be numeric: ", paste(not_numeric, collapse = ", ")))
+    }
+
+    non_finite <- vapply(framesamp[numeric_cols], function(x) sum(!is.finite(x)), integer(1))
+    if (any(non_finite > 0)) {
+      bad <- paste(names(non_finite)[non_finite > 0], non_finite[non_finite > 0], sep = "=", collapse = ", ")
+      stop(paste0("Non-finite values found in spatial frame columns: ", bad,
+                  ". Remove or impute them before optimStrata(method = 'spatial')."))
+    }
+
+    non_positive_var <- vapply(framesamp[var_cols], function(x) sum(x <= 0), integer(1))
+    if (any(non_positive_var > 0)) {
+      bad <- paste(names(non_positive_var)[non_positive_var > 0], non_positive_var[non_positive_var > 0], sep = "=", collapse = ", ")
+      stop(paste0("Non-positive variance values found in spatial frame columns: ", bad,
+                  ". Filter records with var* <= 0 before optimStrata(method = 'spatial')."))
+    }
+
+    domain_size <- table(framesamp$domainvalue)
+    small_domains <- domain_size[domain_size < minnumstr]
+    if (length(small_domains) > 0) {
+      bad <- paste(names(small_domains), as.integer(small_domains), sep = "=", collapse = ", ")
+      stop(paste0("Some domains have fewer units than minnumstr=", minnumstr, ": ", bad,
+                  ". Accumulate small domains or lower minnumstr."))
+    }
+
+    if (!all(is.na(nStrata))) {
+      domains <- sort(unique(as.integer(as.character(framesamp$domainvalue))))
+      nstrata_check <- nStrata
+      if (length(nstrata_check) == 1) {
+        nstrata_check <- rep(nstrata_check, length(domains))
+      }
+      if (length(nstrata_check) != length(domains)) {
+        stop("Length of nStrata must be 1 or equal to the number of domains for method = 'spatial'.")
+      }
+      names(nstrata_check) <- domains
+      max_feasible <- floor(as.integer(domain_size[as.character(domains)]) / minnumstr)
+      too_many <- nstrata_check > max_feasible
+      if (any(too_many, na.rm = TRUE)) {
+        bad <- paste(domains[too_many], "requested", nstrata_check[too_many],
+                     "max", max_feasible[too_many], sep = "=", collapse = ", ")
+        stop(paste0("nStrata is not feasible for some domains with minnumstr=", minnumstr, ": ", bad))
+      }
+    }
+
+    invisible(TRUE)
   }
   if (!(method %in% c("atomic", "continuous", "spatial"))) 
     stop("Method should be one in 'atomic','continuous','spatial'")
@@ -115,6 +195,7 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
                                 cores = cores)
   }
   if (method == "spatial") {
+    check_spatial_frame(framesamp, errors, nStrata, minnumstr)
     checkInput(errors, sampframe = framesamp)
     check_consecutive_domainvalue(framesamp, "framesamp")
     check_consecutive_domainvalue(errors, "errors")
@@ -136,6 +217,7 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
       stmt <- paste("if (min(framesamp$var", i, ") < 0) stop('Variance var", 
                     i, " of variable Y", i, " has negative values in framesamp')", 
                     sep = "")
+      eval(parse(text = stmt))
     }
     if (sum(grep("lon", colnames(framesamp))) == 0 | sum(grep("lat", 
                                                               colnames(framesamp))) == 0) 

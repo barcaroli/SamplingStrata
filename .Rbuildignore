@@ -6,3 +6,5 @@
 ^docs$
 ^pkgdown$
 
+^\.positai$
+^\.claude$
