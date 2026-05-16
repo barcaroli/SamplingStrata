@@ -38,13 +38,13 @@ Download the SamplingStrata cheatsheet from:
 
 <https://rstudio.com/resources/cheatsheets/>
 
-# ------------------------------------------------------------------------
+# \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
 
 This shiny app allows to run a complete optimisation workflow:
 
 <https://giulio-barcaroli.shinyapps.io/SamplingStrata/>
 
-# ------------------------------------------------------------------------
+# \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
 
 ## Installation
 
