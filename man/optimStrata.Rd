@@ -110,10 +110,14 @@ optimStrata(method=c("atomic","continuous","spatial"),
   If not specified n-1 of total available cores are used OR if number of domains < (n-1) cores, then number of cores equal to number of domains are used.
 }
 \item{fitting}{
-	Fitting of the model(s) (in terms of R squared). It is a vector with as many elements as the number of target variables Y.
+	Fitting of the model(s) (in terms of R squared). 
+	It can be vector with as many elements as the number of target variables Ys, or a 
+	dataframe with as many rows as the different domains in the frame.
 }
 \item{range}{
-	Maximum range for spatial autocorrelation. It is a vector with as many elements as the number of target variables Y.
+	Maximum range for spatial autocorrelation. 
+	It can be vector with as many elements as the number of target variables Ys, or a 
+	dataframe with as many rows as the different domains in the frame.
 }	
 \item{kappa}{
 	Factor used in evaluating spatial autocorrelation. 
