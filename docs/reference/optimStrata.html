@@ -187,10 +187,14 @@ For continuity reasons, these functions are still available to be used standalon
   If not specified n-1 of total available cores are used OR if number of domains &lt; (n-1) cores, then number of cores equal to number of domains are used.</p></dd>
 
 <dt id="arg-fitting">fitting<a class="anchor" aria-label="anchor" href="#arg-fitting"></a></dt>
-<dd><p>Fitting of the model(s) (in terms of R squared). It is a vector with as many elements as the number of target variables Y.</p></dd>
+<dd><p>Fitting of the model(s) (in terms of R squared).
+	It can be vector with as many elements as the number of target variables Ys, or a
+	dataframe with as many rows as the different domains in the frame.</p></dd>
 
 <dt id="arg-range">range<a class="anchor" aria-label="anchor" href="#arg-range"></a></dt>
-<dd><p>Maximum range for spatial autocorrelation. It is a vector with as many elements as the number of target variables Y.</p></dd>
+<dd><p>Maximum range for spatial autocorrelation.
+	It can be vector with as many elements as the number of target variables Ys, or a
+	dataframe with as many rows as the different domains in the frame.</p></dd>
 	
 <dt id="arg-kappa">kappa<a class="anchor" aria-label="anchor" href="#arg-kappa"></a></dt>
 <dd><p>Factor used in evaluating spatial autocorrelation.</p></dd>
