@@ -44,6 +44,10 @@ This shiny app allows to run a complete optimisation workflow:
 
 <https://giulio-barcaroli.shinyapps.io/SamplingStrata/>
 
+Before using, remember to install the github version (1.6):
+
+pak::pak(“barcaroli/SamplingStrata”)
+
 # \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
 
 ## Installation
