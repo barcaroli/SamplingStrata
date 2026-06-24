@@ -27,7 +27,8 @@ KmeansSolutionSpatial(frame,
                     nstrata = NA, 
                     minnumstrat = 2, 
                     maxclusters = NA, 
-                    showPlot = TRUE)
+                    showPlot = TRUE,
+                    maxsamp = 5000)
 }
 \arguments{
   \item{frame}{
@@ -61,6 +62,10 @@ number of atomic strata divided by 2.
 }
 \item{showPlot}{
 Allows to visualise on a plot the different sample sizes for each number of aggregate strata. Default is TRUE.
+}
+\item{maxsamp}{
+This is the maximum number of frame units per domain accepted by the function. 
+If the number of units exceeds this maximum, a subset (size equal to maxsamp) is sampled from the frame. 
 }
 }
 

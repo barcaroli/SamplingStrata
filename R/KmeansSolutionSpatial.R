@@ -4,9 +4,10 @@ KmeansSolutionSpatial <- function (frame,
                                    kappa = 3,
                                    errors, 
                                    nstrata = NA, 
-                                   minnumstrat = 2, 
-                                   maxclusters = NA, 
-                                   showPlot = TRUE) 
+                                   minnumstrat = 2,
+                                   maxclusters = NA,
+                                   showPlot = TRUE,
+                                   maxsamp = 5000)
 {
   cv <- errors
   nvariables <- ncol(cv) - 2
@@ -26,13 +27,21 @@ KmeansSolutionSpatial <- function (frame,
   best <- rep(0, ndom)
   best_num_strata <- rep(0, ndom)
   for (k in (1:nrow(cv))) {
-    stratacorr <- frame[frame$domainvalue == k, ]
+    # Subsample large domains before the spatial computation: aggrStrataSpatial
+    # builds full n x n pairwise distance/covariance matrices (O(n^2) memory),
+    # so a domain with tens of thousands of points exhausts memory ("cannot
+    # allocate vector"). The K-means step only provides an initial number of
+    # strata, so a random subsample of up to 'maxsamp' points is sufficient.
+    # Set maxsamp = Inf to disable. Below the cap, behaviour is unchanged.
+    idx_k <- which(frame$domainvalue == k)
+    if (length(idx_k) > maxsamp) idx_k <- sample(idx_k, maxsamp)
+    stratacorr <- frame[idx_k, ]
     errorscorr <- errors[errors$domainvalue == k, ]
-    aggr <- aggrStrataSpatial(dataset = frame, 
-                              fitting = fitting, 
-                              range = range, 
-                              kappa = kappa, 
-                              vett = rep(1, nrow(frame[frame$domainvalue == k,])), 
+    aggr <- aggrStrataSpatial(dataset = stratacorr,
+                              fitting = fitting,
+                              range = range,
+                              kappa = kappa,
+                              vett = rep(1, nrow(stratacorr)),
                               dominio = k)
     v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
     sum(v)
@@ -69,13 +78,13 @@ KmeansSolutionSpatial <- function (frame,
                                 fitting = fitting, 
                                 range = range, 
                                 kappa = kappa,
-                                vett = solution[frame$domainvalue == k], 
+                                vett = solution[idx_k],
                                 dominio = k)
       v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
       if (showPlot == TRUE) 
         points(i, sum(v))
       if (sum(v) <= best[k]) {
-        bestsolution <- solution[frame$domainvalue == k]
+        bestsolution <- solution[idx_k]
         best_num_strata[k] <- i
         best[k] <- sum(v)
       }
@@ -84,7 +93,7 @@ KmeansSolutionSpatial <- function (frame,
     levels(bestsolution) <- c(1:length(levels(bestsolution)))
     suggestions <- c(suggestions, bestsolution)
     domainvalue <- c(domainvalue, rep(k, nrow(stratacorr)))
-    id <- c(id,as.character(frame$id[frame$domainvalue == k]))
+    id <- c(id,as.character(frame$id[idx_k]))
   }
   cat("\n-----------------")
   cat("\n Kmeans solution ")
