@@ -3,6 +3,11 @@
 
 # SamplingStrata 1.6
 
+Now *optimStrata* when using method=“spatial” accepts also cases in
+which spatial correlation is not calculated: in this case, you have to
+indicate values “1” for each element of the vector “fitting”, and “0”
+for each element of the vector “range”.
+
 Implemented a new function *buildErrorsDF* that produces a template of
 the dataframe containing the precision constraints on the target
 variables of the sampling survey.
@@ -246,7 +251,7 @@ Function *prepareSuggestion* has been deleted.
 - The object returned by function *optimizeStrata* is no more a
   dataframe but a list: (i) the first element of the list is the
   solution vector
-  (solution$`indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution`$aggr_strata).
+  (solution$indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution$aggr_strata).
 
 - In all the functions that previously produced .csv files and .pdf
   plots in the working directory, as a default this is no more the
