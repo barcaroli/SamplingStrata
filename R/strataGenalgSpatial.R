@@ -73,15 +73,15 @@ evaluate <- function(dataset,
                                  verbose=FALSE)
   if (strcens == TRUE) {
     stratatot <- rbind(strata,cens)
-    soluz <- bethel_cpp(stratatot, 
-                    errors, 
-                    minnumstr, 
+    soluz <- bethel_cpp(stratatot,
+                    errors,
+                    minnumstr,
                     realAllocation = realAllocation)
   }
   if (strcens == FALSE) {
-    soluz <- bethel_cpp(strata, 
-                    errors, 
-                    minnumstr, 
+    soluz <- bethel_cpp(strata,
+                    errors,
+                    minnumstr,
                     realAllocation = realAllocation)
   }
   size <- sum(soluz)

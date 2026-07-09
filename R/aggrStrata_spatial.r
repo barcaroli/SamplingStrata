@@ -9,11 +9,27 @@
 aggrStrataSpatial <- function(dataset,
                               fitting=c(1),
                               range=c(0),
-                              kappa=3, 
-                              vett, 
+                              kappa=3,
+                              vett,
                               dominio) {
 
-  #---------------------------------------------------------    
+  # 'fitting' is the R^2 of the kriging trend model and appears below as
+  # z_z/fitting in the within-stratum variance: fitting = 0 is a division by
+  # zero (and any fitting close to 0 correctly forces a very large required
+  # sample size, since a model that explains nothing needs near-census
+  # sampling to meet any precision target). Reject it here instead of letting
+  # NaN/Inf propagate silently into bethel() and the genetic algorithm.
+  if (any(fitting == 0)) {
+    stop(
+      "aggrStrataSpatial: 'fitting' cannot be 0 (value(s): ",
+      paste(fitting, collapse = ", "), ").\n",
+      "If your intent is to disable the spatial-correlation adjustment, use ",
+      "fitting = 1 together with range = 0 instead of fitting = 0.",
+      call. = FALSE
+    )
+  }
+
+  #---------------------------------------------------------
   # standard deviation calculated with distances
   stdev <- function(zz, dist, var, STRATO, dataset, fitting, range, kappa) {
     ind <- which(dataset$STRATO == STRATO)
@@ -23,10 +39,14 @@ aggrStrataSpatial <- function(dataset,
     dist <- dist[ind,ind]
     # variances
     var <- var[ind]
-    
+
     if (length(ind) > 1) {
       somma_coppie_var <- as.matrix(outer(var,var,"+"))
       spatial_correlation <- (1 - (exp(-kappa*dist/range)))
+      # dist = 0 on the diagonal (self-pairs) with range = 0 gives a literal
+      # 0/0 = NaN; the correct value there is 0 (zero semivariance with
+      # oneself), regardless of range.
+      spatial_correlation[dist == 0] <- 0
     }
     if (length(ind) <= 1) {
       somma_coppie_var <- 0

@@ -427,9 +427,3 @@ optimizeStrataSpatial <- function (errors,
   }
   return(solution)
 }
-
-# Patch the SamplingStrata namespace so that optimStrata(method="spatial") uses
-# this version, which supports data frames for 'fitting' and 'range'.
-if (isNamespaceLoaded("SamplingStrata")) {
-  assignInNamespace("optimizeStrataSpatial", optimizeStrataSpatial, ns = "SamplingStrata")
-}

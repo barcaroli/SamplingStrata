@@ -95,6 +95,22 @@ DataFrame buildStrataDFSpatial(
     bool progress = false,
     bool verbose  = false)
 {
+  // 'fitting' is the R^2 of the kriging trend model and appears below (in
+  // stdevOptim) as sd1*sd1/fittingVal in the within-stratum variance:
+  // fitting = 0 is a division by zero, and any fitting close to 0 correctly
+  // forces a very large required sample size (a model that explains nothing
+  // needs near-census sampling to meet any precision target). Reject it here
+  // instead of letting Inf/NaN propagate silently into bethel_cpp and every
+  // genetic-algorithm evaluation, which used to surface much later as an
+  // opaque "'ylim' values must be finite" crash inside plot.window().
+  for (int i = 0; i < fitting.size(); i++) {
+    if (fitting[i] == 0.0) {
+      stop("buildStrataDFSpatial: 'fitting' cannot be 0. If your intent is to "
+           "disable the spatial-correlation adjustment, use fitting = 1 "
+           "together with range = 0 instead of fitting = 0.");
+    }
+  }
+
   // 1) Converte i nomi delle colonne in maiuscolo
   CharacterVector cn = dataset.names();
   for (int i = 0; i < cn.size(); i++) {

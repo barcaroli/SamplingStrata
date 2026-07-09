@@ -1,4 +1,8 @@
-KmeansSolutionSpatial <- function (frame, 
+# Depends on aggrStrata_spatial.r being sourced first: that file is the
+# actual SamplingStrata package source for aggrStrataSpatial, fixed in place
+# (rejects fitting = 0 with an explanatory error, and fixes the NaN it used
+# to produce when range = 0 -- see aggrStrata_spatial.r for the analysis).
+KmeansSolutionSpatial <- function (frame,
                                    fitting = 1, 
                                    range = c(0), 
                                    kappa = 3,
