@@ -26,7 +26,11 @@ rbga2 <- function(dataset,
                  monitorFunc=NULL, 
                  evalFunc=NULL,
                  showSettings=FALSE, 
-                 verbose=FALSE) {
+                 verbose=FALSE,
+                 # if TRUE, the elite is selected by integer sample size
+                 # (attribute "ntotInt" returned by evalFunc), ties broken
+                 # by the continuous one
+                 eliteByInteger=getOption("SamplingStrata.eliteByInteger", TRUE)) {
 
     if (is.null(evalFunc)) {
         stop("A evaluation function must be provided. See the evalFunc parameter.");
@@ -100,6 +104,7 @@ rbga2 <- function(dataset,
         bestSolution = rep(NA, iters);
         bestStrata = rep(NA, iters);
         evalVals = rep(NA, popSize);
+        evalInt = rep(NA, popSize);
         for (iter in 1:iters) {
             if (verbose) cat(paste("Starting iteration", iter, "\n"));
 
@@ -116,7 +121,8 @@ rbga2 <- function(dataset,
                                       errors,
                                       population[object,],
                                       ncuts);
-                      evalVals[object] = res
+                      evalVals[object] = sum(res)
+                      evalInt[object] = if (is.null(attr(res, "ntotInt"))) sum(res) else attr(res, "ntotInt")
                     #---- End modification:
                     if (verbose) cat(".");
                 }
@@ -144,9 +150,17 @@ rbga2 <- function(dataset,
               # cat("\n Iteration  ",iter)
                 newPopulation = matrix(nrow=popSize, ncol=vars);
                 newEvalVals = rep(NA, popSize);
+                newEvalInt = rep(NA, popSize);
                 
                 if (verbose) cat("  sorting results...\n");
-                sortedEvaluations = sort(evalVals, index=TRUE);
+                if (eliteByInteger) {
+                    # rank by integer sample size, then by continuous one
+                    ord = order(evalInt, evalVals);
+                    sortedEvaluations = list(x=evalVals[ord], ix=ord);
+                } else {
+                    sortedEvaluations = sort(evalVals, index=TRUE);
+                }
+                sortedInt = evalInt[sortedEvaluations$ix];
                 sortedPopulation  = matrix(population[sortedEvaluations$ix,], ncol=vars);
                 
                 # save the best
@@ -154,6 +168,7 @@ rbga2 <- function(dataset,
                     if (verbose) cat("  applying elitism...\n");
                     newPopulation[1:elitism,] = sortedPopulation[1:elitism,];
                     newEvalVals[1:elitism] = sortedEvaluations$x[1:elitism]
+                    newEvalInt[1:elitism] = sortedInt[1:elitism]
                 } # ok, save nothing
                 
                 # fill the rest by doing crossover
@@ -169,9 +184,11 @@ rbga2 <- function(dataset,
                         if (crossOverPoint == 0) {
                             newPopulation[child, ] = parents[2,]
                             newEvalVals[child] = sortedEvaluations$x[parentIDs[2]]
+                            newEvalInt[child] = sortedInt[parentIDs[2]]
                         } else if (crossOverPoint == vars) {
                             newPopulation[child, ] = parents[1,]
                             newEvalVals[child] = sortedEvaluations$x[parentIDs[1]]
+                            newEvalInt[child] = sortedInt[parentIDs[1]]
                         } else {
                             newPopulation[child, ] =
                                 c(parents[1,][1:crossOverPoint],
@@ -187,6 +204,7 @@ rbga2 <- function(dataset,
                 
                 population = newPopulation;
                 evalVals   = newEvalVals;
+                evalInt    = newEvalInt;
                 
                 # do mutation
                 if (mutationChance > 0) {
@@ -226,6 +244,7 @@ rbga2 <- function(dataset,
                                 # apply mutation, and delete known evalutation value
                                 population[object,var] = mutation;
                                 evalVals[object] = NA;
+                                evalInt[object] = NA;
                                 mutationCount = mutationCount + 1;
                             }
                         }

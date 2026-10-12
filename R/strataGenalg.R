@@ -102,6 +102,10 @@ strataGenalg <- function(errors, strata, cens, strcens,
 			sink(file = fileres, append = TRUE)
 		}
         ntot <- sum(soluz)
+        # Integer sample size (as reported at the end of optimStrata), used
+        # by rbga only to rank individuals when selecting the elite.
+        # The returned value (and hence the convergence curves) is unchanged.
+        if (realAllocation == TRUE) attr(ntot, "ntotInt") <- sum(round(soluz))
         # if (dimens > (initialStrata-1)) ntot <- highvalue
         # cat('\nSolution: ',indices)
 #        cat("\nNumber of strata:", nrow(strcor), " Sample cost:", 
