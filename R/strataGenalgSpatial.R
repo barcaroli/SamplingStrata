@@ -43,7 +43,7 @@ evaluate <- function(dataset,
   for(j in 1:nX){
       ini=(j-1)*(NROW(v)/nX)+1
       fin=j*(NROW(v)/nX)
-      eval(parse(text=paste("v",j,"<-string[ini:fin]*max(frame$ZZ",j,")",sep="")))
+      eval(parse(text=paste("v",j,"<-string[ini:fin]*max(frame$ZZ",i,")",sep="")))
       eval(parse(text=paste("x",j,"_cuts<-as.data.frame(v",j,"[order(v",j,")],stringsAsFactors = TRUE)",sep="")))
       eval(parse(text=paste("x",j,"_cuts<-as.data.frame(rbind(min(frame$ZZ",j,")",",x",j,"_cuts,max(frame$ZZ",j,")),stringsAsFactors = TRUE)",sep="")))
       eval(parse(text=paste("x",j,"_cuts$lim<-x",j,"_cuts$`v",j,"[order(v",j,")]`",sep="")))
@@ -85,9 +85,6 @@ evaluate <- function(dataset,
                     realAllocation = realAllocation)
   }
   size <- sum(soluz)
-  # Integer sample size, used by rbga only to rank individuals when selecting
-  # the elite. The returned value (and the convergence curves) is unchanged.
-  if (realAllocation == TRUE) attr(size, "ntotInt") <- sum(round(soluz))
   size
 }
 
@@ -141,7 +138,7 @@ v<-string
 for(j in 1:nX){
   ini=(j-1)*(NROW(v)/nX)+1
   fin=j*(NROW(v)/nX)
-  eval(parse(text=paste("v",j,"<-string[ini:fin]*max(frame$ZZ",j,")",sep="")))
+  eval(parse(text=paste("v",j,"<-string[ini:fin]*max(frame$ZZ",i,")",sep="")))
   eval(parse(text=paste("x",j,"_cuts<-as.data.frame(v",j,"[order(v",j,")],stringsAsFactors = TRUE)",sep="")))
   eval(parse(text=paste("x",j,"_cuts<-as.data.frame(rbind(min(frame$ZZ",j,")",",x",j,"_cuts,max(frame$ZZ",j,")),stringsAsFactors = TRUE)",sep="")))
   eval(parse(text=paste("x",j,"_cuts$lim<-x",j,"_cuts$`v",j,"[order(v",j,")]`",sep="")))

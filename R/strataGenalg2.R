@@ -75,9 +75,6 @@ evaluate <- function(dataset,
                     realAllocation = realAllocation)
   }
   size <- sum(soluz)
-  # Integer sample size, used by rbga only to rank individuals when selecting
-  # the elite. The returned value (and the convergence curves) is unchanged.
-  if (realAllocation == TRUE) attr(size, "ntotInt") <- sum(round(soluz))
   size
 }
 

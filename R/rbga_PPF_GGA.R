@@ -16,11 +16,7 @@ rbga <- function(stringMin=c(), stringMax=c(),
                  elitism=NA,
                  monitorFunc=NULL, evalFunc=NULL,
                  showSettings=FALSE, verbose=FALSE,
-                 strata,
-                 # if TRUE, the elite is selected by integer sample size
-                 # (sum of rounded allocations, when evalFunc provides it
-                 # as attribute "ntotInt"), ties broken by the continuous one
-                 eliteByInteger=getOption("SamplingStrata.eliteByInteger", TRUE)) {
+                 strata) {
     if (is.null(evalFunc)) {
         stop("A evaluation function must be provided. See the evalFunc parameter.");
     }
@@ -98,7 +94,6 @@ rbga <- function(stringMin=c(), stringMax=c(),
         soluz = as.list(rep(NA, popSize));
         samprate = as.list(rep(NA, popSize));
         evalVals = rep(NA, popSize);
-        evalInt = rep(NA, popSize);
 		# Modifica 4: controllo di mutationChance sulla base del bestEval
 		costante <- 0
 		#-------------
@@ -112,10 +107,8 @@ rbga <- function(stringMin=c(), stringMax=c(),
                   indices=population[object,]
                   vett=floor(indices)
                   censiti <- 0
-                    res = evalFunc(vett);
-                    evalVals[object] = sum(res);
-                    evalInt[object] = if (is.null(attr(res, "ntotInt"))) sum(res) else attr(res, "ntotInt");
-                    soluz[[object]] = as.vector(evalFunc(population[object,]));
+                    evalVals[object] = sum(evalFunc(vett));
+                    soluz[[object]] = evalFunc(population[object,]);
                     samprate[[object]] = tapply(strata$N,indices,sum)/soluz[[object]];
 #                    if (verbose) cat(".");
                 }
@@ -155,24 +148,16 @@ rbga <- function(stringMin=c(), stringMax=c(),
 #                if (verbose) cat("Creating next generation...\n");
                 newPopulation = matrix(nrow=popSize, ncol=vars);
                 newEvalVals = rep(NA, popSize);
-                newEvalInt = rep(NA, popSize);
-
+                
 #                if (verbose) cat("  sorting results...\n");
-                if (eliteByInteger) {
-                    # rank by integer sample size, then by continuous one
-                    ord = order(evalInt, evalVals);
-                    sortedEvaluations = list(x=evalVals[ord], ix=ord);
-                } else {
-                    sortedEvaluations = sort(evalVals, index=TRUE);
-                }
+                sortedEvaluations = sort(evalVals, index=TRUE);
                 sortedPopulation  = matrix(population[sortedEvaluations$ix,], ncol=vars);
-
+                
                 # save the best
                 if (elitism > 0) {
 #                    if (verbose) cat("  applying elitism...\n");
                     newPopulation[1:elitism,] = sortedPopulation[1:elitism,];
                     newEvalVals[1:elitism] = sortedEvaluations$x[1:elitism]
-                    newEvalInt[1:elitism] = evalInt[sortedEvaluations$ix][1:elitism]
                 } # ok, save nothing
                 
                 # fill the rest by doing crossover
@@ -237,8 +222,7 @@ rbga <- function(stringMin=c(), stringMax=c(),
                 
                 population = newPopulation;
                 evalVals   = newEvalVals;
-                evalInt    = newEvalInt;
-
+                
                 # do mutation
                 #--------------------------------------------------------------------
                 if (mutationChance > 0) {
@@ -281,7 +265,6 @@ rbga <- function(stringMin=c(), stringMax=c(),
                                 # apply mutation, and delete known evalutation value
                                 population[object,var] = mutation;
                                 evalVals[object] = NA;
-                                evalInt[object] = NA;
                                 mutationCount = mutationCount + 1;
                             }
                         }
