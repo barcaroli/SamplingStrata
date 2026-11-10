@@ -18,6 +18,8 @@ strata <- buildStrataDF(frame)
 kmean <- KmeansSolution(strata,cv,maxclusters=30)
 nstrat <- tapply(kmean$suggestions, kmean$domainvalue,
                  FUN=function(x) length(unique(x)))
+# with the atomic method the KmeansSolution() output is used directly
+# as suggestions (prepareSuggestion() is only for continuous / spatial)
 solution <- optimStrata(method ="atomic",
                         framesamp = frame,
                         errors = cv,

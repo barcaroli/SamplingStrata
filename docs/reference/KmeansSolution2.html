@@ -181,16 +181,20 @@ number of atomic strata divided by 2.</p></dd>
 <span class="r-in"><span><span class="co"># Solution with kmean clustering</span></span></span>
 <span class="r-in"><span><span class="va">kmean</span> <span class="op">&lt;-</span> <span class="fu">KmeansSolution2</span><span class="op">(</span><span class="va">frame</span>,model<span class="op">=</span><span class="cn">NULL</span>,errors<span class="op">=</span><span class="va">cv</span>,nstrata<span class="op">=</span><span class="cn">NA</span>,maxclusters<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># number of strata to be obtained in each domain in final solution</span></span></span>
-<span class="r-in"><span><span class="va">nstrat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="va">solutionKmean</span><span class="op">$</span><span class="va">suggestions</span>,</span></span>
-<span class="r-in"><span>                 <span class="va">solutionKmean</span><span class="op">$</span><span class="va">domainvalue</span>,</span></span>
+<span class="r-in"><span><span class="va">nstrat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="va">kmean</span><span class="op">$</span><span class="va">suggestions</span>,</span></span>
+<span class="r-in"><span>                 <span class="va">kmean</span><span class="op">$</span><span class="va">domainvalue</span>,</span></span>
 <span class="r-in"><span>                 FUN<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># Prepare suggestion for optimization</span></span></span>
-<span class="r-in"><span><span class="va">sugg</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepareSuggestion.html">prepareSuggestion</a></span><span class="op">(</span><span class="va">kmean</span>,<span class="va">frame</span>,<span class="va">nstrat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Prepare suggestions for optimization: one chromosome from the k-means</span></span></span>
+<span class="r-in"><span><span class="co"># solution, the other from the univariate rule</span></span></span>
+<span class="r-in"><span><span class="va">sugg</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepareSuggestion.html">prepareSuggestion</a></span><span class="op">(</span>frame <span class="op">=</span> <span class="va">frame</span>,</span></span>
+<span class="r-in"><span>                          nStrata <span class="op">=</span> <span class="va">nstrat</span>,</span></span>
+<span class="r-in"><span>                          seeds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"kmean"</span>, <span class="st">"univariate"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                          kmean <span class="op">=</span> <span class="va">kmean</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Optimization</span></span></span>
 <span class="r-in"><span><span class="co"># Attention: number of strata must be the same than in kmeans</span></span></span>
 <span class="r-in"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="optimStrata.html">optimStrata</a></span> <span class="op">(</span></span></span>
 <span class="r-in"><span>  method <span class="op">=</span> <span class="st">"continuous"</span>,</span></span>
-<span class="r-in"><span>  <span class="va">cv</span>,</span></span>
+<span class="r-in"><span>  errors <span class="op">=</span> <span class="va">cv</span>,</span></span>
 <span class="r-in"><span>  framesamp<span class="op">=</span><span class="va">frame</span>,</span></span>
 <span class="r-in"><span>  iter <span class="op">=</span> <span class="fl">50</span>,</span></span>
 <span class="r-in"><span>  pops <span class="op">=</span> <span class="fl">20</span>,</span></span>
