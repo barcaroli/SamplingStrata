@@ -26,7 +26,6 @@ Suggests: knitr, rmarkdown, formattable
 VignetteBuilder: knitr
 URL: https://barcaroli.github.io/SamplingStrata/, https://github.com/barcaroli/SamplingStrata/
 BugReports: https://github.com/barcaroli/SamplingStrata/issues
-RoxygenNote: 6.1.1
+RoxygenNote: 7.3.3
 LinkingTo: Rcpp
 Imports: Rcpp
-
