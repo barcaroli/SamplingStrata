@@ -226,11 +226,7 @@ genetic algorithm remains free to activate them during the search.</p>
     the cut points in [0, 1] times the maximum of X_j);</p></li>
 <li><p><code><a href="optimizeStrata2.html">optimizeStrata2()</a></code> counts as X variables <em>all</em> the
     columns whose (upper case) name contains the letter "X": the frame
-    should not contain other such columns (a warning is issued);</p></li>
-<li><p>with <code>optimStrata(..., alldomains = FALSE)</code> the suggestions
-    are not used correctly, because <code><a href="optimizeStrata2.html">optimizeStrata2()</a></code> reads the
-    non-existent column <code>suggestions$suggestions</code> and leaves the
-    second chromosome at zero: use <code>alldomains = TRUE</code>.</p></li>
+    should not contain other such columns (a warning is issued).</p></li>
 </ul></div>
     <div id="references">
     <h2>References</h2>
