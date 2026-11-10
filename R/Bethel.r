@@ -118,15 +118,16 @@ bethel <- function(stratif, errors, minnumstrat = 2, maxiter = 200,
     N <- as.vector(stratif$N)
     # vector cens
     cens <- as.vector(stratif$CENS)
-    # strata with N < minnumstrata are set to take-all strata
-    cens[N < minnumstrat] <- 1
     # vector cost
     cost <- as.vector(stratif$COST)
-    # default for cost and cens
+    # default for cost and cens (before using cens: on a NULL vector the
+    # assignment below would create NA values)
     if (is.null(cost)) 
         cost <- rep(1, nstrat)
     if (is.null(cens)) 
         cens <- rep(0, nstrat)
+    # strata with N < minnumstrata are set to take-all strata
+    cens[N < minnumstrat] <- 1
     nocens <- 1 - cens
     # check variable cens
     if (sum(cens) == length(cens)) {
@@ -329,7 +330,10 @@ bethel <- function(stratif, errors, minnumstrat = 2, maxiter = 200,
                 # Populations in strata for different domains of interest
                 # NTOTj
                 # -------------------------------------------------------------
-                NTOT <- colSums((m > 0) * N)
+                # membership of each stratum in each domain, from the disjunctive
+                # matrix (m > 0 would drop strata with null or negative means)
+                memb <- disj[, rep(1:nc, each = ncol(med)), drop = FALSE]
+                NTOT <- colSums(memb * N)
                 #
                 # ------------------------------------------------------------
                 # Computation of the CVs

@@ -29,7 +29,10 @@ List containing
 (2) the strata with allocated sampling units,
 (3) the take-all strata
 (4) the sampling frame with the labels linking to (2)
-(5) the frame with take-all units, with the labels linking to (3)
+(5) the frame with take-all units, with the labels linking to (3),
+(6) the expected CVs of the target variables in each domain (element
+\code{expected_cv}).
+Elements (3) and (5) are present only when \code{framecens} is given.
 }
 \description{
 This function allows to execute a complete procedure from the Bethel optimal allocation to the selection of a sample, without having to optimize the strata, that are supposed to be given and fixed.

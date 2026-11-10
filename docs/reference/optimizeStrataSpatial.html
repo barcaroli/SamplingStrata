@@ -42,9 +42,6 @@ a component of spatial autocorrelation in frame units."><meta property="og:image
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
-    </li>
-    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -73,7 +70,7 @@ a component of spatial autocorrelation in frame units."><meta property="og:image
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Best stratification of a sampling frame for multipurpose surveys considering also spatial correlation</h1>
-
+    <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/R/optimizeStrataSpatial.R" class="external-link"><code>R/optimizeStrataSpatial.R</code></a></small>
     <div class="hidden name"><code>optimizeStrataSpatial.Rd</code></div>
     </div>
 
@@ -84,115 +81,137 @@ a component of spatial autocorrelation in frame units.</p>
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">optimizeStrataSpatial</span><span class="op">(</span></span>
-<span>            <span class="va">errors</span>, </span>
-<span>            <span class="va">framesamp</span>,</span>
-<span>            framecens <span class="op">=</span> <span class="cn">NULL</span>, </span>
-<span>            strcens <span class="op">=</span> <span class="cn">FALSE</span>, </span>
-<span>            alldomains <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>            dom <span class="op">=</span> <span class="cn">NULL</span>, </span>
-<span>            nStrata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>, </span>
-<span>            fitting<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
-<span>            range<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
-<span>            kappa<span class="op">=</span><span class="fl">3</span>,</span>
-<span>            minnumstr <span class="op">=</span> <span class="fl">2</span>, </span>
-<span>            iter <span class="op">=</span> <span class="fl">50</span>, </span>
-<span>            pops <span class="op">=</span> <span class="fl">20</span>, </span>
-<span>            mut_chance <span class="op">=</span> <span class="cn">NA</span>, </span>
-<span>            elitism_rate <span class="op">=</span> <span class="fl">0.2</span>, </span>
-<span>            highvalue <span class="op">=</span> <span class="fl">1e+08</span>, </span>
-<span>            suggestions <span class="op">=</span> <span class="cn">NULL</span>, </span>
-<span>            realAllocation <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>            writeFiles <span class="op">=</span> <span class="cn">FALSE</span>, </span>
-<span>            showPlot <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>            parallel <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>            <span class="va">cores</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
+<span>  <span class="va">errors</span>,</span>
+<span>  <span class="va">framesamp</span>,</span>
+<span>  framecens <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  strcens <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  alldomains <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  dom <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  nStrata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>,</span>
+<span>  fitting <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
+<span>  range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
+<span>  kappa <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  minnumstr <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  iter <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  pops <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  mut_chance <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  elitism_rate <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  highvalue <span class="op">=</span> <span class="fl">1e+08</span>,</span>
+<span>  suggestions <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  realAllocation <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  writeFiles <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  showPlot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  parallel <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  cores <span class="op">=</span> <span class="cn">NA</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
+
+
 <dl><dt id="arg-errors">errors<a class="anchor" aria-label="anchor" href="#arg-errors"></a></dt>
 <dd><p>This is the (mandatory) dataframe containing the precision levels expressed in terms of maximum expected value of the Coefficients of Variation
-  related to target variables of the survey.</p></dd>
+related to target variables of the survey.</p></dd>
 
-  <dt id="arg-framesamp">framesamp<a class="anchor" aria-label="anchor" href="#arg-framesamp"></a></dt>
+
+<dt id="arg-framesamp">framesamp<a class="anchor" aria-label="anchor" href="#arg-framesamp"></a></dt>
 <dd><p>This is the (mandatory) dataframe containing the information related to the sampling frame.</p></dd>
 
-  <dt id="arg-framecens">framecens<a class="anchor" aria-label="anchor" href="#arg-framecens"></a></dt>
+
+<dt id="arg-framecens">framecens<a class="anchor" aria-label="anchor" href="#arg-framecens"></a></dt>
 <dd><p>This the (optional) dataframe containing the units to be selected in any case. It has same structure than "frame" dataframe.</p></dd>
 
-  <dt id="arg-strcens">strcens<a class="anchor" aria-label="anchor" href="#arg-strcens"></a></dt>
+
+<dt id="arg-strcens">strcens<a class="anchor" aria-label="anchor" href="#arg-strcens"></a></dt>
 <dd><p>Flag (TRUE/FALSE) to indicate if takeall strata do exist or not. Default is FALSE.</p></dd>
 
-  <dt id="arg-alldomains">alldomains<a class="anchor" aria-label="anchor" href="#arg-alldomains"></a></dt>
+
+<dt id="arg-alldomains">alldomains<a class="anchor" aria-label="anchor" href="#arg-alldomains"></a></dt>
 <dd><p>Flag (TRUE/FALSE) to indicate if the optimization must be carried out on all domains (default is TRUE). If it is set to FALSE,
-  then a value must be given to parameter 'dom'.</p></dd>
+then a value must be given to parameter 'dom'.</p></dd>
 
-  <dt id="arg-dom">dom<a class="anchor" aria-label="anchor" href="#arg-dom"></a></dt>
+
+<dt id="arg-dom">dom<a class="anchor" aria-label="anchor" href="#arg-dom"></a></dt>
 <dd><p>Indicates the domain on which the optimization must be carried. It is an integer value that has to be internal to the interval
-  (1 &lt;–&gt; number of domains). If 'alldomains' is set to TRUE, it is ignored.</p></dd>
+(1 &lt;–&gt; number of domains). If 'alldomains' is set to TRUE, it is ignored.</p></dd>
 
-  <dt id="arg-nstrata">nStrata<a class="anchor" aria-label="anchor" href="#arg-nstrata"></a></dt>
+
+<dt id="arg-nstrata">nStrata<a class="anchor" aria-label="anchor" href="#arg-nstrata"></a></dt>
 <dd><p>Indicates the number of strata for each variable.</p></dd>
+
 
 <dt id="arg-fitting">fitting<a class="anchor" aria-label="anchor" href="#arg-fitting"></a></dt>
 <dd><p>Fitting of the model(s).
-	Default is 1.</p></dd>
+Default is 1.</p></dd>
+
 
 <dt id="arg-range">range<a class="anchor" aria-label="anchor" href="#arg-range"></a></dt>
 <dd><p>Maximum range for spatial autocorrelation. It is a vector with as many elements as the number of target variables Y.</p></dd>
-	
+
+
 <dt id="arg-kappa">kappa<a class="anchor" aria-label="anchor" href="#arg-kappa"></a></dt>
 <dd><p>Factor used in evaluating spatial autocorrelation.
-	Default is 3.</p></dd>
-	
+Default is 3.</p></dd>
+
+
 <dt id="arg-minnumstr">minnumstr<a class="anchor" aria-label="anchor" href="#arg-minnumstr"></a></dt>
 <dd><p>Indicates the minimum number of units that must be allocated in each stratum. Default is 2.</p></dd>
 
-  <dt id="arg-iter">iter<a class="anchor" aria-label="anchor" href="#arg-iter"></a></dt>
+
+<dt id="arg-iter">iter<a class="anchor" aria-label="anchor" href="#arg-iter"></a></dt>
 <dd><p>Indicated the maximum number of iterations (= generations) of the genetic algorithm. Default is 50.</p></dd>
 
-  <dt id="arg-pops">pops<a class="anchor" aria-label="anchor" href="#arg-pops"></a></dt>
+
+<dt id="arg-pops">pops<a class="anchor" aria-label="anchor" href="#arg-pops"></a></dt>
 <dd><p>The dimension of each generations in terms of individuals. Default is 20.</p></dd>
 
-  <dt id="arg-mut-chance">mut_chance<a class="anchor" aria-label="anchor" href="#arg-mut-chance"></a></dt>
+
+<dt id="arg-mut-chance">mut_chance<a class="anchor" aria-label="anchor" href="#arg-mut-chance"></a></dt>
 <dd><p>Mutation chance: for each new individual, the probability to change each single chromosome, i.e. one bit
-  of the solution vector. High values of this parameter allow a deeper exploration of the solution space,
-  but a slower convergence, while low values permit a faster convergence, but the final solution can be
-  distant from the optimal one. Default is NA, in correspondence of which it is computed as 1/(vars+1)
-  where vars is the length of elements in the solution.</p></dd>
+of the solution vector. High values of this parameter allow a deeper exploration of the solution space,
+but a slower convergence, while low values permit a faster convergence, but the final solution can be
+distant from the optimal one. Default is NA, in correspondence of which it is computed as 1/(vars+1)
+where vars is the length of elements in the solution.</p></dd>
 
-  <dt id="arg-elitism-rate">elitism_rate<a class="anchor" aria-label="anchor" href="#arg-elitism-rate"></a></dt>
+
+<dt id="arg-elitism-rate">elitism_rate<a class="anchor" aria-label="anchor" href="#arg-elitism-rate"></a></dt>
 <dd><p>This  parameter indicates the rate of better solutions that must be preserved from one generation
-	to another. Default is 0.2 (20<!-- %). --></p></dd>
+to another. Default is 0.2 (20%).</p></dd>
 
-  <dt id="arg-highvalue">highvalue<a class="anchor" aria-label="anchor" href="#arg-highvalue"></a></dt>
+
+<dt id="arg-highvalue">highvalue<a class="anchor" aria-label="anchor" href="#arg-highvalue"></a></dt>
 <dd><p>Parameter for genetic algorithm. In should not be changed</p></dd>
 
-  <dt id="arg-suggestions">suggestions<a class="anchor" aria-label="anchor" href="#arg-suggestions"></a></dt>
+
+<dt id="arg-suggestions">suggestions<a class="anchor" aria-label="anchor" href="#arg-suggestions"></a></dt>
 <dd><p>Optional parameter for genetic algorithm that indicates a suggested solution to be introduced in the initial population. The most convenient is the one found by the function "KmeanSolution". Default is NULL.</p></dd>
 
-  <dt id="arg-realallocation">realAllocation<a class="anchor" aria-label="anchor" href="#arg-realallocation"></a></dt>
+
+<dt id="arg-realallocation">realAllocation<a class="anchor" aria-label="anchor" href="#arg-realallocation"></a></dt>
 <dd><p>If FALSE, the allocation is based on INTEGER values; if TRUE, the allocation is based on REAL values.
-  Default is TRUE.</p></dd>
+Default is TRUE.</p></dd>
 
-  <dt id="arg-writefiles">writeFiles<a class="anchor" aria-label="anchor" href="#arg-writefiles"></a></dt>
+
+<dt id="arg-writefiles">writeFiles<a class="anchor" aria-label="anchor" href="#arg-writefiles"></a></dt>
 <dd><p>Indicates if the various dataframes and plots produced during the execution have to be written in the working
-  directory.
-  Default is FALSE.</p></dd>
+directory.
+Default is FALSE.</p></dd>
 
-  <dt id="arg-showplot">showPlot<a class="anchor" aria-label="anchor" href="#arg-showplot"></a></dt>
+
+<dt id="arg-showplot">showPlot<a class="anchor" aria-label="anchor" href="#arg-showplot"></a></dt>
 <dd><p>Indicates if the plot showing the trend in the value of the objective function has to be shown or not. In parallel = TRUE, this defaults to FALSE
-  Default is TRUE.</p></dd>
+Default is TRUE.</p></dd>
 
-  <dt id="arg-parallel">parallel<a class="anchor" aria-label="anchor" href="#arg-parallel"></a></dt>
+
+<dt id="arg-parallel">parallel<a class="anchor" aria-label="anchor" href="#arg-parallel"></a></dt>
 <dd><p>Should the analysis be run in parallel.
-  Default is TRUE.</p></dd>
+Default is TRUE.</p></dd>
 
-  <dt id="arg-cores">cores<a class="anchor" aria-label="anchor" href="#arg-cores"></a></dt>
+
+<dt id="arg-cores">cores<a class="anchor" aria-label="anchor" href="#arg-cores"></a></dt>
 <dd><p>If the analysis is run in parallel, how many cores should be used.
-  If not specified n-1 of total available cores are used OR if number of domains &lt; (n-1) cores, then number of cores equal to number of domains are used.</p></dd>
+If not specified n-1 of total available cores are used OR if number of domains &lt; (n-1) cores, then number of cores equal to number of domains are used.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -247,12 +266,12 @@ a component of spatial autocorrelation in frame units.</p>
 <span class="r-in"><span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>DOM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"DOM1"</span>,<span class="fl">1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                          CV1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                          domainvalue <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu">optimizeStrataSpatial</span><span class="op">(</span>errors <span class="op">=</span> <span class="va">cv</span>, </span></span>
-<span class="r-in"><span>                        framesamp <span class="op">=</span> <span class="va">frame</span>, </span></span>
+<span class="r-in"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu">optimizeStrataSpatial</span><span class="op">(</span>errors <span class="op">=</span> <span class="va">cv</span>,</span></span>
+<span class="r-in"><span>                        framesamp <span class="op">=</span> <span class="va">frame</span>,</span></span>
 <span class="r-in"><span>                        iter <span class="op">=</span> <span class="fl">25</span>,</span></span>
 <span class="r-in"><span>                        pops <span class="op">=</span> <span class="fl">10</span>,</span></span>
-<span class="r-in"><span>                        nStrata <span class="op">=</span> <span class="fl">5</span>, </span></span>
-<span class="r-in"><span>                        fitting <span class="op">=</span> <span class="fl">1</span>, </span></span>
+<span class="r-in"><span>                        nStrata <span class="op">=</span> <span class="fl">5</span>,</span></span>
+<span class="r-in"><span>                        fitting <span class="op">=</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>                        kappa <span class="op">=</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>                        range <span class="op">=</span> <span class="va">fit.vgm.lead</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">framenew</span> <span class="op">&lt;-</span> <span class="va">solution</span><span class="op">$</span><span class="va">framenew</span></span></span>
@@ -264,6 +283,7 @@ a component of spatial autocorrelation in frame units.</p>
 <span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="selectSample.html">selectSample</a></span><span class="op">(</span><span class="va">framenew</span>,<span class="va">outstrata</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

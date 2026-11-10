@@ -107,14 +107,13 @@ optimizeStrata <-
     if (writeFiles == TRUE) {
       dire <- getwd()
       direnew <- paste(dire, "/output", sep = "")
-      if (dir.exists(direnew)) 
-        unlink(direnew,recursive=TRUE)
+      # the folder is no longer deleted: files of a previous run are overwritten
       if (!dir.exists(direnew)) 
         dir.create(direnew)
       #setwd(direnew)
     }
     
-    if(parallel == FALSE & !missing(cores) | !is.na(cores)){
+    if (parallel == FALSE & !missing(cores) & !is.na(cores)) {
       cat("Sequential optimization as parallel = FALSE, defaulting number of cores = 1")
       cores <- 1
       Sys.sleep(0.314)

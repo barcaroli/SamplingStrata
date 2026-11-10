@@ -45,9 +45,6 @@ this function makes use of the 'lpm2_kdtree' function from the' SamplingBigData'
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
-    </li>
-    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -76,7 +73,7 @@ this function makes use of the 'lpm2_kdtree' function from the' SamplingBigData'
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Selection of geo-referenced points from the frame</h1>
-
+    <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/R/selectSampleSpatial.R" class="external-link"><code>R/selectSampleSpatial.R</code></a></small>
     <div class="hidden name"><code>selectSampleSpatial.Rd</code></div>
     </div>
 
@@ -94,15 +91,18 @@ this function makes use of the 'lpm2_kdtree' function from the' SamplingBigData'
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
+
+
 <dl><dt id="arg-frame">frame<a class="anchor" aria-label="anchor" href="#arg-frame"></a></dt>
 <dd><p>This is the (mandatory) dataframe containing the sampling frame, as it has been modified
-  by the execution of the "updateFrame" function.</p></dd>
+by the execution of the "updateFrame" function.</p></dd>
 
-  <dt id="arg-outstrata">outstrata<a class="anchor" aria-label="anchor" href="#arg-outstrata"></a></dt>
+
+<dt id="arg-outstrata">outstrata<a class="anchor" aria-label="anchor" href="#arg-outstrata"></a></dt>
 <dd><p>This is the (mandatory) dataframe containing the information related to resulting stratification obtained by the execution of "optimStrata" function. It should coincide with 'solution$aggr_strata'.</p></dd>
 
-  <dt id="arg-coord-names">coord_names<a class="anchor" aria-label="anchor" href="#arg-coord-names"></a></dt>
+
+<dt id="arg-coord-names">coord_names<a class="anchor" aria-label="anchor" href="#arg-coord-names"></a></dt>
 <dd><p>Indicates with which names the coordinates are indicated in the frame.</p></dd>
 
 </dl></div>
@@ -152,7 +152,7 @@ this function makes use of the 'lpm2_kdtree' function from the' SamplingBigData'
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Optimization </span></span></span>
+<span class="r-in"><span><span class="co">## Optimization</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://barcaroli.github.io/SamplingStrata/" class="external-link">SamplingStrata</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">frame</span> <span class="op">&lt;-</span> <span class="fu"><a href="buildFrameSpatial.html">buildFrameSpatial</a></span><span class="op">(</span>df<span class="op">=</span><span class="va">df</span>,</span></span>
 <span class="r-in"><span>                           id<span class="op">=</span><span class="st">"id"</span>,</span></span>
@@ -169,7 +169,7 @@ this function makes use of the 'lpm2_kdtree' function from the' SamplingBigData'
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="optimStrata.html">optimStrata</a></span> <span class="op">(</span></span></span>
 <span class="r-in"><span>  method <span class="op">=</span> <span class="st">"spatial"</span>,</span></span>
-<span class="r-in"><span>  errors<span class="op">=</span><span class="va">cv</span>, </span></span>
+<span class="r-in"><span>  errors<span class="op">=</span><span class="va">cv</span>,</span></span>
 <span class="r-in"><span>  framesamp<span class="op">=</span><span class="va">frame</span>,</span></span>
 <span class="r-in"><span>  iter <span class="op">=</span> <span class="fl">15</span>,</span></span>
 <span class="r-in"><span>  pops <span class="op">=</span> <span class="fl">10</span>,</span></span>
@@ -193,6 +193,7 @@ this function makes use of the 'lpm2_kdtree' function from the' SamplingBigData'
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">samp_sf</span><span class="op">[</span><span class="st">"STRATO"</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

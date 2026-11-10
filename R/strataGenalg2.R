@@ -123,8 +123,9 @@ rbga.results = rbga2(
                     elitism,
                     monitorFunc=monitor, 
                     evalFunc=evaluate, 
-                    verbose=FALSE,
-                    showPlot)
+                    verbose=FALSE)
+# (showPlot is not passed: positionally it ended in rbga showSettings and
+#  printed the GA settings; the monitor function reads showPlot directly)
 
 # title(paste("Best solution: ",round(min(rbga.results$best),2)))
 # Reconstruction of the optimal solution    

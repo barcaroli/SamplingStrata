@@ -91,6 +91,10 @@
 #' kmean <- KmeansSolution(strata,cv,maxclusters=30)
 #' nstrat <- tapply(kmean$suggestions, kmean$domainvalue,
 #'                  FUN=function(x) length(unique(x)))
+#' sugg <- prepareSuggestion(kmean = kmean,
+#'                           frame = frame,
+#'                           nStrata = nstrat)
+#' evalSuggestion(frame=frame,sugg=sugg,errors=cv)
 #' solution <- optimStrata(method ="atomic",
 #'                         framesamp = frame,
 #'                         errors = cv,
@@ -111,7 +115,10 @@
 #'                  FUN=function(x) length(unique(x)))
 #' sugg <- prepareSuggestion(kmean = kmean,
 #'                           frame = frame,
-#'                           nstrat = nstrat)
+#'                           nStrata = nstrat)
+#' attr(sugg, "seeds")   
+#' evalSuggestion(frame, errors = cv, sugg, which = 1)
+#' evalSuggestion(frame, errors = cv, sugg, which = 2)
 #' solution <- optimStrata(method = "continuous",
 #'                         framesamp = frame,
 #'                         errors = cv,
@@ -276,9 +283,10 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
 
     invisible(TRUE)
   }
-  if (!(method %in% c("atomic", "continuous", "spatial"))) 
+  if (!is.character(method) || !all(method %in% c("atomic", "continuous", "spatial"))) 
     stop("Method should be one in 'atomic','continuous','spatial'")
-  if (any(nStrata < 2)) 
+  method <- match.arg(method)
+  if (any(nStrata < 2, na.rm = TRUE)) 
     stop("There is at least one element in nStrata that is < 2")
   if (alldomains == TRUE & !is.null(dom)) 
     stop("Processing of all domains set TRUE, but a given domain has been indicated")

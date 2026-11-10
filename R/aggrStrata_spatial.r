@@ -113,6 +113,13 @@ aggrStrataSpatial <- function(dataset,
   dataset <- dataset[dataset$DOMAINVALUE == dominio,]
   dist <- sqrt((outer(dataset$LON,dataset$LON,"-"))^2+(outer(dataset$LAT,dataset$LAT,"-"))^2)
   nvarY <- length(grep("Y", names(dataset)))
+  # one value of fitting and range per Y variable: a single value is
+  # recycled (otherwise fitting[i], range[i] are NA for i > 1)
+  if (!length(fitting) %in% c(1, nvarY) || !length(range) %in% c(1, nvarY))
+    stop("aggrStrataSpatial: fitting and range must have length 1 or ", nvarY,
+         " (number of Y variables)", call. = FALSE)
+  fitting <- rep_len(fitting, nvarY)
+  range <- rep_len(range, nvarY)
   stratatot <- NULL
   dataset$STRATO <- as.factor(vett)
   for (j in as.numeric(levels(dataset$STRATO))) {

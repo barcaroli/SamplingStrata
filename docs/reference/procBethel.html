@@ -41,9 +41,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
-    </li>
-    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -72,7 +69,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Procedure to apply Bethel algorithm and select a sample from given strata</h1>
-
+    <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/R/procBethel.R" class="external-link"><code>R/procBethel.R</code></a></small>
     <div class="hidden name"><code>procBethel.Rd</code></div>
     </div>
 
@@ -81,31 +78,37 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">procBethel</span><span class="op">(</span><span class="va">framesamp</span>,</span>
-<span>           <span class="va">framecens</span>,</span>
-<span>           <span class="va">errors</span>,</span>
-<span>           sampling_method<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"srs"</span>,<span class="st">"systematic"</span>,<span class="st">"spatial"</span><span class="op">)</span>,</span>
-<span>           minnumstrat<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">procBethel</span><span class="op">(</span></span>
+<span>  <span class="va">framesamp</span>,</span>
+<span>  <span class="va">framecens</span>,</span>
+<span>  <span class="va">errors</span>,</span>
+<span>  sampling_method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"srs"</span>, <span class="st">"systematic"</span>, <span class="st">"spatial"</span><span class="op">)</span>,</span>
+<span>  minnumstrat <span class="op">=</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
+
+
 <dl><dt id="arg-framesamp">framesamp<a class="anchor" aria-label="anchor" href="#arg-framesamp"></a></dt>
 <dd><p>Dataframe containing sampling frame units.</p></dd>
 
-  <dt id="arg-framecens">framecens<a class="anchor" aria-label="anchor" href="#arg-framecens"></a></dt>
+
+<dt id="arg-framecens">framecens<a class="anchor" aria-label="anchor" href="#arg-framecens"></a></dt>
 <dd><p>Dataframe containing frame units that must be selected.</p></dd>
 
-  <dt id="arg-errors">errors<a class="anchor" aria-label="anchor" href="#arg-errors"></a></dt>
+
+<dt id="arg-errors">errors<a class="anchor" aria-label="anchor" href="#arg-errors"></a></dt>
 <dd><p>Dataframe containing the precision levels expressed in terms of maximum expected value of the Coefficients of Variation related to target variables of the survey.</p></dd>
 
-  <dt id="arg-sampling-method">sampling_method<a class="anchor" aria-label="anchor" href="#arg-sampling-method"></a></dt>
+
+<dt id="arg-sampling-method">sampling_method<a class="anchor" aria-label="anchor" href="#arg-sampling-method"></a></dt>
 <dd><p>Parameter for choosing the selection method: "srs", "systematic" and "spatial".</p></dd>
 
-  <dt id="arg-minnumstrat">minnumstrat<a class="anchor" aria-label="anchor" href="#arg-minnumstrat"></a></dt>
-<dd><p>Indicates the minimum number of units that must be allocated in each stratum. Default is 2.</p></dd>
 
+<dt id="arg-minnumstrat">minnumstrat<a class="anchor" aria-label="anchor" href="#arg-minnumstrat"></a></dt>
+<dd><p>Indicates the minimum number of units that must be allocated in each stratum. Default is 2.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -155,6 +158,7 @@
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">a</span><span class="op">$</span><span class="va">sample</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="expected_CV.html">expected_CV</a></span><span class="op">(</span><span class="va">a</span><span class="op">$</span><span class="va">strata</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

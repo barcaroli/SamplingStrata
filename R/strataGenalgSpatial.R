@@ -54,7 +54,7 @@ evaluate <- function(dataset,
   for(j in 1:nX){
       ini=(j-1)*(NROW(v)/nX)+1
       fin=j*(NROW(v)/nX)
-      eval(parse(text=paste("v",j,"<-string[ini:fin]*max(frame$ZZ",i,")",sep="")))
+      eval(parse(text=paste("v",j,"<-string[ini:fin]*max(frame$ZZ",j,")",sep="")))
       eval(parse(text=paste("x",j,"_cuts<-as.data.frame(v",j,"[order(v",j,")],stringsAsFactors = TRUE)",sep="")))
       eval(parse(text=paste("x",j,"_cuts<-as.data.frame(rbind(min(frame$ZZ",j,")",",x",j,"_cuts,max(frame$ZZ",j,")),stringsAsFactors = TRUE)",sep="")))
       eval(parse(text=paste("x",j,"_cuts$lim<-x",j,"_cuts$`v",j,"[order(v",j,")]`",sep="")))
@@ -134,8 +134,9 @@ rbga.results = rbgaSpatial(
                     elitism,
                     monitorFunc=monitor, 
                     evalFunc=evaluate, 
-                    verbose=FALSE,
-                    showPlot)
+                    verbose=FALSE)
+# (showPlot is not passed: positionally it ended in rbga showSettings and
+#  printed the GA settings; the monitor function reads showPlot directly)
 
 # title(paste("Best solution: ",round(min(rbga.results$best),2)))
 # Reconstruction of the optimal solution    
@@ -149,7 +150,7 @@ v<-string
 for(j in 1:nX){
   ini=(j-1)*(NROW(v)/nX)+1
   fin=j*(NROW(v)/nX)
-  eval(parse(text=paste("v",j,"<-string[ini:fin]*max(frame$ZZ",i,")",sep="")))
+  eval(parse(text=paste("v",j,"<-string[ini:fin]*max(frame$ZZ",j,")",sep="")))
   eval(parse(text=paste("x",j,"_cuts<-as.data.frame(v",j,"[order(v",j,")],stringsAsFactors = TRUE)",sep="")))
   eval(parse(text=paste("x",j,"_cuts<-as.data.frame(rbind(min(frame$ZZ",j,")",",x",j,"_cuts,max(frame$ZZ",j,")),stringsAsFactors = TRUE)",sep="")))
   eval(parse(text=paste("x",j,"_cuts$lim<-x",j,"_cuts$`v",j,"[order(v",j,")]`",sep="")))

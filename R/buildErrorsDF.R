@@ -58,6 +58,11 @@
 buildErrorsDF <- function(frame=NULL,strata=NULL) {
   # if (is.null(frame & is.null(strata))) stop("Indicate a frame or a strata dataframe")
   # if (!is.null(frame & !is.null(strata))) stop("Indicate only one between frame and strata dataframe")
+  if (is.null(frame) && is.null(strata))
+    stop("Indicate a frame or a strata dataframe")
+  # buildFrameDF() returns lower-case names (domainvalue): make them upper case
+  if (!is.null(frame)) colnames(frame) <- toupper(colnames(frame))
+  if (!is.null(strata)) colnames(strata) <- toupper(colnames(strata))
   if (!is.null(frame)) {
     ndom <- length(unique(frame$DOMAINVALUE))
     nvars <- length(grep("Y",names(frame)))

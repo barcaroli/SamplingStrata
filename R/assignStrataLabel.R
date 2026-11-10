@@ -92,13 +92,14 @@ assignStrataLabel <- function(dataset, s)
       stmt <- paste(stmt," & (")
       for (i in (1:nvarX_1)) {
         if (i != nvarX_1) {
-          stmt <- paste(stmt,"!(dataset$X",i," < s[s$DOMAIN==dom & s$STRATUM==strat,'LOWER_X",i,"']) & !(dataset$X",i," > s[s$DOMAIN==dom & s$STRATUM==strat,'UPPER_X1']) & ",sep="")
+          stmt <- paste(stmt,"!(dataset$X",i," < s[s$DOMAIN==dom & s$STRATUM==strat,'LOWER_X",i,"']) & !(dataset$X",i," > s[s$DOMAIN==dom & s$STRATUM==strat,'UPPER_X",i,"']) & ",sep="")
         }                    
         if (i == nvarX_1) {
           stmt <- paste(stmt,"!(dataset$X",i," < s[s$DOMAIN==dom & s$STRATUM==strat,'LOWER_X",i,"']) & !(dataset$X",i," > s[s$DOMAIN==dom & s$STRATUM==strat,'UPPER_X",i,"']) ), ]",sep="")
         }
       }
       eval(parse(text=stmt))
+      if (nrow(strato) == 0) next   # no unit of the dataset falls in this stratum
       strato$STRATO <- paste(dom,strat,sep="***")
       stratomin <- strato[!(strato$ID %in% df$ID),]
       df <- rbind(df,stratomin)

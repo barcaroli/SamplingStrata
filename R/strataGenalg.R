@@ -109,17 +109,18 @@ strataGenalg <- function(errors, strata, cens, strcens,
         # initialStrata)
         soluz <- bethel_cpp(strcor, errors, minnumstr, 
             realAllocation = realAllocation)
-		if (writeFiles == TRUE) {
-			sink()
-			sink(file = fileres, append = TRUE)
-		}
+        # (no sink() here: evaluate() prints nothing, and closing a sink that
+        # was not open produced the warning "no sink to remove")
         ntot <- sum(soluz)
         # if (dimens > (initialStrata-1)) ntot <- highvalue
         # cat('\nSolution: ',indices)
 #        cat("\nNumber of strata:", nrow(strcor), " Sample cost:", 
 #            ntot)
         # cat('\n',floor(indices))
-        return(ntot)
+        # the allocation per stratum is returned (sampling strata in increasing
+        # order of label, then take-all strata): rbga() uses its sum as fitness
+        # and its first elements to compute the stratum weights in the crossover
+        return(soluz)
         # print(paste('Dimensione: ',round(ntot),' Numero strata:
         # ',dimens))
     }
@@ -210,7 +211,6 @@ strataGenalg <- function(errors, strata, cens, strcens,
 	cat("\n *** Sample cost: ", sum(soluz))
 	cat(paste("\n *** Number of strata: ", nrow(strcor)))
 	if (writeFiles == TRUE) {
-		sink()
 		sink(file = fileres, append = TRUE)
 		cat("\n *** Sample cost: ", sum(soluz))
 		cat(paste("\n *** Number of strata: ", nrow(strcor)))

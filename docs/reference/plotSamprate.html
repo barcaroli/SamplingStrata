@@ -43,9 +43,6 @@ different strata for each domain in the obtained solution."><meta property="og:i
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
-    </li>
-    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -74,7 +71,7 @@ different strata for each domain in the obtained solution."><meta property="og:i
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plotting sampling rates in the different strata for each domain in the solution.</h1>
-
+    <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/R/plotSamprate.R" class="external-link"><code>R/plotSamprate.R</code></a></small>
     <div class="hidden name"><code>plotSamprate.Rd</code></div>
     </div>
 
@@ -90,11 +87,13 @@ different strata for each domain in the obtained solution.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
+
+
 <dl><dt id="arg-solution">solution<a class="anchor" aria-label="anchor" href="#arg-solution"></a></dt>
 <dd><p>Solution obtained by executing optimizeStrata</p></dd>
 
-  <dt id="arg-dom">dom<a class="anchor" aria-label="anchor" href="#arg-dom"></a></dt>
+
+<dt id="arg-dom">dom<a class="anchor" aria-label="anchor" href="#arg-dom"></a></dt>
 <dd><p>Identification of the domain</p></dd>
 
 </dl></div>
@@ -110,13 +109,14 @@ different strata for each domain in the obtained solution.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">swisserrors</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">swissstrata</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># optimisation of sampling strata</span></span></span>
-<span class="r-in"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="optimizeStrata.html">optimizeStrata</a></span> <span class="op">(</span> </span></span>
-<span class="r-in"><span>    errors <span class="op">=</span> <span class="va">swisserrors</span>, </span></span>
-<span class="r-in"><span>    strata <span class="op">=</span> <span class="va">swissstrata</span>, </span></span>
+<span class="r-in"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="optimizeStrata.html">optimizeStrata</a></span> <span class="op">(</span></span></span>
+<span class="r-in"><span>    errors <span class="op">=</span> <span class="va">swisserrors</span>,</span></span>
+<span class="r-in"><span>    strata <span class="op">=</span> <span class="va">swissstrata</span>,</span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># plot of the sampling rates in strata </span></span></span>
+<span class="r-in"><span><span class="co"># plot of the sampling rates in strata</span></span></span>
 <span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">swissstrata</span><span class="op">$</span><span class="va">DOM1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="fu">plotSamprate</span><span class="op">(</span><span class="va">solution</span>, <span class="va">i</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

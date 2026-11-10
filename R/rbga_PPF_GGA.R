@@ -51,6 +51,10 @@ rbga <- function(stringMin=c(), stringMax=c(),
     if (iters < 1) {
         stop("The number of iterations must be at least 1.");
     }
+    # elitism = elitism_rate * popSize may be non-integer: with a fractional
+    # value the index ranges 1:elitism and (elitism+1):popSize leave the last
+    # individual of each new generation empty (NA)
+    elitism = floor(elitism)
     if (!(elitism < popSize)) {
         stop("The population size must be greater than the elitism.");
     }
@@ -103,8 +107,6 @@ rbga <- function(stringMin=c(), stringMax=c(),
         # do iterations
         bestEvals = rep(NA, iters);
         meanEvals = rep(NA, iters);
-        soluz = as.list(rep(NA, popSize));
-        samprate = as.list(rep(NA, popSize));
         evalVals = rep(NA, popSize);
 		# Modifica 4: controllo di mutationChance sulla base del bestEval
 		costante <- 0
@@ -120,8 +122,6 @@ rbga <- function(stringMin=c(), stringMax=c(),
                   vett=floor(indices)
                   censiti <- 0
                     evalVals[object] = sum(evalFunc(vett));
-                    soluz[[object]] = evalFunc(population[object,]);
-                    samprate[[object]] = tapply(strata$N,indices,sum)/soluz[[object]];
 #                    if (verbose) cat(".");
                 }
             }
@@ -207,15 +207,20 @@ rbga <- function(stringMin=c(), stringMax=c(),
                         k = 2
                         probs <- 1 / (1 + exp(-((k*sd(v)/mean(v))*(v - mean(v))))) / length(v)
                         fitness <- sort(probs, decreasing = TRUE)
-                        if(sum(fitness>=2)) parentIDs = sample(1:popSize, 2, prob = fitness)
-                        if(sum(fitness<2)) parentIDs = sample(1:popSize, 2)
+                        # fitness is sorted in decreasing order, as sortedPopulation
+                        # (best first): parents are drawn with these probabilities
+                        parentIDs = sample(1:popSize, 2, prob = fitness)
                         # parentIDs = sample(1:popSize, 2, prob = fitness)
                         parents = sortedPopulation[parentIDs,];
                         # GGA crossover
                         G1 <- sort(unique(parents[1,]))
                         G2 <- sort(unique(parents[2,]))
                         ######################## parte nuova ###################
-                        pikG1<-samprate[[parentIDs[1]]]
+                        # N_h / n_h of the strata of the first parent, computed on the
+                        # parent itself (evalFunc is memoised: no new allocation is run)
+                        allocG1 <- evalFunc(floor(parents[1,]))
+                        pikG1 <- as.numeric(tapply(strata$N, parents[1,], sum)) /
+                                 allocG1[seq_along(G1)]
 #                        s<-ppss(pikG1^2,round(length(G1)/2))
 						            s <- sample(1:length(pikG1),round(length(pikG1)/2),prob=pikG1^2)
                         #s<-sample(1:length(pikG1), round(length(G1)/2, prob = fitness))

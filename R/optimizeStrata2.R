@@ -114,6 +114,8 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
     dom <- NULL
   colnames(frame) <- toupper(colnames(frame))
   ndom <- length(unique(frame$DOMAINVALUE))
+  # a single number of strata is valid for every domain
+  if (length(nStrata) == 1) nStrata <- rep(nStrata, ndom)
   nvarX <- length(grep("X", names(frame)))
   if (alldomains == FALSE) {
     frame <- frame[frame$DOMAINVALUE == dom, ]
@@ -154,8 +156,7 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
   if (writeFiles == TRUE) {
     dire <- getwd()
     direnew <- paste(dire, "/output", sep = "")
-    if (dir.exists(direnew)) 
-      unlink(direnew, recursive = TRUE)
+    # the folder is no longer deleted: files of a previous run are overwritten
     if (!dir.exists(direnew)) 
       dir.create(direnew)
   }
@@ -410,22 +411,19 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
         flagcens <- FALSE
       }
     }
-    if (!is.null(suggestions) & alldomains == TRUE) {
-      suggest <- matrix(0, nrow = 2, ncol = (nStrata[i] - 
-                                               1) * nvarX)
-      suggest[1, ] <- suggestdom[[i]]$suggestions
-    }
-    if (!is.null(suggestions) & alldomains == FALSE) {
-      suggest <- matrix(0, nrow = 2, ncol = (nStrata[i] - 
-                                               1) * nvarX)
-      suggest[1, ] <- suggestions$suggestions
+    if (!is.null(suggestions)) {
+      # the two chromosomes of the selected domain (suggestions may contain
+      # all the domains, as returned by prepareSuggestion())
+      sugdom <- suggestions[suggestions$domainvalue == i, , drop = FALSE]
+      suggest <- matrix(0, nrow = 2, ncol = (nStrata[i] - 1) * nvarX)
+      suggest[1, ] <- sugdom$suggestions1
+      suggest[2, ] <- sugdom$suggestions2
     }
     if (is.null(suggestions)) {
       suggest <- NULL
     }
     solut <- strataGenalg2(errors = erro[[i]], frame = frame, 
-                           cens = cens, strcens = flagcens, model, ncuts = (nStrata - 
-                                                                              1), dominio = i, minnumstr, iter, pops, mut_chance, 
+                           cens = cens, strcens = flagcens, model, ncuts = (nStrata[i] - 1), dominio = i, minnumstr, iter, pops, mut_chance, 
                            elitism_rate, suggestions = suggest, realAllocation, 
                            writeFiles, showPlot)
     vettsol <- solut[[1]]

@@ -67,15 +67,9 @@ evalSolution <- function (frame,
                           outputFolder = file.path(getwd(),"simulation"),
                           progress = TRUE) 
 {
-  if ( !requireNamespace("formattable", quietly = TRUE) ){
-    install.packages("formattable")
-  }
   if (writeFiles == TRUE) {
-  	if(dir.exists(outputFolder)){
-  	  warning("Folder ", outputFolder," already existed and has been deleted.")
-  	  unlink(outputFolder)
-	  } 
-    if(!dir.exists(outputFolder)) dir.create(outputFolder)
+    # existing files in outputFolder are overwritten (the folder is not deleted)
+    if (!dir.exists(outputFolder)) dir.create(outputFolder)
   }
   colnames(frame) <- toupper(colnames(frame))
   numY <- length(grep("Y", toupper(colnames(frame))))
@@ -266,11 +260,5 @@ evalSolution <- function (frame,
 
   cv[,c(1:numY)] <- round(cv[,c(1:numY)],4)
   results <- list(coeff_var = cv, rel_bias = bias, est = est)
-  cv <- cbind(c(1:nrow(cv)),cv)
-  colnames(cv) <- c("domain",paste("cv(Y",c(1:numY),")",sep=""))
-  bias <- cbind(c(1:nrow(bias)),bias)
-  colnames(bias) <- c("domain",paste("bias(Y",c(1:numY),")",sep=""))
-  cv <- formattable::formattable(cv,list(area(col = 2:(numY+1)) ~ color_tile("#DeF7E9", "#71CA97")))
-  bias <- formattable::formattable(bias,list(area(col = 2:(numY+1)) ~ color_tile("#DeF7E9", "#71CA97")))
   return(results)
 }

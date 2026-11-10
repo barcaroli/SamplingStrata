@@ -48,9 +48,6 @@ If no domains have been defined, this variable will contains all 1's, but it mus
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
-    </li>
-    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -79,7 +76,7 @@ If no domains have been defined, this variable will contains all 1's, but it mus
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Updates the initial frame on the basis of the optimized stratification</h1>
-
+    <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/R/updateFrame.R" class="external-link"><code>R/updateFrame.R</code></a></small>
     <div class="hidden name"><code>updateFrame.Rd</code></div>
     </div>
 
@@ -95,25 +92,34 @@ If no domains have been defined, this variable will contains all 1's, but it mus
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">updateFrame</span><span class="op">(</span><span class="va">frame</span>, <span class="va">newstrata</span>, writeFiles <span class="op">=</span> <span class="cn">FALSE</span>, outputFolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"output"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">updateFrame</span><span class="op">(</span></span>
+<span>  <span class="va">frame</span>,</span>
+<span>  <span class="va">newstrata</span>,</span>
+<span>  writeFiles <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  outputFolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"output"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
+
+
 <dl><dt id="arg-frame">frame<a class="anchor" aria-label="anchor" href="#arg-frame"></a></dt>
 <dd><p>This is the (mandatory) dataframe containing the sampling frame.</p></dd>
 
-  <dt id="arg-newstrata">newstrata<a class="anchor" aria-label="anchor" href="#arg-newstrata"></a></dt>
+
+<dt id="arg-newstrata">newstrata<a class="anchor" aria-label="anchor" href="#arg-newstrata"></a></dt>
 <dd><p>This is the (mandatory) dataframe containing the information related to the optimisation applied to
-  initial stratification (new labels applied to atomic strata). It is produced by executing
-  the "updateStrata" function.</p></dd>
+initial stratification (new labels applied to atomic strata). It is produced by executing
+the "updateStrata" function.</p></dd>
 
-  <dt id="arg-writefiles">writeFiles<a class="anchor" aria-label="anchor" href="#arg-writefiles"></a></dt>
+
+<dt id="arg-writefiles">writeFiles<a class="anchor" aria-label="anchor" href="#arg-writefiles"></a></dt>
 <dd><p>Flag to write or not the new sampling frame into the working directory.
-  Default is "FALSE"</p></dd>
+Default is "FALSE"</p></dd>
 
-	<dt id="arg-outputfolder">outputFolder<a class="anchor" aria-label="anchor" href="#arg-outputfolder"></a></dt>
+
+<dt id="arg-outputfolder">outputFolder<a class="anchor" aria-label="anchor" href="#arg-outputfolder"></a></dt>
 <dd><p>A path to a directory ot be used for the outputs. Default is "output"</p></dd>
 
 </dl></div>
@@ -136,8 +142,8 @@ If no domains have been defined, this variable will contains all 1's, but it mus
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">swisserrors</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">swissstrata</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># optimisation of sampling strata</span></span></span>
-<span class="r-in"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="optimizeStrata.html">optimizeStrata</a></span> <span class="op">(</span> </span></span>
-<span class="r-in"><span>    errors <span class="op">=</span> <span class="va">swisserrors</span>, </span></span>
+<span class="r-in"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="optimizeStrata.html">optimizeStrata</a></span> <span class="op">(</span></span></span>
+<span class="r-in"><span>    errors <span class="op">=</span> <span class="va">swisserrors</span>,</span></span>
 <span class="r-in"><span>    strata <span class="op">=</span> <span class="va">swissstrata</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># updating sampling strata with new strata labels</span></span></span>
 <span class="r-in"><span><span class="va">newstrata</span> <span class="op">&lt;-</span> <span class="fu"><a href="updateStrata.html">updateStrata</a></span><span class="op">(</span><span class="va">swissstrata</span>, <span class="va">solution</span>, writeFiles <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -145,6 +151,7 @@ If no domains have been defined, this variable will contains all 1's, but it mus
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">swissframe</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">framenew</span> <span class="op">&lt;-</span> <span class="fu">updateFrame</span><span class="op">(</span>frame<span class="op">=</span><span class="va">swissframe</span>, newstrata<span class="op">=</span><span class="va">newstrata</span>, writeFiles <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

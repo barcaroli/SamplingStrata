@@ -105,11 +105,20 @@ selectSampleSystematic <- function(frame,
       if (!is.null(sortvariable)) {
         framestrat <- framestrat[order(framestrat[,c(sortvariable)]),]
       }
-      step <- nrow(framestrat) / nh[j]
-      start <- sample(step,1)
-      s <- round(seq(start,nrow(framestrat),step),0)
-      if (length(s) < nh[j]) {
-        s <- c(1,s)
+      # systematic selection with a (possibly fractional) interval:
+      # random start uniform in (0, step], then units ceiling(start + k*step),
+      # k = 0, ..., n-1. Exactly n units are selected and every unit has
+      # inclusion probability n / Nh.
+      Nh <- nrow(framestrat)
+      n <- nh[j]
+      if (n >= Nh) {
+        s <- seq_len(Nh)
+      } else if (n <= 0) {
+        s <- integer(0)
+      } else {
+        step <- Nh / n
+        start <- step - runif(1, 0, step)   # in (0, step]
+        s <- ceiling(start + (0:(n - 1)) * step)
       }
       sel <- framestrat$ID[s]
       wgt <- rep(nrow(framestrat)/length(sel),length(sel))
@@ -125,8 +134,7 @@ selectSampleSystematic <- function(frame,
     if (!is.null(sortvariable)) {
       sortvariable <- toupper(sortvariable)
       if (!(sortvariable %in% colnames(frame))) {
-        cat("\n Sort variable not in frame")
-        stop
+        stop("Sort variable ", sortvariable, " not in frame")
       }
     }
     outstrata$SOLUZ <- round(outstrata$SOLUZ)  # rounding of allocation numbers

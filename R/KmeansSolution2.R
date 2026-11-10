@@ -178,7 +178,11 @@ KmeansSolution2 <- function(frame,
     cat("\n Number of strata: ",best_num_strata[i])
     cat("\n Sample size     : ",best[i])
   }
-  solutionKmean <- as.data.frame(cbind(id,suggestions,domainvalue),stringsAsFactors = TRUE)
-  solutionKmean$domainvalue <- as.integer(solutionKmean$domainvalue)
+  # build the data frame column by column: cbind() would turn everything into
+  # character and as.integer() on the resulting factor would return level codes
+  solutionKmean <- data.frame(id = id,
+                              suggestions = as.integer(as.character(suggestions)),
+                              domainvalue = as.integer(domainvalue),
+                              stringsAsFactors = TRUE)
   return(solutionKmean)
 }

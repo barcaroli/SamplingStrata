@@ -41,9 +41,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
-    </li>
-    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -77,6 +74,8 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.6" id="samplingstrata-16">SamplingStrata 1.6<a class="anchor" aria-label="anchor" href="#samplingstrata-16"></a></h2>
+<p>The function <em>prepareSuggestion</em> that prepares suggestion for the optimization with “continuous” method has been completely redefined and now it is very convenient.</p>
+<p>Now <em>optimStrata</em> when using method=“spatial” accepts also cases in which spatial correlation is not calculated: in this case, you have to indicate values “1” for each element of the vector “fitting”, and “0” for each element of the vector “range”.</p>
 <p>Implemented a new function <em>buildErrorsDF</em> that produces a template of the dataframe containing the precision constraints on the target variables of the sampling survey.</p>
 <p>Implemented a new Rcpp version, much more performant, of the functions</p>
 <ul><li>
@@ -84,7 +83,6 @@
 <li>
 <em>buildStrataDFSpatial</em>, to increase the efficiency of the “spatial” method in OptimStrata</li>
 </ul><p>Morevover, implemented an Rcpp version of the <em>bethel</em> function (namely, <em>bethel_cpp</em>), that is used internally in all the optimization functions, to speed up their execution.</p>
-<p>Function <em>prepareSuggestion</em> has been deleted.</p>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.5-5" id="samplingstrata-15-5">SamplingStrata 1.5-5<small>2025-10-08</small><a class="anchor" aria-label="anchor" href="#samplingstrata-15-5"></a></h2>
@@ -200,7 +198,7 @@
 <h2 class="page-header" data-toc-text="1.0-1" id="samplingstrata-10-1">SamplingStrata 1.0-1<small>2013-01-16</small><a class="anchor" aria-label="anchor" href="#samplingstrata-10-1"></a></h2>
 <div class="section level3">
 <h3 id="major-changes-1-0-1">Major changes<a class="anchor" aria-label="anchor" href="#major-changes-1-0-1"></a></h3>
-<ul><li><p>The object returned by function <em>optimizeStrata</em> is no more a dataframe but a list: (i) the first element of the list is the solution vector (solution<span class="math inline">$`indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution`$</span>aggr_strata).</p></li>
+<ul><li><p>The object returned by function <em>optimizeStrata</em> is no more a dataframe but a list: (i) the first element of the list is the solution vector (solution<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>n</mi><mi>d</mi><mi>i</mi><mi>c</mi><mi>e</mi><mi>s</mi><mo stretchy="false" form="postfix">)</mo><mo>;</mo><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mi>i</mi><mo stretchy="false" form="postfix">)</mo><mi>t</mi><mi>h</mi><mi>e</mi><mi>s</mi><mi>e</mi><mi>c</mi><mi>o</mi><mi>n</mi><mi>d</mi><mi>e</mi><mi>l</mi><mi>e</mi><mi>m</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>o</mi><mi>f</mi><mi>t</mi><mi>h</mi><mi>e</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mi>i</mi><mi>s</mi><mi>t</mi><mi>h</mi><mi>e</mi><mi>d</mi><mi>a</mi><mi>t</mi><mi>a</mi><mi>f</mi><mi>r</mi><mi>a</mi><mi>m</mi><mi>e</mi><mi>c</mi><mi>o</mi><mi>n</mi><mi>t</mi><mi>a</mi><mi>i</mi><mi>n</mi><mi>i</mi><mi>n</mi><mi>g</mi><mi>a</mi><mi>g</mi><mi>g</mi><mi>r</mi><mi>e</mi><mi>g</mi><mi>a</mi><mi>t</mi><mi>e</mi><mi>d</mi><mi>s</mi><mi>t</mi><mi>r</mi><mi>a</mi><mi>t</mi><mi>a</mi><mo stretchy="false" form="prefix">(</mo><mi>s</mi><mi>o</mi><mi>l</mi><mi>u</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">indices); (ii) the second element of the list is the dataframe containing aggregated strata (solution</annotation></semantics></math>aggr_strata).</p></li>
 <li><p>In all the functions that previously produced .csv files and .pdf plots in the working directory, as a default this is no more the current behaviour. To write these files, it is now necessary to set the <em>writeFiles</em> flag to TRUE.</p></li>
 </ul></div>
 </div>

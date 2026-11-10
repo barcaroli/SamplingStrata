@@ -86,11 +86,7 @@
 #'     the cut points in [0, 1] times the maximum of X_j);
 #'   \item \code{optimizeStrata2()} counts as X variables \emph{all} the
 #'     columns whose (upper case) name contains the letter "X": the frame
-#'     should not contain other such columns (a warning is issued);
-#'   \item with \code{optimStrata(..., alldomains = FALSE)} the suggestions
-#'     are not used correctly, because \code{optimizeStrata2()} reads the
-#'     non-existent column \code{suggestions$suggestions} and leaves the
-#'     second chromosome at zero: use \code{alldomains = TRUE}.
+#'     should not contain other such columns (a warning is issued).
 #' }
 #'
 #' @param frame The sampling frame, as produced by \code{\link{buildFrameDF}}:

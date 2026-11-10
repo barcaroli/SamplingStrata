@@ -56,6 +56,11 @@ aggrStrata2 <- function(dataset,
                           model=NULL, 
                           vett,
                           dominio) {
+    # numbers are converted to character and back (stratum labels, X values):
+    # avoid scientific notation only inside this function, restoring the
+    # user's option on exit
+    op <- options(scipen = 100)
+    on.exit(options(op), add = TRUE)
     # stdev1 is for sampling data
     stdev1 <- function(x, w) {
         mx <- sum(x * w)/sum(w)
@@ -121,7 +126,7 @@ aggrStrata2 <- function(dataset,
         if (model$type[i] == "spatial") {
           if (is.na(model$beta2[i])) stop("beta2 for Y variable ",i,"must be specified")
           if (is.na(model$range[i])) stop("range for Y variable ",i,"must be specified")
-          if (is.null(dataset$LON) | is.null(dataset$LON) ) stop("Missing coordinates on sampling frame")
+          if (is.null(dataset$LON) | is.null(dataset$LAT) ) stop("Missing coordinates on sampling frame")
         }
         if (model$type[i] == "linear" & is.na(model$gamma[i])) stop("gamma for Y variable ",i,"must be specified")
       }
@@ -193,7 +198,10 @@ aggrStrata2 <- function(dataset,
                           stdev, "(df[,x],df[,w]), x='Y", i, "', w='WEIGHT')", 
                           sep = "")
             eval(parse(text=stmt))
-            st <- paste("gammas <- tapply(Y^model$gamma[",i,"],STRATO,sum) / as.numeric(table(STRATO))",sep="")
+            # heteroscedastic residual variance sig2 * Y^(2*gamma), consistent with
+            # computeGamma() (sd of residuals proportional to x^gamma) and with
+            # the C++ implementation in buildStrataDF()
+            st <- paste("gammas <- tapply(Y^(2*model$gamma[",i,"]),STRATO,sum) / as.numeric(table(STRATO))",sep="")
             eval(parse(text=st))
             st <- paste("S",i," <- sqrt(S",i,"^2 * model$beta[",i,"]^2 + model$sig2[",i,"] * gammas)",sep="")
             eval(parse(text=st))   
@@ -303,16 +311,16 @@ aggrStrata2 <- function(dataset,
     }
     colnames(strata) <- toupper(colnames(strata))
     strata$DOM1 <- as.factor(strata$DOM1)
-    options("scipen"=100)
     indx <- sapply(strata, is.factor)
     strata[indx] <- lapply(strata[indx], function(x) as.numeric(as.character(x)))
       for (j in (1:nvarX)) {
         stmt <- paste("strata$X",j," <- as.numeric(strata$X",j,")",sep="")
         eval(parse(text=stmt))
       }
-      for (j in (1:nrow(strata))) {
-        stmt <- paste("strata$M",i,"[j] <- ifelse(strata$M",i,"[j] == 0,0.000000000000001,strata$M",i,"[j])",sep="")
-        eval(parse(text=stmt))
+      # replace null means with a tiny positive value, for every Y variable
+      for (i in 1:nvarY) {
+        mcol <- paste0("M", i)
+        strata[[mcol]][strata[[mcol]] == 0] <- 0.000000000000001
       }
     # cat("\nNumber of strata: ",nrow(strata))
     # cat("\n... of which with only one unit: ",sum(strata$N==1))

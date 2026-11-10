@@ -63,6 +63,10 @@ rbgaSpatial <- function(dataset,
     if (iters < 1) {
         stop("The number of iterations must be at least 1.");
     }
+    # elitism = elitism_rate * popSize may be non-integer: with a fractional
+    # value the index ranges 1:elitism and (elitism+1):popSize leave the last
+    # individual of each new generation empty (NA)
+    elitism = floor(elitism)
     if (!(elitism < popSize)) {
         stop("The population size must be greater than the elitism.");
     }

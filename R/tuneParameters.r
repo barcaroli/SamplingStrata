@@ -133,7 +133,7 @@
 #'
 #' @keywords survey
 #' @export
-tuneParameters <- function (noptim, nsampl, frame, errors = errors, strata = strata, 
+tuneParameters <- function (noptim, nsampl, frame, errors, strata, 
     cens = NULL, strcens = FALSE, alldomains = FALSE, dom = 1, 
     initialStrata, addStrataFactor, minnumstr, iter, pops, mut_chance, 
     elitism_rate,writeFiles=FALSE) 
@@ -143,9 +143,10 @@ tuneParameters <- function (noptim, nsampl, frame, errors = errors, strata = str
     direnew <- paste(dire,"/simulation",sep="")
     if(!dir.exists(direnew)) dir.create(direnew)
     setwd(direnew)
+    on.exit(setwd(dire), add = TRUE)   # restore the working directory also on error
   }
-	frame <- frame[frame$domainvalue == dom, ]
-	colnames(frame) <- toupper(colnames(frame))
+  colnames(frame) <- toupper(colnames(frame))
+  frame <- frame[frame$DOMAINVALUE == dom, ]
 	checkInput(errors,strata,frame)
     if (length(initialStrata) != noptim) 
         stop("Number of optimisations does not equal values in initialStrata parameter")
@@ -209,8 +210,6 @@ tuneParameters <- function (noptim, nsampl, frame, errors = errors, strata = str
         ")", sep = "")
     eval(parse(text = stmt))
     differ <- as.data.frame(differ,stringsAsFactors = TRUE)
-    file.remove("iteration.txt")
-    file.remove("tuning.txt")
     for (i in (1:noptim)) {
         solution <- optimizeStrata(errors = errors, strata = strata, 
             cens = NULL, strcens = FALSE, alldomains = FALSE, 
@@ -218,35 +217,10 @@ tuneParameters <- function (noptim, nsampl, frame, errors = errors, strata = str
             minnumstr = minnumstr[i], iter = iter[i], pops = pops[i], 
             mut_chance = mut_chance[i], elitism_rate = elitism_rate[i], 
             realAllocation = TRUE, highvalue = 1e+08, suggestions = NULL, writeFiles=FALSE)
-        file.remove("outstrata.txt")
-        eval(parse(text = stmt))
-        stmt <- paste("file.remove('strata_dom", dom, "_iter", 
-            i, ".txt')", sep = "")
-        eval(parse(text = stmt))
-        stmt <- paste("file.remove('solution_dom", dom, "_iter", 
-            i, ".txt')", sep = "")
-        eval(parse(text = stmt))
-        stmt <- paste("file.remove('results_dom", dom, "_iter", 
-            i, ".txt')", sep = "")
-        eval(parse(text = stmt))
-        stmt <- paste("file.remove('plot_dom", dom, "_iter", 
-            i, ".pdf')", sep = "")
-        eval(parse(text = stmt))
-        stmt <- paste("file.copy('outstrata", dom, ".txt','outstrata.txt')", 
-            sep = "")
-        eval(parse(text = stmt))
-        stmt <- paste("file.copy('outstrata", dom, ".txt','strata_dom", 
-            dom, "_iter", i, ".txt')", sep = "")
-        eval(parse(text = stmt))
-        stmt <- paste("file.copy('solution", dom, ".txt','solution_dom", 
-            dom, "_iter", i, ".txt')", sep = "")
-        eval(parse(text = stmt))
-        stmt <- paste("file.copy('results", dom, ".txt','results_dom", 
-            dom, "_iter", i, ".txt')", sep = "")
-        eval(parse(text = stmt))
-        stmt <- paste("file.copy('plotdom", dom, ".pdf','plot_dom", 
-            dom, "_iter", i, ".pdf')", sep = "")
-        eval(parse(text = stmt))
+        # (the files outstrata*.txt, solution*.txt, results*.txt and plot*.pdf
+        # were removed/copied here, also in the working directory and also with
+        # writeFiles = FALSE; optimizeStrata() is called with writeFiles = FALSE
+        # and writes none of them, so these operations have been removed)
 		outstrata <- solution$aggr_strata
         newstrata <- updateStrata(strata, solution)
         framenew <- updateFrame(frame, newstrata)
@@ -273,25 +247,25 @@ tuneParameters <- function (noptim, nsampl, frame, errors = errors, strata = str
         if (writeFiles == TRUE) {
           sink("Iteration.txt", append = TRUE)
           cat("\nIteration :", i, "\n")
-          simula[i, ]
+          print(simula[i, ])
           sink()
         }
     }
     ind <- which(simula$cost == min(simula$cost))
-    cat("--------------------")
-    cat("Best optimization: run # ", ind)
-    cat("Required sample cost: ", simula$cost[ind])
-    cat("--------------------")
-    cat("Values of parameters")
-    cat("--------------------")
-    cat("initialStrata: ", initialStrata[ind])
-    cat("addStrataFactor: ", addStrataFactor[ind])
-    cat("minnumstr: ", minnumstr[ind])
-    cat("iter: ", iter[ind])
-    cat("pops: ", pops[ind])
-    cat("nmut_chance: ", mut_chance[ind])
-    cat("nelitism_rate: ", elitism_rate[ind])
-    cat("n--------------------")
+    cat("\n--------------------")
+    cat("\nBest optimization: run # ", ind)
+    cat("\nRequired sample cost: ", simula$cost[ind])
+    cat("\n--------------------")
+    cat("\nValues of parameters")
+    cat("\n--------------------")
+    cat("\ninitialStrata: ", initialStrata[ind])
+    cat("\naddStrataFactor: ", addStrataFactor[ind])
+    cat("\nminnumstr: ", minnumstr[ind])
+    cat("\niter: ", iter[ind])
+    cat("\npops: ", pops[ind])
+    cat("\nmut_chance: ", mut_chance[ind])
+    cat("\nelitism_rate: ", elitism_rate[ind])
+    cat("\n--------------------")
     res <- paste("results_", dom, ".csv", sep = "")
     if (writeFiles == TRUE) {
     write.table(simula, res, row.names = FALSE, col.names = TRUE, 
@@ -345,8 +319,5 @@ tuneParameters <- function (noptim, nsampl, frame, errors = errors, strata = str
 		dev.off()
     }
     }
-    if (writeFiles == TRUE) {
-      setwd(dire)
-    } 
     return(simula)
 }

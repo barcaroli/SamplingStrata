@@ -41,9 +41,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
-    </li>
-    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -72,7 +69,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Dataframe containing information on strata in the swiss municipalities frame</h1>
-
+    <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/R/data.R" class="external-link"><code>R/data.R</code></a></small>
     <div class="hidden name"><code>swissstrata.Rd</code></div>
     </div>
 
@@ -80,68 +77,65 @@
     <p>Dataframe containing information on strata in the swiss municipalities frame</p>
     </div>
 
-    <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">swissframe</span><span class="op">)</span></span></code></pre></div>
-    </div>
 
     <div id="format">
     <h2>Format</h2>
     <p>The "swissstrata" dataframe contains a row per stratum with the following variables:</p><dl><dt>STRATO</dt>
 <dd><p>Identifier of the stratum (character)</p></dd>
 
-    <dt>N</dt>
+  <dt>N</dt>
 <dd><p>Number of population units in the stratum (numeric)</p></dd>
 
-    <dt>X1</dt>
+  <dt>X1</dt>
 <dd><p>Classes of total population in the municipality (factor with 18 values)</p></dd>
 
-    <dt>X2</dt>
+  <dt>X2</dt>
 <dd><p>Classes of wood area in the municipality (factor with 3 values)</p></dd>
 
-    <dt>X3</dt>
+  <dt>X3</dt>
 <dd><p>Classes of area under cultivation in the municipality (factor with 3 values)</p></dd>
 
-	<dt>X4</dt>
+<dt>X4</dt>
 <dd><p>Classes of mountain pasture area in the municipality (factor with 3 values)</p></dd>
 
-	<dt>X5</dt>
+<dt>X5</dt>
 <dd><p>Classes of area with buildings in the municipality (factor with 3 values)</p></dd>
 
-	<dt>X6</dt>
+<dt>X6</dt>
 <dd><p>Classes of industrial area in the municipality (factor with 3 values)</p></dd>
 
-    <dt>M1</dt>
+  <dt>M1</dt>
 <dd><p>Mean in the stratum of Y1 (number of men and women aged between 0 and 19)(numeric)</p></dd>
 
-    <dt>M2</dt>
+  <dt>M2</dt>
 <dd><p>Mean in the stratum of Y2 (number of men and women aged between 20 and 39) (numeric)</p></dd>
 
-    <dt>M3</dt>
+  <dt>M3</dt>
 <dd><p>Mean in the stratum of Y3 (number of men and women aged between 40 and 64) (numeric)</p></dd>
 
-	<dt>M4</dt>
+<dt>M4</dt>
 <dd><p>Mean in the stratum of Y4 (number of men and women aged between 64 and over) (numeric)</p></dd>
 
-    <dt>S1</dt>
+  <dt>S1</dt>
 <dd><p>Standard deviation in the stratum of Y1 (number of men and women aged between 0 and 19)(numeric)</p></dd>
 
-    <dt>S2</dt>
+  <dt>S2</dt>
 <dd><p>Standard deviation in the stratum of Y2 (number of men and women aged between 20 and 39) (numeric)</p></dd>
 
-    <dt>S3</dt>
+  <dt>S3</dt>
 <dd><p>Standard deviation in the stratum of Y3 (number of men and women aged between 40 and 64) (numeric)</p></dd>
 
-	<dt>S4</dt>
+<dt>S4</dt>
 <dd><p>Standard deviation in the stratum of Y4 (number of men and women aged between 64 and over) (numeric)</p></dd>
 
-    <dt>cens</dt>
+  <dt>cens</dt>
 <dd><p>Flag (1 indicates a take all straum, 0 a sampling stratum) (numeric)
-	Default = 0</p></dd>
+Default = 0</p></dd>
 
-    <dt>cost</dt>
+  <dt>cost</dt>
 <dd><p>Cost per interview in each stratum.  Default = 1 (numeric)</p></dd>
 
-    <dt>DOM1</dt>
+  <dt>DOM1</dt>
 <dd><p>Value of domain to which the stratum belongs Default = 1 (factor or numeric)</p></dd>
 
 
@@ -151,6 +145,7 @@
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># data(swissstrata)</span></span></span>
 <span class="r-in"><span><span class="co"># head(swissstrata)</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

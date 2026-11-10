@@ -3,6 +3,10 @@
 
 # SamplingStrata 1.6
 
+The function *prepareSuggestion* that prepares suggestion for the
+optimization with “continuous” method has been completely redefined and
+now it is very convenient.
+
 Now *optimStrata* when using method=“spatial” accepts also cases in
 which spatial correlation is not calculated: in this case, you have to
 indicate values “1” for each element of the vector “fitting”, and “0”
@@ -22,8 +26,6 @@ Implemented a new Rcpp version, much more performant, of the functions
 Morevover, implemented an Rcpp version of the *bethel* function (namely,
 *bethel_cpp*), that is used internally in all the optimization
 functions, to speed up their execution.
-
-Function *prepareSuggestion* has been deleted.
 
 # SamplingStrata 1.5-5
 

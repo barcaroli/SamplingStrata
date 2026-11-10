@@ -48,9 +48,6 @@ containing the indication of the relations bewteen atomic and aggregated strata.
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
-    </li>
-    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -79,7 +76,7 @@ containing the indication of the relations bewteen atomic and aggregated strata.
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Assigns new labels to atomic strata on the basis of the optimized aggregated strata</h1>
-
+    <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/R/updateStrata.r" class="external-link"><code>R/updateStrata.r</code></a></small>
     <div class="hidden name"><code>updateStrata.Rd</code></div>
     </div>
 
@@ -95,25 +92,34 @@ containing the indication of the relations bewteen atomic and aggregated strata.
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">updateStrata</span><span class="op">(</span><span class="va">strata</span>, <span class="va">solution</span>, writeFiles <span class="op">=</span> <span class="cn">FALSE</span>, outputFolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"output"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">updateStrata</span><span class="op">(</span></span>
+<span>  <span class="va">strata</span>,</span>
+<span>  <span class="va">solution</span>,</span>
+<span>  writeFiles <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  outputFolder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"output"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
+
+
 <dl><dt id="arg-strata">strata<a class="anchor" aria-label="anchor" href="#arg-strata"></a></dt>
 <dd><p>This is the (mandatory) dataframe containing the information related to the atomic strata to which the
-  optimisation has been applied to.</p></dd>
+optimisation has been applied to.</p></dd>
 
-  <dt id="arg-solution">solution<a class="anchor" aria-label="anchor" href="#arg-solution"></a></dt>
+
+<dt id="arg-solution">solution<a class="anchor" aria-label="anchor" href="#arg-solution"></a></dt>
 <dd><p>List obtained by the execution of the "optimizeStrata" function. The first element of the list is the vector
-  of the indices corresponding to the optimal solution.</p></dd>
+of the indices corresponding to the optimal solution.</p></dd>
 
-  <dt id="arg-writefiles">writeFiles<a class="anchor" aria-label="anchor" href="#arg-writefiles"></a></dt>
+
+<dt id="arg-writefiles">writeFiles<a class="anchor" aria-label="anchor" href="#arg-writefiles"></a></dt>
 <dd><p>Indicates if at the end of the processing the resulting strata will be outputted in a delimited file.
-  Default is "FALSE".</p></dd>
+Default is "FALSE".</p></dd>
 
-	<dt id="arg-outputfolder">outputFolder<a class="anchor" aria-label="anchor" href="#arg-outputfolder"></a></dt>
+
+<dt id="arg-outputfolder">outputFolder<a class="anchor" aria-label="anchor" href="#arg-outputfolder"></a></dt>
 <dd><p>A path to a directory ot be used for the outputs. Default is "output"</p></dd>
 
 </dl></div>
@@ -133,13 +139,14 @@ containing the indication of the relations bewteen atomic and aggregated strata.
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">swisserrors</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">swissstrata</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># optimisation of sampling strata</span></span></span>
-<span class="r-in"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="optimizeStrata.html">optimizeStrata</a></span> <span class="op">(</span> </span></span>
-<span class="r-in"><span>    errors <span class="op">=</span> <span class="va">swisserrors</span>, </span></span>
-<span class="r-in"><span>    strata <span class="op">=</span> <span class="va">swissstrata</span>, </span></span>
+<span class="r-in"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="optimizeStrata.html">optimizeStrata</a></span> <span class="op">(</span></span></span>
+<span class="r-in"><span>    errors <span class="op">=</span> <span class="va">swisserrors</span>,</span></span>
+<span class="r-in"><span>    strata <span class="op">=</span> <span class="va">swissstrata</span>,</span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># updating sampling strata with new strata labels</span></span></span>
 <span class="r-in"><span><span class="va">newstrata</span> <span class="op">&lt;-</span> <span class="fu">updateStrata</span><span class="op">(</span><span class="va">swissstrata</span>, <span class="va">solution</span>, writeFiles <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

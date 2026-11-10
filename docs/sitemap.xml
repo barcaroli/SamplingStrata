@@ -12,6 +12,8 @@
 <url><loc>/LICENSE-text.html</loc></url>
 <url><loc>/news/index.html</loc></url>
 <url><loc>/reference/adjustSize.html</loc></url>
+<url><loc>/reference/aggrStrata2.html</loc></url>
+<url><loc>/reference/aggrStrataSpatial.html</loc></url>
 <url><loc>/reference/aggStrata2.html</loc></url>
 <url><loc>/reference/aggStrataSpatial.html</loc></url>
 <url><loc>/reference/assignStrataLabel.html</loc></url>
@@ -26,6 +28,7 @@
 <url><loc>/reference/computeGamma.html</loc></url>
 <url><loc>/reference/errors.html</loc></url>
 <url><loc>/reference/evalSolution.html</loc></url>
+<url><loc>/reference/evalSuggestion.html</loc></url>
 <url><loc>/reference/expected_CV.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
 <url><loc>/reference/KmeansSolution.html</loc></url>

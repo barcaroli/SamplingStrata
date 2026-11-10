@@ -5,7 +5,7 @@
 # Purpose:
 #   For the "continuous" method, draws the optimized strata of a domain as
 #   coloured regions in the plane of two stratification variables, with the
-#   frame units as points, and returns a formatted table (formattable) with the
+#   frame units as points, and returns a table (formattable, if installed) with the
 #   strata information (population, allocation, ranges of the two
 #   variables).
 # ==============================================================================
@@ -60,9 +60,6 @@ plotStrata2d <- function (x,
                           vars, 
                           labels = NULL) 
 { 
-  if ( !requireNamespace("formattable", quietly = TRUE) ){
-    install.packages("formattable")
-  }
   x1.max <- x1.min <- x1_max <- x1_min <- x2.max <- x2.min <- x2_max <- x2_min <- NULL
   colnames(x) <- toupper(colnames(x))
   if (!domain %in% levels(as.factor(x$DOMAINVALUE)))
@@ -119,7 +116,7 @@ plotStrata2d <- function (x,
   xcuts <- round(cuts[[1]],2)
   ycuts <- round(cuts[[2]],2)
   xcuts <- c(ifelse(x1.min > 0, 0, x1.min), xcuts, x1.max)
-  ycuts <- c(ifelse(x2.min > 0, 0, x1.min), ycuts, x2.max)
+  ycuts <- c(ifelse(x2.min > 0, 0, x2.min), ycuts, x2.max)
   id <- c()
   value <- c()
   xs <- c()
@@ -181,7 +178,9 @@ plotStrata2d <- function (x,
   #                    area(col = 3) ~ color_tile("#DeF7E9", "#71CA97"),
   #                    'SamplingRate' = color_bar("#FA614B")
   #                    ))
- t <- formattable::formattable(out)
+  # formatted table if the suggested package formattable is installed,
+  # otherwise a plain data frame (no package is installed automatically)
+  t <- if (requireNamespace("formattable", quietly = TRUE)) formattable::formattable(out) else out
   
   return(t)
   

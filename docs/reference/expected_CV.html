@@ -41,9 +41,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
-    </li>
-    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -72,7 +69,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Expected coefficients of variation of target variables Y</h1>
-
+    <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/R/expected_CV.R" class="external-link"><code>R/expected_CV.R</code></a></small>
     <div class="hidden name"><code>expected_CV.Rd</code></div>
     </div>
 
@@ -86,7 +83,8 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
+
+
 <dl><dt id="arg-strata">strata<a class="anchor" aria-label="anchor" href="#arg-strata"></a></dt>
 <dd><p>Aggregated strata in the solution obtained by the execution of the 'optimizedStrata' function</p></dd>
 
@@ -103,15 +101,16 @@
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">swisserrors</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">swissstrata</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># optimisation of sampling strata</span></span></span>
-<span class="r-in"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="optimizeStrata.html">optimizeStrata</a></span> <span class="op">(</span> </span></span>
-<span class="r-in"><span>    errors <span class="op">=</span> <span class="va">swisserrors</span>, </span></span>
-<span class="r-in"><span>    strata <span class="op">=</span> <span class="va">swissstrata</span>, </span></span>
+<span class="r-in"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="optimizeStrata.html">optimizeStrata</a></span> <span class="op">(</span></span></span>
+<span class="r-in"><span>    errors <span class="op">=</span> <span class="va">swisserrors</span>,</span></span>
+<span class="r-in"><span>    strata <span class="op">=</span> <span class="va">swissstrata</span>,</span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># calculate CV's on Y's</span></span></span>
 <span class="r-in"><span><span class="fu">expected_CV</span><span class="op">(</span><span class="va">solution</span><span class="op">$</span><span class="va">aggr_strata</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># compare to precision constraints</span></span></span>
 <span class="r-in"><span><span class="va">swisserrors</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

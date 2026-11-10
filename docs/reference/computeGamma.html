@@ -54,9 +54,6 @@ prediction errors for ach unit in the frame."><meta property="og:image" content=
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
-    </li>
-    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -85,7 +82,7 @@ prediction errors for ach unit in the frame."><meta property="og:image" content=
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Function that allows to calculate a heteroscedasticity index, together with associate prediction variance, to be used by the optimization step to correctly evaluate the standard deviation in the strata due to prediction errors.</h1>
-
+    <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/R/computeGamma.R" class="external-link"><code>R/computeGamma.R</code></a></small>
     <div class="hidden name"><code>computeGamma.Rd</code></div>
     </div>
 
@@ -107,20 +104,24 @@ prediction errors for ach unit in the frame.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">computeGamma</span><span class="op">(</span><span class="va">e</span>,<span class="va">x</span>,<span class="va">nbins</span>,<span class="va">showPlot</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">computeGamma</span><span class="op">(</span><span class="va">e</span>, <span class="va">x</span>, nbins <span class="op">=</span> <span class="fl">6</span>, showPlot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
+
+
 <dl><dt id="arg-e">e<a class="anchor" aria-label="anchor" href="#arg-e"></a></dt>
 <dd><p>This is the variable that contains prediction errors (residuals) of the model.</p></dd>
+
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>This is the variable that contains explanatory variable in the model.</p></dd>
 
+
 <dt id="arg-nbins">nbins<a class="anchor" aria-label="anchor" href="#arg-nbins"></a></dt>
 <dd><p>Number of bins to be passed to the 'var.bin' function. Default is 6.</p></dd>
+
 
 <dt id="arg-showplot">showPlot<a class="anchor" aria-label="anchor" href="#arg-showplot"></a></dt>
 <dd><p>Visualization of plots. Default is TRUE.</p></dd>
@@ -144,9 +145,10 @@ prediction errors for ach unit in the frame.</p>
 <span class="r-in"><span><span class="fu">computeGamma</span><span class="op">(</span><span class="va">mod_Airind_POPTOT</span><span class="op">$</span><span class="va">residuals</span>,</span></span>
 <span class="r-in"><span>             <span class="va">swiss_sample</span><span class="op">$</span><span class="va">POPTOT</span>,</span></span>
 <span class="r-in"><span>             nbins <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co">#     gamma     sigma  r.square </span></span></span>
+<span class="r-in"><span><span class="co">#     gamma     sigma  r.square</span></span></span>
 <span class="r-in"><span><span class="co"># 0.8029292 0.0150446 0.9598539</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

@@ -42,9 +42,6 @@ and also the correctness of the relationships among them.'><meta property="og:im
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
-    </li>
-    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -73,7 +70,7 @@ and also the correctness of the relationships among them.'><meta property="og:im
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Checks the inputs to the package: dataframes "errors", "strata" and "sampling frame"</h1>
-
+    <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/R/checkInput.R" class="external-link"><code>R/checkInput.R</code></a></small>
     <div class="hidden name"><code>checkInput.Rd</code></div>
     </div>
 
@@ -83,21 +80,24 @@ and also the correctness of the relationships among them.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">checkInput</span><span class="op">(</span>errors<span class="op">=</span><span class="cn">NULL</span>, strata<span class="op">=</span><span class="cn">NULL</span>, sampframe<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">checkInput</span><span class="op">(</span>errors <span class="op">=</span> <span class="cn">NULL</span>, strata <span class="op">=</span> <span class="cn">NULL</span>, sampframe <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
+
+
 <dl><dt id="arg-errors">errors<a class="anchor" aria-label="anchor" href="#arg-errors"></a></dt>
 <dd><p>Dataframe containing the precision levels expressed in terms of
-  maximum acceptable coefficients of variation that
-  estimates of target variables Y's of the survey must comply.</p></dd>
+maximum acceptable coefficients of variation that
+estimates of target variables Y's of the survey must comply.</p></dd>
 
-  <dt id="arg-strata">strata<a class="anchor" aria-label="anchor" href="#arg-strata"></a></dt>
+
+<dt id="arg-strata">strata<a class="anchor" aria-label="anchor" href="#arg-strata"></a></dt>
 <dd><p>Dataframe containing the information related to strata.</p></dd>
 
-  <dt id="arg-sampframe">sampframe<a class="anchor" aria-label="anchor" href="#arg-sampframe"></a></dt>
+
+<dt id="arg-sampframe">sampframe<a class="anchor" aria-label="anchor" href="#arg-sampframe"></a></dt>
 <dd><p>Dataframe containing the information related to all the units belonging to the population of interest.</p></dd>
 
 </dl></div>
@@ -117,6 +117,7 @@ and also the correctness of the relationships among them.</p>
 <span class="r-in"><span><span class="fu">checkInput</span><span class="op">(</span>strata<span class="op">=</span><span class="va">swissstrata</span>,sampframe<span class="op">=</span><span class="va">swissframe</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">checkInput</span><span class="op">(</span>strata<span class="op">=</span><span class="va">swissstrata</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

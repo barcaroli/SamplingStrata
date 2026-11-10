@@ -158,7 +158,7 @@ KmeansSolutionSpatial <- function (frame,
 {
   cv <- errors
   nvariables <- ncol(cv) - 2
-  stmt1 <- "solution <- kmeans(frame[,"
+  stmt1 <- "solution <- kmeans(stratacorr[,"
   stmt2 <- "c("
   for (i in (1:nvariables)) {
     if (i < nvariables) 
@@ -225,13 +225,13 @@ KmeansSolutionSpatial <- function (frame,
                                 fitting = fitting, 
                                 range = range, 
                                 kappa = kappa,
-                                vett = solution[idx_k],
+                                vett = solution,
                                 dominio = k)
       v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
       if (showPlot == TRUE) 
         points(i, sum(v))
       if (sum(v) <= best[k]) {
-        bestsolution <- solution[idx_k]
+        bestsolution <- solution
         best_num_strata[k] <- i
         best[k] <- sum(v)
       }
@@ -250,7 +250,11 @@ KmeansSolutionSpatial <- function (frame,
     cat("\n Number of strata: ", best_num_strata[i])
     cat("\n Sample size     : ", best[i])
   }
-  solutionKmean <- as.data.frame(cbind(id,suggestions,domainvalue),stringsAsFactors = TRUE)
-  solutionKmean$domainvalue <- as.integer(solutionKmean$domainvalue)
+  # build the data frame column by column: cbind() would turn everything into
+  # character and as.integer() on the resulting factor would return level codes
+  solutionKmean <- data.frame(id = id,
+                              suggestions = as.integer(as.character(suggestions)),
+                              domainvalue = as.integer(domainvalue),
+                              stringsAsFactors = TRUE)
   return(solutionKmean)
 }

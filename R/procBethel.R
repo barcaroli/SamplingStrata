@@ -28,7 +28,10 @@
 #' (2) the strata with allocated sampling units,
 #' (3) the take-all strata
 #' (4) the sampling frame with the labels linking to (2)
-#' (5) the frame with take-all units, with the labels linking to (3)
+#' (5) the frame with take-all units, with the labels linking to (3),
+#' (6) the expected CVs of the target variables in each domain (element
+#' \code{expected_cv}).
+#' Elements (3) and (5) are present only when \code{framecens} is given.
 #'
 #' @author
 #' Giulio Barcaroli
@@ -74,6 +77,7 @@ procBethel <- function (framesamp,
                         sampling_method = c("srs","systematic", "spatial"), 
                         minnumstrat = 2) 
 {
+  sampling_method <- match.arg(sampling_method)
   colnames(framesamp) <- toupper(colnames(framesamp))
   nvarX <- length(grep("X", colnames(framesamp)))
   nvarY <- length(grep("Y", colnames(framesamp)))
@@ -99,33 +103,35 @@ procBethel <- function (framesamp,
   eval(parse(text = st2))
   strata$STRATO <- as.numeric(as.factor(strata$STRATUM))
   if (!is.null(framecens)) {
+    colnames(framecens) <- toupper(colnames(framecens))
     cens <- buildStrataDF(framecens, progress = F)
+    colnames(cens) <- toupper(colnames(cens))
     cens$CENS <- 1
     cens$SOLUZ <- cens$N
-    colnames(framecens) <- toupper(colnames(framecens))
-    cens$STRATUM <- as.numeric(as.factor(cens$STRATO))
-    st1 <- "framecens$STRATUM <- paste(framecens$DOMAINVALUE,framecens$X"
-    for (i in c(1:nvarX)) {
-      if (i < nvarX) 
-        st1 <- paste0(st1, i, ",framecens$X")
-      if (i == nvarX) 
-        st1 <- paste0(st1, i, ",sep='*')")
-    }
-    eval(parse(text = st1))
-    framecens$LABEL <- as.numeric(as.factor(framecens$STRATUM))
+    # take-all strata: same "domain*X1*...*Xk" key as the sampling strata,
+    # numeric labels following those of the sampling strata (no overlap)
+    xcols <- paste0("X", 1:nvarX)
+    framecens$STRATUM <- do.call(paste, c(list(framecens$DOMAINVALUE), framecens[xcols], sep = "*"))
+    cens$STRATUM <- do.call(paste, c(list(cens$DOM1), cens[xcols], sep = "*"))
+    censkeys <- sort(unique(framecens$STRATUM))
+    framecens$LABEL <- max(strata$STRATO) + match(framecens$STRATUM, censkeys)
     framecens$STRATO <- framecens$LABEL
     framecens$WEIGHTS <- 1
+    cens$STRATO <- max(strata$STRATO) + match(cens$STRATUM, censkeys)
   }
   strata <- strata[order(strata$STRATO), ]
   framesamp <- framesamp[order(framesamp$STRATO), ]
   newstratatot <- NULL
-  for (j in (1:length(unique(strata$DOM1)))) {
+  colnames(errors) <- toupper(colnames(errors))
+  for (j in sort(unique(strata$DOM1))) {
+    # precision constraints of domain j (not simply the j-th row of errors)
     SOLUZ <- as.numeric(bethel(strata[strata$DOM1 == j, 
-    ], errors[j, ], minnumstrat = minnumstrat))
+    ], errors[errors$DOMAINVALUE == j, ], minnumstrat = minnumstrat))
     newstrata <- cbind(strata[strata$DOM1 == j, ], SOLUZ)
     newstratatot <- rbind(newstratatot, newstrata)
   }
-  expected_CV(newstratatot)
+  # expected CVs of the allocation (previously computed and discarded)
+  expcv <- expected_CV(newstratatot)
   strata <- newstratatot
   if (sampling_method == "srs") 
     samp <- selectSample(framesamp, strata)
@@ -137,7 +143,8 @@ procBethel <- function (framesamp,
   if (is.null(framecens)) {
     samptot <- samp
     outstrata <- strata
-    out <- list(sample = samptot, strata = strata, framesamp = framesamp)
+    out <- list(sample = samptot, strata = strata, framesamp = framesamp,
+                expected_cv = expcv)
   }
   if (!is.null(framecens)) {
     samptot <- rbind(samp, framecens)
@@ -145,7 +152,8 @@ procBethel <- function (framesamp,
     framecens$WEIGHTS <- NULL
     framecens$FPC <- NULL
     out <- list(sample = samptot, strata = strata, cens = cens, 
-                framesamp = framesamp, framecens = framecens)
+                framesamp = framesamp, framecens = framecens,
+                expected_cv = expcv)
   }
   return(out)
 }

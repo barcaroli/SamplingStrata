@@ -41,9 +41,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
-    </li>
-    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -83,11 +80,11 @@
         </td>
         <td><p>Adjustment of the sample size in case it is externally given</p></td>
       </tr><tr><td>
-          <p><code><a href="aggStrata2.html">aggrStrata2()</a></code> </p>
+          <p><code><a href="aggrStrata2.html">aggrStrata2()</a></code> </p>
         </td>
         <td><p>Builds the "strata" dataframe containing information on target variables Y's distributions in the different strata, starting from a frame</p></td>
       </tr><tr><td>
-          <p><code><a href="aggStrataSpatial.html">aggrStrataSpatial()</a></code> </p>
+          <p><code><a href="aggrStrataSpatial.html">aggrStrataSpatial()</a></code> </p>
         </td>
         <td><p>Builds the "strata" dataframe containing information on target variables Y's distributions in the different strata, starting from a frame where units are spatially correlated.</p></td>
       </tr><tr><td>
@@ -135,6 +132,10 @@
         </td>
         <td><p>Evaluation of the solution produced by the function 'optimizeStrata' by selecting a number of samples from the frame with the optimal stratification, and calculating average CV's on the target variables Y's.</p></td>
       </tr><tr><td>
+          <p><code><a href="evalSuggestion.html">evalSuggestion()</a></code> </p>
+        </td>
+        <td><p>Evaluation of a suggestion produced by prepareSuggestion</p></td>
+      </tr><tr><td>
           <p><code><a href="expected_CV.html">expected_CV()</a></code> </p>
         </td>
         <td><p>Expected coefficients of variation of target variables Y</p></td>
@@ -179,6 +180,10 @@
         </td>
         <td><p>Plot bivariate distibutions in strata</p></td>
       </tr><tr><td>
+          <p><code><a href="prepareSuggestion.html">prepareSuggestion()</a></code> </p>
+        </td>
+        <td><p>Initial solutions (suggestions) for the "continuous" method</p></td>
+      </tr><tr><td>
           <p><code><a href="procBethel.html">procBethel()</a></code> </p>
         </td>
         <td><p>Procedure to apply Bethel algorithm and select a sample from given strata</p></td>
@@ -203,7 +208,7 @@
         </td>
         <td><p>Information on strata structure</p></td>
       </tr><tr><td>
-          <p><code><a href="swisserrors.html">errors</a></code> </p>
+          <p><code><a href="swisserrors.html">swisserrors</a></code> </p>
         </td>
         <td><p>Precision constraints (maximum CVs) as input for Bethel allocation</p></td>
       </tr><tr><td>
@@ -215,7 +220,7 @@
         </td>
         <td><p>The Swiss municipalities population</p></td>
       </tr><tr><td>
-          <p><code><a href="swissstrata.html">swissframe</a></code> </p>
+          <p><code><a href="swissstrata.html">swissstrata</a></code> </p>
         </td>
         <td><p>Dataframe containing information on strata in the swiss municipalities frame</p></td>
       </tr><tr><td>

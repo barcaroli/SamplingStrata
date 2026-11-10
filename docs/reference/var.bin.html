@@ -45,9 +45,6 @@ This function ensures that the final result is in an ordered categorical variabl
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
-    </li>
-    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -76,7 +73,7 @@ This function ensures that the final result is in an ordered categorical variabl
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Allows to transform a continuous variable into a categorical ordinal one by applying a modified version of the k-means clustering function in the 'stats' package.</h1>
-
+    <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/R/var.bin.R" class="external-link"><code>R/var.bin.R</code></a></small>
     <div class="hidden name"><code>var.bin.Rd</code></div>
     </div>
 
@@ -89,21 +86,22 @@ This function ensures that the final result is in an ordered categorical variabl
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">var.bin</span><span class="op">(</span><span class="va">x</span>,</span>
-<span>    bins<span class="op">=</span><span class="fl">3</span>,</span>
-<span>    iter.max<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">var.bin</span><span class="op">(</span><span class="va">x</span>, bins <span class="op">=</span> <span class="fl">3</span>, iter.max <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
+
+
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>Continuous variable to be transformed into a categorical one</p></dd>
 
-  <dt id="arg-bins">bins<a class="anchor" aria-label="anchor" href="#arg-bins"></a></dt>
+
+<dt id="arg-bins">bins<a class="anchor" aria-label="anchor" href="#arg-bins"></a></dt>
 <dd><p>Number of values of the resulting categorical variable</p></dd>
 
-  <dt id="arg-iter-max">iter.max<a class="anchor" aria-label="anchor" href="#arg-iter-max"></a></dt>
+
+<dt id="arg-iter-max">iter.max<a class="anchor" aria-label="anchor" href="#arg-iter-max"></a></dt>
 <dd><p>Maximum number of iterations of the clustering algorithm</p></dd>
 
 </dl></div>
@@ -131,6 +129,7 @@ This function ensures that the final result is in an ordered categorical variabl
 <span class="r-out co"><span class="r-pr">#&gt;</span>          13          14          15          16          17          18 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  17059.0625  24961.6923  37363.5000  74201.6667 149517.5000 363273.0000 </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

@@ -58,9 +58,6 @@ used as an input by the function &quot;optimizeStrata&quot;."><meta property="og
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
-    </li>
-    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -89,7 +86,7 @@ used as an input by the function &quot;optimizeStrata&quot;."><meta property="og
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Builds the "strata" dataframe containing information on target variables Y's distributions in the different strata, starting from sample data or from a frame</h1>
-
+    <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/R/RcppExports.R" class="external-link"><code>R/RcppExports.R</code></a></small>
     <div class="hidden name"><code>buildStrataDFSpatial.Rd</code></div>
     </div>
 
@@ -115,38 +112,46 @@ used as an input by the function "optimizeStrata".</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">buildStrataDFSpatial</span><span class="op">(</span><span class="va">dataset</span>,</span>
-<span>                     fitting<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
-<span>                     range<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
-<span>                     kappa<span class="op">=</span><span class="fl">3</span>,</span>
-<span>                     progress<span class="op">=</span><span class="cn">FALSE</span>,</span>
-<span>                     verbose<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">buildStrataDFSpatial</span><span class="op">(</span></span>
+<span>  <span class="va">dataset</span>,</span>
+<span>  fitting <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  kappa <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  progress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
+
+
 <dl><dt id="arg-dataset">dataset<a class="anchor" aria-label="anchor" href="#arg-dataset"></a></dt>
 <dd><p>This is the name of the dataframe containing the sample data, or the frame data.
-  It is strictly required that auxiliary information is organised in variables named
-  as X1, X2, ... , Xm (there should be at least one of them) and the target variables
-  are denoted by Y1, Y2, ... , Yn.
-  In addition, in case of sample data, a variable named 'WEIGHT' must be present in the dataframe,
-  containing   the weigths associated to each sampling unit</p></dd>
+It is strictly required that auxiliary information is organised in variables named
+as X1, X2, ... , Xm (there should be at least one of them) and the target variables
+are denoted by Y1, Y2, ... , Yn.
+In addition, in case of sample data, a variable named 'WEIGHT' must be present in the dataframe,
+containing   the weigths associated to each sampling unit</p></dd>
+
 
 <dt id="arg-fitting">fitting<a class="anchor" aria-label="anchor" href="#arg-fitting"></a></dt>
 <dd><p>Fitting of the model(s).
-	Default is 1.</p></dd>
+Default is 1.</p></dd>
+
 
 <dt id="arg-range">range<a class="anchor" aria-label="anchor" href="#arg-range"></a></dt>
 <dd><p>Maximum range for spatial autocorrelation</p></dd>
-	
+
+
 <dt id="arg-kappa">kappa<a class="anchor" aria-label="anchor" href="#arg-kappa"></a></dt>
 <dd><p>Factor used in evaluating spatial autocorrelation.
-	Default is 3.</p></dd>
-	
+Default is 3.</p></dd>
+
+
 <dt id="arg-progress">progress<a class="anchor" aria-label="anchor" href="#arg-progress"></a></dt>
 <dd><p>If set to TRUE, a progress bar is visualised during the execution. Default is FALSE.</p></dd>
+
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>If set to TRUE, information is given about the number of strata generated. Default is FALSE.</p></dd>
@@ -166,6 +171,7 @@ used as an input by the function "optimizeStrata".</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="va">strata</span> <span class="op">&lt;-</span> <span class="fu">buildStrataDFSpatial</span><span class="op">(</span>dataset<span class="op">=</span><span class="va">frame</span>,range<span class="op">=</span><span class="fl">800</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>

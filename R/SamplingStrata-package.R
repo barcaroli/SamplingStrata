@@ -12,7 +12,7 @@
 #' @importFrom graphics abline barplot boxplot close.screen legend lines par
 #'   plot points screen split.screen title
 #' @importFrom stats aggregate cov dnorm kmeans runif sd var
-#' @importFrom utils globalVariables install.packages read.delim
+#' @importFrom utils globalVariables read.delim
 #'   setTxtProgressBar txtProgressBar write.table
 #' @importFrom memoise memoise
 #' @importFrom doParallel registerDoParallel

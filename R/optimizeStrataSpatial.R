@@ -173,6 +173,8 @@ optimizeStrataSpatial <- function (errors,
   colnames(frame) <- toupper(colnames(frame))
   nvarX <- length(grep("X", names(framesamp)))
   ndom <- length(levels(as.factor(frame$DOMAINVALUE)))
+  # a single number of strata is valid for every domain
+  if (length(nStrata) == 1) nStrata <- rep(nStrata, ndom)
   if (fitting_is_df || range_is_df) {
     dom_levels <- levels(as.factor(frame$DOMAINVALUE))
     if (fitting_is_df && !all(dom_levels %in% rownames(fitting)))
@@ -222,14 +224,13 @@ optimizeStrataSpatial <- function (errors,
   if (writeFiles == TRUE) {
     dire <- getwd()
     direnew <- paste(dire, "/output", sep = "")
-    if (dir.exists(direnew)) 
-      unlink(direnew, recursive = TRUE)
+    # the folder is no longer deleted: files of a previous run are overwritten
     if (!dir.exists(direnew)) 
       dir.create(direnew)
   }
   if (parallel == TRUE & ndom == 1) 
     parallel <- FALSE
-  if (parallel == FALSE & !missing(cores) | !is.na(cores)) {
+  if (parallel == FALSE & !missing(cores) & !is.na(cores)) {
     cat("Sequential optimization as parallel = FALSE, defaulting number of cores = 1")
     cores <- 1
     Sys.sleep(0.314)
@@ -472,15 +473,13 @@ optimizeStrataSpatial <- function (errors,
         flagcens <- FALSE
       }
     }
-    if (!is.null(suggestions) & alldomains == TRUE) {
-      suggest <- matrix(0, nrow = 1, ncol = (nStrata[i] - 
-                                               1) * nvarX)
-      suggest[1, ] <- suggestdom[[i]]$suggestions
-    }
-    if (!is.null(suggestions) & alldomains == FALSE) {
-      suggest <- matrix(0, nrow = 1, ncol = (nStrata[i] - 
-                                               1) * nvarX)
-      suggest[1, ] <- suggestions$suggestions
+    if (!is.null(suggestions)) {
+      # the two chromosomes of the selected domain (suggestions may contain
+      # all the domains, as returned by prepareSuggestion())
+      sugdom <- suggestions[suggestions$domainvalue == i, , drop = FALSE]
+      suggest <- matrix(0, nrow = 2, ncol = (nStrata[i] - 1) * nvarX)
+      suggest[1, ] <- sugdom$suggestions1
+      suggest[2, ] <- sugdom$suggestions2
     }
     if (is.null(suggestions)) {
       suggest <- NULL

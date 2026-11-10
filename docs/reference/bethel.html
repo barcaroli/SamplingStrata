@@ -41,9 +41,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/drake_continuous.html">SamplingStrata workflow with drake</a>
-    </li>
-    <li>
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
@@ -72,7 +69,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Multivariate optimal allocation</h1>
-
+    <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/R/Bethel.r" class="external-link"><code>R/Bethel.r</code></a></small>
     <div class="hidden name"><code>bethel.Rd</code></div>
     </div>
 
@@ -81,48 +78,56 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bethel</span>  <span class="op">(</span></span>
-<span>          <span class="va">stratif</span>,</span>
-<span>          <span class="va">errors</span>, </span>
-<span>          minnumstrat<span class="op">=</span><span class="fl">2</span>,          </span>
-<span>          maxiter<span class="op">=</span><span class="fl">200</span>,</span>
-<span>          maxiter1<span class="op">=</span><span class="fl">25</span>,</span>
-<span>          printa<span class="op">=</span><span class="cn">FALSE</span>,</span>
-<span>      realAllocation<span class="op">=</span><span class="cn">FALSE</span>,</span>
-<span>          epsilon<span class="op">=</span><span class="fl">1e-11</span></span>
-<span>          <span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bethel</span><span class="op">(</span></span>
+<span>  <span class="va">stratif</span>,</span>
+<span>  <span class="va">errors</span>,</span>
+<span>  minnumstrat <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  maxiter <span class="op">=</span> <span class="fl">200</span>,</span>
+<span>  maxiter1 <span class="op">=</span> <span class="fl">25</span>,</span>
+<span>  printa <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  realAllocation <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  epsilon <span class="op">=</span> <span class="fl">1e-11</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<dl><dt id="arg-errors">errors<a class="anchor" aria-label="anchor" href="#arg-errors"></a></dt>
-<dd><p>Data frame of coefficients of variation for each domain</p></dd>
 
-  <dt id="arg-stratif">stratif<a class="anchor" aria-label="anchor" href="#arg-stratif"></a></dt>
+
+<dl><dt id="arg-stratif">stratif<a class="anchor" aria-label="anchor" href="#arg-stratif"></a></dt>
 <dd><p>Data frame of survey strata</p></dd>
 
-  <dt id="arg-minnumstrat">minnumstrat<a class="anchor" aria-label="anchor" href="#arg-minnumstrat"></a></dt>
+
+<dt id="arg-errors">errors<a class="anchor" aria-label="anchor" href="#arg-errors"></a></dt>
+<dd><p>Data frame of coefficients of variation for each domain</p></dd>
+
+
+<dt id="arg-minnumstrat">minnumstrat<a class="anchor" aria-label="anchor" href="#arg-minnumstrat"></a></dt>
 <dd><p>Minimum number of units per strata (default=2)</p></dd>
 
-  <dt id="arg-maxiter">maxiter<a class="anchor" aria-label="anchor" href="#arg-maxiter"></a></dt>
+
+<dt id="arg-maxiter">maxiter<a class="anchor" aria-label="anchor" href="#arg-maxiter"></a></dt>
 <dd><p>Maximum number of iterations of the algorithm (default=200)</p></dd>
 
-  <dt id="arg-maxiter-">maxiter1<a class="anchor" aria-label="anchor" href="#arg-maxiter-"></a></dt>
+
+<dt id="arg-maxiter-">maxiter1<a class="anchor" aria-label="anchor" href="#arg-maxiter-"></a></dt>
 <dd><p>Maximum number of iterations (default=25) of the general procedure.
 This kind of iteration may be required by the fact that when in a stratum the number
 of allocated units is greater or equal to its population, that stratum is set as "census stratum",
 and the whole procedure is re-initialised</p></dd>
 
-  <dt id="arg-printa">printa<a class="anchor" aria-label="anchor" href="#arg-printa"></a></dt>
+
+<dt id="arg-printa">printa<a class="anchor" aria-label="anchor" href="#arg-printa"></a></dt>
 <dd><p>If TRUE then two attributes are added to the resulting vector.
 The first ('confr') is a comparison between results obtained with 3 different allocation methods: Bethel, proportional and equal.
 The second ('outcv') is a table reporting planned and actual CV, together with a sensitivity analysis</p></dd>
 
-  <dt id="arg-realallocation">realAllocation<a class="anchor" aria-label="anchor" href="#arg-realallocation"></a></dt>
+
+<dt id="arg-realallocation">realAllocation<a class="anchor" aria-label="anchor" href="#arg-realallocation"></a></dt>
 <dd><p>If FALSE, the allocation is based on INTEGER values; if TRUE, the allocation is based on REAL values</p></dd>
 
-  <dt id="arg-epsilon">epsilon<a class="anchor" aria-label="anchor" href="#arg-epsilon"></a></dt>
+
+<dt id="arg-epsilon">epsilon<a class="anchor" aria-label="anchor" href="#arg-epsilon"></a></dt>
 <dd><p>Epsilon (default=1e-11)): this value is used to compare the difference in results from one iteration to the other;
 if it it is lower than "epsilon", then the procedure stops</p></dd>
 
@@ -147,6 +152,7 @@ if it it is lower than "epsilon", then the procedure stops</p></dd>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">$</span><span class="va">confr</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">$</span><span class="va">outcv</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
