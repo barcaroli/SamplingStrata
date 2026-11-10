@@ -1,3 +1,16 @@
+# ==============================================================================
+# File:      aggrStrata2.R
+# Functions: aggrStrata2() [exported]
+#
+# Purpose:
+#   Builds the "strata" dataframe of a domain directly from the sampling frame,
+#   given the stratum label of each unit: population size, means and standard
+#   deviations of the Y variables in each stratum. If a "model" dataframe is
+#   given, the anticipated variance (linear or loglinear model, with
+#   heteroscedasticity) is used instead of the observed one. Used by the
+#   "continuous" method (optimizeStrata2()).
+# ==============================================================================
+
 # ----------------------------------------------------
 # Function to produce the "strata" dataframe
 # starting from the available sampling frame
@@ -5,6 +18,40 @@
 # Author: Giulio Barcaroli
 # Date: August 2019
 # ----------------------------------------------------
+#' @title Builds the "strata" dataframe containing information on target variables Y's distributions in the different strata, starting from a frame
+#'
+#' @description
+#' This function builds the dataframe "strata" considering as input a given domain in the sampling frame. In case a dataframe "model" is given, the anticipated variance in the strata for each target variable is calculated
+#'
+#' @param dataset This is the name of the dataframe containing the sample data, or the frame data.
+#'   It is strictly required that auxiliary information is organised in variables named
+#'   as X1, X2, ... , Xm (there should be at least one of them) and the target variables
+#'   are denoted by Y1, Y2, ... , Yn.
+#'   In addition, in case of sample data, a variable named 'WEIGHT' must be present in the dataframe,
+#'   containing   the weigths associated to each sampling unit
+#' @param model Dataframe with the parameters of the model(s) to be used to calculate
+#'   anticipated variance.
+#'   Default is null.
+#' @param vett vector of values indicating how the units in the dataset must
+#'   be aggregated in strata.
+#' @param dominio Value indicating the domain in the dataset to be processed.
+#'
+#' @return
+#' A dataframe containing strata
+#'
+#' @author
+#' Giulio Barcaroli
+#'
+#' @examples
+#' \dontrun{
+#' strata <- aggrStrata2(dataset=frame,
+#'                       model=NULL,
+#'                       vett,
+#'                       dominio=1)
+#' }
+#'
+#' @keywords survey
+#' @export
 aggrStrata2 <- function(dataset, 
                           model=NULL, 
                           vett,

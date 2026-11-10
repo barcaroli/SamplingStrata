@@ -1,3 +1,15 @@
+# ==============================================================================
+# File:      aggrStrata_spatial.r
+# Functions: aggrStrataSpatial() [exported]
+#
+# Purpose:
+#   Builds the "strata" dataframe of a domain directly from the sampling frame,
+#   given the stratum label of each unit, computing the variance of the target
+#   variables in each stratum including the spatial autocorrelation component
+#   (parameters fitting, range, kappa). Used by the "spatial" method
+#   (optimizeStrataSpatial()).
+# ==============================================================================
+
 # ----------------------------------------------------
 # Function to aggregate initial atomic strata
 # on the basis of the current solution 
@@ -6,6 +18,42 @@
 # Author: Giulio Barcaroli
 # Date: 6 April 2019
 # ----------------------------------------------------
+#' @title Builds the "strata" dataframe containing information on target variables Y's distributions in the different strata, starting from a frame where units are spatially correlated.
+#'
+#' @description
+#' This function builds the dataframe "strata" considering as input a given domain in the sampling frame. The variance in each stratum is calculated by considering also the component of spatial autocorrelation.
+#'
+#' @param dataset This is the name of the dataframe containing the sample data, or the frame data.
+#'   It is strictly required that auxiliary information is organised in variables named
+#'   as X1, X2, ... , Xm (there should be at least one of them) and the target variables
+#'   are denoted by Y1, Y2, ... , Yn.
+#'   In addition, in case of sample data, a variable named 'WEIGHT' must be present in the dataframe,
+#'   containing   the weigths associated to each sampling unit
+#' @param fitting Fitting of the model(s).
+#'   Default is 1.
+#' @param range Maximum range for spatial autocorrelation
+#' @param kappa Factor used in evaluating spatial autocorrelation.
+#'   Default is 3.
+#' @param vett vector of values indicating how the units in the dataset must
+#'   be aggregated in strata.
+#' @param dominio Value indicating the domain in the dataset to be processed.
+#'
+#' @return
+#' A dataframe containing strata
+#'
+#' @author
+#' Giulio Barcaroli
+#'
+#' @examples
+#' \dontrun{
+#' strata <- aggrStrataSpatial(dataset=frame,
+#'                             fitting=1,
+#'                             range=800,
+#'                             kappa=1)
+#' }
+#'
+#' @keywords survey
+#' @export
 aggrStrataSpatial <- function(dataset,
                               fitting=c(1),
                               range=c(0),

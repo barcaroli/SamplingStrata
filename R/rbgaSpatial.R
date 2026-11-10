@@ -1,3 +1,13 @@
+# ==============================================================================
+# File:      rbgaSpatial.R
+# Functions: rbgaSpatial() [internal]
+#
+# Purpose:
+#   Genetic algorithm with real-valued chromosomes in [0, 1] (cut points of the
+#   X variables) used by the "spatial" method (strataGenalgSpatial()). Modified
+#   version of the function in the package "genalg".
+# ==============================================================================
+
 # It optimizes a binary chromosome using a genetic algorithm.
 #
 #----- Modification

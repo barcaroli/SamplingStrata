@@ -1,3 +1,16 @@
+# ==============================================================================
+# File:      aggrStrata.r
+# Functions: aggrStrata() [internal]
+#
+# Purpose:
+#   Aggregates the atomic strata of a domain according to a candidate solution
+#   (a vector assigning each atomic stratum to an aggregated stratum) and
+#   computes, for each aggregated stratum, the population size, means and
+#   standard deviations of the target variables Y and the cost. Used by the
+#   genetic algorithm of optimizeStrata() (method "atomic") to evaluate each
+#   chromosome.
+# ==============================================================================
+
 # ----------------------------------------------------
 # Function to aggregate initial atomic strata
 # on the basis of the current solution 

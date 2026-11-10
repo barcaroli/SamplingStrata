@@ -1,7 +1,20 @@
+# ==============================================================================
+# File:      plot.rbga.R
+# Functions: plot.rbga() [S3 method for class "rbga", registered in NAMESPACE]
+#
+# Purpose:
+#   Plots the best and mean evaluation value of the population at each
+#   generation of the genetic algorithm (object of class "rbga"). Taken from
+#   the package "genalg" (E. Willighagen).
+# ==============================================================================
+
 #-------------------------------------------------
 # This function has been taken from the package 
 # "genalg" by E. Willighagen available on the CRAN
 #-------------------------------------------------
+#' Plot method for objects of class "rbga" (genetic algorithm runs)
+#' @export
+#' @noRd
 plot.rbga <- function(x, type = "default", breaks = 10, ...) {
     rbga.object <- x
     if ((type == "trend") & (rbga.object$type == "floats chromosome")) {

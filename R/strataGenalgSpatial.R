@@ -1,3 +1,14 @@
+# ==============================================================================
+# File:      strataGenalgSpatial.R
+# Functions: strataGenalgSpatial() [internal]
+#
+# Purpose:
+#   Runs the genetic algorithm (rbgaSpatial()) for one domain with the
+#   "spatial" method: as strataGenalg2(), but the strata are built with
+#   aggrStrataSpatial(), i.e. including the spatial autocorrelation in the
+#   variance.
+# ==============================================================================
+
 strataGenalgSpatial <- function (
     errors, 
     frame, 

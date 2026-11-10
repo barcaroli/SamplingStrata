@@ -1,3 +1,13 @@
+# ==============================================================================
+# File:      selectSampleSpatial2.R
+# Functions: selectSampleSpatial2() [internal, not exported]
+#
+# Purpose:
+#   Earlier variant of selectSampleSpatial(): local pivotal method
+#   (lpm2_kdtree()) on the whole frame, with coordinates taken from the columns
+#   LON and LAT.
+# ==============================================================================
+
 selectSampleSpatial2 <- function(frame, outstrata, coord_names)  {
   if (!(coord_names[1] %in% colnames(frame) )) stop("Coordinate names not in frame")
   if (!(coord_names[2] %in% colnames(frame) )) stop("Coordinate names not in frame")

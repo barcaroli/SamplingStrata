@@ -1,3 +1,15 @@
+# ==============================================================================
+# File:      rbga_PPF_GGA.R
+# Functions: rbga() [internal]
+#
+# Purpose:
+#   Genetic algorithm with integer chromosomes used by the "atomic" method
+#   (strataGenalg()): each gene assigns an atomic stratum to an aggregated
+#   stratum. Modified version of the function in the package "genalg"
+#   (E. Willighagen), with suggestions, elitism rate and recoding of the
+#   chromosomes by recode().
+# ==============================================================================
+
 #-----------------------------------------------------------------
 # rbga_PPF_GGA.R in SamplingStrata 1.3-1
 # This function is a modified version of the corresponding one

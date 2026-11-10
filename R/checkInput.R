@@ -1,3 +1,42 @@
+# ==============================================================================
+# File:      checkInput.R
+# Functions: checkInput() [exported]
+#
+# Purpose:
+#   Checks the structure of the input dataframes "errors", "strata" and
+#   "frame" (required columns, number of target variables, domain codes) and
+#   the consistency among them, stopping with an informative message when a
+#   problem is found.
+# ==============================================================================
+
+#' @title Checks the inputs to the package: dataframes "errors", "strata" and "sampling frame"
+#'
+#' @description
+#' This functions checks the internal structure of the different input dataframes ("errors", "strata" and "sampling frame"),
+#' and also the correctness of the relationships among them.
+#'
+#' @param errors Dataframe containing the precision levels expressed in terms of
+#'   maximum acceptable coefficients of variation that
+#'   estimates of target variables Y's of the survey must comply.
+#' @param strata Dataframe containing the information related to strata.
+#' @param sampframe Dataframe containing the information related to all the units belonging to the population of interest.
+#'
+#' @author
+#' Giulio Barcaroli
+#'
+#' @examples
+#' \dontrun{
+#' library(SamplingStrata)
+#' data(swisserrors)
+#' data(swissstrata)
+#' data(swissframe)
+#' checkInput(swisserrors,swissstrata,swissframe)
+#' checkInput(strata=swissstrata,sampframe=swissframe)
+#' checkInput(strata=swissstrata)
+#' }
+#'
+#' @keywords survey
+#' @export
 checkInput <- function (errors = NULL, strata = NULL, sampframe = NULL) 
 {
   if (!is.null(strata)) {

@@ -1,3 +1,14 @@
+# ==============================================================================
+# File:      rbga2.R
+# Functions: rbga2() [internal]
+#
+# Purpose:
+#   Genetic algorithm with real-valued chromosomes in [0, 1] (cut points of the
+#   X variables) used by the "continuous" method (strataGenalg2()). Modified
+#   version of the function in the package "genalg", taking the frame and the
+#   precision constraints as arguments of the evaluation function.
+# ==============================================================================
+
 # It optimizes a binary chromosome using a genetic algorithm.
 #
 #----- Modification

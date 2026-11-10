@@ -1,3 +1,42 @@
+# ==============================================================================
+# File:      expected_CV.R
+# Functions: expected_CV() [exported]
+#
+# Purpose:
+#   Computes the expected coefficients of variation of the target variables in
+#   each domain for the aggregated strata of an optimized solution (using the
+#   allocation in column SOLUZ), to be compared with the precision
+#   constraints.
+# ==============================================================================
+
+#' @title Expected coefficients of variation of target variables Y
+#'
+#' @description
+#' Once optimized the sampling frame, this function allows to calculate the expected coefficients of variation on the aggregated strata of the current optimized solution, and to compare them to the precision constraints.
+#'
+#' @param strata Aggregated strata in the solution obtained by the execution of the 'optimizedStrata' function
+#'
+#' @return
+#' Matrix containing values of the CV's in the different domains
+#'
+#' @examples
+#' \dontrun{
+#' library(SamplingStrata)
+#' data(swisserrors)
+#' data(swissstrata)
+#' # optimisation of sampling strata
+#' solution <- optimizeStrata (
+#'     errors = swisserrors,
+#'     strata = swissstrata,
+#' )
+#' # calculate CV's on Y's
+#' expected_CV(solution$aggr_strata)
+#' # compare to precision constraints
+#' swisserrors
+#' }
+#'
+#' @keywords survey
+#' @export
 expected_CV <- function (strata) {
   M_h <- S_h <- NULL
   if (is.null(strata$SOLUZ)) stop("There is no allocation of units in strata")

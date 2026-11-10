@@ -1,7 +1,20 @@
+# ==============================================================================
+# File:      summary.rbga.R
+# Functions: summary.rbga() [S3 method for class "rbga", registered in NAMESPACE]
+#
+# Purpose:
+#   Summary of a genetic algorithm run (object of class "rbga"): settings,
+#   suggestions and best solution. Taken from the package "genalg"
+#   (E. Willighagen).
+# ==============================================================================
+
 #-------------------------------------------------
 # This function has been taken from the package 
 # "genalg" by E. Willighagen available on the CRAN
 #-------------------------------------------------
+#' Summary method for objects of class "rbga" (genetic algorithm runs)
+#' @export
+#' @noRd
 summary.rbga <-
 function(object, echo=FALSE, ...) {
     # should do object type checking here

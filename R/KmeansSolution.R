@@ -1,3 +1,74 @@
+# ==============================================================================
+# File:      KmeansSolution.R
+# Functions: KmeansSolution() [exported]
+#
+# Purpose:
+#   Builds an initial solution ("suggestion") for optimizeStrata() (method
+#   "atomic") by clustering the atomic strata with k-means on the means of the
+#   target variables. If the number of strata is not given, it is chosen, for
+#   each domain, as the value (up to maxclusters) that minimises the Bethel
+#   sample size.
+# ==============================================================================
+
+#' @title Initial solution obtained by applying kmeans clustering of atomic strata
+#'
+#' @description
+#' In order to speed the convergence towards the optimal solution, an initial one can be
+#' given as "suggestion" to "optimizeStrata" function.
+#' The function "KmeansSolution" produces this initial solution using the k-means
+#' algorithm by clustering atomic
+#' strata on the basis of the values of the means of target variables in them.
+#' Also, if the parameter "nstrata" is not indicated, the optimal number of clusters
+#' is determined inside each domain, and the overall solution is obtained by concatenating optimal
+#' clusters obtained in domains.
+#' The result is a dataframe with two columns: the first indicates the clusters,
+#' the second the domains.
+#'
+#' @param strata The (mandatory) dataframe containing the information related to atomic strata.
+#' @param errors The (mandatory) dataframe containing the precision constraints on target variables.
+#' @param nstrata Number of aggregate strata (if NULL, it is optimized by varying the number of cluster
+#'   from 2 to half number of atomic strata). Default is NA.
+#' @param minnumstrat Minimum number of units to be selected in each stratum. Default is 2.
+#' @param maxclusters Maximum number of clusters to be considered in the
+#'   execution of kmeans algorithm. If not indicated it will be set equal to the
+#'   number of atomic strata divided by 2.
+#' @param showPlot Allows to visualise on a plot the different sample sizes for each number of aggregate strata. Default is TRUE.
+#'
+#' @return
+#' A dataframe containing the solution
+#'
+#' @author
+#' Giulio Barcaroli
+#'
+#' @examples
+#' \dontrun{
+#' library(SamplingStrata)
+#' data(swisserrors)
+#' data(swissstrata)
+#'
+#' # suggestion
+#' solutionKmean <- KmeansSolution(strata=swissstrata,
+#'                 errors=swisserrors,
+#'                 nstrata=NA,
+#'                 showPlot=TRUE)
+#'
+#' # number of strata to be obtained in each domain
+#' nstrat <- tapply(solutionKmean$suggestions,
+#'                  solutionKmean$domainvalue,
+#'                  FUN=function(x) length(unique(x)))
+#'
+#' # optimisation of sampling strata
+#' solution <- optimStrata (
+#'   method = "atomic",
+#'   errors = swisserrors,
+#'   strata = swissstrata,
+#'   nStrata = nstrat,
+#'   suggestions = solutionKmean
+#' )
+#' }
+#'
+#' @keywords survey
+#' @export
 KmeansSolution <- function(strata,
                              errors,
                              nstrata = NA,

@@ -1,3 +1,13 @@
+# ==============================================================================
+# File:      recode.R
+# Functions: recode() [internal]
+#
+# Purpose:
+#   Recodes a chromosome (vector of stratum labels) so that its distinct values
+#   appear in the natural order 1, 2, ..., k. Used by the genetic algorithm of
+#   the "atomic" method to obtain a canonical representation of partitions.
+# ==============================================================================
+
 ##########################################################
 # Recode a genotype of n genes with k<=n *distinct*      #
 # alleles 1, 2, ..., k in such a way that the *distinct* #

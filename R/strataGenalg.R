@@ -1,3 +1,15 @@
+# ==============================================================================
+# File:      strataGenalg.R
+# Functions: strataGenalg() [internal]
+#
+# Purpose:
+#   Runs the genetic algorithm (rbga()) for one domain with the "atomic"
+#   method: defines the evaluation function (aggregation of atomic strata by
+#   aggrStrata() and Bethel allocation) and the monitoring function, handles
+#   suggestions and take-all strata, and returns the best solution and the
+#   corresponding aggregated strata.
+# ==============================================================================
+
 # ----------------------------------------------------
 # Optimisation of sampling units multivariate
 # allocation with Genetic Algorithm together with strata

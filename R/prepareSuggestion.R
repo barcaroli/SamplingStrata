@@ -1,3 +1,20 @@
+# ==============================================================================
+# File:      prepareSuggestion.R
+# Functions: prepareSuggestion() [exported]; evalSuggestion() [exported];
+#            .ps2_cuts() [internal]
+#
+# Purpose:
+#   prepareSuggestion(): builds the two initial chromosomes (cut points of the X
+#   variables, normalised by their maximum within each domain) to be passed as
+#   "suggestions" to optimStrata(method = "continuous"). Seeds: 1-D k-means,
+#   cumulative root frequency, quantiles, a single "univariate" variable, or a
+#   translation of a KmeansSolution2() solution; X variables can be made
+#   inactive.
+#   evalSuggestion(): partition implied by one chromosome (same rule as
+#   strataGenalg2()) and its Bethel sample size in each domain.
+#   .ps2_cuts(): cut points of one variable according to a given rule.
+# ==============================================================================
+
 #' Initial solutions (suggestions) for the "continuous" method
 #'
 #' @description

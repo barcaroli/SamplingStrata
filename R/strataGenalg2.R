@@ -1,3 +1,15 @@
+# ==============================================================================
+# File:      strataGenalg2.R
+# Functions: strataGenalg2() [internal]
+#
+# Purpose:
+#   Runs the genetic algorithm (rbga2()) for one domain with the "continuous"
+#   method: the evaluation function (evaluate(), defined inside) converts a
+#   chromosome into cut points of the X variables, assigns each unit to the
+#   stratum given by the maximum interval index over the variables, builds the
+#   strata with aggrStrata2() and computes the Bethel sample size.
+# ==============================================================================
+
 strataGenalg2 <- function (
     errors, 
     frame, 

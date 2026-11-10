@@ -1,3 +1,59 @@
+# ==============================================================================
+# File:      plotStrata2d_new.R
+# Functions: plotStrata2d() [exported]
+#
+# Purpose:
+#   For the "continuous" method, draws the optimized strata of a domain as
+#   coloured regions in the plane of two stratification variables, with the
+#   frame units as points, and returns a formatted table (formattable) with the
+#   strata information (population, allocation, ranges of the two
+#   variables).
+# ==============================================================================
+
+#' @title Plot bivariate distibutions in strata
+#'
+#' @description
+#' Plots a 2d graph showing obtained strata
+#'
+#' @param x the sampling frame
+#' @param outstrata the optimized strata
+#' @param domain a domain in the frame
+#' @param vars vars to appear in x and y axis
+#' @param labels labels to appear in x and y axis
+#'
+#' @return
+#' A formatted output containing information on the strata in the given domain
+#'
+#' @examples
+#' \dontrun{
+#' library(SamplingStrata)
+#' data("swissmunicipalities")
+#' swissmunicipalities = swissmunicipalities[swissmunicipalities$REG==1,]
+#' data("errors")
+#' swissmunicipalities$id <- c(1:nrow(swissmunicipalities))
+#' swissmunicipalities$domain = 1
+#' frame <- buildFrameDF(swissmunicipalities,
+#'                       id = "id",
+#'                       domainvalue = "REG",
+#'                       X = c("Surfacesbois","Surfacescult"),
+#'                       Y = c("Pop020", "Pop2040")
+#' )
+#' solution <- optimStrata (method = "continuous",
+#'                         errors = errors,,
+#'                         framesamp = frame,
+#'                         nStrata = 8,
+#'                         iter = 25,
+#'                         pops = 10)
+#' p <- plotStrata2d(solution$framenew,
+#'                   solution$aggr_strata,
+#'                   domain = 1,
+#'                   vars = c("X1","X2"),
+#'                   labels = c("Surfacesbois","Surfacescult"))
+#' p
+#' }
+#'
+#' @keywords survey
+#' @export
 plotStrata2d <- function (x, 
                           outstrata,
                           domain, 
