@@ -270,6 +270,17 @@ optimizeStrataSpatial <- function (errors,
            ndom, ")\nSet initialStrata with a number of elements equal to the number of domains")
     vettsol <- NULL
     outstrata <- NULL
+    # with fewer than 2 usable cores (e.g. on a 2-core machine, where
+    # detectCores() - 1 = 1, as on CRAN check servers) fall back to
+    # sequential processing instead of stopping
+    if (parallel && (missing(cores) || is.na(cores))) {
+      cores <- parallel::detectCores() - 1
+      if (!is.na(cores) && ndom < cores) cores <- ndom
+    }
+    if (parallel && (is.na(cores) || cores < 2)) {
+      message("Fewer than 2 cores available for parallel processing: sequential optimization")
+      parallel <- FALSE
+    }
     if (parallel) {
       if (missing(cores) | is.na(cores)) {
         cores <- parallel::detectCores() - 1

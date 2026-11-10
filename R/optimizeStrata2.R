@@ -203,6 +203,17 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
            ndom, ")\nSet nStrata with a number of elements equal to the number of domains")
     vettsol <- NULL
     outstrata <- NULL
+    # with fewer than 2 usable cores (e.g. on a 2-core machine, where
+    # detectCores() - 1 = 1, as on CRAN check servers) fall back to
+    # sequential processing instead of stopping
+    if (parallel && (missing(cores) || is.na(cores))) {
+      cores <- parallel::detectCores() - 1
+      if (!is.na(cores) && ndom < cores) cores <- ndom
+    }
+    if (parallel && (is.na(cores) || cores < 2)) {
+      message("Fewer than 2 cores available for parallel processing: sequential optimization")
+      parallel <- FALSE
+    }
     if (parallel) {
       if (missing(cores) | is.na(cores)) {
         cores <- parallel::detectCores() - 1
@@ -461,15 +472,14 @@ optimizeStrata2 <- function (errors, framesamp, framecens = NULL, strcens = FALS
   vettsoldf$STRATO <- vettsoldf$LABEL
   framenew <- merge(frame, vettsoldf, by = c("ID"))
   if (strcens == TRUE) {
-    framecens$STRATO <- nStrata[i] + 1
-    framecens$LABEL <- nStrata[i] + 1
+    # (STRATO and LABEL of the take-all units are assigned below, after the
+    # strata of the solution are known: the provisional assignments based on
+    # nStrata failed when nStrata is a vector)
     if (alldomains == FALSE) {
       framecens <- framecens[framecens$DOMAINVALUE == 
                                dom, ]
       framecensold <- framecensold[framecensold$DOMAINVALUE == 
                                      dom, ]
-      framecens$STRATO <- nStrata + 1
-      framecens$LABEL <- nStrata + 1
     }
     for (i in (1:nvarX)) {
       eval(parse(text = paste("framecens$X", i, " <- framecensold$X", 

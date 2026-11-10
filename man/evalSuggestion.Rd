@@ -34,6 +34,11 @@ returned by \code{\link{prepareSuggestion}}, using the same rule as
 \code{strataGenalg2()}, and the corresponding Bethel sample size in each
 domain. Useful to check the seeds before running the genetic algorithm,
 and to compare them with its final solution.
+
+The strata are built with \code{\link{buildStrataDF}}, i.e. without the
+prediction variance and the spatial correlation used by
+\code{method = "spatial"}: for frames of the spatial method the sample
+sizes are lower than those of the spatial optimisation and only indicative.
 }
 \examples{
 data(iris)

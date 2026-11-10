@@ -43,12 +43,18 @@
 #' Giulio Barcaroli
 #'
 #' @examples
-#' \dontrun{
-#' strata <- aggrStrata2(dataset=frame,
-#'                       model=NULL,
-#'                       vett,
-#'                       dominio=1)
-#' }
+#' data(swissmunicipalities)
+#' swissmunicipalities$id <- seq_len(nrow(swissmunicipalities))
+#' frame <- buildFrameDF(swissmunicipalities, id = "id", X = "POPTOT",
+#'                       Y = c("Pop020", "Pop2040"), domainvalue = "REG")
+#' # strata of domain 1: three classes of POPTOT
+#' dom1 <- frame[frame$domainvalue == 1, ]
+#' vett <- var.bin(dom1$X1, bins = 3)
+#' strata <- aggrStrata2(dataset = dom1,
+#'                       model = NULL,
+#'                       vett = vett,
+#'                       dominio = 1)
+#' strata
 #'
 #' @keywords survey
 #' @export

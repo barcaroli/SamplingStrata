@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cmath>
 #include <sstream>
+#include <iomanip>
 
 // Per comodità
 using namespace Rcpp;
@@ -63,7 +64,9 @@ static double stdevOptim(const std::vector<int> &indices,
       if (var[r1] >= 0.0 && var[r2] >= 0.0) {
         pcs = std::sqrt(var[r1] * var[r2]);
       }
-      double spatial_cov = pcs * std::exp(- dist * inv_r);
+      // units at the same location are fully correlated: with range = 0,
+      // inv_r is Inf and dist * inv_r = 0 * Inf = NaN
+      double spatial_cov = (dist == 0.0) ? pcs : pcs * std::exp(- dist * inv_r);
       
       sum_var_minus_cov += (scv - 2.0 * spatial_cov);
     }
@@ -129,9 +132,16 @@ static double stdevOptim(const std::vector<int> &indices,
 //' Giulio Barcaroli
 //'
 //' @examples
-//' \dontrun{
-//' strata <- buildStrataDFSpatial(dataset=frame,range=800)
-//' }
+//' # synthetic spatial frame: one domain, one target variable with its
+//' # prediction variance and the coordinates of each unit
+//' set.seed(1234)
+//' frame <- data.frame(id = 1:100, X1 = runif(100), Y1 = runif(100, 10, 20),
+//'                     var1 = 0.5, lon = runif(100), lat = runif(100),
+//'                     domainvalue = 1)
+//' frame$X1 <- var.bin(frame$X1, bins = 3)   # stratification variable
+//' strata <- buildStrataDFSpatial(dataset = frame, fitting = 1, range = 0.5,
+//'                                kappa = 3)
+//' strata
 //'
 //' @keywords survey
 //' @export
@@ -161,24 +171,30 @@ DataFrame buildStrataDFSpatial(
   }
 
   // 1) Converte i nomi delle colonne in maiuscolo
-  CharacterVector cn = dataset.names();
+  // Upper-case names on a COPY of the names and of the column list: modifying
+  // dataset.names() in place changed the names of the caller's data frame.
+  // The columns are not copied (shallow list of pointers).
+  int nrows = dataset.nrows();
+  CharacterVector cn = clone(as<CharacterVector>(dataset.names()));
   for (int i = 0; i < cn.size(); i++) {
     cn[i] = strToUpper(Rcpp::as<std::string>(cn[i]));
   }
-  dataset.names() = cn;
+  List ds(dataset.size());
+  for (int i = 0; i < dataset.size(); i++) ds[i] = dataset[i];
+  ds.attr("names") = cn;
   
   // 2) Verifica che esista DOMAINVALUE
-  if (!dataset.containsElementNamed("DOMAINVALUE")) {
+  if (!ds.containsElementNamed("DOMAINVALUE")) {
     stop("Manca la colonna DOMAINVALUE nel dataset!");
   }
-  NumericVector domainValue = dataset["DOMAINVALUE"];
+  NumericVector domainValue = ds["DOMAINVALUE"];
   
   // Controlla LON, LAT
-  if (!dataset.containsElementNamed("LON") || !dataset.containsElementNamed("LAT")) {
+  if (!ds.containsElementNamed("LON") || !ds.containsElementNamed("LAT")) {
     stop("Mancano le colonne LON o LAT nel dataset!");
   }
-  NumericVector lon = dataset["LON"];
-  NumericVector lat = dataset["LAT"];
+  NumericVector lon = ds["LON"];
+  NumericVector lat = ds["LAT"];
   
   // 3) Identifica le posizioni di X, Y, VAR
   std::vector<int> XcolsIndex, YcolsIndex, VARcolsIndex;
@@ -195,6 +211,20 @@ DataFrame buildStrataDFSpatial(
   
   int nvarX = XcolsIndex.size();
   int nvarY = YcolsIndex.size();
+  // one VAR column per Y (otherwise VARcolsIndex is read out of bounds)
+  if ((int)VARcolsIndex.size() != nvarY)
+    stop("buildStrataDFSpatial: the number of VAR columns must equal the number of Y columns");
+  // one value of fitting and range per Y: a single value is recycled; any other
+  // length would be read out of bounds (garbage values, NaN/Inf)
+  if (fitting.size() != 1 && fitting.size() != nvarY)
+    stop("buildStrataDFSpatial: 'fitting' must have length 1 or equal to the number of Y variables");
+  if (range.size() != 1 && range.size() != nvarY)
+    stop("buildStrataDFSpatial: 'range' must have length 1 or equal to the number of Y variables");
+  NumericVector fit_y(nvarY), range_y(nvarY);
+  for (int iY = 0; iY < nvarY; iY++) {
+    fit_y[iY]   = (fitting.size() == 1) ? fitting[0] : fitting[iY];
+    range_y[iY] = (range.size() == 1)   ? range[0]   : range[iY];
+  }
   
   if (verbose) {
     Rcout << "[buildStrataDFSpatial2] nvarX=" << nvarX
@@ -209,20 +239,19 @@ DataFrame buildStrataDFSpatial(
     Rcpp::String yName   = cn[ YcolsIndex[iY] ];
     Rcpp::String varName = cn[ VARcolsIndex[iY] ];
     
-    Ycols[iY]   = dataset[yName];
-    VARcols[iY] = dataset[varName];
+    Ycols[iY]   = ds[yName];
+    VARcols[iY] = ds[varName];
   }
   
   // 5) Prepara i vettori X
   std::vector<NumericVector> XcolsVec(nvarX);
   for (int ix = 0; ix < nvarX; ix++) {
     Rcpp::String xName = cn[ XcolsIndex[ix] ];
-    XcolsVec[ix] = dataset[xName];
+    XcolsVec[ix] = ds[xName];
   }
   
   // 6) Costruisce la mappa: domainValue -> elenco di indici riga
   std::map<double, std::vector<int>> domain2rows;
-  int nrows = dataset.nrows();
   for (int r = 0; r < nrows; r++) {
     double dom = domainValue[r];
     domain2rows[dom].push_back(r);
@@ -257,6 +286,8 @@ DataFrame buildStrataDFSpatial(
     std::unordered_map<std::string, std::vector<int>> strato2rows;
     for (int r : rowsDom) {
       std::ostringstream oss;
+      // 17 significant digits: exact key (default precision 6 merged distinct values)
+      oss << std::setprecision(17);
       for (int ix = 0; ix < nvarX; ix++) {
         if (ix > 0) oss << "*";
         oss << XcolsVec[ix][r];
@@ -289,8 +320,8 @@ DataFrame buildStrataDFSpatial(
         M_i[iY] = meanY;
         
         // stdev spaziale
-        double fittingVal = fitting[iY];  // Presupponendo lunghezza sufficiente
-        double rangeVal   = range[iY];
+        double fittingVal = fit_y[iY];
+        double rangeVal   = range_y[iY];
         double sdev = stdevOptim(srows, lon, lat, Ycols[iY], VARcols[iY],
                                  fittingVal, rangeVal, kappa);
         S_i[iY] = sdev;
@@ -308,7 +339,16 @@ DataFrame buildStrataDFSpatial(
       }
       
       // Salva i risultati per lo strato
-      out_STRATO.push_back(sKey);
+      // stratum label with 15 significant digits (as R does)
+      {
+        std::ostringstream lab;
+        lab << std::setprecision(15);
+        for (int ix = 0; ix < nvarX; ix++) {
+          if (ix > 0) lab << "*";
+          lab << splittedX[ix];
+        }
+        out_STRATO.push_back(lab.str());
+      }
       out_N.push_back((double)sN);
       out_DOM1.push_back(domVal);
       out_COST.push_back(1.0); // come nell'originale

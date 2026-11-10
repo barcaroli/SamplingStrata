@@ -18,10 +18,6 @@ strata <- buildStrataDF(frame)
 kmean <- KmeansSolution(strata,cv,maxclusters=30)
 nstrat <- tapply(kmean$suggestions, kmean$domainvalue,
                  FUN=function(x) length(unique(x)))
-sugg <- prepareSuggestion(kmean = kmean,
-                          frame = frame,
-                          nStrata = nstrat)
-evalSuggestion(frame=frame,sugg=sugg,errors=cv)
 solution <- optimStrata(method ="atomic",
                         framesamp = frame,
                         errors = cv,
@@ -42,7 +38,8 @@ nstrat <- tapply(kmean$suggestions, kmean$domainvalue,
                  FUN=function(x) length(unique(x)))
 sugg <- prepareSuggestion(kmean = kmean,
                           frame = frame,
-                          nStrata = nstrat)
+                          nStrata = nstrat,
+                          seeds = c("kmean", "univariate"))
 attr(sugg, "seeds")   
 evalSuggestion(frame, errors = cv, sugg, which = 1)
 evalSuggestion(frame, errors = cv, sugg, which = 2)

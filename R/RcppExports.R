@@ -176,9 +176,16 @@ buildStrataDF <- function(dataset, model_ = NULL, progress = TRUE, verbose = TRU
 #' Giulio Barcaroli
 #'
 #' @examples
-#' \dontrun{
-#' strata <- buildStrataDFSpatial(dataset=frame,range=800)
-#' }
+#' # synthetic spatial frame: one domain, one target variable with its
+#' # prediction variance and the coordinates of each unit
+#' set.seed(1234)
+#' frame <- data.frame(id = 1:100, X1 = runif(100), Y1 = runif(100, 10, 20),
+#'                     var1 = 0.5, lon = runif(100), lat = runif(100),
+#'                     domainvalue = 1)
+#' frame$X1 <- var.bin(frame$X1, bins = 3)   # stratification variable
+#' strata <- buildStrataDFSpatial(dataset = frame, fitting = 1, range = 0.5,
+#'                                kappa = 3)
+#' strata
 #'
 #' @keywords survey
 #' @export

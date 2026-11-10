@@ -68,16 +68,20 @@
 #' # Solution with kmean clustering
 #' kmean <- KmeansSolution2(frame,model=NULL,errors=cv,nstrata=NA,maxclusters=4)
 #' # number of strata to be obtained in each domain in final solution
-#' nstrat <- tapply(solutionKmean$suggestions,
-#'                  solutionKmean$domainvalue,
+#' nstrat <- tapply(kmean$suggestions,
+#'                  kmean$domainvalue,
 #'                  FUN=function(x) length(unique(x)))
-#' # Prepare suggestion for optimization
-#' sugg <- prepareSuggestion(kmean,frame,nstrat)
+#' # Prepare suggestions for optimization: one chromosome from the k-means
+#' # solution, the other from the univariate rule
+#' sugg <- prepareSuggestion(frame = frame,
+#'                           nStrata = nstrat,
+#'                           seeds = c("kmean", "univariate"),
+#'                           kmean = kmean)
 #' # Optimization
 #' # Attention: number of strata must be the same than in kmeans
 #' solution <- optimStrata (
 #'   method = "continuous",
-#'   cv,
+#'   errors = cv,
 #'   framesamp=frame,
 #'   iter = 50,
 #'   pops = 20,

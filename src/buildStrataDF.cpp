@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <iomanip>
 #include <unordered_map>
 #include <set>
 #include <algorithm>
@@ -205,16 +206,20 @@ struct DomainResult {
 // [[Rcpp::export]]
 DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilValue, 
                              bool progress = true, bool verbose = true) {
-  CharacterVector colNames = dataset.names();
-  // Convert all column names to uppercase
+  // Upper-case column names on a COPY of the names and of the column list:
+  // modifying dataset.names() in place changed the names of the caller's data
+  // frame (and of every R object sharing it). The columns themselves are not
+  // copied (shallow list of pointers).
+  int nrows = dataset.nrows();
+  CharacterVector colNames = clone(as<CharacterVector>(dataset.names()));
   for (int i = 0; i < colNames.size(); i++){
     std::string name = as<std::string>(colNames[i]);
     std::transform(name.begin(), name.end(), name.begin(), ::toupper);
     colNames[i] = name;
   }
-  dataset.attr("names") = colNames;
-  
-  int nrows = dataset.nrows();
+  List ds(dataset.size());
+  for (int i = 0; i < dataset.size(); i++) ds[i] = dataset[i];
+  ds.attr("names") = colNames;
   
   // Conta le colonne che iniziano per X e Y
   int nvarX = 0, nvarY = 0;
@@ -229,8 +234,8 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
   // Estrazione della colonna WEIGHT (o default a 1)
   bool weightProvided = false;
   NumericVector weight;
-  if (dataset.containsElementNamed("WEIGHT"))
-    weight = dataset["WEIGHT"], weightProvided = true;
+  if (ds.containsElementNamed("WEIGHT"))
+    weight = ds["WEIGHT"], weightProvided = true;
   else {
     weight = NumericVector(nrows, 1.0);
     weightProvided = false;
@@ -246,9 +251,9 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
       stop("A model for each Y variable must be specified");
   }
   
-  if(!dataset.containsElementNamed("DOMAINVALUE"))
+  if(!ds.containsElementNamed("DOMAINVALUE"))
     stop("DOMAINVALUE column missing in dataset");
-  CharacterVector domainValues = dataset["DOMAINVALUE"];
+  CharacterVector domainValues = ds["DOMAINVALUE"];
   
   // Raccolta dei domini unici
   std::set<std::string> domainsSet;
@@ -257,14 +262,19 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
     domainsSet.insert(dom);
   }
   std::vector<std::string> domains(domainsSet.begin(), domainsSet.end());
+  // numeric order of the domains (std::set orders strings alphabetically:
+  // "1","10","11","2",...), as expected by the R functions that assign the
+  // solution of each domain to the strata (e.g. updateStrata())
+  std::sort(domains.begin(), domains.end(),
+            [](const std::string &a, const std::string &b) { return std::stod(a) < std::stod(b); });
   
   // Estrae le colonne X
   std::vector< NumericVector > Xcols;
   for (int j = 1; j <= nvarX; j++){
     std::string colName = "X" + std::to_string(j);
-    if(!dataset.containsElementNamed(colName.c_str()))
+    if(!ds.containsElementNamed(colName.c_str()))
       stop(("Column " + colName + " missing in dataset").c_str());
-    NumericVector col = dataset[colName.c_str()];
+    NumericVector col = ds[colName.c_str()];
     Xcols.push_back(col);
   }
   
@@ -290,6 +300,10 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
     for (size_t k = 0; k < idx.size(); k++){
       int i = idx[k];
       std::ostringstream oss;
+      // 17 significant digits: distinct X values give distinct strata and the
+      // values parsed back from the key are exact (the default precision of 6
+      // digits merged e.g. 1234567 and 1234568)
+      oss << std::setprecision(17);
       for (int j = 0; j < nvarX; j++){
         oss << Xcols[j][i];
         if(j < nvarX - 1)
@@ -314,9 +328,9 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
       std::vector<int> group_indices = g.second;
       double sumW = 0.0;
       double sumCost = 0.0;
-      bool hasCost = dataset.containsElementNamed("COST");
+      bool hasCost = ds.containsElementNamed("COST");
       NumericVector COSTcol;
-      if(hasCost) COSTcol = dataset["COST"];
+      if(hasCost) COSTcol = ds["COST"];
       
       for (int i : group_indices) {
         sumW += weight[i];
@@ -332,15 +346,15 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
       // Calcola M e S per ciascuna variabile Y
       for (int y_idx = 1; y_idx <= nvarY; y_idx++){
         std::string colY = "Y" + std::to_string(y_idx);
-        if(!dataset.containsElementNamed(colY.c_str()))
+        if(!ds.containsElementNamed(colY.c_str()))
           stop(("Column " + colY + " missing").c_str());
-        NumericVector Ycol = dataset[colY.c_str()];
+        NumericVector Ycol = ds[colY.c_str()];
         
         NumericVector Wcol;
         if(useModel){
           std::string colW = "W" + std::to_string(y_idx);
-          if(dataset.containsElementNamed(colW.c_str()))
-            Wcol = dataset[colW.c_str()];
+          if(ds.containsElementNamed(colW.c_str()))
+            Wcol = ds[colW.c_str()];
           else
             Wcol = NumericVector(nrows, 0.0);
         }
@@ -446,10 +460,10 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
             double M_val = sumYW / sumw;
             M_vals[y_idx-1] = M_val;
             double s1 = stdev3(Y_vals, W_vals, beta, beta2);
-            if(!dataset.containsElementNamed("LON") || !dataset.containsElementNamed("LAT"))
+            if(!ds.containsElementNamed("LON") || !ds.containsElementNamed("LAT"))
               stop("Missing coordinates on sampling frame");
-            NumericVector LONcol = dataset["LON"];
-            NumericVector LATcol = dataset["LAT"];
+            NumericVector LONcol = ds["LON"];
+            NumericVector LATcol = ds["LAT"];
             std::vector<double> lon_vals, lat_vals;
             for (int i : group_indices) {
               lon_vals.push_back(LONcol[i]);
@@ -473,7 +487,20 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
       }
       
       // Salva i risultati locali per lo strato corrente
-      local.STRATO.push_back(strata_id);
+      // stratum label with 15 significant digits (as R does), e.g. "1*2"
+      {
+        std::istringstream iss_lab(strata_id);
+        std::string tok;
+        std::ostringstream lab;
+        lab << std::setprecision(15);
+        bool first = true;
+        while (std::getline(iss_lab, tok, '*')) {
+          if (!first) lab << "*";
+          lab << std::stod(tok);
+          first = false;
+        }
+        local.STRATO.push_back(lab.str());
+      }
       local.N.push_back(N_val);
       for (int j = 0; j < nvarY; j++){
         local.M[j].push_back(M_vals[j]);

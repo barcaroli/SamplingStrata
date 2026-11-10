@@ -6,7 +6,8 @@
 # Purpose:
 #   prepareSuggestion(): builds the two initial chromosomes (cut points of the X
 #   variables, normalised by their maximum within each domain) to be passed as
-#   "suggestions" to optimStrata(method = "continuous"). Seeds: 1-D k-means,
+#   "suggestions" to optimStrata(method = "continuous") or
+#   optimStrata(method = "spatial"), not to the atomic method. Seeds: 1-D k-means,
 #   cumulative root frequency, quantiles, a single "univariate" variable, or a
 #   translation of a KmeansSolution2() solution; X variables can be made
 #   inactive.
@@ -15,12 +16,18 @@
 #   .ps2_cuts(): cut points of one variable according to a given rule.
 # ==============================================================================
 
-#' Initial solutions (suggestions) for the "continuous" method
+#' Initial solutions (suggestions) for the "continuous" and "spatial" methods
 #'
 #' @description
 #' Builds two initial solutions (chromosomes) to be passed, through the
 #' argument \code{suggestions}, to \code{\link{optimStrata}} with
-#' \code{method = "continuous"} (i.e. to \code{\link{optimizeStrata2}}).
+#' \code{method = "continuous"} (i.e. to \code{\link{optimizeStrata2}}) or
+#' with \code{method = "spatial"} (i.e. to \code{\link{optimizeStrataSpatial}}),
+#' which encodes the cut points in the same way.
+#' It cannot be used with \code{method = "atomic"}: in that case the
+#' suggestions assign each atomic stratum to an aggregated stratum, as returned
+#' by \code{\link{KmeansSolution}}, and are passed directly to
+#' \code{\link{optimStrata}}.
 #' Each chromosome contains, for every domain, the cut points of the
 #' stratification variables X1, X2, ..., expressed as fractions of the maximum
 #' of each variable within the domain. This function replaces the previous
@@ -111,8 +118,9 @@
 #' @param univariate_rule Rule used by the seed \code{"univariate"}: one of
 #'   \code{"cumrootf"} (default), \code{"kmeans1d"}, \code{"quantile"}.
 #' @param kmean Data frame with columns \code{id} and \code{suggestions}, as
-#'   returned by \code{\link{KmeansSolution2}}; required only by the seed
-#'   \code{"kmean"}.
+#'   returned by \code{\link{KmeansSolution2}}; used only by the seed
+#'   \code{"kmean"} (a warning is issued if it is given but \code{seeds}
+#'   does not contain \code{"kmean"}).
 #' @param nclass Number of equal-width classes used to compute the cumulative
 #'   root frequencies in the rule \code{"cumrootf"} (default 1000; reduced to
 #'   the number of distinct values when this is smaller).
@@ -245,6 +253,9 @@ prepareSuggestion <- function(frame,
   if (any(nStrata < 2)) stop("'nStrata' must be at least 2 in every domain")
 
   km_lab <- NULL
+  if (!is.null(kmean) && !"kmean" %in% seeds)
+    warning("'kmean' is ignored: add \"kmean\" to 'seeds' to use it ",
+            "(e.g. seeds = c(\"kmean\", \"univariate\"))")
   if ("kmean" %in% seeds) {
     if (is.null(kmean)) stop("Seed 'kmean' requires the argument 'kmean'")
     if (!"ID" %in% colnames(frame)) stop("Seed 'kmean' requires the column 'id' in 'frame'")
@@ -346,6 +357,11 @@ prepareSuggestion <- function(frame,
 #' \code{strataGenalg2()}, and the corresponding Bethel sample size in each
 #' domain. Useful to check the seeds before running the genetic algorithm,
 #' and to compare them with its final solution.
+#'
+#' The strata are built with \code{\link{buildStrataDF}}, i.e. without the
+#' prediction variance and the spatial correlation used by
+#' \code{method = "spatial"}: for frames of the spatial method the sample
+#' sizes are lower than those of the spatial optimisation and only indicative.
 #'
 #' @param frame The sampling frame used to build \code{sugg} (see
 #'   \code{\link{prepareSuggestion}}).

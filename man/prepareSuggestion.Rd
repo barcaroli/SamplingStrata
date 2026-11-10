@@ -2,7 +2,7 @@
 % Please edit documentation in R/prepareSuggestion.R
 \name{prepareSuggestion}
 \alias{prepareSuggestion}
-\title{Initial solutions (suggestions) for the "continuous" method}
+\title{Initial solutions (suggestions) for the "continuous" and "spatial" methods}
 \usage{
 prepareSuggestion(
   frame,
@@ -44,8 +44,9 @@ the Y variables (the first active X if there are no Y variables).}
 \code{"cumrootf"} (default), \code{"kmeans1d"}, \code{"quantile"}.}
 
 \item{kmean}{Data frame with columns \code{id} and \code{suggestions}, as
-returned by \code{\link{KmeansSolution2}}; required only by the seed
-\code{"kmean"}.}
+returned by \code{\link{KmeansSolution2}}; used only by the seed
+\code{"kmean"} (a warning is issued if it is given but \code{seeds}
+does not contain \code{"kmean"}).}
 
 \item{nclass}{Number of equal-width classes used to compute the cumulative
 root frequencies in the rule \code{"cumrootf"} (default 1000; reduced to
@@ -62,7 +63,13 @@ A data frame with one row per cut point (H - 1 for each X
 \description{
 Builds two initial solutions (chromosomes) to be passed, through the
 argument \code{suggestions}, to \code{\link{optimStrata}} with
-\code{method = "continuous"} (i.e. to \code{\link{optimizeStrata2}}).
+\code{method = "continuous"} (i.e. to \code{\link{optimizeStrata2}}) or
+with \code{method = "spatial"} (i.e. to \code{\link{optimizeStrataSpatial}}),
+which encodes the cut points in the same way.
+It cannot be used with \code{method = "atomic"}: in that case the
+suggestions assign each atomic stratum to an aggregated stratum, as returned
+by \code{\link{KmeansSolution}}, and are passed directly to
+\code{\link{optimStrata}}.
 Each chromosome contains, for every domain, the cut points of the
 stratification variables X1, X2, ..., expressed as fractions of the maximum
 of each variable within the domain. This function replaces the previous

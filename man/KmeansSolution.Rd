@@ -48,13 +48,15 @@ the second the domains.
 \dontrun{
 library(SamplingStrata)
 data(swisserrors)
-data(swissstrata)
-
+data(swissframe)
+# atomic strata of the frame (the same that optimStrata() builds internally)
+strata <- buildStrataDF(swissframe, progress = FALSE)
 # suggestion
-solutionKmean <- KmeansSolution(strata=swissstrata,
-                errors=swisserrors,
-                nstrata=NA,
-                showPlot=TRUE)
+solutionKmean <- KmeansSolution(strata = strata,
+                errors = swisserrors,
+                nstrata = NA,
+                maxclusters = 10,
+                showPlot = TRUE)
 
 # number of strata to be obtained in each domain
 nstrat <- tapply(solutionKmean$suggestions,
@@ -65,9 +67,12 @@ nstrat <- tapply(solutionKmean$suggestions,
 solution <- optimStrata (
   method = "atomic",
   errors = swisserrors,
-  strata = swissstrata,
+  framesamp = swissframe,
   nStrata = nstrat,
-  suggestions = solutionKmean
+  suggestions = solutionKmean,
+  iter = 50,
+  pops = 10,
+  parallel = FALSE
 )
 }
 

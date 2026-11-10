@@ -45,12 +45,20 @@
 #' Giulio Barcaroli
 #'
 #' @examples
-#' \dontrun{
-#' strata <- aggrStrataSpatial(dataset=frame,
-#'                             fitting=1,
-#'                             range=800,
-#'                             kappa=1)
-#' }
+#' # synthetic spatial frame: one domain, one target variable with its
+#' # prediction variance and the coordinates of each unit
+#' set.seed(1234)
+#' frame <- data.frame(id = 1:100, X1 = runif(100), Y1 = runif(100, 10, 20),
+#'                     var1 = 0.5, lon = runif(100), lat = runif(100),
+#'                     domainvalue = 1)
+#' # three strata defined on X1
+#' strata <- aggrStrataSpatial(dataset = frame,
+#'                             fitting = 1,
+#'                             range = 0.5,
+#'                             kappa = 3,
+#'                             vett = var.bin(frame$X1, bins = 3),
+#'                             dominio = 1)
+#' strata
 #'
 #' @keywords survey
 #' @export

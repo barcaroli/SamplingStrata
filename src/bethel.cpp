@@ -435,6 +435,15 @@ NumericVector bethel_cpp(DataFrame strata,
   // Clone CENS before modifying it. Rcpp vectors extracted from a DataFrame
   // can alias the original column, while the R implementation works on a copy.
   NumericVector cens = clone(as<NumericVector>(strata["CENS"]));
+  // strata with N < minnumstrat are take-all strata from the start, as in the
+  // R implementation of bethel(): they do not contribute to the variance
+  // to be minimised (previously they were optimised and only afterwards raised to N)
+  {
+    NumericVector Npop = strata["N"];
+    for (int i = 0; i < nstrat; i++) {
+      if (Npop[i] < minnumstrat) cens[i] = 1.0;
+    }
+  }
   NumericVector nocens(nstrat);
   for (int i = 0; i < nstrat; i++) {
     nocens[i] = 1.0 - cens[i];
