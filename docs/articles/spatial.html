@@ -102,7 +102,7 @@
                         <h4 data-toc-skip class="author">Marco Ballin,
 Giulio Barcaroli</h4>
             
-            <h4 data-toc-skip class="date">2025-03-02</h4>
+            <h4 data-toc-skip class="date">2026-11-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/vignettes/spatial.Rmd" class="external-link"><code>vignettes/spatial.Rmd</code></a></small>
       <div class="hidden name"><code>spatial.Rmd</code></div>
@@ -307,10 +307,10 @@ method <em>spatial</em>:</p>
 <span>  parallel <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Input data have been checked and are compliant with requirements</span></span>
-<span><span class="co">## Sequential optimization as parallel = FALSE, defaulting number of cores = 1</span></span>
+<span><span class="co">## </span></span>
 <span><span class="co">##  *** Domain :  1   1</span></span>
 <span><span class="co">##  Number of strata :  3103</span></span>
-<span><span class="co">##  *** Sample cost:  61.92901</span></span>
+<span><span class="co">##  *** Sample cost:  61.52822</span></span>
 <span><span class="co">##  *** Number of strata:  4</span></span></code></pre>
 <div class="float">
 <img src="figure/unnamed-chunk-7-1.png" alt="plot of chunk unnamed-chunk-7"><div class="figcaption">plot of chunk unnamed-chunk-7</div>
@@ -356,19 +356,19 @@ Bounds Zinc
 1
 </td>
 <td style="text-align:right;">
-468
+456
 </td>
 <td style="text-align:right;">
 8
 </td>
 <td style="text-align:right;">
-0.01792501
+0.01757953
 </td>
 <td style="text-align:right;">
-3.3146468764848-4.19255285819977
+3.3146468764848-4.01988843413187
 </td>
 <td style="text-align:right;">
-4.06901686494286-5.05063630598842
+4.06901686494286-5.12335652388381
 </td>
 </tr>
 <tr>
@@ -376,19 +376,19 @@ Bounds Zinc
 2
 </td>
 <td style="text-align:right;">
-1118
+1130
 </td>
 <td style="text-align:right;">
 22
 </td>
 <td style="text-align:right;">
-0.01945812
+0.01929662
 </td>
 <td style="text-align:right;">
-3.93768665105216-4.7764979731549
+3.96397966171504-4.7764979731549
 </td>
 <td style="text-align:right;">
-5.05229397991744-5.61689510336853
+4.94340419880325-5.61689510336853
 </td>
 </tr>
 <tr>
@@ -396,19 +396,19 @@ Bounds Zinc
 3
 </td>
 <td style="text-align:right;">
-776
+873
 </td>
 <td style="text-align:right;">
-16
+18
 </td>
 <td style="text-align:right;">
-0.02008296
+0.02047349
 </td>
 <td style="text-align:right;">
-4.44641346310962-5.26600727214482
+4.44641346310962-5.33308379610959
 </td>
 <td style="text-align:right;">
-5.61793458171105-6.22421378893523
+5.61793458171105-6.29701396493421
 </td>
 </tr>
 <tr>
@@ -416,19 +416,19 @@ Bounds Zinc
 4
 </td>
 <td style="text-align:right;">
-741
+644
 </td>
 <td style="text-align:right;">
-16
+14
 </td>
 <td style="text-align:right;">
-0.02186445
+0.02148047
 </td>
 <td style="text-align:right;">
-4.83281864156491-6.16276083528614
+4.91892537093519-6.16276083528614
 </td>
 <td style="text-align:right;">
-6.22619751326312-7.33803658123577
+6.29894213691231-7.33803658123577
 </td>
 </tr>
 </tbody>
@@ -463,9 +463,8 @@ a spatially balanced sample:</p>
 <span><span class="va">s</span><span class="op">$</span><span class="va">LABEL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">s</span><span class="op">$</span><span class="va">LABEL</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/mapview" class="external-link">mapview</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://r-spatial.github.io/mapview/reference/mapView.html" class="external-link">mapview</a></span><span class="op">(</span><span class="va">s</span>,zcol<span class="op">=</span><span class="st">"LABEL"</span>, map.types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"OpenStreetMap"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="float">
-<img src="figure/unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11"><div class="figcaption">plot of chunk unnamed-chunk-11</div>
-</div>
+<pre><code><span><span class="co">## Error in `loadNamespace()`:</span></span>
+<span><span class="co">## ! non c'è alcun pacchetto chiamato 'webshot'</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

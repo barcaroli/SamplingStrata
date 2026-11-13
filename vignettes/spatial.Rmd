@@ -340,10 +340,7 @@ library(mapview)
 mapview(s,zcol="LABEL", map.types = c("OpenStreetMap"))
 ```
 
-```
-## Error in `loadNamespace()`:
-## ! non c'è alcun pacchetto chiamato 'webshot'
-```
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png)
 
 
 
