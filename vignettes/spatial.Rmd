@@ -1,7 +1,7 @@
 ---
 title: "Spatial sampling with SamplingStrata"
 author: "Marco Ballin, Giulio Barcaroli"
-date: "2025-03-02"
+date: "2026-11-13"
 # output: rmarkdown::html_vignette
 output: 
   bookdown::html_document2:
@@ -217,10 +217,10 @@ solution <- optimStrata (
 ```
 ## 
 ## Input data have been checked and are compliant with requirements
-## Sequential optimization as parallel = FALSE, defaulting number of cores = 1
+## 
 ##  *** Domain :  1   1
 ##  Number of strata :  3103
-##  *** Sample cost:  61.92901
+##  *** Sample cost:  61.52822
 ##  *** Number of strata:  4
 ```
 
@@ -261,35 +261,35 @@ plotStrata2d(framenew,outstrata,domain=1,vars=c("X1","X2"),
 <tbody>
   <tr>
    <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 468 </td>
+   <td style="text-align:right;"> 456 </td>
    <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 0.01792501 </td>
-   <td style="text-align:right;"> 3.3146468764848-4.19255285819977 </td>
-   <td style="text-align:right;"> 4.06901686494286-5.05063630598842 </td>
+   <td style="text-align:right;"> 0.01757953 </td>
+   <td style="text-align:right;"> 3.3146468764848-4.01988843413187 </td>
+   <td style="text-align:right;"> 4.06901686494286-5.12335652388381 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 1118 </td>
+   <td style="text-align:right;"> 1130 </td>
    <td style="text-align:right;"> 22 </td>
-   <td style="text-align:right;"> 0.01945812 </td>
-   <td style="text-align:right;"> 3.93768665105216-4.7764979731549 </td>
-   <td style="text-align:right;"> 5.05229397991744-5.61689510336853 </td>
+   <td style="text-align:right;"> 0.01929662 </td>
+   <td style="text-align:right;"> 3.96397966171504-4.7764979731549 </td>
+   <td style="text-align:right;"> 4.94340419880325-5.61689510336853 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 776 </td>
-   <td style="text-align:right;"> 16 </td>
-   <td style="text-align:right;"> 0.02008296 </td>
-   <td style="text-align:right;"> 4.44641346310962-5.26600727214482 </td>
-   <td style="text-align:right;"> 5.61793458171105-6.22421378893523 </td>
+   <td style="text-align:right;"> 873 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 0.02047349 </td>
+   <td style="text-align:right;"> 4.44641346310962-5.33308379610959 </td>
+   <td style="text-align:right;"> 5.61793458171105-6.29701396493421 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 741 </td>
-   <td style="text-align:right;"> 16 </td>
-   <td style="text-align:right;"> 0.02186445 </td>
-   <td style="text-align:right;"> 4.83281864156491-6.16276083528614 </td>
-   <td style="text-align:right;"> 6.22619751326312-7.33803658123577 </td>
+   <td style="text-align:right;"> 644 </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 0.02148047 </td>
+   <td style="text-align:right;"> 4.91892537093519-6.16276083528614 </td>
+   <td style="text-align:right;"> 6.29894213691231-7.33803658123577 </td>
   </tr>
 </tbody>
 </table>
@@ -340,7 +340,10 @@ library(mapview)
 mapview(s,zcol="LABEL", map.types = c("OpenStreetMap"))
 ```
 
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png)
+```
+## Error in `loadNamespace()`:
+## ! non c'è alcun pacchetto chiamato 'webshot'
+```
 
 
 

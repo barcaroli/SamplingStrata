@@ -23,7 +23,7 @@ LazyLoad: yes
 Depends: R (>= 3.5.0), memoise, doParallel, pbapply, SamplingBigData, glue, methods
 NeedsCompilation: no
 Packaged: 2018-12-4 14:59:19 UTC; barcarol
-Suggests: knitr, rmarkdown, formattable
+Suggests: knitr, rmarkdown, bookdown, formattable
 VignetteBuilder: knitr
 URL: https://barcaroli.github.io/SamplingStrata/, https://github.com/barcaroli/SamplingStrata/
 BugReports: https://github.com/barcaroli/SamplingStrata/issues

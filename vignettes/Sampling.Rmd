@@ -1,7 +1,7 @@
 ---
 title: "Optimization of sampling strata with the SamplingStrata package"
 author: "Marco Ballin, Giulio Barcaroli"
-date: "2025-03-02"
+date: "2026-11-13"
 # output: rmarkdown::html_vignette
 output: 
   bookdown::html_document2:
@@ -23,9 +23,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
   \usepackage[utf8]{inputenc}
 ---
-
-
-
 
 
 
@@ -227,9 +224,9 @@ We check that the dataframes that we have defined so far are correct:
 
 
 ``` r
-checkInput(errors = checkInput(errors = cv, 
-                               strata = strata1, 
-                               sampframe = frame1))
+checkInput(errors = cv, 
+           strata = strata1, 
+           sampframe = frame1)
 #> 
 #> Input data have been checked and are compliant with requirements
 ```
@@ -278,8 +275,10 @@ Here we report the most important parameters related to the three methods (for t
 |               |   (default is 50). |
 | *pops*        | The dimension of each generations in terms of individuals (default is 20). |
 | *suggestions* | Optional parameter for genetic algorithm that indicates a suggested solution | 
-|               |   to be introduced in the initial population. The most convenient is the |
-|               |   one found by the function "KmeanSolution" (default is NULL). | 
+|               |   to be introduced in the initial population. With the *atomic* method the |
+|               |   most convenient is the one found by the function "KmeansSolution"; with the |
+|               |   *continuous* and *spatial* methods it is prepared by the function |
+|               |   "prepareSuggestion" (default is NULL). | 
 
 
 ### Method 'atomic'
@@ -308,8 +307,8 @@ solution1 <- optimStrata(method = "atomic",
 
 ```
 #> 
-#>  *** Sample size :  283
-#>  *** Number of strata :  26
+#>  *** Sample size :  226
+#>  *** Number of strata :  28
 #> ---------------------------
 ```
 
@@ -322,9 +321,9 @@ We can calculate (analytically) the expected CVs by executing the function:
 ``` r
 expected_CV(solution1$aggr_strata)
 #>         cv(Y1)    cv(Y2)
-#> DOM1 0.0999223 0.0998300
-#> DOM2 0.0973083 0.0999961
-#> DOM3 0.0984079 0.0997399
+#> DOM1 0.0999934 0.0999575
+#> DOM2 0.1000000 0.1000000
+#> DOM3 0.1000000 0.1000000
 ```
 
 The obtained total size of the sample required to satisfy precision constraint is much lower than the one obtained with the simple application of the Bethel algorithm to the initial atomic stratification, but maybe not yet satisfactory. 
@@ -405,8 +404,8 @@ solution2 <- optimStrata(method = "atomic",
 
 ```
 #> 
-#>  *** Sample size :  161
-#>  *** Number of strata :  24
+#>  *** Sample size :  155
+#>  *** Number of strata :  21
 #> ---------------------------
 ```
 
@@ -418,9 +417,9 @@ Notice that the obtained solution in this run in terms of sample size is signifi
 outstrata2 <- solution2$aggr_strata
 expected_CV(outstrata2)
 #>         cv(Y1)    cv(Y2)
-#> DOM1 0.0995715 0.0960840
-#> DOM2 0.0995359 0.0236793
-#> DOM3 0.0992537 0.0251076
+#> DOM1 0.1000000 0.1000000
+#> DOM2 0.0998828 0.0777531
+#> DOM3 0.1000000 0.0757409
 ```
 
 
@@ -475,7 +474,56 @@ nstrata3
 
 Note that this time we call a different function (*KmeansSolution2*) that requires, instead of the *strata* dataframe, directly the *frame* dataframe. 
 
-We are now able to perform the optimization step with the *continuous* method:
+#### Initial solutions for the *continuous* method
+
+With the *continuous* method the genetic algorithm does not work on atomic strata: each candidate solution (chromosome) contains, for each domain, the cut points of the stratification variables, expressed as fractions of the maximum of each variable in the domain. A unit is assigned to the stratum given by the highest index of the intervals in which its X values fall. For this reason the output of *KmeansSolution2* cannot be given directly to the optimization step, but must be translated into cut points by the function *prepareSuggestion*. 
+
+The function builds the two initial chromosomes that the genetic algorithm accepts, each of them obtained with one of the following rules (argument *seeds*):
+
+* *"kmeans1d"*: one-dimensional k-means on each X variable;
+* *"cumrootf"*: cumulative root frequency rule of Dalenius and Hodges on each X variable;
+* *"quantile"*: equal-frequency intervals on each X variable;
+* *"univariate"*: cut points on a single X variable (by default the one most correlated with the target variables), the other X variables being left inactive;
+* *"kmean"*: approximate translation of a *KmeansSolution2* solution, given with the argument *kmean*.
+
+Here we use the solution just obtained with *KmeansSolution2* together with the *univariate* rule:
+
+
+``` r
+set.seed(1234)
+sugg3 <- prepareSuggestion(frame = frame3,
+                           nStrata = nstrata3,
+                           seeds = c("kmean", "univariate"),
+                           kmean = init_sol3)
+attr(sugg3, "seeds")
+#> [1] "kmean on X1+X2"            "univariate cumrootf on X2"
+head(sugg3)
+#>   domainvalue suggestions1 suggestions2
+#> 1           1    0.1011328            1
+#> 2           1    0.1011328            1
+#> 3           1    0.1011328            1
+#> 4           1    0.1011328            1
+#> 5           1    0.1011328            1
+#> 6           1    0.8509530            1
+```
+
+Before running the optimization, the function *evalSuggestion* gives, for each chromosome, the stratification it implies and the corresponding sample size in each domain:
+
+
+``` r
+evalSuggestion(frame3, cv, sugg3, which = 1)
+#>   domainvalue strata_requested strata_nonempty    n
+#> 1           1               10               5 96.3
+#> 2           2               10               9 72.1
+#> 3           3                9               8 35.4
+evalSuggestion(frame3, cv, sugg3, which = 2)
+#>   domainvalue strata_requested strata_nonempty     n
+#> 1           1               10              10 111.9
+#> 2           2               10              10  78.8
+#> 3           3                9               9  52.5
+```
+
+We are now able to perform the optimization step with the *continuous* method, giving the two chromosomes as suggestions:
 
 
 ``` r
@@ -485,7 +533,8 @@ solution3 <- optimStrata(method = "continuous",
                         framesamp = frame3,
                         iter = 50,
                         pops = 10,
-                        nStrata = nstrata3)
+                        nStrata = nstrata3,
+                        suggestions = sugg3)
 #> 
 #> Input data have been checked and are compliant with requirements
 #> 
@@ -496,10 +545,12 @@ solution3 <- optimStrata(method = "continuous",
 
 ```
 #> 
-#>  *** Sample size :  114
-#>  *** Number of strata :  25
+#>  *** Sample size :  98
+#>  *** Number of strata :  23
 #> ---------------------------
 ```
+
+As the genetic algorithm always keeps the best solutions of each generation (elitism), and the two suggestions are part of its initial population, the best solution found cannot be worse than the better of the two initial chromosomes.
 
 This solution requires a total sample size that is by far the best among those we produced, so we decide to select this one.
 
@@ -523,12 +574,12 @@ strataStructure <- summaryStrata(solution3$framenew,
                                  progress=FALSE)
 head(strataStructure)
 #>   Domain Stratum Population Allocation SamplingRate Lower_X1 Upper_X1 Lower_X2 Upper_X2
-#> 1      1       1        354         15     0.042424       27     2914       32      847
-#> 2      1       2         98          8     0.079911       65     4281      185     1929
-#> 3      1       3         66          8     0.128525      130     4371     1568     6410
-#> 4      1       4         47          8     0.175200      155    29559      129     6723
-#> 5      1       5          6          2     0.333333       78     6261     7093     8925
-#> 6      1       6          7          3     0.372469      212     7515     9009    10117
+#> 1      1       1        315          8     0.025513       27     1403       32      904
+#> 2      1       2        108          8     0.073221       65     3691      107     1490
+#> 3      1       3         45          7     0.145116      196    29559      129     1568
+#> 4      1       4         36          4     0.103938       95    14317     1600     2387
+#> 5      1       5         16          3     0.185758      176    27171     2419     2991
+#> 6      1       6         54         10     0.181545       78    22454     3018     9082
 ```
 
 For each otpimized stratum, total number of units together with allocations and sampling rates are reported. Also ranges of the stratification variables are listed, in order to characterize the strata.
@@ -559,59 +610,59 @@ plotStrata2d(solution3$framenew,
 <tbody>
   <tr>
    <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 87 </td>
+   <td style="text-align:right;"> 98 </td>
    <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0.02384623 </td>
-   <td style="text-align:right;"> 109-2096 </td>
-   <td style="text-align:right;"> 32-374 </td>
+   <td style="text-align:right;"> 0.02040816 </td>
+   <td style="text-align:right;"> 109-1618 </td>
+   <td style="text-align:right;"> 32-414 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 134 </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 0.04171346 </td>
-   <td style="text-align:right;"> 222-3271 </td>
-   <td style="text-align:right;"> 155-943 </td>
+   <td style="text-align:right;"> 78 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 0.03994875 </td>
+   <td style="text-align:right;"> 240-3917 </td>
+   <td style="text-align:right;"> 155-619 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 58 </td>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 0.13217846 </td>
-   <td style="text-align:right;"> 744-18323 </td>
-   <td style="text-align:right;"> 252-999 </td>
+   <td style="text-align:right;"> 42 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 0.05019835 </td>
+   <td style="text-align:right;"> 235-4266 </td>
+   <td style="text-align:right;"> 462-791 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 44 </td>
    <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0.50000000 </td>
-   <td style="text-align:right;"> 1608-5079 </td>
-   <td style="text-align:right;"> 1007-1023 </td>
+   <td style="text-align:right;"> 0.05322588 </td>
+   <td style="text-align:right;"> 496-4815 </td>
+   <td style="text-align:right;"> 536-1126 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 9 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0.24469906 </td>
-   <td style="text-align:right;"> 692-20370 </td>
-   <td style="text-align:right;"> 1058-1106 </td>
+   <td style="text-align:right;"> 34 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 0.08061390 </td>
+   <td style="text-align:right;"> 1122-11702 </td>
+   <td style="text-align:right;"> 252-1230 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 12 </td>
    <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0.33333333 </td>
-   <td style="text-align:right;"> 566-7568 </td>
-   <td style="text-align:right;"> 1119-1137 </td>
+   <td style="text-align:right;"> 0.20650727 </td>
+   <td style="text-align:right;"> 721-16270 </td>
+   <td style="text-align:right;"> 443-1418 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 7 </td>
-   <td style="text-align:right;"> 22 </td>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 0.18175363 </td>
-   <td style="text-align:right;"> 721-16654 </td>
-   <td style="text-align:right;"> 1177-2029 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 0.18352113 </td>
+   <td style="text-align:right;"> 929-20370 </td>
+   <td style="text-align:right;"> 700-2029 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 8 </td>
@@ -643,14 +694,14 @@ For each drawn sample, the estimates related to the Y’s are calculated. Their 
 ``` r
 eval3$coeff_var
 #>      CV1    CV2  dom
-#> 1 0.1012 0.0971 DOM1
-#> 2 0.1093 0.0983 DOM2
-#> 3 0.0967 0.1014 DOM3
+#> 1 0.0963 0.1091 DOM1
+#> 2 0.1006 0.0974 DOM2
+#> 3 0.1086 0.0978 DOM3
 eval3$rel_bias
 #>        y1      y2  dom
-#> 1 -0.0062 -0.0006 DOM1
-#> 2 -0.0017 -0.0028 DOM2
-#> 3 -0.0116 -0.0040 DOM3
+#> 1  0.0010 -0.0118 DOM1
+#> 2 -0.0230 -0.0049 DOM2
+#> 3 -0.0027  0.0112 DOM3
 ```
 
 It is also possible to analyse the sampling distribution of the estimates for each variable of interest in a selected domain:
@@ -687,10 +738,11 @@ Let us suppose that the final obtained sample size (106) is not affordable. We c
 ``` r
 adjustedStrata <- adjustSize(size=75,strata=solution3$aggr_strata,cens=NULL)
 #> 
-#>  84
-#>  78
-#>  78
-#>  Final adjusted size:  78
+#>  78.677
+#>  75.786
+#>  75.093
+#>  75.093
+#>  Final adjusted size:  75.093
 ```
 
 Instead, if we want to increase the size because the budget allows to do this, then this is the code:
@@ -700,9 +752,10 @@ Instead, if we want to increase the size because the budget allows to do this, t
 ``` r
 adjustedStrata <- adjustSize(size=150,strata=solution3$aggr_strata,cens=NULL)
 #> 
-#>  152
-#>  152
-#>  Final adjusted size:  152
+#>  148.714
+#>  149.683
+#>  149.683
+#>  Final adjusted size:  149.683
 ```
 
 The difference between the desired sample size and the actual adjusted size depends on the number of strata in the optimized solution. Consider that the adjustment is performed in each stratum by taking into account the relative difference between the current sample size and the desired one: this produces an allocation that is expressed by a real number, that must be rounded, while taking into account the requirement of the minimum number of units in the strata (default is 2). The higher the number of strata, the higher the impact on the final adjusted sample size.
@@ -734,10 +787,10 @@ sample <- selectSample(framenew3,
                        writeFiles = TRUE)
 #> 
 #> *** Sample has been drawn successfully ***
-#>  114  units have been selected from  25  strata
+#>  98  units have been selected from  23  strata
 #> 
-#> ==> There have been  2  take-all strata 
-#> from which have been selected  2 units
+#> ==> There have been  1  take-all strata 
+#> from which have been selected  1 units
 ```
 
 When the option *writeFiles* is set to TRUE, it produces two .csv files:
@@ -768,10 +821,10 @@ sample <- selectSampleSystematic(frame=framenew,
                                  sortvariable = c("Airind"))
 #> 
 #> *** Sample has been drawn successfully ***
-#>  114  units have been selected from  25  strata
+#>  98  units have been selected from  23  strata
 #> 
-#> ==> There have been  2  take-all strata 
-#> from which have been selected  2 units
+#> ==> There have been  1  take-all strata 
+#> from which have been selected  1 units
 ```
 
 
@@ -797,6 +850,17 @@ nrow(framesamp)
 
 In this way, we have defined as to be censused all units with population greater than 10,000 (63). At the end of the process, the sample will contain all these units.
 
+Also in this case we can prepare initial solutions with *prepareSuggestion*. They have to be computed on the units to be sampled only (*framesamp*), as the take-all units are not stratified. This time we use the default rules (*seeds = c("kmeans1d", "univariate")*), which do not require a previous k-means solution:
+
+
+``` r
+set.seed(1234)
+sugg4 <- prepareSuggestion(frame = framesamp,
+                           nStrata = c(10,10,10))
+attr(sugg4, "seeds")
+#> [1] "kmeans1d on X1+X2"         "univariate cumrootf on X2"
+```
+
 We now run the optimization step by including the indication of to be censused units:
 
 
@@ -808,7 +872,8 @@ solution4 <- optimStrata(method = "continuous",
                         framecens = framecens,
                         iter = 50,
                         pops = 10,
-                        nStrata = c(10,10,10))
+                        nStrata = c(10,10,10),
+                        suggestions = sugg4)
 #> 
 #> Input data have been checked and are compliant with requirements
 #> 
@@ -821,8 +886,8 @@ solution4 <- optimStrata(method = "continuous",
 
 ```
 #> 
-#>  *** Sample size :  76
-#>  *** Number of strata :  27
+#>  *** Sample size :  69
+#>  *** Number of strata :  28
 #> ---------------------------
 ```
 
@@ -832,12 +897,12 @@ solution4 <- optimStrata(method = "continuous",
 framenew4 <- solution4$framenew
 outstrata4 <- solution4$aggr_strata
 sum(outstrata4$SOLUZ)
-#> [1] 139.0659
+#> [1] 131.97
 expected_CV(outstrata4)
 #>         cv(Y1)    cv(Y2)
-#> DOM1 0.0995681 0.0990472
-#> DOM2 0.0941192 0.0972517
-#> DOM3 0.0903580 0.0899776
+#> DOM1 0.0995547 0.0997792
+#> DOM2 0.0973293 0.0973060
+#> DOM3 0.0838190 0.0852511
 ```
 
 
@@ -849,10 +914,10 @@ sample <- selectSample(frame=framenew4,
                        outstrata=outstrata4)
 #> 
 #> *** Sample has been drawn successfully ***
-#>  139  units have been selected from  30  strata
+#>  132  units have been selected from  31  strata
 #> 
-#> ==> There have been  4  take-all strata 
-#> from which have been selected  64 units
+#> ==> There have been  3  take-all strata 
+#> from which have been selected  63 units
 ```
 
 and we control that all take-all units are included in the sample:

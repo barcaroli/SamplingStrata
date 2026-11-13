@@ -1,7 +1,7 @@
 ---
 title: "Use of models in SamplingStrata"
 author: "Marco Ballin, Giulio Barcaroli"
-date: "2025-03-02"
+date: "2026-11-13"
 # output: rmarkdown::html_vignette
 output: 
   bookdown::html_document2:

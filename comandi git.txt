@@ -1,0 +1,4 @@
+git config --global user.email ""
+git config --global user.name ""
+
+git add -A && git commit -m 'staging all files'

@@ -32,11 +32,6 @@ knitr::opts_chunk$set(fig.width=6, fig.height=4,
 )
 ```
 
-```{r load, eval=TRUE, echo=FALSE, include=FALSE}
-load("SamplingStrata_vignette.RData")
-```
-
-
 # Introduction
 
 Let us suppose we need to design a sample survey, having a complete frame containing information on the target population 
@@ -188,9 +183,9 @@ to the values of variable 'DOM1' in the strata dataframe.
 We check that the dataframes that we have defined so far are correct:
 
 ```{r check, eval=TRUE, echo=TRUE}
-checkInput(errors = checkInput(errors = cv, 
-                               strata = strata1, 
-                               sampframe = frame1))
+checkInput(errors = cv, 
+           strata = strata1, 
+           sampframe = frame1)
 ```
 
 For instance, this function controls that the number of auxiliary variables is the same in the frame and in the strata dataframes; that the number of target variables indicated in the frame dataframe is the same than the number of means and standard deviations in the strata dataframe, and the same than the number of coefficient of variations indicated in the errors dataframe.
@@ -235,8 +230,10 @@ Here we report the most important parameters related to the three methods (for t
 |               |   (default is 50). |
 | *pops*        | The dimension of each generations in terms of individuals (default is 20). |
 | *suggestions* | Optional parameter for genetic algorithm that indicates a suggested solution | 
-|               |   to be introduced in the initial population. The most convenient is the |
-|               |   one found by the function "KmeanSolution" (default is NULL). | 
+|               |   to be introduced in the initial population. With the *atomic* method the |
+|               |   most convenient is the one found by the function "KmeansSolution"; with the |
+|               |   *continuous* and *spatial* methods it is prepared by the function |
+|               |   "prepareSuggestion" (default is NULL). | 
 
 
 ### Method 'atomic'
@@ -361,7 +358,38 @@ nstrata3
 
 Note that this time we call a different function (*KmeansSolution2*) that requires, instead of the *strata* dataframe, directly the *frame* dataframe. 
 
-We are now able to perform the optimization step with the *continuous* method:
+#### Initial solutions for the *continuous* method
+
+With the *continuous* method the genetic algorithm does not work on atomic strata: each candidate solution (chromosome) contains, for each domain, the cut points of the stratification variables, expressed as fractions of the maximum of each variable in the domain. A unit is assigned to the stratum given by the highest index of the intervals in which its X values fall. For this reason the output of *KmeansSolution2* cannot be given directly to the optimization step, but must be translated into cut points by the function *prepareSuggestion*. 
+
+The function builds the two initial chromosomes that the genetic algorithm accepts, each of them obtained with one of the following rules (argument *seeds*):
+
+* *"kmeans1d"*: one-dimensional k-means on each X variable;
+* *"cumrootf"*: cumulative root frequency rule of Dalenius and Hodges on each X variable;
+* *"quantile"*: equal-frequency intervals on each X variable;
+* *"univariate"*: cut points on a single X variable (by default the one most correlated with the target variables), the other X variables being left inactive;
+* *"kmean"*: approximate translation of a *KmeansSolution2* solution, given with the argument *kmean*.
+
+Here we use the solution just obtained with *KmeansSolution2* together with the *univariate* rule:
+
+```{r sugg3, eval=TRUE, echo=TRUE}
+set.seed(1234)
+sugg3 <- prepareSuggestion(frame = frame3,
+                           nStrata = nstrata3,
+                           seeds = c("kmean", "univariate"),
+                           kmean = init_sol3)
+attr(sugg3, "seeds")
+head(sugg3)
+```
+
+Before running the optimization, the function *evalSuggestion* gives, for each chromosome, the stratification it implies and the corresponding sample size in each domain:
+
+```{r evalsugg3, eval=TRUE, echo=TRUE}
+evalSuggestion(frame3, cv, sugg3, which = 1)
+evalSuggestion(frame3, cv, sugg3, which = 2)
+```
+
+We are now able to perform the optimization step with the *continuous* method, giving the two chromosomes as suggestions:
 
 ```{r optim3, eval=TRUE, echo=TRUE, warning=FALSE, }
 set.seed(1234)
@@ -370,9 +398,12 @@ solution3 <- optimStrata(method = "continuous",
                         framesamp = frame3,
                         iter = 50,
                         pops = 10,
-                        nStrata = nstrata3)
+                        nStrata = nstrata3,
+                        suggestions = sugg3)
 
 ```
+
+As the genetic algorithm always keeps the best solutions of each generation (elitism), and the two suggestions are part of its initial population, the best solution found cannot be worse than the better of the two initial chromosomes.
 
 This solution requires a total sample size that is by far the best among those we produced, so we decide to select this one.
 
@@ -538,6 +569,15 @@ nrow(framesamp)
 
 In this way, we have defined as to be censused all units with population greater than 10,000 (63). At the end of the process, the sample will contain all these units.
 
+Also in this case we can prepare initial solutions with *prepareSuggestion*. They have to be computed on the units to be sampled only (*framesamp*), as the take-all units are not stratified. This time we use the default rules (*seeds = c("kmeans1d", "univariate")*), which do not require a previous k-means solution:
+
+```{r sugg4, eval=TRUE, echo=TRUE}
+set.seed(1234)
+sugg4 <- prepareSuggestion(frame = framesamp,
+                           nStrata = c(10,10,10))
+attr(sugg4, "seeds")
+```
+
 We now run the optimization step by including the indication of to be censused units:
 
 ```{r optim4, eval=TRUE, echo=TRUE, warning=FALSE, }
@@ -548,7 +588,8 @@ solution4 <- optimStrata(method = "continuous",
                         framecens = framecens,
                         iter = 50,
                         pops = 10,
-                        nStrata = c(10,10,10))
+                        nStrata = c(10,10,10),
+                        suggestions = sugg4)
 ```
 
 
