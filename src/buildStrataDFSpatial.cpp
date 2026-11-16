@@ -21,9 +21,30 @@ static std::string strToUpper(const std::string &s) {
 }
 
 // -----------------------------------------------------------------------------
-// Funzione di utilità ottimizzata: calcola la "stdev spaziale" su un subset
-// di righe definito da 'indices', lavorando direttamente su LON, LAT, Y, VAR.
-// Usa un loop ridotto (r1 < r2) e raddoppia le somme, per ridurre i calcoli.
+// Optimised utility: "spatial" standard deviation of the stratum made of the
+// rows in 'indices', computed directly on LON, LAT, Y, VAR.
+// Loop on pairs r1 < r2 only, sums doubled.
+//
+// Model-expected squared difference between two distinct units i, j
+// (de Gruijter et al. 2015, Eq. 10; de Gruijter et al. 2016, Eq. 15):
+//
+//   D2_ij = (y_i - y_j)^2 / fitting + s2_i + s2_j - 2 Cov(e_i, e_j)
+//   Cov(e_i, e_j) = (1 - nugget) * s_i * s_j * exp(-kappa * d_ij / range)
+//
+// where s2 = VAR is the prediction-error variance of each unit and nugget is
+// the RELATIVE nugget c0 / (c0 + c1) of the variogram of the prediction
+// errors (0 = no nugget). The stratum variance is
+//   S2_h = sum_{i != j} D2_ij / (2 n^2),
+// i.e. the population variance (divisor n) of the stratum, consistently with
+// buildStrataDF() for frame data.
+//
+// fitting: when the VAR columns contain the full prediction-error variances
+// fitting MUST be 1 (additive correction): the levelling of the predictions
+// is already compensated by s2_i + s2_j, and dividing also by R^2 counts the
+// error variance twice. fitting = R^2 (< 1) is meant only for the rescaling
+// correction, i.e. with all VAR = 0.
+//
+// range <= 0 or nugget >= 1: no spatial correlation (Cov = 0 for i != j).
 // -----------------------------------------------------------------------------
 static double stdevOptim(const std::vector<int> &indices,
                          const NumericVector &lon,
@@ -32,7 +53,8 @@ static double stdevOptim(const std::vector<int> &indices,
                          const NumericVector &var,
                          double fittingVal,
                          double rangeVal,
-                         double kappa)
+                         double kappa,
+                         double nuggetVal)
 {
   int n = indices.size();
   if (n <= 1) {
@@ -43,8 +65,10 @@ static double stdevOptim(const std::vector<int> &indices,
   long double sum_zz = 0.0;
   long double sum_var_minus_cov = 0.0;
   
-  // Pre-calcolo per l'esponenziale
-  double inv_r = kappa / rangeVal;  // => exp(- dist * inv_r)
+  // Spatial correlation switched off with range <= 0 or nugget >= 1
+  bool spatial = (rangeVal > 0.0) && (nuggetVal < 1.0);
+  double inv_r = spatial ? kappa / rangeVal : 0.0;  // => exp(- dist * inv_r)
+  double w = 1.0 - nuggetVal;                       // structured share of the error variance
   
   for (int i = 0; i < n; i++) {
     int r1 = indices[i];
@@ -64,9 +88,10 @@ static double stdevOptim(const std::vector<int> &indices,
       if (var[r1] >= 0.0 && var[r2] >= 0.0) {
         pcs = std::sqrt(var[r1] * var[r2]);
       }
-      // units at the same location are fully correlated: with range = 0,
-      // inv_r is Inf and dist * inv_r = 0 * Inf = NaN
-      double spatial_cov = (dist == 0.0) ? pcs : pcs * std::exp(- dist * inv_r);
+      // covariance of the prediction errors of two DISTINCT units: the
+      // nugget part is uncorrelated even at distance 0 (pairs i = j are not
+      // in the loop and contribute 0 to the stratum variance)
+      double spatial_cov = spatial ? w * pcs * std::exp(- dist * inv_r) : 0.0;
       
       sum_var_minus_cov += (scv - 2.0 * spatial_cov);
     }
@@ -76,7 +101,7 @@ static double stdevOptim(const std::vector<int> &indices,
   sum_zz *= 2.0;
   sum_var_minus_cov *= 2.0;
   
-  // denom = 2 * n^2 (come nel tuo codice originale)
+  // denom = 2 * n^2: population variance of the stratum
   long double denom = 2.0L * (long double)n * (long double)n;
   double sd1 = std::sqrt((long double)sum_zz / denom);
   double sd2 = std::sqrt((long double)sum_var_minus_cov / denom);
@@ -117,13 +142,27 @@ static double stdevOptim(const std::vector<int> &indices,
 //'   are denoted by Y1, Y2, ... , Yn.
 //'   In addition, in case of sample data, a variable named 'WEIGHT' must be present in the dataframe,
 //'   containing   the weigths associated to each sampling unit
-//' @param fitting Fitting of the model(s).
-//'   Default is 1.
-//' @param range Maximum range for spatial autocorrelation
-//' @param kappa Factor used in evaluating spatial autocorrelation.
-//'   Default is 3.
+//' @param fitting Default is 1, which must be used when the frame contains the
+//'   prediction-error variances (VAR columns): the additive correction
+//'   (de Gruijter et al. 2016) already accounts for the levelling of the predictions.
+//'   A value < 1 (the coefficient of determination R2 of the prediction model)
+//'   divides the squared differences of the predictions, and is accepted only with all
+//'   VAR = 0 (rescaling correction): with positive variances the error variance would be
+//'   counted twice, and the function stops. If only R2 is known, the additive correction
+//'   can be used with fitting = 1 and a constant variance var(predictions) * (1 - R2) / R2.
+//' @param range Range of the exponential correlation function of the prediction errors
+//'   (in the units of the coordinates). 0 means no spatial correlation.
+//' @param kappa Factor used in evaluating spatial autocorrelation: the correlation
+//'   between the prediction errors of two units at distance d is
+//'   (1 - nugget) * exp(-kappa * d / range). Use kappa = 1 when range is the range
+//'   parameter of an exponential variogram (as returned by gstat), kappa = 3 when
+//'   range is the practical range. Any finite value > 0 is accepted; 0 or negative
+//'   values give an error. Default is 3.
 //' @param progress If set to TRUE, a progress bar is visualised during the execution. Default is FALSE.
 //' @param verbose If set to TRUE, information is given about the number of strata generated. Default is FALSE.
+//' @param nugget Relative nugget c0/(c0+c1) of the variogram of the prediction errors,
+//'   in [0, 1]: the share of the error variance that is not spatially correlated.
+//'   Default is 0 (no nugget).
 //'
 //' @return
 //' A dataframe containing strata
@@ -140,7 +179,7 @@ static double stdevOptim(const std::vector<int> &indices,
 //'                     domainvalue = 1)
 //' frame$X1 <- var.bin(frame$X1, bins = 3)   # stratification variable
 //' strata <- buildStrataDFSpatial(dataset = frame, fitting = 1, range = 0.5,
-//'                                kappa = 3)
+//'                                kappa = 3, nugget = 0.3)
 //' strata
 //'
 //' @keywords survey
@@ -152,10 +191,12 @@ DataFrame buildStrataDFSpatial(
     NumericVector range   = NumericVector::create(0.0),
     double kappa = 3.0,
     bool progress = false,
-    bool verbose  = false)
+    bool verbose  = false,
+    NumericVector nugget = NumericVector::create(0.0))
 {
-  // 'fitting' is the R^2 of the kriging trend model and appears below (in
-  // stdevOptim) as sd1*sd1/fittingVal in the within-stratum variance:
+  // 'fitting' appears below (in stdevOptim) as sd1*sd1/fittingVal in the
+  // within-stratum variance (see the note on the additive and rescaling
+  // corrections above stdevOptim):
   // fitting = 0 is a division by zero, and any fitting close to 0 correctly
   // forces a very large required sample size (a model that explains nothing
   // needs near-census sampling to meet any precision target). Reject it here
@@ -220,10 +261,15 @@ DataFrame buildStrataDFSpatial(
     stop("buildStrataDFSpatial: 'fitting' must have length 1 or equal to the number of Y variables");
   if (range.size() != 1 && range.size() != nvarY)
     stop("buildStrataDFSpatial: 'range' must have length 1 or equal to the number of Y variables");
-  NumericVector fit_y(nvarY), range_y(nvarY);
+  if (nugget.size() != 1 && nugget.size() != nvarY)
+    stop("buildStrataDFSpatial: 'nugget' must have length 1 or equal to the number of Y variables");
+  NumericVector fit_y(nvarY), range_y(nvarY), nugget_y(nvarY);
   for (int iY = 0; iY < nvarY; iY++) {
-    fit_y[iY]   = (fitting.size() == 1) ? fitting[0] : fitting[iY];
-    range_y[iY] = (range.size() == 1)   ? range[0]   : range[iY];
+    fit_y[iY]    = (fitting.size() == 1) ? fitting[0] : fitting[iY];
+    range_y[iY]  = (range.size() == 1)   ? range[0]   : range[iY];
+    nugget_y[iY] = (nugget.size() == 1)  ? nugget[0]  : nugget[iY];
+    if (NumericVector::is_na(nugget_y[iY]) || nugget_y[iY] < 0.0 || nugget_y[iY] > 1.0)
+      stop("buildStrataDFSpatial: 'nugget' must be in [0, 1] (relative nugget c0/(c0+c1))");
   }
   
   if (verbose) {
@@ -243,6 +289,28 @@ DataFrame buildStrataDFSpatial(
     VARcols[iY] = ds[varName];
   }
   
+  // kappa must be finite and > 0 (no warning here: the function is called at
+  // every evaluation of the genetic algorithm; the usual values 1 and 3 are
+  // checked by optimizeStrataSpatial and KmeansSolutionSpatial)
+  if (!R_finite(kappa) || kappa <= 0.0)
+    stop("buildStrataDFSpatial: 'kappa' must be a finite value > 0");
+
+  // fitting < 1 together with positive prediction-error variances would count
+  // the error variance twice: rejected
+  for (int iY = 0; iY < nvarY; iY++) {
+    if (fit_y[iY] < 1.0) {
+      for (int r = 0; r < nrows; r++) {
+        double v = VARcols[iY][r];
+        if (!NumericVector::is_na(v) && v > 0.0)
+          stop("buildStrataDFSpatial: fitting < 1 cannot be used together with positive "
+               "prediction-error variances (the error variance would be counted twice). "
+               "Either omit fitting (default 1) and keep the variances, or, if only the R2 "
+               "of the prediction model is known, use fitting = 1 with a constant variance "
+               "equal to var(predictions) * (1 - R2) / R2.");
+      }
+    }
+  }
+
   // 5) Prepara i vettori X
   std::vector<NumericVector> XcolsVec(nvarX);
   for (int ix = 0; ix < nvarX; ix++) {
@@ -322,8 +390,9 @@ DataFrame buildStrataDFSpatial(
         // stdev spaziale
         double fittingVal = fit_y[iY];
         double rangeVal   = range_y[iY];
+        double nuggetVal  = nugget_y[iY];
         double sdev = stdevOptim(srows, lon, lat, Ycols[iY], VARcols[iY],
-                                 fittingVal, rangeVal, kappa);
+                                 fittingVal, rangeVal, kappa, nuggetVal);
         S_i[iY] = sdev;
       }
       

@@ -15,6 +15,7 @@ optimizeStrataSpatial(
   fitting = c(1),
   range = c(0),
   kappa = 3,
+  nugget = c(0),
   minnumstr = 2,
   iter = 50,
   pops = 20,
@@ -47,13 +48,31 @@ then a value must be given to parameter 'dom'.}
 
 \item{nStrata}{Indicates the number of strata for each variable.}
 
-\item{fitting}{Fitting of the model(s).
-Default is 1.}
+\item{fitting}{Default is 1, which must be used when the frame contains the
+prediction-error variances (var columns): the additive correction
+(de Gruijter et al. 2016) already accounts for the levelling of the predictions.
+A value < 1 (coefficient of determination R2 of the prediction model) is meant only for
+the rescaling correction, with all variances = 0: with positive variances the function
+stops (the error variance would be counted twice). If only R2 is known, use fitting = 1
+with a constant variance var(predictions) * (1 - R2) / R2. See buildStrataDFSpatial().
+A vector with as many elements as the number of target variables Y, or a dataframe with one
+row per domain.}
 
-\item{range}{Maximum range for spatial autocorrelation. It is a vector with as many elements as the number of target variables Y.}
+\item{range}{Range of the exponential correlation function of the prediction errors,
+in the units of the coordinates (0 = no spatial correlation). A vector with as many elements
+as the number of target variables Y, or a dataframe with one row per domain.}
 
-\item{kappa}{Factor used in evaluating spatial autocorrelation.
+\item{kappa}{Factor used in evaluating spatial autocorrelation: the correlation between the
+prediction errors of two units at distance d is (1 - nugget) * exp(-kappa * d / range).
+Use kappa = 1 when range is the range parameter of an exponential variogram (as returned by
+gstat), kappa = 3 when range is the practical range. Any finite value > 0 is accepted
+(a value other than 1 and 3 gives a warning); 0 or negative values give an error.
 Default is 3.}
+
+\item{nugget}{Relative nugget c0/(c0+c1) of the variogram of the prediction errors, in [0, 1]:
+the share of the error variance that is not spatially correlated. A vector with as many
+elements as the number of target variables Y, or a dataframe with one row per domain.
+Default is 0.}
 
 \item{minnumstr}{Indicates the minimum number of units that must be allocated in each stratum. Default is 2.}
 
@@ -117,6 +136,8 @@ v <- variogram(lead ~ dist + soil, data = meuse)
 fit.vgm.lead <- autofitVariogram(lead ~ dist + soil,
                                  meuse,
                                  model = "Exp")
+# relative nugget c0/(c0+c1)
+nug.lead <- fit.vgm.lead$var_model$psill[1] / sum(fit.vgm.lead$var_model$psill)
 plot(v, fit.vgm.lead$var_model)
 lead.kr <- krige(lead ~ dist + soil, meuse, meuse.grid,
                 model = fit.vgm.lead$var_model)
@@ -146,7 +167,8 @@ solution <- optimizeStrataSpatial(errors = cv,
                         nStrata = 5,
                         fitting = 1,
                         kappa = 1,
-                        range = fit.vgm.lead$var_model$range[2])
+                        range = fit.vgm.lead$var_model$range[2],
+                        nugget = nug.lead)
 framenew <- solution$framenew
 outstrata <- solution$aggr_strata
 frameres <- SpatialPixelsDataFrame(points = framenew[c("LON","LAT")],

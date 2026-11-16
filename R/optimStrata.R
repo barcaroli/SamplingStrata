@@ -52,13 +52,27 @@
 #'   Default is TRUE.
 #' @param cores If the analysis is run in parallel, how many cores should be used.
 #'   If not specified n-1 of total available cores are used OR if number of domains < (n-1) cores, then number of cores equal to number of domains are used.
-#' @param fitting Fitting of the model(s) (in terms of R squared).
+#' @param fitting Only for method "spatial". If not given, it is set to 1, the value to be used
+#'   when the frame contains the prediction-error variances (additive correction,
+#'   de Gruijter et al. 2016). A value < 1 (coefficient of determination R2 of the prediction
+#'   model) is accepted only for the rescaling correction, with all variances = 0: with
+#'   positive variances the function stops (the error variance would be counted twice).
+#'   If only R2 is known, use fitting = 1 with a constant variance
+#'   var(predictions) * (1 - R2) / R2.
 #'   It can be vector with as many elements as the number of target variables Ys, or a
 #'   dataframe with as many rows as the different domains in the frame.
-#' @param range Maximum range for spatial autocorrelation.
+#' @param range Only for method "spatial": range of the exponential correlation function of
+#'   the prediction errors, in the units of the coordinates (0 = no spatial correlation).
 #'   It can be vector with as many elements as the number of target variables Ys, or a
 #'   dataframe with as many rows as the different domains in the frame.
-#' @param kappa Factor used in evaluating spatial autocorrelation.
+#' @param kappa Only for method "spatial": factor used in evaluating spatial autocorrelation.
+#'   1 if range is the range parameter of an exponential variogram (as returned by gstat),
+#'   3 (default) if range is the practical range. Any finite value > 0 is accepted (a value
+#'   other than 1 and 3 gives a warning); 0 or negative values give an error.
+#' @param nugget Only for method "spatial": relative nugget c0/(c0+c1) of the variogram of the
+#'   prediction errors, in [0, 1]. If not given, it is set to 0 (no nugget).
+#'   It can be vector with as many elements as the number of target variables Ys, or a
+#'   dataframe with as many rows as the different domains in the frame.
 #'
 #' @return
 #' List containing
@@ -190,7 +204,7 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
                          dom = NULL, strcens = FALSE, minnumstr = 2, iter = 50, pops = 20, 
                          mut_chance = NA, elitism_rate = 0.2, suggestions = NULL, 
                          writeFiles = FALSE, showPlot = TRUE, parallel = TRUE, cores = NA, 
-                         fitting = NA, range = NA, kappa = NA) 
+                         fitting = NA, range = NA, kappa = NA, nugget = NA) 
 {
   check_consecutive_domainvalue <- function(df, df_name) {
     colnames(df) <- toupper(colnames(df))
@@ -246,11 +260,13 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
                   ". Remove or impute them before optimStrata(method = 'spatial')."))
     }
 
-    non_positive_var <- vapply(framesamp[var_cols], function(x) sum(x <= 0), integer(1))
-    if (any(non_positive_var > 0)) {
-      bad <- paste(names(non_positive_var)[non_positive_var > 0], non_positive_var[non_positive_var > 0], sep = "=", collapse = ", ")
-      stop(paste0("Non-positive variance values found in spatial frame columns: ", bad,
-                  ". Filter records with var* <= 0 before optimStrata(method = 'spatial')."))
+    # zero variances are allowed: they are required by the rescaling correction
+    # (fitting = R2 < 1 with all variances = 0)
+    negative_var <- vapply(framesamp[var_cols], function(x) sum(x < 0), integer(1))
+    if (any(negative_var > 0)) {
+      bad <- paste(names(negative_var)[negative_var > 0], negative_var[negative_var > 0], sep = "=", collapse = ", ")
+      stop(paste0("Negative variance values found in spatial frame columns: ", bad,
+                  ". Filter records with var* < 0 before optimStrata(method = 'spatial')."))
     }
 
     domain_size <- table(framesamp$domainvalue)
@@ -289,6 +305,18 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
     stop("There is at least one element in nStrata that is < 2")
   if (alldomains == TRUE & !is.null(dom)) 
     stop("Processing of all domains set TRUE, but a given domain has been indicated")
+  # model of type "spatial" (atomic and continuous methods): kappa (default 1)
+  # must be > 0; values other than 1 and 3 are unusual
+  if (!is.null(model) && "type" %in% names(model) && "kappa" %in% names(model)) {
+    kap <- model$kappa[model$type == "spatial" & !is.na(model$kappa)]
+    if (any(!is.finite(kap) | kap <= 0))
+      stop("kappa must be a finite value > 0 in model for spatial type")
+    if (any(!kap %in% c(1, 3)))
+      warning("kappa = ", paste(unique(kap[!kap %in% c(1, 3)]), collapse = ", "),
+              " in model for spatial type is unusual: use kappa = 1 when range is the ",
+              "range parameter of the exponential variogram, kappa = 3 when range is the ",
+              "practical range.", call. = FALSE)
+  }
   if (method == "atomic") {
     if (is.null(errors)) 
       stop("The 'precision constraints' (errors) dataframe is missing")
@@ -373,6 +401,8 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
       stop("Range value(s) not required with this method")
     if (!is.na(kappa)) 
       stop("Kappa value not required with this method")
+    if (!is.data.frame(nugget) && !is.na(nugget[1])) 
+      stop("Nugget value(s) not required with this method")
     solution <- optimizeStrata2(errors = errors, framesamp = framesamp, 
                                 framecens = framecens, strcens = strcens, model = model, 
                                 alldomains = alldomains, dom = dom, nStrata = nStrata, 
@@ -390,12 +420,20 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
     nvarY <- length(grep("Y", names(framesamp)))
     fitting_val1 <- if (is.data.frame(fitting)) fitting[1, 1] else fitting[1]
     range_val1   <- if (is.data.frame(range))   range[1, 1]   else range[1]
-    if (is.na(fitting_val1))
-      stop("Fitting values of spatial models must be given")
+    if (is.na(fitting_val1)) {
+      # additive correction (de Gruijter et al. 2016)
+      fitting <- rep(1, nvarY)
+    }
     if (is.na(range_val1))
       stop("Range values of spatial models must be given")
     if (is.na(kappa))
       kappa <- 3
+    nugget_val1 <- if (is.data.frame(nugget)) nugget[1, 1] else nugget[1]
+    if (is.na(nugget_val1))
+      nugget <- rep(0, nvarY)
+    nugget_len <- if (is.data.frame(nugget)) ncol(nugget) else length(as.numeric(nugget))
+    if (nvarY != nugget_len)
+      stop("Nugget values must be equal to the number of Y's")
     fitting_len <- if (is.data.frame(fitting)) ncol(fitting) else length(as.numeric(fitting))
     range_len   <- if (is.data.frame(range))   ncol(range)   else length(as.numeric(range))
     if (nvarY != fitting_len)
@@ -438,7 +476,7 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
                                       suggestions = suggestions, realAllocation = TRUE, 
                                       writeFiles = writeFiles, showPlot = showPlot, parallel = parallel, 
                                       cores = cores, fitting = fitting, range = range, 
-                                      kappa = kappa)
+                                      kappa = kappa, nugget = nugget)
   }
   return(solution)
 }

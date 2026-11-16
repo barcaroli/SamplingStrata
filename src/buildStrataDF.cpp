@@ -45,42 +45,35 @@ double stdev2(const std::vector<double>& x, const std::vector<double>& w) {
   return std::sqrt(sumsq / sumw);
 }
 
-double stdev3(const std::vector<double>& Y, const std::vector<double>& W, double beta1, double beta2) {
-  size_t n = Y.size();
-  if(n < 2) return 0.0;
-  double meanY = 0.0, meanW = 0.0;
-  for (size_t i = 0; i < n; i++){
-    meanY += Y[i];
-    meanW += W[i];
-  }
-  meanY /= n;
-  meanW /= n;
-  double varY = 0.0, varW = 0.0, covYW = 0.0;
-  for (size_t i = 0; i < n; i++){
-    varY += (Y[i] - meanY) * (Y[i] - meanY);
-    varW += (W[i] - meanW) * (W[i] - meanW);
-    covYW += (Y[i] - meanY) * (W[i] - meanW);
-  }
-  varY /= (n - 1);
-  varW /= (n - 1);
-  covYW /= (n - 1);
-  double value = beta1 * beta1 * varY + 2 * beta1 * beta2 * covYW + beta2 * beta2 * varW;
-  return std::sqrt(value);
-}
+// (stdev3, the unweighted standard deviation with divisor n - 1 of
+// beta1 * Y + beta2 * W, was removed: the "spatial" model now computes the
+// standard deviation of the predictions with stdev1 / stdev2, as the "linear"
+// model does for Y)
 
-// Ottimizzazione di stdev4: iterazione solo per i < j e parallelizzazione (se il gruppo è grande)
+// stdev4: spatial component of the anticipated variance for the "spatial"
+// model type (pairs i < j only, parallelised if OpenMP is available).
+// Error variance of unit i: s2_i = var_eps * Y_i^(2 gamma).
+// Covariance of the errors of two distinct units:
+//   Cov(e_i, e_j) = (1 - nugget) * s_i * s_j * exp(-kappa * d_ij / range)
+// (no correlation with range <= 0 or nugget >= 1).
+// Returns sqrt( sum_{i != j} [s2_i + s2_j - 2 Cov(e_i, e_j)] / (2 n^2) ).
 double stdev4(const std::vector<double>& Y,
               const std::vector<double>& LON,
               const std::vector<double>& LAT,
               double var_eps,
               double range,
-              double gamma) {
+              double gamma,
+              double kappa,
+              double nugget) {
   size_t n = Y.size();
   if(n == 0) return 0.0;
   std::vector<double> var_ntimes(n);
   for (size_t i = 0; i < n; i++){
     var_ntimes[i] = var_eps * std::pow(Y[i], 2 * gamma);
   }
+  bool spatial = (range > 0.0) && (nugget < 1.0);
+  double inv_r = spatial ? kappa / range : 0.0;
+  double w = 1.0 - nugget;
   double sumD2 = 0.0;
   // Itera solo su coppie con j > i
 #ifdef _OPENMP
@@ -93,7 +86,7 @@ double stdev4(const std::vector<double>& Y,
       double d = std::sqrt(dlon * dlon + dlat * dlat);
       double sum_couples_var = var_ntimes[i] + var_ntimes[j];
       double prod_std = std::sqrt(var_ntimes[i] * var_ntimes[j]);
-      double spatial_autocov = prod_std * std::exp(- d / (range + 1e-7));
+      double spatial_autocov = spatial ? w * prod_std * std::exp(- d * inv_r) : 0.0;
       double D2 = sum_couples_var - 2 * spatial_autocov;
       sumD2 += D2;
     }
@@ -147,6 +140,16 @@ struct DomainResult {
 //'   to compute the anticipated variance, information on models are given by a dataframe "model" with as many rows as the
 //'   target variables. Each row contains the indication if the model is linear o loglinear, and the values of the model parameters
 //'   beta, sig2, gamma (> 1 in case of heteroscedasticity).
+//'   For type "spatial" (target modelled as beta * Y + beta2 * W + e, with error variance sig2 * Y^(2 gamma))
+//'   the variance in a stratum is s1^2 / fitting + s2^2, where s1^2 is the variance of the
+//'   predictions (divisor N for frame data, sum of weights - 1 for sample data) and s2^2 the mean, over the pairs of distinct units, of
+//'   s2_i + s2_j - 2 (1 - nugget) s_i s_j exp(-kappa d_ij / range). Required columns: beta2, range,
+//'   gamma. Optional columns: fitting (default 1), nugget (relative nugget c0/(c0+c1) of the
+//'   variogram of the errors, default 0), kappa (default 1, i.e. range is the range parameter of an
+//'   exponential variogram; 3 if it is the practical range).
+//'   Since the error variance already compensates the levelling of the predictions, fitting must be 1
+//'   when sig2 > 0 (additive correction, de Gruijter et al. 2016): fitting = R2 < 1 together with
+//'   sig2 > 0 would count the error variance twice, and is rejected.
 //'   Default is NULL.
 //' @param progress If set to TRUE, a progress bar is visualised during the execution. Default is TRUE.
 //' @param verbose If set to TRUE, information is given about the number of strata generated. Default is TRUE.
@@ -247,8 +250,53 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
   if(model_.isNotNull()){
     model = model_.get();
     useModel = true;
+    // fitting < 1 together with an error variance counts it twice
+    if(model.containsElementNamed("fitting") && model.containsElementNamed("type") &&
+       model.containsElementNamed("sig2")) {
+      CharacterVector tp = model["type"];
+      NumericVector ft = model["fitting"];
+      NumericVector sg = model["sig2"];
+      for (int k = 0; k < model.nrows(); k++) {
+        if (as<std::string>(tp[k]) == "spatial" && !NumericVector::is_na(ft[k]) &&
+            ft[k] < 1.0 && !NumericVector::is_na(sg[k]) && sg[k] > 0.0) {
+          stop("model of type 'spatial': fitting < 1 cannot be used together with sig2 > 0 "
+               "(the error variance would be counted twice). Omit fitting (default 1).");
+        }
+      }
+    }
     if(model.nrows() != nvarY)
       stop("A model for each Y variable must be specified");
+    // Validation of the model parameters. It must be done here, before the
+    // OpenMP parallel region: an Rcpp::stop() thrown inside the parallel loop
+    // cannot be caught by R and terminates the session.
+    if(model.containsElementNamed("type")) {
+      CharacterVector tp = model["type"];
+      for (int k = 0; k < model.nrows(); k++) {
+        std::string tk = as<std::string>(tp[k]);
+        if (tk != "linear" && tk != "loglinear" && tk != "spatial")
+          stop("Type of model misspecified");
+        if (tk != "spatial") continue;
+        if (!model.containsElementNamed("range") || !model.containsElementNamed("gamma"))
+          stop("Missing parameters in model for spatial type (range, gamma)");
+        if (!model.containsElementNamed("beta2"))
+          stop("beta2 missing in model for spatial type");
+        if (model.containsElementNamed("fitting")) {
+          NumericVector v = model["fitting"];
+          if (!NumericVector::is_na(v[k]) && v[k] <= 0.0)
+            stop("fitting must be > 0 in model for spatial type");
+        }
+        if (model.containsElementNamed("nugget")) {
+          NumericVector v = model["nugget"];
+          if (!NumericVector::is_na(v[k]) && (v[k] < 0.0 || v[k] > 1.0))
+            stop("nugget must be in [0, 1] in model for spatial type");
+        }
+        if (model.containsElementNamed("kappa")) {
+          NumericVector v = model["kappa"];
+          if (!NumericVector::is_na(v[k]) && (!R_finite(v[k]) || v[k] <= 0.0))
+            stop("kappa must be a finite value > 0 in model for spatial type");
+        }
+      }
+    }
   }
   
   if(!ds.containsElementNamed("DOMAINVALUE"))
@@ -459,7 +507,13 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
             }
             double M_val = sumYW / sumw;
             M_vals[y_idx-1] = M_val;
-            double s1 = stdev3(Y_vals, W_vals, beta, beta2);
+            // standard deviation of the predictions beta * Y + beta2 * W:
+            // divisor sum(w) - 1 for sample data (WEIGHT given), sum(w) for
+            // frame data, as for the other model types
+            std::vector<double> pred_vals(Y_vals.size());
+            for (size_t j = 0; j < Y_vals.size(); j++)
+              pred_vals[j] = Y_vals[j] * beta + W_vals[j] * beta2;
+            double s1 = weightProvided ? stdev1(pred_vals, w_vals) : stdev2(pred_vals, w_vals);
             if(!ds.containsElementNamed("LON") || !ds.containsElementNamed("LAT"))
               stop("Missing coordinates on sampling frame");
             NumericVector LONcol = ds["LON"];
@@ -469,16 +523,30 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
               lon_vals.push_back(LONcol[i]);
               lat_vals.push_back(LATcol[i]);
             }
-            if(!model.containsElementNamed("range") || !model.containsElementNamed("gamma") ||
-               !model.containsElementNamed("fitting"))
-               stop("Missing parameters in model for spatial type");
+            if(!model.containsElementNamed("range") || !model.containsElementNamed("gamma"))
+               stop("Missing parameters in model for spatial type (range, gamma)");
             NumericVector model_range = model["range"];
             NumericVector model_gamma = model["gamma"];
-            NumericVector model_fitting = model["fitting"];
             double range_val = model_range[y_idx-1];
             double gamma_val = model_gamma[y_idx-1];
-            double fitting = model_fitting[y_idx-1];
-            double s2 = stdev4(Y_vals, lon_vals, lat_vals, sig2, range_val, gamma_val);
+            // optional parameters: fitting (default 1, additive correction),
+            // nugget (default 0), kappa (default 1)
+            double fitting = 1.0, nugget_val = 0.0, kappa_val = 1.0;
+            if(model.containsElementNamed("fitting")) {
+              NumericVector v = model["fitting"];
+              if(!NumericVector::is_na(v[y_idx-1])) fitting = v[y_idx-1];
+            }
+            if(model.containsElementNamed("nugget")) {
+              NumericVector v = model["nugget"];
+              if(!NumericVector::is_na(v[y_idx-1])) nugget_val = v[y_idx-1];
+            }
+            if(model.containsElementNamed("kappa")) {
+              NumericVector v = model["kappa"];
+              if(!NumericVector::is_na(v[y_idx-1])) kappa_val = v[y_idx-1];
+            }
+            // fitting, nugget and kappa validated before the parallel region
+            double s2 = stdev4(Y_vals, lon_vals, lat_vals, sig2, range_val, gamma_val,
+                               kappa_val, nugget_val);
             S_vals[y_idx-1] = std::sqrt((s1 * s1 / fitting) + s2 * s2);
           } else {
             stop("Type of model misspecified");

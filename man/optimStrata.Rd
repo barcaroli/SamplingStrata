@@ -26,7 +26,8 @@ optimStrata(
   cores = NA,
   fitting = NA,
   range = NA,
-  kappa = NA
+  kappa = NA,
+  nugget = NA
 )
 }
 \arguments{
@@ -85,15 +86,30 @@ Default is TRUE.}
 \item{cores}{If the analysis is run in parallel, how many cores should be used.
 If not specified n-1 of total available cores are used OR if number of domains < (n-1) cores, then number of cores equal to number of domains are used.}
 
-\item{fitting}{Fitting of the model(s) (in terms of R squared).
+\item{fitting}{Only for method "spatial". If not given, it is set to 1, the value to be used
+when the frame contains the prediction-error variances (additive correction,
+de Gruijter et al. 2016). A value < 1 (coefficient of determination R2 of the prediction
+model) is accepted only for the rescaling correction, with all variances = 0: with
+positive variances the function stops (the error variance would be counted twice).
+If only R2 is known, use fitting = 1 with a constant variance
+var(predictions) * (1 - R2) / R2.
 It can be vector with as many elements as the number of target variables Ys, or a
 dataframe with as many rows as the different domains in the frame.}
 
-\item{range}{Maximum range for spatial autocorrelation.
+\item{range}{Only for method "spatial": range of the exponential correlation function of
+the prediction errors, in the units of the coordinates (0 = no spatial correlation).
 It can be vector with as many elements as the number of target variables Ys, or a
 dataframe with as many rows as the different domains in the frame.}
 
-\item{kappa}{Factor used in evaluating spatial autocorrelation.}
+\item{kappa}{Only for method "spatial": factor used in evaluating spatial autocorrelation.
+1 if range is the range parameter of an exponential variogram (as returned by gstat),
+3 (default) if range is the practical range. Any finite value > 0 is accepted (a value
+other than 1 and 3 gives a warning); 0 or negative values give an error.}
+
+\item{nugget}{Only for method "spatial": relative nugget c0/(c0+c1) of the variogram of the
+prediction errors, in [0, 1]. If not given, it is set to 0 (no nugget).
+It can be vector with as many elements as the number of target variables Ys, or a
+dataframe with as many rows as the different domains in the frame.}
 }
 \value{
 List containing

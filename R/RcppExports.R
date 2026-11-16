@@ -73,6 +73,16 @@ bethel_cpp <- function(strata, errors, minnumstrat, realAllocation = TRUE) {
 #'   to compute the anticipated variance, information on models are given by a dataframe "model" with as many rows as the
 #'   target variables. Each row contains the indication if the model is linear o loglinear, and the values of the model parameters
 #'   beta, sig2, gamma (> 1 in case of heteroscedasticity).
+#'   For type "spatial" (target modelled as beta * Y + beta2 * W + e, with error variance sig2 * Y^(2 gamma))
+#'   the variance in a stratum is s1^2 / fitting + s2^2, where s1^2 is the variance of the
+#'   predictions (divisor N for frame data, sum of weights - 1 for sample data) and s2^2 the mean, over the pairs of distinct units, of
+#'   s2_i + s2_j - 2 (1 - nugget) s_i s_j exp(-kappa d_ij / range). Required columns: beta2, range,
+#'   gamma. Optional columns: fitting (default 1), nugget (relative nugget c0/(c0+c1) of the
+#'   variogram of the errors, default 0), kappa (default 1, i.e. range is the range parameter of an
+#'   exponential variogram; 3 if it is the practical range).
+#'   Since the error variance already compensates the levelling of the predictions, fitting must be 1
+#'   when sig2 > 0 (additive correction, de Gruijter et al. 2016): fitting = R2 < 1 together with
+#'   sig2 > 0 would count the error variance twice, and is rejected.
 #'   Default is NULL.
 #' @param progress If set to TRUE, a progress bar is visualised during the execution. Default is TRUE.
 #' @param verbose If set to TRUE, information is given about the number of strata generated. Default is TRUE.
@@ -161,13 +171,27 @@ buildStrataDF <- function(dataset, model_ = NULL, progress = TRUE, verbose = TRU
 #'   are denoted by Y1, Y2, ... , Yn.
 #'   In addition, in case of sample data, a variable named 'WEIGHT' must be present in the dataframe,
 #'   containing   the weigths associated to each sampling unit
-#' @param fitting Fitting of the model(s).
-#'   Default is 1.
-#' @param range Maximum range for spatial autocorrelation
-#' @param kappa Factor used in evaluating spatial autocorrelation.
-#'   Default is 3.
+#' @param fitting Default is 1, which must be used when the frame contains the
+#'   prediction-error variances (VAR columns): the additive correction
+#'   (de Gruijter et al. 2016) already accounts for the levelling of the predictions.
+#'   A value < 1 (the coefficient of determination R2 of the prediction model)
+#'   divides the squared differences of the predictions, and is accepted only with all
+#'   VAR = 0 (rescaling correction): with positive variances the error variance would be
+#'   counted twice, and the function stops. If only R2 is known, the additive correction
+#'   can be used with fitting = 1 and a constant variance var(predictions) * (1 - R2) / R2.
+#' @param range Range of the exponential correlation function of the prediction errors
+#'   (in the units of the coordinates). 0 means no spatial correlation.
+#' @param kappa Factor used in evaluating spatial autocorrelation: the correlation
+#'   between the prediction errors of two units at distance d is
+#'   (1 - nugget) * exp(-kappa * d / range). Use kappa = 1 when range is the range
+#'   parameter of an exponential variogram (as returned by gstat), kappa = 3 when
+#'   range is the practical range. Any finite value > 0 is accepted; 0 or negative
+#'   values give an error. Default is 3.
 #' @param progress If set to TRUE, a progress bar is visualised during the execution. Default is FALSE.
 #' @param verbose If set to TRUE, information is given about the number of strata generated. Default is FALSE.
+#' @param nugget Relative nugget c0/(c0+c1) of the variogram of the prediction errors,
+#'   in [0, 1]: the share of the error variance that is not spatially correlated.
+#'   Default is 0 (no nugget).
 #'
 #' @return
 #' A dataframe containing strata
@@ -184,12 +208,12 @@ buildStrataDF <- function(dataset, model_ = NULL, progress = TRUE, verbose = TRU
 #'                     domainvalue = 1)
 #' frame$X1 <- var.bin(frame$X1, bins = 3)   # stratification variable
 #' strata <- buildStrataDFSpatial(dataset = frame, fitting = 1, range = 0.5,
-#'                                kappa = 3)
+#'                                kappa = 3, nugget = 0.3)
 #' strata
 #'
 #' @keywords survey
 #' @export
-buildStrataDFSpatial <- function(dataset, fitting = as.numeric( c(1.0)), range = as.numeric( c(0.0)), kappa = 3.0, progress = FALSE, verbose = FALSE) {
-    .Call(`_SamplingStrata_buildStrataDFSpatial`, dataset, fitting, range, kappa, progress, verbose)
+buildStrataDFSpatial <- function(dataset, fitting = as.numeric( c(1.0)), range = as.numeric( c(0.0)), kappa = 3.0, progress = FALSE, verbose = FALSE, nugget = as.numeric( c(0.0))) {
+    .Call(`_SamplingStrata_buildStrataDFSpatial`, dataset, fitting, range, kappa, progress, verbose, nugget)
 }
 

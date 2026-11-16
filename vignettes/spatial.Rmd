@@ -1,7 +1,7 @@
 ---
 title: "Spatial sampling with SamplingStrata"
 author: "Marco Ballin, Giulio Barcaroli"
-date: "2026-11-13"
+date: "2026-11-16"
 # output: rmarkdown::html_vignette
 output: 
   bookdown::html_document2:
@@ -35,45 +35,93 @@ When frame units are georeferenced or geocoded, the presence of spatial auto-cor
 
 As indicated by @degruijter2016 and @degruijter2019, in case $Z$ is the target variable, omitting as negligible the *fpc* factor, the sampling variance of its estimated mean is:
 
-\begin{equation} \label{eq1}
-V(\hat{\bar{Z}}) = \sum_{h=1}^{H}(N_{h}/N)^{2} S_{h}^{2}/n_{h}
+\begin{equation}
+V(\hat{\bar{Z}}) = \sum_{h=1}^{H}(N_{h}/N)^{2} S_{h}^{2}/n_{h} (\#eq:eq1)
 \end{equation}
 
 We can write the variance in each stratum $h$ as:
 
-\begin{equation} \label{eq2}
-S_{h}^{2} = \dfrac{1}{N_{h}^{2}} \sum_{i=1}^{N_{h-1}}\sum_{j=i+1}^{N_{h}}(z_{i}-z_{j})^{2}
+\begin{equation}
+S_{h}^{2} = \dfrac{1}{N_{h}^{2}} \sum_{i=1}^{N_{h-1}}\sum_{j=i+1}^{N_{h}}(z_{i}-z_{j})^{2} (\#eq:eq2)
 \end{equation} 
 
 The optimal determination of strata is obtained by minimizing the quantity $O$:
 
-\begin{equation} \label{eq3}
-O = \sum_{h=1}^{H} \dfrac{1}{N_{h}^{2}} \{ \sum_{i=1}^{N_{h-1}}  \sum_{j=i+1}^{N_{h}} (z_{i}-z_{j})^{2}\}^{1/2}
+\begin{equation}
+O = \sum_{h=1}^{H} \dfrac{1}{N_{h}^{2}} \{ \sum_{i=1}^{N_{h-1}}  \sum_{j=i+1}^{N_{h}} (z_{i}-z_{j})^{2}\}^{1/2} (\#eq:eq3)
 \end{equation}
 
-Obviously, values $z$ are not known, but only their predictions, obtained by means of a regression model. So, in Equation \ref{eq3} we can substitute $(z_{i}-z_{j})^{2}$ with 
+Obviously, values $z$ are not known, but only their predictions $\tilde{z}$, obtained by means of a model (for instance a regression or a *kriging* model), together with the variances of their prediction errors $e_{i}$. Assuming that the predictions are unbiased and that the errors are uncorrelated with the predictions (as for a well-calibrated model), @degruijter2015 [Eq. 10] and @degruijter2016 [Eq. 15] show that the model expectation of $(z_{i}-z_{j})^{2}$, conditional on the predictions, is
 
-\begin{equation} \label{eq5}
-D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + V(e_{i}) + V(e_{j}) - 2Cov(e_{i},e_{j})
+\begin{equation}
+D_{ij}^{2} = (\tilde{z}_{i}-\tilde{z}_{j})^{2} + V(e_{i}) + V(e_{j}) - 2Cov(e_{i},e_{j}) (\#eq:eq5)
 \end{equation}
 
-where $R^{2}$ is the squared correlation coefficient indicating the fitting of the regression model, and $V(e_{i})$, $V(e_{j})$ are the model variances of the residuals. The spatial auto-correlation component is contained in the term $Cov(e_{i},e_{j})$.
+that can be substituted to $(z_{i}-z_{j})^{2}$ in Equations \@ref(eq:eq2) and \@ref(eq:eq3). The term $V(e_{i}) + V(e_{j})$ compensates for the *levelling* (smoothing) effect of the predictions, whose variance is smaller than that of the true values. The spatial auto-correlation component is contained in the term $Cov(e_{i},e_{j})$.
 
-In particular, the quantity $D_{ij}$ is calculated in this way:
+**Note.** @degruijter2015 [Eq. 11] and @degruijter2019 [Eq. 2] also divide the first term by the coefficient of determination $R^{2}$ of the prediction model, in order to correct for the levelling effect. Under the assumptions above this correction is already made by the error variances, so that applying both counts the error variance twice: averaging over the pairs of units, $Var(\tilde{z})/R^{2} + \bar{V}(e) = Var(z) + (1-R^{2})Var(z)$. From this version on, SamplingStrata uses Equation \@ref(eq:eq5) by default (parameter `fitting = 1`). The two corrections are alternatives:
 
-\begin{equation} \label{eq6}
-D_{ij}^{2} = \dfrac{(\tilde{z}_{i}-\tilde{z}_{j})^{2}}{R^{2}} + (s_{i}^{2} + s_{j}^{2}) - 2 s_{i}  s_{j}  e^{-k (d_{ij}/range)}
+* *additive correction* (default): prediction-error variances in the frame and `fitting = 1`;
+* *rescaling correction*: `fitting` equal to the $R^{2}$ of the prediction model (computed as $1 - SSE/SST$, preferably on validation data) and prediction-error variances set to zero in the frame.
+
+Using `fitting < 1` together with positive prediction-error variances is rejected: the functions stop with an error. If only the $R^{2}$ of the prediction model is known, the additive correction can still be used, with `fitting = 1` and a constant prediction-error variance $s^{2} = Var(\tilde{z})(1-R^{2})/R^{2}$ in the frame. On average over the population this gives the same total variance as the rescaling correction, but within the strata it does not assume that the stratification can remove the error variance, as the rescaling $S^{2}_{h}(\tilde{z})/R^{2}$ does (when the predictions in a stratum are almost constant, the rescaled variance goes to zero, while the error variance remains).
+
+The covariance between the prediction errors of two distinct units is modelled as
+
+\begin{equation}
+Cov(e_{i},e_{j}) = (1-\nu) \, s_{i} \, s_{j} \, e^{-\kappa \, d_{ij}/r} (\#eq:eq6)
 \end{equation}
 
-where $d_{ij}$ is the Euclidean distance between two units i and j in the frame (calculated using their geographical coordinates, that must be expressed in meters), the $s_{i}$ and $s_{j}$ are estimates of the prediction errors in the single points and *range* is the maximum distance below which spatial auto-correlation can be observed among points. The value of *range* can be determined by an analysis of the spatial *variogram*.
+so that
 
+\begin{equation}
+D_{ij}^{2} = (\tilde{z}_{i}-\tilde{z}_{j})^{2} + (s_{i}^{2} + s_{j}^{2}) - 2 (1-\nu) \, s_{i} \, s_{j} \, e^{-\kappa \, d_{ij}/r} (\#eq:eq7)
+\end{equation}
+
+where:
+
+* $d_{ij}$ is the Euclidean distance between units $i$ and $j$ (calculated using their geographical coordinates, that must be expressed in meters);
+* $s_{i}^{2}$ and $s_{j}^{2}$ are the variances of the prediction errors in the single points;
+* $r$ (parameter `range`) and $\nu$ (parameter `nugget`) describe the spatial correlation of the prediction errors, and are obtained from their variogram;
+* $\kappa$ (parameter `kappa`) depends on how the range $r$ is defined, as explained in Section \@ref(kappa);
+* $\nu = c_{0}/(c_{0}+c_{1})$ is the *relative nugget*: the share of the error variance (micro-scale variability and measurement error) that is not spatially correlated, even between units at very short distance. With $\nu = 0$ (default) two very close units have almost perfectly correlated errors; with a large nugget the reduction of variance due to the spatial correlation is correspondingly smaller. The nugget is given in relative terms because the scale of the error variance is already given, unit by unit, by $s_{i}^{2}$.
+
+With `range = 0`, or `nugget = 1`, there is no spatial correlation, and Equation \@ref(eq:eq7) reduces to the non-spatial case. Since the correlation is non-negative, with `fitting = 1` the spatial component can only reduce the variance in the strata.
+
+## Choice of the parameter kappa {#kappa}
+
+The exponential variogram of the prediction errors is
+
+$$\gamma(d) = c_{0} + c_{1}\left(1 - e^{-d/a}\right)$$
+
+and the corresponding correlation between two units at distance $d$ is $(1-\nu)\,e^{-d/a}$. Unlike the spherical model, the exponential model never reaches its sill: the parameter $a$ is a scale parameter, not a distance beyond which the correlation is zero. At distance $a$ the correlation is still $e^{-1} \approx 0.37$; it falls to 5\% at $d = a \ln 20 \approx 3a$, the distance conventionally called *practical* (or *effective*) range.
+
+Software and papers report either of the two quantities as "range". The parameter `kappa` makes the formula independent of the convention: the correlation is computed as $e^{-\kappa\, d/r}$, so that
+
+| The value given as `range` is | Typical source | `kappa` |
+|---|---|---|
+| the parameter $a$ of the exponential model | `gstat::fit.variogram`, `automap::autofitVariogram` / `autoKrige` (column `range` of the `Exp` row of the fitted model) | 1 |
+| the practical range ($\approx 3a$), i.e. the distance at which the variogram reaches about 95\% of the sill | software or papers that report the practical range, a range read on a variogram plot as the distance at which it levels off, Ospats and @degruijter2019 (who use $e^{-3d/\mathrm{range}}$) | 3 |
+
+With `kappa = 1` and $r = a$, or with `kappa = 3` and $r = 3a$, the correlation is the same. Using the wrong value changes the distance of correlation by a factor of 3: `kappa = 1` with the practical range makes the errors correlated over a distance three times too long, and therefore overstates the reduction of the variance due to the spatial component; `kappa = 3` with the parameter $a$ understates it.
+
+Other values are admissible: in general, if `range` is the distance at which the correlation falls to $p$, then $\kappa = -\ln p$ (for instance $\ln 10 \approx 2.3$ for 10\%). Since 1 and 3 are the usual conventions, a value of `kappa` other than 1 and 3 gives a warning; a value equal to or lower than 0 gives an error, because with $\kappa = 0$ the errors would be perfectly correlated at any distance, and with $\kappa < 0$ the correlation would increase with the distance.
+
+The default value of `kappa` is 3, for compatibility with the previous versions of the package. When the range is taken from *gstat* or *automap*, as in the example below, `kappa = 1` must be set explicitly.
+
+If the variogram of the prediction errors is better described by another model, the exponential model should be fitted anyway, since it is the one assumed by Equation \@ref(eq:eq6). As an approximation, a spherical model with range $r_{S}$ (the distance at which it reaches the sill) can be translated into an exponential model with similar practical range by using `range` $= r_{S}$ and `kappa = 3`.
+
+## Estimation of range and nugget
+
+The range and the nugget should be estimated on the variogram of the prediction errors, i.e. of the out-of-sample residuals (observed minus predicted values, from cross-validation or independent validation data): at the calibration points the residuals of a kriging model are close to zero and not informative about the prediction error. When the variances $s_{i}^{2}$ vary much across the units, the variogram should be computed on the standardised residuals $(z_{i}-\tilde{z}_{i})/s_{i}$, whose structure is the one assumed in Equation \@ref(eq:eq6).
 
 To summarize, when frame units can be geo-referenced, the proposed procedure is the following:
 
 * acquire coordinates of the geographic location of the units in the population of interest;
 *	fit a *kriging* model (or any other spatial model) on data for each $Z$;
-* obtain predicted values together with prediction errors for each $Z$ and associate them to each unit in the frame;
-* perform the optimization step.
+* obtain predicted values together with prediction-error variances for each $Z$ and associate them to each unit in the frame;
+* estimate range and relative nugget of the exponential variogram of the prediction errors, and set `kappa` according to the definition of the range (1 for the range parameter, 3 for the practical range);
+* perform the optimization step with `fitting = 1`.
 
 
 # Example
@@ -92,14 +140,14 @@ coordinates(meuse)<-c("x","y")
 coordinates(meuse.grid)<-c("x","y")
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png)
+![](figure/spatial-unnamed-chunk-2-1.png)
 
-We analyse the territorial distribution of the *lead* and *zinc* concentration, and model (by using the *universal kriging*) their relations with distance from the river, using the subset of 155 points on which these values have been jointly observed: 
+We analyse the territorial distribution of the *lead* and *zinc* concentration, and model (by using the *universal kriging*) their relations with distance from the river, using the subset of 155 points on which these values have been jointly observed. We fit an exponential variogram, consistent with the exponential correlation function of Equation \@ref(eq:eq6): 
 
 
 ``` r
 library(automap)
-kriging_lead = autoKrige(log(lead) ~ dist, meuse, meuse.grid)
+kriging_lead = autoKrige(log(lead) ~ dist, meuse, meuse.grid, model = "Exp")
 ```
 
 ```
@@ -110,10 +158,10 @@ kriging_lead = autoKrige(log(lead) ~ dist, meuse, meuse.grid)
 plot(kriging_lead,sp.layout = NULL, justPosition = TRUE)
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
+![](figure/spatial-unnamed-chunk-3-1.png)
 
 ``` r
-kriging_zinc = autoKrige(log(zinc) ~ dist, meuse, meuse.grid)
+kriging_zinc = autoKrige(log(zinc) ~ dist, meuse, meuse.grid, model = "Exp")
 ```
 
 ```
@@ -124,28 +172,54 @@ kriging_zinc = autoKrige(log(zinc) ~ dist, meuse, meuse.grid)
 plot(kriging_zinc, sp.layout = list(pts = list("sp.points", meuse)))
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-2.png)
+![](figure/spatial-unnamed-chunk-3-2.png)
 
-It is possible to calculate the fitting of the two models in this way:
+From the fitted variograms we take the range parameter $a$ of the exponential model (to be used with `kappa = 1`) and the relative nugget $c_{0}/(c_{0}+c_{1})$:
 
-
-``` r
-r2_lead <- 1 - kriging_lead$sserr/sum((log(meuse$lead)-mean(log(meuse$lead)))^2)
-r2_lead
-```
-
-```
-## [1] 0.9999997
-```
 
 ``` r
-r2_zinc <- 1 - kriging_zinc$sserr/sum((log(meuse$zinc)-mean(log(meuse$zinc)))^2)
-r2_zinc
+kriging_lead$var_model
 ```
 
 ```
-## [1] 0.9999999
+##   model      psill    range
+## 1   Nug 0.05972538   0.0000
+## 2   Exp 0.24751270 392.6089
 ```
+
+``` r
+range_lead  <- kriging_lead$var_model$range[2]
+nugget_lead <- kriging_lead$var_model$psill[1] / sum(kriging_lead$var_model$psill)
+kriging_zinc$var_model
+```
+
+```
+##   model      psill    range
+## 1   Nug 0.04525859   0.0000
+## 2   Exp 0.24392958 292.6641
+```
+
+``` r
+range_zinc  <- kriging_zinc$var_model$range[2]
+nugget_zinc <- kriging_zinc$var_model$psill[1] / sum(kriging_zinc$var_model$psill)
+c(range_lead = range_lead, nugget_lead = nugget_lead)
+```
+
+```
+##  range_lead nugget_lead 
+## 392.6088890   0.1943945
+```
+
+``` r
+c(range_zinc = range_zinc, nugget_zinc = nugget_zinc)
+```
+
+```
+##  range_zinc nugget_zinc 
+## 292.6641200   0.1565022
+```
+
+For simplicity, in this example range and nugget are taken from the variograms fitted by the kriging models, i.e. from the residuals of the trend on the distance from the river. In real applications they should be estimated on the variogram of the out-of-sample prediction errors (for instance from the cross-validation residuals given by `gstat::krige.cv`), as explained above. The fitting parameter is not needed: the prediction-error variances produced by kriging are in the frame, so the additive correction (`fitting = 1`, the default) applies.
 
 
 Using these *kriging* models, we are able to predict the values of lead and zinc concentration on the totality of the 3,103 points in the Meuse territory:
@@ -167,12 +241,12 @@ head(df)
 
 ```
 ##   id lead.pred  lead.var zinc.pred  zinc.var    lon    lat dom1
-## 1  1  5.509360 0.1954937  6.736502 0.2007150 181180 333740    1
-## 2  2  5.546006 0.1716895  6.785460 0.1749260 181140 333700    1
-## 3  3  5.488913 0.1784052  6.698883 0.1826314 181180 333700    1
-## 4  4  5.388320 0.1855561  6.558216 0.1906426 181220 333700    1
-## 5  5  5.584415 0.1463018  6.841612 0.1465346 181100 333660    1
-## 6  6  5.525538 0.1533757  6.749216 0.1549663 181140 333660    1
+## 1  1  5.517159 0.2083630  6.712998 0.2151660 181180 333740    1
+## 2  2  5.550284 0.1791932  6.766572 0.1832443 181140 333700    1
+## 3  3  5.494689 0.1884051  6.682140 0.1941760 181180 333700    1
+## 4  4  5.396745 0.1974743  6.544145 0.2043451 181220 333700    1
+## 5  5  5.592130 0.1436757  6.837125 0.1404987 181100 333660    1
+## 6  6  5.531484 0.1555376  6.744487 0.1562711 181140 333660    1
 ```
 
 The aim is now to produce the optimal stratification of the 3,103 points under a precision constraint of 1% on the target estimates of the mean *lead*  and *zinc* concentrations:
@@ -194,7 +268,7 @@ cv <- as.data.frame(list(DOM=rep("DOM1",1),
                          domainvalue=c(1:1) ))
 ```
 
-To this aim, we carry out the optimization step by indicating the method *spatial*:
+To this aim, we carry out the optimization step by indicating the method *spatial*, with the range and the relative nugget of the two variograms (`fitting` is omitted, i.e. equal to 1):
 
 
 ``` r
@@ -206,9 +280,9 @@ solution <- optimStrata (
   iter = 15,
   pops = 10,
   nStrata = 5,
-  fitting = c(r2_lead,r2_zinc),
-  range = c(kriging_lead$var_model$range[2],kriging_zinc$var_model$range[2]),
-  kappa=1,
+  range = c(range_lead, range_zinc),
+  nugget = c(nugget_lead, nugget_zinc),
+  kappa = 1,
   writeFiles = FALSE,
   showPlot = FALSE,
   parallel = FALSE)
@@ -220,15 +294,15 @@ solution <- optimStrata (
 ## 
 ##  *** Domain :  1   1
 ##  Number of strata :  3103
-##  *** Sample cost:  61.52822
+##  *** Sample cost:  74.26154
 ##  *** Number of strata:  4
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png)
+![](figure/spatial-unnamed-chunk-7-1.png)
 
 ```
 ## 
-##  *** Sample size :  62
+##  *** Sample size :  74
 ##  *** Number of strata :  4
 ## ---------------------------
 ```
@@ -246,7 +320,7 @@ plotStrata2d(framenew,outstrata,domain=1,vars=c("X1","X2"),
              labels=c("Lead","Zinc"))
 ```
 
-![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-1.png)
+![](figure/spatial-unnamed-chunk-8-1.png)
 <table class="table table-condensed">
  <thead>
   <tr>
@@ -261,35 +335,35 @@ plotStrata2d(framenew,outstrata,domain=1,vars=c("X1","X2"),
 <tbody>
   <tr>
    <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 456 </td>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 0.01757953 </td>
-   <td style="text-align:right;"> 3.3146468764848-4.01988843413187 </td>
-   <td style="text-align:right;"> 4.06901686494286-5.12335652388381 </td>
+   <td style="text-align:right;"> 505 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 0.02339074 </td>
+   <td style="text-align:right;"> 3.33446915108525-4.07490542620039 </td>
+   <td style="text-align:right;"> 4.12033872416343-5.16581340104563 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 1130 </td>
-   <td style="text-align:right;"> 22 </td>
-   <td style="text-align:right;"> 0.01929662 </td>
-   <td style="text-align:right;"> 3.96397966171504-4.7764979731549 </td>
-   <td style="text-align:right;"> 4.94340419880325-5.61689510336853 </td>
+   <td style="text-align:right;"> 1162 </td>
+   <td style="text-align:right;"> 27 </td>
+   <td style="text-align:right;"> 0.02321401 </td>
+   <td style="text-align:right;"> 4.06084301390357-4.86031443361745 </td>
+   <td style="text-align:right;"> 5.00207342087139-5.659847980331 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 873 </td>
+   <td style="text-align:right;"> 757 </td>
    <td style="text-align:right;"> 18 </td>
-   <td style="text-align:right;"> 0.02047349 </td>
-   <td style="text-align:right;"> 4.44641346310962-5.33308379610959 </td>
-   <td style="text-align:right;"> 5.61793458171105-6.29701396493421 </td>
+   <td style="text-align:right;"> 0.02403652 </td>
+   <td style="text-align:right;"> 4.47910444164607-5.31840588061593 </td>
+   <td style="text-align:right;"> 5.6625970964073-6.27445923668798 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 644 </td>
-   <td style="text-align:right;"> 14 </td>
-   <td style="text-align:right;"> 0.02148047 </td>
-   <td style="text-align:right;"> 4.91892537093519-6.16276083528614 </td>
-   <td style="text-align:right;"> 6.29894213691231-7.33803658123577 </td>
+   <td style="text-align:right;"> 679 </td>
+   <td style="text-align:right;"> 17 </td>
+   <td style="text-align:right;"> 0.02544755 </td>
+   <td style="text-align:right;"> 4.86913230697994-6.24785534081567 </td>
+   <td style="text-align:right;"> 6.27536305596635-7.39610824963638 </td>
   </tr>
 </tbody>
 </table>
@@ -301,10 +375,10 @@ that can be visualised in this way:
 frameres <- SpatialPointsDataFrame(data=framenew, coords=cbind(framenew$LON,framenew$LAT) )
 frameres2 <- SpatialPixelsDataFrame(points=frameres[c("LON","LAT")], data=framenew)
 frameres2$LABEL <- as.factor(frameres2$LABEL)
-spplot(frameres2,c("LABEL"), col.regions=bpy.colors(5))
+spplot(frameres2,c("LABEL"), col.regions=bpy.colors(nlevels(frameres2$LABEL)))
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png)
+![](figure/spatial-unnamed-chunk-9-1.png)
 
 We can now proceed with the selection of the sample, using the function 'selectSampleSpatial' (which is a wrapper of function 'lpm2_kdtree' in package 'SamplingBigData', see @lisic2018b), in order to ensure a spatially balanced sample:
 
@@ -316,34 +390,29 @@ s <- selectSampleSpatial(framenew,outstrata,coord_names=c("LON","LAT"))
 ```
 ## 
 ## *** Sample has been drawn successfully ***
-##  62  units have been selected from  4  strata
+##  74  units have been selected from  4  strata
 ```
 
-whose units are so distributed in the territory:
+whose units are so distributed in the territory (sampled points in white, over the optimized strata):
 
 
 ``` r
-s <- selectSampleSpatial(framenew,outstrata,coord_names = c("LON","LAT"))
+samp <- SpatialPointsDataFrame(data=s, coords=cbind(s$LON,s$LAT))
+spplot(frameres2, c("LABEL"), col.regions=bpy.colors(nlevels(frameres2$LABEL)),
+       sp.layout = list("sp.points", samp, pch=21, col="black", fill="white", cex=1))
 ```
 
-```
-## 
-## *** Sample has been drawn successfully ***
-##  62  units have been selected from  4  strata
-```
+![](figure/spatial-unnamed-chunk-11-1.png)
+
+In an interactive R session, the selected units can also be displayed on an OpenStreetMap background with the package *mapview* (the Meuse coordinates are in the Dutch national grid, EPSG:28992):
+
 
 ``` r
-coordinates(s) <- ~LON+LAT
-proj4string(s) <- CRS("+init=epsg:28992")
-s$LABEL <- as.factor(s$LABEL)
+library(sf)
 library(mapview)
-mapview(s,zcol="LABEL", map.types = c("OpenStreetMap"))
+s_sf <- st_as_sf(s, coords = c("LON","LAT"), crs = 28992)
+s_sf$LABEL <- as.factor(s_sf$LABEL)
+mapview(s_sf, zcol="LABEL", map.types = c("OpenStreetMap"))
 ```
-
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png)
-
-
-
-
 
 # References

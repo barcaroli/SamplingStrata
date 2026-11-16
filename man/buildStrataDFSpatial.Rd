@@ -10,7 +10,8 @@ buildStrataDFSpatial(
   range = as.numeric(c(0)),
   kappa = 3,
   progress = FALSE,
-  verbose = FALSE
+  verbose = FALSE,
+  nugget = as.numeric(c(0))
 )
 }
 \arguments{
@@ -21,17 +22,32 @@ are denoted by Y1, Y2, ... , Yn.
 In addition, in case of sample data, a variable named 'WEIGHT' must be present in the dataframe,
 containing   the weigths associated to each sampling unit}
 
-\item{fitting}{Fitting of the model(s).
-Default is 1.}
+\item{fitting}{Default is 1, which must be used when the frame contains the
+prediction-error variances (VAR columns): the additive correction
+(de Gruijter et al. 2016) already accounts for the levelling of the predictions.
+A value < 1 (the coefficient of determination R2 of the prediction model)
+divides the squared differences of the predictions, and is accepted only with all
+VAR = 0 (rescaling correction): with positive variances the error variance would be
+counted twice, and the function stops. If only R2 is known, the additive correction
+can be used with fitting = 1 and a constant variance var(predictions) * (1 - R2) / R2.}
 
-\item{range}{Maximum range for spatial autocorrelation}
+\item{range}{Range of the exponential correlation function of the prediction errors
+(in the units of the coordinates). 0 means no spatial correlation.}
 
-\item{kappa}{Factor used in evaluating spatial autocorrelation.
-Default is 3.}
+\item{kappa}{Factor used in evaluating spatial autocorrelation: the correlation
+between the prediction errors of two units at distance d is
+(1 - nugget) * exp(-kappa * d / range). Use kappa = 1 when range is the range
+parameter of an exponential variogram (as returned by gstat), kappa = 3 when
+range is the practical range. Any finite value > 0 is accepted; 0 or negative
+values give an error. Default is 3.}
 
 \item{progress}{If set to TRUE, a progress bar is visualised during the execution. Default is FALSE.}
 
 \item{verbose}{If set to TRUE, information is given about the number of strata generated. Default is FALSE.}
+
+\item{nugget}{Relative nugget c0/(c0+c1) of the variogram of the prediction errors,
+in [0, 1]: the share of the error variance that is not spatially correlated.
+Default is 0 (no nugget).}
 }
 \value{
 A dataframe containing strata
@@ -65,7 +81,7 @@ frame <- data.frame(id = 1:100, X1 = runif(100), Y1 = runif(100, 10, 20),
                     domainvalue = 1)
 frame$X1 <- var.bin(frame$X1, bins = 3)   # stratification variable
 strata <- buildStrataDFSpatial(dataset = frame, fitting = 1, range = 0.5,
-                               kappa = 3)
+                               kappa = 3, nugget = 0.3)
 strata
 
 }

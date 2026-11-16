@@ -32,10 +32,17 @@
 #' the second the domains.
 #'
 #' @param frame The (mandatory) dataframe containing the information related to each unit in the sampling frame.
-#' @param fitting Fitting of the model(s).
-#'   Default is 1.
-#' @param range Maximum range for spatial autocorrelation
-#' @param kappa Factor used in evaluating spatial autocorrelation.
+#' @param fitting Default is 1, to be used when the frame contains the prediction-error
+#'   variances (var columns). A value < 1 (R2 of the prediction model) is meant only for
+#'   the rescaling correction, with all variances = 0: with positive variances the function
+#'   stops (the error variance would be counted twice). If only R2 is known, use fitting = 1
+#'   with a constant variance var(predictions) * (1 - R2) / R2. See buildStrataDFSpatial().
+#' @param range Range of the exponential correlation function of the prediction errors
+#'   (in the units of the coordinates). 0 means no spatial correlation.
+#' @param kappa Factor used in evaluating spatial autocorrelation: 1 if range is the
+#'   range parameter of an exponential variogram, 3 if it is the practical range.
+#'   Any finite value > 0 is accepted
+#'   (a value other than 1 and 3 gives a warning); 0 or negative values give an error.
 #'   Default is 3.
 #' @param errors The (mandatory) dataframe containing the precision constraints on target variables.
 #' @param nstrata Number of aggregate strata (if NULL, it is optimized by varying the number of cluster
@@ -47,6 +54,8 @@
 #' @param showPlot Allows to visualise on a plot the different sample sizes for each number of aggregate strata. Default is TRUE.
 #' @param maxsamp This is the maximum number of frame units per domain accepted by the function.
 #'   If the number of units exceeds this maximum, a subset (size equal to maxsamp) is sampled from the frame.
+#' @param nugget Relative nugget c0/(c0+c1) of the variogram of the prediction errors,
+#'   in [0, 1]: the share of the error variance that is not spatially correlated. Default is 0.
 #'
 #' @return
 #' A dataframe containing the solution
@@ -80,6 +89,8 @@
 #' # model    psill    range
 #' # 1   Nug 1524.895   0.0000
 #' # 2   Exp 8275.431 458.3303
+#' # relative nugget c0/(c0+c1)
+#' nug <- fit.vgm$var_model$psill[1] / sum(fit.vgm$var_model$psill)
 #' g <- NULL
 #' g <- gstat(g, "Pb", lead ~ dist + soil, meuse)
 #' g
@@ -117,6 +128,7 @@
 #'                             fitting = 1,
 #'                             range = fit.vgm$var_model$range[2],
 #'                             kappa=1,
+#'                             nugget = nug,
 #'                             nstrata=NA,
 #'                             maxclusters = 5)
 #' ############################
@@ -126,6 +138,7 @@
 #'                         fitting = 1,
 #'                         range = fit.vgm$var_model$range[2],
 #'                         kappa=1,
+#'                         nugget = nug,
 #'                         vett=km$suggestions,
 #'                         dominio=1)
 #' strataKm$SOLUZ <- bethel(strataKm,cv)
@@ -154,9 +167,29 @@ KmeansSolutionSpatial <- function (frame,
                                    minnumstrat = 2,
                                    maxclusters = NA,
                                    showPlot = TRUE,
-                                   maxsamp = 5000)
+                                   maxsamp = 5000,
+                                   nugget = 0)
 {
   cv <- errors
+  # kappa: any finite positive value is admissible (the correlation is
+  # exp(-kappa * d / range), only kappa / range matters); 1 (range parameter of
+  # the exponential model) and 3 (practical range) are the usual conventions
+  if (length(kappa) != 1 || !is.finite(kappa) || kappa <= 0)
+    stop("'kappa' must be a single finite value > 0", call. = FALSE)
+  if (!kappa %in% c(1, 3))
+    warning("kappa = ", kappa, " is unusual: use kappa = 1 when range is the range ",
+            "parameter of the exponential variogram (as returned by gstat), kappa = 3 ",
+            "when range is the practical range.", call. = FALSE)
+  # fitting < 1 together with prediction-error variances counts the error
+  # variance twice (see buildStrataDFSpatial)
+  vcols <- grep("^var[0-9]+$", colnames(frame), ignore.case = TRUE)
+  if (any(fitting < 1) && length(vcols) > 0 &&
+      any(unlist(frame[, vcols]) > 0, na.rm = TRUE))
+    stop("fitting < 1 cannot be used together with positive prediction-error variances: ",
+            "the error variance would be counted twice. Either omit fitting (default 1) ",
+            "and keep the prediction-error variances in the frame, or, if only the R2 of ",
+            "the prediction model is known, use fitting = 1 with a constant variance ",
+            "equal to var(predictions) * (1 - R2) / R2.", call. = FALSE)
   nvariables <- ncol(cv) - 2
   stmt1 <- "solution <- kmeans(stratacorr[,"
   stmt2 <- "c("
@@ -188,6 +221,7 @@ KmeansSolutionSpatial <- function (frame,
                               fitting = fitting,
                               range = range,
                               kappa = kappa,
+                              nugget = nugget,
                               vett = rep(1, nrow(stratacorr)),
                               dominio = k)
     v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
@@ -225,6 +259,7 @@ KmeansSolutionSpatial <- function (frame,
                                 fitting = fitting, 
                                 range = range, 
                                 kappa = kappa,
+                                nugget = nugget,
                                 vett = solution,
                                 dominio = k)
       v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)

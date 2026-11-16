@@ -10,7 +10,8 @@ aggrStrataSpatial(
   range = c(0),
   kappa = 3,
   vett,
-  dominio
+  dominio,
+  nugget = c(0)
 )
 }
 \arguments{
@@ -21,18 +22,26 @@ are denoted by Y1, Y2, ... , Yn.
 In addition, in case of sample data, a variable named 'WEIGHT' must be present in the dataframe,
 containing   the weigths associated to each sampling unit}
 
-\item{fitting}{Fitting of the model(s).
-Default is 1.}
+\item{fitting}{Default is 1, to be used when the frame contains the prediction-error
+variances (VAR columns). A value < 1 (R2 of the prediction model) is meant only for
+the rescaling correction, with all variances = 0: with positive variances the function
+stops (the error variance would be counted twice). If only R2 is known, use fitting = 1
+with a constant variance var(predictions) * (1 - R2) / R2. See buildStrataDFSpatial().}
 
-\item{range}{Maximum range for spatial autocorrelation}
+\item{range}{Range of the exponential correlation function of the prediction errors
+(in the units of the coordinates). 0 means no spatial correlation.}
 
-\item{kappa}{Factor used in evaluating spatial autocorrelation.
-Default is 3.}
+\item{kappa}{Factor used in evaluating spatial autocorrelation: 1 if range is the
+range parameter of an exponential variogram, 3 if it is the practical range.
+Any finite value > 0 is accepted; 0 or negative values give an error. Default is 3.}
 
 \item{vett}{vector of values indicating how the units in the dataset must
 be aggregated in strata.}
 
 \item{dominio}{Value indicating the domain in the dataset to be processed.}
+
+\item{nugget}{Relative nugget c0/(c0+c1) of the variogram of the prediction errors,
+in [0, 1]. Default is 0.}
 }
 \value{
 A dataframe containing strata
@@ -52,6 +61,7 @@ strata <- aggrStrataSpatial(dataset = frame,
                             fitting = 1,
                             range = 0.5,
                             kappa = 3,
+                            nugget = 0.3,
                             vett = var.bin(frame$X1, bins = 3),
                             dominio = 1)
 strata

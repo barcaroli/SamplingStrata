@@ -12,7 +12,7 @@
 
 # optimizeStrataSpatial
 #
-# Parameters 'fitting' and 'range' can now be supplied either as:
+# Parameters 'fitting', 'range' and 'nugget' can be supplied either as:
 #   - a vector of length equal to the number of target variables (original behaviour,
 #     same values applied to every domain), or
 #   - a dataframe with one row per domain and one column per target variable, where
@@ -21,6 +21,17 @@
 # Example with 2 target variables and 3 domains (labelled 1, 2, 3):
 #   fitting <- data.frame(X1 = c(1,1,2), X2 = c(1,2,1), row.names = c("1","2","3"))
 #   range   <- data.frame(X1 = c(0,100,200), X2 = c(0,50,150), row.names = c("1","2","3"))
+#   nugget  <- data.frame(X1 = c(0,0.3,0.5), X2 = c(0,0.2,0.4), row.names = c("1","2","3"))
+#
+# Variance of a stratum (buildStrataDFSpatial):
+#   S2_h = sum_{i != j} [ (y_i - y_j)^2 / fitting + s2_i + s2_j
+#                         - 2 (1 - nugget) s_i s_j exp(-kappa d_ij / range) ] / (2 n^2)
+# With the prediction-error variances s2 in the frame, fitting must be 1
+# (additive correction, de Gruijter et al. 2016): dividing also by R^2 counts
+# the error variance twice, and is rejected. fitting = R^2 < 1 is accepted only
+# for the rescaling correction, with all variances = 0. If only R^2 is known,
+# the additive correction can be used with fitting = 1 and a constant variance
+# var(predictions) * (1 - R^2) / R^2.
 #
 # When a dataframe is provided, the census pre-processing step (buildStrataDFSpatial)
 # uses the first row, since census data is handled before domain splitting.
@@ -41,11 +52,28 @@
 #' @param dom Indicates the domain on which the optimization must be carried. It is an integer value that has to be internal to the interval
 #'   (1 <--> number of domains). If 'alldomains' is set to TRUE, it is ignored.
 #' @param nStrata Indicates the number of strata for each variable.
-#' @param fitting Fitting of the model(s).
-#'   Default is 1.
-#' @param range Maximum range for spatial autocorrelation. It is a vector with as many elements as the number of target variables Y.
-#' @param kappa Factor used in evaluating spatial autocorrelation.
+#' @param fitting Default is 1, which must be used when the frame contains the
+#'   prediction-error variances (var columns): the additive correction
+#'   (de Gruijter et al. 2016) already accounts for the levelling of the predictions.
+#'   A value < 1 (coefficient of determination R2 of the prediction model) is meant only for
+#'   the rescaling correction, with all variances = 0: with positive variances the function
+#'   stops (the error variance would be counted twice). If only R2 is known, use fitting = 1
+#'   with a constant variance var(predictions) * (1 - R2) / R2. See buildStrataDFSpatial().
+#'   A vector with as many elements as the number of target variables Y, or a dataframe with one
+#'   row per domain.
+#' @param range Range of the exponential correlation function of the prediction errors,
+#'   in the units of the coordinates (0 = no spatial correlation). A vector with as many elements
+#'   as the number of target variables Y, or a dataframe with one row per domain.
+#' @param kappa Factor used in evaluating spatial autocorrelation: the correlation between the
+#'   prediction errors of two units at distance d is (1 - nugget) * exp(-kappa * d / range).
+#'   Use kappa = 1 when range is the range parameter of an exponential variogram (as returned by
+#'   gstat), kappa = 3 when range is the practical range. Any finite value > 0 is accepted
+#'   (a value other than 1 and 3 gives a warning); 0 or negative values give an error.
 #'   Default is 3.
+#' @param nugget Relative nugget c0/(c0+c1) of the variogram of the prediction errors, in [0, 1]:
+#'   the share of the error variance that is not spatially correlated. A vector with as many
+#'   elements as the number of target variables Y, or a dataframe with one row per domain.
+#'   Default is 0.
 #' @param minnumstr Indicates the minimum number of units that must be allocated in each stratum. Default is 2.
 #' @param iter Indicated the maximum number of iterations (= generations) of the genetic algorithm. Default is 50.
 #' @param pops The dimension of each generations in terms of individuals. Default is 20.
@@ -96,6 +124,8 @@
 #' fit.vgm.lead <- autofitVariogram(lead ~ dist + soil,
 #'                                  meuse,
 #'                                  model = "Exp")
+#' # relative nugget c0/(c0+c1)
+#' nug.lead <- fit.vgm.lead$var_model$psill[1] / sum(fit.vgm.lead$var_model$psill)
 #' plot(v, fit.vgm.lead$var_model)
 #' lead.kr <- krige(lead ~ dist + soil, meuse, meuse.grid,
 #'                 model = fit.vgm.lead$var_model)
@@ -125,7 +155,8 @@
 #'                         nStrata = 5,
 #'                         fitting = 1,
 #'                         kappa = 1,
-#'                         range = fit.vgm.lead$var_model$range[2])
+#'                         range = fit.vgm.lead$var_model$range[2],
+#'                         nugget = nug.lead)
 #' framenew <- solution$framenew
 #' outstrata <- solution$aggr_strata
 #' frameres <- SpatialPixelsDataFrame(points = framenew[c("LON","LAT")],
@@ -148,6 +179,7 @@ optimizeStrataSpatial <- function (errors,
                                    fitting = c(1), 
                                    range = c(0), 
                                    kappa = 3, 
+                                   nugget = c(0),
                                    minnumstr = 2, 
                                    iter = 50, 
                                    pops = 20, 
@@ -167,6 +199,30 @@ optimizeStrataSpatial <- function (errors,
   }
   fitting_is_df <- is.data.frame(fitting)
   range_is_df <- is.data.frame(range)
+  nugget_is_df <- is.data.frame(nugget)
+  # kappa: any finite positive value is admissible (the correlation is
+  # exp(-kappa * d / range), only kappa / range matters); 1 (range parameter of
+  # the exponential model) and 3 (practical range) are the usual conventions
+  if (length(kappa) != 1 || !is.finite(kappa) || kappa <= 0)
+    stop("'kappa' must be a single finite value > 0", call. = FALSE)
+  if (!kappa %in% c(1, 3))
+    warning("kappa = ", kappa, " is unusual: use kappa = 1 when range is the range ",
+            "parameter of the exponential variogram (as returned by gstat), kappa = 3 ",
+            "when range is the practical range.", call. = FALSE)
+  nug_vals <- if (nugget_is_df) unlist(nugget) else nugget
+  if (any(is.na(nug_vals)) || any(nug_vals < 0 | nug_vals > 1))
+    stop("'nugget' must be in [0, 1] (relative nugget c0/(c0+c1))")
+  # fitting < 1 together with prediction-error variances counts the error
+  # variance twice (additive and rescaling corrections applied jointly)
+  fit_vals <- if (fitting_is_df) unlist(fitting) else fitting
+  vcols <- grep("^VAR[0-9]+$", toupper(colnames(framesamp)))
+  if (any(fit_vals < 1) && length(vcols) > 0 &&
+      any(unlist(framesamp[, vcols]) > 0, na.rm = TRUE))
+    stop("fitting < 1 cannot be used together with positive prediction-error variances: ",
+            "the error variance would be counted twice. Either omit fitting (default 1) ",
+            "and keep the prediction-error variances in the frame, or, if only the R2 of ",
+            "the prediction model is known, use fitting = 1 with a constant variance ",
+            "equal to var(predictions) * (1 - R2) / R2.", call. = FALSE)
   frame <- framesamp
   if (alldomains == TRUE) 
     dom <- NULL
@@ -181,6 +237,10 @@ optimizeStrataSpatial <- function (errors,
       stop("Row names of 'fitting' dataframe must match all domain values in framesamp")
     if (range_is_df && !all(dom_levels %in% rownames(range)))
       stop("Row names of 'range' dataframe must match all domain values in framesamp")
+  }
+  if (nugget_is_df) {
+    if (!all(levels(as.factor(frame$DOMAINVALUE)) %in% rownames(nugget)))
+      stop("Row names of 'nugget' dataframe must match all domain values in framesamp")
   }
   if (alldomains == FALSE) {
     frame <- frame[frame$DOMAINVALUE == dom, ]
@@ -216,7 +276,8 @@ optimizeStrataSpatial <- function (errors,
                                    fitting = if (fitting_is_df) as.numeric(fitting[1, ]) else fitting,
                                    range = if (range_is_df) as.numeric(range[1, ]) else range,
                                    kappa = kappa,
-                                   progress = FALSE, verbose = FALSE)
+                                   progress = FALSE, verbose = FALSE,
+                                   nugget = if (nugget_is_df) as.numeric(nugget[1, ]) else nugget)
       cens$CENS <- 1
       censtot <- cens
     }
@@ -336,9 +397,11 @@ optimizeStrataSpatial <- function (errors,
                               if (nrow(stcamp[[i]]) > 0) {
                                 fit_i <- if (fitting_is_df) as.numeric(fitting[as.character(i), ]) else fitting
                                 rng_i <- if (range_is_df) as.numeric(range[as.character(i), ]) else range
+                                nug_i <- if (nugget_is_df) as.numeric(nugget[as.character(i), ]) else nugget
                                 solut <- strataGenalgSpatial(errors = erro[[i]],
                                                              frame = stcamp[[i]], cens = cens, strcens = flagcens,
                                                              fitting = fit_i, range = rng_i, kappa = kappa,
+                                                             nugget = nug_i,
                                                              ncuts = (nStrata[i] - 1), dominio = i,
                                                              minnumstr, iter, pops, mut_chance, elitism_rate,
                                                              suggestions = suggest, realAllocation,
@@ -429,9 +492,11 @@ optimizeStrataSpatial <- function (errors,
         if (nrow(stcamp[[i]]) > 0) {
           fit_i <- if (fitting_is_df) as.numeric(fitting[as.character(i), ]) else fitting
           rng_i <- if (range_is_df) as.numeric(range[as.character(i), ]) else range
+          nug_i <- if (nugget_is_df) as.numeric(nugget[as.character(i), ]) else nugget
           solut <- strataGenalgSpatial(errors = erro[[i]],
                                        frame = stcamp[[i]], cens = cens, strcens = flagcens,
                                        fitting = fit_i, range = rng_i, kappa = kappa,
+                                       nugget = nug_i,
                                        ncuts = (nStrata[i] - 1), dominio = i, minnumstr,
                                        iter, pops, mut_chance, elitism_rate, suggestions = suggest,
                                        realAllocation, writeFiles, showPlot)
@@ -497,9 +562,10 @@ optimizeStrataSpatial <- function (errors,
     }
     fit_i <- if (fitting_is_df) as.numeric(fitting[as.character(i), ]) else fitting
     rng_i <- if (range_is_df) as.numeric(range[as.character(i), ]) else range
+    nug_i <- if (nugget_is_df) as.numeric(nugget[as.character(i), ]) else nugget
     solut <- strataGenalgSpatial(errors = erro[[i]], frame = frame,
                                  cens = cens, strcens = flagcens, fitting = fit_i,
-                                 range = rng_i, kappa = kappa, ncuts = (nStrata[i] -
+                                 range = rng_i, kappa = kappa, nugget = nug_i, ncuts = (nStrata[i] -
                                                                           1), dominio = i, minnumstr, iter, pops, mut_chance,
                                  elitism_rate, suggestions = suggest, realAllocation,
                                  writeFiles, showPlot)

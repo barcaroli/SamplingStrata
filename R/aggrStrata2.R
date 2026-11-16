@@ -30,7 +30,9 @@
 #'   In addition, in case of sample data, a variable named 'WEIGHT' must be present in the dataframe,
 #'   containing   the weigths associated to each sampling unit
 #' @param model Dataframe with the parameters of the model(s) to be used to calculate
-#'   anticipated variance.
+#'   anticipated variance (see buildStrataDF). For type "spatial" the variance in a
+#'   stratum is s1^2 / fitting + s2^2, with optional columns fitting (default 1), nugget
+#'   (default 0), kappa (default 1) and gamma (default 0 here); fitting must be 1 when sig2 > 0.
 #'   Default is null.
 #' @param vett vector of values indicating how the units in the dataset must
 #'   be aggregated in strata.
@@ -77,39 +79,31 @@ aggrStrata2 <- function(dataset,
         mx <- sum(x * w)/sum(w)
         sqrt(sum(w * (x - mx)^2)/(sum(w)))
     }
-    # stdev3 is for spatial models (part I)
-    stdev3 <- function(Y, W, beta1, beta2) {
-      a <- as.matrix(t(c(beta1,beta2)))
-      b <- cov(cbind(Y, W))
-      c <- as.matrix(c(beta1,beta2))
-      sqrt (a %*% b %*% c)
-    }
-    # stdev4 is for spatial models (part II)
-    stdev4 <- function(df,psill,range) {
+    # (stdev3, the unweighted standard deviation with divisor n - 1 of the
+    # predictions of the spatial model, was removed: stdev1 / stdev2 are used
+    # on the predictions, as for the other model types)
+    # stdev4 is for spatial models (part II): mean over the pairs of distinct
+    # units of s2_i + s2_j - 2 Cov(e_i, e_j), with s2_i = psill * Y_i^(2 gamma)
+    # and Cov(e_i, e_j) = (1 - nugget) s_i s_j exp(-kappa d_ij / range)
+    # (same formula as stdev4() in buildStrataDF.cpp)
+    stdev4 <- function(df, Y, psill, range, gamma = 0, kappa = 1, nugget = 0) {
       dist <- sqrt((outer(df$LON,df$LON,"-"))^2+(outer(df$LAT,df$LAT,"-"))^2)
-      var_ntimes <- rep(psill,nrow(df))
-      prod_couples_std <- as.matrix(outer(sqrt(var_ntimes),sqrt(var_ntimes),"*"))
-      sum_couples_var <- as.matrix(outer(var_ntimes,var_ntimes,"+"))
-      spatial_autocovariance <- prod_couples_std * exp(-1*dist/(range+0.0000001))
-      D2<-sum_couples_var-2*spatial_autocovariance
+      var_ntimes <- psill * Y^(2 * gamma)
+      sum_couples_var <- outer(var_ntimes, var_ntimes, "+")
+      if (range > 0 && nugget < 1) {
+        spatial_autocovariance <- (1 - nugget) * sqrt(outer(var_ntimes, var_ntimes, "*")) *
+          exp(-kappa * dist / range)
+      } else {
+        spatial_autocovariance <- 0
+      }
+      D2 <- sum_couples_var - 2 * spatial_autocovariance
+      diag(D2) <- 0
       var2 <- sum(D2)/(2*nrow(df)^2)
       sqrt (var2)
     }
-    # covar is for spatial models (part III)
-    cov1 <- function(df,psill,range,Y,W,beta1,beta2) {
-      
-      preds <- beta1 * Y + beta2 * W
-      dist <- sqrt((outer(df$LON, df$LON, "-"))^2 + (outer(df$LAT, df$LAT, "-"))^2)
-      std_eps_ntimes <- sqrt(rep(psill, nrow(df)))
-      v <- var(preds)
-      v <- ifelse(is.na(v),0,v)
-      std_pred_ntimes <- sqrt(rep(v,nrow(df)))
-      prod_couples_std <- as.matrix(outer(std_eps_ntimes,std_pred_ntimes ),"*")
-      spatial_autocovariance <- prod_couples_std * exp(-1 * dist/(range + 1e-07))
-      D2 <-  2 * spatial_autocovariance
-      var2 <- sum(D2)/(2 * nrow(df)^2)
-      sqrt(var2)
-    }
+    # (until version 1.6 a third term, a covariance between the predictions and
+    # the errors, was added: under the model the errors are uncorrelated with the
+    # predictions, and the C++ implementation in buildStrataDF() never had it)
     colnames(dataset) <- toupper(colnames(dataset))
     # if (is.factor(dataset$DOMAINVALUE)) levels(dataset$DOMAINVALUE) <- levels(droplevels(dataset$DOMAINVALUE))
     nvarX <- length(grep("X", names(dataset)))
@@ -242,32 +236,43 @@ aggrStrata2 <- function(dataset,
             eval(parse(text = stmt))
             l.split <- split(samp, samp$STRATO, drop = TRUE)
             #-- PART I ---------------
-            stdev = "stdev3"
+            # standard deviation of the predictions beta * Y + beta2 * W, with
+            # the same divisor as the other model types (stdev1 for sample data,
+            # stdev2 for frame data); 'stdev' is not overwritten, so that the
+            # following Y variables keep the right function
             beta1 <- model$beta[i]
             beta2 <- model$beta2[i]
-            # st <- paste("gammas <- tapply(Y^model$gamma[",i,"],STRATO,sum) / as.numeric(table(STRATO))",sep="")
-            # eval(parse(text=st))
-            stdev <- "stdev3"
-            stmt <- paste("sd1 <- sapply(l.split, function(df,y,w) ",
-                          stdev, "(df[,y],df[,w],beta1,beta2), y = 'Y",i,"',w = 'W",i,"')",
-                          sep = "")
+            stmt <- paste("sd1 <- sapply(l.split, function(df) ", stdev,
+                          "(beta1 * df$Y", i, " + beta2 * df$W", i, ", df$WEIGHT))", sep = "")
             eval(parse(text=stmt))
             #-- PART II ---------------
             psill <- model$sig2[i]
             range <- model$range[i]
-            sd2 <- sapply(l.split, function(df) stdev4(df,psill,range))
+            # optional parameters (as in buildStrataDF): gamma (default 0),
+            # fitting (default 1), nugget (default 0), kappa (default 1)
+            opt <- function(name, default) {
+              v <- if (name %in% colnames(model)) model[[name]][i] else NA
+              if (is.na(v)) default else v
+            }
+            gam <- opt("gamma", 0); fit <- opt("fitting", 1)
+            nug <- opt("nugget", 0); kap <- opt("kappa", 1)
+            if (!is.finite(kap) || kap <= 0) stop("kappa must be a finite value > 0 in model for spatial type")
+            if (fit <= 0) stop("fitting must be > 0 in model for spatial type")
+            if (nug < 0 || nug > 1) stop("nugget must be in [0, 1] in model for spatial type")
+            if (fit < 1 && psill > 0)
+              stop("model of type 'spatial': fitting < 1 cannot be used together with sig2 > 0 ",
+                   "(the error variance would be counted twice). Omit fitting (default 1).",
+                   call. = FALSE)
+            stmt <- paste("sd2 <- sapply(l.split, function(df) stdev4(df, df$Y", i,
+                          ", psill, range, gam, kap, nug))", sep = "")
+            eval(parse(text = stmt))
             # stdev <- "stdev4"
             # stmt2 <- paste("sd2 <- sapply(l.split, function(df) ",
             #               stdev, "(df,psill,range))",
             #               sep = "")
             # eval(parse(text=stmt2))
-            #-- PART III ---------------
-            stmt <- paste("cov1 <- sapply(l.split, function(df,y,w) ",
-                           "cov1(df,psill,range,df[,y],df[,w],beta1,beta2), y = 'Y",i,"',w = 'W",i,"')",
-                           sep = "")
-            eval(parse(text=stmt))
             #-- TOTAL S ---------------
-            st <- paste("S",i," <- sqrt(sd1^2 + sd2^2 + cov1^2)",sep="")
+            st <- paste("S",i," <- sqrt(sd1^2 / fit + sd2^2)",sep="")
             eval(parse(text=st))
           }
         }

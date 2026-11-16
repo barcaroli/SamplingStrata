@@ -20,7 +20,7 @@ with "continuous" method has been completely redefined and now it is very
 convenient.
 
 Now *optimStrata* when using method="spatial" accepts also cases in which
-spatial correlation is not calculated: in this case, you have to indicate values "1" for each element of the vector "fitting", and "0" for each element of the vector "range".
+spatial correlation is not calculated: in this case, set "0" for each element of the vector "range" (or "1" for each element of the new vector "nugget"); "fitting" can be omitted (default 1).
 
 Implemented a new function *buildErrorsDF* that produces a template of the dataframe containing
 the precision constraints on the target variables of the sampling survey.
@@ -30,7 +30,29 @@ Implemented a new Rcpp version, much more performant, of the functions
 * *buildStrataDF*, to increase the efficiency of the "atomic" and "continuous" methods
 * *buildStrataDFSpatial*, to increase the efficiency of the "spatial" method in OptimStrata
 
-Morevover, implemented an Rcpp version of the *bethel* function (namely, *bethel_cpp*), that is used internally in all the optimization functions, to speed up their execution.
+Moreover, implemented an Rcpp version of the *bethel* function (namely, *bethel_cpp*), that is used internally in all the optimization functions, to speed up their execution.
+
+### Changes to the "spatial" method
+
+The model of the stratum variance used by the "spatial" method (*optimStrata* with method="spatial", *optimizeStrataSpatial*, *KmeansSolutionSpatial*, *buildStrataDFSpatial*, *aggrStrataSpatial*) and by models of type "spatial" (*buildStrataDF*, *aggrStrata2*) has been revised. The variance of stratum h is now
+
+S2_h = Var(predictions) / fitting + sum_{i != j} [s2_i + s2_j - 2 (1 - nugget) s_i s_j exp(-kappa d_ij / range)] / (2 n_h^2)
+
+where s2_i is the prediction-error variance of unit i and d_ij is the distance between units i and j.
+
+* **Additive correction (de Gruijter et al., 2016).** The prediction-error variances are added to the variance of the predictions, which is no longer divided by the R2 of the model. Dividing by R2 and adding the error variances counted the error variance twice. The parameter *fitting* is kept, with default 1: a value lower than 1 together with positive prediction-error variances now gives an error. If only the R2 of the prediction model is known, use fitting = 1 with a constant variance equal to var(predictions) * (1 - R2) / R2.
+
+* **New parameter *nugget*** (default 0): the relative nugget c0 / (c0 + c1) of the variogram of the prediction errors. The correlation between the errors of two distinct units is (1 - nugget) exp(-kappa d / range). With nugget = 1 or range = 0 there is no spatial correlation. Pairs i = j no longer contribute to the variance.
+
+* **Parameter *kappa*.** Use kappa = 1 when *range* is the range parameter of an exponential variogram (as returned by gstat), kappa = 3 when it is the practical range. Other values are accepted with a warning (in general kappa = -ln p, where p is the correlation left at distance *range*); values not finite or lower than or equal to 0 give an error.
+
+* **Same covariance in K-means and in the genetic algorithm.** *aggrStrataSpatial* (used by *KmeansSolutionSpatial*) used the covariance (s2_i + s2_j) / 2 exp(...), the genetic algorithm s_i s_j exp(...). Both now use s_i s_j, which is a valid covariance when s_i differs from s_j.
+
+* **Models of type "spatial" in *buildStrataDF* and *aggrStrata2*** aligned with *buildStrataDFSpatial*: optional columns *fitting* (default 1), *nugget* (default 0) and *kappa* (default 1); *aggrStrata2* no longer adds a covariance term between predictions and errors, and uses *gamma*. Results of *aggrStrata2* with a "spatial" model therefore change.
+
+* In *buildStrataDF* the model parameters are now validated before the parallel (OpenMP) loop: an error raised inside the loop terminated the R session.
+
+* The vignette on the spatial method has been rewritten accordingly (theory, choice of kappa, estimation of range and nugget on out-of-sample residuals, example with an exponential variogram).
 
 
 # SamplingStrata 1.5-5
