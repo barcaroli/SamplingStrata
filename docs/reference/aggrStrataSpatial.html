@@ -84,7 +84,8 @@
 <span>  range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>  kappa <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  <span class="va">vett</span>,</span>
-<span>  <span class="va">dominio</span></span>
+<span>  <span class="va">dominio</span>,</span>
+<span>  nugget <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -102,17 +103,22 @@ containing   the weigths associated to each sampling unit</p></dd>
 
 
 <dt id="arg-fitting">fitting<a class="anchor" aria-label="anchor" href="#arg-fitting"></a></dt>
-<dd><p>Fitting of the model(s).
-Default is 1.</p></dd>
+<dd><p>Default is 1, to be used when the frame contains the prediction-error
+variances (VAR columns). A value &lt; 1 (R2 of the prediction model) is meant only for
+the rescaling correction, with all variances = 0: with positive variances the function
+stops (the error variance would be counted twice). If only R2 is known, use fitting = 1
+with a constant variance var(predictions) * (1 - R2) / R2. See buildStrataDFSpatial().</p></dd>
 
 
 <dt id="arg-range">range<a class="anchor" aria-label="anchor" href="#arg-range"></a></dt>
-<dd><p>Maximum range for spatial autocorrelation</p></dd>
+<dd><p>Range of the exponential correlation function of the prediction errors
+(in the units of the coordinates). 0 means no spatial correlation.</p></dd>
 
 
 <dt id="arg-kappa">kappa<a class="anchor" aria-label="anchor" href="#arg-kappa"></a></dt>
-<dd><p>Factor used in evaluating spatial autocorrelation.
-Default is 3.</p></dd>
+<dd><p>Factor used in evaluating spatial autocorrelation: 1 if range is the
+range parameter of an exponential variogram, 3 if it is the practical range.
+Any finite value &gt; 0 is accepted; 0 or negative values give an error. Default is 3.</p></dd>
 
 
 <dt id="arg-vett">vett<a class="anchor" aria-label="anchor" href="#arg-vett"></a></dt>
@@ -122,6 +128,11 @@ be aggregated in strata.</p></dd>
 
 <dt id="arg-dominio">dominio<a class="anchor" aria-label="anchor" href="#arg-dominio"></a></dt>
 <dd><p>Value indicating the domain in the dataset to be processed.</p></dd>
+
+
+<dt id="arg-nugget">nugget<a class="anchor" aria-label="anchor" href="#arg-nugget"></a></dt>
+<dd><p>Relative nugget c0/(c0+c1) of the variogram of the prediction errors,
+in [0, 1]. Default is 0.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -146,13 +157,14 @@ be aggregated in strata.</p></dd>
 <span class="r-in"><span>                            fitting <span class="op">=</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>                            range <span class="op">=</span> <span class="fl">0.5</span>,</span></span>
 <span class="r-in"><span>                            kappa <span class="op">=</span> <span class="fl">3</span>,</span></span>
+<span class="r-in"><span>                            nugget <span class="op">=</span> <span class="fl">0.3</span>,</span></span>
 <span class="r-in"><span>                            vett <span class="op">=</span> <span class="fu"><a href="var.bin.html">var.bin</a></span><span class="op">(</span><span class="va">frame</span><span class="op">$</span><span class="va">X1</span>, bins <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                            dominio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">strata</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   stratum  N COST CENS DOM1       M1       S1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1 49    1    0    1 15.45067 3.101357</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       2 28    1    0    1 14.96384 2.915149</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       3 23    1    0    1 15.34802 2.784808</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1 49    1    0    1 15.45067 3.103938</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       2 28    1    0    1 14.96384 2.918240</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       3 23    1    0    1 15.34802 2.787478</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

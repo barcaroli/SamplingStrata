@@ -133,6 +133,16 @@ containing   the weigths associated to each sampling unit</p></dd>
 to compute the anticipated variance, information on models are given by a dataframe "model" with as many rows as the
 target variables. Each row contains the indication if the model is linear o loglinear, and the values of the model parameters
 beta, sig2, gamma (&gt; 1 in case of heteroscedasticity).
+For type "spatial" (target modelled as beta * Y + beta2 * W + e, with error variance sig2 * Y^(2 gamma))
+the variance in a stratum is s1^2 / fitting + s2^2, where s1^2 is the variance of the
+predictions (divisor N for frame data, sum of weights - 1 for sample data) and s2^2 the mean, over the pairs of distinct units, of
+s2_i + s2_j - 2 (1 - nugget) s_i s_j exp(-kappa d_ij / range). Required columns: beta2, range,
+gamma. Optional columns: fitting (default 1), nugget (relative nugget c0/(c0+c1) of the
+variogram of the errors, default 0), kappa (default 1, i.e. range is the range parameter of an
+exponential variogram; 3 if it is the practical range).
+Since the error variance already compensates the levelling of the predictions, fitting must be 1
+when sig2 &gt; 0 (additive correction, de Gruijter et al. 2016): fitting = R2 &lt; 1 together with
+sig2 &gt; 0 would count the error variance twice, and is rejected.
 Default is NULL.</p></dd>
 
 

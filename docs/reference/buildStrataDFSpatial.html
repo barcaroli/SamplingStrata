@@ -118,7 +118,8 @@ used as an input by the function "optimizeStrata".</p>
 <span>  range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  kappa <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  nugget <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -136,17 +137,28 @@ containing   the weigths associated to each sampling unit</p></dd>
 
 
 <dt id="arg-fitting">fitting<a class="anchor" aria-label="anchor" href="#arg-fitting"></a></dt>
-<dd><p>Fitting of the model(s).
-Default is 1.</p></dd>
+<dd><p>Default is 1, which must be used when the frame contains the
+prediction-error variances (VAR columns): the additive correction
+(de Gruijter et al. 2016) already accounts for the levelling of the predictions.
+A value &lt; 1 (the coefficient of determination R2 of the prediction model)
+divides the squared differences of the predictions, and is accepted only with all
+VAR = 0 (rescaling correction): with positive variances the error variance would be
+counted twice, and the function stops. If only R2 is known, the additive correction
+can be used with fitting = 1 and a constant variance var(predictions) * (1 - R2) / R2.</p></dd>
 
 
 <dt id="arg-range">range<a class="anchor" aria-label="anchor" href="#arg-range"></a></dt>
-<dd><p>Maximum range for spatial autocorrelation</p></dd>
+<dd><p>Range of the exponential correlation function of the prediction errors
+(in the units of the coordinates). 0 means no spatial correlation.</p></dd>
 
 
 <dt id="arg-kappa">kappa<a class="anchor" aria-label="anchor" href="#arg-kappa"></a></dt>
-<dd><p>Factor used in evaluating spatial autocorrelation.
-Default is 3.</p></dd>
+<dd><p>Factor used in evaluating spatial autocorrelation: the correlation
+between the prediction errors of two units at distance d is
+(1 - nugget) * exp(-kappa * d / range). Use kappa = 1 when range is the range
+parameter of an exponential variogram (as returned by gstat), kappa = 3 when
+range is the practical range. Any finite value &gt; 0 is accepted; 0 or negative
+values give an error. Default is 3.</p></dd>
 
 
 <dt id="arg-progress">progress<a class="anchor" aria-label="anchor" href="#arg-progress"></a></dt>
@@ -155,6 +167,12 @@ Default is 3.</p></dd>
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>If set to TRUE, information is given about the number of strata generated. Default is FALSE.</p></dd>
+
+
+<dt id="arg-nugget">nugget<a class="anchor" aria-label="anchor" href="#arg-nugget"></a></dt>
+<dd><p>Relative nugget c0/(c0+c1) of the variogram of the prediction errors,
+in [0, 1]: the share of the error variance that is not spatially correlated.
+Default is 0 (no nugget).</p></dd>
 
 </dl></div>
     <div id="value">
@@ -176,12 +194,12 @@ Default is 3.</p></dd>
 <span class="r-in"><span>                    domainvalue <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">frame</span><span class="op">$</span><span class="va">X1</span> <span class="op">&lt;-</span> <span class="fu"><a href="var.bin.html">var.bin</a></span><span class="op">(</span><span class="va">frame</span><span class="op">$</span><span class="va">X1</span>, bins <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>   <span class="co"># stratification variable</span></span></span>
 <span class="r-in"><span><span class="va">strata</span> <span class="op">&lt;-</span> <span class="fu">buildStrataDFSpatial</span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">frame</span>, fitting <span class="op">=</span> <span class="fl">1</span>, range <span class="op">=</span> <span class="fl">0.5</span>,</span></span>
-<span class="r-in"><span>                               kappa <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                               kappa <span class="op">=</span> <span class="fl">3</span>, nugget <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">strata</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   STRATO  N       M1       S1 COST CENS DOM1 X1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      2 28 14.96384 2.915149    1    0    1  2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      3 23 15.34802 2.784808    1    0    1  3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      1 49 15.45067 3.101357    1    0    1  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      2 28 14.96384 2.918240    1    0    1  2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      3 23 15.34802 2.787478    1    0    1  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      1 49 15.45067 3.103938    1    0    1  1</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
