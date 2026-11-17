@@ -15,22 +15,22 @@ knitr::opts_chunk$set(
 
 # SamplingStrata 1.6
 
-The function *prepareSuggestion* that prepares suggestion for the optimization
-with "continuous" method has been completely redefined and now it is very
-convenient.
+* It is now available the function *SamplingStrataApp* that allows to  interactively use the package
 
-Now *optimStrata* when using method="spatial" accepts also cases in which
+* The function *prepareSuggestion* that prepares suggestion for the optimization with "continuous" method has been completely redefined and improved.
+
+* Now *optimStrata*, when using method="spatial", accepts also cases in which
 spatial correlation is not calculated: in this case, set "0" for each element of the vector "range" (or "1" for each element of the new vector "nugget"); "fitting" can be omitted (default 1).
 
-Implemented a new function *buildErrorsDF* that produces a template of the dataframe containing
+* Implemented a new function *buildErrorsDF* that produces a template of the dataframe containing
 the precision constraints on the target variables of the sampling survey.
 
-Implemented a new Rcpp version, much more performant, of the functions 
+* Implemented a new Rcpp version, much more performant, of the functions 
 
-* *buildStrataDF*, to increase the efficiency of the "atomic" and "continuous" methods
-* *buildStrataDFSpatial*, to increase the efficiency of the "spatial" method in OptimStrata
+1. *buildStrataDF*, to increase the efficiency of the "atomic" and "continuous" methods
+2. *buildStrataDFSpatial*, to increase the efficiency of the "spatial" method in OptimStrata
 
-Moreover, implemented an Rcpp version of the *bethel* function (namely, *bethel_cpp*), that is used internally in all the optimization functions, to speed up their execution.
+* Moreover, implemented an Rcpp version of the *bethel* function (namely, *bethel_cpp*), that is used internally in all the optimization functions, to speed up their execution.
 
 ### Changes to the "spatial" method
 

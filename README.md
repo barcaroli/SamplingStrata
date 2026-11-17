@@ -48,6 +48,10 @@ Before using, remember to install the github version (1.6):
 
 pak::pak(“barcaroli/SamplingStrata”)
 
+You can also run the app in your R environment by executing:
+
+SamplingStrataApp()
+
 # \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
 
 ## Installation
