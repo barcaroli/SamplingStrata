@@ -50,7 +50,7 @@ pak::pak(“barcaroli/SamplingStrata”)
 
 You can also run the app in your R environment by executing:
 
-SamplingStrataApp()
+SamplingStrata::SamplingStrataApp()
 
 # \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
 
