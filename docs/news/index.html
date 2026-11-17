@@ -74,16 +74,17 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.6" id="samplingstrata-16">SamplingStrata 1.6<a class="anchor" aria-label="anchor" href="#samplingstrata-16"></a></h2>
-<p>The function <em>prepareSuggestion</em> that prepares suggestion for the optimization with “continuous” method has been completely redefined and now it is very convenient.</p>
-<p>Now <em>optimStrata</em> when using method=“spatial” accepts also cases in which spatial correlation is not calculated: in this case, set “0” for each element of the vector “range” (or “1” for each element of the new vector “nugget”); “fitting” can be omitted (default 1).</p>
-<p>Implemented a new function <em>buildErrorsDF</em> that produces a template of the dataframe containing the precision constraints on the target variables of the sampling survey.</p>
-<p>Implemented a new Rcpp version, much more performant, of the functions</p>
-<ul><li>
+<ul><li><p>It is now available the function <em>SamplingStrataApp</em> that allows to interactively use the package</p></li>
+<li><p>The function <em>prepareSuggestion</em> that prepares suggestion for the optimization with “continuous” method has been completely redefined and improved.</p></li>
+<li><p>Now <em>optimStrata</em>, when using method=“spatial”, accepts also cases in which spatial correlation is not calculated: in this case, set “0” for each element of the vector “range” (or “1” for each element of the new vector “nugget”); “fitting” can be omitted (default 1).</p></li>
+<li><p>Implemented a new function <em>buildErrorsDF</em> that produces a template of the dataframe containing the precision constraints on the target variables of the sampling survey.</p></li>
+<li><p>Implemented a new Rcpp version, much more performant, of the functions</p></li>
+</ul><ol style="list-style-type: decimal"><li>
 <em>buildStrataDF</em>, to increase the efficiency of the “atomic” and “continuous” methods</li>
 <li>
 <em>buildStrataDFSpatial</em>, to increase the efficiency of the “spatial” method in OptimStrata</li>
-</ul><p>Moreover, implemented an Rcpp version of the <em>bethel</em> function (namely, <em>bethel_cpp</em>), that is used internally in all the optimization functions, to speed up their execution.</p>
-<div class="section level4">
+</ol><ul><li>Moreover, implemented an Rcpp version of the <em>bethel</em> function (namely, <em>bethel_cpp</em>), that is used internally in all the optimization functions, to speed up their execution.</li>
+</ul><div class="section level4">
 <h4 id="changes-to-the-spatial-method-1-6">Changes to the “spatial” method<a class="anchor" aria-label="anchor" href="#changes-to-the-spatial-method-1-6"></a></h4>
 <p>The model of the stratum variance used by the “spatial” method (<em>optimStrata</em> with method=“spatial”, <em>optimizeStrataSpatial</em>, <em>KmeansSolutionSpatial</em>, <em>buildStrataDFSpatial</em>, <em>aggrStrataSpatial</em>) and by models of type “spatial” (<em>buildStrataDF</em>, <em>aggrStrata2</em>) has been revised. The variance of stratum h is now</p>
 <p>S2_h = Var(predictions) / fitting + sum_{i != j} [s2_i + s2_j - 2 (1 - nugget) s_i s_j exp(-kappa d_ij / range)] / (2 n_h^2)</p>
