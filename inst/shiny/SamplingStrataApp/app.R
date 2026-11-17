@@ -1,3 +1,34 @@
+# Ensure a CRAN mirror is always set — required on shinyapps.io when any
+# package function calls require() / install.packages() internally.
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+# ─── Package availability check ───────────────────────────────────────────────
+# Missing packages are installed from CRAN before being loaded. The explicit
+# library() calls below are kept (instead of a loop) so that rsconnect can still
+# detect the dependencies when deploying to shinyapps.io.
+required_pkgs <- c("shiny", "SamplingStrata", "DT", "ggplot2",
+                   "corrplot", "shinydashboard", "shinyjs")
+
+missing_pkgs <- required_pkgs[
+  !vapply(required_pkgs, requireNamespace, logical(1), quietly = TRUE)]
+
+if (length(missing_pkgs) > 0) {
+  message("Missing package(s): ", paste(missing_pkgs, collapse = ", "),
+          " - attempting installation from CRAN...")
+  tryCatch(
+    install.packages(missing_pkgs, quiet = TRUE),
+    error   = function(e) message("Installation error: ", conditionMessage(e)),
+    warning = function(w) message("Installation warning: ", conditionMessage(w))
+  )
+  still_missing <- required_pkgs[
+    !vapply(required_pkgs, requireNamespace, logical(1), quietly = TRUE)]
+  if (length(still_missing) > 0) {
+    stop("The following required package(s) could not be installed: ",
+         paste(still_missing, collapse = ", "),
+         ". Please install them manually with install.packages().",
+         call. = FALSE)
+  }
+}
 
 library(shiny)
 library(SamplingStrata)
@@ -204,7 +235,13 @@ ui <- dashboardPage(
             uiOutput("ui_kmeans_nstrata_info"),
             numericInput("iter",    "Iterations (iter)",    50,  5, 500),
             numericInput("pops",    "Population size (pops)", 10, 5, 50),
-            checkboxInput("use_kmeans", "Use KmeansSolution as seed", TRUE),
+            conditionalPanel("input.optim_method == 'atomic'",
+              checkboxInput("use_kmeans", "Use KmeansSolution as seed", TRUE)
+            ),
+            conditionalPanel("input.optim_method == 'continuous'",
+              checkboxInput("use_suggestions",
+                            "Use suggestions (prepareSuggestion)", FALSE)
+            ),
             actionButton("btn_optim", "Run Optimisation", class = "btn-danger btn-block",
                          icon = icon("rocket")),
             br(),
@@ -235,7 +272,7 @@ ui <- dashboardPage(
         )
       ),
 
-      # ── TAB 6: RESULTS ───────────────────────────────────────────────────────
+      # ── TAB 7: RESULTS ───────────────────────────────────────────────────────
       tabItem(tabName = "tab_results",
         fluidRow(
           box(title = "Evaluation Settings", width = 3, status = "primary", solidHeader = TRUE,
@@ -344,7 +381,7 @@ server <- function(input, output, session) {
   }
 
   quote_r_string <- function(x) {
-    paste0('"', gsub('([\\"])', '\\\\\\1', as.character(x)), '"')
+    paste0('"', gsub('([\\\\"])', '\\\\\\1', as.character(x)), '"')
   }
 
   vec_to_r <- function(x) {
@@ -360,6 +397,19 @@ server <- function(input, output, session) {
       return(paste0('c(', paste(vals, collapse = ', '), ')'))
     }
     paste0('c(', paste(paste0(quote_r_string(nms), ' = ', vals), collapse = ', '), ')')
+  }
+
+  # Bethel baseline computed domain by domain (as the optimiser does) and summed.
+  # strata: output of buildStrataDF; errors: data.frame with CVi and domainvalue.
+  bethel_total <- function(strata, errors) {
+    cv_cols <- grep("^CV", names(errors), value = TRUE)
+    doms    <- sort(unique(strata$DOM1))
+    sum(vapply(doms, function(d) {
+      e   <- errors[as.character(errors$domainvalue) == as.character(d), , drop = FALSE]
+      one <- cbind(data.frame(DOM = "DOM1", stringsAsFactors = FALSE),
+                   e[1, cv_cols, drop = FALSE])
+      sum(ceiling(bethel(strata[strata$DOM1 == d, , drop = FALSE], one)))
+    }, numeric(1)))
   }
 
   # ── HELP MODAL ───────────────────────────────────────────────────────────────
@@ -449,8 +499,9 @@ server <- function(input, output, session) {
                  standard deviations (", tags$code("S"), ") for each Y variable, plus the
                  stratum population size ", tags$code("N"), "."),
           tags$h4("Check Input"),
-          tags$p("Runs ", tags$code("checkInput()"), " to validate the strata object
-                 (no missing values, coherent sizes, etc.) before optimisation."),
+          tags$p("Available in Step 4 once the constraints are set: runs ",
+                 tags$code("checkInput()"), " to validate the errors, strata and frame
+                 objects (no missing values, coherent sizes, etc.) before optimisation."),
           tags$h4("Tip"),
           tags$p("Always run Check Input before proceeding — it surfaces data quality
                  issues early.")
@@ -469,12 +520,13 @@ server <- function(input, output, session) {
           tags$h4("Bethel Baseline"),
           tags$p("Clicking ", tags$b("Bethel Baseline"), " computes the classical
                  Bethel (multivariate Neyman) allocation on the ", tags$em("current"), "
-                 strata. This gives a lower-bound reference for the optimal sample size
-                 before any boundary reshaping."),
+                 strata, separately for each domain (using that domain's CVs), and sums
+                 the results. This gives a lower-bound reference for the optimal sample
+                 size before any boundary reshaping."),
           tags$h4("Tip"),
           tags$p("Start with conservative CVs (0.10–0.15). If the resulting sample size
                  is too large, relax the constraints or increase the number of strata
-                 in Step 5.")
+                 in Step 6.")
         ),
 
         # ── Step 5 ──────────────────────────────────────────────────────────
@@ -535,7 +587,11 @@ server <- function(input, output, session) {
                     evolved in parallel."),
             tags$li(tags$b("Use KmeansSolution as seed:"), " Pre-initialises the GA
                     with a K-means clustering — strongly recommended, speeds up
-                    convergence - to be used with atomic method.")
+                    convergence - to be used with atomic method."),
+            tags$li(tags$b("Use suggestions (continuous method only):"), " Runs ",
+                    tags$code("suggestions <- prepareSuggestion(frame, nStrata)"),
+                    " and passes ", tags$code("suggestions"), " to ",
+                    tags$code("optimStrata()"), " as the starting solution.")
           ),
           
           tags$h4("Output"),
@@ -631,18 +687,17 @@ raw_df <- swissmunicipalities'
         ', sep = ', quote_r_string(input$sep), ')'
       )
     }
-    # Reset everything downstream so no stale results from a previous dataset remain
+    # Reset everything downstream of the raw data to avoid stale objects
     for (nm in c("raw_cens_df", "frame", "framecens", "framesamp", "strata",
                  "errors", "solution", "outstrata", "framenew", "x_vars_used",
-                 "eval_res", "sample_df", "optim_plot_files", "takeall_data_expr",
-                 "cv_uploads"))
+                 "eval_res", "sample_df", "optim_plot_files",
+                 "takeall_data_expr", "cv_uploads")) {
       rv[[nm]] <- NULL
+    }
     rv$optim_plot_idx <- 1L
     frame_xbins(NULL)
     xfreq_df(NULL)
-    kmeans_nstrata_vec(NULL)
-    kmeans_solution_stored(NULL)
-    optim_log("")
+    check_msg("Set constraints first (Tab 4), then click Check Input.")
     rv$script_steps <- c(
       '# Reproducible script generated from the SamplingStrata Shiny app',
       'library(SamplingStrata)',
@@ -664,25 +719,59 @@ raw_df <- swissmunicipalities'
     summary(rv$raw_df)
   })
 
+  # Message shown in the "Check Input Result" box (updated by btn_check)
+  check_msg <- reactiveVal("Set constraints first (Tab 4), then click Check Input.")
+
   # ── STEP 2: Variable assignment ─────────────────────────────────────────────
   col_choices <- reactive({
     req(rv$raw_df)
     names(rv$raw_df)
   })
 
+  # Helper: case-insensitive match of `wanted` names against the actual columns
+  # of the loaded dataset. Returns the actual column names (preserving the
+  # original capitalisation) for those that exist, dropping the rest.
+  match_cols_ci <- function(wanted, cols) {
+    if (is.null(cols) || length(cols) == 0) return(character(0))
+    idx <- match(tolower(wanted), tolower(cols))
+    cols[idx[!is.na(idx)]]
+  }
+
+  # Detect whether the currently loaded dataset looks like the swissmunicipalities
+  # demo (case-insensitive on column names), so we can pre-select sensible
+  # defaults in the variable assignment UI.
+  is_swiss_demo <- reactive({
+    req(rv$raw_df)
+    if (!isTRUE(input$data_source == "demo")) return(FALSE)
+    expected <- c("id", "Reg", "Airbat", "Airind",
+                  "Surfacesbois", "Surfacescult", "HApoly", "POPTOT")
+    length(match_cols_ci(expected, names(rv$raw_df))) == length(expected)
+  })
+
   output$ui_id_var <- renderUI({
-    selectInput("id_var", "ID column", choices = col_choices())
+    sel <- if (isTRUE(is_swiss_demo()))
+      match_cols_ci("id", col_choices()) else NULL
+    selectInput("id_var", "ID column",
+                choices = col_choices(), selected = sel)
   })
   output$ui_domain_var <- renderUI({
-    selectInput("domain_var", "Domain column", choices = col_choices())
+    sel <- if (isTRUE(is_swiss_demo()))
+      match_cols_ci("Reg", col_choices()) else NULL
+    selectInput("domain_var", "Domain column",
+                choices = col_choices(), selected = sel)
   })
   output$ui_y_vars <- renderUI({
+    sel <- if (isTRUE(is_swiss_demo())) match_cols_ci(
+      c("Airbat", "Airind", "Surfacesbois", "Surfacescult"),
+      col_choices()) else NULL
     checkboxGroupInput("y_vars", "Target (Y) variables",
-                       choices = col_choices(), inline = FALSE)
+                       choices = col_choices(), selected = sel, inline = FALSE)
   })
   output$ui_x_vars <- renderUI({
+    sel <- if (isTRUE(is_swiss_demo()))
+      match_cols_ci(c("HApoly", "POPTOT"), col_choices()) else NULL
     checkboxGroupInput("x_vars", "Stratification (X) variables",
-                       choices = col_choices(), inline = FALSE)
+                       choices = col_choices(), selected = sel, inline = FALSE)
   })
 
   # Per-variable categorisation table (shown once X vars are selected)
@@ -845,8 +934,12 @@ raw_df <- swissmunicipalities'
 
   # ── STEP 3: Frame & Strata ──────────────────────────────────────────────────
   observeEvent(input$btn_build_frame, {
-    req(frame_xbins(), input$id_var, input$x_vars, input$y_vars, input$domain_var)
-    # Fall back to input$x_vars if Prepare Variables was never clicked
+    req(input$id_var, input$x_vars, input$y_vars, input$domain_var)
+    if (is.null(frame_xbins())) {
+      showNotification("Click 'Prepare Variables' (Step 2) before building the frame.",
+                       type = "warning", duration = 8)
+      return()
+    }
     x_vars_final <- if (!is.null(rv$x_vars_used)) rv$x_vars_used else input$x_vars
     tryCatch({
       rv$frame <- buildFrameDF(
@@ -894,30 +987,27 @@ strata <- buildStrataDF(frame)
     datatable(head(rv$strata, 100), options = list(scrollX = TRUE, pageLength = 8))
   })
 
-  output$txt_check <- renderPrint({
-    req(rv$strata, rv$frame)
-    # errors may not be built yet
-    errs <- rv$errors
-    if (is.null(errs)) {
-      cat("Set constraints first (Tab 4), then click Check Input.\n")
+  output$txt_check <- renderPrint({ cat(check_msg(), "\n") })
+
+  observeEvent(input$btn_check, {
+    if (is.null(rv$strata) || is.null(rv$frame) || is.null(rv$errors)) {
+      check_msg("Build frame and strata (Tab 3) and set constraints (Tab 4) first.")
       return()
     }
     tryCatch({
-      checkInput(errors = errs, strata = rv$strata, sampframe = rv$frame)
-      cat("checkInput: OK\n")
-    }, error   = function(e) cat("ERROR:", e$message, "\n"),
-       warning = function(w) cat("WARNING:", w$message, "\n"))
-  })
-
-  observeEvent(input$btn_check, {
-    req(rv$strata, rv$frame, rv$errors)
-    tryCatch({
       checkInput(errors = rv$errors, strata = rv$strata, sampframe = rv$frame)
+      check_msg("checkInput: OK")
+      append_script_step('# Optional: check input
+checkInput(errors = errors, strata = strata, sampframe = frame)
+')
       showNotification("checkInput passed.", type = "message")
-    }, error   = function(e) showNotification(paste("Check failed:", e$message),
-                                               type = "error", duration = 10),
-       warning = function(w) showNotification(paste("Check warning:", w$message),
-                                               type = "warning", duration = 10))
+    }, error = function(e) {
+      check_msg(paste("ERROR:", e$message))
+      showNotification(paste("Check failed:", e$message), type = "error", duration = 10)
+    }, warning = function(w) {
+      check_msg(paste("WARNING:", w$message))
+      showNotification(paste("Check warning:", w$message), type = "warning", duration = 10)
+    })
   })
 
   # ── STEP 4: Constraints ──────────────────────────────────────────────────────
@@ -1013,23 +1103,15 @@ strata <- buildStrataDF(frame)
       'errors <- data.frame(DOM = rep("DOM1", ', length(doms), '))
 ',
       paste(cv_lines, collapse = '\n'),
-      '\nerrors$domainvalue <- ', vec_to_r(as.character(doms)), '\n'
+      '\nerrors$domainvalue <- ',
+      if (is.numeric(doms)) paste0('c(', paste(doms, collapse = ', '), ')')
+      else vec_to_r(as.character(doms)),
+      '\n'
     )
     showNotification("Constraints set.", type = "message")
   })
 
-  # Helper: bethel() expects exactly one row with columns: DOM (= "DOM1"), CV1, CV2, ...
-  # No domainvalue column. When CVs differ across domains we use the per-variable
-  # minimum (most conservative constraint) so the baseline is valid for every domain.
-  errors_for_bethel <- reactive({
-    req(rv$errors)
-    errs    <- rv$errors
-    cv_cols <- grep("^CV", names(errs), value = TRUE)
-    one_row <- as.data.frame(lapply(cv_cols, function(col) min(errs[[col]], na.rm = TRUE)))
-    names(one_row) <- cv_cols
-    one_row <- cbind(data.frame(DOM = "DOM1", stringsAsFactors = FALSE), one_row)
-    one_row
-  })
+  # Bethel baseline: see bethel_total() (computed per domain, then summed).
 
   output$tbl_errors <- renderDT({
     req(rv$errors)
@@ -1037,25 +1119,27 @@ strata <- buildStrataDF(frame)
   })
 
   output$txt_bethel <- renderPrint({
-    req(rv$strata, errors_for_bethel())
+    req(rv$strata, rv$errors)
     tryCatch({
-      alloc <- bethel(rv$strata, errors_for_bethel())
-      cat("Bethel total sample size:", sum(ceiling(alloc)), "\n")
+      cat("Bethel total sample size (sum over domains):",
+          bethel_total(rv$strata, rv$errors), "\n")
     }, error = function(e) cat("Error:", e$message, "\n"))
   })
 
   observeEvent(input$btn_bethel, {
-    req(rv$strata, errors_for_bethel())
+    req(rv$strata, rv$errors)
     tryCatch({
-      alloc <- bethel(rv$strata, errors_for_bethel())
-      append_script_step('# Optional: Bethel baseline
+      n_bethel <- bethel_total(rv$strata, rv$errors)
+      append_script_step('# Optional: Bethel baseline (domain by domain, then summed)
 cv_cols <- grep("^CV", names(errors), value = TRUE)
-errors_bethel <- as.data.frame(lapply(cv_cols, function(col) min(errors[[col]])))
-names(errors_bethel) <- cv_cols
-alloc_bethel <- bethel(strata, errors_bethel)
-sum(ceiling(alloc_bethel))
+n_bethel <- sum(sapply(sort(unique(strata$DOM1)), function(d) {
+  e <- errors[as.character(errors$domainvalue) == as.character(d), , drop = FALSE]
+  one <- cbind(data.frame(DOM = "DOM1"), e[1, cv_cols, drop = FALSE])
+  sum(ceiling(bethel(strata[strata$DOM1 == d, , drop = FALSE], one)))
+}))
+n_bethel
 ')
-      showNotification(paste("Bethel n =", sum(ceiling(alloc))),
+      showNotification(paste("Bethel n =", n_bethel),
                        type = "message", duration = 8)
     }, error = function(e) showNotification(paste("Bethel error:", e$message),
                                              type = "error", duration = 10))
@@ -1178,9 +1262,14 @@ sum(ceiling(alloc_bethel))
     x_vars_final <- if (!is.null(rv$x_vars_used)) rv$x_vars_used else input$x_vars
     req(length(x_vars_final) > 0)
 
-    # The uploaded file holds ORIGINAL variables (not categorised). Categorised
-    # X columns (var.bin) are taken from the prepared data, matched by ID.
-    req(frame_xbins())
+    if (is.null(frame_xbins())) {
+      showNotification("Click 'Prepare Variables' (Step 2) first.", type = "warning")
+      return()
+    }
+
+    # Only the original (un-binned) columns must be in the uploaded file: the
+    # binned versions are taken from the prepared data, so that framecens uses
+    # exactly the same categorisation as the main frame.
     required_cols <- unique(c(input$id_var, input$domain_var, input$y_vars, input$x_vars))
     missing_cols  <- setdiff(required_cols, names(subset_df))
     if (length(missing_cols) > 0) {
@@ -1228,8 +1317,8 @@ sum(ceiling(alloc_bethel))
     mismatches <- vapply(compare_cols, function(colname) {
       lhs <- as.character(subset_df[[colname]])
       rhs <- as.character(rv$raw_df[[colname]][raw_match_idx])
-      any(is.na(raw_match_idx) | is.na(lhs) != is.na(rhs) |
-          (!is.na(lhs) & !is.na(rhs) & lhs != rhs))
+      isTRUE(any(is.na(raw_match_idx) | (lhs != rhs) | (is.na(lhs) != is.na(rhs)),
+                 na.rm = TRUE))
     }, logical(1))
 
     if (any(mismatches)) {
@@ -1241,14 +1330,14 @@ sum(ceiling(alloc_bethel))
       return()
     }
 
-    prepared_df    <- frame_xbins()
-    subset_prepped <- prepared_df[match(subset_ids,
-                                        as.character(prepared_df[[input$id_var]])), ,
-                                  drop = FALSE]
+    # Take the prepared (binned) rows matching the uploaded IDs
+    prep_df     <- frame_xbins()
+    cens_prep   <- prep_df[match(subset_ids, as.character(prep_df[[input$id_var]])), ,
+                           drop = FALSE]
 
     built_cens <- tryCatch({
       buildFrameDF(
-        df          = subset_prepped,
+        df          = cens_prep,
         id          = input$id_var,
         X           = x_vars_final,
         Y           = input$y_vars,
@@ -1286,8 +1375,10 @@ sum(ceiling(alloc_bethel))
 ',
       rv$takeall_data_expr, '
 ',
-      'framecens <- buildFrameDF(df = df_prepared[match(takeall_raw[[', quote_r_string(input$id_var),
-      ']], df_prepared[[', quote_r_string(input$id_var), ']]), , drop = FALSE], id = ', quote_r_string(input$id_var),
+      'takeall_prepared <- df_prepared[match(as.character(takeall_raw[[', quote_r_string(input$id_var),
+      ']]), as.character(df_prepared[[', quote_r_string(input$id_var), ']])), , drop = FALSE]
+',
+      'framecens <- buildFrameDF(df = takeall_prepared, id = ', quote_r_string(input$id_var),
       ', X = ', vec_to_r(x_vars_final),
       ', Y = ', vec_to_r(input$y_vars),
       ', domainvalue = ', quote_r_string(input$domain_var), ')
@@ -1382,13 +1473,26 @@ sum(ceiling(alloc_bethel))
   })
   optim_log <- reactiveVal("")
 
+  # Sort convergence plot files by their numeric index (optim_plot_<n>_<time>.png);
+  # plain sort() breaks once the index exceeds 999 (e.g. "1000" < "999").
+  sort_plot_files <- function(f) {
+    if (length(f) == 0) return(f)
+    f[order(as.integer(sub("^optim_plot_([0-9]+)_.*$", "\\1", basename(f))))]
+  }
+
   # ── KMeans nStrata (runs when checkbox is activated or strata change) ────────
   kmeans_nstrata_vec    <- reactiveVal(NULL)   # per-domain nStrata vector
   kmeans_solution_stored <- reactiveVal(NULL)  # full KmeansSolution result (for seed)
 
   # Re-run when checkbox toggled OR when method changes (continuous vs atomic
   # require different KMeans functions: KmeansSolution2 vs KmeansSolution).
-  observeEvent(list(input$kmeans_nstrata, input$optim_method), {
+  # Signature of the inputs the stored KMeans result was computed from. If strata,
+  # errors, method or maxclusters change afterwards, the stored seed is outdated
+  # and passing it to optimStrata() fails ("number of items to replace ...").
+  kmeans_sig <- reactiveVal(NULL)
+  km_sig <- function(method, maxcl) list(method, maxcl, rv$errors, rv$strata)
+
+  run_kmeans <- function() {
     if (!isTRUE(input$kmeans_nstrata)) {
       kmeans_nstrata_vec(NULL)
       kmeans_solution_stored(NULL)
@@ -1412,6 +1516,7 @@ sum(ceiling(alloc_bethel))
           if (length(vec) == 0L) stop("KmeansSolution2 returned no domain results.")
           kmeans_nstrata_vec(vec)
           kmeans_solution_stored(km)
+          kmeans_sig(km_sig(method, maxcl))
         }, error = function(e) {
           showNotification(paste("KMeans2 error:", e$message), type = "error")
         })
@@ -1428,12 +1533,14 @@ sum(ceiling(alloc_bethel))
           if (length(vec) == 0L) stop("KmeansSolution returned no domain results.")
           kmeans_nstrata_vec(vec)
           kmeans_solution_stored(km)
+          kmeans_sig(km_sig(method, maxcl))
         }, error = function(e) {
           showNotification(paste("KMeans error:", e$message), type = "error")
         })
       })
     }
-  })
+  }
+  observeEvent(list(input$kmeans_nstrata, input$optim_method), run_kmeans())
 
   output$ui_kmeans_nstrata_info <- renderUI({
     if (!isTRUE(input$kmeans_nstrata)) return(NULL)
@@ -1450,7 +1557,6 @@ sum(ceiling(alloc_bethel))
     req(rv$strata, rv$errors, rv$frame)
 
     # Safety guard: continuous method is incompatible with categorised X variables
-    req(input$optim_method)
     if (!is.null(xfreq_df()) && input$optim_method == "continuous") {
       showNotification(
         "One or more X variables are categorised: only the 'atomic' method can be used. Please switch method.",
@@ -1459,6 +1565,20 @@ sum(ceiling(alloc_bethel))
     }
 
     optim_log("Running optimisation…\n")
+
+    # Recompute the KMeans nStrata/seed if strata, errors, method or
+    # maxclusters changed since it was last computed.
+    if (isTRUE(input$kmeans_nstrata)) {
+      cur_method <- if (is.null(input$optim_method)) "atomic" else input$optim_method
+      cur_maxcl  <- max(2L, as.integer(if (is.null(input$nstrata)) 10L else input$nstrata))
+      if (!identical(kmeans_sig(), km_sig(cur_method, cur_maxcl))) {
+        optim_log(paste0(optim_log(),
+          "KMeans solution outdated (strata, constraints or settings changed): recomputing...\n"))
+        kmeans_nstrata_vec(NULL)
+        kmeans_solution_stored(NULL)
+        run_kmeans()
+      }
+    }
 
     withProgress(message = "Optimising stratification…", value = 0, {
       tryCatch({
@@ -1559,7 +1679,7 @@ sum(ceiling(alloc_bethel))
 
           # rbga plots once per domain per iteration → keep only the last plot
           # per domain (every ndoms-th file from the end).
-          generated <- sort(Sys.glob(sub("%03d", "*", tmp_base, fixed = TRUE)))
+          generated <- sort_plot_files(Sys.glob(sub("%03d", "*", tmp_base, fixed = TRUE)))
           n_gen  <- length(generated)
           if (n_gen > 0 && n_gen >= ndoms && (n_gen %% ndoms) == 0) {
             step      <- n_gen %/% ndoms
@@ -1569,6 +1689,23 @@ sum(ceiling(alloc_bethel))
 
         } else {
           # Continuous method — nStrata is a per-domain vector (not a scalar).
+          # Any seed computed above (KmeansSolution) is not valid here: the only
+          # supported seed is prepareSuggestion(), if the flag is ticked.
+          suggestions <- NULL
+          if (isTRUE(input$use_suggestions)) {
+            incProgress(0.1, detail = "prepareSuggestion…")
+            suggestions <- tryCatch(
+              prepareSuggestion(frame = frame_snap, nStrata = nstrata_vec),
+              error = function(e) {
+                optim_log(paste0(optim_log(),
+                  "prepareSuggestion failed (continuing without suggestions): ",
+                  e$message, "\n"))
+                NULL
+              }
+            )
+            if (!is.null(suggestions))
+              optim_log(paste0(optim_log(), "Using suggestions from prepareSuggestion().\n"))
+          }
           tmp_base <- file.path(tempdir(),
                                 paste0("optim_plot_%03d_", as.integer(Sys.time()), ".png"))
           grDevices::png(tmp_base, width = 700, height = 380)
@@ -1584,6 +1721,7 @@ sum(ceiling(alloc_bethel))
               parallel  = FALSE
             )
             if (!is.null(cens_snap)) args_cont$framecens <- cens_snap
+            if (!is.null(suggestions)) args_cont$suggestions <- suggestions
             optim_log(paste0(optim_log(),
               "framesamp rows: ", nrow(frame_snap),
               if (!is.null(cens_snap)) paste0("  |  framecens rows: ", nrow(cens_snap)) else "",
@@ -1596,11 +1734,19 @@ sum(ceiling(alloc_bethel))
           })
           tryCatch(grDevices::dev.off(), error = function(e) NULL)
 
-          generated <- sort(Sys.glob(sub("%03d", "*", tmp_base, fixed = TRUE)))
+          generated <- sort_plot_files(Sys.glob(sub("%03d", "*", tmp_base, fixed = TRUE)))
           n_gen  <- length(generated)
           if (n_gen > 0 && n_gen >= ndoms && (n_gen %% ndoms) == 0) {
             step      <- n_gen %/% ndoms
             generated <- generated[seq(step, n_gen, by = step)]
+          }
+          # The continuous method plots the domains in order of first appearance
+          # in the frame (not sorted): reorder so that page k = domain k.
+          if (length(generated) == ndoms) {
+            dom_order <- unique(as.integer(as.character(
+              c(frame_snap$domainvalue,
+                if (!is.null(cens_snap)) cens_snap$domainvalue))))
+            if (length(dom_order) == ndoms) generated <- generated[order(dom_order)]
           }
           rv$optim_plot_files <- if (length(generated) > 0) generated else NULL
         }
@@ -1624,7 +1770,13 @@ sum(ceiling(alloc_bethel))
           '# 7. Optimisation',
           paste0('nstrata <- ', named_numvec_to_r(nstrata_vec))
         )
-        if (used_suggestions) {
+        if (used_suggestions && identical(input$optim_method, "continuous")) {
+          opt_lines <- c(opt_lines,
+            paste0('suggestions <- prepareSuggestion(frame = ',
+                   if (use_cens_now) 'framesamp' else 'frame',
+                   ', nStrata = nstrata)')
+          )
+        } else if (used_suggestions) {
           if (isTRUE(input$kmeans_nstrata) && !is.null(kmeans_solution_stored())) {
             opt_lines <- c(opt_lines,
               paste0('kmeans_seed <- KmeansSolution(strata, errors, maxclusters = ',
@@ -1663,6 +1815,7 @@ sum(ceiling(alloc_bethel))
             paste0('  iter = ', input$iter, ','),
             paste0('  pops = ', input$pops, ','),
             '  nStrata = nstrata,',
+            if (used_suggestions) '  suggestions = suggestions,' else NULL,
             '  showPlot = TRUE,',
             '  parallel = FALSE',
             if (use_cens_now) ',  framecens = framecens' else NULL,
@@ -1744,7 +1897,7 @@ sum(ceiling(alloc_bethel))
     })
   })
 
-  # ── STEP 6: Results / Evaluation ─────────────────────────────────────────────
+  # ── STEP 7: Results / Evaluation ─────────────────────────────────────────────
   output$ui_plot_vars <- renderUI({
     req(rv$framenew)
     # framenew uses uppercase column names (DOMAINVALUE, X1, X2, ...)
@@ -1817,37 +1970,38 @@ eval_res <- evalSolution(framenew, outstrata, nsampl = ', input$nsampl, ', progr
                  stringsAsFactors = FALSE)
     }))
 
-    # Build one threshold per CV variable from rv$errors (CV1, CV2, …)
-    # All domains share the same constraint values, so row 1 is sufficient.
-    thresh <- if (!is.null(rv$errors)) {
-      do.call(rbind, lapply(cv_cols, function(v) {
-        val <- if (v %in% names(rv$errors)) rv$errors[[v]][1] else NA_real_
-        data.frame(variable = v, threshold = val, stringsAsFactors = FALSE)
+    # One threshold per domain and CV variable, taken from rv$errors
+    # (columns CV1, CV2, ... and domainvalue; constraints may differ by domain).
+    thresh <- NULL
+    if (!is.null(rv$errors) && "domainvalue" %in% names(rv$errors)) {
+      thresh <- do.call(rbind, lapply(intersect(cv_cols, names(rv$errors)), function(v) {
+        # evalSolution labels domains "DOM1", "DOM2", ...: use the same labels
+        dom_raw   <- as.character(rv$errors$domainvalue)
+        dom_label <- if (all(paste0("DOM", dom_raw) %in% as.character(cv$dom)))
+                       paste0("DOM", dom_raw) else dom_raw
+        data.frame(domain    = dom_label,
+                   variable  = v,
+                   threshold = rv$errors[[v]],
+                   stringsAsFactors = FALSE)
       }))
-    } else {
-      data.frame(variable = character(0), threshold = numeric(0))
+      if (!is.null(thresh))
+        thresh <- thresh[!is.na(thresh$threshold), , drop = FALSE]
     }
-    thresh <- thresh[!is.na(thresh$threshold), , drop = FALSE]
 
     p <- ggplot(df, aes(x = domain, y = value, fill = variable)) +
       geom_col(position = "dodge") +
-      labs(title = "CV by domain and variable  (dashed lines = constraints)",
+      labs(title = "CV by domain and variable  (black ticks = constraints)",
            x = "Domain", y = "CV", fill = "Variable") +
       theme_bw()
 
-    if (nrow(thresh) > 0) {
-      p <- p +
-        # dashed lines colored to match their bar (same default hue sequence)
-        geom_hline(data = thresh,
-                   aes(yintercept = threshold, color = variable),
-                   linetype = "dashed", linewidth = 0.8, inherit.aes = FALSE) +
-        # value labels on the right margin
-        geom_text(data = thresh,
-                  aes(x = Inf, y = threshold, color = variable,
-                      label = paste0(variable, " \u2264 ", threshold)),
-                  hjust = 1.05, vjust = -0.4, size = 3,
-                  inherit.aes = FALSE, show.legend = FALSE) +
-        scale_color_discrete(guide = "none")   # same palette as fill, no extra legend
+    if (!is.null(thresh) && nrow(thresh) > 0) {
+      # black tick over each bar, dodged exactly like the bars
+      p <- p + geom_errorbar(data = thresh,
+                             aes(x = domain, ymin = threshold, ymax = threshold,
+                                 group = variable),
+                             position = position_dodge(width = 0.9),
+                             width = 0.9, linewidth = 0.8, colour = "black",
+                             inherit.aes = FALSE)
     }
     p
   })
@@ -1880,26 +2034,34 @@ eval_res <- evalSolution(framenew, outstrata, nsampl = ', input$nsampl, ', progr
     }
     tryCatch({
       adj_out  <- capture.output(
-        new_strata <- adjustSize(size = target, strata = rv$outstrata, cens = NULL)
+        new_strata <- adjustSize(size = target, strata = rv$outstrata)
       )
       # Round SOLUZ to integers; then correct rounding accumulation by
-      # adjusting ±1 per stratum (largest-remainder method) to reach the target.
+      # adjusting ±1 per stratum to reach the target. Take-all strata
+      # (CENS == 1) are never modified: adjustSize() already accounts for them.
       new_strata$SOLUZ <- round(new_strata$SOLUZ)
+      is_cens  <- if ("CENS" %in% names(new_strata)) new_strata$CENS == 1 else
+                    rep(FALSE, nrow(new_strata))
       actual_size <- sum(new_strata$SOLUZ)
       delta <- actual_size - target
       if (delta > 0) {
         # Too many: reduce strata with largest SOLUZ by 1, keeping minimum 2
-        eligible <- which(new_strata$SOLUZ > 2)
+        eligible <- which(new_strata$SOLUZ > 2 & !is_cens)
         if (length(eligible) > 0) {
           reduce_n   <- min(delta, length(eligible))
           reduce_idx <- eligible[order(-new_strata$SOLUZ[eligible])][seq_len(reduce_n)]
           new_strata$SOLUZ[reduce_idx] <- new_strata$SOLUZ[reduce_idx] - 1
         }
       } else if (delta < 0) {
-        # Too few: increase strata with smallest SOLUZ by 1
-        increase_n   <- min(-delta, nrow(new_strata))
-        increase_idx <- order(new_strata$SOLUZ)[seq_len(increase_n)]
-        new_strata$SOLUZ[increase_idx] <- new_strata$SOLUZ[increase_idx] + 1
+        # Too few: increase strata with smallest SOLUZ by 1 (only where N allows)
+        eligible <- which(!is_cens)
+        if ("N" %in% names(new_strata))
+          eligible <- eligible[new_strata$SOLUZ[eligible] < new_strata$N[eligible]]
+        if (length(eligible) > 0) {
+          increase_n   <- min(-delta, length(eligible))
+          increase_idx <- eligible[order(new_strata$SOLUZ[eligible])][seq_len(increase_n)]
+          new_strata$SOLUZ[increase_idx] <- new_strata$SOLUZ[increase_idx] + 1
+        }
       }
       # Cap SOLUZ at stratum population N (can't sample more than the population)
       if ("N" %in% names(new_strata))
@@ -1907,8 +2069,25 @@ eval_res <- evalSolution(framenew, outstrata, nsampl = ', input$nsampl, ', progr
       actual_size <- sum(new_strata$SOLUZ)
       rv$outstrata <- new_strata
       append_script_step('# Optional: adjust sample size
-outstrata <- adjustSize(size = ', target, ', strata = outstrata, cens = NULL)
+outstrata <- adjustSize(size = ', target, ', strata = outstrata)
 outstrata$SOLUZ <- round(outstrata$SOLUZ)
+is_cens <- if ("CENS" %in% names(outstrata)) outstrata$CENS == 1 else rep(FALSE, nrow(outstrata))
+delta <- sum(outstrata$SOLUZ) - ', target, '
+if (delta > 0) {
+  eligible <- which(outstrata$SOLUZ > 2 & !is_cens)
+  if (length(eligible) > 0) {
+    idx <- eligible[order(-outstrata$SOLUZ[eligible])][seq_len(min(delta, length(eligible)))]
+    outstrata$SOLUZ[idx] <- outstrata$SOLUZ[idx] - 1
+  }
+} else if (delta < 0) {
+  eligible <- which(!is_cens)
+  if ("N" %in% names(outstrata)) eligible <- eligible[outstrata$SOLUZ[eligible] < outstrata$N[eligible]]
+  if (length(eligible) > 0) {
+    idx <- eligible[order(outstrata$SOLUZ[eligible])][seq_len(min(-delta, length(eligible)))]
+    outstrata$SOLUZ[idx] <- outstrata$SOLUZ[idx] + 1
+  }
+}
+if ("N" %in% names(outstrata)) outstrata$SOLUZ <- pmin(outstrata$SOLUZ, outstrata$N)
 ')
       # Invalidate previous evaluation so re-running Simulation uses updated SOLUZ
       rv$eval_res  <- NULL
@@ -1928,7 +2107,7 @@ outstrata$SOLUZ <- round(outstrata$SOLUZ)
     datatable(rv$outstrata, options = list(scrollX = TRUE, pageLength = 10))
   })
 
-  # ── STEP 7: Sample selection ─────────────────────────────────────────────────
+  # ── STEP 8: Sample selection ─────────────────────────────────────────────────
   output$ui_sort_var <- renderUI({
     req(rv$framenew)
     cols <- names(rv$framenew)
