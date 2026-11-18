@@ -145,6 +145,9 @@ KmeansSolution2 <- function(frame,
   	  tit <- paste("title('kmeans clustering in domain ",k,"')",sep="")
   	  eval(parse(text=tit))
     }
+    # last point drawn, so that consecutive points are joined by a line
+    prev_x <- 2
+    prev_y <- sum(v)
     bestsolution <- NULL
     if (is.na(nstrata)) {min = 3; max = times }
     if (!is.na(nstrata)) {min = nstrata; max = nstrata }
@@ -159,7 +162,11 @@ KmeansSolution2 <- function(frame,
                              verbose=FALSE)
       v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
       # cat("\n",sum(v))
-      if (showPlot == TRUE) points(i,sum(v))
+      if (showPlot == TRUE) {
+        lines(c(prev_x, i), c(prev_y, sum(v)), type = "b")
+        prev_x <- i
+        prev_y <- sum(v)
+      }
       if (sum(v) <= best[k]) {
         bestsolution <- solution
         best_num_strata[k] <- i

@@ -242,6 +242,9 @@ KmeansSolutionSpatial <- function (frame,
                    k, "')", sep = "")
       eval(parse(text = tit))
     }
+    # last point drawn, so that consecutive points are joined by a line
+    prev_x <- 1
+    prev_y <- sum(v)
     bestsolution <- NULL
     if (is.na(nstrata)) {
       min = 2
@@ -263,8 +266,11 @@ KmeansSolutionSpatial <- function (frame,
                                 vett = solution,
                                 dominio = k)
       v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
-      if (showPlot == TRUE) 
-        points(i, sum(v))
+      if (showPlot == TRUE) {
+        lines(c(prev_x, i), c(prev_y, sum(v)), type = "b")
+        prev_x <- i
+        prev_y <- sum(v)
+      }
       if (sum(v) <= best[k]) {
         bestsolution <- solution
         best_num_strata[k] <- i
