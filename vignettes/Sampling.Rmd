@@ -1,7 +1,7 @@
 ---
 title: "Optimization of sampling strata with the SamplingStrata package"
 author: "Marco Ballin, Giulio Barcaroli"
-date: "2026-11-15"
+date: "2026-11-18"
 # output: rmarkdown::html_vignette
 output: 
   bookdown::html_document2:
@@ -307,8 +307,8 @@ solution1 <- optimStrata(method = "atomic",
 
 ```
 #> 
-#>  *** Sample size :  233
-#>  *** Number of strata :  23
+#>  *** Sample size :  228
+#>  *** Number of strata :  24
 #> ---------------------------
 ```
 
@@ -321,9 +321,9 @@ We can calculate (analytically) the expected CVs by executing the function:
 ``` r
 expected_CV(solution1$aggr_strata)
 #>         cv(Y1)    cv(Y2)
-#> DOM1 0.1000000 0.1000000
-#> DOM2 0.1000000 0.1000000
-#> DOM3 0.0998057 0.0996014
+#> DOM1 0.0987108 0.0998573
+#> DOM2 0.1000005 0.0999948
+#> DOM3 0.0986044 0.0999616
 ```
 
 The obtained total size of the sample required to satisfy precision constraint is much lower than the one obtained with the simple application of the Bethel algorithm to the initial atomic stratification, but maybe not yet satisfactory. 
@@ -404,8 +404,8 @@ solution2 <- optimStrata(method = "atomic",
 
 ```
 #> 
-#>  *** Sample size :  150
-#>  *** Number of strata :  23
+#>  *** Sample size :  152
+#>  *** Number of strata :  22
 #> ---------------------------
 ```
 
@@ -417,9 +417,9 @@ Notice that the obtained solution in this run in terms of sample size is signifi
 outstrata2 <- solution2$aggr_strata
 expected_CV(outstrata2)
 #>         cv(Y1)    cv(Y2)
-#> DOM1 0.0994657 0.0667145
-#> DOM2 0.1000000 0.0745348
-#> DOM3 0.1000000 0.0593106
+#> DOM1 0.1000000 0.0854261
+#> DOM2 0.1000000 0.0989646
+#> DOM3 0.1000005 0.0999066
 ```
 
 
@@ -545,8 +545,8 @@ solution3 <- optimStrata(method = "continuous",
 
 ```
 #> 
-#>  *** Sample size :  102
-#>  *** Number of strata :  22
+#>  *** Sample size :  98
+#>  *** Number of strata :  23
 #> ---------------------------
 ```
 
@@ -574,12 +574,12 @@ strataStructure <- summaryStrata(solution3$framenew,
                                  progress=FALSE)
 head(strataStructure)
 #>   Domain Stratum Population Allocation SamplingRate Lower_X1 Upper_X1 Lower_X2 Upper_X2
-#> 1      1       1        366         16     0.042503       27     3068       32      949
-#> 2      1       2        122         12     0.098545       65     3200      603     4060
-#> 3      1       3         58         10     0.165134     3247    29559      129     3943
-#> 4      1       4         19          4     0.214588      155     6257     4416     6723
-#> 5      1       5         10          2     0.228446       78     6261     7093     9660
-#> 6      1       6          7          3     0.435745      260     7515     9692    11907
+#> 1      1       1        334         11     0.034185       27     2221       32      786
+#> 2      1       2        150         15     0.097662       65     4697      185     3144
+#> 3      1       3         39          5     0.133392     5139    29559      129     2984
+#> 4      1       4         43          8     0.183885      130    22454     3179     7093
+#> 5      1       5         12          4     0.320323       78     7515     8460    10117
+#> 6      1       6          8          2     0.255093      255     5988    10752    24269
 ```
 
 For each otpimized stratum, total number of units together with allocations and sampling rates are reported. Also ranges of the stratification variables are listed, in order to characterize the strata.
@@ -610,46 +610,62 @@ plotStrata2d(solution3$framenew,
 <tbody>
   <tr>
    <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 163 </td>
-   <td style="text-align:right;"> 7 </td>
-   <td style="text-align:right;"> 0.04191831 </td>
-   <td style="text-align:right;"> 109-4974 </td>
-   <td style="text-align:right;"> 32-551 </td>
+   <td style="text-align:right;"> 120 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 0.02728919 </td>
+   <td style="text-align:right;"> 109-2213 </td>
+   <td style="text-align:right;"> 32-462 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 101 </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 0.05636350 </td>
-   <td style="text-align:right;"> 235-5079 </td>
-   <td style="text-align:right;"> 556-1126 </td>
+   <td style="text-align:right;"> 32 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 0.06250000 </td>
+   <td style="text-align:right;"> 313-3019 </td>
+   <td style="text-align:right;"> 155-557 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 25 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0.08000000 </td>
-   <td style="text-align:right;"> 1122-8628 </td>
-   <td style="text-align:right;"> 299-1230 </td>
+   <td style="text-align:right;"> 101 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 0.05019084 </td>
+   <td style="text-align:right;"> 235-4974 </td>
+   <td style="text-align:right;"> 261-1007 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 22 </td>
    <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0.13383052 </td>
-   <td style="text-align:right;"> 721-10429 </td>
-   <td style="text-align:right;"> 252-1723 </td>
+   <td style="text-align:right;"> 0.09090909 </td>
+   <td style="text-align:right;"> 566-5079 </td>
+   <td style="text-align:right;"> 1013-1418 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 16 </td>
+   <td style="text-align:right;"> 34 </td>
    <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 0.16218689 </td>
-   <td style="text-align:right;"> 2741-20370 </td>
-   <td style="text-align:right;"> 443-2029 </td>
+   <td style="text-align:right;"> 0.09501809 </td>
+   <td style="text-align:right;"> 929-15470 </td>
+   <td style="text-align:right;"> 252-1603 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 0.20000000 </td>
+   <td style="text-align:right;"> 2741-20370 </td>
+   <td style="text-align:right;"> 700-1878 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1.00000000 </td>
+   <td style="text-align:right;"> 3282-3282 </td>
+   <td style="text-align:right;"> 2029-2029 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 8 </td>
    <td style="text-align:right;"> 1 </td>
    <td style="text-align:right;"> 1 </td>
    <td style="text-align:right;"> 1.00000000 </td>
@@ -678,14 +694,14 @@ For each drawn sample, the estimates related to the Y’s are calculated. Their 
 ``` r
 eval3$coeff_var
 #>      CV1    CV2  dom
-#> 1 0.0891 0.1018 DOM1
-#> 2 0.1087 0.0954 DOM2
-#> 3 0.0912 0.0962 DOM3
+#> 1 0.1129 0.1020 DOM1
+#> 2 0.0961 0.0925 DOM2
+#> 3 0.1152 0.0976 DOM3
 eval3$rel_bias
 #>        y1      y2  dom
-#> 1 -0.0080  0.0058 DOM1
-#> 2  0.0021 -0.0142 DOM2
-#> 3 -0.0023 -0.0013 DOM3
+#> 1 -0.0014  0.0009 DOM1
+#> 2 -0.0100 -0.0042 DOM2
+#> 3  0.0082  0.0068 DOM3
 ```
 
 It is also possible to analyse the sampling distribution of the estimates for each variable of interest in a selected domain:
@@ -722,11 +738,11 @@ Let us suppose that the final obtained sample size (106) is not affordable. We c
 ``` r
 adjustedStrata <- adjustSize(size=75,strata=solution3$aggr_strata,cens=NULL)
 #> 
-#>  79.108
-#>  76.165
-#>  75.438
-#>  75.438
-#>  Final adjusted size:  75.438
+#>  79.605
+#>  75.878
+#>  75.143
+#>  75.143
+#>  Final adjusted size:  75.143
 ```
 
 Instead, if we want to increase the size because the budget allows to do this, then this is the code:
@@ -736,10 +752,10 @@ Instead, if we want to increase the size because the budget allows to do this, t
 ``` r
 adjustedStrata <- adjustSize(size=150,strata=solution3$aggr_strata,cens=NULL)
 #> 
-#>  148.868
-#>  149.826
-#>  149.826
-#>  Final adjusted size:  149.826
+#>  147.703
+#>  149.604
+#>  149.604
+#>  Final adjusted size:  149.604
 ```
 
 The difference between the desired sample size and the actual adjusted size depends on the number of strata in the optimized solution. Consider that the adjustment is performed in each stratum by taking into account the relative difference between the current sample size and the desired one: this produces an allocation that is expressed by a real number, that must be rounded, while taking into account the requirement of the minimum number of units in the strata (default is 2). The higher the number of strata, the higher the impact on the final adjusted sample size.
@@ -771,10 +787,10 @@ sample <- selectSample(framenew3,
                        writeFiles = TRUE)
 #> 
 #> *** Sample has been drawn successfully ***
-#>  102  units have been selected from  22  strata
+#>  98  units have been selected from  23  strata
 #> 
-#> ==> There have been  2  take-all strata 
-#> from which have been selected  3 units
+#> ==> There have been  3  take-all strata 
+#> from which have been selected  4 units
 ```
 
 When the option *writeFiles* is set to TRUE, it produces two .csv files:
@@ -805,10 +821,10 @@ sample <- selectSampleSystematic(frame=framenew,
                                  sortvariable = c("Airind"))
 #> 
 #> *** Sample has been drawn successfully ***
-#>  102  units have been selected from  22  strata
+#>  98  units have been selected from  23  strata
 #> 
-#> ==> There have been  2  take-all strata 
-#> from which have been selected  3 units
+#> ==> There have been  3  take-all strata 
+#> from which have been selected  4 units
 ```
 
 
@@ -870,8 +886,8 @@ solution4 <- optimStrata(method = "continuous",
 
 ```
 #> 
-#>  *** Sample size :  70
-#>  *** Number of strata :  28
+#>  *** Sample size :  65
+#>  *** Number of strata :  27
 #> ---------------------------
 ```
 
@@ -881,12 +897,12 @@ solution4 <- optimStrata(method = "continuous",
 framenew4 <- solution4$framenew
 outstrata4 <- solution4$aggr_strata
 sum(outstrata4$SOLUZ)
-#> [1] 133.9534
+#> [1] 128.3569
 expected_CV(outstrata4)
 #>         cv(Y1)    cv(Y2)
-#> DOM1 0.0999738 0.0998109
-#> DOM2 0.0927853 0.0953303
-#> DOM3 0.0823529 0.0884672
+#> DOM1 0.0991152 0.0993716
+#> DOM2 0.0975544 0.0976619
+#> DOM3 0.0940036 0.0955499
 ```
 
 
@@ -898,10 +914,10 @@ sample <- selectSample(frame=framenew4,
                        outstrata=outstrata4)
 #> 
 #> *** Sample has been drawn successfully ***
-#>  133  units have been selected from  31  strata
+#>  128  units have been selected from  30  strata
 #> 
-#> ==> There have been  3  take-all strata 
-#> from which have been selected  63 units
+#> ==> There have been  4  take-all strata 
+#> from which have been selected  64 units
 ```
 
 and we control that all take-all units are included in the sample:
