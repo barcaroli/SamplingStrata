@@ -11,7 +11,7 @@
 #' @importFrom grDevices dev.off pdf png rainbow
 #' @importFrom graphics abline barplot boxplot close.screen legend lines par
 #'   plot points screen split.screen title
-#' @importFrom stats aggregate cov dnorm kmeans runif sd var
+#' @importFrom stats aggregate cov dnorm kmeans lm runif sd var
 #' @importFrom utils globalVariables read.delim
 #'   setTxtProgressBar txtProgressBar write.table
 #' @importFrom memoise memoise

@@ -294,7 +294,7 @@ optimizeStrata <-
             suggest <- NULL
           }
           if (nrow(stcamp[[i]]) > 0) {
-            solut <- SamplingStrata:::strataGenalg(errors = erro[[i]], 
+            solut <- strataGenalg(errors = erro[[i]], 
                                   strata = stcamp[[i]], cens = cens, strcens = flagcens, 
                                   dominio = i, initialStrata = nstrata[i], 
                                   minnumstr, iter, pops, mut_chance, elitism_rate, 
@@ -306,7 +306,7 @@ optimizeStrata <-
                                                        colnames(stcamp[[i]])))])
               error <- data.frame(erro[[i]],stringsAsFactors = TRUE)
               strat <- data.frame(solut[[2]],stringsAsFactors = TRUE)
-              solut[[2]]$SOLUZ <- sum(SamplingStrata:::bethel_cpp(strat, error, 
+              solut[[2]]$SOLUZ <- sum(bethel_cpp(strat, error, 
                                              realAllocation = T, minnumstrat = minnumstr))
               if (solut[[2]]$SOLUZ > solut[[2]]$N) 
                 solut[[2]]$SOLUZ <- solut[[2]]$N

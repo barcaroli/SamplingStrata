@@ -306,7 +306,7 @@ solution1 <- optimStrata(method = "atomic",
 #>  *** Starting parallel optimization for  3  domains using  3  cores
 ```
 
-![plot of chunk optim1](figure/optim1-1.png)![plot of chunk optim1](figure/optim1-2.png)![plot of chunk optim1](figure/optim1-3.png)
+![plot of chunk optim1](fig/optim1-1.png)![plot of chunk optim1](fig/optim1-2.png)![plot of chunk optim1](fig/optim1-3.png)
 
 ```
 #> 
@@ -368,7 +368,7 @@ initial_solution2 <- KmeansSolution(strata = strata2,
                                     maxclusters = 10)  
 ```
 
-![plot of chunk initsol](figure/initsol-1.png)![plot of chunk initsol](figure/initsol-2.png)![plot of chunk initsol](figure/initsol-3.png)
+![plot of chunk initsol](fig/initsol-1.png)![plot of chunk initsol](fig/initsol-2.png)![plot of chunk initsol](fig/initsol-3.png)
 
 The overall solution is obtained by concatenating optimal clusters obtained in domains. The result is a dataframe with two columns: the first indicates the clusters, the second the domains. On the basis of these, we can calculate the most convenient number of final strata for each domain:
 
@@ -403,7 +403,7 @@ solution2 <- optimStrata(method = "atomic",
 #>  *** Starting parallel optimization for  3  domains using  3  cores
 ```
 
-![plot of chunk optim2](figure/optim2-1.png)![plot of chunk optim2](figure/optim2-2.png)![plot of chunk optim2](figure/optim2-3.png)
+![plot of chunk optim2](fig/optim2-1.png)![plot of chunk optim2](fig/optim2-2.png)![plot of chunk optim2](fig/optim2-3.png)
 
 ```
 #> 
@@ -464,7 +464,7 @@ init_sol3 <- KmeansSolution2(frame=frame3,
                              maxclusters = 10)  
 ```
 
-![plot of chunk init_sol3](figure/init_sol3-1.png)![plot of chunk init_sol3](figure/init_sol3-2.png)![plot of chunk init_sol3](figure/init_sol3-3.png)
+![plot of chunk init_sol3](fig/init_sol3-1.png)![plot of chunk init_sol3](fig/init_sol3-2.png)![plot of chunk init_sol3](fig/init_sol3-3.png)
 
 ```r
 nstrata3 <- tapply(init_sol3$suggestions,
@@ -544,7 +544,7 @@ solution3 <- optimStrata(method = "continuous",
 #>  *** Starting parallel optimization for  3  domains using  3  cores
 ```
 
-![plot of chunk optim3](figure/optim3-1.png)![plot of chunk optim3](figure/optim3-2.png)![plot of chunk optim3](figure/optim3-3.png)
+![plot of chunk optim3](fig/optim3-1.png)![plot of chunk optim3](fig/optim3-2.png)![plot of chunk optim3](fig/optim3-3.png)
 
 ```
 #> 
@@ -598,7 +598,7 @@ plotStrata2d(solution3$framenew,
              labels = c("Total Population","Total Area"))
 ```
 
-![plot of chunk plot2d](figure/plot2d-1.png)
+![plot of chunk plot2d](fig/plot2d-1.png)
 <table class="table table-condensed">
  <thead>
   <tr>
@@ -706,7 +706,7 @@ legend("topright", c("distribution mean", "true value"),
        lty = 1, col = c("blue", "red"), box.col = NA, cex = 0.8)
 ```
 
-![plot of chunk distrib](figure/distrib-1.png)
+![plot of chunk distrib](fig/distrib-1.png)
 
 ## Adjustment of the final sampling size
 
@@ -869,7 +869,7 @@ solution4 <- optimStrata(method = "continuous",
 #>  *** Starting parallel optimization for  3  domains using  3  cores
 ```
 
-![plot of chunk optim4](figure/optim4-1.png)![plot of chunk optim4](figure/optim4-2.png)![plot of chunk optim4](figure/optim4-3.png)
+![plot of chunk optim4](fig/optim4-1.png)![plot of chunk optim4](fig/optim4-2.png)![plot of chunk optim4](fig/optim4-3.png)
 
 ```
 #> 

@@ -333,9 +333,9 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
       st <- paste0("if (!is.numeric(framesamp$X", i, ")) stop('Stratification variable(s) must be numeric - Transform them to numeric from factor or character before run optimization')")
       eval(parse(text = st))
     }
-    strata <- buildStrataDF(framesamp, model = model, progress = FALSE)
+    strata <- buildStrataDF(framesamp, model_ = model, progress = FALSE)
     if (!is.null(framecens)) {
-      cens <- buildStrataDF(framecens, model = model, 
+      cens <- buildStrataDF(framecens, model_ = model, 
                             progress = FALSE)
       strcens <- TRUE
     }

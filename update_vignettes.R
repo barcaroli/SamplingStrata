@@ -7,12 +7,12 @@
 # Edit only the .orig files, then (after reinstalling the package) run this
 # script from the package root folder.
 # The working directory is set to 'vignettes' so that the figures are written
-# in vignettes/figure/, where the generated .Rmd files look for them (when the
-# script was run from the package root they ended up in ./figure/ and the
-# vignettes showed the figures of an older run).
+# in vignettes/fig/ (fig.path = "fig/" in each .orig), where the generated .Rmd
+# files look for them. The folder is not called 'figure' because R CMD check
+# reports a directory with that name as a leftover from knitr.
 # ------------------------------------------------------------------------------
 owd <- setwd("vignettes")
-knitr::knit("SamplingStrata.Rmd.orig", output = "Sampling.Rmd")
+knitr::knit("SamplingStrata.Rmd.orig", output = "SamplingStrata.Rmd")
 # knitr::knit("drake_continuous.Rmd.orig", output = "drake_continuous.Rmd")
 knitr::knit("models.Rmd.orig", output = "models.Rmd")
 knitr::knit("spatial.Rmd.orig", output = "spatial.Rmd")

@@ -5,6 +5,33 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-
 ^\.positai$
 ^\.claude$
+^LICENSE$
+^src/.*\.o$
+^src/.*\.dll$
+^src/.*\.so$
+^\.Rhistory$
+^_config\.yml$
+^_pkgdown\.yaml$
+^Claude outputs$
+^comandi git\.txt$
+^gemfile$
+^install_SamplingStrata\.R$
+^iris_weighted\.csv$
+^[^/]*\.png$
+^bethel\.cpp$
+^SamplingStrata_cheatsheet\.pdf$
+^test\.R$
+^update_vignettes\.R$
+^NEWS\.Rmd$
+^figure$
+^output$
+^simulation$
+^vignettes/\.Rhistory$
+^vignettes/.*\.orig$
+^vignettes/.*\.html$
+^vignettes/.*\.md$
+^vignettes/.*\.R$
+^vignettes/.*\.json$
+^vignettes/figure$

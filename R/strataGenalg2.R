@@ -72,7 +72,7 @@ evaluate <- function(dataset,
     frame$X1 <- as.numeric(frame$X1)
   }
   frame$X1 <- as.numeric(frame$X1)
-  strata <- buildStrataDF(frame,model=model,progress = FALSE,verbose=FALSE)
+  strata <- buildStrataDF(frame,model_=model,progress = FALSE,verbose=FALSE)
   if (strcens == TRUE) {
     stratatot <- rbind(strata,cens)
     soluz <- bethel_cpp(stratatot, 
@@ -161,7 +161,7 @@ if (max(levels(frame$X1)) > length(levels(frame$X1))) {
   frame$X1 <- as.numeric(frame$X1)
 }
 frame$X1 <- as.numeric(frame$X1)
-strata <- buildStrataDF(frame,model=model,progress = FALSE,verbose=FALSE)
+strata <- buildStrataDF(frame,model_=model,progress = FALSE,verbose=FALSE)
 if (strcens == TRUE) {
   stratatot <- rbind(strata,cens)
   soluz <- bethel_cpp(stratatot, 

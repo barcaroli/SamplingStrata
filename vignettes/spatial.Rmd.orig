@@ -28,7 +28,7 @@ vignette: >
 options(repos = c(CRAN = "https://cloud.r-project.org"))
 options(width = 999)
 knitr::opts_chunk$set(echo = TRUE, fig.width=6, fig.height=4)
-knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.path = "figure/spatial-", fig.cap = "")
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.path = "fig/spatial-", fig.cap = "")
 ```
 
 

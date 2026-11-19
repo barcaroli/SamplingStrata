@@ -127,7 +127,7 @@ KmeansSolution2 <- function(frame,
     eval(parse(text=stmt))
     framecorr$X1 <- solution
     aggr <- buildStrataDF(dataset=framecorr,
-                           model=NULL,
+                           model_=NULL,
                            progress=FALSE,
                            verbose=FALSE)
     v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
@@ -157,7 +157,7 @@ KmeansSolution2 <- function(frame,
       eval(parse(text=stmt))
       framecorr$X1 <- solution
       aggr <- buildStrataDF(dataset=framecorr,
-                             model=NULL,
+                             model_=NULL,
                              progress=FALSE,
                              verbose=FALSE)
       v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)

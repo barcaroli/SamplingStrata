@@ -63,6 +63,7 @@ buildErrorsDF <- function(frame=NULL,strata=NULL) {
   # buildFrameDF() returns lower-case names (domainvalue): make them upper case
   if (!is.null(frame)) colnames(frame) <- toupper(colnames(frame))
   if (!is.null(strata)) colnames(strata) <- toupper(colnames(strata))
+  cv <- NULL
   if (!is.null(frame)) {
     ndom <- length(unique(frame$DOMAINVALUE))
     nvars <- length(grep("Y",names(frame)))
