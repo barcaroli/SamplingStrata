@@ -305,7 +305,7 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
     stop("There is at least one element in nStrata that is < 2")
   if (alldomains == TRUE & !is.null(dom)) 
     stop("Processing of all domains set TRUE, but a given domain has been indicated")
-  # model of type "spatial" (atomic and continuous methods): kappa (default 1)
+  # model of type "spatial" (atomic and continuous methods): kappa (default 3)
   # must be > 0; values other than 1 and 3 are unusual
   if (!is.null(model) && "type" %in% names(model) && "kappa" %in% names(model)) {
     kap <- model$kappa[model$type == "spatial" & !is.na(model$kappa)]

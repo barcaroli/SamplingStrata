@@ -14,6 +14,6 @@
   packageStartupMessage("\n", appendLF = FALSE)
   packageStartupMessage("Get a complete documentation on https://barcaroli.github.io/SamplingStrata", appendLF = FALSE)
   packageStartupMessage("\n", appendLF = FALSE)
-  packageStartupMessage("Use the interactive application: run SamplingStrataApp()", appendLF = FALSE)
+  packageStartupMessage("Use the interactive application: run SamplingStrata::SamplingStrataApp()", appendLF = FALSE)
   packageStartupMessage("\n", appendLF = FALSE)
 }

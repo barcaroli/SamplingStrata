@@ -75,14 +75,26 @@ distance between units i and j.
 
 - **Models of type “spatial” in *buildStrataDF* and *aggrStrata2***
   aligned with *buildStrataDFSpatial*: optional columns *fitting*
-  (default 1), *nugget* (default 0) and *kappa* (default 1);
-  *aggrStrata2* no longer adds a covariance term between predictions and
-  errors, and uses *gamma*. Results of *aggrStrata2* with a “spatial”
-  model therefore change.
+  (default 1), *nugget* (default 0) and *kappa* (default 3, as in
+  *optimStrata* and *optimizeStrataSpatial*; the previous code
+  implicitly used kappa = 1, which must now be given explicitly when
+  *range* is the range parameter returned by gstat); *aggrStrata2* no
+  longer adds a covariance term between predictions and errors, and uses
+  *gamma*. Results of *aggrStrata2* with a “spatial” model therefore
+  change.
 
-- In *buildStrataDF* the model parameters are now validated before the
-  parallel (OpenMP) loop: an error raised inside the loop terminated the
-  R session.
+- In *buildStrataDF* all checks on data and model are done, and all data
+  and model parameters are extracted, before the parallel (OpenMP) loop
+  over the domains, which no longer calls the R API: an error raised
+  inside the loop terminated the R session, and with more than one
+  thread the previous code could give “stack imbalance” warnings or
+  random errors.
+
+- With missing values of a target variable, *buildStrataDF* now uses the
+  coordinates of the same units as Y in the spatial term (before, the
+  distances could be computed between the wrong units), and
+  *aggrStrata2* selects W on the missing values of Y (before, it stopped
+  with an error).
 
 - The vignette on the spatial method has been rewritten accordingly
   (theory, choice of kappa, estimation of range and nugget on

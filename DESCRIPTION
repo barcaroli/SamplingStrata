@@ -2,7 +2,7 @@ Package: SamplingStrata
 Type: Package
 Title: Optimal Stratification of Sampling Frames for Multipurpose Sampling Surveys
 Version: 1.6
-Date: 2025-02-01
+Date: 2026-11-19
 Author: Giulio Barcaroli, Marco Ballin, Hanjo Odendaal, Daniela Pagliuca, Egon Willighagen,
 		Diego Zardetto
 Authors@R: c(person("Giulio", "Barcaroli", role = c("aut", "cre"),

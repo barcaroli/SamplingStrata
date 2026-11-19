@@ -145,8 +145,8 @@ struct DomainResult {
 //'   predictions (divisor N for frame data, sum of weights - 1 for sample data) and s2^2 the mean, over the pairs of distinct units, of
 //'   s2_i + s2_j - 2 (1 - nugget) s_i s_j exp(-kappa d_ij / range). Required columns: beta2, range,
 //'   gamma. Optional columns: fitting (default 1), nugget (relative nugget c0/(c0+c1) of the
-//'   variogram of the errors, default 0), kappa (default 1, i.e. range is the range parameter of an
-//'   exponential variogram; 3 if it is the practical range).
+//'   variogram of the errors, default 0), kappa (default 3, i.e. range is the practical range of an
+//'   exponential variogram; 1 if it is the range parameter, as returned by gstat).
 //'   Since the error variance already compensates the levelling of the predictions, fitting must be 1
 //'   when sig2 > 0 (additive correction, de Gruijter et al. 2016): fitting = R2 < 1 together with
 //'   sig2 > 0 would count the error variance twice, and is rejected.
@@ -316,31 +316,109 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
   std::sort(domains.begin(), domains.end(),
             [](const std::string &a, const std::string &b) { return std::stod(a) < std::stod(b); });
   
-  // Estrae le colonne X
-  std::vector< NumericVector > Xcols;
+  // ---------------------------------------------------------------------------
+  // Everything the domain loop needs is extracted here, in the main thread, into
+  // plain C++ containers: the loop below may run in an OpenMP parallel region,
+  // where R/Rcpp API calls (allocation, as<>(), stop(), Rcout) are not safe.
+  // All the checks on the data and on the model are therefore done here.
+  // ---------------------------------------------------------------------------
+  std::vector<std::string> domStr(nrows);
+  for (int i = 0; i < nrows; i++) domStr[i] = as<std::string>(domainValues[i]);
+
+  std::vector< std::vector<double> > Xcols;
   for (int j = 1; j <= nvarX; j++){
     std::string colName = "X" + std::to_string(j);
     if(!ds.containsElementNamed(colName.c_str()))
       stop(("Column " + colName + " missing in dataset").c_str());
-    NumericVector col = ds[colName.c_str()];
-    Xcols.push_back(col);
+    Xcols.push_back(as< std::vector<double> >(ds[colName.c_str()]));
   }
-  
+  std::vector< std::vector<double> > Ycols;
+  for (int j = 1; j <= nvarY; j++){
+    std::string colName = "Y" + std::to_string(j);
+    if(!ds.containsElementNamed(colName.c_str()))
+      stop(("Column " + colName + " missing in dataset").c_str());
+    Ycols.push_back(as< std::vector<double> >(ds[colName.c_str()]));
+  }
+  std::vector<double> w_all = as< std::vector<double> >(weight);
+  bool hasCost = ds.containsElementNamed("COST");
+  std::vector<double> cost_all;
+  if(hasCost) cost_all = as< std::vector<double> >(ds["COST"]);
+
+  // model parameters, one value per Y variable
+  std::vector<std::string> m_type(nvarY);
+  std::vector<double> m_beta(nvarY, 0.0), m_sig2(nvarY, 0.0), m_gamma(nvarY, 0.0),
+                      m_beta2(nvarY, 0.0), m_range(nvarY, 0.0),
+                      m_fitting(nvarY, 1.0), m_nugget(nvarY, 0.0), m_kappa(nvarY, 3.0);
+  std::vector< std::vector<double> > Wcols(nvarY);
+  std::vector<double> lon_all, lat_all;
+  if(useModel){
+    if(!model.containsElementNamed("type") || !model.containsElementNamed("beta") ||
+       !model.containsElementNamed("sig2"))
+      stop("model must contain the columns type, beta and sig2");
+    CharacterVector tp = model["type"];
+    NumericVector bt = model["beta"];
+    NumericVector sg = model["sig2"];
+    bool anySpatial = false;
+    for (int k = 0; k < nvarY; k++) {
+      m_type[k] = as<std::string>(tp[k]);
+      m_beta[k] = bt[k];
+      m_sig2[k] = sg[k];
+      if (m_type[k] == "linear") {
+        if(!model.containsElementNamed("gamma"))
+          stop("gamma missing in model for linear type");
+        NumericVector v = model["gamma"]; m_gamma[k] = v[k];
+      } else if (m_type[k] == "spatial") {
+        // presence of range, gamma, beta2 and validity of fitting, nugget,
+        // kappa have been checked above
+        anySpatial = true;
+        NumericVector g = model["gamma"];  m_gamma[k] = g[k];
+        NumericVector r = model["range"];  m_range[k] = r[k];
+        NumericVector b2 = model["beta2"]; m_beta2[k] = b2[k];
+        if(model.containsElementNamed("fitting")) {
+          NumericVector v = model["fitting"];
+          if(!NumericVector::is_na(v[k])) m_fitting[k] = v[k];
+        }
+        if(model.containsElementNamed("nugget")) {
+          NumericVector v = model["nugget"];
+          if(!NumericVector::is_na(v[k])) m_nugget[k] = v[k];
+        }
+        if(model.containsElementNamed("kappa")) {
+          NumericVector v = model["kappa"];
+          if(!NumericVector::is_na(v[k])) m_kappa[k] = v[k];
+        }
+        std::string colW = "W" + std::to_string(k + 1);
+        if(ds.containsElementNamed(colW.c_str()))
+          Wcols[k] = as< std::vector<double> >(ds[colW.c_str()]);
+        else
+          Wcols[k] = std::vector<double>(nrows, 0.0);
+      }
+    }
+    if (anySpatial) {
+      if(!ds.containsElementNamed("LON") || !ds.containsElementNamed("LAT"))
+        stop("Missing coordinates on sampling frame (LON, LAT) for model of spatial type");
+      lon_all = as< std::vector<double> >(ds["LON"]);
+      lat_all = as< std::vector<double> >(ds["LAT"]);
+      for (int i = 0; i < nrows; i++)
+        if (ISNAN(lon_all[i]) || ISNAN(lat_all[i]))
+          stop("Missing values in the coordinates (LON, LAT) of the sampling frame");
+    }
+  }
+
   // Prepara un vettore di risultati per ciascun dominio
   std::vector<DomainResult> domain_results(domains.size());
   
-  // Parallelizza sul loop sui domini (ogni dominio viene processato in modo indipendente)
+  // Parallelizza sul loop sui domini (ogni dominio viene processato in modo
+  // indipendente). No R/Rcpp API calls inside the loop.
 #ifdef _OPENMP
 #pragma omp parallel for schedule(dynamic)
 #endif
   for (int d = 0; d < (int)domains.size(); d++){
     DomainResult local;
-    std::string dom = domains[d];
+    const std::string &dom = domains[d];
     // Indici delle righe per il dominio corrente
     std::vector<int> idx;
     for (int i = 0; i < nrows; i++){
-      std::string dval = as<std::string>(domainValues[i]);
-      if(dval == dom)
+      if(domStr[i] == dom)
         idx.push_back(i);
     }
     // Costruisce lo "strato" concatenando i valori delle colonne X
@@ -372,18 +450,14 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
     
     // Itera sui gruppi (strati) del dominio corrente
     for (auto const &g : group) {
-      std::string strata_id = g.first;
-      std::vector<int> group_indices = g.second;
+      const std::string &strata_id = g.first;
+      const std::vector<int> &group_indices = g.second;
       double sumW = 0.0;
       double sumCost = 0.0;
-      bool hasCost = ds.containsElementNamed("COST");
-      NumericVector COSTcol;
-      if(hasCost) COSTcol = ds["COST"];
-      
       for (int i : group_indices) {
-        sumW += weight[i];
+        sumW += w_all[i];
         if(hasCost)
-          sumCost += weight[i] * COSTcol[i];
+          sumCost += w_all[i] * cost_all[i];
       }
       double N_val = sumW;
       double cost_val = hasCost ? (sumCost / sumW) : 1.0;
@@ -392,47 +466,29 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
       std::vector<double> S_vals(nvarY, 0.0);
       
       // Calcola M e S per ciascuna variabile Y
-      for (int y_idx = 1; y_idx <= nvarY; y_idx++){
-        std::string colY = "Y" + std::to_string(y_idx);
-        if(!ds.containsElementNamed(colY.c_str()))
-          stop(("Column " + colY + " missing").c_str());
-        NumericVector Ycol = ds[colY.c_str()];
-        
-        NumericVector Wcol;
-        if(useModel){
-          std::string colW = "W" + std::to_string(y_idx);
-          if(ds.containsElementNamed(colW.c_str()))
-            Wcol = ds[colW.c_str()];
-          else
-            Wcol = NumericVector(nrows, 0.0);
-        }
-        
-        std::vector<double> Y_vals, w_vals, W_vals;
-        if(useModel){
-          CharacterVector model_type = model["type"];
-          std::string mtype = as<std::string>(model_type[y_idx-1]);
-          for (int i : group_indices) {
-            double y_val = Ycol[i];
-            if(!R_IsNA(y_val)) {
-              Y_vals.push_back(y_val);
-              w_vals.push_back(weight[i]);
-              if(mtype == "spatial")
-                W_vals.push_back(Wcol[i]);
-            }
-          }
-        } else {
-          for (int i : group_indices) {
-            double y_val = Ycol[i];
-            if(!R_IsNA(y_val)) {
-              Y_vals.push_back(y_val);
-              w_vals.push_back(weight[i]);
+      for (int y = 0; y < nvarY; y++){
+        const std::vector<double> &Ycol = Ycols[y];
+        const std::string &mtype = m_type[y];
+        bool spatialY = useModel && mtype == "spatial";
+        // units with missing Y are skipped; for the spatial model W and the
+        // coordinates are taken for the same units, so that they stay aligned
+        std::vector<double> Y_vals, w_vals, W_vals, lon_vals, lat_vals;
+        for (int i : group_indices) {
+          double y_val = Ycol[i];
+          if(!ISNAN(y_val)) {
+            Y_vals.push_back(y_val);
+            w_vals.push_back(w_all[i]);
+            if(spatialY) {
+              W_vals.push_back(Wcols[y][i]);
+              lon_vals.push_back(lon_all[i]);
+              lat_vals.push_back(lat_all[i]);
             }
           }
         }
         
         if(Y_vals.size() == 0){
-          M_vals[y_idx-1] = 0.0;
-          S_vals[y_idx-1] = 0.0;
+          M_vals[y] = 0.0;
+          S_vals[y] = 0.0;
           continue;
         }
         
@@ -442,45 +498,32 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
             sumYW += Y_vals[j] * w_vals[j];
             sumw += w_vals[j];
           }
-          double M_val = sumYW / sumw;
-          M_vals[y_idx-1] = M_val;
-          double s_val = weightProvided ? stdev1(Y_vals, w_vals) : stdev2(Y_vals, w_vals);
-          S_vals[y_idx-1] = s_val;
+          M_vals[y] = sumYW / sumw;
+          S_vals[y] = weightProvided ? stdev1(Y_vals, w_vals) : stdev2(Y_vals, w_vals);
         } else {
-          CharacterVector model_type = model["type"];
-          NumericVector model_beta = model["beta"];
-          NumericVector model_sig2 = model["sig2"];
-          std::string mtype = as<std::string>(model_type[y_idx-1]);
-          double beta = model_beta[y_idx-1];
-          double sig2 = model_sig2[y_idx-1];
-          
+          double beta = m_beta[y];
+          double sig2 = m_sig2[y];
           if(mtype == "linear") {
             double sumYW = 0.0, sumw = 0.0;
             for (size_t j = 0; j < Y_vals.size(); j++){
               sumYW += Y_vals[j] * beta * w_vals[j];
               sumw += w_vals[j];
             }
-            double M_val = sumYW / sumw;
-            M_vals[y_idx-1] = M_val;
+            M_vals[y] = sumYW / sumw;
             double s_raw = weightProvided ? stdev1(Y_vals, w_vals) : stdev2(Y_vals, w_vals);
-            if(!model.containsElementNamed("gamma"))
-              stop("gamma missing in model for linear type");
-            NumericVector model_gamma = model["gamma"];
-            double gamma_val = model_gamma[y_idx-1];
             double sum_pow = 0.0;
             for (size_t j = 0; j < Y_vals.size(); j++){
-              sum_pow += std::pow(Y_vals[j], 2 * gamma_val);
+              sum_pow += std::pow(Y_vals[j], 2 * m_gamma[y]);
             }
             double gammas = sum_pow / Y_vals.size();
-            S_vals[y_idx-1] = std::sqrt(s_raw * s_raw * beta * beta + sig2 * gammas);
+            S_vals[y] = std::sqrt(s_raw * s_raw * beta * beta + sig2 * gammas);
           } else if(mtype == "loglinear") {
             double sumYW = 0.0, sumw = 0.0;
             for (size_t j = 0; j < Y_vals.size(); j++){
               sumYW += std::pow(Y_vals[j], beta) * w_vals[j];
               sumw += w_vals[j];
             }
-            double M_val = sumYW / sumw;
-            M_vals[y_idx-1] = M_val;
+            M_vals[y] = sumYW / sumw;
             double count_positive = 0.0;
             for (size_t j = 0; j < Y_vals.size(); j++){
               if(Y_vals[j] > 0) count_positive += 1.0;
@@ -492,21 +535,15 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
               sumYbeta += std::pow(Y_vals[j], beta) * w_vals[j];
             }
             double avgYbeta = sumYbeta / Y_vals.size();
-            S_vals[y_idx-1] = std::sqrt(ph * ((std::exp(sig2) * (sumY2 / Y_vals.size())) - ph * (avgYbeta * avgYbeta)));
-          } else if(mtype == "spatial") {
-            if(W_vals.size() != Y_vals.size())
-              stop("Mismatch in Y and W lengths for spatial model");
-            if(!model.containsElementNamed("beta2"))
-              stop("beta2 missing in model for spatial type");
-            NumericVector model_beta2 = model["beta2"];
-            double beta2 = model_beta2[y_idx-1];
+            S_vals[y] = std::sqrt(ph * ((std::exp(sig2) * (sumY2 / Y_vals.size())) - ph * (avgYbeta * avgYbeta)));
+          } else { // "spatial" (the type has been checked before the loop)
+            double beta2 = m_beta2[y];
             double sumYW = 0.0, sumw = 0.0;
             for (size_t j = 0; j < Y_vals.size(); j++){
               sumYW += (Y_vals[j] * beta + W_vals[j] * beta2) * w_vals[j];
               sumw += w_vals[j];
             }
-            double M_val = sumYW / sumw;
-            M_vals[y_idx-1] = M_val;
+            M_vals[y] = sumYW / sumw;
             // standard deviation of the predictions beta * Y + beta2 * W:
             // divisor sum(w) - 1 for sample data (WEIGHT given), sum(w) for
             // frame data, as for the other model types
@@ -514,42 +551,9 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
             for (size_t j = 0; j < Y_vals.size(); j++)
               pred_vals[j] = Y_vals[j] * beta + W_vals[j] * beta2;
             double s1 = weightProvided ? stdev1(pred_vals, w_vals) : stdev2(pred_vals, w_vals);
-            if(!ds.containsElementNamed("LON") || !ds.containsElementNamed("LAT"))
-              stop("Missing coordinates on sampling frame");
-            NumericVector LONcol = ds["LON"];
-            NumericVector LATcol = ds["LAT"];
-            std::vector<double> lon_vals, lat_vals;
-            for (int i : group_indices) {
-              lon_vals.push_back(LONcol[i]);
-              lat_vals.push_back(LATcol[i]);
-            }
-            if(!model.containsElementNamed("range") || !model.containsElementNamed("gamma"))
-               stop("Missing parameters in model for spatial type (range, gamma)");
-            NumericVector model_range = model["range"];
-            NumericVector model_gamma = model["gamma"];
-            double range_val = model_range[y_idx-1];
-            double gamma_val = model_gamma[y_idx-1];
-            // optional parameters: fitting (default 1, additive correction),
-            // nugget (default 0), kappa (default 1)
-            double fitting = 1.0, nugget_val = 0.0, kappa_val = 1.0;
-            if(model.containsElementNamed("fitting")) {
-              NumericVector v = model["fitting"];
-              if(!NumericVector::is_na(v[y_idx-1])) fitting = v[y_idx-1];
-            }
-            if(model.containsElementNamed("nugget")) {
-              NumericVector v = model["nugget"];
-              if(!NumericVector::is_na(v[y_idx-1])) nugget_val = v[y_idx-1];
-            }
-            if(model.containsElementNamed("kappa")) {
-              NumericVector v = model["kappa"];
-              if(!NumericVector::is_na(v[y_idx-1])) kappa_val = v[y_idx-1];
-            }
-            // fitting, nugget and kappa validated before the parallel region
-            double s2 = stdev4(Y_vals, lon_vals, lat_vals, sig2, range_val, gamma_val,
-                               kappa_val, nugget_val);
-            S_vals[y_idx-1] = std::sqrt((s1 * s1 / fitting) + s2 * s2);
-          } else {
-            stop("Type of model misspecified");
+            double s2 = stdev4(Y_vals, lon_vals, lat_vals, sig2, m_range[y], m_gamma[y],
+                               m_kappa[y], m_nugget[y]);
+            S_vals[y] = std::sqrt((s1 * s1 / m_fitting[y]) + s2 * s2);
           }
         }
       }
@@ -592,13 +596,13 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
     } // Fine ciclo per ciascun gruppo
     
     domain_results[d] = local;
-    if(progress) {
-#ifdef _OPENMP
-#pragma omp critical
-#endif
-      Rcout << "Processed domain: " << dom << "\n";
-    }
   } // Fine ciclo sui domini
+  
+  // progress messages printed here, in the main thread
+  if(progress) {
+    for (size_t d = 0; d < domains.size(); d++)
+      Rcout << "Processed domain: " << domains[d] << "\n";
+  }
   
   // Unione dei risultati di tutti i domini
   std::vector<std::string> out_STRATO;

@@ -32,7 +32,7 @@
 #' @param model Dataframe with the parameters of the model(s) to be used to calculate
 #'   anticipated variance (see buildStrataDF). For type "spatial" the variance in a
 #'   stratum is s1^2 / fitting + s2^2, with optional columns fitting (default 1), nugget
-#'   (default 0), kappa (default 1) and gamma (default 0 here); fitting must be 1 when sig2 > 0.
+#'   (default 0), kappa (default 3, as in optimStrata) and gamma (default 0 here); fitting must be 1 when sig2 > 0.
 #'   Default is null.
 #' @param vett vector of values indicating how the units in the dataset must
 #'   be aggregated in strata.
@@ -86,7 +86,7 @@ aggrStrata2 <- function(dataset,
     # units of s2_i + s2_j - 2 Cov(e_i, e_j), with s2_i = psill * Y_i^(2 gamma)
     # and Cov(e_i, e_j) = (1 - nugget) s_i s_j exp(-kappa d_ij / range)
     # (same formula as stdev4() in buildStrataDF.cpp)
-    stdev4 <- function(df, Y, psill, range, gamma = 0, kappa = 1, nugget = 0) {
+    stdev4 <- function(df, Y, psill, range, gamma = 0, kappa = 3, nugget = 0) {
       dist <- sqrt((outer(df$LON,df$LON,"-"))^2+(outer(df$LAT,df$LAT,"-"))^2)
       var_ntimes <- psill * Y^(2 * gamma)
       sum_couples_var <- outer(var_ntimes, var_ntimes, "+")
@@ -161,10 +161,13 @@ aggrStrata2 <- function(dataset,
         stmt <- paste("Y <- domain$Y", i, "[!is.na(domain$Y", 
             i, ")]", sep = "")
         eval(parse(text = stmt))
+        # W (spatial model) for the same units as Y (units with missing Y are
+        # skipped); 0 if the column is missing, as in buildStrataDF()
         W <- NULL
-        stmt <- paste("W <- domain$W", i, "[!is.na(domain$W", 
+        stmt <- paste("W <- domain$W", i, "[!is.na(domain$Y", 
                       i, ")]", sep = "")
         eval(parse(text = stmt))
+        if (is.null(W)) W <- rep(0, length(Y))
         stmt <- paste("WEIGHT <- domain$WEIGHT[!is.na(domain$Y", 
             i, ")]", sep = "")
         eval(parse(text = stmt))
@@ -249,13 +252,13 @@ aggrStrata2 <- function(dataset,
             psill <- model$sig2[i]
             range <- model$range[i]
             # optional parameters (as in buildStrataDF): gamma (default 0),
-            # fitting (default 1), nugget (default 0), kappa (default 1)
+            # fitting (default 1), nugget (default 0), kappa (default 3)
             opt <- function(name, default) {
               v <- if (name %in% colnames(model)) model[[name]][i] else NA
               if (is.na(v)) default else v
             }
             gam <- opt("gamma", 0); fit <- opt("fitting", 1)
-            nug <- opt("nugget", 0); kap <- opt("kappa", 1)
+            nug <- opt("nugget", 0); kap <- opt("kappa", 3)
             if (!is.finite(kap) || kap <= 0) stop("kappa must be a finite value > 0 in model for spatial type")
             if (fit <= 0) stop("fitting must be > 0 in model for spatial type")
             if (nug < 0 || nug > 1) stop("nugget must be in [0, 1] in model for spatial type")

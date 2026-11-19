@@ -17,7 +17,7 @@ containing   the weigths associated to each sampling unit}
 \item{model}{Dataframe with the parameters of the model(s) to be used to calculate
 anticipated variance (see buildStrataDF). For type "spatial" the variance in a
 stratum is s1^2 / fitting + s2^2, with optional columns fitting (default 1), nugget
-(default 0), kappa (default 1) and gamma (default 0 here); fitting must be 1 when sig2 > 0.
+(default 0), kappa (default 3, as in optimStrata) and gamma (default 0 here); fitting must be 1 when sig2 > 0.
 Default is null.}
 
 \item{vett}{vector of values indicating how the units in the dataset must

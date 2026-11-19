@@ -23,8 +23,8 @@ the variance in a stratum is s1^2 / fitting + s2^2, where s1^2 is the variance o
 predictions (divisor N for frame data, sum of weights - 1 for sample data) and s2^2 the mean, over the pairs of distinct units, of
 s2_i + s2_j - 2 (1 - nugget) s_i s_j exp(-kappa d_ij / range). Required columns: beta2, range,
 gamma. Optional columns: fitting (default 1), nugget (relative nugget c0/(c0+c1) of the
-variogram of the errors, default 0), kappa (default 1, i.e. range is the range parameter of an
-exponential variogram; 3 if it is the practical range).
+variogram of the errors, default 0), kappa (default 3, i.e. range is the practical range of an
+exponential variogram; 1 if it is the range parameter, as returned by gstat).
 Since the error variance already compensates the levelling of the predictions, fitting must be 1
 when sig2 > 0 (additive correction, de Gruijter et al. 2016): fitting = R2 < 1 together with
 sig2 > 0 would count the error variance twice, and is rejected.
