@@ -67,6 +67,23 @@ distance between units i and j.
   distance *range*); values not finite or lower than or equal to 0 give
   an error.
 
+- **New parameter *vgm_model*** (default “exponential”) in *optimStrata*
+  (method=“spatial”), *optimizeStrataSpatial*, *KmeansSolutionSpatial*,
+  *buildStrataDFSpatial* and *aggrStrataSpatial*: the model of the
+  variogram fitted on the prediction errors, which defines the
+  correlation function rho(d) in the covariance (1 - nugget) s_i s_j
+  rho(d_ij). Available models: “exponential”, rho(d) = exp(-kappa d /
+  range); “spherical”, rho(d) = 1 - 1.5 (d / range) + 0.5 (d / range)^3
+  for d \< range and 0 beyond (kappa not used); “gaussian”, rho(d) =
+  exp(-kappa (d / range)^2). The gstat abbreviations “Exp”, “Sph” and
+  “Gau” are also accepted. One model for all the Y’s, one for each Y, or
+  (in *optimStrata* and *optimizeStrataSpatial*) a dataframe with one
+  row per domain. With the default, results are unchanged. The same
+  models are available for models of type “spatial” in *buildStrataDF*
+  and *aggrStrata2* (methods “atomic” and “continuous”), through the
+  optional column *vgm_model* of the model dataframe (default
+  exponential).
+
 - **Same covariance in K-means and in the genetic algorithm.**
   *aggrStrataSpatial* (used by *KmeansSolutionSpatial*) used the
   covariance (s2_i + s2_j) / 2 exp(…), the genetic algorithm s_i s_j
@@ -97,8 +114,9 @@ distance between units i and j.
   with an error).
 
 - The vignette on the spatial method has been rewritten accordingly
-  (theory, choice of kappa, estimation of range and nugget on
-  out-of-sample residuals, example with an exponential variogram).
+  (theory, variogram models, choice of kappa, estimation of range and
+  nugget on out-of-sample residuals, example with an exponential
+  variogram).
 
 # SamplingStrata 1.5-5
 

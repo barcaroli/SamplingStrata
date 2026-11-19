@@ -46,6 +46,8 @@ where s2_i is the prediction-error variance of unit i and d_ij is the distance b
 
 * **Parameter *kappa*.** Use kappa = 1 when *range* is the range parameter of an exponential variogram (as returned by gstat), kappa = 3 when it is the practical range. Other values are accepted with a warning (in general kappa = -ln p, where p is the correlation left at distance *range*); values not finite or lower than or equal to 0 give an error.
 
+* **New parameter *vgm_model*** (default "exponential") in *optimStrata* (method="spatial"), *optimizeStrataSpatial*, *KmeansSolutionSpatial*, *buildStrataDFSpatial* and *aggrStrataSpatial*: the model of the variogram fitted on the prediction errors, which defines the correlation function rho(d) in the covariance (1 - nugget) s_i s_j rho(d_ij). Available models: "exponential", rho(d) = exp(-kappa d / range); "spherical", rho(d) = 1 - 1.5 (d / range) + 0.5 (d / range)^3 for d < range and 0 beyond (kappa not used); "gaussian", rho(d) = exp(-kappa (d / range)^2). The gstat abbreviations "Exp", "Sph" and "Gau" are also accepted. One model for all the Y's, one for each Y, or (in *optimStrata* and *optimizeStrataSpatial*) a dataframe with one row per domain. With the default, results are unchanged. The same models are available for models of type "spatial" in *buildStrataDF* and *aggrStrata2* (methods "atomic" and "continuous"), through the optional column *vgm_model* of the model dataframe (default exponential).
+
 * **Same covariance in K-means and in the genetic algorithm.** *aggrStrataSpatial* (used by *KmeansSolutionSpatial*) used the covariance (s2_i + s2_j) / 2 exp(...), the genetic algorithm s_i s_j exp(...). Both now use s_i s_j, which is a valid covariance when s_i differs from s_j.
 
 * **Models of type "spatial" in *buildStrataDF* and *aggrStrata2*** aligned with *buildStrataDFSpatial*: optional columns *fitting* (default 1), *nugget* (default 0) and *kappa* (default 3, as in *optimStrata* and *optimizeStrataSpatial*; the previous code implicitly used kappa = 1, which must now be given explicitly when *range* is the range parameter returned by gstat); *aggrStrata2* no longer adds a covariance term between predictions and errors, and uses *gamma*. Results of *aggrStrata2* with a "spatial" model therefore change.
@@ -54,7 +56,7 @@ where s2_i is the prediction-error variance of unit i and d_ij is the distance b
 
 * With missing values of a target variable, *buildStrataDF* now uses the coordinates of the same units as Y in the spatial term (before, the distances could be computed between the wrong units), and *aggrStrata2* selects W on the missing values of Y (before, it stopped with an error).
 
-* The vignette on the spatial method has been rewritten accordingly (theory, choice of kappa, estimation of range and nugget on out-of-sample residuals, example with an exponential variogram).
+* The vignette on the spatial method has been rewritten accordingly (theory, variogram models, choice of kappa, estimation of range and nugget on out-of-sample residuals, example with an exponential variogram).
 
 
 # SamplingStrata 1.5-5

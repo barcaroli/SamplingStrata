@@ -54,9 +54,37 @@ double stdev2(const std::vector<double>& x, const std::vector<double>& w) {
 // model type (pairs i < j only, parallelised if OpenMP is available).
 // Error variance of unit i: s2_i = var_eps * Y_i^(2 gamma).
 // Covariance of the errors of two distinct units:
-//   Cov(e_i, e_j) = (1 - nugget) * s_i * s_j * exp(-kappa * d_ij / range)
-// (no correlation with range <= 0 or nugget >= 1).
+//   Cov(e_i, e_j) = (1 - nugget) * s_i * s_j * rho(d_ij)
+// where rho is the correlation function of the variogram model (vgm):
+//   0 exponential  rho(d) = exp(-kappa * d / range)
+//   1 spherical    rho(d) = 1 - 1.5 (d / range) + 0.5 (d / range)^3 for d < range, 0 beyond
+//   2 gaussian     rho(d) = exp(-kappa * (d / range)^2)
+// (same models as in buildStrataDFSpatial; no correlation with range <= 0 or
+// nugget >= 1).
 // Returns sqrt( sum_{i != j} [s2_i + s2_j - 2 Cov(e_i, e_j)] / (2 n^2) ).
+static inline double vgmCorr(double d, double range, double kappa, double kr, int vgm) {
+  if (vgm == 1) {                       // spherical
+    if (d >= range) return 0.0;
+    double h = d / range;
+    return 1.0 - 1.5 * h + 0.5 * h * h * h;
+  }
+  if (vgm == 2) {                       // gaussian
+    double h = d / range;
+    return std::exp(- kappa * h * h);
+  }
+  return std::exp(- d * kr);            // exponential (kr = kappa / range)
+}
+
+// Code of a variogram model (full name or gstat abbreviation, case-insensitive);
+// -1 if not recognised
+static int vgmCodeOf(std::string m) {
+  std::transform(m.begin(), m.end(), m.begin(), ::tolower);
+  if (m == "exponential" || m == "exp") return 0;
+  if (m == "spherical"   || m == "sph") return 1;
+  if (m == "gaussian"    || m == "gau") return 2;
+  return -1;
+}
+
 double stdev4(const std::vector<double>& Y,
               const std::vector<double>& LON,
               const std::vector<double>& LAT,
@@ -64,7 +92,8 @@ double stdev4(const std::vector<double>& Y,
               double range,
               double gamma,
               double kappa,
-              double nugget) {
+              double nugget,
+              int vgm) {
   size_t n = Y.size();
   if(n == 0) return 0.0;
   std::vector<double> var_ntimes(n);
@@ -86,7 +115,7 @@ double stdev4(const std::vector<double>& Y,
       double d = std::sqrt(dlon * dlon + dlat * dlat);
       double sum_couples_var = var_ntimes[i] + var_ntimes[j];
       double prod_std = std::sqrt(var_ntimes[i] * var_ntimes[j]);
-      double spatial_autocov = spatial ? w * prod_std * std::exp(- d * inv_r) : 0.0;
+      double spatial_autocov = spatial ? w * prod_std * vgmCorr(d, range, kappa, inv_r, vgm) : 0.0;
       double D2 = sum_couples_var - 2 * spatial_autocov;
       sumD2 += D2;
     }
@@ -94,6 +123,25 @@ double stdev4(const std::vector<double>& Y,
   // Poiché abbiamo sommato solo le coppie (i,j) con i < j, moltiplichiamo per 2
   double var2 = (2 * sumD2) / (2 * n * n); // equivalente a sumD2/(n*n)
   return std::sqrt(var2);
+}
+
+// A column of the model dataframe (character, factor or logical NA) as strings;
+// missing values are returned as "NA"
+static std::vector<std::string> columnAsStrings(SEXP x) {
+  std::vector<std::string> out(Rf_length(x), "NA");
+  if (Rf_isFactor(x)) {
+    IntegerVector codes(x);
+    CharacterVector lev = codes.attr("levels");
+    for (int i = 0; i < codes.size(); i++)
+      if (codes[i] != NA_INTEGER) out[i] = as<std::string>(lev[codes[i] - 1]);
+  } else if (TYPEOF(x) == STRSXP) {
+    CharacterVector cv(x);
+    for (int i = 0; i < cv.size(); i++)
+      if (cv[i] != NA_STRING) out[i] = as<std::string>(cv[i]);
+  } else if (TYPEOF(x) != LGLSXP) {
+    stop("vgm_model in model must be a character column");
+  }
+  return out;
 }
 
 // Struttura per raccogliere i risultati per ciascun dominio
@@ -143,10 +191,14 @@ struct DomainResult {
 //'   For type "spatial" (target modelled as beta * Y + beta2 * W + e, with error variance sig2 * Y^(2 gamma))
 //'   the variance in a stratum is s1^2 / fitting + s2^2, where s1^2 is the variance of the
 //'   predictions (divisor N for frame data, sum of weights - 1 for sample data) and s2^2 the mean, over the pairs of distinct units, of
-//'   s2_i + s2_j - 2 (1 - nugget) s_i s_j exp(-kappa d_ij / range). Required columns: beta2, range,
-//'   gamma. Optional columns: fitting (default 1), nugget (relative nugget c0/(c0+c1) of the
-//'   variogram of the errors, default 0), kappa (default 3, i.e. range is the practical range of an
-//'   exponential variogram; 1 if it is the range parameter, as returned by gstat).
+//'   s2_i + s2_j - 2 (1 - nugget) s_i s_j rho(d_ij), where rho is the correlation function of the
+//'   variogram of the errors. Required columns: beta2, range, gamma. Optional columns: fitting
+//'   (default 1), nugget (relative nugget c0/(c0+c1) of the variogram of the errors, default 0),
+//'   vgm_model (variogram model: "exponential" (default), rho(d) = exp(-kappa d / range);
+//'   "spherical", rho(d) = 1 - 1.5 (d / range) + 0.5 (d / range)^3 for d < range and 0 beyond;
+//'   "gaussian", rho(d) = exp(-kappa (d / range)^2); the gstat abbreviations "Exp", "Sph", "Gau"
+//'   are also accepted), kappa (default 3, i.e. range is the practical range of the variogram;
+//'   1 if it is the range parameter, as returned by gstat; not used by the spherical model).
 //'   Since the error variance already compensates the levelling of the predictions, fitting must be 1
 //'   when sig2 > 0 (additive correction, de Gruijter et al. 2016): fitting = R2 < 1 together with
 //'   sig2 > 0 would count the error variance twice, and is rejected.
@@ -295,6 +347,12 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
           if (!NumericVector::is_na(v[k]) && (!R_finite(v[k]) || v[k] <= 0.0))
             stop("kappa must be a finite value > 0 in model for spatial type");
         }
+        if (model.containsElementNamed("vgm_model")) {
+          std::vector<std::string> vm = columnAsStrings(model["vgm_model"]);
+          if (vm[k] != "NA" && vgmCodeOf(vm[k]) < 0)
+            stop("vgm_model must be \"exponential\" (\"Exp\"), \"spherical\" (\"Sph\") "
+                 "or \"gaussian\" (\"Gau\") in model for spatial type; found \"" + vm[k] + "\"");
+        }
       }
     }
   }
@@ -349,6 +407,7 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
   std::vector<double> m_beta(nvarY, 0.0), m_sig2(nvarY, 0.0), m_gamma(nvarY, 0.0),
                       m_beta2(nvarY, 0.0), m_range(nvarY, 0.0),
                       m_fitting(nvarY, 1.0), m_nugget(nvarY, 0.0), m_kappa(nvarY, 3.0);
+  std::vector<int> m_vgm(nvarY, 0);   // variogram model of the errors (0 = exponential)
   std::vector< std::vector<double> > Wcols(nvarY);
   std::vector<double> lon_all, lat_all;
   if(useModel){
@@ -385,6 +444,10 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
         if(model.containsElementNamed("kappa")) {
           NumericVector v = model["kappa"];
           if(!NumericVector::is_na(v[k])) m_kappa[k] = v[k];
+        }
+        if(model.containsElementNamed("vgm_model")) {
+          std::vector<std::string> vm = columnAsStrings(model["vgm_model"]);
+          if (vm[k] != "NA") m_vgm[k] = vgmCodeOf(vm[k]);
         }
         std::string colW = "W" + std::to_string(k + 1);
         if(ds.containsElementNamed(colW.c_str()))
@@ -552,7 +615,7 @@ DataFrame buildStrataDF(DataFrame dataset, Nullable<DataFrame> model_ = R_NilVal
               pred_vals[j] = Y_vals[j] * beta + W_vals[j] * beta2;
             double s1 = weightProvided ? stdev1(pred_vals, w_vals) : stdev2(pred_vals, w_vals);
             double s2 = stdev4(Y_vals, lon_vals, lat_vals, sig2, m_range[y], m_gamma[y],
-                               m_kappa[y], m_nugget[y]);
+                               m_kappa[y], m_nugget[y], m_vgm[y]);
             S_vals[y] = std::sqrt((s1 * s1 / m_fitting[y]) + s2 * s2);
           }
         }

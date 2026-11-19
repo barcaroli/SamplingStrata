@@ -76,10 +76,14 @@ bethel_cpp <- function(strata, errors, minnumstrat, realAllocation = TRUE) {
 #'   For type "spatial" (target modelled as beta * Y + beta2 * W + e, with error variance sig2 * Y^(2 gamma))
 #'   the variance in a stratum is s1^2 / fitting + s2^2, where s1^2 is the variance of the
 #'   predictions (divisor N for frame data, sum of weights - 1 for sample data) and s2^2 the mean, over the pairs of distinct units, of
-#'   s2_i + s2_j - 2 (1 - nugget) s_i s_j exp(-kappa d_ij / range). Required columns: beta2, range,
-#'   gamma. Optional columns: fitting (default 1), nugget (relative nugget c0/(c0+c1) of the
-#'   variogram of the errors, default 0), kappa (default 3, i.e. range is the practical range of an
-#'   exponential variogram; 1 if it is the range parameter, as returned by gstat).
+#'   s2_i + s2_j - 2 (1 - nugget) s_i s_j rho(d_ij), where rho is the correlation function of the
+#'   variogram of the errors. Required columns: beta2, range, gamma. Optional columns: fitting
+#'   (default 1), nugget (relative nugget c0/(c0+c1) of the variogram of the errors, default 0),
+#'   vgm_model (variogram model: "exponential" (default), rho(d) = exp(-kappa d / range);
+#'   "spherical", rho(d) = 1 - 1.5 (d / range) + 0.5 (d / range)^3 for d < range and 0 beyond;
+#'   "gaussian", rho(d) = exp(-kappa (d / range)^2); the gstat abbreviations "Exp", "Sph", "Gau"
+#'   are also accepted), kappa (default 3, i.e. range is the practical range of the variogram;
+#'   1 if it is the range parameter, as returned by gstat; not used by the spherical model).
 #'   Since the error variance already compensates the levelling of the predictions, fitting must be 1
 #'   when sig2 > 0 (additive correction, de Gruijter et al. 2016): fitting = R2 < 1 together with
 #'   sig2 > 0 would count the error variance twice, and is rejected.
@@ -179,19 +183,30 @@ buildStrataDF <- function(dataset, model_ = NULL, progress = TRUE, verbose = TRU
 #'   VAR = 0 (rescaling correction): with positive variances the error variance would be
 #'   counted twice, and the function stops. If only R2 is known, the additive correction
 #'   can be used with fitting = 1 and a constant variance var(predictions) * (1 - R2) / R2.
-#' @param range Range of the exponential correlation function of the prediction errors
-#'   (in the units of the coordinates). 0 means no spatial correlation.
-#' @param kappa Factor used in evaluating spatial autocorrelation: the correlation
-#'   between the prediction errors of two units at distance d is
-#'   (1 - nugget) * exp(-kappa * d / range). Use kappa = 1 when range is the range
-#'   parameter of an exponential variogram (as returned by gstat), kappa = 3 when
-#'   range is the practical range. Any finite value > 0 is accepted; 0 or negative
-#'   values give an error. Default is 3.
+#' @param range Range of the correlation function of the prediction errors
+#'   (in the units of the coordinates), as defined by the variogram model given in
+#'   vgm_model. 0 means no spatial correlation.
+#' @param kappa Factor used in evaluating spatial autocorrelation with the
+#'   exponential and gaussian models: the correlation between the prediction errors
+#'   of two units at distance d is (1 - nugget) * exp(-kappa * d / range) (exponential)
+#'   or (1 - nugget) * exp(-kappa * (d / range)^2) (gaussian). Use kappa = 1 when range
+#'   is the range parameter of the variogram (as returned by gstat), kappa = 3 when
+#'   range is the practical range. It is not used by the spherical model.
+#'   Any finite value > 0 is accepted; 0 or negative values give an error. Default is 3.
 #' @param progress If set to TRUE, a progress bar is visualised during the execution. Default is FALSE.
 #' @param verbose If set to TRUE, information is given about the number of strata generated. Default is FALSE.
 #' @param nugget Relative nugget c0/(c0+c1) of the variogram of the prediction errors,
 #'   in [0, 1]: the share of the error variance that is not spatially correlated.
 #'   Default is 0 (no nugget).
+#' @param vgm_model Variogram model fitted on the prediction errors, which defines
+#'   the correlation function rho(d) used in the covariance
+#'   (1 - nugget) * s_i * s_j * rho(d_ij):
+#'   "exponential" (default): rho(d) = exp(-kappa * d / range);
+#'   "spherical": rho(d) = 1 - 1.5 (d / range) + 0.5 (d / range)^3 for d < range,
+#'   0 for d >= range (range is the distance at which the variogram reaches the sill);
+#'   "gaussian": rho(d) = exp(-kappa * (d / range)^2).
+#'   The gstat abbreviations "Exp", "Sph" and "Gau" are also accepted (case-insensitive).
+#'   A single value, or one value for each target variable Y.
 #'
 #' @return
 #' A dataframe containing strata
@@ -210,10 +225,14 @@ buildStrataDF <- function(dataset, model_ = NULL, progress = TRUE, verbose = TRU
 #' strata <- buildStrataDFSpatial(dataset = frame, fitting = 1, range = 0.5,
 #'                                kappa = 3, nugget = 0.3)
 #' strata
+#' # same frame, spherical variogram of the prediction errors
+#' strata_sph <- buildStrataDFSpatial(dataset = frame, fitting = 1, range = 0.5,
+#'                                    nugget = 0.3, vgm_model = "spherical")
+#' strata_sph
 #'
 #' @keywords survey
 #' @export
-buildStrataDFSpatial <- function(dataset, fitting = as.numeric( c(1.0)), range = as.numeric( c(0.0)), kappa = 3.0, progress = FALSE, verbose = FALSE, nugget = as.numeric( c(0.0))) {
-    .Call(`_SamplingStrata_buildStrataDFSpatial`, dataset, fitting, range, kappa, progress, verbose, nugget)
+buildStrataDFSpatial <- function(dataset, fitting = as.numeric( c(1.0)), range = as.numeric( c(0.0)), kappa = 3.0, progress = FALSE, verbose = FALSE, nugget = as.numeric( c(0.0)), vgm_model = as.character( c("exponential"))) {
+    .Call(`_SamplingStrata_buildStrataDFSpatial`, dataset, fitting, range, kappa, progress, verbose, nugget, vgm_model)
 }
 

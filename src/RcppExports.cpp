@@ -159,8 +159,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // buildStrataDFSpatial
-DataFrame buildStrataDFSpatial(DataFrame dataset, NumericVector fitting, NumericVector range, double kappa, bool progress, bool verbose, NumericVector nugget);
-RcppExport SEXP _SamplingStrata_buildStrataDFSpatial(SEXP datasetSEXP, SEXP fittingSEXP, SEXP rangeSEXP, SEXP kappaSEXP, SEXP progressSEXP, SEXP verboseSEXP, SEXP nuggetSEXP) {
+DataFrame buildStrataDFSpatial(DataFrame dataset, NumericVector fitting, NumericVector range, double kappa, bool progress, bool verbose, NumericVector nugget, CharacterVector vgm_model);
+RcppExport SEXP _SamplingStrata_buildStrataDFSpatial(SEXP datasetSEXP, SEXP fittingSEXP, SEXP rangeSEXP, SEXP kappaSEXP, SEXP progressSEXP, SEXP verboseSEXP, SEXP nuggetSEXP, SEXP vgm_modelSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -171,7 +171,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type progress(progressSEXP);
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type nugget(nuggetSEXP);
-    rcpp_result_gen = Rcpp::wrap(buildStrataDFSpatial(dataset, fitting, range, kappa, progress, verbose, nugget));
+    Rcpp::traits::input_parameter< CharacterVector >::type vgm_model(vgm_modelSEXP);
+    rcpp_result_gen = Rcpp::wrap(buildStrataDFSpatial(dataset, fitting, range, kappa, progress, verbose, nugget, vgm_model));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -188,7 +189,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_SamplingStrata_check_n", (DL_FUNC) &_SamplingStrata_check_n, 3},
     {"_SamplingStrata_bethel_cpp", (DL_FUNC) &_SamplingStrata_bethel_cpp, 4},
     {"_SamplingStrata_buildStrataDF", (DL_FUNC) &_SamplingStrata_buildStrataDF, 4},
-    {"_SamplingStrata_buildStrataDFSpatial", (DL_FUNC) &_SamplingStrata_buildStrataDFSpatial, 7},
+    {"_SamplingStrata_buildStrataDFSpatial", (DL_FUNC) &_SamplingStrata_buildStrataDFSpatial, 8},
     {NULL, NULL, 0}
 };
 

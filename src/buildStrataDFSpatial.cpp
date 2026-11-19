@@ -29,7 +29,15 @@ static std::string strToUpper(const std::string &s) {
 // (de Gruijter et al. 2015, Eq. 10; de Gruijter et al. 2016, Eq. 15):
 //
 //   D2_ij = (y_i - y_j)^2 / fitting + s2_i + s2_j - 2 Cov(e_i, e_j)
-//   Cov(e_i, e_j) = (1 - nugget) * s_i * s_j * exp(-kappa * d_ij / range)
+//   Cov(e_i, e_j) = (1 - nugget) * s_i * s_j * rho(d_ij)
+//
+// where rho is the correlation function of the variogram model fitted on the
+// prediction errors (r = range):
+//   exponential  rho(d) = exp(-kappa * d / r)
+//   spherical    rho(d) = 1 - 1.5 (d / r) + 0.5 (d / r)^3 for d < r, 0 for d >= r
+//   gaussian     rho(d) = exp(-kappa * (d / r)^2)
+// kappa is not used by the spherical model (r is the distance at which the
+// variogram reaches the sill).
 //
 // where s2 = VAR is the prediction-error variance of each unit and nugget is
 // the RELATIVE nugget c0 / (c0 + c1) of the variogram of the prediction
@@ -46,6 +54,40 @@ static std::string strToUpper(const std::string &s) {
 //
 // range <= 0 or nugget >= 1: no spatial correlation (Cov = 0 for i != j).
 // -----------------------------------------------------------------------------
+
+// Variogram models of the prediction errors
+enum { VGM_EXP = 0, VGM_SPH = 1, VGM_GAU = 2 };
+
+// Code of a variogram model: full name or gstat abbreviation, case-insensitive
+static int vgmModelCode(const std::string &s) {
+  std::string m = s;
+  std::transform(m.begin(), m.end(), m.begin(), ::tolower);
+  if (m == "exponential" || m == "exp") return VGM_EXP;
+  if (m == "spherical"   || m == "sph") return VGM_SPH;
+  if (m == "gaussian"    || m == "gau") return VGM_GAU;
+  stop("buildStrataDFSpatial: 'vgm_model' must be \"exponential\" (\"Exp\"), "
+       "\"spherical\" (\"Sph\") or \"gaussian\" (\"Gau\"); found \"" + s + "\"");
+  return VGM_EXP;  // not reached
+}
+
+// Correlation of the prediction errors of two units at distance d (r > 0);
+// kr = kappa / r is precomputed for the exponential model
+static inline double spatialCorr(double d, double r, double kappa, double kr, int model) {
+  switch (model) {
+  case VGM_SPH: {
+    if (d >= r) return 0.0;
+    double h = d / r;
+    return 1.0 - 1.5 * h + 0.5 * h * h * h;
+  }
+  case VGM_GAU: {
+    double h = d / r;
+    return std::exp(- kappa * h * h);
+  }
+  default:
+    return std::exp(- d * kr);
+  }
+}
+
 static double stdevOptim(const std::vector<int> &indices,
                          const NumericVector &lon,
                          const NumericVector &lat,
@@ -54,7 +96,8 @@ static double stdevOptim(const std::vector<int> &indices,
                          double fittingVal,
                          double rangeVal,
                          double kappa,
-                         double nuggetVal)
+                         double nuggetVal,
+                         int vgmModel)
 {
   int n = indices.size();
   if (n <= 1) {
@@ -67,7 +110,7 @@ static double stdevOptim(const std::vector<int> &indices,
   
   // Spatial correlation switched off with range <= 0 or nugget >= 1
   bool spatial = (rangeVal > 0.0) && (nuggetVal < 1.0);
-  double inv_r = spatial ? kappa / rangeVal : 0.0;  // => exp(- dist * inv_r)
+  double inv_r = spatial ? kappa / rangeVal : 0.0;  // exponential: exp(- dist * inv_r)
   double w = 1.0 - nuggetVal;                       // structured share of the error variance
   
   for (int i = 0; i < n; i++) {
@@ -91,7 +134,8 @@ static double stdevOptim(const std::vector<int> &indices,
       // covariance of the prediction errors of two DISTINCT units: the
       // nugget part is uncorrelated even at distance 0 (pairs i = j are not
       // in the loop and contribute 0 to the stratum variance)
-      double spatial_cov = spatial ? w * pcs * std::exp(- dist * inv_r) : 0.0;
+      double spatial_cov = spatial ?
+        w * pcs * spatialCorr(dist, rangeVal, kappa, inv_r, vgmModel) : 0.0;
       
       sum_var_minus_cov += (scv - 2.0 * spatial_cov);
     }
@@ -150,19 +194,30 @@ static double stdevOptim(const std::vector<int> &indices,
 //'   VAR = 0 (rescaling correction): with positive variances the error variance would be
 //'   counted twice, and the function stops. If only R2 is known, the additive correction
 //'   can be used with fitting = 1 and a constant variance var(predictions) * (1 - R2) / R2.
-//' @param range Range of the exponential correlation function of the prediction errors
-//'   (in the units of the coordinates). 0 means no spatial correlation.
-//' @param kappa Factor used in evaluating spatial autocorrelation: the correlation
-//'   between the prediction errors of two units at distance d is
-//'   (1 - nugget) * exp(-kappa * d / range). Use kappa = 1 when range is the range
-//'   parameter of an exponential variogram (as returned by gstat), kappa = 3 when
-//'   range is the practical range. Any finite value > 0 is accepted; 0 or negative
-//'   values give an error. Default is 3.
+//' @param range Range of the correlation function of the prediction errors
+//'   (in the units of the coordinates), as defined by the variogram model given in
+//'   vgm_model. 0 means no spatial correlation.
+//' @param kappa Factor used in evaluating spatial autocorrelation with the
+//'   exponential and gaussian models: the correlation between the prediction errors
+//'   of two units at distance d is (1 - nugget) * exp(-kappa * d / range) (exponential)
+//'   or (1 - nugget) * exp(-kappa * (d / range)^2) (gaussian). Use kappa = 1 when range
+//'   is the range parameter of the variogram (as returned by gstat), kappa = 3 when
+//'   range is the practical range. It is not used by the spherical model.
+//'   Any finite value > 0 is accepted; 0 or negative values give an error. Default is 3.
 //' @param progress If set to TRUE, a progress bar is visualised during the execution. Default is FALSE.
 //' @param verbose If set to TRUE, information is given about the number of strata generated. Default is FALSE.
 //' @param nugget Relative nugget c0/(c0+c1) of the variogram of the prediction errors,
 //'   in [0, 1]: the share of the error variance that is not spatially correlated.
 //'   Default is 0 (no nugget).
+//' @param vgm_model Variogram model fitted on the prediction errors, which defines
+//'   the correlation function rho(d) used in the covariance
+//'   (1 - nugget) * s_i * s_j * rho(d_ij):
+//'   "exponential" (default): rho(d) = exp(-kappa * d / range);
+//'   "spherical": rho(d) = 1 - 1.5 (d / range) + 0.5 (d / range)^3 for d < range,
+//'   0 for d >= range (range is the distance at which the variogram reaches the sill);
+//'   "gaussian": rho(d) = exp(-kappa * (d / range)^2).
+//'   The gstat abbreviations "Exp", "Sph" and "Gau" are also accepted (case-insensitive).
+//'   A single value, or one value for each target variable Y.
 //'
 //' @return
 //' A dataframe containing strata
@@ -181,6 +236,10 @@ static double stdevOptim(const std::vector<int> &indices,
 //' strata <- buildStrataDFSpatial(dataset = frame, fitting = 1, range = 0.5,
 //'                                kappa = 3, nugget = 0.3)
 //' strata
+//' # same frame, spherical variogram of the prediction errors
+//' strata_sph <- buildStrataDFSpatial(dataset = frame, fitting = 1, range = 0.5,
+//'                                    nugget = 0.3, vgm_model = "spherical")
+//' strata_sph
 //'
 //' @keywords survey
 //' @export
@@ -192,7 +251,8 @@ DataFrame buildStrataDFSpatial(
     double kappa = 3.0,
     bool progress = false,
     bool verbose  = false,
-    NumericVector nugget = NumericVector::create(0.0))
+    NumericVector nugget = NumericVector::create(0.0),
+    CharacterVector vgm_model = CharacterVector::create("exponential"))
 {
   // 'fitting' appears below (in stdevOptim) as sd1*sd1/fittingVal in the
   // within-stratum variance (see the note on the additive and rescaling
@@ -263,13 +323,20 @@ DataFrame buildStrataDFSpatial(
     stop("buildStrataDFSpatial: 'range' must have length 1 or equal to the number of Y variables");
   if (nugget.size() != 1 && nugget.size() != nvarY)
     stop("buildStrataDFSpatial: 'nugget' must have length 1 or equal to the number of Y variables");
+  if (vgm_model.size() != 1 && vgm_model.size() != nvarY)
+    stop("buildStrataDFSpatial: 'vgm_model' must have length 1 or equal to the number of Y variables");
   NumericVector fit_y(nvarY), range_y(nvarY), nugget_y(nvarY);
+  std::vector<int> vgm_y(nvarY);
   for (int iY = 0; iY < nvarY; iY++) {
     fit_y[iY]    = (fitting.size() == 1) ? fitting[0] : fitting[iY];
     range_y[iY]  = (range.size() == 1)   ? range[0]   : range[iY];
     nugget_y[iY] = (nugget.size() == 1)  ? nugget[0]  : nugget[iY];
     if (NumericVector::is_na(nugget_y[iY]) || nugget_y[iY] < 0.0 || nugget_y[iY] > 1.0)
       stop("buildStrataDFSpatial: 'nugget' must be in [0, 1] (relative nugget c0/(c0+c1))");
+    String vm = (vgm_model.size() == 1) ? vgm_model[0] : vgm_model[iY];
+    if (vm == NA_STRING)
+      stop("buildStrataDFSpatial: 'vgm_model' cannot be NA");
+    vgm_y[iY] = vgmModelCode(std::string(vm.get_cstring()));
   }
   
   if (verbose) {
@@ -392,7 +459,7 @@ DataFrame buildStrataDFSpatial(
         double rangeVal   = range_y[iY];
         double nuggetVal  = nugget_y[iY];
         double sdev = stdevOptim(srows, lon, lat, Ycols[iY], VARcols[iY],
-                                 fittingVal, rangeVal, kappa, nuggetVal);
+                                 fittingVal, rangeVal, kappa, nuggetVal, vgm_y[iY]);
         S_i[iY] = sdev;
       }
       

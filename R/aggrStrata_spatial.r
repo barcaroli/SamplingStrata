@@ -6,12 +6,15 @@
 #   Builds the "strata" dataframe of a domain directly from the sampling frame,
 #   given the stratum label of each unit, computing the variance of the target
 #   variables in each stratum including the spatial autocorrelation component
-#   (parameters fitting, range, kappa, nugget). Used by KmeansSolutionSpatial().
-#   The formula is the same as in buildStrataDFSpatial() (C++), used by the
-#   genetic algorithm of optimizeStrataSpatial():
+#   (parameters fitting, range, kappa, nugget, vgm_model). Used by
+#   KmeansSolutionSpatial(). The formula is the same as in
+#   buildStrataDFSpatial() (C++), used by the genetic algorithm of
+#   optimizeStrataSpatial():
 #     D2_ij = (y_i - y_j)^2 / fitting + s2_i + s2_j
-#             - 2 (1 - nugget) s_i s_j exp(-kappa d_ij / range),   i != j
+#             - 2 (1 - nugget) s_i s_j rho(d_ij),   i != j
 #     S2_h  = sum_{i != j} D2_ij / (2 n^2)
+#   rho is the correlation function of the variogram model (vgm_model:
+#   exponential, spherical, gaussian; see spatialCorrelation.R).
 #   (until version 1.6 this R version used the covariance (s2_i + s2_j)/2 *
 #   exp(...) instead of s_i s_j exp(...), so that K-means and the genetic
 #   algorithm evaluated the strata with different formulas).
@@ -41,13 +44,19 @@
 #'   the rescaling correction, with all variances = 0: with positive variances the function
 #'   stops (the error variance would be counted twice). If only R2 is known, use fitting = 1
 #'   with a constant variance var(predictions) * (1 - R2) / R2. See buildStrataDFSpatial().
-#' @param range Range of the exponential correlation function of the prediction errors
-#'   (in the units of the coordinates). 0 means no spatial correlation.
-#' @param kappa Factor used in evaluating spatial autocorrelation: 1 if range is the
-#'   range parameter of an exponential variogram, 3 if it is the practical range.
+#' @param range Range of the correlation function of the prediction errors
+#'   (in the units of the coordinates), as defined by the variogram model given in
+#'   vgm_model. 0 means no spatial correlation.
+#' @param kappa Factor used in evaluating spatial autocorrelation with the exponential
+#'   and gaussian models: 1 if range is the range parameter of the variogram (as returned
+#'   by gstat), 3 if it is the practical range. Not used by the spherical model.
 #'   Any finite value > 0 is accepted; 0 or negative values give an error. Default is 3.
 #' @param nugget Relative nugget c0/(c0+c1) of the variogram of the prediction errors,
 #'   in [0, 1]. Default is 0.
+#' @param vgm_model Variogram model fitted on the prediction errors: "exponential"
+#'   (default), "spherical" or "gaussian" (or the gstat abbreviations "Exp", "Sph",
+#'   "Gau"). A single value, or one value for each target variable Y.
+#'   See buildStrataDFSpatial() for the correlation functions.
 #' @param vett vector of values indicating how the units in the dataset must
 #'   be aggregated in strata.
 #' @param dominio Value indicating the domain in the dataset to be processed.
@@ -83,7 +92,8 @@ aggrStrataSpatial <- function(dataset,
                               kappa=3,
                               vett,
                               dominio,
-                              nugget=c(0)) {
+                              nugget=c(0),
+                              vgm_model="exponential") {
 
   # 'fitting' appears below as z_z/fitting in the within-stratum variance:
   # fitting = 0 is a division by zero. Reject it here instead of letting
@@ -100,7 +110,8 @@ aggrStrataSpatial <- function(dataset,
 
   #---------------------------------------------------------
   # standard deviation calculated with distances
-  stdev <- function(zz, dist, var, STRATO, dataset, fitting, range, kappa, nugget) {
+  stdev <- function(zz, dist, var, STRATO, dataset, fitting, range, kappa, nugget,
+                    vgm_model) {
     ind <- which(dataset$STRATO == STRATO)
     # differences
     z_z<-zz[ind,ind]
@@ -114,7 +125,8 @@ aggrStrataSpatial <- function(dataset,
     # covariance of the prediction errors of two distinct units; no spatial
     # correlation with range <= 0 or nugget >= 1
     if (range > 0 && nugget < 1) {
-      covar <- (1 - nugget) * sqrt(outer(var, var, "*")) * exp(-kappa * dist / range)
+      covar <- (1 - nugget) * sqrt(outer(var, var, "*")) *
+        spatialCorr(dist, range, kappa, vgm_model)
     } else {
       covar <- matrix(0, length(ind), length(ind))
     }
@@ -144,9 +156,14 @@ aggrStrataSpatial <- function(dataset,
   if (any(is.na(nugget)) || any(nugget < 0 | nugget > 1))
     stop("aggrStrataSpatial: 'nugget' must be in [0, 1] (relative nugget c0/(c0+c1))",
          call. = FALSE)
+  vgm_model <- vgmModelNames(vgm_model)
+  if (!length(vgm_model) %in% c(1, nvarY))
+    stop("aggrStrataSpatial: vgm_model must have length 1 or ", nvarY,
+         " (number of Y variables)", call. = FALSE)
   fitting <- rep_len(fitting, nvarY)
   range <- rep_len(range, nvarY)
   nugget <- rep_len(nugget, nvarY)
+  vgm_model <- rep_len(vgm_model, nvarY)
   for (i in 1:nvarY) {
     vi <- dataset[[paste0("VAR", i)]]
     if (fitting[i] < 1 && !is.null(vi) && any(vi > 0, na.rm = TRUE))
@@ -180,7 +197,7 @@ aggrStrataSpatial <- function(dataset,
       eval(parse(text = stmt))
       stmt <- paste("fit <- fitting[",i,"]",sep="")
       eval(parse(text = stmt))
-      sd <- stdev(zz,dist,var,j,dataset,fit,rng,kappa,nugget[i])
+      sd <- stdev(zz,dist,var,j,dataset,fit,rng,kappa,nugget[i],vgm_model[i])
       stmt <- paste("strato$S",i," <- sd",sep="")
       eval(parse(text=stmt))
     }

@@ -6,7 +6,7 @@
 #   Runs the genetic algorithm (rbgaSpatial()) for one domain with the
 #   "spatial" method: as strataGenalg2(), but the strata are built with
 #   buildStrataDFSpatial(), i.e. including the prediction-error variance and the
-#   spatial autocorrelation (range, kappa, nugget) in the variance.
+#   spatial autocorrelation (range, kappa, nugget, vgm_model) in the variance.
 # ==============================================================================
 
 strataGenalgSpatial <- function (
@@ -18,6 +18,7 @@ strataGenalgSpatial <- function (
     range,
     kappa,
     nugget,
+    vgm_model,
     ncuts,
     dominio, 
     minnumstr, 
@@ -43,6 +44,7 @@ evaluate <- function(dataset,
                      range,
                      kappa,
                      nugget,
+                     vgm_model,
                      minnumstr,
                      errors,
                      string=c(),
@@ -84,7 +86,8 @@ evaluate <- function(dataset,
                                  kappa=kappa,
                                  progress=FALSE,
                                  verbose=FALSE,
-                                 nugget=nugget)
+                                 nugget=nugget,
+                                 vgm_model=vgm_model)
   if (strcens == TRUE) {
     stratatot <- rbind(strata,cens)
     soluz <- bethel_cpp(stratatot,
@@ -125,6 +128,7 @@ rbga.results = rbgaSpatial(
                     range,
                     kappa,
                     nugget,
+                    vgm_model,
                     minnumstr,
                     errors,
                     ncuts,
@@ -182,7 +186,8 @@ strata <- buildStrataDFSpatial(dataset=frame,
                                kappa=kappa,
                                progress=FALSE,
                                verbose=FALSE,
-                               nugget=nugget)
+                               nugget=nugget,
+                                 vgm_model=vgm_model)
 if (strcens == TRUE) {
   stratatot <- rbind(strata,cens)
   soluz <- bethel_cpp(stratatot, 

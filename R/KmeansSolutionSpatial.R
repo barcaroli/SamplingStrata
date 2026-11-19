@@ -6,7 +6,8 @@
 #   Builds an initial solution for the "spatial" method by clustering the frame
 #   units of each domain with k-means on the target variables (on a random
 #   subsample of at most maxsamp units), evaluating the strata with
-#   aggrStrataSpatial(), i.e. including the spatial autocorrelation component.
+#   aggrStrataSpatial(), i.e. including the spatial autocorrelation component
+#   (variogram model of the prediction errors given by vgm_model).
 #   If nstrata is NA, it also suggests the number of strata that minimises the
 #   Bethel sample size.
 # ==============================================================================
@@ -37,10 +38,12 @@
 #'   the rescaling correction, with all variances = 0: with positive variances the function
 #'   stops (the error variance would be counted twice). If only R2 is known, use fitting = 1
 #'   with a constant variance var(predictions) * (1 - R2) / R2. See buildStrataDFSpatial().
-#' @param range Range of the exponential correlation function of the prediction errors
-#'   (in the units of the coordinates). 0 means no spatial correlation.
-#' @param kappa Factor used in evaluating spatial autocorrelation: 1 if range is the
-#'   range parameter of an exponential variogram, 3 if it is the practical range.
+#' @param range Range of the correlation function of the prediction errors
+#'   (in the units of the coordinates), as defined by the variogram model given in
+#'   vgm_model. 0 means no spatial correlation.
+#' @param kappa Factor used in evaluating spatial autocorrelation with the exponential
+#'   and gaussian models: 1 if range is the range parameter of the variogram (as
+#'   returned by gstat), 3 if it is the practical range. Not used by the spherical model.
 #'   Any finite value > 0 is accepted
 #'   (a value other than 1 and 3 gives a warning); 0 or negative values give an error.
 #'   Default is 3.
@@ -56,6 +59,10 @@
 #'   If the number of units exceeds this maximum, a subset (size equal to maxsamp) is sampled from the frame.
 #' @param nugget Relative nugget c0/(c0+c1) of the variogram of the prediction errors,
 #'   in [0, 1]: the share of the error variance that is not spatially correlated. Default is 0.
+#' @param vgm_model Variogram model fitted on the prediction errors: "exponential"
+#'   (default), "spherical" or "gaussian" (or the gstat abbreviations "Exp", "Sph",
+#'   "Gau"). A single value, or one value for each target variable Y.
+#'   See buildStrataDFSpatial() for the correlation functions.
 #'
 #' @return
 #' A dataframe containing the solution
@@ -168,17 +175,20 @@ KmeansSolutionSpatial <- function (frame,
                                    maxclusters = NA,
                                    showPlot = TRUE,
                                    maxsamp = 5000,
-                                   nugget = 0)
+                                   nugget = 0,
+                                   vgm_model = "exponential")
 {
   cv <- errors
+  vgm_model <- vgmModelNames(vgm_model)
   # kappa: any finite positive value is admissible (the correlation is
   # exp(-kappa * d / range), only kappa / range matters); 1 (range parameter of
   # the exponential model) and 3 (practical range) are the usual conventions
   if (length(kappa) != 1 || !is.finite(kappa) || kappa <= 0)
     stop("'kappa' must be a single finite value > 0", call. = FALSE)
-  if (!kappa %in% c(1, 3))
+  # (kappa is not used by the spherical model)
+  if (!kappa %in% c(1, 3) && any(vgm_model != "spherical"))
     warning("kappa = ", kappa, " is unusual: use kappa = 1 when range is the range ",
-            "parameter of the exponential variogram (as returned by gstat), kappa = 3 ",
+            "parameter of the variogram (as returned by gstat), kappa = 3 ",
             "when range is the practical range.", call. = FALSE)
   # fitting < 1 together with prediction-error variances counts the error
   # variance twice (see buildStrataDFSpatial)
@@ -222,6 +232,7 @@ KmeansSolutionSpatial <- function (frame,
                               range = range,
                               kappa = kappa,
                               nugget = nugget,
+                              vgm_model = vgm_model,
                               vett = rep(1, nrow(stratacorr)),
                               dominio = k)
     v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)
@@ -263,6 +274,7 @@ KmeansSolutionSpatial <- function (frame,
                                 range = range, 
                                 kappa = kappa,
                                 nugget = nugget,
+                                vgm_model = vgm_model,
                                 vett = solution,
                                 dominio = k)
       v <- bethel(aggr, errorscorr, minnumstrat = minnumstrat)

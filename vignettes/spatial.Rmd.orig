@@ -74,24 +74,39 @@ Using `fitting < 1` together with positive prediction-error variances is rejecte
 The covariance between the prediction errors of two distinct units is modelled as
 
 \begin{equation}
-Cov(e_{i},e_{j}) = (1-\nu) \, s_{i} \, s_{j} \, e^{-\kappa \, d_{ij}/r} (\#eq:eq6)
+Cov(e_{i},e_{j}) = (1-\nu) \, s_{i} \, s_{j} \, \rho(d_{ij}) (\#eq:eq6)
 \end{equation}
 
 so that
 
 \begin{equation}
-D_{ij}^{2} = (\tilde{z}_{i}-\tilde{z}_{j})^{2} + (s_{i}^{2} + s_{j}^{2}) - 2 (1-\nu) \, s_{i} \, s_{j} \, e^{-\kappa \, d_{ij}/r} (\#eq:eq7)
+D_{ij}^{2} = (\tilde{z}_{i}-\tilde{z}_{j})^{2} + (s_{i}^{2} + s_{j}^{2}) - 2 (1-\nu) \, s_{i} \, s_{j} \, \rho(d_{ij}) (\#eq:eq7)
 \end{equation}
 
 where:
 
 * $d_{ij}$ is the Euclidean distance between units $i$ and $j$ (calculated using their geographical coordinates, that must be expressed in meters);
 * $s_{i}^{2}$ and $s_{j}^{2}$ are the variances of the prediction errors in the single points;
+* $\rho(d)$ is the correlation function of the variogram model fitted on the prediction errors (parameter `vgm_model`: exponential, spherical or gaussian), as explained in Section \@ref(vgm);
 * $r$ (parameter `range`) and $\nu$ (parameter `nugget`) describe the spatial correlation of the prediction errors, and are obtained from their variogram;
-* $\kappa$ (parameter `kappa`) depends on how the range $r$ is defined, as explained in Section \@ref(kappa);
+* $\kappa$ (parameter `kappa`, used by the exponential and gaussian models) depends on how the range $r$ is defined, as explained in Section \@ref(kappa);
 * $\nu = c_{0}/(c_{0}+c_{1})$ is the *relative nugget*: the share of the error variance (micro-scale variability and measurement error) that is not spatially correlated, even between units at very short distance. With $\nu = 0$ (default) two very close units have almost perfectly correlated errors; with a large nugget the reduction of variance due to the spatial correlation is correspondingly smaller. The nugget is given in relative terms because the scale of the error variance is already given, unit by unit, by $s_{i}^{2}$.
 
 With `range = 0`, or `nugget = 1`, there is no spatial correlation, and Equation \@ref(eq:eq7) reduces to the non-spatial case. Since the correlation is non-negative, with `fitting = 1` the spatial component can only reduce the variance in the strata.
+
+## Variogram models {#vgm}
+
+The correlation function $\rho(d)$ in Equation \@ref(eq:eq6) must be coherent with the model of the variogram fitted on the prediction errors. The parameter `vgm_model` of *optimStrata* (and of *optimizeStrataSpatial*, *KmeansSolutionSpatial*, *buildStrataDFSpatial* and *aggrStrataSpatial*) selects one of the most commonly used models:
+
+| `vgm_model` | $\rho(d)$ | Notes |
+|---|---|---|
+| `"exponential"` (default), or `"Exp"` | $e^{-\kappa\, d/r}$ | Never exactly 0; with $\kappa = 3$, $\rho(r) \approx 0.05$ (practical range) |
+| `"spherical"`, or `"Sph"` | $1 - 1.5\,\frac{d}{r} + 0.5\left(\frac{d}{r}\right)^{3}$ for $d < r$, and 0 for $d \geq r$ | Exactly 0 at and beyond the range; $\kappa$ is not used |
+| `"gaussian"`, or `"Gau"` | $e^{-\kappa\,(d/r)^{2}}$ | Very smooth near the origin; with $\kappa = 3$, $\rho(r) \approx 0.05$ (practical range) |
+
+The abbreviations are the names of the models in *gstat* and *automap*, so that the model of a fitted variogram can be passed directly (for instance `as.character(kriging_lead$var_model$model[2])`). One model can be given for all the target variables, or one for each of them (as for `range` and `nugget`); with *optimStrata* and *optimizeStrataSpatial* a dataframe with one row per domain can also be given.
+
+For the spherical model, $r$ is the distance at which the variogram reaches the sill, i.e. the column `range` of the `Sph` row of a model fitted with *gstat* or *automap*. Other models (for instance the Matern model, of which the exponential and the gaussian are particular cases) are not available.
 
 ## Choice of the parameter kappa {#kappa}
 
@@ -114,7 +129,7 @@ Other values are admissible: in general, if `range` is the distance at which the
 
 The default value of `kappa` is 3, for compatibility with the previous versions of the package. When the range is taken from *gstat* or *automap*, as in the example below, `kappa = 1` must be set explicitly.
 
-If the variogram of the prediction errors is better described by another model, the exponential model should be fitted anyway, since it is the one assumed by Equation \@ref(eq:eq6). As an approximation, a spherical model with range $r_{S}$ (the distance at which it reaches the sill) can be translated into an exponential model with similar practical range by using `range` $= r_{S}$ and `kappa = 3`.
+The same convention holds for the gaussian model, whose variogram in *gstat* is $\gamma(d) = c_{0} + c_{1}\left(1 - e^{-(d/a)^{2}}\right)$: `kappa = 1` with $r = a$, `kappa = 3` with the practical range $r = \sqrt{3}\,a$. The spherical model has no such ambiguity, and `kappa` is ignored.
 
 ## Estimation of range and nugget
 
@@ -125,7 +140,7 @@ To summarize, when frame units can be geo-referenced, the proposed procedure is 
 * acquire coordinates of the geographic location of the units in the population of interest;
 *	fit a *kriging* model (or any other spatial model) on data for each $Z$;
 * obtain predicted values together with prediction-error variances for each $Z$ and associate them to each unit in the frame;
-* estimate range and relative nugget of the exponential variogram of the prediction errors, and set `kappa` according to the definition of the range (1 for the range parameter, 3 for the practical range);
+* fit a variogram model (exponential, spherical or gaussian) to the prediction errors, estimate its range and relative nugget, and set `vgm_model` accordingly; with the exponential and gaussian models, set `kappa` according to the definition of the range (1 for the range parameter, 3 for the practical range);
 * perform the optimization step with `fitting = 1`.
 
 
@@ -153,7 +168,7 @@ title("Subset of 155 points",sub="with also observed metals concentration",cex.m
 par(mfrow=c(1,1))
 ```
 
-We analyse the territorial distribution of the *lead* and *zinc* concentration, and model (by using the *universal kriging*) their relations with distance from the river, using the subset of 155 points on which these values have been jointly observed. We fit an exponential variogram, consistent with the exponential correlation function of Equation \@ref(eq:eq6): 
+We analyse the territorial distribution of the *lead* and *zinc* concentration, and model (by using the *universal kriging*) their relations with distance from the river, using the subset of 155 points on which these values have been jointly observed. We first fit an exponential variogram (`vgm_model = "exponential"`); a spherical variogram is considered later, for comparison: 
 
 ```{r, eval = T,echo=TRUE,message=FALSE,fig.width=6,fig.height=8}
 library(automap)
@@ -217,7 +232,7 @@ To this aim, we carry out the optimization step by indicating the method *spatia
 
 ```{r, eval = T,echo=TRUE, message=FALSE, warning=FALSE}
 set.seed(1234)
-solution <- optimStrata (
+solution_exp <- optimStrata (
   method = "spatial",
   errors=cv, 
   framesamp=frame,
@@ -227,14 +242,105 @@ solution <- optimStrata (
   range = c(range_lead, range_zinc),
   nugget = c(nugget_lead, nugget_zinc),
   kappa = 1,
+  vgm_model = "exponential",   # model fitted by autoKrige (default)
   writeFiles = FALSE,
   showPlot = FALSE,
   parallel = FALSE)
+n_exp <- sum(solution_exp$aggr_strata$SOLUZ)
+n_exp
+```
+
+## Comparison with a spherical variogram
+
+The same steps can be repeated with a spherical variogram. The choice of the model affects both the frame, because the kriging predictions and their error variances depend on the variogram, and the correlation function $\rho(d)$ used in the optimization (Section \@ref(vgm)):
+
+```{r, eval = T,echo=TRUE,message=FALSE}
+kriging_lead_sph = autoKrige(log(lead) ~ dist, meuse, meuse.grid, model = "Sph")
+kriging_zinc_sph = autoKrige(log(zinc) ~ dist, meuse, meuse.grid, model = "Sph")
+kriging_lead_sph$var_model
+kriging_zinc_sph$var_model
+range_lead_sph  <- kriging_lead_sph$var_model$range[2]
+nugget_lead_sph <- kriging_lead_sph$var_model$psill[1] / sum(kriging_lead_sph$var_model$psill)
+range_zinc_sph  <- kriging_zinc_sph$var_model$range[2]
+nugget_zinc_sph <- kriging_zinc_sph$var_model$psill[1] / sum(kriging_zinc_sph$var_model$psill)
+```
+
+For the spherical model `range` is the distance at which the variogram reaches the sill, and `kappa` is not needed. We build the frame with the predictions and variances of the spherical kriging, and optimize with `vgm_model = "spherical"`, keeping the same seed and the same parameters of the genetic algorithm:
+
+```{r, eval = T,echo=TRUE, message=FALSE, warning=FALSE}
+df_sph <- df
+df_sph$lead.pred <- kriging_lead_sph$krige_output@data$var1.pred
+df_sph$lead.var  <- kriging_lead_sph$krige_output@data$var1.var
+df_sph$zinc.pred <- kriging_zinc_sph$krige_output@data$var1.pred
+df_sph$zinc.var  <- kriging_zinc_sph$krige_output@data$var1.var
+frame_sph <- buildFrameSpatial(df=df_sph,
+                      id="id",
+                      X=c("lead.pred","zinc.pred"),
+                      Y=c("lead.pred","zinc.pred"),
+                      variance=c("lead.var","zinc.var"),
+                      lon="lon",
+                      lat="lat",
+                      domainvalue = "dom1")
+set.seed(1234)
+solution_sph <- optimStrata (
+  method = "spatial",
+  errors=cv, 
+  framesamp=frame_sph,
+  iter = 15,
+  pops = 10,
+  nStrata = 5,
+  range = c(range_lead_sph, range_zinc_sph),
+  nugget = c(nugget_lead_sph, nugget_zinc_sph),
+  vgm_model = "spherical",
+  writeFiles = FALSE,
+  showPlot = FALSE,
+  parallel = FALSE)
+n_sph <- sum(solution_sph$aggr_strata$SOLUZ)
+```
+
+The two solutions can be compared in terms of sample size. The table also reports the error sum of squares of the fit of the two variograms (`sserr`, as given by *autoKrige*):
+
+```{r, eval = T,echo=TRUE}
+data.frame(variogram = c("exponential", "spherical"),
+           sample_size = round(c(n_exp, n_sph), 1),
+           sserr_lead = c(kriging_lead$sserr, kriging_lead_sph$sserr),
+           sserr_zinc = c(kriging_zinc$sserr, kriging_zinc_sph$sserr))
+```
+
+The genetic algorithm is a stochastic procedure, and with few iterations the sample size of the final solution varies from run to run: in this example, with different seeds, the variation can be larger than the difference between the two models. To separate the effect of the variogram model from the randomness of the algorithm, the strata of each solution can be evaluated under both models, i.e. computing the Bethel sample size of the same strata with the frame and the variogram parameters of each model:
+
+```{r, eval = T,echo=TRUE}
+evalStrata <- function(solution, frame, range, nugget, kappa, vgm_model) {
+  f <- frame
+  f$X1 <- solution$framenew$LABEL[match(f$id, solution$framenew$ID)]
+  f$X2 <- NULL
+  strata <- buildStrataDFSpatial(f, range = range, nugget = nugget,
+                                 kappa = kappa, vgm_model = vgm_model)
+  sum(bethel(strata, cv, minnumstrat = 2, realAllocation = TRUE))
+}
+cross <- sapply(list(exponential = solution_exp, spherical = solution_sph), function(sol)
+  c(exponential = evalStrata(sol, frame, c(range_lead, range_zinc),
+                             c(nugget_lead, nugget_zinc), 1, "exponential"),
+    spherical   = evalStrata(sol, frame_sph, c(range_lead_sph, range_zinc_sph),
+                             c(nugget_lead_sph, nugget_zinc_sph), 1, "spherical")))
+round(cross, 1)
+```
+
+The columns are the strata (of the exponential and of the spherical solution), the rows the model under which they are evaluated; the diagonal reproduces the sample sizes found by the genetic algorithm.
+
+The sample is then selected from the solution with the smaller sample size:
+
+```{r, eval = T,echo=TRUE}
+best <- if (n_sph < n_exp) "spherical" else "exponential"
+best
+solution <- if (best == "spherical") solution_sph else solution_exp
 framenew <- solution$framenew
 outstrata <- solution$aggr_strata
 ```
 
-obtaining the following optimized strata:
+Note that the sample size is not a criterion for the choice of the variogram model: a model that implies a stronger spatial correlation of the errors gives smaller samples, and if it is not supported by the data the precision constraints may not be met. The model should be chosen on the basis of the fit of the variogram of the prediction errors (for instance `sserr`, or the cross-validation of the kriging model); the comparison of the sample sizes shows how sensitive the design is to this choice.
+
+The optimized strata of the selected solution are the following:
 
 ```{r, eval = T,echo=TRUE}
 plotStrata2d(framenew,outstrata,domain=1,vars=c("X1","X2"),
