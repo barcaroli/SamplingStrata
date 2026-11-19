@@ -67,9 +67,6 @@
       <a href="../articles/models.html">Use of models in SamplingStrata</a>
     </li>
     <li>
-      <a href="../articles/Sampling.html">Optimization of sampling strata with the SamplingStrata package</a>
-    </li>
-    <li>
       <a href="../articles/spatial.html">Spatial sampling with SamplingStrata</a>
     </li>
   </ul>
@@ -418,7 +415,7 @@ portion of the river Meuse). This dataset comes with the library
 <span><span class="va">meuse.grid</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">meuse.grid</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://edzer.github.io/sp/reference/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">meuse</span><span class="op">)</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>,<span class="st">"y"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://edzer.github.io/sp/reference/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">meuse.grid</span><span class="op">)</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>,<span class="st">"y"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure/spatial-unnamed-chunk-2-1.png"></p>
+<p><img src="fig/spatial-unnamed-chunk-2-1.png"></p>
 <p>We analyse the territorial distribution of the <em>lead</em> and
 <em>zinc</em> concentration, and model (by using the <em>universal
 kriging</em>) their relations with distance from the river, using the
@@ -431,13 +428,13 @@ correlation function of Equation @ref(eq:eq6):</p>
 <pre><code><span><span class="co">## [using universal kriging]</span></span></code></pre>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">kriging_lead</span>,sp.layout <span class="op">=</span> <span class="cn">NULL</span>, justPosition <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure/spatial-unnamed-chunk-3-1.png"></p>
+<p><img src="fig/spatial-unnamed-chunk-3-1.png"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kriging_zinc</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/automap/man/autoKrige.html" class="external-link">autoKrige</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">zinc</span><span class="op">)</span> <span class="op">~</span> <span class="va">dist</span>, <span class="va">meuse</span>, <span class="va">meuse.grid</span>, model <span class="op">=</span> <span class="st">"Exp"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [using universal kriging]</span></span></code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">kriging_zinc</span>, sp.layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"sp.points"</span>, <span class="va">meuse</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure/spatial-unnamed-chunk-3-2.png"></p>
+<p><img src="fig/spatial-unnamed-chunk-3-2.png"></p>
 <p>From the fitted variograms we take the range parameter
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
 of the exponential model (to be used with <code>kappa = 1</code>) and
@@ -538,7 +535,7 @@ two variograms (<code>fitting</code> is omitted, i.e. equal to 1):</p>
 <span><span class="co">##  Number of strata :  3103</span></span>
 <span><span class="co">##  *** Sample cost:  74.26154</span></span>
 <span><span class="co">##  *** Number of strata:  4</span></span></code></pre>
-<p><img src="figure/spatial-unnamed-chunk-7-1.png"></p>
+<p><img src="fig/spatial-unnamed-chunk-7-1.png"></p>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">##  *** Sample size :  74</span></span>
 <span><span class="co">##  *** Number of strata :  4</span></span>
@@ -550,7 +547,7 @@ two variograms (<code>fitting</code> is omitted, i.e. equal to 1):</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotStrata2d.html">plotStrata2d</a></span><span class="op">(</span><span class="va">framenew</span>,<span class="va">outstrata</span>,domain<span class="op">=</span><span class="fl">1</span>,vars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X1"</span>,<span class="st">"X2"</span><span class="op">)</span>,</span>
 <span>             labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Lead"</span>,<span class="st">"Zinc"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<img src="figure/spatial-unnamed-chunk-8-1.png"><table class="table table table-condensed">
+<img src="fig/spatial-unnamed-chunk-8-1.png"><table class="table table table-condensed">
 <thead><tr>
 <th style="text-align:right;">
 Stratum
@@ -660,7 +657,7 @@ Bounds Zinc
 <span><span class="va">frameres2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialGridDataFrame.html" class="external-link">SpatialPixelsDataFrame</a></span><span class="op">(</span>points<span class="op">=</span><span class="va">frameres</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LON"</span>,<span class="st">"LAT"</span><span class="op">)</span><span class="op">]</span>, data<span class="op">=</span><span class="va">framenew</span><span class="op">)</span></span>
 <span><span class="va">frameres2</span><span class="op">$</span><span class="va">LABEL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">frameres2</span><span class="op">$</span><span class="va">LABEL</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://edzer.github.io/sp/reference/spplot.html" class="external-link">spplot</a></span><span class="op">(</span><span class="va">frameres2</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LABEL"</span><span class="op">)</span>, col.regions<span class="op">=</span><span class="fu"><a href="https://edzer.github.io/sp/reference/bpy.colors.html" class="external-link">bpy.colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nlevels.html" class="external-link">nlevels</a></span><span class="op">(</span><span class="va">frameres2</span><span class="op">$</span><span class="va">LABEL</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure/spatial-unnamed-chunk-9-1.png"></p>
+<p><img src="fig/spatial-unnamed-chunk-9-1.png"></p>
 <p>We can now proceed with the selection of the sample, using the
 function ‘selectSampleSpatial’ (which is a wrapper of function
 ‘lpm2_kdtree’ in package ‘SamplingBigData’, see <span class="citation">Lisic and Grafström (2018)</span>), in order to ensure
@@ -676,7 +673,7 @@ white, over the optimized strata):</p>
 <code class="sourceCode R"><span><span class="va">samp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPoints.html" class="external-link">SpatialPointsDataFrame</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">s</span>, coords<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">s</span><span class="op">$</span><span class="va">LON</span>,<span class="va">s</span><span class="op">$</span><span class="va">LAT</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://edzer.github.io/sp/reference/spplot.html" class="external-link">spplot</a></span><span class="op">(</span><span class="va">frameres2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LABEL"</span><span class="op">)</span>, col.regions<span class="op">=</span><span class="fu"><a href="https://edzer.github.io/sp/reference/bpy.colors.html" class="external-link">bpy.colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nlevels.html" class="external-link">nlevels</a></span><span class="op">(</span><span class="va">frameres2</span><span class="op">$</span><span class="va">LABEL</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>       sp.layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"sp.points"</span>, <span class="va">samp</span>, pch<span class="op">=</span><span class="fl">21</span>, col<span class="op">=</span><span class="st">"black"</span>, fill<span class="op">=</span><span class="st">"white"</span>, cex<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure/spatial-unnamed-chunk-11-1.png"></p>
+<p><img src="fig/spatial-unnamed-chunk-11-1.png"></p>
 <p>In an interactive R session, the selected units can also be displayed
 on an OpenStreetMap background with the package <em>mapview</em> (the
 Meuse coordinates are in the Dutch national grid, EPSG:28992):</p>
