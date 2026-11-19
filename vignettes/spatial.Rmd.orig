@@ -236,7 +236,7 @@ solution_exp <- optimStrata (
   method = "spatial",
   errors=cv, 
   framesamp=frame,
-  iter = 15,
+  iter = 50,
   pops = 10,
   nStrata = 5,
   range = c(range_lead, range_zinc),
@@ -281,12 +281,12 @@ frame_sph <- buildFrameSpatial(df=df_sph,
                       lon="lon",
                       lat="lat",
                       domainvalue = "dom1")
-set.seed(1234)
+set.seed(5678)
 solution_sph <- optimStrata (
   method = "spatial",
   errors=cv, 
   framesamp=frame_sph,
-  iter = 15,
+  iter = 50,
   pops = 10,
   nStrata = 5,
   range = c(range_lead_sph, range_zinc_sph),
