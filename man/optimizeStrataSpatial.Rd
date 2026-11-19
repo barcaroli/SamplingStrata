@@ -27,7 +27,8 @@ optimizeStrataSpatial(
   writeFiles = FALSE,
   showPlot = TRUE,
   parallel = TRUE,
-  cores = NA
+  cores = NA,
+  vgm_model = "exponential"
 )
 }
 \arguments{
@@ -58,16 +59,18 @@ with a constant variance var(predictions) * (1 - R2) / R2. See buildStrataDFSpat
 A vector with as many elements as the number of target variables Y, or a dataframe with one
 row per domain.}
 
-\item{range}{Range of the exponential correlation function of the prediction errors,
-in the units of the coordinates (0 = no spatial correlation). A vector with as many elements
-as the number of target variables Y, or a dataframe with one row per domain.}
+\item{range}{Range of the correlation function of the prediction errors, in the units of the
+coordinates (0 = no spatial correlation), as defined by the variogram model given in vgm_model.
+A vector with as many elements as the number of target variables Y, or a dataframe with one
+row per domain.}
 
-\item{kappa}{Factor used in evaluating spatial autocorrelation: the correlation between the
-prediction errors of two units at distance d is (1 - nugget) * exp(-kappa * d / range).
-Use kappa = 1 when range is the range parameter of an exponential variogram (as returned by
-gstat), kappa = 3 when range is the practical range. Any finite value > 0 is accepted
-(a value other than 1 and 3 gives a warning); 0 or negative values give an error.
-Default is 3.}
+\item{kappa}{Factor used in evaluating spatial autocorrelation with the exponential and gaussian
+models: the correlation between the prediction errors of two units at distance d is
+(1 - nugget) * exp(-kappa * d / range) (exponential) or (1 - nugget) * exp(-kappa * (d / range)^2)
+(gaussian). Use kappa = 1 when range is the range parameter of the variogram (as returned by
+gstat), kappa = 3 when range is the practical range. Not used by the spherical model.
+Any finite value > 0 is accepted (a value other than 1 and 3 gives a warning); 0 or negative
+values give an error. Default is 3.}
 
 \item{nugget}{Relative nugget c0/(c0+c1) of the variogram of the prediction errors, in [0, 1]:
 the share of the error variance that is not spatially correlated. A vector with as many
@@ -108,6 +111,14 @@ Default is TRUE.}
 
 \item{cores}{If the analysis is run in parallel, how many cores should be used.
 If not specified n-1 of total available cores are used OR if number of domains < (n-1) cores, then number of cores equal to number of domains are used.}
+
+\item{vgm_model}{Variogram model fitted on the prediction errors, which defines the correlation
+function rho(d) in the covariance (1 - nugget) * s_i * s_j * rho(d_ij): "exponential" (default),
+rho(d) = exp(-kappa * d / range); "spherical", rho(d) = 1 - 1.5 (d / range) + 0.5 (d / range)^3
+for d < range and 0 for d >= range (range is the distance at which the variogram reaches the
+sill); "gaussian", rho(d) = exp(-kappa * (d / range)^2). The gstat abbreviations "Exp", "Sph"
+and "Gau" are also accepted. A single value, a vector with as many elements as the number of
+target variables Y, or a dataframe with one row per domain.}
 }
 \value{
 A list containing
