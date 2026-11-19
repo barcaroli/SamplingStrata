@@ -2,6 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
-inst/doc
+inst/doc/*
+!inst/doc/SamplingStrata_cheatsheet.pdf
 simulation
 .positai
