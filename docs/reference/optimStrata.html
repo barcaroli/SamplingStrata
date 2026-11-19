@@ -100,7 +100,8 @@ For continuity reasons, these functions are still available to be used standalon
 <span>  fitting <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  range <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  kappa <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  nugget <span class="op">=</span> <span class="cn">NA</span></span>
+<span>  nugget <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  vgm_model <span class="op">=</span> <span class="cn">NA</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -214,17 +215,20 @@ dataframe with as many rows as the different domains in the frame.</p></dd>
 
 
 <dt id="arg-range">range<a class="anchor" aria-label="anchor" href="#arg-range"></a></dt>
-<dd><p>Only for method "spatial": range of the exponential correlation function of
-the prediction errors, in the units of the coordinates (0 = no spatial correlation).
+<dd><p>Only for method "spatial": range of the correlation function of the
+prediction errors, in the units of the coordinates (0 = no spatial correlation), as
+defined by the variogram model given in vgm_model.
 It can be vector with as many elements as the number of target variables Ys, or a
 dataframe with as many rows as the different domains in the frame.</p></dd>
 
 
 <dt id="arg-kappa">kappa<a class="anchor" aria-label="anchor" href="#arg-kappa"></a></dt>
-<dd><p>Only for method "spatial": factor used in evaluating spatial autocorrelation.
-1 if range is the range parameter of an exponential variogram (as returned by gstat),
-3 (default) if range is the practical range. Any finite value &gt; 0 is accepted (a value
-other than 1 and 3 gives a warning); 0 or negative values give an error.</p></dd>
+<dd><p>Only for method "spatial": factor used in evaluating spatial autocorrelation
+with the exponential and gaussian variogram models.
+1 if range is the range parameter of the variogram (as returned by gstat),
+3 (default) if range is the practical range. Not used by the spherical model.
+Any finite value &gt; 0 is accepted (a value other than 1 and 3 gives a warning);
+0 or negative values give an error.</p></dd>
 
 
 <dt id="arg-nugget">nugget<a class="anchor" aria-label="anchor" href="#arg-nugget"></a></dt>
@@ -232,6 +236,21 @@ other than 1 and 3 gives a warning); 0 or negative values give an error.</p></dd
 prediction errors, in [0, 1]. If not given, it is set to 0 (no nugget).
 It can be vector with as many elements as the number of target variables Ys, or a
 dataframe with as many rows as the different domains in the frame.</p></dd>
+
+
+<dt id="arg-vgm-model">vgm_model<a class="anchor" aria-label="anchor" href="#arg-vgm-model"></a></dt>
+<dd><p>Only for method "spatial": model of the variogram fitted on the prediction
+errors, which defines the correlation function rho(d) in the covariance
+(1 - nugget) * s_i * s_j * rho(d_ij) between the prediction errors of two units at
+distance d_ij. One of
+"exponential": rho(d) = exp(-kappa * d / range);
+"spherical": rho(d) = 1 - 1.5 (d / range) + 0.5 (d / range)^3 for d &lt; range, 0 for
+d &gt;= range (range is the distance at which the variogram reaches the sill);
+"gaussian": rho(d) = exp(-kappa * (d / range)^2).
+The gstat abbreviations "Exp", "Sph" and "Gau" are also accepted (case-insensitive).
+If not given, it is set to "exponential". It can be a single value, a vector with as
+many elements as the number of target variables Ys, or a dataframe with as many rows
+as the different domains in the frame.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -351,7 +370,8 @@ dataframe with as many rows as the different domains in the frame.</p></dd>
 <span class="r-in"><span>                        nStrata <span class="op">=</span> <span class="fl">5</span>,</span></span>
 <span class="r-in"><span>                        fitting <span class="op">=</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>                        kappa <span class="op">=</span> <span class="fl">1</span>,</span></span>
-<span class="r-in"><span>                        range <span class="op">=</span> <span class="va">fit.vgm.lead</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                        range <span class="op">=</span> <span class="va">fit.vgm.lead</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>                        vgm_model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">fit.vgm.lead</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">model</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">framenew</span> <span class="op">&lt;-</span> <span class="va">solution</span><span class="op">$</span><span class="va">framenew</span></span></span>
 <span class="r-in"><span><span class="va">outstrata</span> <span class="op">&lt;-</span> <span class="va">solution</span><span class="op">$</span><span class="va">aggr_strata</span></span></span>
 <span class="r-in"><span><span class="va">frameres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialGridDataFrame.html" class="external-link">SpatialPixelsDataFrame</a></span><span class="op">(</span>points <span class="op">=</span> <span class="va">framenew</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LON"</span>,<span class="st">"LAT"</span><span class="op">)</span><span class="op">]</span>,</span></span>

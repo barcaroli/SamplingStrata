@@ -82,7 +82,8 @@
 <span>  kappa <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  <span class="va">vett</span>,</span>
 <span>  <span class="va">dominio</span>,</span>
-<span>  nugget <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
+<span>  nugget <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
+<span>  vgm_model <span class="op">=</span> <span class="st">"exponential"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -108,13 +109,15 @@ with a constant variance var(predictions) * (1 - R2) / R2. See buildStrataDFSpat
 
 
 <dt id="arg-range">range<a class="anchor" aria-label="anchor" href="#arg-range"></a></dt>
-<dd><p>Range of the exponential correlation function of the prediction errors
-(in the units of the coordinates). 0 means no spatial correlation.</p></dd>
+<dd><p>Range of the correlation function of the prediction errors
+(in the units of the coordinates), as defined by the variogram model given in
+vgm_model. 0 means no spatial correlation.</p></dd>
 
 
 <dt id="arg-kappa">kappa<a class="anchor" aria-label="anchor" href="#arg-kappa"></a></dt>
-<dd><p>Factor used in evaluating spatial autocorrelation: 1 if range is the
-range parameter of an exponential variogram, 3 if it is the practical range.
+<dd><p>Factor used in evaluating spatial autocorrelation with the exponential
+and gaussian models: 1 if range is the range parameter of the variogram (as returned
+by gstat), 3 if it is the practical range. Not used by the spherical model.
 Any finite value &gt; 0 is accepted; 0 or negative values give an error. Default is 3.</p></dd>
 
 
@@ -130,6 +133,13 @@ be aggregated in strata.</p></dd>
 <dt id="arg-nugget">nugget<a class="anchor" aria-label="anchor" href="#arg-nugget"></a></dt>
 <dd><p>Relative nugget c0/(c0+c1) of the variogram of the prediction errors,
 in [0, 1]. Default is 0.</p></dd>
+
+
+<dt id="arg-vgm-model">vgm_model<a class="anchor" aria-label="anchor" href="#arg-vgm-model"></a></dt>
+<dd><p>Variogram model fitted on the prediction errors: "exponential"
+(default), "spherical" or "gaussian" (or the gstat abbreviations "Exp", "Sph",
+"Gau"). A single value, or one value for each target variable Y.
+See buildStrataDFSpatial() for the correlation functions.</p></dd>
 
 </dl></div>
     <div id="value">

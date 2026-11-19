@@ -212,12 +212,12 @@ does (when the predictions in a stratum are almost constant, the
 rescaled variance goes to zero, while the error variance remains).</p>
 <p>The covariance between the prediction errors of two distinct units is
 modelled as</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>o</mi><mi>v</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>e</mi><mi>i</mi></msub><mo>,</mo><msub><mi>e</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>ν</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>i</mi></msub><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>j</mi></msub><mspace width="0.167em"></mspace><msup><mi>e</mi><mrow><mi>−</mi><mi>κ</mi><mspace width="0.167em"></mspace><msub><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mi>/</mi><mi>r</mi></mrow></msup><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>6</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
-Cov(e_{i},e_{j}) = (1-\nu) \, s_{i} \, s_{j} \, e^{-\kappa \, d_{ij}/r} (\#eq:eq6)
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>o</mi><mi>v</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>e</mi><mi>i</mi></msub><mo>,</mo><msub><mi>e</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>ν</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>i</mi></msub><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>j</mi></msub><mspace width="0.167em"></mspace><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>6</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
+Cov(e_{i},e_{j}) = (1-\nu) \, s_{i} \, s_{j} \, \rho(d_{ij}) (\#eq:eq6)
 \end{equation}</annotation></semantics></math></p>
 <p>so that</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>D</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>2</mn></msubsup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mover><mi>z</mi><mo accent="true">̃</mo></mover><mi>i</mi></msub><mo>−</mo><msub><mover><mi>z</mi><mo accent="true">̃</mo></mover><mi>j</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mo>+</mo><mo stretchy="false" form="prefix">(</mo><msubsup><mi>s</mi><mi>i</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>s</mi><mi>j</mi><mn>2</mn></msubsup><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mn>2</mn><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>ν</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>i</mi></msub><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>j</mi></msub><mspace width="0.167em"></mspace><msup><mi>e</mi><mrow><mi>−</mi><mi>κ</mi><mspace width="0.167em"></mspace><msub><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mi>/</mi><mi>r</mi></mrow></msup><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>7</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
-D_{ij}^{2} = (\tilde{z}_{i}-\tilde{z}_{j})^{2} + (s_{i}^{2} + s_{j}^{2}) - 2 (1-\nu) \, s_{i} \, s_{j} \, e^{-\kappa \, d_{ij}/r} (\#eq:eq7)
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>D</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>2</mn></msubsup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mover><mi>z</mi><mo accent="true">̃</mo></mover><mi>i</mi></msub><mo>−</mo><msub><mover><mi>z</mi><mo accent="true">̃</mo></mover><mi>j</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mo>+</mo><mo stretchy="false" form="prefix">(</mo><msubsup><mi>s</mi><mi>i</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>s</mi><mi>j</mi><mn>2</mn></msubsup><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mn>2</mn><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>ν</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>i</mi></msub><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>j</mi></msub><mspace width="0.167em"></mspace><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>7</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
+D_{ij}^{2} = (\tilde{z}_{i}-\tilde{z}_{j})^{2} + (s_{i}^{2} + s_{j}^{2}) - 2 (1-\nu) \, s_{i} \, s_{j} \, \rho(d_{ij}) (\#eq:eq7)
 \end{equation}</annotation></semantics></math></p>
 <p>where:</p>
 <ul>
@@ -235,6 +235,11 @@ and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>s</mi><mi>j</mi><mn>2</mn></msubsup><annotation encoding="application/x-tex">s_{j}^{2}</annotation></semantics></math>
 are the variances of the prediction errors in the single points;</li>
 <li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><mi>d</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\rho(d)</annotation></semantics></math>
+is the correlation function of the variogram model fitted on the
+prediction errors (parameter <code>vgm_model</code>: exponential,
+spherical or gaussian), as explained in Section @ref(vgm);</li>
+<li>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
 (parameter <code>range</code>) and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ν</mi><annotation encoding="application/x-tex">\nu</annotation></semantics></math>
@@ -242,7 +247,8 @@ are the variances of the prediction errors in the single points;</li>
 prediction errors, and are obtained from their variogram;</li>
 <li>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>κ</mi><annotation encoding="application/x-tex">\kappa</annotation></semantics></math>
-(parameter <code>kappa</code>) depends on how the range
+(parameter <code>kappa</code>, used by the exponential and gaussian
+models) depends on how the range
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
 is defined, as explained in Section @ref(kappa);</li>
 <li>
@@ -263,6 +269,82 @@ spatial correlation, and Equation @ref(eq:eq7) reduces to the
 non-spatial case. Since the correlation is non-negative, with
 <code>fitting = 1</code> the spatial component can only reduce the
 variance in the strata.</p>
+<div class="section level3">
+<h3 id="vgm">Variogram models<a class="anchor" aria-label="anchor" href="#vgm"></a>
+</h3>
+<p>The correlation function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><mi>d</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\rho(d)</annotation></semantics></math>
+in Equation @ref(eq:eq6) must be coherent with the model of the
+variogram fitted on the prediction errors. The parameter
+<code>vgm_model</code> of <em>optimStrata</em> (and of
+<em>optimizeStrataSpatial</em>, <em>KmeansSolutionSpatial</em>,
+<em>buildStrataDFSpatial</em> and <em>aggrStrataSpatial</em>) selects
+one of the most commonly used models:</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th><code>vgm_model</code></th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><mi>d</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\rho(d)</annotation></semantics></math></th>
+<th>Notes</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>
+<code>"exponential"</code> (default), or <code>"Exp"</code>
+</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>e</mi><mrow><mi>−</mi><mi>κ</mi><mspace width="0.167em"></mspace><mi>d</mi><mi>/</mi><mi>r</mi></mrow></msup><annotation encoding="application/x-tex">e^{-\kappa\, d/r}</annotation></semantics></math></td>
+<td>Never exactly 0; with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>κ</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">\kappa = 3</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo>≈</mo><mn>0.05</mn></mrow><annotation encoding="application/x-tex">\rho(r) \approx 0.05</annotation></semantics></math>
+(practical range)</td>
+</tr>
+<tr class="even">
+<td>
+<code>"spherical"</code>, or <code>"Sph"</code>
+</td>
+<td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mn>1.5</mn><mspace width="0.167em"></mspace><mfrac><mi>d</mi><mi>r</mi></mfrac><mo>+</mo><mn>0.5</mn><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>d</mi><mi>r</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">1 - 1.5\,\frac{d}{r} + 0.5\left(\frac{d}{r}\right)^{3}</annotation></semantics></math>
+for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>&lt;</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">d &lt; r</annotation></semantics></math>,
+and 0 for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>≥</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">d \geq r</annotation></semantics></math>
+</td>
+<td>Exactly 0 at and beyond the range;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>κ</mi><annotation encoding="application/x-tex">\kappa</annotation></semantics></math>
+is not used</td>
+</tr>
+<tr class="odd">
+<td>
+<code>"gaussian"</code>, or <code>"Gau"</code>
+</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>e</mi><mrow><mi>−</mi><mi>κ</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>d</mi><mi>/</mi><mi>r</mi><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow></msup><annotation encoding="application/x-tex">e^{-\kappa\,(d/r)^{2}}</annotation></semantics></math></td>
+<td>Very smooth near the origin; with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>κ</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">\kappa = 3</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo>≈</mo><mn>0.05</mn></mrow><annotation encoding="application/x-tex">\rho(r) \approx 0.05</annotation></semantics></math>
+(practical range)</td>
+</tr>
+</tbody>
+</table>
+<p>The abbreviations are the names of the models in <em>gstat</em> and
+<em>automap</em>, so that the model of a fitted variogram can be passed
+directly (for instance
+<code>as.character(kriging_lead$var_model$model[2])</code>). One model
+can be given for all the target variables, or one for each of them (as
+for <code>range</code> and <code>nugget</code>); with
+<em>optimStrata</em> and <em>optimizeStrataSpatial</em> a dataframe with
+one row per domain can also be given.</p>
+<p>For the spherical model,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+is the distance at which the variogram reaches the sill, i.e. the column
+<code>range</code> of the <code>Sph</code> row of a model fitted with
+<em>gstat</em> or <em>automap</em>. Other models (for instance the
+Matern model, of which the exponential and the gaussian are particular
+cases) are not available.</p>
+</div>
 <div class="section level3">
 <h3 id="kappa">Choice of the parameter kappa<a class="anchor" aria-label="anchor" href="#kappa"></a>
 </h3>
@@ -354,16 +436,15 @@ the correlation would increase with the distance.</p>
 the previous versions of the package. When the range is taken from
 <em>gstat</em> or <em>automap</em>, as in the example below,
 <code>kappa = 1</code> must be set explicitly.</p>
-<p>If the variogram of the prediction errors is better described by
-another model, the exponential model should be fitted anyway, since it
-is the one assumed by Equation @ref(eq:eq6). As an approximation, a
-spherical model with range
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>r</mi><mi>S</mi></msub><annotation encoding="application/x-tex">r_{S}</annotation></semantics></math>
-(the distance at which it reaches the sill) can be translated into an
-exponential model with similar practical range by using
-<code>range</code>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><msub><mi>r</mi><mi>S</mi></msub></mrow><annotation encoding="application/x-tex">= r_{S}</annotation></semantics></math>
-and <code>kappa = 3</code>.</p>
+<p>The same convention holds for the gaussian model, whose variogram in
+<em>gstat</em> is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo stretchy="false" form="prefix">(</mo><mi>d</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>c</mi><mn>0</mn></msub><mo>+</mo><msub><mi>c</mi><mn>1</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mrow><mi>−</mi><mo stretchy="false" form="prefix">(</mo><mi>d</mi><mi>/</mi><mi>a</mi><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\gamma(d) = c_{0} + c_{1}\left(1 - e^{-(d/a)^{2}}\right)</annotation></semantics></math>:
+<code>kappa = 1</code> with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mi>a</mi></mrow><annotation encoding="application/x-tex">r = a</annotation></semantics></math>,
+<code>kappa = 3</code> with the practical range
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><msqrt><mn>3</mn></msqrt><mspace width="0.167em"></mspace><mi>a</mi></mrow><annotation encoding="application/x-tex">r = \sqrt{3}\,a</annotation></semantics></math>.
+The spherical model has no such ambiguity, and <code>kappa</code> is
+ignored.</p>
 </div>
 <div class="section level3">
 <h3 id="estimation-of-range-and-nugget">Estimation of range and nugget<a class="anchor" aria-label="anchor" href="#estimation-of-range-and-nugget"></a>
@@ -390,10 +471,11 @@ for each
 each
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math>
 and associate them to each unit in the frame;</li>
-<li>estimate range and relative nugget of the exponential variogram of
-the prediction errors, and set <code>kappa</code> according to the
-definition of the range (1 for the range parameter, 3 for the practical
-range);</li>
+<li>fit a variogram model (exponential, spherical or gaussian) to the
+prediction errors, estimate its range and relative nugget, and set
+<code>vgm_model</code> accordingly; with the exponential and gaussian
+models, set <code>kappa</code> according to the definition of the range
+(1 for the range parameter, 3 for the practical range);</li>
 <li>perform the optimization step with <code>fitting = 1</code>.</li>
 </ul>
 </div>
@@ -420,8 +502,9 @@ portion of the river Meuse). This dataset comes with the library
 <em>zinc</em> concentration, and model (by using the <em>universal
 kriging</em>) their relations with distance from the river, using the
 subset of 155 points on which these values have been jointly observed.
-We fit an exponential variogram, consistent with the exponential
-correlation function of Equation @ref(eq:eq6):</p>
+We first fit an exponential variogram
+(<code>vgm_model = "exponential"</code>); a spherical variogram is
+considered later, for comparison:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">automap</span><span class="op">)</span></span>
 <span><span class="va">kriging_lead</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/automap/man/autoKrige.html" class="external-link">autoKrige</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">lead</span><span class="op">)</span> <span class="op">~</span> <span class="va">dist</span>, <span class="va">meuse</span>, <span class="va">meuse.grid</span>, model <span class="op">=</span> <span class="st">"Exp"</span><span class="op">)</span></span></code></pre></div>
@@ -515,16 +598,17 @@ method <em>spatial</em>, with the range and the relative nugget of the
 two variograms (<code>fitting</code> is omitted, i.e. equal to 1):</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
-<span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span> <span class="op">(</span></span>
+<span><span class="va">solution_exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span> <span class="op">(</span></span>
 <span>  method <span class="op">=</span> <span class="st">"spatial"</span>,</span>
 <span>  errors<span class="op">=</span><span class="va">cv</span>, </span>
 <span>  framesamp<span class="op">=</span><span class="va">frame</span>,</span>
-<span>  iter <span class="op">=</span> <span class="fl">15</span>,</span>
+<span>  iter <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>  pops <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  nStrata <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">range_lead</span>, <span class="va">range_zinc</span><span class="op">)</span>,</span>
 <span>  nugget <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nugget_lead</span>, <span class="va">nugget_zinc</span><span class="op">)</span>,</span>
 <span>  kappa <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  vgm_model <span class="op">=</span> <span class="st">"exponential"</span>,   <span class="co"># model fitted by autoKrige (default)</span></span>
 <span>  writeFiles <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  showPlot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  parallel <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
@@ -533,21 +617,157 @@ two variograms (<code>fitting</code> is omitted, i.e. equal to 1):</p>
 <span><span class="co">## </span></span>
 <span><span class="co">##  *** Domain :  1   1</span></span>
 <span><span class="co">##  Number of strata :  3103</span></span>
-<span><span class="co">##  *** Sample cost:  74.26154</span></span>
+<span><span class="co">##  *** Sample cost:  74.02485</span></span>
 <span><span class="co">##  *** Number of strata:  4</span></span></code></pre>
 <p><img src="fig/spatial-unnamed-chunk-7-1.png"></p>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">##  *** Sample size :  74</span></span>
+<span><span class="co">##  *** Sample size :  73</span></span>
 <span><span class="co">##  *** Number of strata :  4</span></span>
 <span><span class="co">## ---------------------------</span></span></code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">framenew</span> <span class="op">&lt;-</span> <span class="va">solution</span><span class="op">$</span><span class="va">framenew</span></span>
+<code class="sourceCode R"><span><span class="va">n_exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">solution_exp</span><span class="op">$</span><span class="va">aggr_strata</span><span class="op">$</span><span class="va">SOLUZ</span><span class="op">)</span></span>
+<span><span class="va">n_exp</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 74.02485</span></span></code></pre>
+<div class="section level3">
+<h3 id="comparison-with-a-spherical-variogram">Comparison with a spherical variogram<a class="anchor" aria-label="anchor" href="#comparison-with-a-spherical-variogram"></a>
+</h3>
+<p>The same steps can be repeated with a spherical variogram. The choice
+of the model affects both the frame, because the kriging predictions and
+their error variances depend on the variogram, and the correlation
+function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><mi>d</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\rho(d)</annotation></semantics></math>
+used in the optimization (Section @ref(vgm)):</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">kriging_lead_sph</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/automap/man/autoKrige.html" class="external-link">autoKrige</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">lead</span><span class="op">)</span> <span class="op">~</span> <span class="va">dist</span>, <span class="va">meuse</span>, <span class="va">meuse.grid</span>, model <span class="op">=</span> <span class="st">"Sph"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [using universal kriging]</span></span></code></pre>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">kriging_zinc_sph</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/automap/man/autoKrige.html" class="external-link">autoKrige</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">zinc</span><span class="op">)</span> <span class="op">~</span> <span class="va">dist</span>, <span class="va">meuse</span>, <span class="va">meuse.grid</span>, model <span class="op">=</span> <span class="st">"Sph"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [using universal kriging]</span></span></code></pre>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">kriging_lead_sph</span><span class="op">$</span><span class="va">var_model</span></span></code></pre></div>
+<pre><code><span><span class="co">##   model      psill    range</span></span>
+<span><span class="co">## 1   Nug 0.07896613   0.0000</span></span>
+<span><span class="co">## 2   Sph 0.21142964 852.9118</span></span></code></pre>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">kriging_zinc_sph</span><span class="op">$</span><span class="va">var_model</span></span></code></pre></div>
+<pre><code><span><span class="co">##   model      psill    range</span></span>
+<span><span class="co">## 1   Nug 0.07473912   0.0000</span></span>
+<span><span class="co">## 2   Sph 0.20518590 723.9555</span></span></code></pre>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">range_lead_sph</span>  <span class="op">&lt;-</span> <span class="va">kriging_lead_sph</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span><span class="va">nugget_lead_sph</span> <span class="op">&lt;-</span> <span class="va">kriging_lead_sph</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">psill</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">kriging_lead_sph</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">psill</span><span class="op">)</span></span>
+<span><span class="va">range_zinc_sph</span>  <span class="op">&lt;-</span> <span class="va">kriging_zinc_sph</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span><span class="va">nugget_zinc_sph</span> <span class="op">&lt;-</span> <span class="va">kriging_zinc_sph</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">psill</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">kriging_zinc_sph</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">psill</span><span class="op">)</span></span></code></pre></div>
+<p>For the spherical model <code>range</code> is the distance at which
+the variogram reaches the sill, and <code>kappa</code> is not needed. We
+build the frame with the predictions and variances of the spherical
+kriging, and optimize with <code>vgm_model = "spherical"</code>, keeping
+the same seed and the same parameters of the genetic algorithm:</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_sph</span> <span class="op">&lt;-</span> <span class="va">df</span></span>
+<span><span class="va">df_sph</span><span class="op">$</span><span class="va">lead.pred</span> <span class="op">&lt;-</span> <span class="va">kriging_lead_sph</span><span class="op">$</span><span class="va">krige_output</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">var1.pred</span></span>
+<span><span class="va">df_sph</span><span class="op">$</span><span class="va">lead.var</span>  <span class="op">&lt;-</span> <span class="va">kriging_lead_sph</span><span class="op">$</span><span class="va">krige_output</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">var1.var</span></span>
+<span><span class="va">df_sph</span><span class="op">$</span><span class="va">zinc.pred</span> <span class="op">&lt;-</span> <span class="va">kriging_zinc_sph</span><span class="op">$</span><span class="va">krige_output</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">var1.pred</span></span>
+<span><span class="va">df_sph</span><span class="op">$</span><span class="va">zinc.var</span>  <span class="op">&lt;-</span> <span class="va">kriging_zinc_sph</span><span class="op">$</span><span class="va">krige_output</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">var1.var</span></span>
+<span><span class="va">frame_sph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/buildFrameSpatial.html">buildFrameSpatial</a></span><span class="op">(</span>df<span class="op">=</span><span class="va">df_sph</span>,</span>
+<span>                      id<span class="op">=</span><span class="st">"id"</span>,</span>
+<span>                      X<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lead.pred"</span>,<span class="st">"zinc.pred"</span><span class="op">)</span>,</span>
+<span>                      Y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lead.pred"</span>,<span class="st">"zinc.pred"</span><span class="op">)</span>,</span>
+<span>                      variance<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lead.var"</span>,<span class="st">"zinc.var"</span><span class="op">)</span>,</span>
+<span>                      lon<span class="op">=</span><span class="st">"lon"</span>,</span>
+<span>                      lat<span class="op">=</span><span class="st">"lat"</span>,</span>
+<span>                      domainvalue <span class="op">=</span> <span class="st">"dom1"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">5678</span><span class="op">)</span></span>
+<span><span class="va">solution_sph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span> <span class="op">(</span></span>
+<span>  method <span class="op">=</span> <span class="st">"spatial"</span>,</span>
+<span>  errors<span class="op">=</span><span class="va">cv</span>, </span>
+<span>  framesamp<span class="op">=</span><span class="va">frame_sph</span>,</span>
+<span>  iter <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  pops <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  nStrata <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">range_lead_sph</span>, <span class="va">range_zinc_sph</span><span class="op">)</span>,</span>
+<span>  nugget <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nugget_lead_sph</span>, <span class="va">nugget_zinc_sph</span><span class="op">)</span>,</span>
+<span>  vgm_model <span class="op">=</span> <span class="st">"spherical"</span>,</span>
+<span>  writeFiles <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  showPlot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  parallel <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Input data have been checked and are compliant with requirements</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##  *** Domain :  1   1</span></span>
+<span><span class="co">##  Number of strata :  3103</span></span>
+<span><span class="co">##  *** Sample cost:  101.6757</span></span>
+<span><span class="co">##  *** Number of strata:  2</span></span></code></pre>
+<p><img src="fig/spatial-unnamed-chunk-9-1.png"></p>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  *** Sample size :  102</span></span>
+<span><span class="co">##  *** Number of strata :  2</span></span>
+<span><span class="co">## ---------------------------</span></span></code></pre>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">n_sph</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">solution_sph</span><span class="op">$</span><span class="va">aggr_strata</span><span class="op">$</span><span class="va">SOLUZ</span><span class="op">)</span></span></code></pre></div>
+<p>The two solutions can be compared in terms of sample size. The table
+also reports the error sum of squares of the fit of the two variograms
+(<code>sserr</code>, as given by <em>autoKrige</em>):</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>variogram <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"exponential"</span>, <span class="st">"spherical"</span><span class="op">)</span>,</span>
+<span>           sample_size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">n_exp</span>, <span class="va">n_sph</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>           sserr_lead <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">kriging_lead</span><span class="op">$</span><span class="va">sserr</span>, <span class="va">kriging_lead_sph</span><span class="op">$</span><span class="va">sserr</span><span class="op">)</span>,</span>
+<span>           sserr_zinc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">kriging_zinc</span><span class="op">$</span><span class="va">sserr</span>, <span class="va">kriging_zinc_sph</span><span class="op">$</span><span class="va">sserr</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##     variogram sample_size   sserr_lead   sserr_zinc</span></span>
+<span><span class="co">## 1 exponential        74.0 2.393262e-05 6.346710e-06</span></span>
+<span><span class="co">## 2   spherical       101.7 1.868241e-05 5.907235e-06</span></span></code></pre>
+<p>The genetic algorithm is a stochastic procedure, and with few
+iterations the sample size of the final solution varies from run to run:
+in this example, with different seeds, the variation can be larger than
+the difference between the two models. To separate the effect of the
+variogram model from the randomness of the algorithm, the strata of each
+solution can be evaluated under both models, i.e. computing the Bethel
+sample size of the same strata with the frame and the variogram
+parameters of each model:</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">evalStrata</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">solution</span>, <span class="va">frame</span>, <span class="va">range</span>, <span class="va">nugget</span>, <span class="va">kappa</span>, <span class="va">vgm_model</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">f</span> <span class="op">&lt;-</span> <span class="va">frame</span></span>
+<span>  <span class="va">f</span><span class="op">$</span><span class="va">X1</span> <span class="op">&lt;-</span> <span class="va">solution</span><span class="op">$</span><span class="va">framenew</span><span class="op">$</span><span class="va">LABEL</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="va">f</span><span class="op">$</span><span class="va">id</span>, <span class="va">solution</span><span class="op">$</span><span class="va">framenew</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span><span class="op">]</span></span>
+<span>  <span class="va">f</span><span class="op">$</span><span class="va">X2</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
+<span>  <span class="va">strata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/buildStrataDFSpatial.html">buildStrataDFSpatial</a></span><span class="op">(</span><span class="va">f</span>, range <span class="op">=</span> <span class="va">range</span>, nugget <span class="op">=</span> <span class="va">nugget</span>,</span>
+<span>                                 kappa <span class="op">=</span> <span class="va">kappa</span>, vgm_model <span class="op">=</span> <span class="va">vgm_model</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="../reference/bethel.html">bethel</a></span><span class="op">(</span><span class="va">strata</span>, <span class="va">cv</span>, minnumstrat <span class="op">=</span> <span class="fl">2</span>, realAllocation <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">cross</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>exponential <span class="op">=</span> <span class="va">solution_exp</span>, spherical <span class="op">=</span> <span class="va">solution_sph</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">sol</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>exponential <span class="op">=</span> <span class="fu">evalStrata</span><span class="op">(</span><span class="va">sol</span>, <span class="va">frame</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">range_lead</span>, <span class="va">range_zinc</span><span class="op">)</span>,</span>
+<span>                             <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nugget_lead</span>, <span class="va">nugget_zinc</span><span class="op">)</span>, <span class="fl">1</span>, <span class="st">"exponential"</span><span class="op">)</span>,</span>
+<span>    spherical   <span class="op">=</span> <span class="fu">evalStrata</span><span class="op">(</span><span class="va">sol</span>, <span class="va">frame_sph</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">range_lead_sph</span>, <span class="va">range_zinc_sph</span><span class="op">)</span>,</span>
+<span>                             <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nugget_lead_sph</span>, <span class="va">nugget_zinc_sph</span><span class="op">)</span>, <span class="fl">1</span>, <span class="st">"spherical"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">cross</span>, <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##             exponential spherical</span></span>
+<span><span class="co">## exponential        74.0     100.0</span></span>
+<span><span class="co">## spherical          76.7     101.7</span></span></code></pre>
+<p>The columns are the strata (of the exponential and of the spherical
+solution), the rows the model under which they are evaluated; the
+diagonal reproduces the sample sizes found by the genetic algorithm.</p>
+<p>The sample is then selected from the solution with the smaller sample
+size:</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">best</span> <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="va">n_sph</span> <span class="op">&lt;</span> <span class="va">n_exp</span><span class="op">)</span> <span class="st">"spherical"</span> <span class="kw">else</span> <span class="st">"exponential"</span></span>
+<span><span class="va">best</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "exponential"</span></span></code></pre>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="va">best</span> <span class="op">==</span> <span class="st">"spherical"</span><span class="op">)</span> <span class="va">solution_sph</span> <span class="kw">else</span> <span class="va">solution_exp</span></span>
+<span><span class="va">framenew</span> <span class="op">&lt;-</span> <span class="va">solution</span><span class="op">$</span><span class="va">framenew</span></span>
 <span><span class="va">outstrata</span> <span class="op">&lt;-</span> <span class="va">solution</span><span class="op">$</span><span class="va">aggr_strata</span></span></code></pre></div>
-<p>obtaining the following optimized strata:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<p>Note that the sample size is not a criterion for the choice of the
+variogram model: a model that implies a stronger spatial correlation of
+the errors gives smaller samples, and if it is not supported by the data
+the precision constraints may not be met. The model should be chosen on
+the basis of the fit of the variogram of the prediction errors (for
+instance <code>sserr</code>, or the cross-validation of the kriging
+model); the comparison of the sample sizes shows how sensitive the
+design is to this choice.</p>
+<p>The optimized strata of the selected solution are the following:</p>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotStrata2d.html">plotStrata2d</a></span><span class="op">(</span><span class="va">framenew</span>,<span class="va">outstrata</span>,domain<span class="op">=</span><span class="fl">1</span>,vars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X1"</span>,<span class="st">"X2"</span><span class="op">)</span>,</span>
 <span>             labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Lead"</span>,<span class="st">"Zinc"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<img src="fig/spatial-unnamed-chunk-8-1.png"><table class="table table table-condensed">
+<img src="fig/spatial-unnamed-chunk-13-1.png"><table class="table table table-condensed">
 <thead><tr>
 <th style="text-align:right;">
 Stratum
@@ -574,19 +794,19 @@ Bounds Zinc
 1
 </td>
 <td style="text-align:right;">
-505
+640
 </td>
 <td style="text-align:right;">
-12
+15
 </td>
 <td style="text-align:right;">
-0.02339074
+0.02391147
 </td>
 <td style="text-align:right;">
-3.33446915108525-4.07490542620039
+3.33446915108525-4.13738690940447
 </td>
 <td style="text-align:right;">
-4.12033872416343-5.16581340104563
+4.12033872416343-5.2713411342773
 </td>
 </tr>
 <tr>
@@ -594,19 +814,19 @@ Bounds Zinc
 2
 </td>
 <td style="text-align:right;">
-1162
+1026
 </td>
 <td style="text-align:right;">
-27
+23
 </td>
 <td style="text-align:right;">
-0.02321401
+0.02269205
 </td>
 <td style="text-align:right;">
-4.06084301390357-4.86031443361745
+4.13974545919354-4.8362961282017
 </td>
 <td style="text-align:right;">
-5.00207342087139-5.659847980331
+5.03250124172821-5.659847980331
 </td>
 </tr>
 <tr>
@@ -614,19 +834,19 @@ Bounds Zinc
 3
 </td>
 <td style="text-align:right;">
-757
+758
 </td>
 <td style="text-align:right;">
 18
 </td>
 <td style="text-align:right;">
-0.02403652
+0.02399414
 </td>
 <td style="text-align:right;">
 4.47910444164607-5.31840588061593
 </td>
 <td style="text-align:right;">
-5.6625970964073-6.27445923668798
+5.63074371272401-6.27445923668798
 </td>
 </tr>
 <tr>
@@ -640,7 +860,7 @@ Bounds Zinc
 17
 </td>
 <td style="text-align:right;">
-0.02544755
+0.02540783
 </td>
 <td style="text-align:right;">
 4.86913230697994-6.24785534081567
@@ -652,37 +872,38 @@ Bounds Zinc
 </tbody>
 </table>
 <p>that can be visualised in this way:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">frameres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPoints.html" class="external-link">SpatialPointsDataFrame</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">framenew</span>, coords<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">framenew</span><span class="op">$</span><span class="va">LON</span>,<span class="va">framenew</span><span class="op">$</span><span class="va">LAT</span><span class="op">)</span> <span class="op">)</span></span>
 <span><span class="va">frameres2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialGridDataFrame.html" class="external-link">SpatialPixelsDataFrame</a></span><span class="op">(</span>points<span class="op">=</span><span class="va">frameres</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LON"</span>,<span class="st">"LAT"</span><span class="op">)</span><span class="op">]</span>, data<span class="op">=</span><span class="va">framenew</span><span class="op">)</span></span>
 <span><span class="va">frameres2</span><span class="op">$</span><span class="va">LABEL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">frameres2</span><span class="op">$</span><span class="va">LABEL</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://edzer.github.io/sp/reference/spplot.html" class="external-link">spplot</a></span><span class="op">(</span><span class="va">frameres2</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LABEL"</span><span class="op">)</span>, col.regions<span class="op">=</span><span class="fu"><a href="https://edzer.github.io/sp/reference/bpy.colors.html" class="external-link">bpy.colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nlevels.html" class="external-link">nlevels</a></span><span class="op">(</span><span class="va">frameres2</span><span class="op">$</span><span class="va">LABEL</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="fig/spatial-unnamed-chunk-9-1.png"></p>
+<p><img src="fig/spatial-unnamed-chunk-14-1.png"></p>
 <p>We can now proceed with the selection of the sample, using the
 function ‘selectSampleSpatial’ (which is a wrapper of function
 ‘lpm2_kdtree’ in package ‘SamplingBigData’, see <span class="citation">Lisic and Grafström (2018)</span>), in order to ensure
 a spatially balanced sample:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/selectSampleSpatial.html">selectSampleSpatial</a></span><span class="op">(</span><span class="va">framenew</span>,<span class="va">outstrata</span>,coord_names<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LON"</span>,<span class="st">"LAT"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## *** Sample has been drawn successfully ***</span></span>
-<span><span class="co">##  74  units have been selected from  4  strata</span></span></code></pre>
+<span><span class="co">##  73  units have been selected from  4  strata</span></span></code></pre>
 <p>whose units are so distributed in the territory (sampled points in
 white, over the optimized strata):</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">samp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPoints.html" class="external-link">SpatialPointsDataFrame</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">s</span>, coords<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">s</span><span class="op">$</span><span class="va">LON</span>,<span class="va">s</span><span class="op">$</span><span class="va">LAT</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://edzer.github.io/sp/reference/spplot.html" class="external-link">spplot</a></span><span class="op">(</span><span class="va">frameres2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LABEL"</span><span class="op">)</span>, col.regions<span class="op">=</span><span class="fu"><a href="https://edzer.github.io/sp/reference/bpy.colors.html" class="external-link">bpy.colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nlevels.html" class="external-link">nlevels</a></span><span class="op">(</span><span class="va">frameres2</span><span class="op">$</span><span class="va">LABEL</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>       sp.layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"sp.points"</span>, <span class="va">samp</span>, pch<span class="op">=</span><span class="fl">21</span>, col<span class="op">=</span><span class="st">"black"</span>, fill<span class="op">=</span><span class="st">"white"</span>, cex<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="fig/spatial-unnamed-chunk-11-1.png"></p>
+<p><img src="fig/spatial-unnamed-chunk-16-1.png"></p>
 <p>In an interactive R session, the selected units can also be displayed
 on an OpenStreetMap background with the package <em>mapview</em> (the
 Meuse coordinates are in the Dutch national grid, EPSG:28992):</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/mapview" class="external-link">mapview</a></span><span class="op">)</span></span>
 <span><span class="va">s_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">s</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LON"</span>,<span class="st">"LAT"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">28992</span><span class="op">)</span></span>
 <span><span class="va">s_sf</span><span class="op">$</span><span class="va">LABEL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">s_sf</span><span class="op">$</span><span class="va">LABEL</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://r-spatial.github.io/mapview/reference/mapView.html" class="external-link">mapview</a></span><span class="op">(</span><span class="va">s_sf</span>, zcol<span class="op">=</span><span class="st">"LABEL"</span>, map.types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"OpenStreetMap"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
