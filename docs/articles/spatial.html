@@ -99,7 +99,7 @@
                         <h4 data-toc-skip class="author">Marco Ballin,
 Giulio Barcaroli</h4>
             
-            <h4 data-toc-skip class="date">2026-11-19</h4>
+            <h4 data-toc-skip class="date">2026-11-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/vignettes/spatial.Rmd" class="external-link"><code>vignettes/spatial.Rmd</code></a></small>
       <div class="hidden name"><code>spatial.Rmd</code></div>
@@ -128,21 +128,21 @@ Gruijter et al.</span> (2016)</span> and <span class="citation"><span class="noc
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math>
 is the target variable, omitting as negligible the <em>fpc</em> factor,
 the sampling variance of its estimated mean is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo stretchy="false" form="prefix">(</mo><mover><mover><mi>Z</mi><mo accent="true">‾</mo></mover><mo accent="true">̂</mo></mover><mo stretchy="false" form="postfix">)</mo><mo>=</mo><munderover><mo>∑</mo><mrow><mi>h</mi><mo>=</mo><mn>1</mn></mrow><mi>H</mi></munderover><mo stretchy="false" form="prefix">(</mo><msub><mi>N</mi><mi>h</mi></msub><mi>/</mi><mi>N</mi><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><msubsup><mi>S</mi><mi>h</mi><mn>2</mn></msubsup><mi>/</mi><msub><mi>n</mi><mi>h</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
-V(\hat{\bar{Z}}) = \sum_{h=1}^{H}(N_{h}/N)^{2} S_{h}^{2}/n_{h} (\#eq:eq1)
-\end{equation}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo stretchy="false" form="prefix">(</mo><mover><mover><mi>Z</mi><mo accent="true">‾</mo></mover><mo accent="true">̂</mo></mover><mo stretchy="false" form="postfix">)</mo><mo>=</mo><munderover><mo>∑</mo><mrow><mi>h</mi><mo>=</mo><mn>1</mn></mrow><mi>H</mi></munderover><mo stretchy="false" form="prefix">(</mo><msub><mi>N</mi><mi>h</mi></msub><mi>/</mi><mi>N</mi><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><msubsup><mi>S</mi><mi>h</mi><mn>2</mn></msubsup><mi>/</mi><msub><mi>n</mi><mi>h</mi></msub><mspace width="2.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+V(\hat{\bar{Z}}) = \sum_{h=1}^{H}(N_{h}/N)^{2} S_{h}^{2}/n_{h} \qquad (1)
+</annotation></semantics></math></p>
 <p>We can write the variance in each stratum
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math>
 as:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mi>h</mi><mn>2</mn></msubsup><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><msubsup><mi>N</mi><mi>h</mi><mn>2</mn></msubsup></mfrac></mstyle><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>N</mi><mrow><mi>h</mi><mo>−</mo><mn>1</mn></mrow></msub></munderover><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mi>i</mi><mo>+</mo><mn>1</mn></mrow><msub><mi>N</mi><mi>h</mi></msub></munderover><mo stretchy="false" form="prefix">(</mo><msub><mi>z</mi><mi>i</mi></msub><mo>−</mo><msub><mi>z</mi><mi>j</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
-S_{h}^{2} = \dfrac{1}{N_{h}^{2}} \sum_{i=1}^{N_{h-1}}\sum_{j=i+1}^{N_{h}}(z_{i}-z_{j})^{2} (\#eq:eq2)
-\end{equation}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mi>h</mi><mn>2</mn></msubsup><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><msubsup><mi>N</mi><mi>h</mi><mn>2</mn></msubsup></mfrac></mstyle><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>N</mi><mrow><mi>h</mi><mo>−</mo><mn>1</mn></mrow></msub></munderover><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mi>i</mi><mo>+</mo><mn>1</mn></mrow><msub><mi>N</mi><mi>h</mi></msub></munderover><mo stretchy="false" form="prefix">(</mo><msub><mi>z</mi><mi>i</mi></msub><mo>−</mo><msub><mi>z</mi><mi>j</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mspace width="2.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+S_{h}^{2} = \dfrac{1}{N_{h}^{2}} \sum_{i=1}^{N_{h-1}}\sum_{j=i+1}^{N_{h}}(z_{i}-z_{j})^{2} \qquad (2)
+</annotation></semantics></math></p>
 <p>The optimal determination of strata is obtained by minimizing the
 quantity
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>O</mi><annotation encoding="application/x-tex">O</annotation></semantics></math>:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo>=</mo><munderover><mo>∑</mo><mrow><mi>h</mi><mo>=</mo><mn>1</mn></mrow><mi>H</mi></munderover><mstyle displaystyle="true"><mfrac><mn>1</mn><msubsup><mi>N</mi><mi>h</mi><mn>2</mn></msubsup></mfrac></mstyle><mo stretchy="false" form="prefix">{</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>N</mi><mrow><mi>h</mi><mo>−</mo><mn>1</mn></mrow></msub></munderover><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mi>i</mi><mo>+</mo><mn>1</mn></mrow><msub><mi>N</mi><mi>h</mi></msub></munderover><mo stretchy="false" form="prefix">(</mo><msub><mi>z</mi><mi>i</mi></msub><mo>−</mo><msub><mi>z</mi><mi>j</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><msup><mo stretchy="false" form="postfix">}</mo><mrow><mn>1</mn><mi>/</mi><mn>2</mn></mrow></msup><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>3</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
-O = \sum_{h=1}^{H} \dfrac{1}{N_{h}^{2}} \{ \sum_{i=1}^{N_{h-1}}  \sum_{j=i+1}^{N_{h}} (z_{i}-z_{j})^{2}\}^{1/2} (\#eq:eq3)
-\end{equation}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo>=</mo><munderover><mo>∑</mo><mrow><mi>h</mi><mo>=</mo><mn>1</mn></mrow><mi>H</mi></munderover><mstyle displaystyle="true"><mfrac><mn>1</mn><msubsup><mi>N</mi><mi>h</mi><mn>2</mn></msubsup></mfrac></mstyle><mo stretchy="false" form="prefix">{</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>N</mi><mrow><mi>h</mi><mo>−</mo><mn>1</mn></mrow></msub></munderover><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mi>i</mi><mo>+</mo><mn>1</mn></mrow><msub><mi>N</mi><mi>h</mi></msub></munderover><mo stretchy="false" form="prefix">(</mo><msub><mi>z</mi><mi>i</mi></msub><mo>−</mo><msub><mi>z</mi><mi>j</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><msup><mo stretchy="false" form="postfix">}</mo><mrow><mn>1</mn><mi>/</mi><mn>2</mn></mrow></msup><mspace width="2.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+O = \sum_{h=1}^{H} \dfrac{1}{N_{h}^{2}} \{ \sum_{i=1}^{N_{h-1}}  \sum_{j=i+1}^{N_{h}} (z_{i}-z_{j})^{2}\}^{1/2} \qquad (3)
+</annotation></semantics></math></p>
 <p>Obviously, values
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>z</mi><annotation encoding="application/x-tex">z</annotation></semantics></math>
 are not known, but only their predictions
@@ -159,12 +159,12 @@ Gruijter et al.</span> (2016, Eq. 15)</span> show that the model
 expectation of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>z</mi><mi>i</mi></msub><mo>−</mo><msub><mi>z</mi><mi>j</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">(z_{i}-z_{j})^{2}</annotation></semantics></math>,
 conditional on the predictions, is</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>D</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>2</mn></msubsup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mover><mi>z</mi><mo accent="true">̃</mo></mover><mi>i</mi></msub><mo>−</mo><msub><mover><mi>z</mi><mo accent="true">̃</mo></mover><mi>j</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mo>+</mo><mi>V</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>e</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>V</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>e</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mn>2</mn><mi>C</mi><mi>o</mi><mi>v</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>e</mi><mi>i</mi></msub><mo>,</mo><msub><mi>e</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>5</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
-D_{ij}^{2} = (\tilde{z}_{i}-\tilde{z}_{j})^{2} + V(e_{i}) + V(e_{j}) - 2Cov(e_{i},e_{j}) (\#eq:eq5)
-\end{equation}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>D</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>2</mn></msubsup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mover><mi>z</mi><mo accent="true">̃</mo></mover><mi>i</mi></msub><mo>−</mo><msub><mover><mi>z</mi><mo accent="true">̃</mo></mover><mi>j</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mo>+</mo><mi>V</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>e</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>V</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>e</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mn>2</mn><mi>C</mi><mi>o</mi><mi>v</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>e</mi><mi>i</mi></msub><mo>,</mo><msub><mi>e</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mspace width="2.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mn>4</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+D_{ij}^{2} = (\tilde{z}_{i}-\tilde{z}_{j})^{2} + V(e_{i}) + V(e_{j}) - 2Cov(e_{i},e_{j}) \qquad (4)
+</annotation></semantics></math></p>
 <p>that can be substituted to
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>z</mi><mi>i</mi></msub><mo>−</mo><msub><mi>z</mi><mi>j</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">(z_{i}-z_{j})^{2}</annotation></semantics></math>
-in Equations @ref(eq:eq2) and @ref(eq:eq3). The term
+in Equations (2) and (3). The term
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>e</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>V</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>e</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">V(e_{i}) + V(e_{j})</annotation></semantics></math>
 compensates for the <em>levelling</em> (smoothing) effect of the
 predictions, whose variance is smaller than that of the true values. The
@@ -180,8 +180,8 @@ Under the assumptions above this correction is already made by the error
 variances, so that applying both counts the error variance twice:
 averaging over the pairs of units,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mo stretchy="false" form="prefix">(</mo><mover><mi>z</mi><mo accent="true">̃</mo></mover><mo stretchy="false" form="postfix">)</mo><mi>/</mi><msup><mi>R</mi><mn>2</mn></msup><mo>+</mo><mover><mi>V</mi><mo accent="true">‾</mo></mover><mo stretchy="false" form="prefix">(</mo><mi>e</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>V</mi><mi>a</mi><mi>r</mi><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>R</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo><mi>V</mi><mi>a</mi><mi>r</mi><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">Var(\tilde{z})/R^{2} + \bar{V}(e) = Var(z) + (1-R^{2})Var(z)</annotation></semantics></math>.
-From this version on, SamplingStrata uses Equation @ref(eq:eq5) by
-default (parameter <code>fitting = 1</code>). The two corrections are
+From this version on, SamplingStrata uses Equation (4) by default
+(parameter <code>fitting = 1</code>). The two corrections are
 alternatives:</p>
 <ul>
 <li>
@@ -212,13 +212,13 @@ does (when the predictions in a stratum are almost constant, the
 rescaled variance goes to zero, while the error variance remains).</p>
 <p>The covariance between the prediction errors of two distinct units is
 modelled as</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>o</mi><mi>v</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>e</mi><mi>i</mi></msub><mo>,</mo><msub><mi>e</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>ν</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>i</mi></msub><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>j</mi></msub><mspace width="0.167em"></mspace><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>6</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
-Cov(e_{i},e_{j}) = (1-\nu) \, s_{i} \, s_{j} \, \rho(d_{ij}) (\#eq:eq6)
-\end{equation}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>o</mi><mi>v</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>e</mi><mi>i</mi></msub><mo>,</mo><msub><mi>e</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>ν</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>i</mi></msub><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>j</mi></msub><mspace width="0.167em"></mspace><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mspace width="2.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+Cov(e_{i},e_{j}) = (1-\nu) \, s_{i} \, s_{j} \, \rho(d_{ij}) \qquad (5)
+</annotation></semantics></math></p>
 <p>so that</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>D</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>2</mn></msubsup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mover><mi>z</mi><mo accent="true">̃</mo></mover><mi>i</mi></msub><mo>−</mo><msub><mover><mi>z</mi><mo accent="true">̃</mo></mover><mi>j</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mo>+</mo><mo stretchy="false" form="prefix">(</mo><msubsup><mi>s</mi><mi>i</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>s</mi><mi>j</mi><mn>2</mn></msubsup><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mn>2</mn><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>ν</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>i</mi></msub><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>j</mi></msub><mspace width="0.167em"></mspace><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mi>#</mi><mi>e</mi><mi>q</mi><mo>:</mo><mi>e</mi><mi>q</mi><mn>7</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
-D_{ij}^{2} = (\tilde{z}_{i}-\tilde{z}_{j})^{2} + (s_{i}^{2} + s_{j}^{2}) - 2 (1-\nu) \, s_{i} \, s_{j} \, \rho(d_{ij}) (\#eq:eq7)
-\end{equation}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>D</mi><mrow><mi>i</mi><mi>j</mi></mrow><mn>2</mn></msubsup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mover><mi>z</mi><mo accent="true">̃</mo></mover><mi>i</mi></msub><mo>−</mo><msub><mover><mi>z</mi><mo accent="true">̃</mo></mover><mi>j</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mo>+</mo><mo stretchy="false" form="prefix">(</mo><msubsup><mi>s</mi><mi>i</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>s</mi><mi>j</mi><mn>2</mn></msubsup><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mn>2</mn><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>ν</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>i</mi></msub><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>j</mi></msub><mspace width="0.167em"></mspace><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mspace width="2.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mn>6</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+D_{ij}^{2} = (\tilde{z}_{i}-\tilde{z}_{j})^{2} + (s_{i}^{2} + s_{j}^{2}) - 2 (1-\nu) \, s_{i} \, s_{j} \, \rho(d_{ij}) \qquad (6)
+</annotation></semantics></math></p>
 <p>where:</p>
 <ul>
 <li>
@@ -238,7 +238,8 @@ are the variances of the prediction errors in the single points;</li>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><mi>d</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\rho(d)</annotation></semantics></math>
 is the correlation function of the variogram model fitted on the
 prediction errors (parameter <code>vgm_model</code>: exponential,
-spherical or gaussian), as explained in Section @ref(vgm);</li>
+spherical or gaussian), as explained in Section <a href="#vgm">Variogram
+models</a>;</li>
 <li>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
 (parameter <code>range</code>) and
@@ -250,7 +251,8 @@ prediction errors, and are obtained from their variogram;</li>
 (parameter <code>kappa</code>, used by the exponential and gaussian
 models) depends on how the range
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
-is defined, as explained in Section @ref(kappa);</li>
+is defined, as explained in Section <a href="#kappa">Choice of the
+parameter kappa</a>;</li>
 <li>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ν</mi><mo>=</mo><msub><mi>c</mi><mn>0</mn></msub><mi>/</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>c</mi><mn>0</mn></msub><mo>+</mo><msub><mi>c</mi><mn>1</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\nu = c_{0}/(c_{0}+c_{1})</annotation></semantics></math>
 is the <em>relative nugget</em>: the share of the error variance
@@ -265,21 +267,20 @@ unit, by
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>s</mi><mi>i</mi><mn>2</mn></msubsup><annotation encoding="application/x-tex">s_{i}^{2}</annotation></semantics></math>.</li>
 </ul>
 <p>With <code>range = 0</code>, or <code>nugget = 1</code>, there is no
-spatial correlation, and Equation @ref(eq:eq7) reduces to the
-non-spatial case. Since the correlation is non-negative, with
-<code>fitting = 1</code> the spatial component can only reduce the
-variance in the strata.</p>
+spatial correlation, and Equation (6) reduces to the non-spatial case.
+Since the correlation is non-negative, with <code>fitting = 1</code> the
+spatial component can only reduce the variance in the strata.</p>
 <div class="section level3">
 <h3 id="vgm">Variogram models<a class="anchor" aria-label="anchor" href="#vgm"></a>
 </h3>
 <p>The correlation function
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><mi>d</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\rho(d)</annotation></semantics></math>
-in Equation @ref(eq:eq6) must be coherent with the model of the
-variogram fitted on the prediction errors. The parameter
-<code>vgm_model</code> of <em>optimStrata</em> (and of
-<em>optimizeStrataSpatial</em>, <em>KmeansSolutionSpatial</em>,
-<em>buildStrataDFSpatial</em> and <em>aggrStrataSpatial</em>) selects
-one of the most commonly used models:</p>
+in Equation (5) must be coherent with the model of the variogram fitted
+on the prediction errors. The parameter <code>vgm_model</code> of
+<em>optimStrata</em> (and of <em>optimizeStrataSpatial</em>,
+<em>KmeansSolutionSpatial</em>, <em>buildStrataDFSpatial</em> and
+<em>aggrStrataSpatial</em>) selects one of the most commonly used
+models:</p>
 <table class="table">
 <colgroup>
 <col width="33%">
@@ -458,7 +459,7 @@ zero and not informative about the prediction error. When the variances
 vary much across the units, the variogram should be computed on the
 standardised residuals
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>z</mi><mi>i</mi></msub><mo>−</mo><msub><mover><mi>z</mi><mo accent="true">̃</mo></mover><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo><mi>/</mi><msub><mi>s</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">(z_{i}-\tilde{z}_{i})/s_{i}</annotation></semantics></math>,
-whose structure is the one assumed in Equation @ref(eq:eq6).</p>
+whose structure is the one assumed in Equation (5).</p>
 <p>To summarize, when frame units can be geo-referenced, the proposed
 procedure is the following:</p>
 <ul>
@@ -602,7 +603,7 @@ two variograms (<code>fitting</code> is omitted, i.e. equal to 1):</p>
 <span>  method <span class="op">=</span> <span class="st">"spatial"</span>,</span>
 <span>  errors<span class="op">=</span><span class="va">cv</span>, </span>
 <span>  framesamp<span class="op">=</span><span class="va">frame</span>,</span>
-<span>  iter <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  iter <span class="op">=</span> <span class="fl">25</span>,</span>
 <span>  pops <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  nStrata <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">range_lead</span>, <span class="va">range_zinc</span><span class="op">)</span>,</span>
@@ -617,17 +618,17 @@ two variograms (<code>fitting</code> is omitted, i.e. equal to 1):</p>
 <span><span class="co">## </span></span>
 <span><span class="co">##  *** Domain :  1   1</span></span>
 <span><span class="co">##  Number of strata :  3103</span></span>
-<span><span class="co">##  *** Sample cost:  74.02485</span></span>
-<span><span class="co">##  *** Number of strata:  4</span></span></code></pre>
+<span><span class="co">##  *** Sample cost:  68.56499</span></span>
+<span><span class="co">##  *** Number of strata:  5</span></span></code></pre>
 <p><img src="fig/spatial-unnamed-chunk-7-1.png"></p>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">##  *** Sample size :  73</span></span>
-<span><span class="co">##  *** Number of strata :  4</span></span>
+<span><span class="co">##  *** Sample size :  69</span></span>
+<span><span class="co">##  *** Number of strata :  5</span></span>
 <span><span class="co">## ---------------------------</span></span></code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">solution_exp</span><span class="op">$</span><span class="va">aggr_strata</span><span class="op">$</span><span class="va">SOLUZ</span><span class="op">)</span></span>
 <span><span class="va">n_exp</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 74.02485</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 68.56499</span></span></code></pre>
 <div class="section level3">
 <h3 id="comparison-with-a-spherical-variogram">Comparison with a spherical variogram<a class="anchor" aria-label="anchor" href="#comparison-with-a-spherical-variogram"></a>
 </h3>
@@ -636,7 +637,8 @@ of the model affects both the frame, because the kriging predictions and
 their error variances depend on the variogram, and the correlation
 function
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><mi>d</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\rho(d)</annotation></semantics></math>
-used in the optimization (Section @ref(vgm)):</p>
+used in the optimization (Section <a href="#vgm">Variogram
+models</a>):</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kriging_lead_sph</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/automap/man/autoKrige.html" class="external-link">autoKrige</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">lead</span><span class="op">)</span> <span class="op">~</span> <span class="va">dist</span>, <span class="va">meuse</span>, <span class="va">meuse.grid</span>, model <span class="op">=</span> <span class="st">"Sph"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [using universal kriging]</span></span></code></pre>
@@ -682,7 +684,7 @@ the same seed and the same parameters of the genetic algorithm:</p>
 <span>  method <span class="op">=</span> <span class="st">"spatial"</span>,</span>
 <span>  errors<span class="op">=</span><span class="va">cv</span>, </span>
 <span>  framesamp<span class="op">=</span><span class="va">frame_sph</span>,</span>
-<span>  iter <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  iter <span class="op">=</span> <span class="fl">25</span>,</span>
 <span>  pops <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  nStrata <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">range_lead_sph</span>, <span class="va">range_zinc_sph</span><span class="op">)</span>,</span>
@@ -696,66 +698,41 @@ the same seed and the same parameters of the genetic algorithm:</p>
 <span><span class="co">## </span></span>
 <span><span class="co">##  *** Domain :  1   1</span></span>
 <span><span class="co">##  Number of strata :  3103</span></span>
-<span><span class="co">##  *** Sample cost:  101.6757</span></span>
-<span><span class="co">##  *** Number of strata:  2</span></span></code></pre>
+<span><span class="co">##  *** Sample cost:  68.97252</span></span>
+<span><span class="co">##  *** Number of strata:  5</span></span></code></pre>
 <p><img src="fig/spatial-unnamed-chunk-9-1.png"></p>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">##  *** Sample size :  102</span></span>
-<span><span class="co">##  *** Number of strata :  2</span></span>
+<span><span class="co">##  *** Sample size :  69</span></span>
+<span><span class="co">##  *** Number of strata :  5</span></span>
 <span><span class="co">## ---------------------------</span></span></code></pre>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_sph</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">solution_sph</span><span class="op">$</span><span class="va">aggr_strata</span><span class="op">$</span><span class="va">SOLUZ</span><span class="op">)</span></span></code></pre></div>
-<p>The two solutions can be compared in terms of sample size. The table
-also reports the error sum of squares of the fit of the two variograms
-(<code>sserr</code>, as given by <em>autoKrige</em>):</p>
+<p>The two solutions can be compared in terms of sample size and number
+of strata. The table also reports the error sum of squares of the fit of
+the two variograms (<code>sserr</code>, as given by
+<em>autoKrige</em>):</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>variogram <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"exponential"</span>, <span class="st">"spherical"</span><span class="op">)</span>,</span>
 <span>           sample_size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">n_exp</span>, <span class="va">n_sph</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>           sserr_lead <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">kriging_lead</span><span class="op">$</span><span class="va">sserr</span>, <span class="va">kriging_lead_sph</span><span class="op">$</span><span class="va">sserr</span><span class="op">)</span>,</span>
 <span>           sserr_zinc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">kriging_zinc</span><span class="op">$</span><span class="va">sserr</span>, <span class="va">kriging_zinc_sph</span><span class="op">$</span><span class="va">sserr</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     variogram sample_size   sserr_lead   sserr_zinc</span></span>
-<span><span class="co">## 1 exponential        74.0 2.393262e-05 6.346710e-06</span></span>
-<span><span class="co">## 2   spherical       101.7 1.868241e-05 5.907235e-06</span></span></code></pre>
-<p>The genetic algorithm is a stochastic procedure, and with few
-iterations the sample size of the final solution varies from run to run:
-in this example, with different seeds, the variation can be larger than
-the difference between the two models. To separate the effect of the
-variogram model from the randomness of the algorithm, the strata of each
-solution can be evaluated under both models, i.e. computing the Bethel
-sample size of the same strata with the frame and the variogram
-parameters of each model:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">evalStrata</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">solution</span>, <span class="va">frame</span>, <span class="va">range</span>, <span class="va">nugget</span>, <span class="va">kappa</span>, <span class="va">vgm_model</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">f</span> <span class="op">&lt;-</span> <span class="va">frame</span></span>
-<span>  <span class="va">f</span><span class="op">$</span><span class="va">X1</span> <span class="op">&lt;-</span> <span class="va">solution</span><span class="op">$</span><span class="va">framenew</span><span class="op">$</span><span class="va">LABEL</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="va">f</span><span class="op">$</span><span class="va">id</span>, <span class="va">solution</span><span class="op">$</span><span class="va">framenew</span><span class="op">$</span><span class="va">ID</span><span class="op">)</span><span class="op">]</span></span>
-<span>  <span class="va">f</span><span class="op">$</span><span class="va">X2</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
-<span>  <span class="va">strata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/buildStrataDFSpatial.html">buildStrataDFSpatial</a></span><span class="op">(</span><span class="va">f</span>, range <span class="op">=</span> <span class="va">range</span>, nugget <span class="op">=</span> <span class="va">nugget</span>,</span>
-<span>                                 kappa <span class="op">=</span> <span class="va">kappa</span>, vgm_model <span class="op">=</span> <span class="va">vgm_model</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="../reference/bethel.html">bethel</a></span><span class="op">(</span><span class="va">strata</span>, <span class="va">cv</span>, minnumstrat <span class="op">=</span> <span class="fl">2</span>, realAllocation <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span><span class="va">cross</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>exponential <span class="op">=</span> <span class="va">solution_exp</span>, spherical <span class="op">=</span> <span class="va">solution_sph</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">sol</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>exponential <span class="op">=</span> <span class="fu">evalStrata</span><span class="op">(</span><span class="va">sol</span>, <span class="va">frame</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">range_lead</span>, <span class="va">range_zinc</span><span class="op">)</span>,</span>
-<span>                             <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nugget_lead</span>, <span class="va">nugget_zinc</span><span class="op">)</span>, <span class="fl">1</span>, <span class="st">"exponential"</span><span class="op">)</span>,</span>
-<span>    spherical   <span class="op">=</span> <span class="fu">evalStrata</span><span class="op">(</span><span class="va">sol</span>, <span class="va">frame_sph</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">range_lead_sph</span>, <span class="va">range_zinc_sph</span><span class="op">)</span>,</span>
-<span>                             <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nugget_lead_sph</span>, <span class="va">nugget_zinc_sph</span><span class="op">)</span>, <span class="fl">1</span>, <span class="st">"spherical"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">cross</span>, <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##             exponential spherical</span></span>
-<span><span class="co">## exponential        74.0     100.0</span></span>
-<span><span class="co">## spherical          76.7     101.7</span></span></code></pre>
-<p>The columns are the strata (of the exponential and of the spherical
-solution), the rows the model under which they are evaluated; the
-diagonal reproduces the sample sizes found by the genetic algorithm.</p>
-<p>The sample is then selected from the solution with the smaller sample
+<span><span class="co">## 1 exponential        68.6 2.393262e-05 6.346710e-06</span></span>
+<span><span class="co">## 2   spherical        69.0 1.868241e-05 5.907235e-06</span></span></code></pre>
+<p>In this example the two variogram models lead to practically the same
+sample size (about 69 units, with 5 strata in both cases): the design is
+not sensitive to the choice between the exponential and the spherical
+model. The sample is selected from the solution with the smaller sample
 size:</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">best</span> <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="va">n_sph</span> <span class="op">&lt;</span> <span class="va">n_exp</span><span class="op">)</span> <span class="st">"spherical"</span> <span class="kw">else</span> <span class="st">"exponential"</span></span>
 <span><span class="va">best</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "exponential"</span></span></code></pre>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="va">best</span> <span class="op">==</span> <span class="st">"spherical"</span><span class="op">)</span> <span class="va">solution_sph</span> <span class="kw">else</span> <span class="va">solution_exp</span></span>
 <span><span class="va">framenew</span> <span class="op">&lt;-</span> <span class="va">solution</span><span class="op">$</span><span class="va">framenew</span></span>
 <span><span class="va">outstrata</span> <span class="op">&lt;-</span> <span class="va">solution</span><span class="op">$</span><span class="va">aggr_strata</span></span></code></pre></div>
-<p>Note that the sample size is not a criterion for the choice of the
+<p>In general, the sample size is not a criterion for the choice of the
 variogram model: a model that implies a stronger spatial correlation of
 the errors gives smaller samples, and if it is not supported by the data
 the precision constraints may not be met. The model should be chosen on
@@ -764,7 +741,7 @@ instance <code>sserr</code>, or the cross-validation of the kriging
 model); the comparison of the sample sizes shows how sensitive the
 design is to this choice.</p>
 <p>The optimized strata of the selected solution are the following:</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotStrata2d.html">plotStrata2d</a></span><span class="op">(</span><span class="va">framenew</span>,<span class="va">outstrata</span>,domain<span class="op">=</span><span class="fl">1</span>,vars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X1"</span>,<span class="st">"X2"</span><span class="op">)</span>,</span>
 <span>             labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Lead"</span>,<span class="st">"Zinc"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <img src="fig/spatial-unnamed-chunk-13-1.png"><table class="table table table-condensed">
@@ -794,19 +771,19 @@ Bounds Zinc
 1
 </td>
 <td style="text-align:right;">
-640
+362
 </td>
 <td style="text-align:right;">
-15
+8
 </td>
 <td style="text-align:right;">
-0.02391147
+0.02162891
 </td>
 <td style="text-align:right;">
-3.33446915108525-4.13738690940447
+3.33446915108525-3.97830766572185
 </td>
 <td style="text-align:right;">
-4.12033872416343-5.2713411342773
+4.12033872416343-5.08197020395773
 </td>
 </tr>
 <tr>
@@ -814,19 +791,19 @@ Bounds Zinc
 2
 </td>
 <td style="text-align:right;">
-1026
+912
 </td>
 <td style="text-align:right;">
-23
+20
 </td>
 <td style="text-align:right;">
-0.02269205
+0.02170874
 </td>
 <td style="text-align:right;">
-4.13974545919354-4.8362961282017
+3.98078882695963-4.66295403226958
 </td>
 <td style="text-align:right;">
-5.03250124172821-5.659847980331
+4.89922567263803-5.41039990204222
 </td>
 </tr>
 <tr>
@@ -834,19 +811,19 @@ Bounds Zinc
 3
 </td>
 <td style="text-align:right;">
-758
+601
 </td>
 <td style="text-align:right;">
-18
+13
 </td>
 <td style="text-align:right;">
-0.02399414
+0.02134833
 </td>
 <td style="text-align:right;">
-4.47910444164607-5.31840588061593
+4.27306127281303-4.90590922328998
 </td>
 <td style="text-align:right;">
-5.63074371272401-6.27445923668798
+5.41215085205571-5.83650053811594
 </td>
 </tr>
 <tr>
@@ -854,25 +831,45 @@ Bounds Zinc
 4
 </td>
 <td style="text-align:right;">
-679
+659
 </td>
 <td style="text-align:right;">
-17
+15
 </td>
 <td style="text-align:right;">
-0.02540783
+0.02243168
 </td>
 <td style="text-align:right;">
-4.86913230697994-6.24785534081567
+4.62875272328487-5.23475059497162
 </td>
 <td style="text-align:right;">
-6.27536305596635-7.39610824963638
+5.78500337127683-6.53159656178355
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+569
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+0.02341675
+</td>
+<td style="text-align:right;">
+5.02491543543029-6.24785534081567
+</td>
+<td style="text-align:right;">
+6.20543959804885-7.39610824963638
 </td>
 </tr>
 </tbody>
 </table>
 <p>that can be visualised in this way:</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">frameres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPoints.html" class="external-link">SpatialPointsDataFrame</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">framenew</span>, coords<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">framenew</span><span class="op">$</span><span class="va">LON</span>,<span class="va">framenew</span><span class="op">$</span><span class="va">LAT</span><span class="op">)</span> <span class="op">)</span></span>
 <span><span class="va">frameres2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialGridDataFrame.html" class="external-link">SpatialPixelsDataFrame</a></span><span class="op">(</span>points<span class="op">=</span><span class="va">frameres</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LON"</span>,<span class="st">"LAT"</span><span class="op">)</span><span class="op">]</span>, data<span class="op">=</span><span class="va">framenew</span><span class="op">)</span></span>
 <span><span class="va">frameres2</span><span class="op">$</span><span class="va">LABEL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">frameres2</span><span class="op">$</span><span class="va">LABEL</span><span class="op">)</span></span>
@@ -882,14 +879,14 @@ Bounds Zinc
 function ‘selectSampleSpatial’ (which is a wrapper of function
 ‘lpm2_kdtree’ in package ‘SamplingBigData’, see <span class="citation">Lisic and Grafström (2018)</span>), in order to ensure
 a spatially balanced sample:</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/selectSampleSpatial.html">selectSampleSpatial</a></span><span class="op">(</span><span class="va">framenew</span>,<span class="va">outstrata</span>,coord_names<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LON"</span>,<span class="st">"LAT"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## *** Sample has been drawn successfully ***</span></span>
-<span><span class="co">##  73  units have been selected from  4  strata</span></span></code></pre>
+<span><span class="co">##  69  units have been selected from  5  strata</span></span></code></pre>
 <p>whose units are so distributed in the territory (sampled points in
 white, over the optimized strata):</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">samp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPoints.html" class="external-link">SpatialPointsDataFrame</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">s</span>, coords<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">s</span><span class="op">$</span><span class="va">LON</span>,<span class="va">s</span><span class="op">$</span><span class="va">LAT</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://edzer.github.io/sp/reference/spplot.html" class="external-link">spplot</a></span><span class="op">(</span><span class="va">frameres2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LABEL"</span><span class="op">)</span>, col.regions<span class="op">=</span><span class="fu"><a href="https://edzer.github.io/sp/reference/bpy.colors.html" class="external-link">bpy.colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nlevels.html" class="external-link">nlevels</a></span><span class="op">(</span><span class="va">frameres2</span><span class="op">$</span><span class="va">LABEL</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>       sp.layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"sp.points"</span>, <span class="va">samp</span>, pch<span class="op">=</span><span class="fl">21</span>, col<span class="op">=</span><span class="st">"black"</span>, fill<span class="op">=</span><span class="st">"white"</span>, cex<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -897,7 +894,7 @@ white, over the optimized strata):</p>
 <p>In an interactive R session, the selected units can also be displayed
 on an OpenStreetMap background with the package <em>mapview</em> (the
 Meuse coordinates are in the Dutch national grid, EPSG:28992):</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/mapview" class="external-link">mapview</a></span><span class="op">)</span></span>
 <span><span class="va">s_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">s</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LON"</span>,<span class="st">"LAT"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">28992</span><span class="op">)</span></span>
