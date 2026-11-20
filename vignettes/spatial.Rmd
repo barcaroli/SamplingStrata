@@ -287,12 +287,12 @@ To this aim, we carry out the optimization step by indicating the method *spatia
 
 
 ``` r
-set.seed(5678)
+set.seed(1234)
 solution_exp <- optimStrata (
   method = "spatial",
   errors=cv, 
   framesamp=frame,
-  iter = 50,
+  iter = 25,
   pops = 10,
   nStrata = 5,
   range = c(range_lead, range_zinc),
@@ -310,16 +310,16 @@ solution_exp <- optimStrata (
 ## 
 ##  *** Domain :  1   1
 ##  Number of strata :  3103
-##  *** Sample cost:  80.1308
-##  *** Number of strata:  3
+##  *** Sample cost:  68.56499
+##  *** Number of strata:  5
 ```
 
 ![](fig/spatial-unnamed-chunk-7-1.png)
 
 ```
 ## 
-##  *** Sample size :  80
-##  *** Number of strata :  3
+##  *** Sample size :  69
+##  *** Number of strata :  5
 ## ---------------------------
 ```
 
@@ -329,7 +329,7 @@ n_exp
 ```
 
 ```
-## [1] 80.1308
+## [1] 68.56499
 ```
 
 ## Comparison with a spherical variogram
@@ -402,7 +402,7 @@ solution_sph <- optimStrata (
   method = "spatial",
   errors=cv, 
   framesamp=frame_sph,
-  iter = 50,
+  iter = 25,
   pops = 10,
   nStrata = 5,
   range = c(range_lead_sph, range_zinc_sph),
@@ -419,16 +419,16 @@ solution_sph <- optimStrata (
 ## 
 ##  *** Domain :  1   1
 ##  Number of strata :  3103
-##  *** Sample cost:  101.6757
-##  *** Number of strata:  2
+##  *** Sample cost:  68.97252
+##  *** Number of strata:  5
 ```
 
 ![](fig/spatial-unnamed-chunk-9-1.png)
 
 ```
 ## 
-##  *** Sample size :  102
-##  *** Number of strata :  2
+##  *** Sample size :  69
+##  *** Number of strata :  5
 ## ---------------------------
 ```
 
@@ -436,7 +436,7 @@ solution_sph <- optimStrata (
 n_sph <- sum(solution_sph$aggr_strata$SOLUZ)
 ```
 
-The two solutions can be compared in terms of sample size. The table also reports the error sum of squares of the fit of the two variograms (`sserr`, as given by *autoKrige*):
+The two solutions can be compared in terms of sample size and number of strata. The table also reports the error sum of squares of the fit of the two variograms (`sserr`, as given by *autoKrige*):
 
 
 ``` r
@@ -448,39 +448,11 @@ data.frame(variogram = c("exponential", "spherical"),
 
 ```
 ##     variogram sample_size   sserr_lead   sserr_zinc
-## 1 exponential        80.1 2.393262e-05 6.346710e-06
-## 2   spherical       101.7 1.868241e-05 5.907235e-06
+## 1 exponential        68.6 2.393262e-05 6.346710e-06
+## 2   spherical        69.0 1.868241e-05 5.907235e-06
 ```
 
-The genetic algorithm is a stochastic procedure, and with few iterations the sample size of the final solution varies from run to run: in this example, with different seeds, the variation can be larger than the difference between the two models. To separate the effect of the variogram model from the randomness of the algorithm, the strata of each solution can be evaluated under both models, i.e. computing the Bethel sample size of the same strata with the frame and the variogram parameters of each model:
-
-
-``` r
-evalStrata <- function(solution, frame, range, nugget, kappa, vgm_model) {
-  f <- frame
-  f$X1 <- solution$framenew$LABEL[match(f$id, solution$framenew$ID)]
-  f$X2 <- NULL
-  strata <- buildStrataDFSpatial(f, range = range, nugget = nugget,
-                                 kappa = kappa, vgm_model = vgm_model)
-  sum(bethel(strata, cv, minnumstrat = 2, realAllocation = TRUE))
-}
-cross <- sapply(list(exponential = solution_exp, spherical = solution_sph), function(sol)
-  c(exponential = evalStrata(sol, frame, c(range_lead, range_zinc),
-                             c(nugget_lead, nugget_zinc), 1, "exponential"),
-    spherical   = evalStrata(sol, frame_sph, c(range_lead_sph, range_zinc_sph),
-                             c(nugget_lead_sph, nugget_zinc_sph), 1, "spherical")))
-round(cross, 1)
-```
-
-```
-##             exponential spherical
-## exponential        80.1     100.0
-## spherical          82.7     101.7
-```
-
-The columns are the strata (of the exponential and of the spherical solution), the rows the model under which they are evaluated; the diagonal reproduces the sample sizes found by the genetic algorithm.
-
-The sample is then selected from the solution with the smaller sample size:
+In this example the two variogram models lead to practically the same sample size (about 69 units, with 5 strata in both cases): the design is not sensitive to the choice between the exponential and the spherical model. The sample is selected from the solution with the smaller sample size:
 
 
 ``` r
@@ -498,7 +470,7 @@ framenew <- solution$framenew
 outstrata <- solution$aggr_strata
 ```
 
-Note that the sample size is not a criterion for the choice of the variogram model: a model that implies a stronger spatial correlation of the errors gives smaller samples, and if it is not supported by the data the precision constraints may not be met. The model should be chosen on the basis of the fit of the variogram of the prediction errors (for instance `sserr`, or the cross-validation of the kriging model); the comparison of the sample sizes shows how sensitive the design is to this choice.
+In general, the sample size is not a criterion for the choice of the variogram model: a model that implies a stronger spatial correlation of the errors gives smaller samples, and if it is not supported by the data the precision constraints may not be met. The model should be chosen on the basis of the fit of the variogram of the prediction errors (for instance `sserr`, or the cross-validation of the kriging model); the comparison of the sample sizes shows how sensitive the design is to this choice.
 
 The optimized strata of the selected solution are the following:
 
@@ -523,27 +495,43 @@ plotStrata2d(framenew,outstrata,domain=1,vars=c("X1","X2"),
 <tbody>
   <tr>
    <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1220 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:right;"> 0.02627483 </td>
-   <td style="text-align:right;"> 3.33446915108525-4.3902247555829 </td>
-   <td style="text-align:right;"> 4.12033872416343-5.54051993713092 </td>
+   <td style="text-align:right;"> 362 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 0.02162891 </td>
+   <td style="text-align:right;"> 3.33446915108525-3.97830766572185 </td>
+   <td style="text-align:right;"> 4.12033872416343-5.08197020395773 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 1031 </td>
-   <td style="text-align:right;"> 25 </td>
-   <td style="text-align:right;"> 0.02468633 </td>
-   <td style="text-align:right;"> 4.38747967918019-5.0276433756792 </td>
-   <td style="text-align:right;"> 5.11182909926476-6.54455526051302 </td>
+   <td style="text-align:right;"> 912 </td>
+   <td style="text-align:right;"> 20 </td>
+   <td style="text-align:right;"> 0.02170874 </td>
+   <td style="text-align:right;"> 3.98078882695963-4.66295403226958 </td>
+   <td style="text-align:right;"> 4.89922567263803-5.41039990204222 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 852 </td>
-   <td style="text-align:right;"> 23 </td>
-   <td style="text-align:right;"> 0.02655388 </td>
-   <td style="text-align:right;"> 5.03085330228838-6.24785534081567 </td>
-   <td style="text-align:right;"> 5.93004624781261-7.39610824963638 </td>
+   <td style="text-align:right;"> 601 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 0.02134833 </td>
+   <td style="text-align:right;"> 4.27306127281303-4.90590922328998 </td>
+   <td style="text-align:right;"> 5.41215085205571-5.83650053811594 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 659 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 0.02243168 </td>
+   <td style="text-align:right;"> 4.62875272328487-5.23475059497162 </td>
+   <td style="text-align:right;"> 5.78500337127683-6.53159656178355 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 569 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 0.02341675 </td>
+   <td style="text-align:right;"> 5.02491543543029-6.24785534081567 </td>
+   <td style="text-align:right;"> 6.20543959804885-7.39610824963638 </td>
   </tr>
 </tbody>
 </table>
@@ -570,7 +558,7 @@ s <- selectSampleSpatial(framenew,outstrata,coord_names=c("LON","LAT"))
 ```
 ## 
 ## *** Sample has been drawn successfully ***
-##  80  units have been selected from  3  strata
+##  69  units have been selected from  5  strata
 ```
 
 whose units are so distributed in the territory (sampled points in white, over the optimized strata):

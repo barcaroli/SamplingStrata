@@ -231,12 +231,12 @@ cv <- as.data.frame(list(DOM=rep("DOM1",1),
 To this aim, we carry out the optimization step by indicating the method *spatial*, with the range and the relative nugget of the two variograms (`fitting` is omitted, i.e. equal to 1):
 
 ```{r, eval = T,echo=TRUE, message=FALSE, warning=FALSE}
-set.seed(5678)
+set.seed(1234)
 solution_exp <- optimStrata (
   method = "spatial",
   errors=cv, 
   framesamp=frame,
-  iter = 50,
+  iter = 25,
   pops = 10,
   nStrata = 5,
   range = c(range_lead, range_zinc),
@@ -286,7 +286,7 @@ solution_sph <- optimStrata (
   method = "spatial",
   errors=cv, 
   framesamp=frame_sph,
-  iter = 50,
+  iter = 25,
   pops = 10,
   nStrata = 5,
   range = c(range_lead_sph, range_zinc_sph),
@@ -298,37 +298,17 @@ solution_sph <- optimStrata (
 n_sph <- sum(solution_sph$aggr_strata$SOLUZ)
 ```
 
-The two solutions can be compared in terms of sample size. The table also reports the error sum of squares of the fit of the two variograms (`sserr`, as given by *autoKrige*):
+The two solutions can be compared in terms of sample size and number of strata. The table also reports the error sum of squares of the fit of the two variograms (`sserr`, as given by *autoKrige*):
 
 ```{r, eval = T,echo=TRUE}
 data.frame(variogram = c("exponential", "spherical"),
            sample_size = round(c(n_exp, n_sph), 1),
+           strata = c(nrow(solution_exp$aggr_strata), nrow(solution_sph$aggr_strata)),
            sserr_lead = c(kriging_lead$sserr, kriging_lead_sph$sserr),
            sserr_zinc = c(kriging_zinc$sserr, kriging_zinc_sph$sserr))
 ```
 
-The genetic algorithm is a stochastic procedure, and the sample size of the final solution can vary from run to run, all the more with few iterations and a small population. To separate the effect of the variogram model from the randomness of the algorithm, the strata of each solution can be evaluated under both models, i.e. computing the Bethel sample size of the same strata with the frame and the variogram parameters of each model:
-
-```{r, eval = T,echo=TRUE}
-evalStrata <- function(solution, frame, range, nugget, kappa, vgm_model) {
-  f <- frame
-  f$X1 <- solution$framenew$LABEL[match(f$id, solution$framenew$ID)]
-  f$X2 <- NULL
-  strata <- buildStrataDFSpatial(f, range = range, nugget = nugget,
-                                 kappa = kappa, vgm_model = vgm_model)
-  sum(bethel(strata, cv, minnumstrat = 2, realAllocation = TRUE))
-}
-cross <- sapply(list(exponential = solution_exp, spherical = solution_sph), function(sol)
-  c(exponential = evalStrata(sol, frame, c(range_lead, range_zinc),
-                             c(nugget_lead, nugget_zinc), 1, "exponential"),
-    spherical   = evalStrata(sol, frame_sph, c(range_lead_sph, range_zinc_sph),
-                             c(nugget_lead_sph, nugget_zinc_sph), 1, "spherical")))
-round(cross, 1)
-```
-
-The columns are the strata (of the exponential and of the spherical solution), the rows the model under which they are evaluated; the diagonal reproduces the sample sizes found by the genetic algorithm.
-
-The sample is then selected from the solution with the smaller sample size:
+In this example the two variogram models lead to practically the same sample size (about 69 units, with 5 strata in both cases): the design is not sensitive to the choice between the exponential and the spherical model. The sample is selected from the solution with the smaller sample size:
 
 ```{r, eval = T,echo=TRUE}
 best <- if (n_sph < n_exp) "spherical" else "exponential"
@@ -338,7 +318,7 @@ framenew <- solution$framenew
 outstrata <- solution$aggr_strata
 ```
 
-Note that the sample size is not a criterion for the choice of the variogram model: a model that implies a stronger spatial correlation of the errors gives smaller samples, and if it is not supported by the data the precision constraints may not be met. The model should be chosen on the basis of the fit of the variogram of the prediction errors (for instance `sserr`, or the cross-validation of the kriging model); the comparison of the sample sizes shows how sensitive the design is to this choice.
+In general, the sample size is not a criterion for the choice of the variogram model: a model that implies a stronger spatial correlation of the errors gives smaller samples, and if it is not supported by the data the precision constraints may not be met. The model should be chosen on the basis of the fit of the variogram of the prediction errors (for instance `sserr`, or the cross-validation of the kriging model); the comparison of the sample sizes shows how sensitive the design is to this choice.
 
 The optimized strata of the selected solution are the following:
 

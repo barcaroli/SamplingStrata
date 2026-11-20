@@ -1,7 +1,7 @@
 ---
 title: "Use of models in SamplingStrata"
 author: "Marco Ballin, Giulio Barcaroli"
-date: "2026-11-19"
+date: "2026-11-20"
 # output: rmarkdown::html_vignette
 output: 
   bookdown::html_document2:
@@ -335,7 +335,7 @@ solution <- optimStrata(
 ## -------------------------------------------------------
 ##  *** Domain :  1
 ##  Number of strata :  2896
-##  *** Sample cost:  295.1979
+##  *** Sample cost:  314.7964
 ##  *** Number of strata:  5
 ```
 
@@ -343,7 +343,7 @@ solution <- optimStrata(
 
 ```
 ## 
-##  *** Sample size :  296
+##  *** Sample size :  314
 ##  *** Number of strata :  5
 ## ---------------------------
 ```
@@ -363,8 +363,8 @@ results$coeff_var
 ```
 
 ```
-##      CV1    CV2    CV3    CV4  dom
-## 1 0.0369 0.0241 0.0352 0.0366 DOM1
+##      CV1    CV2    CV3   CV4  dom
+## 1 0.0397 0.0245 0.0364 0.039 DOM1
 ```
 
 The first two CVs pertain to the proxy available variables, namely *total population* and *total area*, while the last two
@@ -396,7 +396,7 @@ solution <- optimStrata(
 ## -------------------------------------------------------
 ##  *** Domain :  1
 ##  Number of strata :  2896
-##  *** Sample cost:  151.9848
+##  *** Sample cost:  206.2931
 ##  *** Number of strata:  5
 ```
 
@@ -404,7 +404,7 @@ solution <- optimStrata(
 
 ```
 ## 
-##  *** Sample size :  152
+##  *** Sample size :  206
 ##  *** Number of strata :  5
 ## ---------------------------
 ```
@@ -424,8 +424,8 @@ results$coeff_var
 ```
 
 ```
-##      CV1    CV2    CV3    CV4  dom
-## 1 0.0501 0.0491 0.0502 0.0686 DOM1
+##      CV1  CV2    CV3    CV4  dom
+## 1 0.0486 0.05 0.0476 0.0716 DOM1
 ```
 
 Norwithstanding the non inclusion of the models in the optimization step, the CV related to *buildings area* is still inside the limit of the 5%: this is most likely due to the high correlation between *buildings area* and *total population*. While the lower correlation between the *total area* and *woods area* determines the non compliance of the expected CV of *woods area* that was instead guaranted using the related model.
