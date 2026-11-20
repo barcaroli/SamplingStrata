@@ -97,6 +97,10 @@
 #'   but a slower convergence, while low values permit a faster convergence, but the final solution can be
 #'   distant from the optimal one. Default is NA, in correspondence of which it is computed as 1/(vars+1)
 #'   where vars is the length of elements in the solution.
+#' @param mut_factor Mutation factor (used only by the "continuous" and "spatial" methods): a mutated
+#'   gene (a cut point, encoded in [0, 1] on the range of the stratification variable) is multiplied by
+#'   (1 + mut_factor) or (1 - mut_factor), with equal probability. Small values allow a fine local
+#'   search around the current boundaries. Default is 0.05 (in previous versions it was fixed to 0.5).
 #' @param elitism_rate This  parameter indicates the rate of better solutions that must be preserved from one generation
 #'   to another. Default is 0.2 (20\%).
 #' @param highvalue Parameter for genetic algorithm. In should not be changed
@@ -199,6 +203,7 @@ optimizeStrataSpatial <- function (errors,
                                    iter = 50, 
                                    pops = 20, 
                                    mut_chance = NA, 
+                                   mut_factor = 0.05, 
                                    elitism_rate = 0.2, 
                                    highvalue = 1e+08, 
                                    suggestions = NULL, 
@@ -431,7 +436,7 @@ optimizeStrataSpatial <- function (errors,
                                                              ncuts = (nStrata[i] - 1), dominio = i,
                                                              minnumstr, iter, pops, mut_chance, elitism_rate,
                                                              suggestions = suggest, realAllocation,
-                                                             writeFiles, showPlot)
+                                                             writeFiles, showPlot, mut_factor = mut_factor)
                                 rbga.results <- solut[[3]]
                                 if (nrow(stcamp[[i]]) == 1) {
                                   solut <- list(c(1), stcamp[[i]][c(1:grep("DOMAINVALUE", 
@@ -526,7 +531,7 @@ optimizeStrataSpatial <- function (errors,
                                        nugget = nug_i, vgm_model = vgm_i,
                                        ncuts = (nStrata[i] - 1), dominio = i, minnumstr,
                                        iter, pops, mut_chance, elitism_rate, suggestions = suggest,
-                                       realAllocation, writeFiles, showPlot)
+                                       realAllocation, writeFiles, showPlot, mut_factor = mut_factor)
           if (nrow(stcamp[[i]]) == 1) {
             solut <- list(c(1), stcamp[[i]][c(1:grep("DOMAINVALUE", 
                                                      colnames(stcamp[[i]])))])
@@ -596,7 +601,7 @@ optimizeStrataSpatial <- function (errors,
                                  range = rng_i, kappa = kappa, nugget = nug_i, vgm_model = vgm_i, ncuts = (nStrata[i] -
                                                                           1), dominio = i, minnumstr, iter, pops, mut_chance,
                                  elitism_rate, suggestions = suggest, realAllocation,
-                                 writeFiles, showPlot)
+                                 writeFiles, showPlot, mut_factor = mut_factor)
     vettsol <- solut[[1]]
     outstrata <- solut[[2]]
     rbga.object <- solut[[3]]

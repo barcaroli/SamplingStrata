@@ -40,6 +40,10 @@
 #'   but a slower convergence, while low values permit a faster convergence, but the final solution can be
 #'   distant from the optimal one. Default is NA, in correspondence of which it is computed as 1/(vars+1)
 #'   where vars is the length of elements in the solution.
+#' @param mut_factor Mutation factor (used only by the "continuous" and "spatial" methods): a mutated
+#'   gene (a cut point, encoded in [0, 1] on the range of the stratification variable) is multiplied by
+#'   (1 + mut_factor) or (1 - mut_factor), with equal probability. Small values allow a fine local
+#'   search around the current boundaries. Default is 0.05 (in previous versions it was fixed to 0.5).
 #' @param elitism_rate This  parameter indicates the rate of better solutions that must be preserved from one generation
 #'   to another. Default is 0.2 (20\%).
 #' @param suggestions Optional parameter for genetic algorithm that indicates a suggested solution to be introduced in the initial population. The most convenient is the one found by the function "KmeanSolution". Default is NULL.
@@ -218,7 +222,7 @@
 optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesamp, 
                          framecens = NULL, model = NULL, nStrata = NA, errors, alldomains = TRUE, 
                          dom = NULL, strcens = FALSE, minnumstr = 2, iter = 50, pops = 20, 
-                         mut_chance = NA, elitism_rate = 0.2, suggestions = NULL, 
+                         mut_chance = NA, mut_factor = 0.05, elitism_rate = 0.2, suggestions = NULL, 
                          writeFiles = FALSE, showPlot = TRUE, parallel = TRUE, cores = NA, 
                          fitting = NA, range = NA, kappa = NA, nugget = NA,
                          vgm_model = NA) 
@@ -429,7 +433,8 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
                                 framecens = framecens, strcens = strcens, model = model, 
                                 alldomains = alldomains, dom = dom, nStrata = nStrata, 
                                 minnumstr = minnumstr, iter = iter, pops = pops, 
-                                mut_chance = mut_chance, elitism_rate = elitism_rate, 
+                                mut_chance = mut_chance, mut_factor = mut_factor,
+                                elitism_rate = elitism_rate, 
                                 highvalue = 1e+08, suggestions = suggestions, realAllocation = TRUE, 
                                 writeFiles = writeFiles, showPlot = showPlot, parallel = parallel, 
                                 cores = cores)
@@ -501,7 +506,7 @@ optimStrata <- function (method = c("atomic", "continuous", "spatial"), framesam
     solution <- optimizeStrataSpatial(errors = errors, framesamp = framesamp, 
                                       framecens = framecens, strcens = strcens, alldomains = alldomains, 
                                       dom = dom, nStrata = nStrata, minnumstr = minnumstr, 
-                                      iter = iter, pops = pops, mut_chance = mut_chance, 
+                                      iter = iter, pops = pops, mut_chance = mut_chance, mut_factor = mut_factor,
                                       elitism_rate = elitism_rate, highvalue = 1e+08, 
                                       suggestions = suggestions, realAllocation = TRUE, 
                                       writeFiles = writeFiles, showPlot = showPlot, parallel = parallel, 

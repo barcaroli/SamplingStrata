@@ -31,7 +31,8 @@ strataGenalgSpatial <- function (
     suggestions, 
     realAllocation, 
     writeFiles, 
-    showPlot
+    showPlot,
+    mut_factor = 0.05
 )
 {
   mutationChance <- mut_chance
@@ -141,7 +142,7 @@ rbga.results = rbgaSpatial(
                     pops,
                     iter,
                     mutationChance,
-                    mutationFactor=0.5,
+                    mutationFactor=mut_factor,
                     elitism,
                     monitorFunc=monitor, 
                     evalFunc=evaluate, 

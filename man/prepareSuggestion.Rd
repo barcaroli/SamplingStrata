@@ -18,7 +18,7 @@ prepareSuggestion(
 \arguments{
 \item{frame}{The sampling frame, as produced by \code{\link{buildFrameDF}}:
 a data frame with the stratification variables X1, X2, ... (numeric,
-non-negative, no missing values), the target variables Y1, Y2, ... and
+no missing values), the target variables Y1, Y2, ... and
 the column \code{domainvalue} (consecutive integers 1, ..., D). The
 column \code{id} is required only by the seed \code{"kmean"}. Column
 names are not case sensitive.}
@@ -71,8 +71,9 @@ suggestions assign each atomic stratum to an aggregated stratum, as returned
 by \code{\link{KmeansSolution}}, and are passed directly to
 \code{\link{optimStrata}}.
 Each chromosome contains, for every domain, the cut points of the
-stratification variables X1, X2, ..., expressed as fractions of the maximum
-of each variable within the domain. This function replaces the previous
+stratification variables X1, X2, ..., expressed as fractions of the range
+of each variable within the domain: a value g in [0, 1] is the cut point
+min(X_j) + g * (max(X_j) - min(X_j)). This function replaces the previous
 version of \code{prepareSuggestion}.
 }
 \details{
@@ -88,8 +89,8 @@ falls. With several X variables the strata are therefore nested
 \itemize{
   \item the seeds are built directly in the space of the X variables, so
     that each chromosome is an exact, valid partition under the rule above;
-  \item cut points are normalised by the maximum of X_j \emph{within each
-    domain}, as \code{evaluate()} does (the previous version used the
+  \item cut points are normalised on the range [min, max] of X_j \emph{within
+    each domain}, as \code{evaluate()} does (the previous version used the
     overall maximum);
   \item cut points are placed half-way between the last value of a stratum
     and the next observed value, so that units on a boundary are not
@@ -131,8 +132,6 @@ genetic algorithm remains free to activate them during the search.
 
 \strong{Limitations.}
 \itemize{
-  \item the X variables must be non-negative (the genetic algorithm encodes
-    the cut points in [0, 1] times the maximum of X_j);
   \item \code{optimizeStrata2()} counts as X variables \emph{all} the
     columns whose (upper case) name contains the letter "X": the frame
     should not contain other such columns (a warning is issued).
