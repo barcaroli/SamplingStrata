@@ -88,6 +88,7 @@
 <span>  iter <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>  pops <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>  mut_chance <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  mut_factor <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>  elitism_rate <span class="op">=</span> <span class="fl">0.2</span>,</span>
 <span>  highvalue <span class="op">=</span> <span class="fl">1e+08</span>,</span>
 <span>  suggestions <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -160,6 +161,13 @@ of the solution vector. High values of this parameter allow a deeper exploration
 but a slower convergence, while low values permit a faster convergence, but the final solution can be
 distant from the optimal one. Default is NA, in correspondence of which it is computed as 1/(vars+1)
 where vars is the length of elements in the solution.</p></dd>
+
+
+<dt id="arg-mut-factor">mut_factor<a class="anchor" aria-label="anchor" href="#arg-mut-factor"></a></dt>
+<dd><p>Mutation factor (used only by the "continuous" and "spatial" methods): a mutated
+gene (a cut point, encoded in [0, 1] on the range of the stratification variable) is multiplied by
+(1 + mut_factor) or (1 - mut_factor), with equal probability. Small values allow a fine local
+search around the current boundaries. Default is 0.05 (in previous versions it was fixed to 0.5).</p></dd>
 
 
 <dt id="arg-elitism-rate">elitism_rate<a class="anchor" aria-label="anchor" href="#arg-elitism-rate"></a></dt>

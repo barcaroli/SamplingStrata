@@ -155,7 +155,26 @@ coordinates(meuse)<-c("x","y")
 coordinates(meuse.grid)<-c("x","y")
 ```
 
-![](fig/spatial-unnamed-chunk-2-1.png)
+
+```
+## Error in `as.double()`:
+## ! cannot coerce type 'S4' to vector of type 'double'
+```
+
+```
+## Error in `title()`:
+## ! plot.new has not been called yet
+```
+
+```
+## Error in `as.double()`:
+## ! cannot coerce type 'S4' to vector of type 'double'
+```
+
+```
+## Error in `title()`:
+## ! plot.new has not been called yet
+```
 
 We analyse the territorial distribution of the *lead* and *zinc* concentration, and model (by using the *universal kriging*) their relations with distance from the river, using the subset of 155 points on which these values have been jointly observed. We first fit an exponential variogram (`vgm_model = "exponential"`); a spherical variogram is considered later, for comparison: 
 
@@ -442,14 +461,15 @@ The two solutions can be compared in terms of sample size and number of strata. 
 ``` r
 data.frame(variogram = c("exponential", "spherical"),
            sample_size = round(c(n_exp, n_sph), 1),
+           strata = c(nrow(solution_exp$aggr_strata), nrow(solution_sph$aggr_strata)),
            sserr_lead = c(kriging_lead$sserr, kriging_lead_sph$sserr),
            sserr_zinc = c(kriging_zinc$sserr, kriging_zinc_sph$sserr))
 ```
 
 ```
-##     variogram sample_size   sserr_lead   sserr_zinc
-## 1 exponential        68.6 2.393262e-05 6.346710e-06
-## 2   spherical        69.0 1.868241e-05 5.907235e-06
+##     variogram sample_size strata   sserr_lead   sserr_zinc
+## 1 exponential        68.6      5 2.393262e-05 6.346710e-06
+## 2   spherical        69.0      5 1.868241e-05 5.907235e-06
 ```
 
 In this example the two variogram models lead to practically the same sample size (about 69 units, with 5 strata in both cases): the design is not sensitive to the choice between the exponential and the spherical model. The sample is selected from the solution with the smaller sample size:
@@ -480,7 +500,7 @@ plotStrata2d(framenew,outstrata,domain=1,vars=c("X1","X2"),
              labels=c("Lead","Zinc"))
 ```
 
-![](fig/spatial-unnamed-chunk-13-1.png)
+![](fig/spatial-unnamed-chunk-12-1.png)
 <table class="table table-condensed">
  <thead>
   <tr>
@@ -546,7 +566,7 @@ frameres2$LABEL <- as.factor(frameres2$LABEL)
 spplot(frameres2,c("LABEL"), col.regions=bpy.colors(nlevels(frameres2$LABEL)))
 ```
 
-![](fig/spatial-unnamed-chunk-14-1.png)
+![](fig/spatial-unnamed-chunk-13-1.png)
 
 We can now proceed with the selection of the sample, using the function 'selectSampleSpatial' (which is a wrapper of function 'lpm2_kdtree' in package 'SamplingBigData', see @lisic2018b), in order to ensure a spatially balanced sample:
 
@@ -570,7 +590,7 @@ spplot(frameres2, c("LABEL"), col.regions=bpy.colors(nlevels(frameres2$LABEL)),
        sp.layout = list("sp.points", samp, pch=21, col="black", fill="white", cex=1))
 ```
 
-![](fig/spatial-unnamed-chunk-16-1.png)
+![](fig/spatial-unnamed-chunk-15-1.png)
 
 In an interactive R session, the selected units can also be displayed on an OpenStreetMap background with the package *mapview* (the Meuse coordinates are in the Dutch national grid, EPSG:28992):
 
