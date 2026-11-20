@@ -40,31 +40,31 @@ When frame units are georeferenced or geocoded, the presence of spatial auto-cor
 
 As indicated by @degruijter2016 and @degruijter2019, in case $Z$ is the target variable, omitting as negligible the *fpc* factor, the sampling variance of its estimated mean is:
 
-\begin{equation}
-V(\hat{\bar{Z}}) = \sum_{h=1}^{H}(N_{h}/N)^{2} S_{h}^{2}/n_{h} (\#eq:eq1)
-\end{equation}
+$$
+V(\hat{\bar{Z}}) = \sum_{h=1}^{H}(N_{h}/N)^{2} S_{h}^{2}/n_{h} \qquad (1)
+$$
 
 We can write the variance in each stratum $h$ as:
 
-\begin{equation}
-S_{h}^{2} = \dfrac{1}{N_{h}^{2}} \sum_{i=1}^{N_{h-1}}\sum_{j=i+1}^{N_{h}}(z_{i}-z_{j})^{2} (\#eq:eq2)
-\end{equation} 
+$$
+S_{h}^{2} = \dfrac{1}{N_{h}^{2}} \sum_{i=1}^{N_{h-1}}\sum_{j=i+1}^{N_{h}}(z_{i}-z_{j})^{2} \qquad (2)
+$$ 
 
 The optimal determination of strata is obtained by minimizing the quantity $O$:
 
-\begin{equation}
-O = \sum_{h=1}^{H} \dfrac{1}{N_{h}^{2}} \{ \sum_{i=1}^{N_{h-1}}  \sum_{j=i+1}^{N_{h}} (z_{i}-z_{j})^{2}\}^{1/2} (\#eq:eq3)
-\end{equation}
+$$
+O = \sum_{h=1}^{H} \dfrac{1}{N_{h}^{2}} \{ \sum_{i=1}^{N_{h-1}}  \sum_{j=i+1}^{N_{h}} (z_{i}-z_{j})^{2}\}^{1/2} \qquad (3)
+$$
 
 Obviously, values $z$ are not known, but only their predictions $\tilde{z}$, obtained by means of a model (for instance a regression or a *kriging* model), together with the variances of their prediction errors $e_{i}$. Assuming that the predictions are unbiased and that the errors are uncorrelated with the predictions (as for a well-calibrated model), @degruijter2015 [Eq. 10] and @degruijter2016 [Eq. 15] show that the model expectation of $(z_{i}-z_{j})^{2}$, conditional on the predictions, is
 
-\begin{equation}
-D_{ij}^{2} = (\tilde{z}_{i}-\tilde{z}_{j})^{2} + V(e_{i}) + V(e_{j}) - 2Cov(e_{i},e_{j}) (\#eq:eq5)
-\end{equation}
+$$
+D_{ij}^{2} = (\tilde{z}_{i}-\tilde{z}_{j})^{2} + V(e_{i}) + V(e_{j}) - 2Cov(e_{i},e_{j}) \qquad (4)
+$$
 
-that can be substituted to $(z_{i}-z_{j})^{2}$ in Equations \@ref(eq:eq2) and \@ref(eq:eq3). The term $V(e_{i}) + V(e_{j})$ compensates for the *levelling* (smoothing) effect of the predictions, whose variance is smaller than that of the true values. The spatial auto-correlation component is contained in the term $Cov(e_{i},e_{j})$.
+that can be substituted to $(z_{i}-z_{j})^{2}$ in Equations (2) and (3). The term $V(e_{i}) + V(e_{j})$ compensates for the *levelling* (smoothing) effect of the predictions, whose variance is smaller than that of the true values. The spatial auto-correlation component is contained in the term $Cov(e_{i},e_{j})$.
 
-**Note.** @degruijter2015 [Eq. 11] and @degruijter2019 [Eq. 2] also divide the first term by the coefficient of determination $R^{2}$ of the prediction model, in order to correct for the levelling effect. Under the assumptions above this correction is already made by the error variances, so that applying both counts the error variance twice: averaging over the pairs of units, $Var(\tilde{z})/R^{2} + \bar{V}(e) = Var(z) + (1-R^{2})Var(z)$. From this version on, SamplingStrata uses Equation \@ref(eq:eq5) by default (parameter `fitting = 1`). The two corrections are alternatives:
+**Note.** @degruijter2015 [Eq. 11] and @degruijter2019 [Eq. 2] also divide the first term by the coefficient of determination $R^{2}$ of the prediction model, in order to correct for the levelling effect. Under the assumptions above this correction is already made by the error variances, so that applying both counts the error variance twice: averaging over the pairs of units, $Var(\tilde{z})/R^{2} + \bar{V}(e) = Var(z) + (1-R^{2})Var(z)$. From this version on, SamplingStrata uses Equation (4) by default (parameter `fitting = 1`). The two corrections are alternatives:
 
 * *additive correction* (default): prediction-error variances in the frame and `fitting = 1`;
 * *rescaling correction*: `fitting` equal to the $R^{2}$ of the prediction model (computed as $1 - SSE/SST$, preferably on validation data) and prediction-error variances set to zero in the frame.
@@ -73,30 +73,30 @@ Using `fitting < 1` together with positive prediction-error variances is rejecte
 
 The covariance between the prediction errors of two distinct units is modelled as
 
-\begin{equation}
-Cov(e_{i},e_{j}) = (1-\nu) \, s_{i} \, s_{j} \, \rho(d_{ij}) (\#eq:eq6)
-\end{equation}
+$$
+Cov(e_{i},e_{j}) = (1-\nu) \, s_{i} \, s_{j} \, \rho(d_{ij}) \qquad (5)
+$$
 
 so that
 
-\begin{equation}
-D_{ij}^{2} = (\tilde{z}_{i}-\tilde{z}_{j})^{2} + (s_{i}^{2} + s_{j}^{2}) - 2 (1-\nu) \, s_{i} \, s_{j} \, \rho(d_{ij}) (\#eq:eq7)
-\end{equation}
+$$
+D_{ij}^{2} = (\tilde{z}_{i}-\tilde{z}_{j})^{2} + (s_{i}^{2} + s_{j}^{2}) - 2 (1-\nu) \, s_{i} \, s_{j} \, \rho(d_{ij}) \qquad (6)
+$$
 
 where:
 
 * $d_{ij}$ is the Euclidean distance between units $i$ and $j$ (calculated using their geographical coordinates, that must be expressed in meters);
 * $s_{i}^{2}$ and $s_{j}^{2}$ are the variances of the prediction errors in the single points;
-* $\rho(d)$ is the correlation function of the variogram model fitted on the prediction errors (parameter `vgm_model`: exponential, spherical or gaussian), as explained in Section \@ref(vgm);
+* $\rho(d)$ is the correlation function of the variogram model fitted on the prediction errors (parameter `vgm_model`: exponential, spherical or gaussian), as explained in Section [Variogram models](#vgm);
 * $r$ (parameter `range`) and $\nu$ (parameter `nugget`) describe the spatial correlation of the prediction errors, and are obtained from their variogram;
-* $\kappa$ (parameter `kappa`, used by the exponential and gaussian models) depends on how the range $r$ is defined, as explained in Section \@ref(kappa);
+* $\kappa$ (parameter `kappa`, used by the exponential and gaussian models) depends on how the range $r$ is defined, as explained in Section [Choice of the parameter kappa](#kappa);
 * $\nu = c_{0}/(c_{0}+c_{1})$ is the *relative nugget*: the share of the error variance (micro-scale variability and measurement error) that is not spatially correlated, even between units at very short distance. With $\nu = 0$ (default) two very close units have almost perfectly correlated errors; with a large nugget the reduction of variance due to the spatial correlation is correspondingly smaller. The nugget is given in relative terms because the scale of the error variance is already given, unit by unit, by $s_{i}^{2}$.
 
-With `range = 0`, or `nugget = 1`, there is no spatial correlation, and Equation \@ref(eq:eq7) reduces to the non-spatial case. Since the correlation is non-negative, with `fitting = 1` the spatial component can only reduce the variance in the strata.
+With `range = 0`, or `nugget = 1`, there is no spatial correlation, and Equation (6) reduces to the non-spatial case. Since the correlation is non-negative, with `fitting = 1` the spatial component can only reduce the variance in the strata.
 
 ## Variogram models {#vgm}
 
-The correlation function $\rho(d)$ in Equation \@ref(eq:eq6) must be coherent with the model of the variogram fitted on the prediction errors. The parameter `vgm_model` of *optimStrata* (and of *optimizeStrataSpatial*, *KmeansSolutionSpatial*, *buildStrataDFSpatial* and *aggrStrataSpatial*) selects one of the most commonly used models:
+The correlation function $\rho(d)$ in Equation (5) must be coherent with the model of the variogram fitted on the prediction errors. The parameter `vgm_model` of *optimStrata* (and of *optimizeStrataSpatial*, *KmeansSolutionSpatial*, *buildStrataDFSpatial* and *aggrStrataSpatial*) selects one of the most commonly used models:
 
 | `vgm_model` | $\rho(d)$ | Notes |
 |---|---|---|
@@ -133,7 +133,7 @@ The same convention holds for the gaussian model, whose variogram in *gstat* is 
 
 ## Estimation of range and nugget
 
-The range and the nugget should be estimated on the variogram of the prediction errors, i.e. of the out-of-sample residuals (observed minus predicted values, from cross-validation or independent validation data): at the calibration points the residuals of a kriging model are close to zero and not informative about the prediction error. When the variances $s_{i}^{2}$ vary much across the units, the variogram should be computed on the standardised residuals $(z_{i}-\tilde{z}_{i})/s_{i}$, whose structure is the one assumed in Equation \@ref(eq:eq6).
+The range and the nugget should be estimated on the variogram of the prediction errors, i.e. of the out-of-sample residuals (observed minus predicted values, from cross-validation or independent validation data): at the calibration points the residuals of a kriging model are close to zero and not informative about the prediction error. When the variances $s_{i}^{2}$ vary much across the units, the variogram should be computed on the standardised residuals $(z_{i}-\tilde{z}_{i})/s_{i}$, whose structure is the one assumed in Equation (5).
 
 To summarize, when frame units can be geo-referenced, the proposed procedure is the following:
 
@@ -231,7 +231,7 @@ cv <- as.data.frame(list(DOM=rep("DOM1",1),
 To this aim, we carry out the optimization step by indicating the method *spatial*, with the range and the relative nugget of the two variograms (`fitting` is omitted, i.e. equal to 1):
 
 ```{r, eval = T,echo=TRUE, message=FALSE, warning=FALSE}
-set.seed(1234)
+set.seed(5678)
 solution_exp <- optimStrata (
   method = "spatial",
   errors=cv, 
@@ -252,7 +252,7 @@ n_exp
 
 ## Comparison with a spherical variogram
 
-The same steps can be repeated with a spherical variogram. The choice of the model affects both the frame, because the kriging predictions and their error variances depend on the variogram, and the correlation function $\rho(d)$ used in the optimization (Section \@ref(vgm)):
+The same steps can be repeated with a spherical variogram. The choice of the model affects both the frame, because the kriging predictions and their error variances depend on the variogram, and the correlation function $\rho(d)$ used in the optimization (Section [Variogram models](#vgm)):
 
 ```{r, eval = T,echo=TRUE,message=FALSE}
 kriging_lead_sph = autoKrige(log(lead) ~ dist, meuse, meuse.grid, model = "Sph")
@@ -307,7 +307,7 @@ data.frame(variogram = c("exponential", "spherical"),
            sserr_zinc = c(kriging_zinc$sserr, kriging_zinc_sph$sserr))
 ```
 
-The genetic algorithm is a stochastic procedure, and with few iterations the sample size of the final solution varies from run to run: in this example, with different seeds, the variation can be larger than the difference between the two models. To separate the effect of the variogram model from the randomness of the algorithm, the strata of each solution can be evaluated under both models, i.e. computing the Bethel sample size of the same strata with the frame and the variogram parameters of each model:
+The genetic algorithm is a stochastic procedure, and the sample size of the final solution can vary from run to run, all the more with few iterations and a small population. To separate the effect of the variogram model from the randomness of the algorithm, the strata of each solution can be evaluated under both models, i.e. computing the Bethel sample size of the same strata with the frame and the variogram parameters of each model:
 
 ```{r, eval = T,echo=TRUE}
 evalStrata <- function(solution, frame, range, nugget, kappa, vgm_model) {

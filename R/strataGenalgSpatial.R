@@ -7,6 +7,8 @@
 #   "spatial" method: as strataGenalg2(), but the strata are built with
 #   buildStrataDFSpatial(), i.e. including the prediction-error variance and the
 #   spatial autocorrelation (range, kappa, nugget, vgm_model) in the variance.
+#   Each gene g in [0, 1] is the cut point min(X_j) + g * (max(X_j) - min(X_j))
+#   (until version 1.6 it was g * max(X_j)).
 # ==============================================================================
 
 strataGenalgSpatial <- function (
@@ -58,7 +60,8 @@ evaluate <- function(dataset,
   for(j in 1:nX){
       ini=(j-1)*(NROW(v)/nX)+1
       fin=j*(NROW(v)/nX)
-      eval(parse(text=paste("v",j,"<-string[ini:fin]*max(frame$ZZ",j,")",sep="")))
+      # cut points encoded in [0, 1] over the range [min, max] of X_j
+      eval(parse(text=paste("v",j,"<-min(frame$ZZ",j,")+string[ini:fin]*(max(frame$ZZ",j,")-min(frame$ZZ",j,"))",sep="")))
       eval(parse(text=paste("x",j,"_cuts<-as.data.frame(v",j,"[order(v",j,")],stringsAsFactors = TRUE)",sep="")))
       eval(parse(text=paste("x",j,"_cuts<-as.data.frame(rbind(min(frame$ZZ",j,")",",x",j,"_cuts,max(frame$ZZ",j,")),stringsAsFactors = TRUE)",sep="")))
       eval(parse(text=paste("x",j,"_cuts$lim<-x",j,"_cuts$`v",j,"[order(v",j,")]`",sep="")))
@@ -158,7 +161,8 @@ v<-string
 for(j in 1:nX){
   ini=(j-1)*(NROW(v)/nX)+1
   fin=j*(NROW(v)/nX)
-  eval(parse(text=paste("v",j,"<-string[ini:fin]*max(frame$ZZ",j,")",sep="")))
+  # cut points encoded in [0, 1] over the range [min, max] of X_j
+  eval(parse(text=paste("v",j,"<-min(frame$ZZ",j,")+string[ini:fin]*(max(frame$ZZ",j,")-min(frame$ZZ",j,"))",sep="")))
   eval(parse(text=paste("x",j,"_cuts<-as.data.frame(v",j,"[order(v",j,")],stringsAsFactors = TRUE)",sep="")))
   eval(parse(text=paste("x",j,"_cuts<-as.data.frame(rbind(min(frame$ZZ",j,")",",x",j,"_cuts,max(frame$ZZ",j,")),stringsAsFactors = TRUE)",sep="")))
   eval(parse(text=paste("x",j,"_cuts$lim<-x",j,"_cuts$`v",j,"[order(v",j,")]`",sep="")))

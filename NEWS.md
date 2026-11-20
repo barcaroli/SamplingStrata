@@ -30,6 +30,19 @@
   (namely, *bethel_cpp*), that is used internally in all the
   optimization functions, to speed up their execution.
 
+- **Encoding of the cut points in the genetic algorithm of the
+  “continuous” and “spatial” methods.** Each gene g in \[0, 1\] is now
+  the cut point min(X) + g (max(X) - min(X)), with min and max of the
+  stratification variable X in the domain; until now it was g max(X).
+  With variables far from zero (for instance logarithms) most of the
+  genes fell below min(X) and produced empty strata: the solution
+  depended strongly on the seed and often had fewer strata than
+  requested. The results no longer depend on a shift of the X variables,
+  which can now also be negative. *prepareSuggestion* and
+  *evalSuggestion* use the same encoding: with variables whose minimum
+  is 0 the results are unchanged, but suggestions computed with the
+  previous version must be recomputed.
+
 ### Changes to the “spatial” method
 
 The model of the stratum variance used by the “spatial” method
