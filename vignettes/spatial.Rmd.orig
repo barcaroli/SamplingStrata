@@ -346,7 +346,7 @@ s <- selectSampleSpatial(framenew,outstrata,coord_names=c("LON","LAT"))
 
 The selected units can also be displayed on an OpenStreetMap background with the package *mapview* (the Meuse coordinates are in the Dutch national grid, EPSG:28992). In an interactive R session the map can be zoomed and the units inspected; here a static image of it is shown:
 
-```{r, eval = T, echo=TRUE, fig.width = 9, fig.height = 7, out.width = "100%", screenshot.opts = list(delay = 5, zoom = 2)}
+```{r, eval = T, echo=TRUE, fig.width = 7, fig.height = 9, out.width = "100%", screenshot.opts = list(delay = 5, zoom = 2)}
 library(sf)
 library(mapview)
 s_sf <- st_as_sf(s, coords = c("LON","LAT"), crs = 28992)
