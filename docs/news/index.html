@@ -73,6 +73,7 @@
 <h2 class="page-header" data-toc-text="1.6" id="samplingstrata-16">SamplingStrata 1.6<a class="anchor" aria-label="anchor" href="#samplingstrata-16"></a></h2>
 <ul><li><p>It is now available the function <em>SamplingStrataApp</em> that allows to interactively use the package</p></li>
 <li><p>The function <em>prepareSuggestion</em> that prepares suggestion for the optimization with “continuous” method has been completely redefined and improved.</p></li>
+<li><p>New argument <em>mut_factor</em> of <em>optimStrata</em> (methods “continuous” and “spatial”): amplitude of the mutation of the cut points in the genetic algorithm, previously fixed to 0.5. The new default, 0.05, allows a finer local search of the boundaries.</p></li>
 <li><p>Now <em>optimStrata</em>, when using method=“spatial”, accepts also cases in which spatial correlation is not calculated: in this case, set “0” for each element of the vector “range” (or “1” for each element of the new vector “nugget”); “fitting” can be omitted (default 1).</p></li>
 <li><p>Implemented a new function <em>buildErrorsDF</em> that produces a template of the dataframe containing the precision constraints on the target variables of the sampling survey.</p></li>
 <li><p>Implemented a new Rcpp version, much more performant, of the functions</p></li>

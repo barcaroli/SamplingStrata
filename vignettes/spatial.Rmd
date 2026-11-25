@@ -1,7 +1,7 @@
 ---
 title: "Spatial sampling with SamplingStrata"
 author: "Marco Ballin, Giulio Barcaroli"
-date: "2026-11-20"
+date: "2026-11-25"
 # output: rmarkdown::html_vignette
 output: 
   bookdown::html_document2:
@@ -155,26 +155,7 @@ coordinates(meuse)<-c("x","y")
 coordinates(meuse.grid)<-c("x","y")
 ```
 
-
-```
-## Error in `as.double()`:
-## ! cannot coerce type 'S4' to vector of type 'double'
-```
-
-```
-## Error in `title()`:
-## ! plot.new has not been called yet
-```
-
-```
-## Error in `as.double()`:
-## ! cannot coerce type 'S4' to vector of type 'double'
-```
-
-```
-## Error in `title()`:
-## ! plot.new has not been called yet
-```
+![](fig/spatial-unnamed-chunk-2-1.png)
 
 We analyse the territorial distribution of the *lead* and *zinc* concentration, and model (by using the *universal kriging*) their relations with distance from the river, using the subset of 155 points on which these values have been jointly observed. We first fit an exponential variogram (`vgm_model = "exponential"`); a spherical variogram is considered later, for comparison: 
 
@@ -581,18 +562,7 @@ s <- selectSampleSpatial(framenew,outstrata,coord_names=c("LON","LAT"))
 ##  69  units have been selected from  5  strata
 ```
 
-whose units are so distributed in the territory (sampled points in white, over the optimized strata):
-
-
-``` r
-samp <- SpatialPointsDataFrame(data=s, coords=cbind(s$LON,s$LAT))
-spplot(frameres2, c("LABEL"), col.regions=bpy.colors(nlevels(frameres2$LABEL)),
-       sp.layout = list("sp.points", samp, pch=21, col="black", fill="white", cex=1))
-```
-
-![](fig/spatial-unnamed-chunk-15-1.png)
-
-In an interactive R session, the selected units can also be displayed on an OpenStreetMap background with the package *mapview* (the Meuse coordinates are in the Dutch national grid, EPSG:28992):
+The selected units can also be displayed on an OpenStreetMap background with the package *mapview* (the Meuse coordinates are in the Dutch national grid, EPSG:28992). In an interactive R session the map can be zoomed and the units inspected; here a static image of it is shown:
 
 
 ``` r
@@ -602,5 +572,7 @@ s_sf <- st_as_sf(s, coords = c("LON","LAT"), crs = 28992)
 s_sf$LABEL <- as.factor(s_sf$LABEL)
 mapview(s_sf, zcol="LABEL", map.types = c("OpenStreetMap"))
 ```
+
+<img src="fig/spatial-unnamed-chunk-15-1.png" alt="" width="100%" />
 
 # References

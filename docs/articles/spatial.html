@@ -99,7 +99,7 @@
                         <h4 data-toc-skip class="author">Marco Ballin,
 Giulio Barcaroli</h4>
             
-            <h4 data-toc-skip class="date">2026-11-20</h4>
+            <h4 data-toc-skip class="date">2026-11-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/barcaroli/SamplingStrata/blob/HEAD/vignettes/spatial.Rmd" class="external-link"><code>vignettes/spatial.Rmd</code></a></small>
       <div class="hidden name"><code>spatial.Rmd</code></div>
@@ -498,14 +498,7 @@ portion of the river Meuse). This dataset comes with the library
 <span><span class="va">meuse.grid</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">meuse.grid</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://edzer.github.io/sp/reference/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">meuse</span><span class="op">)</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>,<span class="st">"y"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://edzer.github.io/sp/reference/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">meuse.grid</span><span class="op">)</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>,<span class="st">"y"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in `as.double()`:</span></span>
-<span><span class="co">## ! cannot coerce type 'S4' to vector of type 'double'</span></span></code></pre>
-<pre><code><span><span class="co">## Error in `title()`:</span></span>
-<span><span class="co">## ! plot.new has not been called yet</span></span></code></pre>
-<pre><code><span><span class="co">## Error in `as.double()`:</span></span>
-<span><span class="co">## ! cannot coerce type 'S4' to vector of type 'double'</span></span></code></pre>
-<pre><code><span><span class="co">## Error in `title()`:</span></span>
-<span><span class="co">## ! plot.new has not been called yet</span></span></code></pre>
+<p><img src="fig/spatial-unnamed-chunk-2-1.png"></p>
 <p>We analyse the territorial distribution of the <em>lead</em> and
 <em>zinc</em> concentration, and model (by using the <em>universal
 kriging</em>) their relations with distance from the river, using the
@@ -513,17 +506,17 @@ subset of 155 points on which these values have been jointly observed.
 We first fit an exponential variogram
 (<code>vgm_model = "exponential"</code>); a spherical variogram is
 considered later, for comparison:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">automap</span><span class="op">)</span></span>
 <span><span class="va">kriging_lead</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/automap/man/autoKrige.html" class="external-link">autoKrige</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">lead</span><span class="op">)</span> <span class="op">~</span> <span class="va">dist</span>, <span class="va">meuse</span>, <span class="va">meuse.grid</span>, model <span class="op">=</span> <span class="st">"Exp"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [using universal kriging]</span></span></code></pre>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">kriging_lead</span>,sp.layout <span class="op">=</span> <span class="cn">NULL</span>, justPosition <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="fig/spatial-unnamed-chunk-3-1.png"></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kriging_zinc</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/automap/man/autoKrige.html" class="external-link">autoKrige</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">zinc</span><span class="op">)</span> <span class="op">~</span> <span class="va">dist</span>, <span class="va">meuse</span>, <span class="va">meuse.grid</span>, model <span class="op">=</span> <span class="st">"Exp"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [using universal kriging]</span></span></code></pre>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">kriging_zinc</span>, sp.layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"sp.points"</span>, <span class="va">meuse</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="fig/spatial-unnamed-chunk-3-2.png"></p>
 <p>From the fitted variograms we take the range parameter
@@ -531,25 +524,25 @@ considered later, for comparison:</p>
 of the exponential model (to be used with <code>kappa = 1</code>) and
 the relative nugget
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mn>0</mn></msub><mi>/</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>c</mi><mn>0</mn></msub><mo>+</mo><msub><mi>c</mi><mn>1</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c_{0}/(c_{0}+c_{1})</annotation></semantics></math>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kriging_lead</span><span class="op">$</span><span class="va">var_model</span></span></code></pre></div>
 <pre><code><span><span class="co">##   model      psill    range</span></span>
 <span><span class="co">## 1   Nug 0.05972538   0.0000</span></span>
 <span><span class="co">## 2   Exp 0.24751270 392.6089</span></span></code></pre>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">range_lead</span>  <span class="op">&lt;-</span> <span class="va">kriging_lead</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
 <span><span class="va">nugget_lead</span> <span class="op">&lt;-</span> <span class="va">kriging_lead</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">psill</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">kriging_lead</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">psill</span><span class="op">)</span></span>
 <span><span class="va">kriging_zinc</span><span class="op">$</span><span class="va">var_model</span></span></code></pre></div>
 <pre><code><span><span class="co">##   model      psill    range</span></span>
 <span><span class="co">## 1   Nug 0.04525859   0.0000</span></span>
 <span><span class="co">## 2   Exp 0.24392958 292.6641</span></span></code></pre>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">range_zinc</span>  <span class="op">&lt;-</span> <span class="va">kriging_zinc</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
 <span><span class="va">nugget_zinc</span> <span class="op">&lt;-</span> <span class="va">kriging_zinc</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">psill</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">kriging_zinc</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">psill</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>range_lead <span class="op">=</span> <span class="va">range_lead</span>, nugget_lead <span class="op">=</span> <span class="va">nugget_lead</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##  range_lead nugget_lead </span></span>
 <span><span class="co">## 392.6088890   0.1943945</span></span></code></pre>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>range_zinc <span class="op">=</span> <span class="va">range_zinc</span>, nugget_zinc <span class="op">=</span> <span class="va">nugget_zinc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##  range_zinc nugget_zinc </span></span>
 <span><span class="co">## 292.6641200   0.1565022</span></span></code></pre>
@@ -565,7 +558,7 @@ default) applies.</p>
 <p>Using these <em>kriging</em> models, we are able to predict the
 values of lead and zinc concentration on the totality of the 3,103
 points in the Meuse territory:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="va">meuse.grid</span><span class="op">$</span><span class="va">id</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">lead.pred</span> <span class="op">&lt;-</span> <span class="va">kriging_lead</span><span class="op">$</span><span class="va">krige_output</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">var1.pred</span></span>
@@ -587,7 +580,7 @@ points in the Meuse territory:</p>
 <p>The aim is now to produce the optimal stratification of the 3,103
 points under a precision constraint of 1% on the target estimates of the
 mean <em>lead</em> and <em>zinc</em> concentrations:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://barcaroli.github.io/SamplingStrata/" class="external-link">SamplingStrata</a></span><span class="op">)</span></span>
 <span><span class="va">frame</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/buildFrameSpatial.html">buildFrameSpatial</a></span><span class="op">(</span>df<span class="op">=</span><span class="va">df</span>,</span>
 <span>                      id<span class="op">=</span><span class="st">"id"</span>,</span>
@@ -604,7 +597,7 @@ mean <em>lead</em> and <em>zinc</em> concentrations:</p>
 <p>To this aim, we carry out the optimization step by indicating the
 method <em>spatial</em>, with the range and the relative nugget of the
 two variograms (<code>fitting</code> is omitted, i.e. equal to 1):</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">solution_exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/optimStrata.html">optimStrata</a></span> <span class="op">(</span></span>
 <span>  method <span class="op">=</span> <span class="st">"spatial"</span>,</span>
@@ -632,7 +625,7 @@ two variograms (<code>fitting</code> is omitted, i.e. equal to 1):</p>
 <span><span class="co">##  *** Sample size :  69</span></span>
 <span><span class="co">##  *** Number of strata :  5</span></span>
 <span><span class="co">## ---------------------------</span></span></code></pre>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">solution_exp</span><span class="op">$</span><span class="va">aggr_strata</span><span class="op">$</span><span class="va">SOLUZ</span><span class="op">)</span></span>
 <span><span class="va">n_exp</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 68.56499</span></span></code></pre>
@@ -646,23 +639,23 @@ function
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><mi>d</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\rho(d)</annotation></semantics></math>
 used in the optimization (Section <a href="#vgm">Variogram
 models</a>):</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kriging_lead_sph</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/automap/man/autoKrige.html" class="external-link">autoKrige</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">lead</span><span class="op">)</span> <span class="op">~</span> <span class="va">dist</span>, <span class="va">meuse</span>, <span class="va">meuse.grid</span>, model <span class="op">=</span> <span class="st">"Sph"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [using universal kriging]</span></span></code></pre>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kriging_zinc_sph</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/automap/man/autoKrige.html" class="external-link">autoKrige</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">zinc</span><span class="op">)</span> <span class="op">~</span> <span class="va">dist</span>, <span class="va">meuse</span>, <span class="va">meuse.grid</span>, model <span class="op">=</span> <span class="st">"Sph"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [using universal kriging]</span></span></code></pre>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kriging_lead_sph</span><span class="op">$</span><span class="va">var_model</span></span></code></pre></div>
 <pre><code><span><span class="co">##   model      psill    range</span></span>
 <span><span class="co">## 1   Nug 0.07896613   0.0000</span></span>
 <span><span class="co">## 2   Sph 0.21142964 852.9118</span></span></code></pre>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kriging_zinc_sph</span><span class="op">$</span><span class="va">var_model</span></span></code></pre></div>
 <pre><code><span><span class="co">##   model      psill    range</span></span>
 <span><span class="co">## 1   Nug 0.07473912   0.0000</span></span>
 <span><span class="co">## 2   Sph 0.20518590 723.9555</span></span></code></pre>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">range_lead_sph</span>  <span class="op">&lt;-</span> <span class="va">kriging_lead_sph</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
 <span><span class="va">nugget_lead_sph</span> <span class="op">&lt;-</span> <span class="va">kriging_lead_sph</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">psill</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">kriging_lead_sph</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">psill</span><span class="op">)</span></span>
 <span><span class="va">range_zinc_sph</span>  <span class="op">&lt;-</span> <span class="va">kriging_zinc_sph</span><span class="op">$</span><span class="va">var_model</span><span class="op">$</span><span class="va">range</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
@@ -672,7 +665,7 @@ the variogram reaches the sill, and <code>kappa</code> is not needed. We
 build the frame with the predictions and variances of the spherical
 kriging, and optimize with <code>vgm_model = "spherical"</code>, keeping
 the same seed and the same parameters of the genetic algorithm:</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_sph</span> <span class="op">&lt;-</span> <span class="va">df</span></span>
 <span><span class="va">df_sph</span><span class="op">$</span><span class="va">lead.pred</span> <span class="op">&lt;-</span> <span class="va">kriging_lead_sph</span><span class="op">$</span><span class="va">krige_output</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">var1.pred</span></span>
 <span><span class="va">df_sph</span><span class="op">$</span><span class="va">lead.var</span>  <span class="op">&lt;-</span> <span class="va">kriging_lead_sph</span><span class="op">$</span><span class="va">krige_output</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">var1.var</span></span>
@@ -712,13 +705,13 @@ the same seed and the same parameters of the genetic algorithm:</p>
 <span><span class="co">##  *** Sample size :  69</span></span>
 <span><span class="co">##  *** Number of strata :  5</span></span>
 <span><span class="co">## ---------------------------</span></span></code></pre>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_sph</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">solution_sph</span><span class="op">$</span><span class="va">aggr_strata</span><span class="op">$</span><span class="va">SOLUZ</span><span class="op">)</span></span></code></pre></div>
 <p>The two solutions can be compared in terms of sample size and number
 of strata. The table also reports the error sum of squares of the fit of
 the two variograms (<code>sserr</code>, as given by
 <em>autoKrige</em>):</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>variogram <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"exponential"</span>, <span class="st">"spherical"</span><span class="op">)</span>,</span>
 <span>           sample_size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">n_exp</span>, <span class="va">n_sph</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>           strata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">solution_exp</span><span class="op">$</span><span class="va">aggr_strata</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">solution_sph</span><span class="op">$</span><span class="va">aggr_strata</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -732,11 +725,11 @@ sample size (about 69 units, with 5 strata in both cases): the design is
 not sensitive to the choice between the exponential and the spherical
 model. The sample is selected from the solution with the smaller sample
 size:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">best</span> <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="va">n_sph</span> <span class="op">&lt;</span> <span class="va">n_exp</span><span class="op">)</span> <span class="st">"spherical"</span> <span class="kw">else</span> <span class="st">"exponential"</span></span>
 <span><span class="va">best</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "exponential"</span></span></code></pre>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">solution</span> <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="va">best</span> <span class="op">==</span> <span class="st">"spherical"</span><span class="op">)</span> <span class="va">solution_sph</span> <span class="kw">else</span> <span class="va">solution_exp</span></span>
 <span><span class="va">framenew</span> <span class="op">&lt;-</span> <span class="va">solution</span><span class="op">$</span><span class="va">framenew</span></span>
 <span><span class="va">outstrata</span> <span class="op">&lt;-</span> <span class="va">solution</span><span class="op">$</span><span class="va">aggr_strata</span></span></code></pre></div>
@@ -749,7 +742,7 @@ instance <code>sserr</code>, or the cross-validation of the kriging
 model); the comparison of the sample sizes shows how sensitive the
 design is to this choice.</p>
 <p>The optimized strata of the selected solution are the following:</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotStrata2d.html">plotStrata2d</a></span><span class="op">(</span><span class="va">framenew</span>,<span class="va">outstrata</span>,domain<span class="op">=</span><span class="fl">1</span>,vars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X1"</span>,<span class="st">"X2"</span><span class="op">)</span>,</span>
 <span>             labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Lead"</span>,<span class="st">"Zinc"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <img src="fig/spatial-unnamed-chunk-12-1.png"><table class="table table table-condensed">
@@ -877,7 +870,7 @@ Bounds Zinc
 </tbody>
 </table>
 <p>that can be visualised in this way:</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">frameres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPoints.html" class="external-link">SpatialPointsDataFrame</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">framenew</span>, coords<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">framenew</span><span class="op">$</span><span class="va">LON</span>,<span class="va">framenew</span><span class="op">$</span><span class="va">LAT</span><span class="op">)</span> <span class="op">)</span></span>
 <span><span class="va">frameres2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialGridDataFrame.html" class="external-link">SpatialPixelsDataFrame</a></span><span class="op">(</span>points<span class="op">=</span><span class="va">frameres</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LON"</span>,<span class="st">"LAT"</span><span class="op">)</span><span class="op">]</span>, data<span class="op">=</span><span class="va">framenew</span><span class="op">)</span></span>
 <span><span class="va">frameres2</span><span class="op">$</span><span class="va">LABEL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">frameres2</span><span class="op">$</span><span class="va">LABEL</span><span class="op">)</span></span>
@@ -887,27 +880,23 @@ Bounds Zinc
 function ‘selectSampleSpatial’ (which is a wrapper of function
 ‘lpm2_kdtree’ in package ‘SamplingBigData’, see <span class="citation">Lisic and Grafström (2018)</span>), in order to ensure
 a spatially balanced sample:</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/selectSampleSpatial.html">selectSampleSpatial</a></span><span class="op">(</span><span class="va">framenew</span>,<span class="va">outstrata</span>,coord_names<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LON"</span>,<span class="st">"LAT"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## *** Sample has been drawn successfully ***</span></span>
 <span><span class="co">##  69  units have been selected from  5  strata</span></span></code></pre>
-<p>whose units are so distributed in the territory (sampled points in
-white, over the optimized strata):</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">samp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/SpatialPoints.html" class="external-link">SpatialPointsDataFrame</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">s</span>, coords<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">s</span><span class="op">$</span><span class="va">LON</span>,<span class="va">s</span><span class="op">$</span><span class="va">LAT</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://edzer.github.io/sp/reference/spplot.html" class="external-link">spplot</a></span><span class="op">(</span><span class="va">frameres2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LABEL"</span><span class="op">)</span>, col.regions<span class="op">=</span><span class="fu"><a href="https://edzer.github.io/sp/reference/bpy.colors.html" class="external-link">bpy.colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nlevels.html" class="external-link">nlevels</a></span><span class="op">(</span><span class="va">frameres2</span><span class="op">$</span><span class="va">LABEL</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>       sp.layout <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"sp.points"</span>, <span class="va">samp</span>, pch<span class="op">=</span><span class="fl">21</span>, col<span class="op">=</span><span class="st">"black"</span>, fill<span class="op">=</span><span class="st">"white"</span>, cex<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="fig/spatial-unnamed-chunk-15-1.png"></p>
-<p>In an interactive R session, the selected units can also be displayed
-on an OpenStreetMap background with the package <em>mapview</em> (the
-Meuse coordinates are in the Dutch national grid, EPSG:28992):</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<p>The selected units can also be displayed on an OpenStreetMap
+background with the package <em>mapview</em> (the Meuse coordinates are
+in the Dutch national grid, EPSG:28992). In an interactive R session the
+map can be zoomed and the units inspected; here a static image of it is
+shown:</p>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/mapview" class="external-link">mapview</a></span><span class="op">)</span></span>
 <span><span class="va">s_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">s</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LON"</span>,<span class="st">"LAT"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">28992</span><span class="op">)</span></span>
 <span><span class="va">s_sf</span><span class="op">$</span><span class="va">LABEL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">s_sf</span><span class="op">$</span><span class="va">LABEL</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://r-spatial.github.io/mapview/reference/mapView.html" class="external-link">mapview</a></span><span class="op">(</span><span class="va">s_sf</span>, zcol<span class="op">=</span><span class="st">"LABEL"</span>, map.types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"OpenStreetMap"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="fig/spatial-unnamed-chunk-15-1.png" alt="" width="100%"></p>
 </div>
 </div>
 <div class="section level2">

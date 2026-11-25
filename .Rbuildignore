@@ -35,3 +35,12 @@
 ^vignettes/.*\.R$
 ^vignettes/.*\.json$
 ^vignettes/figure$
+^apply_mut_factor\.R$
+^Covariance models\.docx$
+^SamplingStrata_1\.6_bug_fixes\.xlsx$
+^inst/apple-touch-icon-152x152\.png$
+^vignettes/output$
+^vignettes/simulation$
+^vignettes/[^/]*\.csv$
+^vignettes/nature\.csl$
+^vignettes/[^/]*\.png$

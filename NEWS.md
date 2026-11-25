@@ -10,6 +10,11 @@
   optimization with “continuous” method has been completely redefined
   and improved.
 
+- New argument *mut_factor* of *optimStrata* (methods “continuous” and
+  “spatial”): amplitude of the mutation of the cut points in the genetic
+  algorithm, previously fixed to 0.5. The new default, 0.05, allows a
+  finer local search of the boundaries.
+
 - Now *optimStrata*, when using method=“spatial”, accepts also cases in
   which spatial correlation is not calculated: in this case, set “0” for
   each element of the vector “range” (or “1” for each element of the new

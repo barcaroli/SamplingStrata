@@ -11,9 +11,15 @@
 # files look for them. The folder is not called 'figure' because R CMD check
 # reports a directory with that name as a leftover from knitr.
 # ------------------------------------------------------------------------------
+# Each vignette is knitted in a new, clean R process (xfun::Rscript_call):
+# the result does not depend on the packages and objects of the current
+# session, and the version of SamplingStrata installed on disk is used even if
+# an older one is still loaded here.
+knit_clean <- function(input, output)
+  xfun::Rscript_call(knitr::knit, list(input = input, output = output))
 owd <- setwd("vignettes")
-knitr::knit("SamplingStrata.Rmd.orig", output = "SamplingStrata.Rmd")
+knit_clean("SamplingStrata.Rmd.orig", output = "SamplingStrata.Rmd")
 # knitr::knit("drake_continuous.Rmd.orig", output = "drake_continuous.Rmd")
-knitr::knit("models.Rmd.orig", output = "models.Rmd")
-knitr::knit("spatial.Rmd.orig", output = "spatial.Rmd")
+knit_clean("models.Rmd.orig", output = "models.Rmd")
+knit_clean("spatial.Rmd.orig", output = "spatial.Rmd")
 setwd(owd)

@@ -161,9 +161,11 @@ coordinates(meuse.grid)<-c("x","y")
 
 ```{r, eval = T,echo=FALSE}
 par(mfrow=c(1,2))
-plot(meuse.grid)
+# sp::plot: the plot method for sp objects is used whatever the order of the
+# attached packages
+sp::plot(meuse.grid)
 title("Meuse territory (3103 points)",sub="with reported distance from the river",cex.main=0.8,cex.sub=0.8)
-plot(meuse)
+sp::plot(meuse)
 title("Subset of 155 points",sub="with also observed metals concentration",cex.main=0.8,cex.sub=0.8)
 par(mfrow=c(1,1))
 ```
@@ -342,17 +344,9 @@ We can now proceed with the selection of the sample, using the function 'selectS
 s <- selectSampleSpatial(framenew,outstrata,coord_names=c("LON","LAT"))
 ```
 
-whose units are so distributed in the territory (sampled points in white, over the optimized strata):
+The selected units can also be displayed on an OpenStreetMap background with the package *mapview* (the Meuse coordinates are in the Dutch national grid, EPSG:28992). In an interactive R session the map can be zoomed and the units inspected; here a static image of it is shown:
 
-```{r, eval = T,echo=TRUE,message=FALSE,fig.width=6, fig.height=6}
-samp <- SpatialPointsDataFrame(data=s, coords=cbind(s$LON,s$LAT))
-spplot(frameres2, c("LABEL"), col.regions=bpy.colors(nlevels(frameres2$LABEL)),
-       sp.layout = list("sp.points", samp, pch=21, col="black", fill="white", cex=1))
-```
-
-In an interactive R session, the selected units can also be displayed on an OpenStreetMap background with the package *mapview* (the Meuse coordinates are in the Dutch national grid, EPSG:28992):
-
-```{r, eval = F,echo=TRUE}
+```{r, eval = T, echo=TRUE, fig.width = 9, fig.height = 7, out.width = "100%", screenshot.opts = list(delay = 5, zoom = 2)}
 library(sf)
 library(mapview)
 s_sf <- st_as_sf(s, coords = c("LON","LAT"), crs = 28992)
