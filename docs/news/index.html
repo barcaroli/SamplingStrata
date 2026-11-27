@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SamplingStrata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6-1</span>
       </span>
     </div>
 
@@ -70,7 +70,11 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.6" id="samplingstrata-16">SamplingStrata 1.6<a class="anchor" aria-label="anchor" href="#samplingstrata-16"></a></h2>
+<h2 class="page-header" data-toc-text="1.6-1" id="samplingstrata-16-1">SamplingStrata 1.6-1<a class="anchor" aria-label="anchor" href="#samplingstrata-16-1"></a></h2>
+<ul><li>Added a new function <em>min_int_allocation</em>: when expected CVs are not precisely compliant with some precision constraints (exceeding them by one digit in some decimal position), this function enables us to slightly modify the final optimal allocation to reach perfect compliance</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.6" id="samplingstrata-16">SamplingStrata 1.6<small>2026-11-27</small><a class="anchor" aria-label="anchor" href="#samplingstrata-16"></a></h2>
 <ul><li><p>It is now available the function <em>SamplingStrataApp</em> that allows to interactively use the package</p></li>
 <li><p>The function <em>prepareSuggestion</em> that prepares suggestion for the optimization with “continuous” method has been completely redefined and improved.</p></li>
 <li><p>New argument <em>mut_factor</em> of <em>optimStrata</em> (methods “continuous” and “spatial”): amplitude of the mutation of the cut points in the genetic algorithm, previously fixed to 0.5. The new default, 0.05, allows a finer local search of the boundaries.</p></li>
