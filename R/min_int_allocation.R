@@ -163,8 +163,6 @@
 #' outstrata <- solution$aggr_strata
 #' expected_CV(outstrata)
 #' # Minimal integer solution
-#' source("min_int_allocation.R")
-#' # Domains are handled internally (DOM1 in outstrata, domainvalue in errors)
 #' newalloc <- min_int_allocation(strata = outstrata, errors = errors, minnumstrat = 2,
 #'                                divisor = "N_h", compare_ceiling = TRUE)
 #' # Verify again
