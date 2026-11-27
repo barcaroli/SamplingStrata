@@ -1,8 +1,8 @@
 Package: SamplingStrata
 Type: Package
 Title: Optimal Stratification of Sampling Frames for Multipurpose Sampling Surveys
-Version: 1.6
-Date: 2026-11-19
+Version: 1.6-1
+Date: 2026-11-27
 Authors@R: c(person("Giulio", "Barcaroli", role = c("aut", "cre"),
                      email = "gbarcaroli@gmail.com"),
               person("Marco", "Ballin", role = "aut",

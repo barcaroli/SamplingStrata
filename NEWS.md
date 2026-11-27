@@ -1,6 +1,14 @@
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit NEWS.Rmd file -->
 
+# SamplingStrata 1.6-1
+
+- Added a new function *min_int_allocation*: when expected CVs are not
+  precisely compliant with some precision constraints (exceeding them by
+  one digit in some decimal position), this function enables us to
+  slightly modify the final optimal allocation to reach perfect
+  compliance
+
 # SamplingStrata 1.6
 
 - It is now available the function *SamplingStrataApp* that allows to
